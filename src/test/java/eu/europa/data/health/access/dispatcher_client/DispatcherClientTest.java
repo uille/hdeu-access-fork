@@ -1,0 +1,233 @@
+/*
+ * Copyright (C) 2024 European Union
+ *  __
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the
+ * European Commission – subsequent versions of the EUPL (the “Licence”);
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ * *
+ * https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the Licence is distributed on an “AS IS” basis, WITHOUT WARRANTIES OR CONDITIONS
+ * OF ANY KIND, either express or implied. See the Licence for the specific language
+ * governing permissions and limitations under the Licence.
+ */
+package eu.europa.data.health.access.dispatcher_client;
+
+import static eu.europa.data.health.access.UtilityServiceTest.getStringJsonObject;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import eu.europa.data.health.access.TestAppender;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
+import io.vertx.core.MultiMap;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.client.HttpRequest;
+import io.vertx.ext.web.client.HttpResponse;
+import io.vertx.ext.web.client.WebClient;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+class DispatcherClientTest {
+
+  private WebClient webClient;
+  @InjectMocks
+  private DispatcherClient dispatcherClient;
+  private HttpRequest<Buffer> httpRequest;
+  private static final String API_URL = "http://example.com";
+  private static final String API_KEY = "dummy-key";
+  private TestAppender testAppender;
+
+  @BeforeEach
+  void setUp() {
+    Logger mockLogger = LoggerFactory.getLogger(DispatcherClient.class);
+    testAppender = new TestAppender();
+    testAppender.start();
+    ((ch.qos.logback.classic.Logger) mockLogger).addAppender(testAppender);
+    webClient = mock(WebClient.class);
+    httpRequest = mock(HttpRequest.class);
+    dispatcherClient = new DispatcherClient(API_URL, API_KEY, webClient);
+  }
+
+  @Test
+  void testSendApplicationSuccess() {
+    JsonObject dispatcherRecord = new JsonObject(getStringJsonObject("full_data_application_dispatcher"));
+
+    JsonObject successResponse = new JsonObject().put("message", "Application processed");
+
+    HttpResponse<Buffer> mockResponse = mock(HttpResponse.class);
+    when(mockResponse.statusCode()).thenReturn(HttpResponseStatus.CREATED.code());
+    when(mockResponse.bodyAsString()).thenReturn(successResponse.encode());
+
+    when(webClient.postAbs(anyString())).thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any(MultiMap.class))).thenReturn(httpRequest);
+
+    doAnswer(invocation -> {
+      Handler<AsyncResult<HttpResponse<Buffer>>> handler = invocation.getArgument(1);
+
+      when(mockResponse.statusCode()).thenReturn(201);
+      when(mockResponse.bodyAsString()).thenReturn("success");
+
+      handler.handle(Future.succeededFuture(mockResponse));
+      return null;
+    }).when(httpRequest).sendBuffer(any(Buffer.class), any());
+
+    Future<String> result = dispatcherClient.sendApplication(dispatcherRecord);
+
+    assertTrue(result.succeeded());
+    List<String> logMessages = testAppender.getLogMessages();
+    assertTrue(logMessages.stream().anyMatch(msg -> msg.contains("Successfully sent application")));
+  }
+
+  @Test
+  void testSendApplicationDispatcherFailure() {
+    JsonObject dispatcherRecord = new JsonObject(getStringJsonObject("full_data_application_dispatcher"));
+
+    JsonObject successResponse = new JsonObject().put("message", "Application processed");
+
+    HttpResponse<Buffer> mockResponse = mock(HttpResponse.class);
+    when(mockResponse.statusCode()).thenReturn(HttpResponseStatus.CREATED.code());
+    when(mockResponse.bodyAsString()).thenReturn(successResponse.encode());
+
+    when(webClient.postAbs(anyString())).thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any(MultiMap.class))).thenReturn(httpRequest);
+
+    doAnswer(invocation -> {
+      Handler<AsyncResult<HttpResponse<Buffer>>> handler = invocation.getArgument(1);
+
+      when(mockResponse.statusCode()).thenReturn(401);
+      when(mockResponse.bodyAsString()).thenReturn("success");
+
+      handler.handle(Future.succeededFuture(mockResponse));
+      return null;
+    }).when(httpRequest).sendBuffer(any(Buffer.class), any());
+
+    Future<String> result = dispatcherClient.sendApplication(dispatcherRecord);
+
+    assertFalse(result.succeeded());
+    List<String> logMessages = testAppender.getLogMessages();
+    assertTrue(logMessages.stream().anyMatch(msg -> msg.contains("Dispatcher failed to process application:")));
+  }
+
+  @Test
+  void testSendApplicationFailure() {
+    JsonObject dispatcherRecord = new JsonObject(
+      getStringJsonObject("full_data_application_dispatcher"));
+
+    HttpResponse<Buffer> response = mock(HttpResponse.class);
+    when(response.statusCode()).thenReturn(HttpResponseStatus.BAD_REQUEST.code());
+    when(response.bodyAsString()).thenReturn("Bad Request");
+
+    when(webClient.postAbs(eq(API_URL + DispatcherClient.DATA_PERMIT_CREATE_APPLICATION_REQUEST)))
+      .thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any())).thenReturn(httpRequest);
+    doAnswer(invocation -> {
+      Handler<AsyncResult<HttpResponse<Buffer>>> handler = invocation.getArgument(1);
+
+      handler.handle(Future.failedFuture("Simulated failure"));
+
+      return null;
+    }).when(httpRequest).sendBuffer(any(Buffer.class), any());
+
+    dispatcherClient.sendApplication(dispatcherRecord);
+
+    List<String> logMessages = testAppender.getLogMessages();
+    assertTrue(logMessages.stream().anyMatch(msg -> msg.contains("Failed to sent application:")));
+  }
+
+  @Test
+  void testDeleteApplicationOnDispatcherSuccess() {
+    List<String> applicationIds = List.of("appId1", "appId2");
+
+    when(webClient.deleteAbs(anyString())).thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any(MultiMap.class))).thenReturn(httpRequest);
+
+    doAnswer(invocation -> {
+      Handler<AsyncResult<HttpResponse<Buffer>>> handler = invocation.getArgument(1);
+      HttpResponse<Buffer> response = mock(HttpResponse.class);
+      when(response.statusCode()).thenReturn(HttpResponseStatus.NO_CONTENT.code());
+      when(response.bodyAsString()).thenReturn("success");
+
+      handler.handle(Future.succeededFuture(response));
+      return null;
+    }).when(httpRequest).sendBuffer(any(Buffer.class), any());
+    JsonObject applications = new JsonObject()
+      .put("accessApplications", new JsonArray(applicationIds));
+    Future<String> result =  dispatcherClient.deleteApplicationOnDispatcher(applications);
+
+    assertTrue(result.succeeded());
+    List<String> logMessages = testAppender.getLogMessages();
+    assertTrue(logMessages.stream().anyMatch(msg -> msg.contains("DISPATCHER_CLIENT successfully "
+      + "delete applications:")));
+  }
+
+  @Test
+  void testDeleteApplicationOnDispatcherFailure() {
+    List<String> applicationIds = List.of("appId1", "appId2");
+
+    when(webClient.deleteAbs(anyString())).thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any(MultiMap.class))).thenReturn(httpRequest);
+
+    doAnswer(invocation -> {
+      Handler<AsyncResult<HttpResponse<Buffer>>> handler = invocation.getArgument(1);
+      HttpResponse<Buffer> response = mock(HttpResponse.class);
+      when(response.statusCode()).thenReturn(HttpResponseStatus.BAD_REQUEST.code());
+      when(response.bodyAsString()).thenReturn("success");
+
+      handler.handle(Future.succeededFuture(response));
+      return null;
+    }).when(httpRequest).sendBuffer(any(Buffer.class), any());
+    JsonObject applications = new JsonObject()
+      .put("accessApplications", new JsonArray(applicationIds));
+    Future<String> result =  dispatcherClient.deleteApplicationOnDispatcher(applications);
+
+    assertFalse(result.succeeded());
+    List<String> logMessages = testAppender.getLogMessages();
+    assertTrue(logMessages.stream().anyMatch(msg -> msg.contains("DISPATCHER_CLIENT failed to "
+      + "delete applications:")));
+  }
+
+  @Test
+  void testDeleteApplicationOnDispatcherFailureResponse() {
+    List<String> applicationIds = List.of("appId1", "appId2");
+
+    when(webClient.deleteAbs(anyString())).thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any(MultiMap.class))).thenReturn(httpRequest);
+
+    doAnswer(invocation -> {
+      Handler<AsyncResult<HttpResponse<Buffer>>> handler = invocation.getArgument(1);
+      HttpResponse<Buffer> response = mock(HttpResponse.class);
+      when(response.statusCode()).thenReturn(HttpResponseStatus.BAD_REQUEST.code());
+      when(response.bodyAsString()).thenReturn("fail");
+
+      handler.handle(Future.failedFuture("fail"));
+      return null;
+    }).when(httpRequest).sendBuffer(any(Buffer.class), any());
+    JsonObject applications = new JsonObject()
+      .put("accessApplications", new JsonArray(applicationIds));
+    Future<String> result =  dispatcherClient.deleteApplicationOnDispatcher(applications);
+
+    assertTrue(result.failed());
+    List<String> logMessages = testAppender.getLogMessages();
+    assertTrue(logMessages.stream().anyMatch(msg -> msg.contains(
+      "DISPATCHER_CLIENT failed to delete application: {\"accessApplications\":[\"appId1\",\"appId2\"]} to dispatcher, with error message: fail")));
+  }
+
+}

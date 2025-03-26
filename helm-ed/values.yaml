@@ -1,0 +1,277 @@
+#
+# Copyright (C) 2024 European Union
+#  __
+# Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the
+# European Commission – subsequent versions of the EUPL (the “Licence”);
+# You may not use this work except in compliance with the Licence.
+# You may obtain a copy of the Licence at:
+# *
+# https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+# *
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the Licence is distributed on an “AS IS” basis, WITHOUT WARRANTIES OR CONDITIONS
+# OF ANY KIND, either express or implied. See the Licence for the specific language
+# governing permissions and limitations under the Licence.
+#
+
+# Default values for hdeu-access.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: code.europa.eu:4567/healthdataeu-private/healthdataeu-eu-dataset-catalogue/hdeu-access
+  ## Specify a imagePullPolicy
+  ## ref: http://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
+  ##
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+imagePullSecrets: []
+# imagePullSecrets:
+#   - name: regcred
+nameOverride: ""
+fullnameOverride: ""
+
+## HDEU Access Service Account
+## ref: https://kubernetes.io/docs/concepts/security/service-accounts/
+## @param serviceAccount.create Specifies whether a service account should be created
+## @param serviceAccount.annotations Annotations to add to the service account
+## @param serviceAccount.name The name of the service account to use.
+## If not set and create is true, a name is generated using the fullname template
+##
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+## @param podAnnotations Annotations for hdeu-access pod
+## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+##
+podAnnotations: {}
+
+## Pod Security Context Configuration
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+## @param podSecurityContext.fsGroup The group ID associated with mounted volumes, ensuring proper file permissions.
+## @param podSecurityContext.runAsUser Specifies the user ID to run processes inside the pod.
+## @param podSecurityContext.runAsGroup Specifies the primary group ID for the container.
+## @param podSecurityContext.runAsNonRoot Indicates that the container should not run as the root user.
+##
+podSecurityContext:
+  fsGroup: 1000
+  runAsUser: 1000
+  runAsGroup: 1000
+  runAsNonRoot: true
+
+## Container Security Context Configuration
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+## @param securityContext.capabilities.drop Drops all Linux capabilities for enhanced security.
+## @param securityContext.readOnlyRootFilesystem Enforces a read-only root filesystem, if set to true.
+## @param securityContext.allowPrivilegeEscalation Prevents processes from gaining additional privileges.
+## @param securityContext.runAsNonRoot Enforces that the container must run as a non-root user.
+##
+securityContext:
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: false
+  allowPrivilegeEscalation: false
+  runAsNonRoot: true
+
+## HDEU Access Service parameters
+## ref: https://kubernetes.io/docs/concepts/services-networking/service/
+## @param service.type Service type (ClusterIP makes it accessible only within the cluster)
+## @param service.port Defines the port exposed by the Kubernetes service for external communication
+## @param containerPort Defines the port on which the application inside the container is running
+##
+service:
+  port: 8080
+  type: ClusterIP
+containerPort: 8080
+
+## Application Configuration
+##
+## This ConfigMap defines environment variables used by the application.
+## These values provide runtime configurations, API keys, and service URLs.
+##
+## Important: Sensitive values, such as credentials and API keys, should NOT be stored here in plaintext.
+## Instead, they must be securely managed using AWS Secrets Manager and retrieved dynamically at runtime.
+## Refer to `templates/secrets.yaml` for secret management details.
+##
+## @param config.MONGO_DB_URI MongoDB connection string for data storage.
+## @param config.MONGO_DB MongoDB database name.
+## @param config.MONGO_USER Username for MongoDB authentication.
+## @param config.MONGO_PW Password for MongoDB authentication.
+## @param config.HTTP_PORT HTTP port used by the application.
+## @param config.HUB_STORE_UPLOAD_DATA_URL URL for hdeu-hub-store service.
+## @param config.PIVEAU_STORE_API_KEY API key for hdeu-hub-store authentication.
+## @param config.KEYCLOAK_CLIENT_SECRET Secret key for Keycloak client authentication.
+## @param config.KEYCLOAK_CLIENT_ID Keycloak client ID.
+## @param config.KEYCLOAK_URL URL for the Keycloak authentication service.
+## @param config.KEYCLOAK_REALM Keycloak realm for authentication.
+## @param config.PIVEAU_ACCESS_AUTH_CONFIG JSON configuration for Piveau Access authentication.
+## @param config.DATA_ACCESS_DISPATCHER_INTERVAL Interval (in ms) for the data access dispatcher.
+## @param config.DATA_REQUEST_DISPATCHER_INTERVAL Interval (in ms) for the data request dispatcher.
+## @param config.DATA_ACCESS_DISPATCHER_MAX_RETRIES Maximum number of retries for data access dispatcher.
+## @param config.DATA_REQUEST_DISPATCHER_MAX_RETRIES Maximum number of retries for data request dispatcher.
+## @param config.DISPATCHER_MAX_RETRIES Maximum number of retries for the dispatcher.
+## @param config.DISPATCHER_URL URL for the dispatcher service.
+## @param config.HEALTH_DATA_ACCESS_API_KEY API key for hdeu access.
+## @param config.DISPATCHER_X_API_KEY API key for dispatcher authentication.
+## @param config.KEYCLOAK_INTROSPECT_PATH Keycloak introspection endpoint path.
+## @param config.HUB_SEARCH_DATA_URL URL for hdeu-hub-search data service.
+## @param config.EXPORT_DATA_ACCESS_API_KEY API key for exporting data access.
+## @param config.EXPORT_DATASET_EXTERNAL_URL External URL for dataset export.
+##
+config:
+  {}
+  # Example:
+  # JAVA_OPTS: "-Xms300m -Xmx1g"
+  # MONGO_DB_URI: "mongodb://mongodb.default.svc.cluster.local:27017"
+  # MONGO_DB: "hdeu-DataAccessDB"
+  # MONGO_USER: ""
+  # MONGO_PW: ""
+  # HTTP_PORT: "8080"
+  # HUB_STORE_UPLOAD_DATA_URL: http://hdeu-hub-store.example.com
+  # PIVEAU_STORE_API_KEY: "728c0d8c-90d4-4357-89e5-0cb05a38dfb3"
+  # KEYCLOAK_CLIENT_SECRET: "my-secret"
+  # KEYCLOAK_CLIENT_ID: "my-client-id"
+  # KEYCLOAK_URL: "http://localhost:8088"
+  # KEYCLOAK_REALM: "my-realm"
+  # PIVEAU_ACCESS_AUTH_CONFIG: '{"issuer": "http://keycloak.example.com/realms/healthdata","clientId":"eu-login-client","clientSecret":"FFFFFh1FP1cFFrrrrFFpppPpP1hrF11f","customSecret":"","tokenServerConfig":{"keycloak":{"serverUrl":"http://keycloak.example.com","realm":"healthdata","clientId":"eu-login-client","clientSecret":"FFFFFh1FP1cFFrrrrFFpppPpP1hrF11f"}}}'
+  # DATA_ACCESS_DISPATCHER_INTERVAL: 5000
+  # DATA_REQUEST_DISPATCHER_INTERVAL: 6000
+  # DATA_ACCESS_DISPATCHER_MAX_RETRIES: 10
+  # DATA_REQUEST_DISPATCHER_MAX_RETRIES: 10
+  # DISPATCHER_MAX_RETRIES: 10
+  # DISPATCHER_URL: http://hdeu-dispatcher.default.svc.cluster.local:8080
+  # HEALTH_DATA_ACCESS_API_KEY: 728c0d8c-90d4-4357-89e5-0cb05a38dfb3
+  # DISPATCHER_X_API_KEY: 728c0d8c-90d4-4357-89e5-0cb05a38dfb3
+  # KEYCLOAK_INTROSPECT_PATH: /realms/healthdata/protocol/openid-connect/token/introspect
+  # HUB_SEARCH_DATA_URL: http://hdeu-hub-search.default.svc.cluster.local:8080
+  # EXPORT_DATA_ACCESS_API_KEY: 728c0d8c-90d4-4357-89e5-0cb05a38dfb3
+  # EXPORT_DATASET_EXTERNAL_URL: https://hdeu-hub-ui.example.com/datasets/
+
+## AWS Secrets Manager Integration
+##
+## This configuration enforces the use of AWS Secrets Manager to securely store and retrieve sensitive values
+## that are required by the application. Sensitive configuration values should NOT be stored directly in plaintext
+## within the ConfigMap but instead must be managed securely in AWS Secrets Manager.
+##
+## When `aws.enabled` is set to `true`, the application retrieves these values from AWS Secrets Manager via
+## Kubernetes secrets using the AWS Secrets Manager CSI driver.
+##
+## The following environment variables must be stored in AWS Secrets Manager:
+## - `MONGO_DB_URI` (MongoDB connection string for data storage)
+## - `MONGO_DB` (MongoDB database name)
+## - `MONGO_USER` (Username for MongoDB authentication)
+## - `PIVEAU_STORE_API_KEY` (API key for hdeu-hub-store authentication)
+## - `HEALTH_DATA_ACCESS_API_KEY` (API key for hdeu access)
+## - `DISPATCHER_X_API_KEY` (API key for dispatcher authentication)
+## - `EXPORT_DATA_ACCESS_API_KEY` (API key for exporting data access)
+## - `PIVEAU_ACCESS_AUTH_CONFIG` (Configuration for Piveau Access authentication)
+##
+## These secrets are referenced in the deployment as Kubernetes SecretKeyRefs:
+## @param secrets.provider Specifies AWS as the secrets management provider.
+## @param aws.enabled If set to `true`, enables retrieval of environment variables from AWS Secrets Manager.
+##
+## AWS Secrets Manager Documentation:
+## - https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html
+## - https://docs.aws.amazon.com/secretsmanager/latest/userguide/integrating_csi_driver.html
+##
+## Enables AWS Secrets Manager for retrieving environment variables
+aws:
+  enabled: false
+## Defines AWS as the secret management provider
+secrets:
+  provider: aws
+
+## Hdeu-Access Ingress
+## ref: http://kubernetes.io/docs/concepts/services-networking/ingress/
+## @param ingress.enabled Enable the ingress record
+## @param ingress.className Ingress Class
+## @param ingress.annotations Annotations to add to the ingress record
+## @param ingress.hosts Set the hosts for the ingress record
+## @param ingress.paths Set the paths for the ingress record
+## @param ingress.backend Set the backend for the ingress record
+## @param ingress.tls Enable TLS configuration for the ingress record
+##
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    host: ""
+    paths:
+      path: /
+      pathType: Prefix
+    backend:
+      service:
+        name: ""
+        port: 8080
+  tls: []
+
+## Resources configuration
+## ref: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+##
+resources:
+  {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+## Autoscaling configuration Dependency HPA
+## ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+##
+## @param autoscaling.enabled Set to "true" to enable autoscaling, "false" to disable it.
+## @param autoscaling.minReplicas Minimum number of replicas that should always be running.
+## @param autoscaling.maxReplicas Maximum number of replicas allowed to handle high traffic.
+## @param autoscaling.targetCPUUtilizationPercentage CPU utilization threshold for scaling. When exceeded, more replicas are created.
+## @param autoscaling.targetMemoryUtilizationPercentage Memory utilization threshold for scaling (optional, uncomment to enable).
+##
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+## Define node selection criteria.
+## This setting allows pods to be scheduled on specific nodes that match the given labels.
+## Example:
+## nodeSelector:
+##   disktype: ssd
+nodeSelector: {}
+
+## Define tolerations for tainted nodes.
+## This setting allows pods to run on nodes with specific taints.
+## Example:
+## tolerations:
+##   - key: "example-key"
+##     operator: "Equal"
+##     value: "example-value"
+##     effect: "NoSchedule"
+tolerations: []
+
+## Define affinity rules to control pod scheduling.
+## This setting influences where pods are placed based on node labels or other pod placements.
+## Example:
+## affinity:
+##   nodeAffinity:
+##     requiredDuringSchedulingIgnoredDuringExecution:
+##       nodeSelectorTerms:
+##         - matchExpressions:
+##             - key: "example-key"
+##               operator: "In"
+##               values:
+##                 - "example-value"
+affinity: {}

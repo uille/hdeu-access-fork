@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "legalOrNaturalPerson": {
+          "type": "object",
+          "required": ["key", "value"],
+          "properties": {
+            "key": { "type": "string", "enum": ["b"] },
+            "value": { "type": "string", "enum": ["Natural person"] }
+          }
+        },
+        "naturalPersonJobTitle": { "type": "string" },
+        "naturalPersonAffiliation": { "type": "string" },
+        "naturalPersonAddress": { "type": "string" },
+        "naturalPersonZipCode": { "type": "string" },
+        "naturalPersonCity": { "type": "string" },
+        "naturalPersonCountry": {
+          "type": "object",
+          "required": ["key", "value"],
+          "properties": {
+            "key": { "type": "string" },
+            "value": { "type": "string" }
+          }
+        },
+        "naturalPersonPhone": {
+          "type": "object",
+          "required": ["countryCode", "number"],
+          "properties": {
+            "countryCode": { "type": "string" },
+            "number": { "type": "string" }
+          }
+        },
+        "date_modified": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "legalOrNaturalPerson": {
+          "type": "object",
+          "required": ["key", "value"],
+          "properties": {
+            "key": { "type": "string", "enum": ["a"] },
+            "value": { "type": "string", "enum": ["Legal person"] }
+          }
+        },
+        "legalPersonOrganisationName": { "type": "string" },
+        "legalPersonBusinessID": { "type": "string" },
+        "legalPersonOperatorID": { "type": "string" },
+        "legalPersonJobTitle": { "type": "string" },
+        "legalPersonAffiliation": { "type": "string" },
+        "legalPersonAddress": { "type": "string" },
+        "legalPersonZipCode": { "type": "string" },
+        "legalPersonCity": { "type": "string" },
+        "legalPersonCountry": {
+          "type": "object",
+          "required": ["key", "value"],
+          "properties": {
+            "key": { "type": "string" },
+            "value": { "type": "string" }
+          }
+        },
+        "legalPersonPhone": {
+          "type": "object",
+          "required": ["countryCode", "number"],
+          "properties": {
+            "countryCode": { "type": "string" },
+            "number": { "type": "string" }
+          }
+        },
+        "date_modified": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

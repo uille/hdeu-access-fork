@@ -1,0 +1,150 @@
+#
+# Copyright (C) 2024 European Union
+#  __
+# Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the
+# European Commission – subsequent versions of the EUPL (the “Licence”);
+# You may not use this work except in compliance with the Licence.
+# You may obtain a copy of the Licence at:
+# *
+# https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+# *
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the Licence is distributed on an “AS IS” basis, WITHOUT WARRANTIES OR CONDITIONS
+# OF ANY KIND, either express or implied. See the Licence for the specific language
+# governing permissions and limitations under the Licence.
+#
+
+# This file is a template for the deployment of the health-data-access service.
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "health-data-access.name" . }}
+  labels:
+    {{- include "health-data-access.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  # The number of replicas (pods) to run, defined in the values file, if autoscaling is not enabled
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    # The selector labels to identify the pods that this deployment manages
+    matchLabels:
+      {{- include "health-data-access.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      # Annotations for the pods, included if present in the values file
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      # Labels for the pods
+      labels:
+        {{- include "health-data-access.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      # Image pull secrets for accessing private Docker registries
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "health-data-access.serviceAccountName" . }}
+      # Security context for the pods
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      # Init container to wait for Keycloak pod to be ready
+      initContainers:
+        - name: wait-for-keycloak-pod
+          image: busybox
+          command: ['sh', '-c', 'until nc -z -v -w30 healthdataeu-health-data-auth-keycloak 8080; do echo waiting for keycloak pod; sleep 30; done']
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          # The image for the container, using the repository and tag defined in the values file, defaulting to the chart's appVersion
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          # The image pull policy (e.g., Always, IfNotPresent)
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          # The port exposed by the container
+          ports:
+            - name: http
+              containerPort: {{ .Values.containerPort }}
+              protocol: TCP
+          # Resource requests and limits for the container
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 60
+            timeoutSeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 60
+            timeoutSeconds: 10
+            periodSeconds: 10
+            failureThreshold: 10
+          # envFrom allows you to expose all the ConfigMap keys as environment variables
+          envFrom:
+            - configMapRef:
+                name: {{ include "health-data-access.name" . }}
+      # This env section allows you to set environment variables to the value of a key from a Kubernetes secret, if the AWS secret manager is enabled
+      {{- if .Values.aws.enabled }}
+          env:
+            - name: MONGO_DB_URI
+              valueFrom:
+                secretKeyRef:
+                  key: mongo_uri
+                  name: {{ include "health-data-access.name" . }}-secrets
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: {{ include "health-data-access.name" . }}-secrets
+            - name: MONGO_PW
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: {{ include "health-data-access.name" . }}-secrets
+            - name: PIVEAU_STORE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: hub_store_data_upload_api_key
+                  name: {{ include "health-data-access.name" . }}-secrets
+            - name: HEALTH_DATA_ACCESS_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: health_data_access_api_key
+                  name: {{ include "health-data-access.name" . }}-secrets
+            - name: DISPATCHER_X_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: dispatcher_x_api_key
+                  name: {{ include "health-data-access.name" . }}-secrets
+            - name: EXPORT_DATA_ACCESS_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: export_data_access_api_key
+                  name: {{ include "health-data-access.name" . }}-secrets
+            - name: PIVEAU_ACCESS_AUTH_CONFIG
+              valueFrom:
+                secretKeyRef:
+                  key: access_auth_config
+                  name: {{ include "health-data-access.name" . }}-secrets
+          # This volumeMounts section mounts the secrets to the container under the /etc/{{ include "health-data-access.name" . }}-secrets directory, if the AWS secret manager is enabled
+          volumeMounts:
+            - mountPath: /etc/{{ include "health-data-access.name" . }}-secrets
+              name: {{ include "health-data-access.name" . }}-secrets
+              readOnly: true
+      # We store all the secrets defined in the secretProviderClass with the name health-data-access-spc, that in its turn, loads the secrets from the AWS Secret Manager, if the AWS secret manager is enabled
+      volumes:
+        - name: {{ include "health-data-access.name" . }}-secrets
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{ include "health-data-access.name" . }}-spc
+    {{- end }}

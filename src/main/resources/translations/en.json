@@ -1,0 +1,1744 @@
+{
+  "section1": {
+    "section1h5": "Selecting Project Sources",
+    "section1Description": "Data users should only apply for data that is adequate, relevant and limited to what is necessary in relation to their purpose of use, \nfollowing the principle of data minimization of the EU’s General Data Protection Regulation 58 (Article 5(1c)). \nThe health data access body evaluates carefully if your requirements are in line with the GDPR data minimization principle.",
+    "section1DescriptionDR": "An application for accessing electronic health data for secondary use in an anonymized statistical format",
+    "applicationDatasets": {
+      "label": "From which dataset record(s) or register(s) and/or distribution(s) will the data be extracted?"
+    },
+    "applicationCountries": {
+      "label": "From which country/countries do you seek data?"
+    },
+    "applicationDataHolders": {
+      "label": "From which data holder(s) will the data be extracted?"
+    },
+    "applicationHDABs": {
+      "label": "To which health data access body/bodies do you want to submit the application?"
+    },
+    "applicationDatabases": {
+      "label": "From which database(s) or registry/registries will the data be extracted?"
+    }
+  },
+  "section2": {
+    "section2h5": "Public information of the project",
+    "section2Description": "The health data access bodies in the European Union are obliged to publish information on the data permits, requests and applications on their website within 30 working days after issuance of the data permit or reply to a data request. In this section, you are asked to provide information on your project that can be shared with the public. Make sure this does not include any confidential information. Provide your answers in layperson’s terms. As a data user, you will be obliged to make public the results or output of the project no later than 18 months after the completion of the processing or the receipt of the answer to the data request. In addition, you must inform the health data access body of the number of peer-reviewed research publications, policy documents, and/or regulatory procedures conducted using the data accessed via this application.",
+    "projectName": {
+      "label": "Project name"
+    },
+    "projectLeader": {
+      "label": "Project leader name (organisation, institution, private sector entity, or a natural person)",
+      "tooltip": "This is the person responsible for data use"
+    },
+    "countryOfProjectLeader": {
+      "label": "Country of the project leader"
+    },
+    "purposeForWhichDataWillBeUsed": {
+      "label": "Purpose for which the data will be used",
+      "tooltip": "Purposes from the EHDS regulation.",
+      "items": [
+        {
+          "key": "a",
+          "value": "a. The public interest in the areas of public or occupational health, such as activities to protect against serious cross-border threats to health, public health surveillance or activities ensuring high levels of quality and safety of healthcare, including patient safety, and of medicinal products or medical devices."
+        },
+        {
+          "key": "b",
+          "value": "b. Policy making and regulatory activities to support public sector bodies or Union institutions, bodies, offices and agencies, including regulatory authorities, in the health or care sector to carry out their tasks defined in their mandates."
+        },
+        {
+          "key": "c",
+          "value": "c. Statistics as defined in Article 3, point (1), of Regulation (EU) No 223/2009, such as national, multi-national and Union level official statistics, related to health or care sectors."
+        },
+        {
+          "key": "d",
+          "value": "d. Education or teaching activities in health or care sectors at vocational or higher education level."
+        },
+        {
+          "key": "e",
+          "value": "e. Scientific research related to health or care sectors that contributes to public health or health technology assessment, or ensures high levels of quality and safety of healthcare, of medicinal products or of medical devices, with the aim of benefitting end-users, such as patients, health professionals and health administrators, including:\n(i) development and innovation activities for products or services;\n(ii) training, testing and evaluation of algorithms, including in medical devices, in vitro diagnostic medical devices, AI systems and digital health applications."
+        },
+        {
+          "key": "f",
+          "value": "f. Improvement of the delivery of care, of the optimization of treatment and of the provision of healthcare, based on the electronic health data of other natural persons."
+        }
+      ]
+    },
+    "theResearchFocusesOnTheFollowingObjectives": {
+      "label": "The research focuses on the following objectives",
+      "items": [
+        {
+          "key": "a",
+          "value": "Diagnostics"
+        },
+        {
+          "key": "b",
+          "value": "Epidemiology"
+        },
+        {
+          "key": "c",
+          "value": "Patient management"
+        },
+        {
+          "key": "d",
+          "value": "Patient safety"
+        },
+        {
+          "key": "e",
+          "value": "Prevention and treatment"
+        },
+        {
+          "key": "f",
+          "value": "Public health policy"
+        },
+        {
+          "key": "g",
+          "value": "Organisation of healthcare establishments"
+        },
+        {
+          "key": "h",
+          "value": "Understanding diseases"
+        },
+        {
+          "key": "i",
+          "value": "Other"
+        }
+      ]
+    },
+    "theResearchFocusesOnTheFollowingObjectivesOther": {
+      "label": "Please describe ‘Other’ objective of the research"
+    },
+    "areaOfResearch": {
+      "label": "Area of research: The research concerns the following medical or other field(s):",
+      "items": [
+        {
+          "key": "a",
+          "value": "Allergology"
+        },
+        {
+          "key": "b",
+          "value": "Anatomy and cytology"
+        },
+        {
+          "key": "c",
+          "value": "Anesthesiology and intensive care"
+        },
+        {
+          "key": "d",
+          "value": "Biology"
+        },
+        {
+          "key": "e",
+          "value": "Cardiology"
+        },
+        {
+          "key": "f",
+          "value": "Deficiencies and handicaps"
+        },
+        {
+          "key": "g",
+          "value": "Dermatology and venereology"
+        },
+        {
+          "key": "h",
+          "value": "Ear, nose and throat"
+        },
+        {
+          "key": "i",
+          "value": "Economics"
+        },
+        {
+          "key": "j",
+          "value": "Emergency medicine"
+        },
+        {
+          "key": "k",
+          "value": "Endocrinology and metabolism"
+        },
+        {
+          "key": "l",
+          "value": "Gastroenterology and hepatology"
+        },
+        {
+          "key": "m",
+          "value": "General medicine"
+        },
+        {
+          "key": "n",
+          "value": "Geriatrics"
+        },
+        {
+          "key": "o",
+          "value": "Gynaecology and obstetrics"
+        },
+        {
+          "key": "p",
+          "value": "Haematology"
+        },
+        {
+          "key": "q",
+          "value": "Immunology"
+        },
+        {
+          "key": "r",
+          "value": "Infectious diseases"
+        },
+        {
+          "key": "s",
+          "value": "Internal medicine"
+        },
+        {
+          "key": "t",
+          "value": "Neurology"
+        },
+        {
+          "key": "u",
+          "value": "Nuclear medicine"
+        },
+        {
+          "key": "v",
+          "value": "Occupational medicine"
+        },
+        {
+          "key": "w",
+          "value": "Odontology"
+        },
+        {
+          "key": "x",
+          "value": "Oncology"
+        },
+        {
+          "key": "y",
+          "value": "Ophthalmology"
+        },
+        {
+          "key": "z",
+          "value": "Paediatrics"
+        },
+        {
+          "key": "aa",
+          "value": "Physical and rehabilitation medicine"
+        },
+        {
+          "key": "ab",
+          "value": "Pneumology"
+        },
+        {
+          "key": "ac",
+          "value": "Psychology and psychiatry"
+        },
+        {
+          "key": "ad",
+          "value": "Radiology and Medical imaging"
+        },
+        {
+          "key": "ae",
+          "value": "Rare diseases"
+        },
+        {
+          "key": "af",
+          "value": "Rheumatology"
+        },
+        {
+          "key": "ag",
+          "value": "Sociology"
+        },
+        {
+          "key": "ah",
+          "value": "Traumatology"
+        },
+        {
+          "key": "ai",
+          "value": "Urology, andrology and nephrology"
+        },
+        {
+          "key": "aj",
+          "value": "Other"
+        }
+      ]
+    },
+    "areaOfResearchOther": {
+      "label": "Please describe ‘Other’ area of the research"
+    },
+    "descriptionOfTheDataYouWillUse": {
+      "label": "Description of the data you will use",
+      "tooltip": "Describe it on the level suitable to be published on the health data access body’s website."
+    },
+    "theNatureOfTheDataDoesNotLetYouProvideADescription": {
+      "label": "The nature of your data does not let you provide a description"
+    },
+    "descriptionOfTheProject": {
+      "label": "Please explain the reasons why you cannot provide a description of the data.",
+      "tooltip": "This explanation of the reason(s) will not be published."
+    },
+    "summaryOfTheProject": {
+      "label": "Summary of the project"
+    },
+    "theNatureOfTheProjectDoesNotLetYouProvideASummary": {
+      "label": "The nature of your project does not let you provide a summary"
+    },
+    "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason": {
+      "label": "Please explain the reasons why you cannot provide a summary of your project",
+      "tooltip": "This explanation of the reason(s) will not be published."
+    }
+  },
+  "section3": {
+    "section3h5": "Applicant and contact person information",
+    "section3Description": "A data permit application should state the name and contact details of the applicant, either a legal or a natural person. Information on the contact person responding to any inquiries related to the application, be it the same person as the applicant or another person, should also be included. If the contact person is not the same person as the applicant, their relationship, e.g. based on an employment contract, should be clarified.",
+    "applyingForDataOnBehalfOfPublicSector": {
+      "label": "Are you applying for data on behalf of a public sector body or a European Union institution, body, office or agency?"
+    },
+    "applyingForDataForCarryingOutTasks": {
+      "label": "Are you applying for data for carrying out tasks enshrined in the mandate of your organisation/institution?",
+      "tooltip": "Tasks in your organisation's/institution's mandate mean tasks based on national or European Union law."
+    },
+    "legalOrNaturalPerson": {
+      "label": "Are you a legal or a natural person?",
+      "tooltip": "Natural person = a physical person, an individual human being,Legal person = A company, organisation or an association.",
+      "items": [
+        {
+          "key": "a",
+          "value": "Legal person"
+        },
+        {
+          "key": "b",
+          "value": "Natural person",
+          "info": "(If you choose this option, you confirm that you apply for data as a private person without any affiliation.)"
+        }
+      ]
+    },
+    "legalPerson": "Legal person",
+    "naturalPerson": "Natural person",
+    "legalPersonName": {
+      "label": "Full name"
+    },
+    "postalAddress": "Postal Address",
+    "legalPersonAddress": {
+      "label": "Street name and number"
+    },
+    "legalPersonZipCode": {
+      "label": "Zip Code"
+    },
+    "legalPersonCity": {
+      "label": "City/Town"
+    },
+    "legalPersonCountry": {
+      "label": "Country"
+    },
+    "contactPersonInformation": "Contact person information",
+    "contactPersonInformationDescription": "Contact person refers to the person who responds to enquiries concerning the application. The contact person’s details can be forwarded to the controller during the processing of an application if additional information is required for defining the data extraction. ",
+    "contactPersonName": {
+      "label": "Full name",
+      "tooltip": "(if related to the project and data processing)"
+    },
+    "contactPersonEmail": {
+      "label": "Email"
+    },
+    "contactPersonPhone": {
+      "label": "Phone"
+    },
+    "contactPersonNameOfTheOrganisation": {
+      "label": "Name of the organisation"
+    },
+    "contactPersonBusinessIdentifier": {
+      "label": "Business ID of the organisation"
+    },
+    "contactPersonOperatorIdentifier": {
+      "label": "Operator ID"
+    },
+    "contactPersonJobTitle": {
+      "label": "Job title"
+    },
+    "contactPersonAffiliation": {
+      "label": "Affiliation"
+    },
+    "contactPersonRelationship": {
+      "label": "What is the relationship between the contact person and the applicant? (E.g. an employee applying for data on behalf of their organisation.)"
+    },
+    "naturalPersonName": {
+      "label": "Full name"
+    },
+    "naturalPersonAddress": {
+      "label": "Street name and number"
+    },
+    "naturalPersonZipCode": {
+      "label": "Zip Code"
+    },
+    "naturalPersonCity": {
+      "label": "City/Town"
+    },
+    "naturalPersonCountry": {
+      "label": "Country"
+    },
+    "naturalPersonEmail": {
+      "label": "Email"
+    },
+    "naturalPersonPhone": {
+      "label": "Phone"
+    },
+    "naturalPersonJobTitle": {
+      "label": "Job title"
+    },
+    "naturalPersonAffiliation": {
+      "label": "Affiliation"
+    }
+  },
+  "section4": {
+    "section4h5": "Payment details",
+    "section4Description": "Payment details of the person to whom the health data access body addresses the bills related to this application and the consequent data permit, if granted.",
+    "sameAsContactPerson": {
+      "label": "Same as contact person mentioned in the Section 3?"
+    },
+    "postalAddressLabel": "Postal Address",
+    "fullName": {
+      "label": "Full name"
+    },
+    "address": {
+      "label": "Address"
+    },
+    "email": {
+      "label": "Email"
+    },
+    "phone": {
+      "label": "Phone number"
+    },
+    "invoiceType": {
+      "label": "Invoice type",
+      "items": [
+        {
+          "key": "a",
+          "value": "Paper"
+        },
+        {
+          "key": "b",
+          "value": "Electronic"
+        }
+      ]
+    },
+    "invoiceReferenceNumber": {
+      "label": "Invoice reference number"
+    },
+    "invoiceAddress": {
+      "label": "E-invoice address (EDI or IBAN)"
+    },
+    "operatorIdentifier": {
+      "label": "Operator ID"
+    },
+    "nameOfTheOrganisation": {
+      "label": "Name of the organisation"
+    },
+    "businessIdentifierOrganization": {
+      "label": "Business ID of the organisation"
+    },
+    "vatNumber": {
+      "label": "VAT number"
+    },
+    "peppolCode": {
+      "label": "Peppol code (if applicable)"
+    },
+    "isTheProjectFinanciallyCovered": {
+      "label": "Is the project financially covered?"
+    },
+    "rangeOfAmountOfFinancing": {
+      "label": "Range of amount of financing",
+      "items": [
+        {
+          "key": "a",
+          "value": "< 10 000 €"
+        },
+        {
+          "key": "b",
+          "value": "10 000 - 50 000 €"
+        },
+        {
+          "key": "c",
+          "value": "50 000 - 100 000 €"
+        },
+        {
+          "key": "d",
+          "value": "100 000 - 500 000 €"
+        },
+        {
+          "key": "e",
+          "value": "500 000 - 1 000 000 €"
+        },
+        {
+          "key": "f",
+          "value": "> 1 000 000 €"
+        }
+      ]
+    }
+  },
+  "section5": {
+    "section5h5": "Purpose of data use",
+    "section5Description": "Applicants should indicate the purpose for which data are sought, according to the Article 53(1) of EHDS Regulation corrigendum approved by the European Parliament on 17/12. \nApplicants need to explain and argue why the requested data are necessary for their indicated purpose of use. Applicants are also asked to provide information on the aim of the project. Then, depending on the use purpose (research or not research), applicants need to provide a summary of the plan for using the data or a summary of the research plan, and information on the person responsible for the data use or research.",
+    "purposeOfUse": {
+      "label": "Select the option corresponding to your purpose of data use.\n\nHealth data access bodies shall only provide access to electronic health data referred to in Article 53 where the intended purpose of processing pursued by the applicant complies with the following purposes (as per Article 53(1)) listed below).",
+      "items": [
+        {
+          "key": "a",
+          "value": "a. Activities for reasons of public interest in the area of public and occupational health, such as protection against serious cross-border threats to health, public health surveillance or ensuring high levels of quality and safety of healthcare and of medicinal products or medical devices"
+        },
+        {
+          "key": "b",
+          "value": "b. To support public sector bodies or Union institutions, agencies and bodies including regulatory authorities, in the health or care sector to carry out their tasks defined in their mandates"
+        },
+        {
+          "key": "c",
+          "value": "c. To produce national, multi-national and Union level official statistics related to health or care sectors"
+        },
+        {
+          "key": "d",
+          "value": "d. Education or teaching activities in health or care sectors"
+        },
+        {
+          "key": "e",
+          "value": "e. Scientific research related to health or care sectors"
+        },
+        {
+          "key": "f",
+          "value": "f. Development and innovation activities for products or services contributing to public health or social security, or ensuring high levels of quality and safety of health care, of medicinal products or of medical devices"
+        },
+        {
+          "key": "g",
+          "value": "g. Training, testing and evaluating of algorithms, including in medical devices, AI systems and digital health applications, contributing to the public health or social security, or ensuring high levels of quality and safety of health care, of medicinal products or of medical devices"
+        },
+        {
+          "key": "h",
+          "value": "h. Providing personalised healthcare consisting in assessing, maintaining or restoring the state of health of natural persons, based on the health data of other natural persons"
+        }
+      ]
+    },
+    "whyTheDataIsNeeded": {
+      "label": "Why are the data you are applying for needed for the indicated purpose of use? Explain here why the amount and type of data that you apply for are necessary for your data use purpose"
+    },
+    "whyAreTheDataRequested": {
+      "label": "Why are the data requested with this application needed for the indicated purpose of use?"
+    },
+    "whatIsTheAimAndTopicOfTheProject": {
+      "label": "What is the aim and topic of your project?"
+    },
+    "whichAreTheExpectedBenefits": {
+      "label": "Which are the expected benefits related to the use of the electronic health data and how this benefit contributes to the purposes referred above."
+    },
+    "legalBasis": {
+      "label": "Specify the legal basis, for example the relevant legislation, which defines the tasks falling within your mandate and confirms that your planned use of the data is to facilitate such tasks.",
+      "tooltip": "Explain here why the amount of data that you apply for is necessary for your data use purpose. Justify and describe how the contents of the requested statistics correspond to the purpose of use stated in the application and meet your data requirements."
+    },
+    "linkToTheSupportingLegalBasis": {
+      "label": "Provide a link to the supporting documentation as evidence of the legal basis"
+    },
+    "summaryOfPlanForUsingTheData": {
+      "label": "Provide a summary of your plan for using the data. The summary must be written in one of the official EU languages"
+    },
+    "summaryOfPlanForUsingTheDataLanguage": {
+      "label": "Select the language of the summary",
+      "items": [
+        {
+          "key": "bg",
+          "value": "Bulgarian"
+        },
+        {
+          "key": "hr",
+          "value": "Croatian"
+        },
+        {
+          "key": "cs",
+          "value": "Czech"
+        },
+        {
+          "key": "da",
+          "value": "Danish"
+        },
+        {
+          "key": "nl",
+          "value": "Dutch"
+        },
+        {
+          "key": "en",
+          "value": "English"
+        },
+        {
+          "key": "et",
+          "value": "Estonian"
+        },
+        {
+          "key": "fi",
+          "value": "Finnish"
+        },
+        {
+          "key": "fr",
+          "value": "French"
+        },
+        {
+          "key": "de",
+          "value": "German"
+        },
+        {
+          "key": "el",
+          "value": "Greek"
+        },
+        {
+          "key": "hu",
+          "value": "Hungarian"
+        },
+        {
+          "key": "ga",
+          "value": "Irish"
+        },
+        {
+          "key": "it",
+          "value": "Italian"
+        },
+        {
+          "key": "lv",
+          "value": "Latvian"
+        },
+        {
+          "key": "lt",
+          "value": "Lithuanian"
+        },
+        {
+          "key": "mt",
+          "value": "Maltese"
+        },
+        {
+          "key": "pl",
+          "value": "Polish"
+        },
+        {
+          "key": "pt",
+          "value": "Portuguese"
+        },
+        {
+          "key": "ro",
+          "value": "Romanian"
+        },
+        {
+          "key": "sk",
+          "value": "Slovak"
+        },
+        {
+          "key": "sl",
+          "value": "Slovenian"
+        },
+        {
+          "key": "es",
+          "value": "Spanish"
+        },
+        {
+          "key": "sv",
+          "value": "Swedish"
+        }
+      ]
+    },
+    "summaryOfResearchPlan": {
+      "label": "Provide a summary of your research plan. The summary must be written in one of the official EU languages"
+    },
+    "summaryOfResearchPlanLanguage": {
+      "label": "Select the language of the summary",
+      "items": [
+        {
+          "key": "bg",
+          "value": "Bulgarian"
+        },
+        {
+          "key": "hr",
+          "value": "Croatian"
+        },
+        {
+          "key": "cs",
+          "value": "Czech"
+        },
+        {
+          "key": "da",
+          "value": "Danish"
+        },
+        {
+          "key": "nl",
+          "value": "Dutch"
+        },
+        {
+          "key": "en",
+          "value": "English"
+        },
+        {
+          "key": "et",
+          "value": "Estonian"
+        },
+        {
+          "key": "fi",
+          "value": "Finnish"
+        },
+        {
+          "key": "fr",
+          "value": "French"
+        },
+        {
+          "key": "de",
+          "value": "German"
+        },
+        {
+          "key": "el",
+          "value": "Greek"
+        },
+        {
+          "key": "hu",
+          "value": "Hungarian"
+        },
+        {
+          "key": "ga",
+          "value": "Irish"
+        },
+        {
+          "key": "it",
+          "value": "Italian"
+        },
+        {
+          "key": "lv",
+          "value": "Latvian"
+        },
+        {
+          "key": "lt",
+          "value": "Lithuanian"
+        },
+        {
+          "key": "mt",
+          "value": "Maltese"
+        },
+        {
+          "key": "pl",
+          "value": "Polish"
+        },
+        {
+          "key": "pt",
+          "value": "Portuguese"
+        },
+        {
+          "key": "ro",
+          "value": "Romanian"
+        },
+        {
+          "key": "sk",
+          "value": "Slovak"
+        },
+        {
+          "key": "sl",
+          "value": "Slovenian"
+        },
+        {
+          "key": "es",
+          "value": "Spanish"
+        },
+        {
+          "key": "sv",
+          "value": "Swedish"
+        }
+      ]
+    },
+    "personResponsibleLabel": "Person responsible for data use",
+    "personResponsibleName": {
+      "label": "Full name"
+    },
+    "personResponsibleJobTitle": {
+      "label": "Job title"
+    },
+    "personResponsibleAffiliation": {
+      "label": "Affiliation"
+    },
+    "personResearchSameAsContactPerson": {
+      "label": "Same as contact person mentioned in the Section 3?"
+    },
+    "personResponsibleForResearchLabel": "Person responsible for the research",
+    "personResponsibleSameAsContactPerson": {
+      "label": "Same as contact person mentioned in the Section 3?"
+    },
+    "personResearchName": {
+      "label": "Full name"
+    },
+    "personResearchJobTitle": {
+      "label": "Job title"
+    },
+    "personResearchAffiliation": {
+      "label": "Affiliation"
+    },
+    "formatOfTheElectronicHealthData": {
+      "label": "Format of the electronic health data",
+      "items": [
+        {
+          "key": "a",
+          "value": "Anonymised"
+        },
+        {
+          "key": "b",
+          "value": "Pseudonymised"
+        }
+      ]
+    },
+    "inOrderToApplyPseudonymisedData": "I am aware that in order to apply for pseudonymised data, I must:",
+    "inOrderToApplyPseudonymisedDataA": {
+      "label": "a) Explain how I will comply with Article 6(1) of the General Data Protection Regulation (or Article 5(1) of the EU Data Protection Regulation if an EU institution, body, office or agency is applying for data)"
+    },
+    "inOrderToApplyPseudonymisedDataB": {
+      "label": "b) Assess ethical aspects of processing the data, where applicable and in line with national law or applicable laws."
+    },
+    "whyNeedForPseudonymisation": {
+      "label": "Why do you need pseudonymised data for your project?"
+    }
+  },
+  "section6": {
+    "section6h5": "Description of the data needed",
+    "section6Description": "In this section, you need to provide a description of the requested dataset, clearly indicating which datasets the application concerns. You should only apply for data that are adequate, relevant and limited to what is necessary in relation to your purpose of use, following the principle of data minimisation of the EU’s General Data Protection Regulation (Article 5(1c)). The health data access body evaluates carefully if your requirements are in line with the GDPR data minimisation principle.",
+    "descriptionSection6_1": "Defining the extraction criteria for the study cohort:",
+    "descriptionOfTheDataNeeded": "Description of the data needed:",
+    "applicationHDABsForSelectedCountry": "To which health data access body/bodies do you want to submit the application",
+    "applicationDatasetsPerCountry": "Respective Dataset Record(s) and Distributions",
+    "informationProviderSameAsContactPerson": {
+      "label": "Same as contact person mentioned in the Section 3?"
+    },
+    "hdabContacts": {
+      "label": "If you have been in contact with someone from the health data access body regarding the data you seek, list here the names and the e-mail addresses of this person"
+    },
+    "howWillTheDataFromDifferentSourcesBeLinked": {
+      "label": "How will the data from different sources be linked? E.g. based on personal identification code. If some kind of other linkage method is used, describe that here"
+    },
+    "indicateTheSizeOfTheStudyCohort": {
+      "label": "Indicate the size of the study cohort"
+    },
+    "indicateTheSizeOfTheStudyCohortEstimationOrExact": {
+      "label": "Size of the study cohort (Radio buttons)",
+      "items": [
+        {
+          "key": "a",
+          "value": "This is an estimation of the size of the study cohort."
+        },
+        {
+          "key": "b",
+          "value": "This is the exact size of the study cohort."
+        }
+      ]
+    },
+    "howIsTheStudyCohortFormed": {
+      "label": "How is the study cohort formed?",
+      "items": [
+        {
+          "key": "a",
+          "value": "The study cohort will be formed based on the criteria given below."
+        },
+        {
+          "key": "b",
+          "value": "The study cohort has already been formed."
+        },
+        {
+          "key": "c",
+          "value": "The study cohort will consist of these two: a new cohort formed based on the criteria given below and an already formed cohort"
+        },
+        {
+          "key": "d",
+          "value": "The study cohort will be the whole population of a country/countries indicated at the beginning of this form."
+        }
+      ]
+    },
+    "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants": {
+      "label": "If you wish to use a study cohort based on your own previous survey study, has the study cohort been formed based on informed consents of study participants? E.g. cohort formed based on a survey study or a clinical study, to which register-based data will be linked under the EHDS Regulation"
+    },
+    "doesTheInformedConsentCoverTheRequestedRegistryExtractions": {
+      "label": "Does the informed consent cover the requested registry extractions?"
+    },
+    "consentAndInformationLetterAttachment": {
+      "label": "Attach the consent and information letter that you have sent to the study subjects. Do not attach forms that are filled in because they include personal data."
+    },
+    "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
+      "label": "I confirm that the data permit has been granted for this research project"
+    },
+    "idOfTheDataPermit": {
+      "label": "Issuer, date, validity period and the code/other identifying information of the permit decision for the study cohort E.g. a research permit granted by another authority, covering the formation of the cohort and possible gathering of non-EHDS data regarding the study subjects."
+    },
+    "permitDecisionAttachment": {
+      "label": "Attach a permit decision covering the extraction of the study cohort data in this section"
+    },
+    "howTheStudyCohortWasObtained": {
+      "label": "Describe how the study cohort was obtained and the reasons for the lack of data permit/consent"
+    },
+    "providedInformationOfTheDataUseToCorrespondingSubjects": {
+      "label": "Have you provided information of the data use to the corresponding subjects? E.g. shared information of the data use on a project website.",
+      "tooltip": "For further information, see the General Data Protection Regulation articles 13 and 14: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
+      "tooltipForm": "For further information, see the <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">General Data Protection Regulation articles 13 and 14</a>"
+    },
+    "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+      "label": "How?"
+    },
+    "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+      "label": "Why not?"
+    },
+    "detailsOfHowTheStudyCohortHasBeenFormed": {
+      "label": "Provide details on how and based on what legal documents (e.g. permits and/or informed consent) the study cohort has been formed"
+    },
+    "whoWillDeliverTheInformationOnTheStudy": {
+     "label": "Who will deliver the information on the study cohort to the health data access body? This person will receive instructions on how to deliver the data through the common EHDS portal."
+    },
+    "informationProviderName": {
+      "label": "Full name"
+    },
+    "informationProviderEmail": {
+      "label": "E-mail"
+    },
+    "informationProviderPhone": {
+      "label": "Phone number"
+    },
+    "whyNeedDataOfaWholePopulation": {
+      "label": "Provide arguments why you need data of a whole population/whole populations?",
+      "tooltip": "Make sure to define the formation of the study cohort clearly enough and delimit the cohort size according to the intended use. Pay special attention to which registers the study cohort is extracted from, and the inclusion and exclusion criteria for the study cohort. For example, a geographic definition may mean the place of residence, the place of birth, the place of work, or the place where services are used."
+    },
+    "sizeOfTheStudyCohort": {
+      "label": "Size of the study cohort"
+    },
+    "sizeOfTheStudyCohortEstimationOrExact": {
+      "label": "Size of the study cohort (Radio buttons)",
+      "items": [
+        {
+          "key": "a",
+          "value": "This is an estimation of the size of the study cohort."
+        },
+        {
+          "key": "b",
+          "value": "This is the exact size of the study cohort."
+        }
+      ]
+    },
+    "whyNeedStudyCohortOfThisSize": {
+      "label": "Why do you need a study cohort of this size for your project?"
+    },
+    "regionsSeekForData": {
+      "label": "If you do not seek data from the whole country, from which region(s) and/or city/cities and/or municipality/municipalities do you seek data?"
+    },
+    "ethicalReview": "Ethical review - text to be provided by policy unit",
+    "ethicalReviewDescription": "Ethical review",
+    "ethicalReviewInput": {
+      "label": "Ethical review",
+      "tooltip": "Text to be provided by Policy unit."
+    },
+    "ethicalReviewAttachment": {
+      "label": "Ethical review"
+    },
+    "dataHolders": "From which data holder(s) will the data be extracted?",
+    "whichDatabasesDataExtracted": "From which database(s)/registry/registries will the data be extracted?",
+    "whichDatasetDataExtracted": "From which dataset record(s)/register(s) will the data be extracted?",
+    "variablesToBeUsedInDataExtraction": {
+      "label": "If the information is available, list the variables to be used in the data extraction. Use the exact terms provided by the respective data holder(s) in the metadata catalogue."
+    },
+    "timePeriodOfDataExtraction": {
+      "label": "For which time period(s) will the datasets records be extracted?"
+    },
+    "extractionMethod": {
+      "label": "Extraction method",
+      "items": [
+        {
+          "key": "a",
+          "value": "random sample"
+        },
+        {
+          "key": "b",
+          "value": "all the people fulfilling the criteria"
+        },
+        {
+          "key": "c",
+          "value": "other sample"
+        }
+      ]
+    },
+    "samplingMethod": {
+      "label": "Describe the sampling method"
+    },
+    "sampleSize": {
+      "label": "Sample size",
+      "tooltip": "Answers can be for example: 100000 persons or 50% of the people fulfilling the criteria."
+    },
+    "inclusionCriteria": {
+      "label": "Describe the inclusion criteria for study cohort extraction ",
+      "tooltip": "Remember to clarify here any inclusion criteria that may be ambiguous. For example, if you want to include data subjects of certain age, clarify based on which variable the age should be calculated and at which time point."
+    },
+    "potentialExclusionCriteria": {
+      "label": "Describe the potential exclusion criteria for study cohort group extraction"
+    },
+    "tabulationPlanArray": {
+      "label": "Tabulation plan array",
+      "tooltip": "In addition, write down the following information for each table: ● register to be used ● possible study cohort ● information on the required variables (if available) ● formation of variables where they cannot be directly accessed from the database ● desired direction of aggregation of percentages ● order in which tables are generated when previously generated tables are used to create other tables ● any other relevant factor related to generating the required table(s)"
+    },
+    "tabulationRegisteredToBeUsed": {
+      "label": "Register to be used"
+    },
+    "tabulationPossibleStudyCohort": {
+      "label": "Possible study cohort"
+    },
+    "tabulationInformationOfRequiredVariables": {
+      "label": "Information on the required variables (if available)"
+    },
+    "tabulationFormationVariables": {
+      "label": "Formation of variables where they cannot be directly accessed from the database"
+    },
+    "tabulationDesiredDirection": {
+      "label": "Desired direction of aggregation of percentages"
+    },
+    "tabulationOrderInWhichTable": {
+      "label": "Order in which tables are generated when previously generated tables are used to create other tables"
+    },
+    "tabulationAnyOtherRelevant": {
+      "label": "Any other relevant factor related to generating the required table(s) "
+    },
+    "tabulationPlanButton": "Add tabulation plan",
+    "tabulationPlan": {
+      "label": "Tabulation Plan",
+      "tooltip": "For each statistic you request, attach an example Excel (or equivalent) table.  Attach a tabulation plan here"
+    },
+    "extractionDescriptionAndCompilation": {
+      "label": "Extraction description and compilation of statistics",
+      "tooltip": "A health data access body shall only provide the data you request only in an anonymised statistical format, if your data request is accepted. Due to anonymity, the data user shall have no access to the electronic health data used to provide this answer. All the information you request must be rendered down to a general level in order to avoid small cell counts with high re-identification potential."
+    },
+    "dataExtraction": "Data extraction times and order for the study cohort",
+    "dataExtractionTimes": "Data extraction times and order for the study cohort",
+    "howOftenDoesTheDataNeedToBeExtracted": {
+      "label": "How often does the data need to be extracted?"
+    },
+    "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
+      "label": "How often does the data need to be extracted? once / multiple times"
+    },
+    "needForDataExtractionEvery": {
+      "label": "The data needs to be extracted every",
+      "tooltip": "If you want the data to be extracted multiple times over a certain period of time, note that the definitions and the data gathering method may change during the review period in some cases. Note that the maximum frequency of data extraction is every quarter"
+    },
+    "needForDataExtractionEveryOther": {
+      "label": "Specify Other"
+    },
+    "needForDataExtractionEveryDescriptionDR": {
+      "label": "Provide more information on the extracting periods/times",
+      "tooltip": "If you want the data to be extracted multiple times over a certain period of time, note that the definitions and the data gathering method may change during the review period in some cases."
+    },
+    "needForDataExtractionEveryDescription": {
+      "label": "Provide more information on the study cohort extracting periods/times",
+      "tooltip": "If you want the data to be extracted multiple times over a certain period of time, note that the definitions and the data gathering method may change during the review period in some cases."
+    },
+    "whatIsTheFrequencyOfUpdates": {
+      "label": "What is the frequency of any updates to the data which are required?"
+    },
+    "orderForDataExtraction": {
+      "label": "If it affects the results of the data extraction, in which order will the study cohort data be extracted? Provide a numbered list of extraction phases. For example: 1. Data holder A; 2. Data holder B; 3. Data holder C"
+    },
+    "definingExtractionCriteria": "Defining the extraction criteria for controls:",
+    "willControlsBeExtracted": {
+      "label": "Will controls be extracted?"
+    },
+    "willSameDataBeExtractedForControls": {
+      "label": "Will same data as for the study cohort be extracted for controls?"
+    },
+    "regionForControlsDataExtraction": {
+      "label": "If you do not seek data for controls from the whole country, from which region(s) and/or city/cities and/or municipality/municipalities do you seek data?"
+    },
+    "fromWhichDataHolderLabel": "From which data holder(s) will the data for controls be extracted?",
+    "fromWhichDatabaseLabel": "From which database(s)/registry/registries will the data for controls be extracted?",
+    "fromWhichDatasetLabel": "From which dataset record(s)/register(s) will the data for controls be extracted?",
+    "variablesForDataExtraction": {
+      "label": "If the information is available, list the variables to be used in thedata extraction. Use the exact terms provided by the respective data holder(s) in the metadata catalogue."
+    },
+    "timePeriodForDataExtraction": {
+      "label": "For which time period(s) will the dataset records be extracted?"
+    },
+    "extractionCriteriaForControls": {
+      "label": "Specify the extraction criteria for controls, e.g. matching criteria"
+    },
+    "sizeOfControlGroup": {
+      "label": "Size of the control group"
+    },
+    "sizeOfControlGroupEstimationOrExact": {
+      "label": "Size of the control group (Radio Buttons)",
+      "items": [
+        {
+          "key": "a",
+          "value": "This is an estimation of the size of the group of controls."
+        },
+        {
+          "key": "b",
+          "value": "This is the exact size of the group of controls."
+        }
+      ]
+    },
+    "controlsPerPersonInStudyCohort": {
+      "label": "How many controls are extracted per person belonging to the study cohort?"
+    },
+    "inclusionCriteriaForControls": {
+      "label": "Describe the inclusion criteria for controls’ extraction"
+    },
+    "exclusionCriteriaForControls": {
+      "label": "Describe the potential exclusion criteria for controls’ extraction"
+    },
+    "ifTheGroupHasBeenFormed": "If the group of controls has been formed based on a previously issued permit, list here the following information:",
+    "previouslyIssuedPermitIssuer": {
+      "label": "Issuer of the permit decision"
+    },
+    "previouslyIssuedPermitDate": {
+      "label": "Date"
+    },
+    "validityPeriod": "Validity period",
+    "previouslyIssuedPermitValidityPeriodFrom": {
+      "label": "From"
+    },
+    "previouslyIssuedPermitValidityPeriodTo": {
+      "label": "To"
+    },
+    "previouslyIssuedPermitNumber": {
+      "label": "Permit number"
+    },
+    "dataExtractionAndOrderForControls": " Data extraction times and order for controls",
+    "willDataForControlsBeExtractedSimultaneously": {
+      "label": "Will data for controls be extracted simultaneously with the study cohort data?"
+    },
+    "dataExtractionFrequency": {
+      "label": "How often does the data need to be extracted?"
+    },
+    "dataExtractionFrequencyMultipleTimesInformation": {
+      "label": "In case of recurrent extraction, provide information on each data extraction process separately in the order instructions"
+    },
+    "dataNeedsToBeExtractedEvery": {
+      "label": "The data needs to be extracted every",
+      "tooltip": "If you want the data to be extracted multiple times over a certain period of time, note that the definitions and the data collection method may change during the review period in some cases. Note that the maximum frequency of data extraction is every quarter"
+    },
+    "specifyOther": {
+      "label": "Specify Other"
+    },
+    "moreInfoOnExtractionPeriods": {
+      "label": "Provide more information on the extracting periods/times"
+    },
+    "orderOfControlsDataExtraction": {
+      "label": "If it affects the results of the data extraction, in which order will the controls' data be extracted? Provide a numbered list of extraction phases. For example: 1. Data holder A; 2. Data holder B; 3. Data holder C"
+    },
+    "definingTheExtractionCriteria": "Defining the extraction criteria for relatives:",
+    "willRelativesBeExtracted": {
+      "label": "Will relatives be extracted for the study cohort?"
+    },
+    "willSameDataBeExtractedForRelatives": {
+      "label": "Will same data as for the study cohort be extracted for relatives?"
+    },
+    "whichDataHoldersForRelatives": "From which data holder(s) will the data for relatives be extracted?",
+    "whichDatabaseForRelatives": "From which database(s)/registry/registries will the data for relatives be extracted?",
+    "whichDatasetsForRelatives": "From which dataset record(s)/register(s) will the data for relatives be extracted?",
+    "variablesForDataExtractionRelatives": {
+      "label": "If the information is available, list the variables to be used in the data extraction. Use the exact terms provided by the respective data holder(s) in the metadata catalogue."
+    },
+    "timePeriodForDataExtractionRelatives": {
+      "label": "For which time period(s) will the dataset records be extracted?"
+    },
+    "relationshipToStudyCohort": {
+      "label": "Define the relationship of the relatives to the person belonging to the study cohort (e.g. grandparents, biological parents, mother)"
+    },
+    "previouslyIssuedPermitIssuerRelatives": {
+      "label": "If the group of relatives have been formed on the basis of a previously issued permit(s), list here the issuer of the permit decision, date, validity period and any identifying information"
+    },
+    "sizeOfRelativesGroup": {
+      "label": "Size of the group of relatives"
+    },
+    "sizeOfRelativesGroupEstimateOrExact": {
+      "label": "Size of the group of relatives (Radio buttons)",
+      "items": [
+        {
+          "key": "a",
+          "value": "This is an estimation of the size of the group of relatives."
+        },
+        {
+          "key": "b",
+          "value": "This is the exact size of the group of relatives."
+        }
+      ]
+    },
+    "willDataForRelativesBeExtractedSimultaneously": {
+      "label": "Will the data for relatives be extracted at the same time and in the same order as the data for the study cohort?"
+    },
+    "dataExtractionFrequencyRelatives": {
+      "label": "How often does the data need to be extracted?"
+    },
+    "dataNeedsToBeExtractedEveryRelatives": {
+      "label": "The data needs to be extracted every",
+      "tooltip": "If you want the data to be extracted multiple times over a certain period of time, note that the definitions and the data gathering method may change during the review period in some cases. Note that the maximum frequency of data extraction is every quarter"
+    },
+    "dataExtractionFrequencyMultipleTimesInformationRelatives": {
+      "label": "In case of recurrent extraction, provide information on each data extraction process separately in the order instructions"
+    },
+    "needForDataExtractionEveryOptions": {
+      "label": "The data needs to be extracted every",
+      "tooltip": "If you want the data to be extracted multiple times over a certain period of time, note that the definitions and the data gathering method may change during the review period in some cases. Note that the maximum frequency of data extraction is every quarter"
+    },
+    "specifyOtherRelatives": {
+      "label": "Specify Other"
+    },
+    "moreInfoOnExtractionPeriodsRelatives": {
+      "label": "Provide more information on the extracting periods/times"
+    },
+    "orderOfRelativesDataExtraction": {
+      "label": "If it affects the results of the data extraction, in which order will the relatives’ data be extracted? Provide a numbered list of extraction phases. For example: 1. Data holder A; 2. Data holder B; 3. Data holder C"
+    }
+  },
+  "section7": {
+    "section7h5": "Other data to be combined",
+    "section7Description": "It is possible to combine other data, such as data in your possession or data obtained from elsewhere, with the data applied for with this application. List the information for all additional data that will be combined with the data authorised by the health data access body. If you later want to combine data with the data authorised by the health data access body, you need to submit an amendment application to the same health data access body.  If you have any other data in addition to the study cohort that you would like the health data access body to combine with the data you are applying for, you will receive instructions on how to deliver the data securely after the permit has been granted.",
+    "addDataPermit": "Add data permit",
+    "removeDataPermit": "Remove data permit",
+    "willDataBeCombinedWithDataObtained": {
+      "label": "Will the data you are applying for be combined with data you have already obtained or data from other sources?"
+    },
+    "listOtherDataToBeCompined": "List the other data to be combined and the sources of this data:",
+    "combinedCountries": {
+      "label": "Country/countries"
+    },
+    "combinedDataHolders": {
+      "label": "Data holder(s)"
+    },
+    "combinedDatabaseRegistries": {
+      "label": "Database(s)/Registry/Registries"
+    },
+    "combinedDatasetsRegistries": {
+      "label": "Dataset Record(s)/Register/Registers"
+    },
+    "providedInformationOnDataCombined": {
+      "label": "Provide information on the following, to the extent applicable: data set, number of the files, format of the files, size of the files, special notes (are there direct/indirect identifiers, data should be pseudonymised, etc.)"
+    },
+    "listAnyOtherDataPermit": "List here any other data permits issued for the same project. The permits must be valid at the time data are processed:",
+    "otherPermits": {
+      "label": "Other permits: issuer, date of issue, expiry date, identification information"
+    },
+    "permitIssuer": {
+      "label": "Issuer"
+    },
+    "permitStartDateOfIssue": {
+      "label": "Date of issue"
+    },
+    "permitEndDateOfIssue": {
+      "label": "Expiry Date"
+    },
+    "permitIdentificationInformation": {
+      "label": "Identification Information"
+    },
+    "attachmentOfPermitDocuments": {
+      "label": "If the dataset records involve permits issued by other parties or they have been collected with consent, attach the permit documents here"
+    },
+    "otherPermitApplications": {
+      "label": "Do you have other pending permit applications?",
+      "tooltip": "Provide information on the following, to the extent applicable: data set, number of the files, format of the files, size of the files, special notes (are there direct/indirect identifiers, data should be pseudonymised, etc.)"
+    },
+    "listTheOtherData": "List the other data to be combined and the sources of this data:",
+    "applicationIssuer": {
+      "label": "Issuer"
+    },
+    "dateOfSubmittingTheApplication": {
+      "label": "Date of submitting the application"
+    },
+    "identificationCode": {
+      "label": "Identification code"
+    }
+  },
+  "section8": {
+    "section8h5": "Data processing, data protection and safeguards to prevent unauthorized use of data",
+    "section8Description": "According to the EHDS Regulation proposal Article 73(1), the health data access bodies shall provide access to electronic health data only through a secure processing environment.",
+    "addPerson": "Add person",
+    "removePerson": "Remove person",
+    "technicalRequirementsForEnvironment": {
+      "label": "List here all the technical requirements you have for the secure processing environment."
+    },
+    "nameWebsiteAddressForEnvironment": {
+      "label": "If you already know which processing environment you want to use, what is its name and where is it located? Provide here the name and the website address of the secure processing environment."
+    },
+    "healthDataAccessBody": "The health data access body will deliver the data once your application is processed if you are granted a data permit. \nThe health data access body will retain the pseudonymisation key and the extraction terms and documentation used to generate the data. \nThe data permit will be granted only for the duration necessary to fulfil the requested purposes. The permit can be granted for a maximum period of 10 years. \nThis duration may be extended once, at the request of the data user, based on arguments and documents justifying the extension (EHDS Regulation proposal, Article 68(12)). \nWhere needed, the period of use may be extended by applying for an amendment of the data permit.",
+    "whenDataNeeded": {
+      "label": "When do you need the data?",
+      "tooltip": "In general, the health data access body will conduct the data extraction as soon as your application has been processed. If you wish to receive the data later, indicate it here.",
+      "items": [
+        {
+          "key": "a",
+          "value": "As soon as possible after this application has been processed"
+        },
+        {
+          "key": "b",
+          "value": "Later, when?"
+        }
+      ]
+    },
+    "ifLaterWhen": {
+      "label": "Later, when?"
+    },
+    "informationWhichDataCanAccess": {
+      "label": "Provide information on the period for which the data can be accessed."
+    },
+    "frequencyOfAccessOrDataUpdates": {
+      "label": "What is the frequency of that access or the frequency of the data updates?"
+    },
+    "estimatedStartAndEnd": {
+      "label": "What are the estimated start and end dates of the period during which the electronic health data is needed for processing?",
+      "tooltip": "This period can be five years. With additional permit, the original permit can be extended for another five years"
+    },
+    "estimatedStartDatesForDataProcessing": {
+      "label": "From"
+    },
+    "estimatedEndDatesForDataProcessing": {
+      "label": "To"
+    },
+    "ifStoreNeeded": "If you need to store the data after processing, indicate here the period of inactive data storage",
+    "startPeriodOfInactiveDataStorage": {
+      "label": "From"
+    },
+    "endPeriodOfInactiveDataStorage": {
+      "label": "To"
+    },
+    "willTheDataBeTransferred": {
+      "label": "Will the data be transferred outside the EU or the EEA?",
+      "tooltip": "The European Data Protection Board (EDPB) has identified three cumulative criteria to qualify a processing operation as a transfer: 1) A controller or a processor (“exporter”) is subject to the GDPR for the given processing. 2) The exporter discloses by transmission or otherwise makes personal data, subject to this processing, available to another controller, joint controller or processor (“importer”). 3) The importer is in a third country, irrespective of whether or not this importer is subject to the GDPR for the given processing in accordance with Article 3, or is an international organisation.  More information: https://edpb.europa.eu/system/files/2023-02/edpb_guidelines_05-2021_interplay_between_the_applicati on_of_art3-chapter_v_of_the_gdpr_v2_en_0.pdf "
+    },
+    "whichCountriesDataBeProcessed": {
+      "label": "In which country/countries outside the EU/EEA will the data be processed?",
+      "items": [
+        {
+          "key": "a",
+          "value": "Diagnostics"
+        },
+        {
+          "key": "b",
+          "value": "Epidemiology"
+        },
+        {
+          "key": "c",
+          "value": "Patient management"
+        },
+        {
+          "key": "d",
+          "value": "Patient safety"
+        },
+        {
+          "key": "e",
+          "value": "Prevention and treatment"
+        },
+        {
+          "key": "f",
+          "value": "Public health policy"
+        },
+        {
+          "key": "g",
+          "value": "Organisation of healthcare establishments"
+        },
+        {
+          "key": "h",
+          "value": "Understanding diseases"
+        },
+        {
+          "key": "i",
+          "value": "Other"
+        }
+      ]
+    },
+    "whyWillDataBeTransferredOutsideEU": {
+      "label": "Why will the data be transferred outside the EU or the EEA?"
+    },
+    "whyWillDataBeTransferredOutsideEUArticle47": {
+      "label": "Article 47: Transfers on the basis of an adequacy decision"
+    },
+    "whyWillDataBeTransferredOutsideEUArticle47Options": {
+      "label": "Why will data be transferred outside the EU under Article 47 options?",
+      "items": [
+        {
+          "key": "a",
+          "value": "a. A transfer of personal data to a third country or international organisation may take place where the Commission has decided pursuant to Article 45(3) of Regulation (EU) 2016/679 or to Article 36(3) of Directive (EU) 2016/680 that the third country, a territory or one or more specified sectors within that third country, or the international organisation in question ensures an adequate level of protection and where the personal data are transferred solely to allow tasks within the competence of the controller to be carried out."
+        },
+        {
+          "key": "b",
+          "value": "b. The Union institutions and bodies shall inform the Commission and the European Data Protection Supervisor of cases where they consider that a third country, a territory or one or more specified sectors within a third country, or an international organisation in question does not ensure an adequate level of protection within the meaning of paragraph 1."
+        },
+        {
+          "key": "c",
+          "value": "c. The Union institutions and bodies shall take the necessary measures to comply with decisions taken by the Commission where it establishes, pursuant to Article 45(3) or (5) of Regulation (EU) 2016/679 or to Article 36(3) or (5) of Directive (EU) 2016/680, that a third country, a territory or one or more specified sectors within a third country, or an international organisation ensures or no longer ensures an adequate level of protection."
+        }
+      ]
+    },
+    "whyWillDataBeTransferredOutsideEUArticle48": {
+      "label": "Article 48: Transfers subject to appropriate safeguards"
+    },
+    "whyWillDataBeTransferredOutsideEUArticle48bOptions": {
+      "label": "Why will data be transferred outside the EU under Article 48b options?",
+      "items": [
+        {
+          "key": "a",
+          "value": "i. A legally binding and enforceable instrument between public authorities or bodies"
+        },
+        {
+          "key": "b",
+          "value": "ii. Standard data protection clauses adopted by the Commission in accordance with the examination procedure referred to in Article 96(2)"
+        },
+        {
+          "key": "c",
+          "value": "iii. Standard data protection clauses adopted by the European Data Protection Supervisor and approved by the Commission pursuant to the examination procedure referred to in Article 96(2); L 295/78 EN Official Journal of the European Union 21.11.2018"
+        },
+        {
+          "key": "d",
+          "value": "iv. Where the processor is not a Union institution or body, binding corporate rules, codes of conduct or certification mechanisms pursuant to points (b), (e) and (f) of Article 46(2) of Regulation (EU) 2016/679."
+        }
+      ]
+    },
+    "whyWillDataBeTransferredOutsideEUArticle48a": {
+      "label": "a. In the absence of a decision pursuant to Article 45(3) of Regulation (EU) 2016/679 or to Article 36(3) of Directive (EU) 2016/680, a controller or processor may transfer personal data to a third country or to an international organisation only if the controller or processor has provided appropriate safeguards, and on condition that enforceable data subject rights and effective legal remedies for data subjects are available. "
+    },
+    "whyWillDataBeTransferredOutsideEUArticle48b": {
+      "label": "b. The appropriate safeguards referred to in paragraph 1 may be provided for, without requiring any specific authorisation from the European Data Protection Supervisor, by:"
+    },
+    "whyWillDataBeTransferredOutsideEUArticle48c": {
+      "label": "c. Subject to the authorisation from the European Data Protection Supervisor, the appropriate safeguards referred to in paragraph 1 may also be provided for, in particular, by:"
+    },
+    "whyWillDataBeTransferredOutsideEUArticle48cOpt": {
+      "items": [
+        {
+          "key": "a",
+          "value": "Contractual clauses between the controller or processor and the controller, processor or the recipient of the personal data in the third country or international organization."
+        },
+        {
+          "key": "b",
+          "value": "Provisions to be inserted into administrative arrangements between public authorities or bodies which include enforceable and effective data subject rights."
+        }
+      ]
+    },
+    "whyWillDataBeTransferredOutsideEUArticle48d": {
+      "label": "d. Authorisations by the European Data Protection Supervisor on the basis of Article 9(7) of Regulation (EC) No 45/ 2001 shall remain valid until amended, replaced or repealed, if necessary, by the European Data Protection Supervisor."
+    },
+    "whyWillDataBeTransferredOutsideEUArticle48e": {
+      "label": "e. The Union institutions and bodies shall inform the European Data Protection Supervisor of the categories of cases in which this Article has been applied."
+    },
+    "whyWillDataBeTransferredOutsideEUArticle49": {
+      "label": "Article 49: Transfers or disclosures not authorised by Union law"
+    },
+    "legalBasisForTransferringTheDataOutsideEU": {
+      "label": "What is the legal basis for transferring the data outside the EU or EEA?",
+      "tooltip": "More information in the General Data Protection Regulation Chapter 5: <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679#d1e4227-1-1</a>",
+      "items": [
+        {
+          "key": "a",
+          "value": "1. The country/territory/international organisation of transfer ensures an adequate level of protection as per a decision by the European Commission (GDPR Article 35)"
+        },
+        {
+          "key": "b",
+          "value": "2. The data controller or processor has provided appropriate safeguards, and enforceable data subject rights and effective legal remedies for data subjects are available (GDPR Article 46)."
+        },
+        {
+          "key": "c",
+          "value": "3. Other exceptional legal basis (in the absence of appropriate safeguards pursuant to article 46)"
+        }
+      ]
+    },
+    "legalBasisForTransferringTheDataOutsideEUOtherOptions": {
+      "label": "3. Other exceptional legal basis (in the absence of appropriate safeguards pursuant to article 46)",
+      "items": [
+        {
+          "key": "a",
+          "value": "1. The data subject has explicitly consented to the proposed transfer, after having been informed of the possible risks of such transfers for the data subject due to the absence of an adequacy decision and appropriate safeguards"
+        },
+        {
+          "key": "b",
+          "value": "2. The transfer is necessary for the performance of a contract between the data subject and the controller or the implementation of pre-contractual measures taken at the data subject's request"
+        },
+        {
+          "key": "c",
+          "value": "3. The transfer is necessary for the conclusion or performance of a contract concluded in the interest of the data subject between the controller and another natural or legal person"
+        },
+        {
+          "key": "d",
+          "value": "4. The transfer is necessary for important reasons of public interest"
+        },
+        {
+          "key": "e",
+          "value": "5. The transfer is necessary for the establishment, exercise or defence of legal claims"
+        },
+        {
+          "key": "f",
+          "value": "6. The transfer is necessary in order to protect the vital interests of the data subject or of other persons, where the data subject is physically or legally incapable of giving consent"
+        },
+        {
+          "key": "g",
+          "value": "7. The transfer is made from a register which according to Union or Member State law is intended to provide information to the public and which is open to consultation either by the public in general or by any person who can demonstrate a legitimate interest, but only to the extent that the conditions laid down by Union or Member State law for consultation are fulfilled in the particular case"
+        }
+      ]
+    },
+    "legalBasisForTransferringTheDataOutsideEUc1": {
+      "label": "1. The data subject has explicitly consented to the proposed transfer, after having been informed of the possible risks of such transfers for the data subject due to the absence of an adequacy decision and appropriate safeguards "
+    },
+    "legalBasisForTransferringTheDataOutsideEUc2": {
+      "label": "2. The transfer is necessary for the performance of a contract between the data subject and the controller or the implementation of pre-contractual measures taken at the data subject's request "
+    },
+    "legalBasisForTransferringTheDataOutsideEUc3": {
+      "label": "3. The transfer is necessary for the conclusion or performance of a contract concluded in the interest of the data subject between the controller and another natural or legal person"
+    },
+    "legalBasisForTransferringTheDataOutsideEUc4": {
+      "label": "4. The transfer is necessary for important reasons of public interest"
+    },
+    "legalBasisForTransferringTheDataOutsideEUc5": {
+      "label": "5. The transfer is necessary for the establishment, exercise or defence of legal claims"
+    },
+    "legalBasisForTransferringTheDataOutsideEUc6": {
+      "label": "6. The transfer is necessary in order to protect the vital interests of the data subject or of other persons, where the data subject is physically or legally incapable of giving consent"
+    },
+    "legalBasisForTransferringTheDataOutsideEUc7": {
+      "label": "7. The transfer is made from a register which according to Union or Member State law is intended to provide information to the public and which is open to consultation either by the public in general or by any person who can demonstrate a legitimate interest, but only to the extent that the conditions laid down by Union or Member State law for consultation are fulfilled in the particular case"
+    },
+    "safeguardsAreProvidedByReferringGDCP": {
+      "label": "These safeguards are provided by:",
+      "items": [
+        {
+          "key": "a",
+          "value": "1. A legally binding and enforceable instrument between public authorities or bodies"
+        },
+        {
+          "key": "b",
+          "value": "2. Binding corporate rules in accordance with Article 47"
+        },
+        {
+          "key": "c",
+          "value": "3. Standard data protection clauses adopted by the Commission in accordance with the examination procedure referred to in Article 93(2)"
+        },
+        {
+          "key": "d",
+          "value": "4. Standard data protection clauses adopted by a supervisory authority and approved by the Commission pursuant to the examination procedure referred to in Article 93(2)"
+        },
+        {
+          "key": "e",
+          "value": "5. An approved code of conduct pursuant to Article 40 together with binding and enforceable commitments of the controller or processor in the third country to apply the appropriate safeguards, including as regards data subjects’ rights"
+        },
+        {
+          "key": "f",
+          "value": "6. An approved certification mechanism pursuant to Article 42 together with binding and enforceable commitments of the controller or processor in the third country to apply the appropriate safeguards, including as regards data subjects’ rights"
+        }
+      ]
+    },
+    "whichOrganizationWillBeTheControllerOfData": {
+      "label": "Which organisation(s) or individual will be the controller of the data to be formed based on this application?",
+      "tooltip": "A data controller determines the purposes and means of processing personal data. In other words, the data controller decides the how and why of a data processing operation. A data controller can be a legal person, for example a business, an SME, a public authority, an agency or other body. More information: https://edpb.europa.eu/sme-data-protection-guide/data-controller-data-processor_en "
+    },
+    "complyWithDataMinimisationPrinciple": {
+      "label": "How do you comply with the principle of data minimisation (EU General Data Protection Regulation) when processing the data?",
+      "tooltip": "GDPR Article 5(1)c: “Personal data shall be adequate, relevant and limited to what is necessary in relation to the purposes for which they are processed (‘data minimisation’)” "
+    },
+    "complyWithDataMinimisationPrincipleNotEUMember": {
+      "label": "How do you comply with the principle of data minimisation (EU Data Protection Regulation) when processing the data? ",
+      "tooltip": "EU DPR Article 4(1c) “Personal data shall be adequate, relevant and limited to what is necessary in relation to the purposes for which they are processed (‘data minimisation’)”"
+    },
+    "protectionAndSecurityStatements": {
+      "label": "To proceed with this application, you need to confirm the following statements: -data protection and security related statements?"
+    },
+    "protectionAndSecurityStatementsA": {
+      "label": "1. I confirm that if the health data access body grants me the data I am applying for, I will use it only for the purpose(s) stated in this application form."
+    },
+    "protectionAndSecurityStatementsB": {
+      "label": "2. I understand that copying the data from the secure processing environment is prohibited."
+    },
+    "protectionAndSecurityStatementsC": {
+      "label": "3. I understand that taking any screenshots or photos of the device screen, once in the secure processing environment, is prohibited."
+    },
+    "protectionAndSecurityStatementsD": {
+      "label": "4. I have sufficient safety measures (such as a firewall) in place to protect the different networks to which the devices containing data are connected."
+    },
+    "protectionAndSecurityStatementsE": {
+      "label": "5. I understand that re-identification attempts are prohibited, and that the health data access body can impose penalties according to Article 43 of the European Health Data Regulation"
+    },
+    "onlyThePeopleMentioned": "Only the people mentioned in the data permit will be granted access to process the data in the secure processing environment.",
+    "listTheFullNames":{
+      "label": "List the full names, affiliations and e-mail addresses of all the people who will be processing the data."
+    },
+    "fullName": {
+      "label": "Full Name"
+    },
+    "affiliation": {
+      "label": "Affiliation"
+    },
+    "emailAddress": {
+      "label": "Email Address"
+    },
+    "lawfulnessOfProcessing": "Lawfulness of processing:",
+    "legalBasisForProcessingPersonalData": {
+      "label": "What is the legal basis for processing the personal data that you are applying for with this application form?"
+    },
+    "lawfulForProcessingPersonalData": {
+      "label": "Processing of the personal data that you are applying for with this application form shall be lawful only if and to the extent that at least one of the following applies (in accordance with Article 6(1) of the EU's General Data Protection Regulation, Regulation (EU) 2016/679):",
+      "items": [
+        {
+          "key": "a",
+          "value": "1. The data subject has given consent to the processing of his or her personal data for one or more specific purposes"
+        },
+        {
+          "key": "b",
+          "value": "2. Processing is necessary for the performance of a contract to which the data subject is party or in order to take steps at the request of the data subject prior to entering into a contract"
+        },
+        {
+          "key": "c",
+          "value": "3. Processing is necessary for compliance with a legal obligation to which the controller is subject"
+        },
+        {
+          "key": "d",
+          "value": "4. Processing is necessary in order to protect the vital interests of the data subject or of another natural person"
+        },
+        {
+          "key": "e",
+          "value": "5. Processing is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in the controller"
+        },
+         {
+          "key": "f",
+          "value": "6. Processing is necessary for the purposes of the legitimate interests pursued by the controller or by a third party, except where such interests are overridden by the interests or fundamental rights and freedoms of the data subject which require protection of personal data, in particular where the data subject is a child."
+        }
+      ]
+    },
+    "lawfulForProcessingPersonalDataNaturalPersonOption": {
+      "key": "f",
+      "value": "6. Processing is necessary for the purposes of the legitimate interests pursued by the controller or by a third party, except where such interests are overridden by the interests or fundamental rights and freedoms of the data subject which require protection of personal data, in particular where the data subject is a child."
+    },
+    "otherLegalBasisForProcessingPersonalData": {
+      "label": "Other, which?"
+    },
+    "legalBasisForProcessingCombinedData": {
+      "label": "What is the legal basis for processing the other data that you will combine with data applied for in this application? "
+    },
+    "otherLegalBasisForProcessingCombinedData": {
+      "label": "Other, which?"
+    },
+    "europeanUnionInstitution": {
+      "label": "Processing of the personal data that you are applying for with this application form shall be lawful only if and to the extent that at least one of the following applies (in accordance with Article 5(1) of the EU's Data Protection Regulation, Regulation (EU) 2018/1725):",
+      "items": [
+        {
+          "key": "a",
+          "value": "1. Processing is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in the Union institution or body"
+        },
+        {
+          "key": "b",
+          "value": "2. Processing is necessary for compliance with a legal obligation to which the controller is subject."
+        },
+        {
+          "key": "c",
+          "value": "3. Processing is necessary for the performance of a contract to which the data subject is party or in order to take steps at the request of the data subject prior to entering into a contract."
+        },
+        {
+          "key": "d",
+          "value": "4. The data subject has given consent to the processing of his or her personal data for one or more specific purposes."
+        },
+        {
+          "key": "e",
+          "value": "5. Processing is necessary in order to protect the vital interests of the data subject or of another natural person."
+        }
+      ]
+    },
+    "legalBasisForProcessingApplicationData": {
+      "label": "What is the legal basis for processing the personal data that you are applying for with this application form?"
+    },
+    "otherLegalBasisForProcessingApplicationData": {
+      "label": "Other, which?"
+    },
+    "legalBasisForProcessingCombinedApplicationData": {
+      "label": "What is the legal basis for processing the other data that you will combine with data applied for in this application?"
+    },
+    "otherLegalBasisForProcessingCombinedApplicationData": {
+      "label": "Other, which?"
+    },
+    "attachResearchPermitIfRequired": {
+      "label": "If your research requires a research permit from your affiliation organisation, attach the research permit"
+    }
+  },
+  "section9": {
+    "section9h5": "Additional information",
+    "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers. Suggestion for the technical implementation: Alternatively, there could be a way to allow the applicant to link information to specific parts of the form to facilitate HDABs job.",
+    "additionalInformation": {
+      "label": "Further information or any additional notes",
+      "tooltip": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers. Suggestion for the technical implementation: Alternatively, there could be a way to allow the applicant to link information to specific parts of the form to facilitate HDABs job."
+    },
+    "additionalAttachment": {
+      "label": "An additional attachment. Do not attach health or personal data to this application.",
+      "tooltip": "If you have any other attachment that you deem relevant regarding the processing of your application and necessary for the Health Data Access Body to see, attach it here. Describe its relevance in the text field above."
+    }
+  },
+  "section10": {
+    "section10h5": "Confirmation of information",
+    "section10Description": "Before this application is processed, you as the applicant must approve processing fees. To add information on the prices and the maximum price estimate for data extraction once available.",
+    "submitYouApplicationText": "To submit your application, you need to confirm the following:",
+    "acceptHealthDataBody":{
+      "label": "I accept that the health data body will compile the statistics and I will have no access to\nthe data used to form the statistics."
+    },
+    "awareProcessingFee": {
+      "label": "I am aware that a processing fee will be charged for processing my application. It will also apply in case of a cancelled request or negative decision."
+    },
+    "awareChargeFee": {
+      "label": "I am aware that data holder(s) may charge a fee."
+    },
+    "awareInformationCorrect": {
+      "label": "I confirm that the information I have provided is correct."
+    }
+  },
+  "commonFields": {
+    "aboutThisSection": "About this section",
+    "yesOrNoOptions": {
+      "items": [
+        {
+          "key": "a",
+          "value": "Yes"
+        },
+        {
+          "key": "b",
+          "value": "No"
+        }
+      ]
+    },
+    "onceOrMultipleTimes": {
+      "items": [
+        {
+          "key": "a",
+          "value": "Once"
+        },
+        {
+          "key": "b",
+          "value": "Multiple times"
+        }
+      ]
+    },
+    "everyWhen": {
+      "items": [
+        {
+          "key": "a",
+          "value": "Every year"
+        },
+        {
+          "key": "b",
+          "value": "Half a year"
+        },
+        {
+          "key": "c",
+          "value": "Quarter"
+        },
+        {
+          "key": "d",
+          "value": "Other"
+        }
+      ]
+    },
+    "processingData": {
+      "items": [
+        {
+          "key": "a",
+          "value": "1. (e) Processing is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in the controller;"
+        },
+        {
+          "key": "b",
+          "value": "2. (f) Processing is necessary for the purposes of the legitimate interests pursued by the controller or by a third party, except where such interests are overridden by the interests or fundamental rights and freedoms of the data subject which require protection of personal data, in particular where the data subject is a child."
+        },
+        {
+          "key": "c",
+          "value": "3. Other"
+        }
+      ]
+    },
+    "legalBasisForProcessingData": {
+      "items": [
+        {
+          "key": "a",
+          "value": "1. (a) Processing is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in the Union institution or body."
+        },
+        {
+          "key": "b",
+          "value": "2. Other"
+        }
+      ]
+    }
+  }
+}

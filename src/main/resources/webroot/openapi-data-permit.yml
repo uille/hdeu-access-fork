@@ -1,0 +1,1960 @@
+openapi: 3.0.3
+info:
+  version: ${project.version}
+  title: Data Access Service
+  x-logo:
+    url: images/logo
+
+
+tags:
+  - name: Basket
+    x-displayName: "Basket"
+    description: Operations related to a Basket
+  - name: Data Access Form
+    x-displayName: "Data Access Form"
+    description: Operations related to a Data Access Form
+
+security:
+  - BearerAuth: []
+paths:
+
+  ##########
+  # Basket #
+  ##########
+
+  /basket:
+    put:
+      summary: Creates or updates one dataset to the basket having one distributionId
+      operationId: putBasketDataset
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Basket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Provided Dataset has been added to the Basket.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+    delete:
+      summary: Delete all datasets from the basket
+      operationId: deleteBasketDatasets
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Basket
+      responses:
+        '204':
+          description: Basket has been deleted.
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+    get:
+      summary: Retrieve all datasets from the basket with pagination
+      operationId: getBasketDatasets
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Basket
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a json array containing the Dataset objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /basket/{dataset_id}:
+    get:
+      summary: Retrieve one dataset from the basket by providing the dataset id
+      operationId: getBasketDatasetByDatasetId
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Basket
+      parameters:
+        - name: dataset_id
+          in: path
+          description: ID of the basket dataset to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns the Dataset object.
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '500':
+          description: Internal Server Error
+    delete:
+      summary: Delete one dataset from the basket by providing the dataset id
+      operationId: deleteBasketDatasetByDatasetId
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Basket
+      parameters:
+        - name: dataset_id
+          in: path
+          description: ID of the basket dataset to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Provided Dataset has been deleted from basket.
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Provided Datasets were not found in Basket
+        '500':
+          description: Internal Server Error
+  /basket/distribution:
+    delete:
+      summary: Delete one distribution from a Dataset by providing the distribution id
+      operationId: deleteDistributionByDistributionId
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Basket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Provided Distribution has been deleted from the Dataset.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /basket/distribution/count:
+    get:
+      summary: Retrieve the count of all distributions for each dataset
+      operationId: getDistributionCount
+      security:
+        - BearerAuth: [ ]
+      tags:
+          - Basket
+      responses:
+        '200':
+          description: Returns a json object containing the count number of all distributions
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+
+  ###############
+  # Data Access #
+  ###############
+
+  /data-access/application/{id}:
+    get:
+      summary: Get Data Access Form list
+      operationId: getDataAccessApplicationById
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data Access Application Form
+      parameters:
+        - name: id
+          in: path
+          description: ID of the resource to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Access Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+    patch:
+      summary: Update a data access application
+      operationId: patchDataAccessApplication
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: id
+          in: path
+          description: ID of the resource to retrieve
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Data Access Form created. Returns the created Data Access Form
+          content:
+            application/json:
+              schema:
+                type: object  # Assuming that the response is a single object, not an array
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+    delete:
+      summary: Get Data Access Form list
+      operationId: deleteDataAccessApplicationById
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data Access Application Form
+      parameters:
+        - name: id
+          in: path
+          description: ID of the resource to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Access Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /data-access/application:
+    delete:
+      summary: Delete All Data Access Applications
+      operationId: deleteAllDataAccessApplications
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data Access Form
+      responses:
+        '204':
+          description: Data Access Forms have been deleted
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Provided Data Access Forms were not found
+        '500':
+          description: Internal Server Error
+    post:
+      summary: Create a data access application
+      operationId: postDataAccessApplication
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Data Access Form created. Returns the created Data Access Form
+          content:
+            application/json:
+              schema:
+                type: object  # Assuming that the response is a single object, not an array
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+    put:
+      summary: Create a data access application
+      operationId: putDataAccessApplication
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Data Access Form created. Returns the created Data Access Form
+          content:
+            application/json:
+              schema:
+                type: object  # Assuming that the response is a single object, not an array
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+    get:
+      summary: Get All Data Access Applications list
+      operationId: getAllDataAccessApplications
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data Access Application Form
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: the status of the application
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Access Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /data-access/application/distributions:
+    put:
+      summary: Update multiple data access applications
+      operationId: putDistributionsApplication
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data access application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Updated data access applications.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /data-access/application/{application_id}/datasets:
+    delete:
+      summary: Delete a list of datasets
+      operationId: deleteDatasets
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data access application
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+      responses:
+        '200':
+          description: Datasets have been deleted
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-access/application/{application_id}/distributions:
+    delete:
+      summary: Delete a list of dataset/distributions
+      operationId: deleteDistributions
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data access application
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+      responses:
+        '200':
+          description: Distributions have been deleted
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-access/application/{application_id}/section/{section_number}:
+    put:
+      summary: Update or create a section for the provided application
+      operationId: putSectionApplication
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data access application
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+        - name: section_number
+          in: path
+          description: the number of the section
+          required: true
+          schema:
+            type: integer
+            minimum: 2
+            maximum: 10
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - type: object
+                - type: array
+                  items:
+                    type: object
+      responses:
+        '200':
+          description: Created or updated the provided section for the application
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    get:
+      summary: Get a section for the provided application
+      operationId: getSectionApplication
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+        - name: section_number
+          in: path
+          description: the number of the section
+          required: true
+          schema:
+            type: integer
+            minimum: 2
+            maximum: 10
+      responses:
+        '200':
+          description: Successfully got the section for the application
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-access/application/{application_id}/section/{section_number}/validation:
+    post:
+      summary: Retrieve validation errors for a specific section using the given application ID
+      operationId: getSectionErrors
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+        - name: section_number
+          in: path
+          description: the number of the section
+          required: true
+          schema:
+            type: integer
+            minimum: 2
+            maximum: 10
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - type: object
+                - type: array
+                  items:
+                    type: object
+      responses:
+        '200':
+          description: Successfully got the validation errors for a specific section using the given application ID
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-access/application/{application_id}/data:
+    post:
+      summary: Upload a multipart file for the provided application
+      operationId: postData
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data access application
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: string
+      responses:
+        '201':
+          description: Successfully uploaded the multipart file to the hub-store
+          headers:
+            Location:
+              schema:
+                type: string
+              description: the location of the created resource
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-access/application/{application_id}/data/{data_id}:
+    get:
+      summary: Retrieve the file based on the provided data_id
+      operationId: getData
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data access application
+      parameters:
+        - name: data_id
+          in: path
+          description: ID of the file
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully uploaded the multipart file to the hub-store
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    delete:
+      summary: Delete the file based on the provided data_id
+      operationId: deleteData
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data access application
+      parameters:
+        - name: data_id
+          in: path
+          description: ID of the file
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully delete the multipart file to the hub-store
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-access/application/{application_id}/status:
+    put:
+      summary: Create or update the status of an application
+      operationId: putStatusApplication
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data access application
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Updated the provided status for the application
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-access/application/{application_id}/title:
+    put:
+      summary: Update the title of an application
+      operationId: putTitleApplication
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data access application
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Updated the provided title for the application
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-access/application/{id}/export/{type}/{lg}:
+    get:
+      summary: Export on Pdf or World on Data Access Form list
+      operationId: exportDataAccessApplication
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data Access Application Form
+      parameters:
+        - name: id
+          in: path
+          description: ID of the resource to retrieve
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: path
+          description: the type on which export of application
+          required: true
+          schema:
+            type: string
+        - name: lg
+          in: path
+          description: laughing of the resource to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a Pdf or World containing the Data Access Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+
+  ################
+  # Data Request #
+  ################
+
+  /data-request/application/{id}:
+    get:
+      summary: Get Data Request Form list
+      operationId: getDataRequestApplicationById
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data Request Application Form
+      parameters:
+        - name: id
+          in: path
+          description: ID of the resource to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Request Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+    patch:
+      summary: Update a data request application
+      operationId: patchDataRequestApplication
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: id
+          in: path
+          description: ID of the resource to retrieve
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Data Request Form created. Returns the created Data Request Form
+          content:
+            application/json:
+              schema:
+                type: object  # Assuming that the response is a single object, not an array
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+    delete:
+      summary: Get Data Request Form list
+      operationId: deleteDataRequestApplicationById
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data Request Application Form
+      parameters:
+        - name: id
+          in: path
+          description: ID of the resource to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Request Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /data-request/application:
+    delete:
+      summary: Delete All Data Request Applications
+      operationId: deleteAllDataRequestApplications
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data Request Form
+      responses:
+        '204':
+          description: Data Request Forms have been deleted
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Provided Data Request Forms were not found
+        '500':
+          description: Internal Server Error
+    post:
+      summary: Create a data request application
+      operationId: postDataRequestApplication
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Data Request Form created. Returns the created Data Request Form
+          content:
+            application/json:
+              schema:
+                type: object  # Assuming that the response is a single object, not an array
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+    put:
+      summary: Create a data Request application
+      operationId: putDataRequestApplication
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Data Request Form created. Returns the created Data Request Form
+          content:
+            application/json:
+              schema:
+                type: object  # Assuming that the response is a single object, not an array
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+    get:
+      summary: Get All Data Request Applications list
+      operationId: getAllDataRequestApplications
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data Request Application Form
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: the status of the application
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Request Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /data-request/application/distributions:
+    put:
+      summary: Update multiple data request applications
+      operationId: putDistributionsDataRequestApplication
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data Request application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Updated data request applications.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /data-request/application/{application_id}/datasets:
+    delete:
+      summary: Delete a list of datasets
+      operationId: deleteDataRequestDatasets
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data Request application
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+      responses:
+        '200':
+          description: Datasets have been deleted
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-request/application/{application_id}/distributions:
+    delete:
+      summary: Delete a list of dataset/distributions
+      operationId: deleteDataRequestDistributions
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data Request application
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+      responses:
+        '200':
+          description: Distributions have been deleted
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-request/application/{application_id}/section/{section_number}:
+    put:
+      summary: Update or create a section for the provided application
+      operationId: putSectionDataRequestApplication
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data Request application
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+        - name: section_number
+          in: path
+          description: the number of the section
+          required: true
+          schema:
+            type: integer
+            minimum: 2
+            maximum: 8
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - type: object
+                - type: array
+                  items:
+                    type: object
+      responses:
+        '200':
+          description: Created or updated the provided section for the application
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    get:
+      summary: Get a section for the provided application
+      operationId: getSectionDataRequestApplication
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+        - name: section_number
+          in: path
+          description: the number of the section
+          required: true
+          schema:
+            type: integer
+            minimum: 2
+            maximum: 10
+      responses:
+        '200':
+          description: Successfully got the section for the application
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-request/application/{application_id}/section/{section_number}/validation:
+    post:
+      summary: Retrieve validation errors for a specific section using the given application ID
+      operationId: getDataRequestSectionErrors
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+        - name: section_number
+          in: path
+          description: the number of the section
+          required: true
+          schema:
+            type: integer
+            minimum: 2
+            maximum: 10
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - type: object
+                - type: array
+                  items:
+                    type: object
+      responses:
+        '200':
+          description: Successfully got the validation errors for a specific section using the given application ID
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-request/application/{application_id}/data:
+    post:
+      summary: Upload a multipart file for the provided application
+      operationId: postRequestData
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data request application
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: string
+      responses:
+        '201':
+          description: Successfully uploaded the multipart file to the hub-store
+          headers:
+            Location:
+              schema:
+                type: string
+              description: the location of the created resource
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-request/application/{application_id}/data/{data_id}:
+    get:
+      summary: Retrieve the file based on the provided data_id
+      operationId: getRequestData
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data request application
+      parameters:
+        - name: data_id
+          in: path
+          description: ID of the file
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully uploaded the multipart file to the hub-store
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    delete:
+      summary: Delete the file based on the provided data_id
+      operationId: deleteRequestData
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data request application
+      parameters:
+        - name: data_id
+          in: path
+          description: ID of the file
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully delete the multipart file to the hub-store
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-request/application/{application_id}/status:
+    put:
+      summary: Create or update the status of an application
+      operationId: putStatusDataRequestApplication
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data request application
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Updated the provided status for the application
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-request/application/{application_id}/title:
+    put:
+      summary: Update the title of an application
+      operationId: putTitleDataRequestApplication
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data request application
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Updated the provided title for the application
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-request/application/{id}/export/{type}/{lg}:
+    get:
+      summary: Export on Pdf or World on Data Request Form list
+      operationId: exportDataRequestApplication
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data Request Application Form
+      parameters:
+        - name: id
+          in: path
+          description: ID of the resource to retrieve
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: path
+          description: the type on which export of application
+          required: true
+          schema:
+            type: string
+        - name: lg
+          in: path
+          description: laughing of the resource to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a Pdf or World containing the Data Request Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+
+  /countries/{lg}/{filter}:
+    get:
+      summary: Get Countries names list
+      operationId: getCountries
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Countries List
+      parameters:
+        - name: lg
+          in: path
+          description: language of the resource to retrieve
+          required: true
+          schema:
+            type: string
+        - name: filter
+          in: path
+          description: the type of query of the resource to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Countries names list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /translations/{lg}/{section}:
+    get:
+      summary: Get Translation per section
+      operationId: getTranslations
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Translation List
+      parameters:
+        - name: lg
+          in: path
+          description: language of the resource to retrieve
+          required: true
+          schema:
+            type: string
+        - name: section
+          in: path
+          description: the type of query of the resource to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Translations per section
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  ##########
+  #  User  #
+  ##########
+
+  /user:
+    put:
+      summary: Creates or updates a user profile
+      operationId: putUser
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Provided User has been added.
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    get:
+      summary: Get a user profile
+      operationId: getUser
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - User
+      responses:
+        '200':
+          description: User has been successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      summary: Delete a user
+      operationId: deleteUser
+      security:
+        - BearerAuth: []
+      tags:
+        - User
+      responses:
+        '204':
+          description: Successfully deleted a user
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+  ################
+  #  Dispatcher  #
+  ################
+
+  /dispatcher/status:
+    post:
+      summary: Update the status of the application
+      operationId: postStatusFromDispatcher
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+      responses:
+        '200':
+          description: Provided Status has been updated.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Application Not Found
+        '500':
+          description: Internal Server Error
+  /application/export:
+    get:
+      summary: Export on Pdf or World on Data Access Form list
+      operationId: externalExportDataAccessApplication
+      security:
+        - ApiKeyExportAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Provided the export document.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Application Not Found
+        '500':
+          description: Internal Server Error
+  /data-request/application/export:
+    get:
+      summary: Export on Pdf or World on Data Access Form list
+      operationId: externalExportDataRequestApplication
+      security:
+        - ApiKeyExportAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Provided the export document.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Application Not Found
+        '500':
+          description: Internal Server Error
+  ##########################
+  #  Administration Tasks  #
+  ##########################
+  /admin/resubmit/application/{application_id}:
+    put:
+      summary: resubmit an application to be sent into dispatcher
+      operationId: resubmitApplication
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Application has been resubmitted
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Resubmit action is forbidden
+        '404':
+          description: Application Not Found
+        '500':
+          description: Internal Server Error
+  /admin/data-access/applications:
+    get:
+      summary: Get All Data Access Applications list
+      operationId: getAllDataAccessApplicationsByAdmin
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data Access Application Form
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: the status of the application
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Access Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /admin/data-request/applications:
+    get:
+      summary: Get All Data Request Applications list
+      operationId: getAllDataRequestApplicationsByAdmin
+      security:
+        - BearerAuth: [ ]
+      tags:
+        - Data Access Application Form
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: the status of the application
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Access Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    ApiKeyExportAuth:
+      type: apiKey
+      in: header
+      name: X-EXPORT-API-Key
