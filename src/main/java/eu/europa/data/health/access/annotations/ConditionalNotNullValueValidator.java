@@ -50,7 +50,7 @@ public class ConditionalNotNullValueValidator implements ConstraintValidator<Con
 
       if(fieldValue != null){
         SelectObjectDTO legalOrNaturalPerson = (SelectObjectDTO)fieldValue;
-        if(requiredValue.equals(legalOrNaturalPerson.getKey()) && dependentFieldValue == null){
+        if(requiredValue.equals(legalOrNaturalPerson.getKey()) && (dependentFieldValue == null || dependentFieldValue.toString().trim().isEmpty())){
             context.disableDefaultConstraintViolation();
             String errorMessage = message
               .replace("{field}", field)

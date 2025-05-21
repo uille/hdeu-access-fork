@@ -1,0 +1,1588 @@
+{
+    "section1": {
+        "section1h5": "Projekta datu avotu atlase",
+        "section1Description": "Datu lietotājiem būtu jāpiesakās tikai uz datiem, kas ir adekvāti, atbilstīgi un aprobežojas ar to, kas ir nepieciešams to izmantošanas nolūkam, \nsaskaņā ar datu minimizēšanas principu, kas noteikts ES Vispārīgajā datu aizsardzības regulā 58 (5. panta 1.c punkts). \nVeselības datu piekļuves struktūra rūpīgi izvērtē, vai jūsu prasības atbilst VDAR datu minimizēšanas principam.",
+        "section1DescriptionDR": "Pieteikums piekļuvei elektroniskajiem veselības datiem sekundārai izmantošanai anonimizētā statistikas formātā",
+        "applicationDatasets": {
+            "label": "No kuras datu kopas ieraksta(-iem) vai reģistra(-iem) un/vai sadalījuma(-iem) dati tiks iegūti?"
+        },
+        "applicationCountries": {
+            "label": "No kuras valsts/valstīm meklējat datus?"
+        },
+        "applicationDataHolders": {
+            "label": "No kāda(-iem) datu turētāja(-iem) dati tiks izgūti?"
+        },
+        "applicationHDABs": {
+            "label": "Kurai(-ām) veselības datu piekļuves struktūrai(-ām) vēlaties iesniegt pieteikumu?"
+        },
+        "applicationDatabases": {
+            "label": "No kuras(-ām) datubāzes(-ām) vai reģistra/reģistriem dati tiks iegūti?"
+        }
+    },
+    "section2": {
+        "section2h5": "Publiska informācija par projektu",
+        "section2Description": "Veselības datu piekļuves struktūrām Eiropas Savienībā ir pienākums publicēt informāciju par datu atļaujām, pieprasījumiem un pieteikumiem savā tīmekļa vietnē 30 darbdienu laikā pēc datu atļaujas izdošanas vai atbildes uz datu pieprasījumu. Šajā sadaļā lūdzam sniegt informāciju par savu projektu, ko var kopīgot ar sabiedrību. Pārliecinieties, ka tā neietver konfidenciālu informāciju. Sniedziet savas atbildes nespeciālistam. Jums kā datu lietotājam būs pienākums publiskot projekta rezultātus vai iznākumu ne vēlāk kā 18 mēnešus pēc apstrādes pabeigšanas vai atbildes saņemšanas uz datu pieprasījumu. Turklāt jums ir jāinformē veselības datu piekļuves struktūra par zinātniski recenzētu pētījumu publikāciju, politikas dokumentu un/vai regulatīvo procedūru skaitu, kas veiktas, izmantojot datus, kuriem piekļūts, izmantojot šo lietotni.",
+        "projectName": {
+            "label": "Projekta nosaukums"
+        },
+        "projectLeader": {
+            "label": "Projekta vadītāja nosaukums (organizācija, iestāde, privātā sektora struktūra vai fiziska persona)",
+            "tooltip": "Tā ir persona, kas ir atbildīga par datu izmantošanu."
+        },
+        "countryOfProjectLeader": {
+            "label": "Par projektu atbildīgās struktūras oficiālā dzīvesvieta (valsts)"
+        },
+        "purposeForWhichDataWillBeUsed": {
+            "label": "Datu izmantošanas nolūks",
+            "tooltip": "Mērķi no EVDT regulas.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. sabiedrības intereses sabiedrības veselības vai arodveselības jomās, piemēram, \naizsardzības pasākumi pret nopietniem pārrobežu veselības apdraudējumiem,\nsabiedrības veselības uzraudzība vai pasākumi veselības aprūpes un zāļu vai \nmedicīnisko ierīču augstas kvalitātes un drošuma, tostarp pacientu drošības,\nnodrošināšanai."
+                },
+                {
+                    "key": "b",
+                    "value": "b. rīcībpolitikas veidošana un regulatīvi pasākumi nolūkā atbalstīt publiskā sektora \nstruktūras vai Savienības iestādes, struktūras, birojus vai aģentūras, tostarp \nregulatīvās iestādes, veselības vai aprūpes nozarē, lai tās varētu pildīt tām uzdotos \npienākumus."
+                },
+                {
+                    "key": "c",
+                    "value": "C. statistikas, kā definēts Regulas (EK) Nr. 223/2009 3. panta 1. punktā, piemēram,\nvalsts, daudzvalstu un Savienības līmeņa oficiālās statistikas, kas saistīta ar veselības \nvai aprūpes nozarēm, vajadzībām."
+                },
+                {
+                    "key": "d",
+                    "value": "D. izglītības vai mācību pasākumi veselības vai aprūpes nozarēs profesionālās vai \naugstākās izglītības līmenī."
+                },
+                {
+                    "key": "e",
+                    "value": "e.zinātniskā pētniecība, kas saistīta ar veselības vai aprūpes nozarēm un kas veicina \nsabiedrības veselību vai veselības tehnoloģijas novērtēšanu vai nodrošina augstu \nveselības aprūpes, zāļu vai medicīnisko ierīču kvalitātes un drošuma līmeni, lai \nsniegtu ieguvumus galalietotājiem, piemēram, pacientiem, veselības nozares \ndarbiniekiem un veselības administratoriem, tostarp:\ni) izstrādes un inovācijas darbības attiecībā uz produktiem vai pakalpojumiem;\nii) algoritmu mācīšana, testēšana un novērtēšana, tostarp medicīniskās ierīcēs, in \nvitro diagnostikas medicīniskās ierīcēs, MI sistēmās un digitālās veselības \nlietotnēs."
+                },
+                {
+                    "key": "f",
+                    "value": "F. aprūpes sniegšanas, ārstēšanas optimizācijas un veselības aprūpes sniegšanas \nuzlabošana, pamatojoties uz citu fizisku personu elektroniskajiem veselības datiem."
+                }
+            ]
+        },
+        "theNatureOfTheDataDoesNotLetYouProvideADescription": {
+            "label": "Jūsu projekta būtība neļauj sniegt aprakstu"
+        },
+        "descriptionOfTheProject": {
+            "label": "Paskaidrojiet, kāpēc nevarat sniegt datu aprakstu.",
+            "tooltip": "Šis izskaidrojums par iemeslu(-iem) netiks publicēts."
+        },
+        "summaryOfTheProject": {
+            "label": "Projekta kopsavilkums",
+            "tooltip": "Nespeciālistu vārdiem sniedziet īsu (250 vārdu vai mazāk) kopsavilkumu par projekta mērķiem, izmantojamajiem datiem, metodēm un sagaidāmo rezultātu veidu."
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummary": {
+            "label": "Jūsu projekta būtība neļauj sniegt kopsavilkumu"
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason": {
+            "label": "Paskaidrojiet, kāpēc nevarat sniegt sava projekta kopsavilkumu.",
+            "tooltip": "Šis izskaidrojums par iemeslu(-iem) netiks publicēts."
+        }
+    },
+    "section3": {
+        "section3h5": "Informācija par pieteikuma iesniedzēju un kontaktpersonu",
+        "section3Description": "Datu atļaujas pieteikumā jānorāda pieteikuma iesniedzēja — juridiskas vai fiziskas personas — vārds, uzvārds un kontaktinformācija. Būtu jāiekļauj arī informācija par kontaktpersonu, kas atbild uz jautājumiem saistībā ar pieteikumu, neatkarīgi no tā, vai tā ir tā pati persona, kas pieteikuma iesniedzējs, vai cita persona. Ja kontaktpersona nav tā pati persona, kas pieteikuma iesniedzējs, būtu jāprecizē tās attiecības, piemēram, pamatojoties uz darba līgumu.",
+        "section3DescriptionRequest": "Datu pieprasījuma pieteikumā jānorāda pieteikuma iesniedzēja — juridiskas vai fiziskas personas — vārds, uzvārds un kontaktinformācija. Būtu jāiekļauj arī informācija par kontaktpersonu, kas atbild uz jautājumiem saistībā ar pieteikumu, neatkarīgi no tā, vai tā ir tā pati persona, kas pieteikuma iesniedzējs (fiziskas personas gadījumā kā pieteikuma iesniedzējs), vai cita persona.\nJa kontaktpersona nav tā pati persona, kas pieteikuma iesniedzējs, būtu jāprecizē tās attiecības, piemēram, pamatojoties uz darba līgumu.",
+        "applyingForDataOnBehalfOfPublicSector": {
+            "label": "Vai piesakāties datiem publiskā sektora struktūras vai Eiropas Savienības iestādes, struktūras, biroja vai aģentūras vārdā?"
+        },
+        "applyingForDataForCarryingOutTasks": {
+            "label": "Vai piesakāties datiem, lai veiktu uzdevumus, kas noteikti jūsu organizācijas/iestādes pilnvarās?",
+            "tooltip": "Uzdevumi jūsu organizācijas/iestādes pilnvarās ir uzdevumi, kuru pamatā ir valsts vai Eiropas Savienības tiesību akti."
+        },
+        "legalOrNaturalPerson": {
+            "label": "Vai pieteikuma iesniedzējs ir juridiska vai fiziska persona?",
+            "tooltip": "Fiziska persona = fiziska persona, individuāls cilvēks, juridiska persona = uzņēmums, organizācija vai apvienība.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Juridiska persona"
+                },
+                {
+                    "key": "b",
+                    "value": "Fiziska persona",
+                    "info": "(Ja izvēlaties šo iespēju, jūs apliecināt, ka piesakāties datiem kā privātpersona bez jebkādas piederības.)"
+                }
+            ]
+        },
+        "legalPerson": "Juridiska persona",
+        "naturalPerson": "Fiziska persona",
+        "legalPersonName": {
+            "label": "Pilns nosaukums"
+        },
+        "postalAddress": "Pasta adrese",
+        "legalPersonAddress": {
+            "label": "Ielas nosaukums un mājas numurs"
+        },
+        "legalPersonZipCode": {
+            "label": "ZIP kods"
+        },
+        "legalPersonCity": {
+            "label": "Pilsēta"
+        },
+        "legalPersonCountry": {
+            "label": "Valsts"
+        },
+        "contactPersonInformation": "Kontaktpersonas informācija",
+        "contactPersonInformationDescription": "Kontaktpersona ir persona, kas atbild uz jautājumiem par pieteikumu. Kontaktinformāciju par kontaktpersonu var nosūtīt pārzinim pieteikuma apstrādes laikā, ja datu izguves definēšanai ir vajadzīga papildu informācija. ",
+        "contactPersonName": {
+            "label": "Pilns nosaukums"
+        },
+        "contactPersonEmail": {
+            "label": "Pa e-pastu"
+        },
+        "contactPersonPhone": {
+            "label": "Telefons"
+        },
+        "contactPersonNameOfTheOrganisation": {
+            "label": "Organizācijas nosaukums"
+        },
+        "contactPersonBusinessIdentifier": {
+            "label": "Organizācijas uzņēmuma identifikators"
+        },
+        "contactPersonOperatorIdentifier": {
+            "label": "Operatora ID"
+        },
+        "contactPersonJobTitle": {
+            "label": "Amata nosaukums"
+        },
+        "contactPersonAffiliation": {
+            "label": "Piederība"
+        },
+        "contactPersonRelationship": {
+            "label": "Kādas ir kontaktpersonas un pieteikuma iesniedzēja attiecības? (Piemēram, darbinieks, kas piesakās datiem savas organizācijas vārdā.)"
+        },
+        "naturalPersonName": {
+            "label": "Pilns nosaukums"
+        },
+        "naturalPersonAddress": {
+            "label": "Ielas nosaukums un mājas numurs"
+        },
+        "naturalPersonZipCode": {
+            "label": "ZIP kods"
+        },
+        "naturalPersonCity": {
+            "label": "Pilsēta"
+        },
+        "naturalPersonCountry": {
+            "label": "Valsts"
+        },
+        "naturalPersonEmail": {
+            "label": "Pa e-pastu"
+        },
+        "naturalPersonPhone": {
+            "label": "Telefons"
+        },
+        "naturalPersonJobTitle": {
+            "label": "Amata nosaukums"
+        },
+        "naturalPersonAffiliation": {
+            "label": "Piederība"
+        }
+    },
+    "section4": {
+        "section4h5": "Informācija par maksājumu",
+        "section4Description": "Maksājuma informācija par personu, kurai veselības datu piekļuves struktūra adresē ar šo pieteikumu saistītos rēķinus un no tās izrietošo datu atļauju, ja tāda ir piešķirta.",
+        "sameAsContactPerson": {
+            "label": "Tāpat kā 3. iedaļā minētā kontaktpersona?"
+        },
+        "fullName": {
+            "label": "Pilns nosaukums"
+        },
+        "address": {
+            "label": "Adrese"
+        },
+        "email": {
+            "label": "Pa e-pastu"
+        },
+        "phone": {
+            "label": "Telefons"
+        },
+        "invoiceType": {
+            "label": "Rēķina veids",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Papīrs"
+                },
+                {
+                    "key": "b",
+                    "value": "Elektroniski"
+                }
+            ]
+        },
+        "invoiceReferenceNumber": {
+            "label": "Rēķina atsauces numurs"
+        },
+        "invoiceAddress": {
+            "label": "E-rēķinu adrese (EDI vai IBAN)"
+        },
+        "operatorIdentifier": {
+            "label": "Operatora ID"
+        },
+        "nameOfTheOrganisation": {
+            "label": "Organizācijas nosaukums"
+        },
+        "businessIdentifierOrganization": {
+            "label": "Organizācijas uzņēmuma identifikators"
+        },
+        "vatNumber": {
+            "label": "PVN maksātāja numurs"
+        },
+        "peppolCode": {
+            "label": "PEPPOL kods (attiecīgā gadījumā)"
+        },
+        "isTheProjectFinanciallyCovered": {
+            "label": "Vai projekts ir finansiāli segts?"
+        },
+        "rangeOfAmountOfFinancing": {
+            "label": "Kāds ir finansējuma apjoms projektam, kas izmantos pieprasītos datus?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "& EUR 10000"
+                },
+                {
+                    "key": "b",
+                    "value": "10000–EUR 50000"
+                },
+                {
+                    "key": "c",
+                    "value": "50000–EUR 100000"
+                },
+                {
+                    "key": "d",
+                    "value": "100000–EUR 500000"
+                },
+                {
+                    "key": "e",
+                    "value": "500000–EUR 1000000"
+                },
+                {
+                    "key": "f",
+                    "value": "> EUR 1000000"
+                }
+            ]
+        }
+    },
+    "section5": {
+        "section5h5": "Datu izmantošanas nolūks",
+        "section5Description": "Pieteikuma iesniedzējiem jānorāda datu pieprasīšanas nolūks saskaņā ar 53. panta 1. punktu EVDT regulas labojumā, ko Eiropas Parlaments apstiprināja 17/12. \nPieteikuma iesniedzējiem jāpaskaidro un jāpaskaidro, kāpēc pieprasītie dati ir nepieciešami norādītajam izmantošanas mērķim. Pieteikumu iesniedzēji tiek lūgti arī sniegt informāciju par projekta mērķi. Pēc tam atkarībā no izmantošanas mērķa (pētniecība vai nepētniecība) pieteikuma iesniedzējiem ir jāiesniedz datu izmantošanas plāna kopsavilkums vai pētniecības plāna kopsavilkums un informācija par personu, kas ir atbildīga par datu izmantošanu vai izpēti.",
+        "purposeOfUse": {
+            "label": "Datu izmantošanas nolūks. Veselības datu piekļuves struktūras nodrošina piekļuvi 51. pantā minētajiem elektroniskajiem veselības datiem tikai tad, ja pieteikuma iesniedzēja plānotais apstrādes nolūks atbilst turpmāk norādītajiem nolūkiem (saskaņā ar 53. panta 1. punktu).",
+            "tooltip": "Mērķi no EVDT regulas.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. sabiedrības intereses tādās jomās kā sabiedrības veselība vai arodveselība, piemēram, pasākumi aizsardzībai pret nopietniem pārrobežu veselības apdraudējumiem, sabiedrības veselības uzraudzība vai darbības, kas nodrošina augstu veselības aprūpes, tostarp pacientu drošības, un zāļu vai medicīnisko ierīču kvalitātes un drošības līmeni."
+                },
+                {
+                    "key": "b",
+                    "value": "b. politikas veidošanas un regulatīvās darbības, lai atbalstītu publiskā sektora struktūras vai Savienības iestādes, struktūras, birojus un aģentūras, tostarp regulatīvās iestādes, veselības vai aprūpes nozarē, tām veicot to pilnvarās noteiktos uzdevumus."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Statistika, kā definēts Regulas (ES) Nr. 223/2009 3. panta 1. punktā, piemēram, valsts, daudzvalstu un Savienības līmeņa oficiālā statistika, kas saistīta ar veselības vai aprūpes nozarēm."
+                },
+                {
+                    "key": "d",
+                    "value": "D. Izglītības vai mācību darbības veselības vai aprūpes nozarēs profesionālās vai augstākās izglītības līmenī."
+                },
+                {
+                    "key": "e",
+                    "value": "e. zinātniskā pētniecība, kas saistīta ar veselības vai aprūpes nozarēm un kas veicina sabiedrības veselības vai veselības aprūpes tehnoloģiju novērtēšanu vai nodrošina augstu veselības aprūpes, zāļu vai medicīnisko ierīču kvalitātes un drošības līmeni, ar mērķi sniegt labumu tiešajiem lietotājiem, piemēram, pacientiem, veselības aprūpes speciālistiem un veselības aprūpes administratoriem, tostarp:\nI) produktu vai pakalpojumu izstrādes un inovācijas darbības;\nII) algoritmu apmācība, testēšana un izvērtēšana, tostarp medicīniskajās ierīcēs, in vitro diagnostikas medicīniskajās ierīcēs, MI sistēmās un digitālās veselības lietotnēs."
+                },
+                {
+                    "key": "f",
+                    "value": "F. Aprūpes sniegšanas, ārstēšanas optimizācijas un veselības aprūpes sniegšanas uzlabošana, pamatojoties uz citu fizisku personu elektroniskajiem veselības datiem."
+                }
+            ]
+        },
+        "whyTheDataIsNeeded": {
+            "label": "Kāpēc dati, kurus piesakāties, ir vajadzīgi norādītajam izmantošanas nolūkam? Paskaidrojiet šeit, kāpēc to datu apjoms un veids, uz kuriem piesakāties, ir nepieciešami jūsu datu izmantošanas nolūkā."
+        },
+        "whyAreTheDataRequested": {
+            "label": "Kāpēc dati, kas pieprasīti kopā ar šo lietotni, ir vajadzīgi norādītajam izmantošanas nolūkam?"
+        },
+        "whatIsTheAimAndTopicOfTheProject": {
+            "label": "Kāds ir jūsu projekta mērķis un temats?"
+        },
+        "whichAreTheExpectedBenefits": {
+            "label": "Kādi ir gaidāmie ieguvumi saistībā ar elektronisko veselības datu izmantošanu un kā šis ieguvums veicina 5.1. punktā minētos mērķus?"
+        },
+        "legalBasis": {
+            "label": "Norādiet juridisko pamatu, piemēram, attiecīgos tiesību aktus, kuros noteikti uzdevumi, kas ietilpst jūsu pilnvarās, un apstiprināts, ka jūsu plānotā datu izmantošana atvieglo šādus uzdevumus.",
+            "tooltip": "Paskaidrojiet šeit, kāpēc datu apjoms, uz kuru piesakāties, ir nepieciešams jūsu datu izmantošanas nolūkā. Pamatojiet un aprakstiet, kā pieprasītās statistikas saturs atbilst pieteikumā norādītajam izmantošanas mērķim un atbilst jūsu datu prasībām."
+        },
+        "linkToTheSupportingLegalBasis": {
+            "label": "Norādiet saiti uz apliecinošajiem dokumentiem, lai pierādītu juridisko pamatu."
+        },
+        "summaryOfPlanForUsingTheData": {
+            "label": "Sniedziet kopsavilkumu par savu datu izmantošanas plānu. Kopsavilkumam jābūt vienā no ES oficiālajām valodām."
+        },
+        "summaryOfPlanForUsingTheDataLanguage": {
+            "label": "Izvēlieties kopsavilkuma valodu",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgāru"
+                },
+                {
+                    "key": "hr",
+                    "value": "Horvātu"
+                },
+                {
+                    "key": "cs",
+                    "value": "Čehu"
+                },
+                {
+                    "key": "da",
+                    "value": "Dāņu"
+                },
+                {
+                    "key": "nl",
+                    "value": "Nīderlandiešu"
+                },
+                {
+                    "key": "en",
+                    "value": "Angļu"
+                },
+                {
+                    "key": "et",
+                    "value": "Igauņu"
+                },
+                {
+                    "key": "fi",
+                    "value": "Somu"
+                },
+                {
+                    "key": "fr",
+                    "value": "Franču"
+                },
+                {
+                    "key": "de",
+                    "value": "Vācu"
+                },
+                {
+                    "key": "el",
+                    "value": "Grieķu"
+                },
+                {
+                    "key": "hu",
+                    "value": "Ungāru"
+                },
+                {
+                    "key": "ga",
+                    "value": "Īru"
+                },
+                {
+                    "key": "it",
+                    "value": "Itāļu"
+                },
+                {
+                    "key": "lv",
+                    "value": "Latviešu"
+                },
+                {
+                    "key": "lt",
+                    "value": "Lietuviešu"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltiešu"
+                },
+                {
+                    "key": "pl",
+                    "value": "Poļu"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugāļu"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumāņu"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovāku"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slovēņu"
+                },
+                {
+                    "key": "es",
+                    "value": "Spāņu"
+                },
+                {
+                    "key": "sv",
+                    "value": "Zviedru"
+                }
+            ]
+        },
+        "summaryOfResearchPlan": {
+            "label": "Sniedziet sava pētniecības plāna kopsavilkumu. Kopsavilkumam jābūt vienā no ES oficiālajām valodām."
+        },
+        "summaryOfResearchPlanLanguage": {
+            "label": "Izvēlieties kopsavilkuma valodu",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgāru"
+                },
+                {
+                    "key": "hr",
+                    "value": "Horvātu"
+                },
+                {
+                    "key": "cs",
+                    "value": "Čehu"
+                },
+                {
+                    "key": "da",
+                    "value": "Dāņu"
+                },
+                {
+                    "key": "nl",
+                    "value": "Nīderlandiešu"
+                },
+                {
+                    "key": "en",
+                    "value": "Angļu"
+                },
+                {
+                    "key": "et",
+                    "value": "Igauņu"
+                },
+                {
+                    "key": "fi",
+                    "value": "Somu"
+                },
+                {
+                    "key": "fr",
+                    "value": "Franču"
+                },
+                {
+                    "key": "de",
+                    "value": "Vācu"
+                },
+                {
+                    "key": "el",
+                    "value": "Grieķu"
+                },
+                {
+                    "key": "hu",
+                    "value": "Ungāru"
+                },
+                {
+                    "key": "ga",
+                    "value": "Īru"
+                },
+                {
+                    "key": "it",
+                    "value": "Itāļu"
+                },
+                {
+                    "key": "lv",
+                    "value": "Latviešu"
+                },
+                {
+                    "key": "lt",
+                    "value": "Lietuviešu"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltiešu"
+                },
+                {
+                    "key": "pl",
+                    "value": "Poļu"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugāļu"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumāņu"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovāku"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slovēņu"
+                },
+                {
+                    "key": "es",
+                    "value": "Spāņu"
+                },
+                {
+                    "key": "sv",
+                    "value": "Zviedru"
+                }
+            ]
+        },
+        "personResponsibleLabel": "Par datu izmantošanu atbildīgā persona",
+        "personResponsibleName": {
+            "label": "Pilns nosaukums"
+        },
+        "personResponsibleJobTitle": {
+            "label": "Amata nosaukums"
+        },
+        "personResponsibleAffiliation": {
+            "label": "Piederība"
+        },
+        "personResearchSameAsContactPerson": {
+            "label": "Tāpat kā kontaktpersona, kas minēta 3. iedaļā (Informācija par pieteikuma iesniedzēju un kontaktpersonu)?"
+        },
+        "personResponsibleForResearchLabel": "Par pētniecību atbildīgā persona",
+        "personResponsibleSameAsContactPerson": {
+            "label": "Tāpat kā kontaktpersona, kas minēta 3. iedaļā (Informācija par pieteikuma iesniedzēju un kontaktpersonu)?"
+        },
+        "personResearchName": {
+            "label": "Pilns nosaukums"
+        },
+        "personResearchJobTitle": {
+            "label": "Amata nosaukums"
+        },
+        "personResearchAffiliation": {
+            "label": "Piederība"
+        },
+        "formatOfTheElectronicHealthData": {
+            "label": "Izvēlieties to elektronisko veselības datu formātu, kas jādara pieejami:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Anonimizēts"
+                },
+                {
+                    "key": "b",
+                    "value": "Pseidonimizēts"
+                }
+            ]
+        },
+        "inOrderToApplyPseudonymisedData": "Apzinos, ka, lai pieteiktos pseidonimizētiem datiem, man ir:",
+        "inOrderToApplyPseudonymisedDataA": {
+            "label": "paskaidrošu, kā es ievērošu Vispārīgās datu aizsardzības regulas 6. panta 1. punktu (vai ES Datu aizsardzības regulas 5. panta 1. punktu, ja ES iestāde, struktūra, birojs vai aģentūra iesniedz pieteikumu datu saņemšanai)"
+        },
+        "inOrderToApplyPseudonymisedDataB": {
+            "label": "attiecīgā gadījumā un saskaņā ar valsts tiesību aktiem vai piemērojamiem tiesību aktiem novērtēt datu apstrādes ētiskos aspektus."
+        },
+        "whyNeedForPseudonymisation": {
+            "label": "Kāpēc jūsu projektam ir vajadzīgi pseidonimizēti dati?"
+        }
+    },
+    "section6": {
+        "section6h5": "Vajadzīgo datu apraksts",
+        "section6Description": "Šajā sadaļā jums ir jāsniedz pieprasītās datu kopas apraksts, skaidri norādot, uz kurām datu kopām attiecas pieteikums. Jums būtu jāpiesakās tikai uz datiem, kas ir adekvāti, atbilstīgi un aprobežojas ar to, kas ir nepieciešams jūsu izmantošanas nolūkam, ievērojot ES Vispārīgajā datu aizsardzības regulā noteikto datu minimizēšanas principu (5. panta 1. punkta c) apakšpunkts). Veselības datu piekļuves struktūra rūpīgi izvērtē, vai jūsu prasības atbilst VDAR datu minimizēšanas principam.",
+        "descriptionSection6_1": "Kohortas ekstrakcijas kritēriju noteikšana:",
+        "descriptionOfTheDataNeeded": "Vajadzīgo datu apraksts:",
+        "applicationHDABsForSelectedCountry": "Kurai veselības datu piekļuves struktūrai vēlaties iesniegt pieteikumu?",
+        "applicationDatasetsPerCountry": "Attiecīgais(-ie) datu kopu ieraksts(-i) un sadalījums",
+        "informationProviderSameAsContactPerson": {
+            "label": "Tāpat kā 3. iedaļā minētā kontaktpersona?"
+        },
+        "hdabContacts": {
+            "label": "Ja esat sazinājies ar kādu no veselības datu piekļuves struktūras pārstāvjiem par pieprasītajiem datiem, norādiet šīs personas vārdu, uzvārdu un e-pasta adresi."
+        },
+        "howWillTheDataFromDifferentSourcesBeLinked": {
+            "label": "Kā tiks sasaistīti dati par vienu personu no dažādiem avotiem? Piemēram, pamatojoties uz personas identifikācijas kodu. Ja izmanto kādu citu sasaistes metodi, aprakstiet to šeit."
+        },
+        "indicateTheSizeOfTheStudyCohort": {
+            "label": "Norādīt kohortas lielumu"
+        },
+        "indicateTheSizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Kohortas izmērs (radiopogas)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Tā ir kohortas lieluma aplēse."
+                },
+                {
+                    "key": "b",
+                    "value": "Tas ir precīzs kohortas lielums."
+                }
+            ]
+        },
+        "howIsTheStudyCohortFormed": {
+            "label": "Kā kohorta veidojas?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Kohortu izveido, pamatojoties uz turpmāk norādītajiem kritērijiem."
+                },
+                {
+                    "key": "b",
+                    "value": "Kohorta jau ir izveidota."
+                },
+                {
+                    "key": "c",
+                    "value": "Kohorta sastāvēs no šiem diviem elementiem: jauna kohorta, kas izveidota, pamatojoties uz turpmāk norādītajiem kritērijiem, un jau izveidota kohorta."
+                },
+                {
+                    "key": "d",
+                    "value": "Kohorta būs visi iedzīvotāji valstī/valstīs, kas norādītas šīs veidlapas sākumā."
+                }
+            ]
+        },
+        "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants": {
+            "label": "Ja vēlaties izmantot kohortu, pamatojoties uz savu iepriekšējo aptaujas pētījumu, vai kohorta ir izveidota, pamatojoties uz pētījuma dalībnieku informētu piekrišanu? Piemēram, kohorta, kas izveidota, pamatojoties uz apsekojuma pētījumu vai klīnisku pētījumu, ar kuru reģistra dati būs saistīti saskaņā ar EVDT regulu."
+        },
+        "doesTheInformedConsentCoverTheRequestedRegistryExtractions": {
+            "label": "Vai informētā piekrišana attiecas uz pieprasīto reģistra izgūšanu?"
+        },
+        "consentAndInformationLetterAttachment": {
+            "label": "Pievienojiet piekrišanu un informatīvo vēstuli, ko esat nosūtījis studiju subjektiem. Nepievienojiet aizpildītas veidlapas, jo tajās ir iekļauti personas dati."
+        },
+        "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
+            "label": "Apstiprinu, ka šim pētniecības projektam ir piešķirta datu atļauja."
+        },
+        "ifTheGroupHasBeenFormedBasedOnPreviousIssued": {
+            "label": "Ja kohorta ir izveidota, pamatojoties uz iepriekš izsniegtu atļauju, šeit norāda šādu informāciju:"
+        },
+        "previouslyIssuedPermitIssuer1": {
+            "label": "Lēmuma par atļauju izdevējs"
+        },
+        "previouslyIssuedPermitDate1": {
+            "label": "Datums"
+        },
+        "validityPeriod1": "Derīguma termiņš",
+        "previouslyIssuedPermitValidityPeriodFrom1": {
+            "label": "No"
+        },
+        "previouslyIssuedPermitValidityPeriodTo1": {
+            "label": "Līdz"
+        },
+        "previouslyIssuedPermitNumber1": {
+            "label": "Atļaujas numurs"
+        },
+        "permitDecisionAttachment": {
+            "label": "Pievienojiet lēmumu par atļauju, kas attiecas uz kohortas datu iegūšanu šajā iedaļā."
+        },
+        "howTheStudyCohortWasObtained": {
+            "label": "Aprakstiet, kā kohorta tika iegūta, un datu atļaujas/piekrišanas trūkuma iemeslus."
+        },
+        "providedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Vai esat snieguši informāciju par datu izmantošanu attiecīgajiem subjektiem? Piemēram, kopīgota informācija par datu izmantošanu projekta tīmekļa vietnē.",
+            "tooltip": "Sīkāku informāciju sk. Vispārīgās datu aizsardzības regulas 13. un 14. pantā: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
+            "tooltipForm": "Sīkāku informāciju sk. <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\"> Vispārīgās datu aizsardzības regulas 13. un 14. pantā </a>."
+        },
+        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Kādas?"
+        },
+        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Kāpēc nav?"
+        },
+        "whoWillDeliverTheInformationOnTheStudy": {
+            "label": "Kas veselības datu piekļuves struktūrai sniegs informāciju par kohortu? Šī persona kopējā EVDT portālā saņems norādījumus par to, kā sniegt datus."
+        },
+        "informationProviderName": {
+            "label": "Pilns nosaukums"
+        },
+        "informationProviderEmail": {
+            "label": "E-pasts"
+        },
+        "informationProviderPhone": {
+            "label": "Tālruņa numurs"
+        },
+        "whyNeedDataOfaWholePopulation": {
+            "label": "Sniedziet argumentus, kāpēc jums ir vajadzīgi dati par visu populāciju/visām populācijām?",
+            "tooltip": "Pārliecinieties, ka pietiekami skaidri definē kohortas veidošanos un norobežo kohortas lielumu atbilstoši paredzētajam lietojumam. Pievērst īpašu uzmanību tam, no kura kohorta tiek iegūta kohorta, un iekļaušanas un izslēgšanas kritērijiem attiecībā uz kohortu. Piemēram, ģeogrāfiskā definīcija var nozīmēt dzīvesvietu, dzimšanas vietu, darba vietu vai vietu, kur izmanto pakalpojumus."
+        },
+        "sizeOfTheStudyCohort": {
+            "label": "Norādīt kohortas lielumu"
+        },
+        "sizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Kohortas izmērs (radiopogas)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Tā ir kohortas lieluma aplēse."
+                },
+                {
+                    "key": "b",
+                    "value": "Tas ir precīzs kohortas lielums."
+                }
+            ]
+        },
+        "whyNeedStudyCohortOfThisSize": {
+            "label": "Kāpēc jūsu projektam ir vajadzīga šāda lieluma kohorta?"
+        },
+        "ethicalReview": "Ētikas pārbaude — tekstu iesniedz politikas nodaļa",
+        "ethicalReviewDescription": "Ētikas pārbaude",
+        "ethicalReviewInput": {
+            "label": "Ētikas pārbaude",
+            "tooltip": "Tekstu iesniedz Politikas nodaļa."
+        },
+        "ethicalReviewAttachment": {
+            "label": "Ētikas pārbaude"
+        },
+        "dataHolders": "No kāda(-iem) datu turētāja(-iem) dati tiks izgūti?",
+        "whichDatabasesDataExtracted": "No kuras(-ām) datubāzes(-ām)/reģistriem/reģistriem dati tiks iegūti?",
+        "whichDatasetDataExtracted": "No kura(-iem) datu kopas ieraksta(-iem)/reģistra(-iem) dati tiks iegūti?",
+        "variablesToBeUsedInDataExtractionAttachment": {
+            "label": "Ja informācija ir pieejama, pievienojiet sarakstu ar mainīgajiem lielumiem, kas izmantojami datu izgūšanā. Izmanto precīzus terminus, ko attiecīgais(-ie) datu turētājs(-i) norādījis metadatu katalogā."
+        },
+        "timePeriodOfDataExtraction": {
+            "label": "Par kādu(-iem) laikposmu(-iem) datu kopu ieraksti tiks izgūti?"
+        },
+        "extractionMethod": {
+            "label": "Ekstrakcijas metode:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "izlases paraugs"
+                },
+                {
+                    "key": "b",
+                    "value": "visi cilvēki, kas atbilst kritērijiem"
+                },
+                {
+                    "key": "c",
+                    "value": "cits paraugs"
+                }
+            ]
+        },
+        "samplingMethod": {
+            "label": "Aprakstiet paraugu ņemšanas metodi"
+        },
+        "sampleSize": {
+            "label": "Parauga izmērs",
+            "tooltip": "Atbildes var būt, piemēram, šādas: 100000 personas vai 50 % cilvēku, kas atbilst kritērijiem."
+        },
+        "inclusionCriteria": {
+            "label": "Aprakstiet iekļaušanas kritērijus kohortas ieguvei ",
+            "tooltip": "Atcerieties šeit precizēt visus iekļaušanas kritērijus, kas var būt neskaidri. Piemēram, ja vēlaties iekļaut noteikta vecuma datu subjektus, precizējiet, pamatojoties uz kuru mainīgo lielumu būtu jāaprēķina vecums un kurā brīdī."
+        },
+        "potentialExclusionCriteria": {
+            "label": "Aprakstiet iespējamos izslēgšanas kritērijus kohortas ieguvei"
+        },
+        "tabulationPlanArray": {
+            "label": "Tabulas plāns",
+            "tooltip": "Turklāt par katru tabulu uzrakstiet šādu informāciju: izmanto reģistru, kas izmantojams, ja iespējama kohorta informācija par vajadzīgajiem mainīgajiem lielumiem (ja tāda ir pieejama) — mainīgo lielumu veidošana, ja tiem nevar tieši piekļūt no datubāzes — vēlamais procentuālās daļas apkopošanas virziens — secībā, kādā tabulas tiek ģenerētas, kad iepriekš sagatavotas tabulas tiek izmantotas, lai izveidotu citas tabulas — jebkuru citu būtisku faktoru, kas saistīts ar vajadzīgās(-o) tabulas(-u) ģenerēšanu."
+        },
+        "tabulationRegisteredToBeUsed": {
+            "label": "Izmantojamais reģistrs"
+        },
+        "tabulationPossibleStudyCohort": {
+            "label": "Iespējamā kohorta"
+        },
+        "tabulationInformationOfRequiredVariables": {
+            "label": "Informācija par nepieciešamajiem mainīgajiem lielumiem (ja pieejami)"
+        },
+        "tabulationFormationVariables": {
+            "label": "Mainīgo lielumu veidošana, ja tiem nevar piekļūt tieši no datubāzes"
+        },
+        "tabulationDesiredDirection": {
+            "label": "Vēlamais procentu agregēšanas virziens"
+        },
+        "tabulationOrderInWhichTable": {
+            "label": "Secība, kādā tabulas tiek ģenerētas, kad iepriekš ģenerētas tabulas izmanto, lai izveidotu citas tabulas"
+        },
+        "tabulationAnyOtherRelevant": {
+            "label": "Jebkādi citi būtiski faktori, kas saistīti ar prasītās(-o) tabulas(-u) ģenerēšanu "
+        },
+        "tabulationPlanButton": "Pievienot tabulas plānu",
+        "tabulationPlan": {
+            "label": "Tabulas plāns",
+            "tooltip": "Katrai pieprasītajai statistikai pievienojiet Excel (vai līdzvērtīgu) tabulas piemēru."
+        },
+        "extractionDescriptionAndCompilation": {
+            "label": "Statistikas izguves apraksts un apkopošana",
+            "tooltip": "Veselības datu piekļuves struktūra jūsu pieprasītos datus sniedz tikai anonimizētā statistikas formātā, ja jūsu datu pieprasījums ir pieņemts. Anonimitātes dēļ datu lietotājam nav piekļuves elektroniskajiem veselības datiem, ko izmanto šīs atbildes sniegšanai. Visa jūsu pieprasītā informācija ir jāsniedz līdz vispārējam līmenim, lai izvairītos no mazu šūnu skaita ar augstu atkārtotas identifikācijas potenciālu."
+        },
+        "dataExtraction": "Datu ieguves laiki un kohortas secība",
+        "dataExtractionTimes": "Datu ieguves laiki un kohortas secība",
+        "howOftenDoesTheDataNeedToBeExtracted": {
+            "label": "Cik bieži dati ir jāizgūst?"
+        },
+        "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
+            "label": "Cik bieži dati ir jāizgūst?"
+        },
+        "needForDataExtractionEvery": {
+            "label": "Dati ir jāizgūst katru",
+            "tooltip": "Ja vēlaties, lai datus noteiktā laikposmā izgūtu vairākas reizes, ņemiet vērā, ka dažos gadījumos definīcijas un datu vākšanas metode pārskatīšanas periodā var mainīties. Jāņem vērā, ka maksimālais datu ieguves biežums ir katru ceturksni."
+        },
+        "needForDataExtractionEveryOther": {
+            "label": "Norādīt “Cits”"
+        },
+        "needForDataExtractionEveryDescriptionDR": {
+            "label": "Sniedziet plašāku informāciju par ieguves periodiem/laikiem",
+            "tooltip": "Ja vēlaties, lai datus noteiktā laikposmā izgūtu vairākas reizes, ņemiet vērā, ka dažos gadījumos definīcijas un datu vākšanas metode pārskatīšanas periodā var mainīties."
+        },
+        "needForDataExtractionEveryDescription": {
+            "label": "Sniedziet plašāku informāciju par kohortas ieguves periodiem/laikiem",
+            "tooltip": "Ja vēlaties, lai datus noteiktā laikposmā izgūtu vairākas reizes, ņemiet vērā, ka dažos gadījumos definīcijas un datu vākšanas metode pārskatīšanas periodā var mainīties."
+        },
+        "whatIsTheFrequencyOfUpdates": {
+            "label": "Cik bieži dati tiek atjaunināti?"
+        },
+        "orderForDataExtraction": {
+            "label": "Ja tas ietekmē datu iegūšanas rezultātus, kādā secībā kohortas dati tiks iegūti? Iesniedziet ekstrakcijas posmu numurētu sarakstu. Piemēram: 1. Datu turētājs A; 2. Datu turētājs B; 3. Datu turētājs C"
+        },
+        "definingExtractionCriteria": "Kontroles ieguves kritēriju noteikšana:",
+        "willControlsBeExtracted": {
+            "label": "Vai tiks iegūti kontroles pasākumi attiecībā uz kohortu?"
+        },
+        "hasTheGroupRelativesFormed2": {
+            "label": "Vai kontroles grupa ir izveidota, pamatojoties uz iepriekš izsniegtu atļauju?"
+        },
+        "willSameDataBeExtractedForControls": {
+            "label": "Vai kontroles vajadzībām tiks iegūti tādi paši dati kā par kohortu?"
+        },
+        "regionForControlsDataExtraction": {
+            "label": "Ja nelūdzat datus kontrolei no visas valsts, no kura(-iem) reģiona(-iem) un/vai pilsētas/pilsētām, un/vai pašvaldības/pašvaldībām meklējat datus?"
+        },
+        "fromWhichDataHolderLabel": "No kura(-iem) datu turētājs(-i) tiks iegūts(-i) kontroles vajadzībām?",
+        "fromWhichDatabaseLabel": "No kuras(-ām) datubāzes(-ām)/reģistriem/reģistriem tiks iegūti kontroles vajadzībām vajadzīgie dati?",
+        "fromWhichDatasetLabel": "No kura(-iem) datu kopas ieraksts(-i)/reģistrs(-i) tiks iegūti kontroles vajadzībām?",
+        "variablesForDataExtraction": {
+            "label": "Ja informācija ir pieejama, uzskaita mainīgos lielumus, kas jāizmanto datu izgūšanā. Izmanto precīzus terminus, ko attiecīgais(-ie) datu turētājs(-i) norādījis metadatu katalogā."
+        },
+        "timePeriodForDataExtraction": {
+            "label": "Par kādu(-iem) laikposmu(-iem) datu kopas ieraksti tiks izgūti?"
+        },
+        "extractionCriteriaForControls": {
+            "label": "Precizē kontroles ekstrakcijas kritērijus, piemēram, atbilstības kritērijus."
+        },
+        "sizeOfControlGroup": {
+            "label": "Kontroles grupas lielums"
+        },
+        "sizeOfControlGroupEstimationOrExact": {
+            "label": "Kontroles grupas lielums (Radio Buttons)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Tā ir kontroles grupas lieluma aplēse."
+                },
+                {
+                    "key": "b",
+                    "value": "Tas ir kontroļu grupas precīzs lielums."
+                }
+            ]
+        },
+        "controlsPerPersonInStudyCohort": {
+            "label": "Cik kontroles tiek iegūtas uz vienu personu, kas pieder pie kohortas?"
+        },
+        "inclusionCriteriaForControls": {
+            "label": "Aprakstiet kontroles ekstrakcijas iekļaušanas kritērijus"
+        },
+        "exclusionCriteriaForControls": {
+            "label": "Aprakstiet iespējamos izslēgšanas kritērijus kontroļu ieguvei"
+        },
+        "ifTheGroupHasBeenFormed": "Ja kontroļu grupa ir izveidota, pamatojoties uz iepriekš izdotu atļauju, šeit norāda šādu informāciju:",
+        "previouslyIssuedPermitIssuer2": {
+            "label": "Lēmuma par atļauju izdevējs"
+        },
+        "previouslyIssuedPermitDate2": {
+            "label": "Datums"
+        },
+        "validityPeriod2": "Derīguma termiņš",
+        "previouslyIssuedPermitValidityPeriodFrom2": {
+            "label": "No"
+        },
+        "previouslyIssuedPermitValidityPeriodTo2": {
+            "label": "Līdz"
+        },
+        "previouslyIssuedPermitNumber2": {
+            "label": "Atļaujas numurs"
+        },
+        "dataExtractionAndOrderForControls": " Datu ieguves laiki un kontroles kārtība",
+        "willDataForControlsBeExtractedSimultaneously": {
+            "label": "Vai kontroles vajadzībām vajadzīgie dati tiks iegūti tajā pašā laikā un tādā pašā secībā kā dati par kohortu?"
+        },
+        "hasTheGroupRelativesFormed3": {
+            "label": "Vai radinieku grupa ir izveidota, pamatojoties uz iepriekš izsniegtu atļauju?"
+        },
+        "ifTheGroupOfRelativesHasBeenFormed": {
+            "label": "Ja radinieku grupa ir izveidota, pamatojoties uz iepriekš izsniegtu atļauju, šeit norāda šādu informāciju:"
+        },
+        "previouslyIssuedPermitIssuer3": {
+            "label": "Lēmuma par atļauju izdevējs"
+        },
+        "previouslyIssuedPermitDate3": {
+            "label": "Datums"
+        },
+        "validityPeriod3": "Derīguma termiņš",
+        "previouslyIssuedPermitValidityPeriodFrom3": {
+            "label": "No"
+        },
+        "previouslyIssuedPermitValidityPeriodTo3": {
+            "label": "Līdz"
+        },
+        "previouslyIssuedPermitNumber3": {
+            "label": "Atļaujas numurs"
+        },
+        "dataExtractionFrequency": {
+            "label": "Cik bieži dati ir jāizgūst?"
+        },
+        "dataExtractionFrequencyMultipleTimesInformation": {
+            "label": "Atkārtotas ieguves gadījumā informāciju par katru datu izguves procesu sniedz atsevišķi pasūtījuma instrukcijās."
+        },
+        "dataNeedsToBeExtractedEvery": {
+            "label": "Dati ir jāizgūst katru",
+            "tooltip": "Ja vēlaties, lai datus noteiktā laikposmā izgūtu vairākas reizes, ņemiet vērā, ka dažos gadījumos definīcijas un datu vākšanas metode pārskatīšanas periodā var mainīties. Jāņem vērā, ka maksimālais datu ieguves biežums ir katru ceturksni."
+        },
+        "specifyOther": {
+            "label": "Norādīt “Cits”"
+        },
+        "moreInfoOnExtractionPeriods": {
+            "label": "Sniedziet plašāku informāciju par ieguves periodiem/laikiem"
+        },
+        "orderOfControlsDataExtraction": {
+            "label": "Ja tas ietekmē datu iegūšanas rezultātus, kādā secībā kontroles dati tiks iegūti? Iesniedziet ekstrakcijas posmu numurētu sarakstu. Piemēram: 1. Datu turētājs A; 2. Datu turētājs B; 3. Datu turētājs C"
+        },
+        "definingTheExtractionCriteria": "Radinieku ieguves kritēriju noteikšana:",
+        "willRelativesBeExtracted": {
+            "label": "Vai kohortai tiks iegūti radinieki?"
+        },
+        "willSameDataBeExtractedForRelatives": {
+            "label": "Vai par radiniekiem tiks iegūti tādi paši dati kā par kohortu?"
+        },
+        "whichDataHoldersForRelatives": "No kāda(-iem) datu turētāja(-iem) tiks iegūti dati par radiniekiem?",
+        "whichDatabaseForRelatives": "No kuras(-ām) datubāzes(-ām)/reģistriem/reģistriem tiks iegūti dati par radiniekiem?",
+        "whichDatasetsForRelatives": "No kura(-iem) datu kopas ieraksta(-iem)/reģistra(-iem) tiks iegūti dati par radiniekiem?",
+        "variablesForDataExtractionRelatives": {
+            "label": "Ja informācija ir pieejama, uzskaita mainīgos lielumus, kas jāizmanto datu izgūšanā. Izmanto precīzus terminus, ko attiecīgais(-ie) datu turētājs(-i) norādījis metadatu katalogā."
+        },
+        "timePeriodForDataExtractionRelatives": {
+            "label": "Par kādu(-iem) laikposmu(-iem) datu kopas ieraksti tiks izgūti?"
+        },
+        "relationshipToStudyCohort": {
+            "label": "Noteikt radinieku attiecības ar personu, kas pieder pie kohortas (piemēram, vecvecāki, bioloģiskie vecāki, māte)"
+        },
+        "sizeOfRelativesGroup": {
+            "label": "Radinieku grupas lielums"
+        },
+        "sizeOfRelativesGroupEstimateOrExact": {
+            "label": "Radinieku grupas lielums (radiopogas)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Tā ir radinieku grupas lieluma aplēse."
+                },
+                {
+                    "key": "b",
+                    "value": "Tas ir radinieku grupas precīzs lielums."
+                }
+            ]
+        },
+        "willDataForRelativesBeExtractedSimultaneously": {
+            "label": "Vai dati par radiniekiem tiks iegūti vienlaikus un tādā pašā secībā kā dati par kohortu?"
+        },
+        "dataExtractionFrequencyRelatives": {
+            "label": "Cik bieži dati ir jāizgūst?"
+        },
+        "dataNeedsToBeExtractedEveryRelatives": {
+            "label": "Dati ir jāizgūst katru",
+            "tooltip": "Ja vēlaties, lai datus noteiktā laikposmā izgūtu vairākas reizes, ņemiet vērā, ka dažos gadījumos definīcijas un datu vākšanas metode pārskatīšanas periodā var mainīties. Jāņem vērā, ka maksimālais datu ieguves biežums ir katru ceturksni."
+        },
+        "dataExtractionFrequencyMultipleTimesInformationRelatives": {
+            "label": "Atkārtotas ieguves gadījumā informāciju par katru datu izguves procesu sniedz atsevišķi pasūtījuma instrukcijās."
+        },
+        "needForDataExtractionEveryOptions": {
+            "label": "Dati ir jāizgūst katru",
+            "tooltip": "Ja vēlaties, lai datus noteiktā laikposmā izgūtu vairākas reizes, ņemiet vērā, ka dažos gadījumos definīcijas un datu vākšanas metode pārskatīšanas periodā var mainīties. Jāņem vērā, ka maksimālais datu ieguves biežums ir katru ceturksni."
+        },
+        "specifyOtherRelatives": {
+            "label": "Norādīt “Cits”"
+        },
+        "moreInfoOnExtractionPeriodsRelatives": {
+            "label": "Sniedziet plašāku informāciju par ieguves periodiem/laikiem"
+        },
+        "orderOfRelativesDataExtraction": {
+            "label": "Ja tas ietekmē datu iegūšanas rezultātus, kādā secībā tiks iegūti radinieku dati? Iesniedziet ekstrakcijas posmu numurētu sarakstu. Piemēram: 1. Datu turētājs A; 2. Datu turētājs B; 3. Datu turētājs C"
+        }
+    },
+    "section7": {
+        "section7h5": "Citi dati, kas jāapvieno",
+        "section7Description": "Citus personas datus, piemēram, datus, kas jau ir jūsu rīcībā, vai datus, kas iegūti no citām valstīm, var apvienot ar citu atļauju ar datiem, par kuriem iesniegts pieteikums šajā pieteikumā. Uzskaita informāciju par visiem papildu datiem, kas tiks apvienoti ar veselības datu piekļuves struktūras atļautajiem datiem. Ja vēlāk vēlaties apvienot citus persondatus ar veselības datu piekļuves struktūras atļautajiem datiem, jums ir jāiesniedz grozījuma pieteikums tai pašai veselības datu piekļuves struktūrai. Ja jums ir kāda cita kohorta, ko vēlaties, lai veselības datu piekļuves struktūra apvienotu ar datiem, kuriem piesakāties, jūs pēc atļaujas piešķiršanas saņemsiet norādījumus par to, kā droši piegādāt datus.",
+        "addDataPermit": "Pievienot datu atļauju",
+        "addInfo": "Pievienot informāciju",
+        "removeDataPermit": "Dzēst datu atļauju",
+        "willDataBeCombinedWithDataObtained": {
+            "label": "Vai dati, kurus pieprasāt, tiks kombinēti ar datiem, kurus esat ieguvis, vai datiem, kurus pieprasīs no citiem avotiem?"
+        },
+        "listOtherDataToBeCompined": "Uzskaitiet pārējos datus, kas jāapvieno, un šo datu avotus:",
+        "combinedCountries": {
+            "label": "Valstis"
+        },
+        "combinedDataHolders": {
+            "label": "Datu turētāji"
+        },
+        "combinedDatabaseRegistries": {
+            "label": "Datubāzes/reģistri"
+        },
+        "combinedDatasetsRegistries": {
+            "label": "Datu kopas/reģistratori"
+        },
+        "provideInformationList": {
+            "label": "Sniegt informāciju par datiem, kas jāapvieno, un plānoto apvienošanas metodi",
+            "tooltip": "Attiecīgā gadījumā sniedz šādu informāciju: datu kopa, datņu skaits, datņu formāts, datņu lielums, īpašas piezīmes (vai ir tieši/netieši identifikatori, dati būtu pseidonimizēti utt.)"
+        },
+        "dataset": {
+            "label": "Datu kopa"
+        },
+        "numberOfFiles": {
+            "label": "Datņu skaits"
+        },
+        "formatOfFiles": {
+            "label": "Datņu formāts"
+        },
+        "sizeOfFiles": {
+            "label": "Datņu apjoms"
+        },
+        "notes": {
+            "label": "Piezīmes"
+        },
+        "listAnyOtherDataPermit": "Šeit norādiet visas citas datu atļaujas, kas izdotas par to pašu projektu. Atļaujām jābūt derīgām datu apstrādes laikā:",
+        "otherPermits": {
+            "label": "Citas atļaujas: Atļaujas izdevējs, izdošanas datums, derīguma termiņš, identifikācijas informācija"
+        },
+        "permitIssuer": {
+            "label": "Atļaujas izdevējs"
+        },
+        "permitStartDateOfIssue": {
+            "label": "Izdošanas datums"
+        },
+        "permitEndDateOfIssue": {
+            "label": "Beigu datums"
+        },
+        "permitIdentificationInformation": {
+            "label": "Atļaujas identifikācijas informācija"
+        },
+        "attachmentOfPermitDocuments": {
+            "label": "Ja datu kopas ieraksti ietver atļaujas, ko izdevušas citas puses, vai tie ir savākti ar piekrišanu, pievienojiet atļaujas dokumentus šeit."
+        },
+        "otherPermitApplications": {
+            "label": "Vai jums ir vēl citi izskatīšanā esoši atļaujas pieteikumi?"
+        },
+        "listTheOtherData": "Uzskaitiet pārējos datus, kas jāapvieno, un šo datu avotus:",
+        "applicationIssuer": {
+            "label": "Emitents"
+        },
+        "dateOfSubmittingTheApplication": {
+            "label": "Pieteikuma iesniegšanas datums"
+        },
+        "identificationCode": {
+            "label": "Atļaujas identifikācijas kods"
+        }
+    },
+    "section8": {
+        "section8h5": "Datu apstrāde, datu aizsardzība un aizsardzības pasākumi datu neatļautas izmantošanas novēršanai",
+        "section8Description": "Saskaņā ar EVDT regulas priekšlikuma 73. panta 1. punktu veselības datu piekļuves struktūras nodrošina piekļuvi elektroniskajiem veselības datiem tikai drošā apstrādes vidē.",
+        "addPerson": "Pievienot dalībnieku",
+        "removePerson": "Noņemt personu",
+        "technicalRequirementsForEnvironment": {
+            "label": "Šeit uzskaitiet visas tehniskās prasības drošai apstrādes videi."
+        },
+        "nameWebsiteAddressForEnvironment": {
+            "label": "Ja jau zināt, kuru apstrādes vidi vēlaties izmantot, kāds ir tās nosaukums un kas to sniedz? Šeit norādiet drošas apstrādes vides nosaukumu un nodrošinātāju."
+        },
+        "healthDataAccessBody": "Veselības datu piekļuves struktūra sniegs datus, tiklīdz jūsu pieteikums būs apstrādāts, ja jums būs piešķirta datu atļauja. Veselības datu piekļuves struktūra saglabās pseidonimizācijas atslēgu un datu ieguvei izmantotos ieguves noteikumus un dokumentāciju. Datu atļauju piešķirs tikai uz laiku, kas nepieciešams pieprasīto mērķu sasniegšanai. Atļauju var piešķirt uz laiku, kas nepārsniedz 10 gadus. Pēc datu lietotāja pieprasījuma šo termiņu var pagarināt vienu reizi, pamatojoties uz argumentiem un dokumentiem, kas pamato pagarinājumu (EVDT regulas priekšlikums, 68. panta 12. punkts). Vajadzības gadījumā izmantošanas periodu var pagarināt, iesniedzot pieteikumu datu atļaujas grozīšanai.",
+        "whenDataNeeded": {
+            "label": "Kad jums ir vajadzīgi dati?",
+            "tooltip": "Kopumā veselības datu piekļuves struktūra pieprasīs datu turētājiem datu izgūšanu, tiklīdz jūsu pieteikums būs apstrādāts. Ja vēlaties saņemt datus vēlāk, norādiet tos šeit.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Iespējami drīz pēc šā pieteikuma apstrādes"
+                },
+                {
+                    "key": "b",
+                    "value": "Vēlāk, kad?"
+                }
+            ]
+        },
+        "ifLaterWhen": {
+            "label": "Vēlāk, kad?"
+        },
+        "informationWhichDataCanAccess": {
+            "label": "Sniedziet informāciju par laikposmu, kurā datiem var piekļūt."
+        },
+        "frequencyOfAccessOrDataUpdates": {
+            "label": "Kāds ir šīs piekļuves biežums vai datu atjaunināšanas biežums?"
+        },
+        "estimatedStartAndEnd": {
+            "label": "Kādi ir plānotie tā perioda sākuma un beigu datumi, kurā elektroniskie veselības dati ir vajadzīgi apstrādei?",
+            "tooltip": "Šis periods var būt pieci gadi. Ar papildu atļauju sākotnējo atļauju var pagarināt vēl uz pieciem gadiem."
+        },
+        "estimatedStartDatesForDataProcessing": {
+            "label": "No"
+        },
+        "estimatedEndDatesForDataProcessing": {
+            "label": "Līdz"
+        },
+        "ifStoreNeeded": "Ja dati ir jāsaglabā pēc apstrādes, šeit norādiet neaktīvas datu glabāšanas periodu.",
+        "startPeriodOfInactiveDataStorage": {
+            "label": "No"
+        },
+        "endPeriodOfInactiveDataStorage": {
+            "label": "Līdz"
+        },
+        "willTheDataBeTransferred": {
+            "label": "Vai dati tiks pārsūtīti ārpus ES vai EEZ?",
+            "tooltip": "Eiropas Datu aizsardzības kolēģija (EDAK) ir noteikusi trīs kumulatīvus kritērijus, lai apstrādes darbību kvalificētu kā nosūtīšanu: Uz pārzini vai apstrādātāju (“eksportētājs”) attiecībā uz konkrēto apstrādi attiecas VDAR. Eksportētājs izpauž, pārsūtot, vai citādi dara pieejamus personas datus, uz kuriem attiecas šī apstrāde, citam pārzinim, kopīgam pārzinim vai apstrādātājam (“importētājs”). Importētājs atrodas trešā valstī neatkarīgi no tā, vai uz šo importētāju attiecas VDAR attiecībā uz konkrēto apstrādi saskaņā ar 3. pantu vai tas ir starptautiska organizācija. Vairāk informācijas: https://www.edpb.europa.eu/system/files/2023-02/edpb_guidelines_05-2021_interplay_between_the_application_of_art3-chapter_v_of_the_gdpr_v2_en_0.pdf"
+        },
+        "whichCountriesDataBeProcessed": {
+            "label": "Kurā valstī/valstīs ārpus ES/EEZ tiks apstrādāti dati?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Diagnostika"
+                },
+                {
+                    "key": "b",
+                    "value": "Epidemioloģijas"
+                },
+                {
+                    "key": "c",
+                    "value": "Pacientu pārvaldība"
+                },
+                {
+                    "key": "d",
+                    "value": "Pacienta drošība"
+                },
+                {
+                    "key": "e",
+                    "value": "Profilakse un ārstēšana"
+                },
+                {
+                    "key": "f",
+                    "value": "Sabiedrības veselības politika"
+                },
+                {
+                    "key": "g",
+                    "value": "Veselības aprūpes iestāžu organizācija"
+                },
+                {
+                    "key": "h",
+                    "value": "Izpratne par slimībām"
+                },
+                {
+                    "key": "i",
+                    "value": "Citi"
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEU": {
+            "label": "Kāpēc dati tiks nosūtīti ārpus ES vai EEZ?"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47": {
+            "label": "47. pants: Nosūtīšana, pamatojoties uz atbilstības lēmumu"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47Options": {
+            "label": "Kāpēc dati tiks pārsūtīti ārpus ES saskaņā ar 47. panta iespējām?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Personas datu nosūtīšana trešai valstij vai starptautiskai organizācijai var notikt, ja Komisija saskaņā ar Regulas (ES) 2016/679 45. panta 3. punktu vai Direktīvas (ES) 2016/680 36. panta 3. punktu ir nolēmusi, ka trešā valsts, šīs trešās valsts teritorija vai viens vai vairāki konkrēti sektori, vai attiecīgā starptautiskā organizācija nodrošina pienācīgu aizsardzības līmeni un ja personas dati tiek nosūtīti tikai tādēļ, lai ļautu veikt pārziņa kompetencē esošos uzdevumus."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Savienības iestādes un struktūras informē Komisiju un Eiropas Datu aizsardzības uzraudzītāju par gadījumiem, kad tās uzskata, ka trešā valsts, trešās valsts teritorija vai viens vai vairāki konkrēti sektori, vai starptautiska organizācija nenodrošina pietiekamu aizsardzības līmeni 1. punkta nozīmē."
+                },
+                {
+                    "key": "c",
+                    "value": "c. Savienības iestādes un struktūras veic vajadzīgos pasākumus, lai izpildītu Komisijas pieņemtos lēmumus, ja tā saskaņā ar Regulas (ES) 2016/679 45. panta 3. vai 5. punktu vai Direktīvas (ES) 2016/680 36. panta 3. vai 5. punktu konstatē, ka trešā valsts, trešās valsts teritorija vai viens vai vairāki konkrēti sektori, vai starptautiska organizācija nodrošina vai vairs nenodrošina pietiekamu aizsardzības līmeni."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48": {
+            "label": "48. pants: Pārsūtīšana, kurai piemērojamas atbilstošas garantijas"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48bOptions": {
+            "label": "Kāpēc dati tiks nosūtīti ārpus ES saskaņā ar 48.b panta iespējām?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "I. juridiski saistošs un izpildāms akts starp publiskām iestādēm vai struktūrām"
+                },
+                {
+                    "key": "b",
+                    "value": "II. Datu aizsardzības standartklauzulas, ko Komisija pieņēmusi saskaņā ar 96. panta 2. punktā minēto pārbaudes procedūru"
+                },
+                {
+                    "key": "c",
+                    "value": "III. Standarta datu aizsardzības klauzulām, ko pieņem Eiropas datu aizsardzības uzraudzītājs un apstiprina Komisija saskaņā ar 96. panta 2. punktā minēto pārbaudes procedūru; L 295/78 LV Eiropas Savienības Oficiālais Vēstnesis 21.11.2018."
+                },
+                {
+                    "key": "d",
+                    "value": "IV. Ja apstrādātājs nav Savienības iestāde vai struktūra — saistošiem uzņēmuma noteikumiem, rīcības kodeksiem vai sertifikācijas mehānismiem saskaņā ar Regulas (ES) 2016/679 46. panta 2. punkta b), e) un f) apakšpunktu."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48a": {
+            "label": "a. Ja nav pieņemts lēmums saskaņā ar Regulas (ES) 2016/679 45. panta 3. punktu vai Direktīvas (ES) 2016/680 36. panta 3. punktu, pārzinis vai apstrādātājs var nosūtīt personas datus uz trešo valsti vai starptautisku organizāciju tikai tad, ja pārzinis vai apstrādātājs ir sniedzis atbilstošas garantijas un ar nosacījumu, ka datu subjektiem ir pieejamas īstenojamas datu subjektu tiesības un efektīvi tiesiskās aizsardzības līdzekļi. "
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48b": {
+            "label": "b. Pienācīgas garantijas, kas minētas 1. punktā, var paredzēt, neprasot īpašu atļauju no Eiropas Datu aizsardzības uzraudzītāja:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48c": {
+            "label": "c. Saskaņā ar Eiropas Datu aizsardzības uzraudzītāja atļauju 1. punktā minētās atbilstošās garantijas var paredzēt arī, jo īpaši:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48cOpt": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Līguma klauzulas starp pārzini vai apstrādātāju un personas datu pārzini, apstrādātāju vai saņēmēju trešā valstī vai starptautiskā organizācijā."
+                },
+                {
+                    "key": "b",
+                    "value": "Noteikumiem, kuri iekļaujami administratīvajās vienošanās starp publiskām iestādēm vai struktūrām un kuri ietver īstenojamas un efektīvas datu subjektu tiesības."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48d": {
+            "label": "D. Eiropas Datu aizsardzības uzraudzītāja atļaujas, pamatojoties uz Regulas (EK) Nr. 45/2001 9. panta 7. punktu, paliek spēkā līdz brīdim, kad Eiropas Datu aizsardzības uzraudzītājs vajadzības gadījumā groza, aizstāj vai atceļ."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48e": {
+            "label": "e. Savienības iestādes un struktūras informē Eiropas Datu aizsardzības uzraudzītāju par to gadījumu kategorijām, kuros piemēro šo pantu."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle49": {
+            "label": "49. pants: Datu nosūtīšana vai izpaušana, kas saskaņā ar Savienības tiesību aktiem nav atļauta"
+        },
+        "legalBasisForTransferringTheDataOutsideEU": {
+            "label": "Kāds ir juridiskais pamats datu nosūtīšanai ārpus ES vai EEZ?",
+            "tooltip": "Plašāka informācija Vispārīgās datu aizsardzības regulas 5. nodaļā: <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679#d1e4227-1-1</a>",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Nosūtīšanas valsts/teritorija/starptautiskā organizācija nodrošina pietiekamu aizsardzības līmeni saskaņā ar Eiropas Komisijas lēmumu (VDAR 35. pants)"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Datu pārzinis vai apstrādātājs ir nodrošinājis atbilstošas garantijas, un datu subjektiem ir pieejamas īstenojamas datu subjekta tiesības un efektīvi tiesiskās aizsardzības līdzekļi (VDAR 46. pants)."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Cits izņēmuma juridiskais pamats (ja nav piemērotu garantiju saskaņā ar 46. pantu)"
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUOtherOptions": {
+            "label": "3. Cits izņēmuma juridiskais pamats (ja nav piemērotu garantiju saskaņā ar 46. pantu)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Datu subjekts ir skaidri piekritis ierosinātajai nosūtīšanai pēc tam, kad ir informēts par iespējamiem šādas nosūtīšanas riskiem datu subjektam, jo nav pieņemts lēmums par aizsardzības līmeņa pietiekamību un nav atbilstošu garantiju."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Nosūtīšana ir vajadzīga, lai izpildītu līgumu starp datu subjektu un pārzini vai īstenotu pasākumus pirms līguma noslēgšanas, kas veikti pēc datu subjekta pieprasījuma."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Nosūtīšana ir vajadzīga, lai noslēgtu vai izpildītu līgumu, kas datu subjekta interesēs noslēgts starp pārzini un citu fizisku vai juridisku personu."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Nodošana ir nepieciešama svarīgu sabiedrības interešu dēļ."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Pārsūtīšana ir nepieciešama, lai celtu, īstenotu vai aizstāvētu likumīgas prasības."
+                },
+                {
+                    "key": "f",
+                    "value": "6. Nosūtīšana ir nepieciešama, lai aizsargātu datu subjekta vai citu personu būtiskas intereses, ja datu subjekts ir fiziski vai juridiski nespējīgs dot piekrišanu."
+                },
+                {
+                    "key": "g",
+                    "value": "7. Pārsūtīšana notiek no reģistra, kas saskaņā ar Savienības vai dalībvalsts tiesību aktiem ir paredzēts, lai sniegtu informāciju sabiedrībai, un kas ir pieejams vai nu sabiedrībai kopumā, vai jebkurai personai, kura var pierādīt likumīgas intereses, bet tikai tiktāl, ciktāl konkrētajā gadījumā ir izpildīti Savienības vai dalībvalsts tiesību aktos paredzētie konsultēšanās nosacījumi."
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUc1": {
+            "label": "1. Datu subjekts ir skaidri piekritis ierosinātajai nosūtīšanai pēc tam, kad ir informēts par iespējamiem šādas nosūtīšanas riskiem datu subjektam, jo nav pieņemts lēmums par aizsardzības līmeņa pietiekamību un nav atbilstošu garantiju. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc2": {
+            "label": "2. Nosūtīšana ir vajadzīga, lai izpildītu līgumu starp datu subjektu un pārzini vai īstenotu pasākumus pirms līguma noslēgšanas, kas veikti pēc datu subjekta pieprasījuma. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc3": {
+            "label": "3. Nosūtīšana ir vajadzīga, lai noslēgtu vai izpildītu līgumu, kas datu subjekta interesēs noslēgts starp pārzini un citu fizisku vai juridisku personu."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc4": {
+            "label": "4. Nodošana ir nepieciešama svarīgu sabiedrības interešu dēļ."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc5": {
+            "label": "5. Pārsūtīšana ir nepieciešama, lai celtu, īstenotu vai aizstāvētu likumīgas prasības."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc6": {
+            "label": "6. Nosūtīšana ir nepieciešama, lai aizsargātu datu subjekta vai citu personu būtiskas intereses, ja datu subjekts ir fiziski vai juridiski nespējīgs dot piekrišanu."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc7": {
+            "label": "7. Pārsūtīšana notiek no reģistra, kas saskaņā ar Savienības vai dalībvalsts tiesību aktiem ir paredzēts, lai sniegtu informāciju sabiedrībai, un kas ir pieejams vai nu sabiedrībai kopumā, vai jebkurai personai, kura var pierādīt likumīgas intereses, bet tikai tiktāl, ciktāl konkrētajā gadījumā ir izpildīti Savienības vai dalībvalsts tiesību aktos paredzētie konsultēšanās nosacījumi."
+        },
+        "safeguardsAreProvidedByReferringGDCP": {
+            "label": "Šos aizsardzības pasākumus nodrošina:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Juridiski saistošs un izpildāms akts starp publiskām iestādēm vai struktūrām"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Saistoši uzņēmuma noteikumi saskaņā ar 47. pantu"
+                },
+                {
+                    "key": "c",
+                    "value": "3. Datu aizsardzības standartklauzulas, ko Komisija pieņēmusi saskaņā ar 93. panta 2. punktā minēto pārbaudes procedūru"
+                },
+                {
+                    "key": "d",
+                    "value": "4. Standarta datu aizsardzības klauzulas, ko pieņēmusi uzraudzības iestāde un apstiprinājusi Komisija saskaņā ar 93. panta 2. punktā minēto pārbaudes procedūru"
+                },
+                {
+                    "key": "e",
+                    "value": "5. Apstiprinātu rīcības kodeksu saskaņā ar 40. pantu kopā ar trešās valsts pārziņa vai apstrādātāja saistošām un izpildāmām saistībām piemērot atbilstošas garantijas, tostarp attiecībā uz datu subjektu tiesībām;"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Apstiprinātu sertifikācijas mehānismu saskaņā ar 42. pantu kopā ar trešās valsts pārziņa vai apstrādātāja saistošām un izpildāmām saistībām piemērot atbilstošas garantijas, tostarp attiecībā uz datu subjektu tiesībām;"
+                }
+            ]
+        },
+        "whichOrganizationWillBeTheControllerOfData": {
+            "label": "Kura(-as) organizācija(-as) vai fiziska persona būs to datu pārzinis, kuri tiks izveidoti, pamatojoties uz šo pieteikumu?",
+            "tooltip": "Datu pārzinis nosaka personas datu apstrādes nolūkus un līdzekļus. Citiem vārdiem sakot, datu pārzinis lemj par to, kā un kāpēc veikt datu apstrādes darbību. Datu pārzinis var būt juridiska persona, piemēram, uzņēmums, MVU, publiska iestāde, aģentūra vai cita struktūra. Vairāk informācijas: https://edpb.europa.eu/sme-data-protection-guide/data-controller-data-processor_en"
+        },
+        "complyWithDataMinimisationPrinciple": {
+            "label": "Kā jūs, apstrādājot datus, ievērojat datu minimizēšanas principu (ES Vispārīgā datu aizsardzības regula)?",
+            "tooltip": "VDAR 5. panta 1. punkta c) apakšpunkts: “Personas dati ir adekvāti, atbilstīgi un nepārsniedz to, kas ir nepieciešams saistībā ar nolūkiem, kādos tos apstrādā (“datu minimizēšana”).”; "
+        },
+        "complyWithDataMinimisationPrincipleNotEUMember": {
+            "label": "Kā jūs, apstrādājot datus, ievērojat datu minimizēšanas principu (ES Datu aizsardzības regula)? ",
+            "tooltip": "ES DPR 4. panta 1.c punkts: “Personas dati ir adekvāti, atbilstīgi un nepārsniedz to, kas ir nepieciešams nolūkiem, kādos tos apstrādā (“datu minimizēšana”)”."
+        },
+        "protectionAndSecurityStatements": {
+            "label": "Lai turpinātu šo pieteikumu, jums ir jāapstiprina šādi paziņojumi (ar datu aizsardzību un drošību saistīti paziņojumi):"
+        },
+        "protectionAndSecurityStatementsA": {
+            "label": "1. Apstiprinu, ka tad, ja veselības datu piekļuves struktūra man piešķir datus, kuriem es pieteikšos, es tos izmantošu tikai šajā pieteikuma veidlapā norādītajam(-iem) mērķim(-iem)."
+        },
+        "protectionAndSecurityStatementsB": {
+            "label": "2. ES saprotu, ka datu kopēšana no drošas apstrādes vides ir aizliegta."
+        },
+        "protectionAndSecurityStatementsC": {
+            "label": "3. ES saprotu, ka ir aizliegts veikt jebkādus ekrānuzņēmumus vai fotoattēlus no ierīces ekrāna, kad tie atrodas drošā apstrādes vidē."
+        },
+        "protectionAndSecurityStatementsD": {
+            "label": "4. Man ir pietiekami drošības pasākumi (piemēram, ugunsmūris), lai aizsargātu dažādos tīklus, ar kuriem ir savienotas ierīces, ko izmanto, lai piekļūtu drošai apstrādes videi."
+        },
+        "protectionAndSecurityStatementsE": {
+            "label": "5. ES saprotu, ka atkārtotas identifikācijas mēģinājumi ir aizliegti un ka veselības datu piekļuves struktūra var piemērot sodus saskaņā ar Eiropas Veselības datu regulas 43. pantu."
+        },
+        "onlyThePeopleMentioned": "Piekļuve datu apstrādei drošā apstrādes vidē tiks piešķirta tikai datu atļaujā minētajām personām.",
+        "sameAsContactPerson": {
+            "label": "Tāpat kā 3. iedaļā minētā kontaktpersona?"
+        },
+        "listTheFullNames": {
+            "label": "Uzskaitiet visu to cilvēku vārdus, uzvārdus, piederību un e-pasta adreses, kuri apstrādās datus."
+        },
+        "fullName": {
+            "label": "Pilns nosaukums"
+        },
+        "affiliation": {
+            "label": "Piederība"
+        },
+        "emailAddress": {
+            "label": "E-pasta adrese"
+        },
+        "lawfulnessOfProcessing": "Apstrādes likumība:",
+        "legalBasisForProcessingPersonalData": {
+            "label": "Kāds ir juridiskais pamats to personas datu apstrādei, kuriem piesakāties kopā ar šo pieteikuma veidlapu?"
+        },
+        "lawfulForProcessingPersonalData": {
+            "label": "To personas datu apstrāde, kuriem piesakāties kopā ar šo pieteikuma veidlapu, ir likumīga tikai tad, ja un ciktāl ir piemērojams vismaz viens no turpmāk minētajiem nosacījumiem (saskaņā ar ES Vispārīgās datu aizsardzības regulas (Regula (ES) 2016/679) 6. panta 1. punktu):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Datu subjekts ir devis piekrišanu savu personas datu apstrādei vienam vai vairākiem konkrētiem nolūkiem;"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Apstrāde ir vajadzīga līguma, kura līgumslēdzēja puse ir datu subjekts, izpildei vai pasākumu veikšanai pēc datu subjekta pieprasījuma pirms līguma noslēgšanas."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Apstrāde ir vajadzīga, lai izpildītu juridisku pienākumu, kas noteikts datu pārzinim."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Apstrāde ir nepieciešama, lai aizsargātu datu subjekta vai citas fiziskas personas būtiskas intereses."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Apstrāde ir vajadzīga, lai izpildītu uzdevumu, ko veic sabiedrības interesēs vai īstenojot pārzinim likumīgi piešķirtās oficiālās pilnvaras"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Apstrāde ir vajadzīga pārziņa vai trešās personas leģitīmo interešu ievērošanai, izņemot, ja datu subjekta intereses vai pamattiesības un pamatbrīvības, kurām nepieciešama persondatu aizsardzība, ir svarīgākas par šādām interesēm, jo īpaši, ja datu subjekts ir bērns."
+                }
+            ]
+        },
+        "lawfulForProcessingPersonalDataNaturalPersonOption": {
+            "key": "F",
+            "value": "6. Apstrāde ir vajadzīga pārziņa vai trešās personas leģitīmo interešu ievērošanai, izņemot, ja datu subjekta intereses vai pamattiesības un pamatbrīvības, kurām nepieciešama persondatu aizsardzība, ir svarīgākas par šādām interesēm, jo īpaši, ja datu subjekts ir bērns."
+        },
+        "otherLegalBasisForProcessingPersonalData": {
+            "label": "Citi, kādi?"
+        },
+        "legalBasisForProcessingCombinedData": {
+            "label": "Kāds ir juridiskais pamats citu datu apstrādei, kurus jūs apvienosiet ar datiem, par kuriem iesniegts pieteikums? "
+        },
+        "otherLegalBasisForProcessingCombinedData": {
+            "label": "Citi, kādi?"
+        },
+        "europeanUnionInstitution": {
+            "label": "Tādu personas datu apstrāde, par kuriem piesakāties kopā ar šo pieteikuma veidlapu, ir likumīga tikai tad, ja un ciktāl ir piemērojams vismaz viens no turpmāk minētajiem nosacījumiem (saskaņā ar ES Datu aizsardzības regulas (Regula (ES) 2018/1725) 5. panta 1. punktu):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Apstrāde ir vajadzīga, lai izpildītu uzdevumu, ko veic sabiedrības interesēs vai īstenojot Savienības iestādei vai struktūrai likumīgi piešķirtās oficiālās pilnvaras;"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Apstrāde ir vajadzīga, lai izpildītu kādu juridisku pārziņa pienākumu."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Apstrāde ir vajadzīga līguma, kura līgumslēdzēja puse ir datu subjekts, izpildei vai pasākumu veikšanai pēc datu subjekta pieprasījuma pirms līguma noslēgšanas."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Datu subjekts ir devis piekrišanu savu persondatu apstrādei vienam vai vairākiem konkrētiem nolūkiem."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Apstrāde ir vajadzīga, lai aizsargātu datu subjekta vai citas fiziskas personas vitālas intereses."
+                }
+            ]
+        },
+        "legalBasisForProcessingApplicationData": {
+            "label": "Kāds ir juridiskais pamats to personas datu apstrādei, kuriem piesakāties kopā ar šo pieteikuma veidlapu?"
+        },
+        "otherLegalBasisForProcessingApplicationData": {
+            "label": "Citi, kādi?"
+        },
+        "legalBasisForProcessingCombinedApplicationData": {
+            "label": "Kāds ir juridiskais pamats citu datu apstrādei, kurus jūs apvienosiet ar datiem, par kuriem iesniegts pieteikums?"
+        },
+        "otherLegalBasisForProcessingCombinedApplicationData": {
+            "label": "Citi, kādi?"
+        },
+        "attachResearchPermitIfRequired": {
+            "label": "Ja jūsu pētījumam ir vajadzīga pētniecības atļauja no jūsu piederības organizācijas, pievienojiet pētniecības atļauju."
+        }
+    },
+    "section9": {
+        "section9h5": "Papildu informācija",
+        "section9Description": "Šeit varat sniegt sīkāku informāciju par jebkuru no jūsu pieteikuma sadaļām. Norādiet sadaļas numuru un jautājumu, uz kuru attiecas jūsu komentārs.",
+        "additionalInformation": {
+            "label": "Papildu informācija vai papildu piezīmes",
+            "tooltip": "Šeit varat sniegt sīkāku informāciju par jebkuru no jūsu pieteikuma sadaļām. Norādiet sadaļas numuru un jautājumu, uz kuru attiecas jūsu komentārs. Ierosinājums tehniskai īstenošanai: Alternatīvi varētu būt veids, kā ļaut pieteikuma iesniedzējam sasaistīt informāciju ar konkrētām veidlapas daļām, lai atvieglotu HDAB darbu."
+        },
+        "additionalAttachment": {
+            "label": "Papildu pielikums. Šai lietotnei nepievienojiet veselības datus vai personas datus.",
+            "tooltip": "Ja jums ir kāds cits pielikums, ko uzskatāt par būtisku pieteikuma apstrādei un kas ir nepieciešams, lai veselības datu piekļuves struktūra to varētu redzēt, pievienojiet to šeit. Aprakstiet tās nozīmi iepriekšējā teksta laukā."
+        }
+    },
+    "section10": {
+        "section10h5": "Informācijas apstiprinājums",
+        "section10Description": "Pirms šā pieteikuma apstrādes jums kā pieteikuma iesniedzējam ir jāapstiprina apstrādes maksa.",
+        "submitYouApplicationText": "Lai iesniegtu pieteikumu, jums ir jāapstiprina:",
+        "acceptHealthDataBody": {
+            "label": "ES piekrītu, ka veselības datu struktūra apkopos statistiku un man nebūs piekļuves datiem, kas izmantoti statistikas sagatavošanai."
+        },
+        "awareProcessingFee": {
+            "label": "ES apzinos, ka par mana pieteikuma apstrādi tiks iekasēta apstrādes nodeva. To piemēros arī anulēta pieprasījuma vai negatīva lēmuma gadījumā."
+        },
+        "awareChargeFee": {
+            "label": "ES apzinos, ka datu turētājs(-i) var iekasēt maksu."
+        },
+        "awareInformationCorrect": {
+            "label": "Apstiprinu, ka manis sniegtā informācija ir pareiza."
+        }
+    },
+    "commonFields": {
+        "aboutThisSection": "Par šo sadaļu",
+        "yesOrNoOptions": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Jā"
+                },
+                {
+                    "key": "b",
+                    "value": "Nē"
+                }
+            ]
+        },
+        "onceOrMultipleTimes": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Vienreiz"
+                },
+                {
+                    "key": "b",
+                    "value": "Vairākas reizes"
+                }
+            ]
+        },
+        "everyWhen": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Reizi gadā"
+                },
+                {
+                    "key": "b",
+                    "value": "Pusgada laikā"
+                },
+                {
+                    "key": "c",
+                    "value": "Ceturkšņa laikā"
+                },
+                {
+                    "key": "d",
+                    "value": "Citi"
+                }
+            ]
+        },
+        "processingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. e) apstrāde ir vajadzīga, lai izpildītu uzdevumu, ko veic sabiedrības interesēs vai īstenojot pārzinim likumīgi piešķirtās oficiālās pilnvaras;"
+                },
+                {
+                    "key": "b",
+                    "value": "2. F) apstrāde ir nepieciešama pārziņa vai trešās personas likumīgo interešu ievērošanai, izņemot gadījumus, kad datu subjekta intereses vai pamattiesības un brīvības, kurām nepieciešama personas datu aizsardzība, ir svarīgākas par šādām interesēm, jo īpaši, ja datu subjekts ir bērns."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Citi"
+                }
+            ]
+        },
+        "legalBasisForProcessingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. a) Apstrāde ir vajadzīga, lai izpildītu uzdevumu, ko veic sabiedrības interesēs vai īstenojot Savienības iestādei vai struktūrai likumīgi piešķirtās oficiālās pilnvaras."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Citi"
+                }
+            ]
+        }
+    }
+}

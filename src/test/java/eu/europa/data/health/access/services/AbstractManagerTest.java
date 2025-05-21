@@ -15,17 +15,33 @@
  */
 package eu.europa.data.health.access.services;
 
+import static eu.europa.data.health.access.Constants.AUDIT_LOG_COLLECTION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import eu.europa.data.health.access.RoutingContextMocker;
 import eu.europa.data.health.access.handlers.DBHandler;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.file.FileSystem;
+import io.vertx.core.http.HttpServerRequest;
+import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.User;
 import io.vertx.ext.mongo.MongoClient;
+import io.vertx.ext.web.FileUpload;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
@@ -34,8 +50,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.testcontainers.containers.MongoDBContainer;
 
+import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 @ExtendWith(VertxExtension.class)
@@ -46,11 +65,12 @@ class AbstractManagerTest {
 
   private static MongoClient mongoClient;
   private static DBHandler dbHandler;
-  private static AbstractManager abstractManager;
+  static AbstractManager abstractManager;
 
-  public static final String USER_ID = "1eadc727-9da3-44e9-80a0-867d291f3bf7";
+  public static final String USER_ID = "n3817490";
 
   private static final String ABSTRACT_MANAGER_COLLECTION = "abstractManagerCollection";
+
 
   @BeforeAll
   static void setUp(VertxTestContext testContext) {
@@ -146,15 +166,10 @@ class AbstractManagerTest {
   @Test
   @Timeout(value = 5, unit = TimeUnit.MINUTES)
   void testPatchEntity(Vertx vertx, VertxTestContext testContext) {
-    RoutingContext context = RoutingContextMocker.mockRoutingContext(new JsonObject()
+    JsonObject initialDocument = new JsonObject()
       .put("key", "abstractManagerTestKey").put("value", "abstractManagerTestValue")
-      .put("userId", USER_ID));
-    abstractManager.createEntity(context, ABSTRACT_MANAGER_COLLECTION);
-    assertNotNull(context.body());
-    vertx.setTimer(500, timerId -> {
-      JsonObject body = context.body().asJsonObject();
-
-      String docId = body.getString("_id");
+      .put("userId", USER_ID);
+    dbHandler.create(ABSTRACT_MANAGER_COLLECTION, initialDocument).onSuccess( docId -> {
 
       // Perform the update
       JsonObject updatedDocument = new JsonObject()
@@ -166,8 +181,8 @@ class AbstractManagerTest {
       when(updateContext.pathParam("id")).thenReturn(docId);
       abstractManager.patchEntity(updateContext, ABSTRACT_MANAGER_COLLECTION);
 
-      vertx.setTimer(1000, updateContextTimerId -> dbHandler.findById(ABSTRACT_MANAGER_COLLECTION, docId)
-          .onSuccess(result -> {
+      vertx.setTimer(500, updateContextTimerId -> dbHandler.findById(ABSTRACT_MANAGER_COLLECTION,
+          docId).onSuccess(result -> {
             assertNotNull(result);
             assertNotNull(result.getString("_id"));
             assertEquals(docId, result.getString("_id"));
@@ -308,4 +323,155 @@ class AbstractManagerTest {
       assertNotNull(context.body());
     }
   }
+
+  @Test
+  void testGetAuditLogs_withUserEnrichment(Vertx vertx, VertxTestContext testContext) {
+    JsonObject userLog = new JsonObject()
+      .put("userId", "ecas_test_1")
+      .put("object", "Project")
+      .put("action", "UPDATE");
+
+    JsonObject systemLog = new JsonObject()
+      .put("userId", "ecas_test_2")
+      .put("object", "Dataset Record")
+      .put("action", "DELETE");
+
+    // Insert logs
+    mongoClient.insert(AUDIT_LOG_COLLECTION, userLog)
+      .compose(id -> mongoClient.insert(AUDIT_LOG_COLLECTION, systemLog))
+      .onSuccess(res -> {
+
+        JsonArray users = new JsonArray()
+          .add(new JsonObject()
+            .put("ecasId", "ecas_test_1")
+            .put("firstName", "John")
+            .put("lastName", "Doe"))
+          .add(new JsonObject()
+            .put("ecasId", "ecas_test_2")
+            .put("firstName", "Jane")
+            .put("lastName", "Smith"));
+
+        JsonObject queryOptions = new JsonObject().put("users", users);
+
+        RoutingContext routingContext = RoutingContextMocker.mockRoutingContext(new JsonObject());
+
+        abstractManager.getAuditLogs(routingContext, 1, 10, "timestamp", "desc", queryOptions);
+
+        vertx.setTimer(500, updateContextTimerId -> {
+          verify(routingContext.response()).setStatusCode(200);
+          verify(routingContext.response()).end(anyString());
+          testContext.completeNow();
+        });
+      }).onFailure(testContext::failNow);
+  }
+
+  @Test
+  void testHandleFileUpload() {
+    Vertx vertxMock = mock(Vertx.class);
+    RoutingContext routingContext = RoutingContextMocker.mockRoutingContext(new JsonObject());
+    HubStoreClient hubStoreClient = mock(HubStoreClient.class);
+    HttpServerResponse response = mock(HttpServerResponse.class);
+    HttpServerRequest request = mock(HttpServerRequest.class);
+    FileUpload fileUpload = mock(FileUpload.class);
+    FileSystem fileSystem = mock(FileSystem.class);
+
+    String contentType = "text/plain";
+    String parentName = "parent";
+    String parentId = "123";
+    String fileName = "test.txt";
+    String fileContent = "Test file content";
+    Buffer fileBuffer = Buffer.buffer(fileContent);
+
+    when(routingContext.request()).thenReturn(request);
+    when(routingContext.fileUploads()).thenReturn(Collections.singletonList(fileUpload));
+    when(fileUpload.uploadedFileName()).thenReturn(fileName);
+    when(fileUpload.fileName()).thenReturn(fileName);
+    when(request.getHeader("Content-Type")).thenReturn(contentType);
+
+    when(vertxMock.fileSystem()).thenReturn(fileSystem);
+    when(fileSystem.readFile(fileName)).thenReturn(Future.succeededFuture(fileBuffer));
+    Mockito.when(response.putHeader(Mockito.anyString(), Mockito.anyString())).thenReturn(response);
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+
+    JsonObject mockResponse = new JsonObject().put("status", "ok").put("fileName", fileName);
+    when(hubStoreClient.uploadFile(any(), any(), any(), any(), any())).thenReturn(Future.succeededFuture(mockResponse));
+
+    abstractManager.handleFileUpload(routingContext, parentName, parentId, hubStoreClient, vertxMock);
+
+    verify(response).putHeader("Content-Type", "application/json");
+    verify(response).setStatusCode(201);
+    verify(response).end(mockResponse.encode());
+  }
+
+  @Test
+  void testHandleFileUpload_shouldFailOnFileReadError() {
+    Vertx vertxMock = mock(Vertx.class);
+    RoutingContext routingContext = RoutingContextMocker.mockRoutingContext(new JsonObject());
+    HubStoreClient hubStoreClient = mock(HubStoreClient.class);
+    HttpServerResponse response = mock(HttpServerResponse.class);
+    HttpServerRequest request = mock(HttpServerRequest.class);
+    FileUpload fileUpload = mock(FileUpload.class);
+    FileSystem fileSystem = mock(FileSystem.class);
+
+    String contentType = "text/plain";
+    String parentName = "parent";
+    String parentId = "123";
+    String fileName = "test.txt";
+
+    when(routingContext.request()).thenReturn(request);
+    when(routingContext.fileUploads()).thenReturn(Collections.singletonList(fileUpload));
+    when(fileUpload.uploadedFileName()).thenReturn(fileName);
+    when(fileUpload.fileName()).thenReturn(fileName);
+    when(request.getHeader("Content-Type")).thenReturn(contentType);
+    when(vertxMock.fileSystem()).thenReturn(fileSystem);
+
+    when(fileSystem.readFile(fileName)).thenReturn(Future.failedFuture(new RuntimeException("Disk error")));
+
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+    when(routingContext.response()).thenReturn(response);
+
+    abstractManager.handleFileUpload(routingContext, parentName, parentId, hubStoreClient, vertxMock);
+
+    verify(response).setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
+    verify(response).end(contains("Failed to upload file"));
+  }
+
+
+  @Test
+  void testDeleteAllEntities_shouldReturn404OnNotFoundMessage()
+    throws NoSuchFieldException, IllegalAccessException {
+    RoutingContext context = mock(RoutingContext.class);
+    HttpServerResponse response = mock(HttpServerResponse.class);
+    HttpServerRequest request = mock(HttpServerRequest.class);
+
+    when(context.request()).thenReturn(request);
+    when(context.response()).thenReturn(response);
+    when(response.putHeader(anyString(), anyString())).thenReturn(response);
+    when(response.end(anyString())).thenReturn(Future.succeededFuture());
+    Mockito.when(response.setStatusCode(Mockito.anyInt())).thenReturn(response);
+
+    User mockUser = Mockito.mock(User.class);
+    String ecasId = "n3817490";
+    // Define rules
+    Mockito.when(context.user()).thenReturn(mockUser);
+    JsonObject principal = new JsonObject().put("preferred_username", ecasId);
+    Mockito.when(context.user().principal()).thenReturn(principal);
+    Mockito.when(mockUser.get("preferred_username")).thenReturn(ecasId);
+
+    // Setup mock DB handler
+    DBHandler mockDbHandler = mock(DBHandler.class);
+    RuntimeException notFoundEx = new RuntimeException(HttpResponseStatus.NOT_FOUND.reasonPhrase());
+    when(mockDbHandler.deleteAll(eq("collectionName"), any()))
+      .thenReturn(Future.failedFuture(notFoundEx));
+    Field dbField = AbstractManager.class.getDeclaredField("dbHandler");
+    dbField.setAccessible(true);
+    dbField.set(abstractManager, mockDbHandler);
+
+    abstractManager.deleteAllEntities(context, "collectionName");
+
+    verify(response).setStatusCode(HttpResponseStatus.NOT_FOUND.code());
+    verify(response).end(contains("Not Found"));
+  }
+
 }

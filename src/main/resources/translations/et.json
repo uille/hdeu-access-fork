@@ -1,0 +1,1588 @@
+{
+    "section1": {
+        "section1h5": "Projekti andmeallikate valimine",
+        "section1Description": "Andmekasutajad peaksid taotlema üksnes selliseid andmeid, mis on piisavad, asjakohased ja piirduvad sellega, mis on vajalik nende kasutamise eesmärgi saavutamiseks;\njärgides võimalikult väheste andmete kogumise põhimõtet, mis on sätestatud ELi isikuandmete kaitse üldmääruses 58 (artikli 5 lõike 1 punkt c).\nTerviseandmetele juurdepääsu asutus hindab hoolikalt, kas teie nõuded on kooskõlas isikuandmete kaitse üldmääruses sätestatud võimalikult väheste andmete kogumise põhimõttega.",
+        "section1DescriptionDR": "Taotlus elektroonilistele terviseandmetele juurdepääsuks teiseseks kasutuseks anonüümitud statistilises vormingus",
+        "applicationDatasets": {
+            "label": "Millistest andmekogumikirje(te)st või registri(te)st ja/või jaotus(t)est tehakse väljavõtteid?"
+        },
+        "applicationCountries": {
+            "label": "Millisest riigist/millistest riikidest andmeid otsite?"
+        },
+        "applicationDataHolders": {
+            "label": "Millise(te)lt andmevaldaja(te)lt andmed võetakse?"
+        },
+        "applicationHDABs": {
+            "label": "Millisele terviseandmetele juurdepääsu asutus(t)ele soovite taotluse esitada?"
+        },
+        "applicationDatabases": {
+            "label": "Millisest andmebaasist või registrist/registritest tehakse andmetest väljavõtteid?"
+        }
+    },
+    "section2": {
+        "section2h5": "Avalik teave projekti kohta",
+        "section2Description": "Euroopa Liidu terviseandmetele juurdepääsu asutused on kohustatud avaldama oma veebisaidil teabe andmelubade, terviseandmetele juurdepääsu taotluste ja terviseandmete päringute kohta 30 tööpäeva jooksul pärast andmeloa väljaandmist või terviseandmete päringule vastamist. Selles osas palutakse teil esitada oma projekti kohta teave, mida saab üldsusega jagada. Veenduge, et see ei sisalda konfidentsiaalset teavet. Andke oma vastused tavainimestele. Andmekasutajana olete kohustatud avaldama projekti tulemused või väljundid hiljemalt 18 kuud pärast töötlemise lõpetamist või terviseandmete päringule vastuse saamist. Lisaks peate teatama terviseandmetele juurdepääsu asutusele, kui palju on eelretsenseeritud teaduspublikatsioone, poliitikadokumente ja/või regulatiivseid menetlusi, mis on läbi viidud käesoleva terviseandmetele juurdepääsu taotluse kaudu saadud andmeid kasutades.",
+        "projectName": {
+            "label": "Projekti nimi"
+        },
+        "projectLeader": {
+            "label": "Projektijuhi nimi (organisatsioon, institutsioon, erasektori üksus või füüsiline isik)",
+            "tooltip": "See on andmete kasutamise eest vastutav isik."
+        },
+        "countryOfProjectLeader": {
+            "label": "Projekti eest vastutava üksuse ametlik elukoht (riik)"
+        },
+        "purposeForWhichDataWillBeUsed": {
+            "label": "Andmete kasutamise eesmärk",
+            "tooltip": "Ühtse Euroopa terviseandmeruumi määruse eesmärgid.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Avalik huvi rahvatervise või töötervishoiu valdkonnas, nagu tegevus kaitseks tõsiste piiriüleste terviseohtude eest, rahvatervise seire või tegevus tervishoiu, sealhulgas patsiendi ohutuse, ravimite või meditsiiniseadmete kõrge kvaliteedi ja ohutuse tagamiseks."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Poliitikakujundamine ja regulatiivne tegevus avaliku sektori asutuste või liidu institutsioonide, organite või asutuste, sealhulgas reguleerivate asutuste toetamiseks tervishoiu- ja hooldussektoris nende volitustes kindlaks määratud ülesannete täitmisel."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Määruse (EÜ) nr 223/2009 artikli 3 punktis 1 määratletud statistika, näiteks tervishoiu- või hooldussektoriga seotud riiklik, rahvusvaheline ja liidu tasandi ametlik statistika."
+                },
+                {
+                    "key": "d",
+                    "value": "d. Haridus- või õppetegevus tervishoiu- või hooldussektoris kutse- või kõrghariduse tasandil."
+                },
+                {
+                    "key": "e",
+                    "value": "e. Tervishoiu- või hooldussektoriga seotud teadusuuringud, mis aitavad kaasa rahvatervisele või tervisetehnoloogia hindamisele või tagavad tervishoiu, ravimite või meditsiiniseadmete kõrge kvaliteedi ja ohutuse ning mille eesmärk on tuua kasu lõppkasutajatele, nagu patsientidele, tervishoiutöötajatele ja tervisevaldkonna administraatoritele, sealhulgas: i) toodete või teenuste väljatöötamine ja innovatsioon; ii) algoritmide treenimine, testimine ja hindamine, sealhulgas meditsiiniseadmetes, in vitro diagnostikameditsiiniseadmetes, tehisintellektisüsteemides ja digitaalsetes terviserakendustes."
+                },
+                {
+                    "key": "f",
+                    "value": "f. Hooldusabiteenuste osutamise parandamine, ravi optimeerimine ja tervishoiuteenuste osutamine, tuginedes teiste füüsiliste isikute elektroonilistele terviseandmetele."
+                }
+            ]
+        },
+        "theNatureOfTheDataDoesNotLetYouProvideADescription": {
+            "label": "Projekti olemus ei võimalda teil esitada kirjeldust"
+        },
+        "descriptionOfTheProject": {
+            "label": "Palun selgitage, miks Te ei saa andmeid kirjeldada.",
+            "tooltip": "Põhjus(t)e selgitust ei avaldata."
+        },
+        "summaryOfTheProject": {
+            "label": "Projekti kokkuvõte",
+            "tooltip": "Tavakodaniku sõnul esitage lühikokkuvõte projekti eesmärkidest, kasutatavatest andmetest, meetoditest ja oodatavatest tulemustest (250 sõna või vähem)"
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummary": {
+            "label": "Teie projekti laad ei võimalda teil esitada kokkuvõtet"
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason": {
+            "label": "Palun selgitage, miks te ei saa esitada oma projekti kokkuvõtet.",
+            "tooltip": "Põhjus(t)e selgitust ei avaldata."
+        }
+    },
+    "section3": {
+        "section3h5": "Taotleja ja kontaktisiku andmed",
+        "section3Description": "Andmeloa taotluses tuleks märkida kas juriidilise või füüsilise isiku nimi ja kontaktandmed. Samuti tuleks lisada teave selle kontaktisiku kohta, kes vastab taotlusega seotud päringutele, olgu see taotlejaga sama isik või muu isik. Kui kontaktisik ei ole taotlejaga sama isik, tuleks selgitada tema suhet, nt töölepingu alusel.",
+        "section3DescriptionRequest": "Andmetaotluses tuleks märkida kas juriidilise või füüsilise isiku nimi ja kontaktandmed. Samuti tuleks lisada teave selle kontaktisiku kohta, kes vastab taotlusega seotud päringutele, olgu see taotlejaga sama isik (kui taotleja on füüsiline isik) või muu isik.\nKui kontaktisik ei ole taotlejaga sama isik, tuleks selgitada tema suhet, nt töölepingu alusel.",
+        "applyingForDataOnBehalfOfPublicSector": {
+            "label": "Kas taotlete andmeid avaliku sektori asutuse või Euroopa Liidu institutsiooni, organi või asutuse nimel?"
+        },
+        "applyingForDataForCarryingOutTasks": {
+            "label": "Kas taotlete andmeid oma organisatsiooni/asutuse volitustes sätestatud ülesannete täitmiseks?",
+            "tooltip": "Teie organisatsiooni/asutuse pädevusse kuuluvad ülesanded tähendavad siseriiklikul või Euroopa Liidu õigusel põhinevaid ülesandeid."
+        },
+        "legalOrNaturalPerson": {
+            "label": "Kas taotleja on juriidiline või füüsiline isik?",
+            "tooltip": "Füüsiline isik = füüsiline isik, üksikisik, juriidiline isik = äriühing, organisatsioon või ühendus.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Juriidiline isik"
+                },
+                {
+                    "key": "b",
+                    "value": "Füüsiline isik",
+                    "info": "(Kui valite selle variandi, kinnitate, et taotlete andmeid eraisikuna ilma igasuguse kuuluvuseta.)"
+                }
+            ]
+        },
+        "legalPerson": "Juriidiline isik",
+        "naturalPerson": "Füüsiline isik",
+        "legalPersonName": {
+            "label": "Täisnimi"
+        },
+        "postalAddress": "Postiaadress",
+        "legalPersonAddress": {
+            "label": "Tänav ja majanumber"
+        },
+        "legalPersonZipCode": {
+            "label": "Zip-kood"
+        },
+        "legalPersonCity": {
+            "label": "Linn või asula"
+        },
+        "legalPersonCountry": {
+            "label": "Riik"
+        },
+        "contactPersonInformation": "Kontaktisiku andmed",
+        "contactPersonInformationDescription": "Kontaktisik on isik, kes vastab taotlust käsitlevatele päringutele. Kontaktisiku andmed võib edastada vastutavale töötlejale taotluse menetlemise ajal, kui andmete väljavõtte määratlemiseks on vaja lisateavet. ",
+        "contactPersonName": {
+            "label": "Täisnimi"
+        },
+        "contactPersonEmail": {
+            "label": "E-kirjad"
+        },
+        "contactPersonPhone": {
+            "label": "Telefonimüük"
+        },
+        "contactPersonNameOfTheOrganisation": {
+            "label": "Organisatsiooni nimi"
+        },
+        "contactPersonBusinessIdentifier": {
+            "label": "Organisatsiooni ettevõtte tunnuskood"
+        },
+        "contactPersonOperatorIdentifier": {
+            "label": "Käitaja tunnus"
+        },
+        "contactPersonJobTitle": {
+            "label": "Ametikoha nimetus"
+        },
+        "contactPersonAffiliation": {
+            "label": "Liitumine"
+        },
+        "contactPersonRelationship": {
+            "label": "Milline on kontaktisiku ja taotleja vaheline suhe? (Nt töötaja, kes taotleb andmeid oma organisatsiooni nimel.)"
+        },
+        "naturalPersonName": {
+            "label": "Täisnimi"
+        },
+        "naturalPersonAddress": {
+            "label": "Tänav ja majanumber"
+        },
+        "naturalPersonZipCode": {
+            "label": "Zip-kood"
+        },
+        "naturalPersonCity": {
+            "label": "Linn või asula"
+        },
+        "naturalPersonCountry": {
+            "label": "Riik"
+        },
+        "naturalPersonEmail": {
+            "label": "E-kirjad"
+        },
+        "naturalPersonPhone": {
+            "label": "Telefonimüük"
+        },
+        "naturalPersonJobTitle": {
+            "label": "Ametikoha nimetus"
+        },
+        "naturalPersonAffiliation": {
+            "label": "Liitumine"
+        }
+    },
+    "section4": {
+        "section4h5": "Makse üksikasjad",
+        "section4Description": "Selle isiku makseandmed, kellele terviseandmetele juurdepääsu asutus adresseerib käesoleva taotlusega seotud arved, ja sellele järgnev andmeluba, kui see on antud.",
+        "sameAsContactPerson": {
+            "label": "Sama mis 3. jaos nimetatud kontaktisik?"
+        },
+        "fullName": {
+            "label": "Täisnimi"
+        },
+        "address": {
+            "label": "Aadress"
+        },
+        "email": {
+            "label": "E-kirjad"
+        },
+        "phone": {
+            "label": "Telefonimüük"
+        },
+        "invoiceType": {
+            "label": "Arve liik",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Paberkujul"
+                },
+                {
+                    "key": "b",
+                    "value": "Elektrooniliselt"
+                }
+            ]
+        },
+        "invoiceReferenceNumber": {
+            "label": "Arve viitenumber"
+        },
+        "invoiceAddress": {
+            "label": "E-arve aadress (EDI või IBAN)"
+        },
+        "operatorIdentifier": {
+            "label": "Käitaja tunnus"
+        },
+        "nameOfTheOrganisation": {
+            "label": "Organisatsiooni nimi"
+        },
+        "businessIdentifierOrganization": {
+            "label": "Organisatsiooni ettevõtte tunnuskood"
+        },
+        "vatNumber": {
+            "label": "Käibemaksukohustuslase number"
+        },
+        "peppolCode": {
+            "label": "PEPPOL-kood (vajaduse korral)"
+        },
+        "isTheProjectFinanciallyCovered": {
+            "label": "Kas projekt on rahaliselt kaetud?"
+        },
+        "rangeOfAmountOfFinancing": {
+            "label": "Kui suur on projekti rahastamise ulatus, mille puhul kasutatakse taotletud andmeid?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "& 10000 eurot"
+                },
+                {
+                    "key": "b",
+                    "value": "10000–50000 EUROT"
+                },
+                {
+                    "key": "c",
+                    "value": "50000–100000 EUROT"
+                },
+                {
+                    "key": "d",
+                    "value": "100000–500000 EUROT"
+                },
+                {
+                    "key": "e",
+                    "value": "500000–1000000 EUROT"
+                },
+                {
+                    "key": "f",
+                    "value": "> 1000000 EUROT"
+                }
+            ]
+        }
+    },
+    "section5": {
+        "section5h5": "Andmete kasutamise eesmärk",
+        "section5Description": "Vastavalt ühtse Euroopa terviseandmeruumi määruse artikli 53 lõike 1 parandusele, mille Euroopa Parlament 17. detsembril heaks kiitis, peaksid taotlejad märkima, millisel eesmärgil andmeid taotletakse.\nTaotlejad peavad selgitama ja põhjendama, miks taotletud andmed on vajalikud nende märgitud kasutuseesmärgiks. Taotlejatel palutakse esitada ka teave projekti eesmärgi kohta. Seejärel peavad taotlejad olenevalt kasutuseesmärgist (teadusuuringud või mitte) esitama andmete kasutamise kava kokkuvõtte või uuringukava kokkuvõtte ning teabe andmete kasutamise või teadusuuringute eest vastutava isiku kohta.",
+        "purposeOfUse": {
+            "label": "Andmete kasutamise eesmärk. Terviseandmetele juurdepääsu asutused võimaldavad juurdepääsu artiklis 51 osutatud elektroonilistele terviseandmetele üksnes juhul, kui taotleja töötlemise sihtotstarve on kooskõlas järgmiste allpool loetletud eesmärkidega (vastavalt artikli 53 lõikele 1).",
+            "tooltip": "Ühtse Euroopa terviseandmeruumi määruse eesmärgid.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Avalik huvi rahvatervise või töötervishoiu valdkonnas, nagu kaitse tõsiste piiriüleste terviseohtude eest, rahvatervise seire või tervishoiu, sealhulgas patsiendi ohutuse, ning ravimite või meditsiiniseadmete kõrge kvaliteedi ja ohutuse tagamine."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Poliitika kujundamine ja regulatiivne tegevus, millega toetatakse avaliku sektori asutusi või liidu institutsioone, organeid ja asutusi, sealhulgas reguleerivaid asutusi, tervishoiu- või hooldussektoris nende volitustes kindlaks määratud ülesannete täitmisel."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Määruse (EL) nr 223/2009 artikli 3 punktis 1 määratletud statistika, näiteks riiklik, rahvusvaheline ja liidu tasandi ametlik statistika, mis on seotud tervishoiu- või hooldussektoritega."
+                },
+                {
+                    "key": "d",
+                    "value": "d. Haridus või õpetamistegevus tervishoiu- või hooldussektoris kutsehariduse või kõrghariduse tasandil."
+                },
+                {
+                    "key": "e",
+                    "value": "e. Tervishoiu- või hooldussektoriga seotud teadusuuringud, mis aitavad kaasa rahvatervisele või tervisetehnoloogia hindamisele või tagavad tervishoiu, ravimite või meditsiiniseadmete kõrge kvaliteedi ja ohutuse, et tuua kasu lõppkasutajatele, näiteks patsientidele, tervishoiutöötajatele ja tervishoiuametnikele, sealhulgas:\nI) toodete või teenuste arendus- ja innovatsioonitegevus;\nII) algoritmide treenimine, testimine ja hindamine, sealhulgas meditsiiniseadmetes, in vitro diagnostika meditsiiniseadmetes, tehisintellektisüsteemides ja digitaalsetes terviserakendustes."
+                },
+                {
+                    "key": "f",
+                    "value": "f. Tervishoiuteenuste osutamise, ravi optimeerimise ja tervishoiuteenuste osutamise parandamine, tuginedes teiste füüsiliste isikute elektroonilistele terviseandmetele."
+                }
+            ]
+        },
+        "whyTheDataIsNeeded": {
+            "label": "Miks on taotletavad andmed vajalikud märgitud kasutuseesmärgi jaoks? Selgitage siin, miks taotletavate andmete hulk ja liik on vajalikud teie andmete kasutamise eesmärgil"
+        },
+        "whyAreTheDataRequested": {
+            "label": "Miks on selle rakendusega taotletavaid andmeid vaja märgitud kasutuseesmärgil?"
+        },
+        "whatIsTheAimAndTopicOfTheProject": {
+            "label": "Mis on teie projekti eesmärk ja teema?"
+        },
+        "whichAreTheExpectedBenefits": {
+            "label": "Milline on elektrooniliste terviseandmete kasutamisega seotud eeldatav kasu ja kuidas see kasu aitab kaasa punktis 5.1 osutatud eesmärkide saavutamisele?"
+        },
+        "legalBasis": {
+            "label": "Täpsustage õiguslik alus, näiteks asjakohased õigusaktid, milles määratakse kindlaks teie pädevusse kuuluvad ülesanded ja kinnitatakse, et andmete kavandatud kasutamine on vajalik selliste ülesannete täitmiseks.",
+            "tooltip": "Selgitage siin, miks taotletavate andmete hulk on vajalik teie andmete kasutamise eesmärgil. Põhjendage ja kirjeldage, kuidas taotletud statistika sisu vastab taotluses märgitud kasutuseesmärgile ja teie andmenõuetele."
+        },
+        "linkToTheSupportingLegalBasis": {
+            "label": "Esitage õigusliku aluse tõendamiseks link täiendavatele dokumentidele."
+        },
+        "summaryOfPlanForUsingTheData": {
+            "label": "Esitage kokkuvõte oma kavast andmete kasutamiseks. Kokkuvõte peab olema koostatud ühes ELi ametlikus keeles."
+        },
+        "summaryOfPlanForUsingTheDataLanguage": {
+            "label": "Valige kokkuvõtte keel",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgaaria"
+                },
+                {
+                    "key": "hr",
+                    "value": "Horvaadi"
+                },
+                {
+                    "key": "cs",
+                    "value": "Tšehhi"
+                },
+                {
+                    "key": "da",
+                    "value": "Taani"
+                },
+                {
+                    "key": "nl",
+                    "value": "Hollandi"
+                },
+                {
+                    "key": "en",
+                    "value": "Inglise"
+                },
+                {
+                    "key": "et",
+                    "value": "Eesti"
+                },
+                {
+                    "key": "fi",
+                    "value": "Soome"
+                },
+                {
+                    "key": "fr",
+                    "value": "Prantsuse"
+                },
+                {
+                    "key": "de",
+                    "value": "Saksa"
+                },
+                {
+                    "key": "el",
+                    "value": "Kreeka"
+                },
+                {
+                    "key": "hu",
+                    "value": "Ungari"
+                },
+                {
+                    "key": "ga",
+                    "value": "Iiri"
+                },
+                {
+                    "key": "it",
+                    "value": "Itaalia"
+                },
+                {
+                    "key": "lv",
+                    "value": "Läti"
+                },
+                {
+                    "key": "lt",
+                    "value": "Leedu"
+                },
+                {
+                    "key": "mt",
+                    "value": "Malta"
+                },
+                {
+                    "key": "pl",
+                    "value": "Poola"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugali"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumeenia"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovaki"
+                },
+                {
+                    "key": "sl",
+                    "value": "Sloveeni"
+                },
+                {
+                    "key": "es",
+                    "value": "Hispaania"
+                },
+                {
+                    "key": "sv",
+                    "value": "Rootsi"
+                }
+            ]
+        },
+        "summaryOfResearchPlan": {
+            "label": "Esitage oma uuringukava kokkuvõte. Kokkuvõte peab olema koostatud ühes ELi ametlikus keeles."
+        },
+        "summaryOfResearchPlanLanguage": {
+            "label": "Valige kokkuvõtte keel",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgaaria"
+                },
+                {
+                    "key": "hr",
+                    "value": "Horvaadi"
+                },
+                {
+                    "key": "cs",
+                    "value": "Tšehhi"
+                },
+                {
+                    "key": "da",
+                    "value": "Taani"
+                },
+                {
+                    "key": "nl",
+                    "value": "Hollandi"
+                },
+                {
+                    "key": "en",
+                    "value": "Inglise"
+                },
+                {
+                    "key": "et",
+                    "value": "Eesti"
+                },
+                {
+                    "key": "fi",
+                    "value": "Soome"
+                },
+                {
+                    "key": "fr",
+                    "value": "Prantsuse"
+                },
+                {
+                    "key": "de",
+                    "value": "Saksa"
+                },
+                {
+                    "key": "el",
+                    "value": "Kreeka"
+                },
+                {
+                    "key": "hu",
+                    "value": "Ungari"
+                },
+                {
+                    "key": "ga",
+                    "value": "Iiri"
+                },
+                {
+                    "key": "it",
+                    "value": "Itaalia"
+                },
+                {
+                    "key": "lv",
+                    "value": "Läti"
+                },
+                {
+                    "key": "lt",
+                    "value": "Leedu"
+                },
+                {
+                    "key": "mt",
+                    "value": "Malta"
+                },
+                {
+                    "key": "pl",
+                    "value": "Poola"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugali"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumeenia"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovaki"
+                },
+                {
+                    "key": "sl",
+                    "value": "Sloveeni"
+                },
+                {
+                    "key": "es",
+                    "value": "Hispaania"
+                },
+                {
+                    "key": "sv",
+                    "value": "Rootsi"
+                }
+            ]
+        },
+        "personResponsibleLabel": "Andmete kasutamise eest vastutav isik",
+        "personResponsibleName": {
+            "label": "Täisnimi"
+        },
+        "personResponsibleJobTitle": {
+            "label": "Ametikoha nimetus"
+        },
+        "personResponsibleAffiliation": {
+            "label": "Liitumine"
+        },
+        "personResearchSameAsContactPerson": {
+            "label": "Sama mis punktis 3 (Taotleja ja kontaktisiku andmed) nimetatud kontaktisik?"
+        },
+        "personResponsibleForResearchLabel": "Teadusuuringute eest vastutav isik",
+        "personResponsibleSameAsContactPerson": {
+            "label": "Sama mis punktis 3 (Taotleja ja kontaktisiku andmed) nimetatud kontaktisik?"
+        },
+        "personResearchName": {
+            "label": "Täisnimi"
+        },
+        "personResearchJobTitle": {
+            "label": "Ametikoha nimetus"
+        },
+        "personResearchAffiliation": {
+            "label": "Liitumine"
+        },
+        "formatOfTheElectronicHealthData": {
+            "label": "Valige kättesaadavaks tehtavate elektrooniliste terviseandmete vorming:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Anonüümitud"
+                },
+                {
+                    "key": "b",
+                    "value": "Pseudonüümitud"
+                }
+            ]
+        },
+        "inOrderToApplyPseudonymisedData": "Olen teadlik, et pseudonüümitud andmete taotlemiseks pean:",
+        "inOrderToApplyPseudonymisedDataA": {
+            "label": "a) Selgitan, kuidas järgin isikuandmete kaitse üldmääruse artikli 6 lõiget 1 (või ELi isikuandmete kaitse määruse artikli 5 lõiget 1, kui ELi institutsioon, organ või asutus taotleb andmeid)"
+        },
+        "inOrderToApplyPseudonymisedDataB": {
+            "label": "b) hindab andmete töötlemise eetilisi aspekte, kui see on asjakohane ja kooskõlas siseriikliku õiguse või kohaldatavate õigusaktidega."
+        },
+        "whyNeedForPseudonymisation": {
+            "label": "Miks vajate oma projekti jaoks pseudonüümitud andmeid?"
+        }
+    },
+    "section6": {
+        "section6h5": "Vajalike andmete kirjeldus",
+        "section6Description": "Selles osas peate esitama taotletud andmekogumi kirjelduse, märkides selgelt, milliseid andmekogumeid taotlus puudutab. Te peaksite taotlema üksnes selliseid andmeid, mis on piisavad, asjakohased ja piirduvad sellega, mis on vajalik seoses teie kasutuseesmärgiga, järgides ELi isikuandmete kaitse üldmääruses sätestatud võimalikult väheste andmete kogumise põhimõtet (artikli 5 lõike 1 punkt c). Terviseandmetele juurdepääsu asutus hindab hoolikalt, kas teie nõuded on kooskõlas isikuandmete kaitse üldmääruses sätestatud võimalikult väheste andmete kogumise põhimõttega.",
+        "descriptionSection6_1": "Kohordi ekstraheerimiskriteeriumide kindlaksmääramine:",
+        "descriptionOfTheDataNeeded": "Vajalike andmete kirjeldus:",
+        "applicationHDABsForSelectedCountry": "Millisele terviseandmetele juurdepääsu asutusele soovite taotluse esitada?",
+        "applicationDatasetsPerCountry": "Vastavad andmestiku kirjed ja jaotused",
+        "informationProviderSameAsContactPerson": {
+            "label": "Sama mis 3. jaos nimetatud kontaktisik?"
+        },
+        "hdabContacts": {
+            "label": "Kui olete seoses otsitavate andmetega kokku puutunud terviseandmetele juurdepääsu asutuse isikuga, loetlege siia selle isiku nimed ja e-posti aadressid."
+        },
+        "howWillTheDataFromDifferentSourcesBeLinked": {
+            "label": "Kuidas seotakse ühe isiku andmed eri allikatest? Nt isikukoodi alusel. Kui kasutatakse mõnda muud seosemeetodit, kirjeldage seda siin"
+        },
+        "indicateTheSizeOfTheStudyCohort": {
+            "label": "Märkida kohordi suurus"
+        },
+        "indicateTheSizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Kohordi suurus (raadionupud)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "See on kohordi hinnanguline suurus."
+                },
+                {
+                    "key": "b",
+                    "value": "See on kohordi täpne suurus."
+                }
+            ]
+        },
+        "howIsTheStudyCohortFormed": {
+            "label": "Kuidas kohort moodustatakse?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Kohort moodustatakse allpool esitatud kriteeriumide alusel."
+                },
+                {
+                    "key": "b",
+                    "value": "Kohort on juba moodustatud."
+                },
+                {
+                    "key": "c",
+                    "value": "Kohort koosneb kahest järgmisest: uus kohort, mis on moodustatud allpool esitatud kriteeriumide alusel, ja juba moodustatud kohort."
+                },
+                {
+                    "key": "d",
+                    "value": "Kohort on vormi alguses märgitud riigi/riikide kogu populatsioon."
+                }
+            ]
+        },
+        "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants": {
+            "label": "Kui soovite kasutada kohorti oma varasema uuringu põhjal, siis kas kohort on moodustatud uuringus osalejate teadliku nõusoleku alusel? Nt kohort, mis on moodustatud uuringu või kliinilise uuringu põhjal, millega registripõhised andmed seotakse ühtse Euroopa terviseandmeruumi määruse alusel."
+        },
+        "doesTheInformedConsentCoverTheRequestedRegistryExtractions": {
+            "label": "Kas teadv nõusolek hõlmab taotletud väljavõtteid registrist?"
+        },
+        "consentAndInformationLetterAttachment": {
+            "label": "Lisage nõusolek ja kirjalik teave, mille olete õppeainetele saatnud. Ärge lisage täidetud vorme, sest need sisaldavad isikuandmeid."
+        },
+        "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
+            "label": "Kinnitan, et selle uurimisprojekti jaoks on antud andmeluba"
+        },
+        "ifTheGroupHasBeenFormedBasedOnPreviousIssued": {
+            "label": "Kui kohort on moodustatud varem väljastatud loa alusel, märkige siia järgmine teave:"
+        },
+        "previouslyIssuedPermitIssuer1": {
+            "label": "Loaotsuse väljastaja"
+        },
+        "previouslyIssuedPermitDate1": {
+            "label": "Kuupäev"
+        },
+        "validityPeriod1": "Kehtivuse ajavahemik",
+        "previouslyIssuedPermitValidityPeriodFrom1": {
+            "label": "Alates"
+        },
+        "previouslyIssuedPermitValidityPeriodTo1": {
+            "label": "Kuni"
+        },
+        "previouslyIssuedPermitNumber1": {
+            "label": "Loa number"
+        },
+        "permitDecisionAttachment": {
+            "label": "Lisage loaotsus, mis hõlmab kohordi andmete väljavõtet käesolevas jaos."
+        },
+        "howTheStudyCohortWasObtained": {
+            "label": "Kirjeldage, kuidas kohort saadi ja miks andmeluba/nõusolek puudus."
+        },
+        "providedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Kas olete esitanud asjaomastele isikutele teavet andmete kasutamise kohta? Nt jagas projekti veebisaidil teavet andmete kasutamise kohta.",
+            "tooltip": "Lisateabe saamiseks vt isikuandmete kaitse üldmääruse artiklid 13 ja 14: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
+            "tooltipForm": "Lisateabe saamiseks vt <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\"> isikuandmete kaitse üldmääruse artiklid 13 ja 14 </a>."
+        },
+        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Kuidas?"
+        },
+        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Miks mitte?"
+        },
+        "whoWillDeliverTheInformationOnTheStudy": {
+            "label": "Kes edastab kohordi kohta teabe terviseandmetele juurdepääsu asutusele? See isik saab ühtse ühtse Euroopa terviseandmeruumi portaali kaudu juhiseid selle kohta, kuidas andmeid edastada."
+        },
+        "informationProviderName": {
+            "label": "Täisnimi"
+        },
+        "informationProviderEmail": {
+            "label": "E-post"
+        },
+        "informationProviderPhone": {
+            "label": "Telefoninumber"
+        },
+        "whyNeedDataOfaWholePopulation": {
+            "label": "Põhjendage, miks vajate andmeid kogu populatsiooni/kogu populatsiooni kohta?",
+            "tooltip": "Veenduge, et kohordi moodustumine määratletakse piisavalt selgelt ja piiritletakse kohordi suurus vastavalt kavandatud kasutusviisile. Pöörake erilist tähelepanu sellele, kust kohort pärineb, ning kohordi lisamise ja väljaarvamise kriteeriumidele. Näiteks võib geograafiline määratlus tähendada elukohta, sünnikohta, töökohta või kohta, kus teenuseid kasutatakse."
+        },
+        "sizeOfTheStudyCohort": {
+            "label": "Märkida kohordi suurus"
+        },
+        "sizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Kohordi suurus (raadionupud)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "See on kohordi hinnanguline suurus."
+                },
+                {
+                    "key": "b",
+                    "value": "See on kohordi täpne suurus."
+                }
+            ]
+        },
+        "whyNeedStudyCohortOfThisSize": {
+            "label": "Miks vajate oma projekti jaoks sellise suurusega kohorti?"
+        },
+        "ethicalReview": "Eetiline läbivaatamine – teksti esitab poliitikaüksus",
+        "ethicalReviewDescription": "Eetilisuse hinnang",
+        "ethicalReviewInput": {
+            "label": "Eetilisuse hinnang",
+            "tooltip": "Teksti esitab poliitikaüksus."
+        },
+        "ethicalReviewAttachment": {
+            "label": "Eetilisuse hinnang"
+        },
+        "dataHolders": "Millise(te)lt andmevaldaja(te)lt andmed võetakse?",
+        "whichDatabasesDataExtracted": "Millistest andmebaasidest/registritest/registritest tehakse andmetest väljavõtteid?",
+        "whichDatasetDataExtracted": "Millisest andmekogumi kirje(te)st/registri(te)st andmed tehakse?",
+        "variablesToBeUsedInDataExtractionAttachment": {
+            "label": "Kui teave on kättesaadav, lisage andmete väljavõtmisel kasutatavate muutujate loetelu. Kasutage vastava(te) andmevaldaja(te) poolt metaandmete kataloogis esitatud täpseid mõisteid."
+        },
+        "timePeriodOfDataExtraction": {
+            "label": "Millise ajavahemiku (milliste ajavahemike) kohta andmestike kirjed tehakse?"
+        },
+        "extractionMethod": {
+            "label": "Ekstraheerimismeetod:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "juhuslik valim"
+                },
+                {
+                    "key": "b",
+                    "value": "kõik kriteeriumidele vastavad inimesed"
+                },
+                {
+                    "key": "c",
+                    "value": "muu proov"
+                }
+            ]
+        },
+        "samplingMethod": {
+            "label": "Kirjeldage proovivõtumeetodit"
+        },
+        "sampleSize": {
+            "label": "Valimi suurus",
+            "tooltip": "Vastused võivad olla näiteks: 100000 inimest ehk 50 % kriteeriumidele vastavatest inimestest."
+        },
+        "inclusionCriteria": {
+            "label": "Kirjeldage kohordi ekstraheerimise kriteeriume ",
+            "tooltip": "Siin tuleb selgitada kõiki kaasamiskriteeriume, mis võivad olla mitmeti mõistetavad. Näiteks kui soovite lisada teatavas vanuses andmesubjekte, siis selgitage, millise muutuja alusel tuleks vanust arvutada ja millisel ajahetkel."
+        },
+        "potentialExclusionCriteria": {
+            "label": "Kirjeldage kohordi kaevandamise võimalikke välistamiskriteeriume"
+        },
+        "tabulationPlanArray": {
+            "label": "Tabeliplaani maatriks",
+            "tooltip": "Lisaks kirjutage iga tabeli kohta järgmine teave: ● kasutada olev register ● võimalik kohort ● teave nõutavate muutujate kohta (kui see on olemas) ● muutujate moodustumine, kui neile ei ole võimalik andmebaasist otse juurde pääseda ● protsentide koondamise soovitud suund ● tabelite koostamise järjekord, kui varem koostatud tabeleid kasutatakse muude tabelite koostamiseks ● mis tahes muu asjakohane tegur, mis on seotud nõutava(te) tabeli(te) koostamisega."
+        },
+        "tabulationRegisteredToBeUsed": {
+            "label": "Kasutatav register"
+        },
+        "tabulationPossibleStudyCohort": {
+            "label": "Võimalik kohort"
+        },
+        "tabulationInformationOfRequiredVariables": {
+            "label": "Teave nõutavate muutujate kohta (olemasolu korral)"
+        },
+        "tabulationFormationVariables": {
+            "label": "Muutujate moodustamine, kui neile ei ole andmebaasist otsest juurdepääsu"
+        },
+        "tabulationDesiredDirection": {
+            "label": "Protsentide liitmise soovitud suund"
+        },
+        "tabulationOrderInWhichTable": {
+            "label": "Tabelite koostamise järjekord, kui varem loodud tabeleid kasutatakse muude tabelite loomiseks"
+        },
+        "tabulationAnyOtherRelevant": {
+            "label": "Mis tahes muud asjakohased tegurid, mis on seotud nõutava(te) tabeli(te) koostamisega "
+        },
+        "tabulationPlanButton": "Lisa tabelite kava",
+        "tabulationPlan": {
+            "label": "Tabelite kava",
+            "tooltip": "Lisage iga taotletava statistika kohta Exceli (või samaväärse) tabeli näidis."
+        },
+        "extractionDescriptionAndCompilation": {
+            "label": "Väljavõtete kirjeldus ja statistika koostamine",
+            "tooltip": "Terviseandmetele juurdepääsu asutus esitab teie taotletud andmed üksnes anonüümseks muudetud statistilises vormingus, kui teie terviseandmete päring on vastu võetud. Anonüümsuse tõttu ei ole andmekasutajal juurdepääsu selle vastuse andmiseks kasutatud elektroonilistele terviseandmetele. Kogu teie taotletav teave tuleb viia üldisele tasemele, et vältida väikeste rakkude loendamist, millel on suur taasidentifitseerimise potentsiaal."
+        },
+        "dataExtraction": "Andmete väljavõtmise aeg ja kohordi tellimus",
+        "dataExtractionTimes": "Andmete väljavõtmise aeg ja kohordi tellimus",
+        "howOftenDoesTheDataNeedToBeExtracted": {
+            "label": "Kui sageli tuleb andmetest väljavõtteid teha?"
+        },
+        "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
+            "label": "Kui sageli tuleb andmetest väljavõtteid teha?"
+        },
+        "needForDataExtractionEvery": {
+            "label": "Andmed tuleb teha igast järgmisest:",
+            "tooltip": "Kui soovite, et andmeid tehtaks teatava ajavahemiku jooksul mitu korda, pange tähele, et määratlused ja andmekogumismeetod võivad mõnel juhul läbivaatamisperioodi jooksul muutuda. Pange tähele, et andmete väljavõtmise maksimaalne sagedus on igas kvartalis."
+        },
+        "needForDataExtractionEveryOther": {
+            "label": "Täpsustage „Muu“"
+        },
+        "needForDataExtractionEveryDescriptionDR": {
+            "label": "Esitage rohkem teavet kaevandamisperioodide/-aegade kohta",
+            "tooltip": "Kui soovite, et andmeid tehtaks teatava ajavahemiku jooksul mitu korda, pange tähele, et määratlused ja andmekogumismeetod võivad mõnel juhul läbivaatamisperioodi jooksul muutuda."
+        },
+        "needForDataExtractionEveryDescription": {
+            "label": "Esitage rohkem teavet kohordi ekstraheerimisperioodide/-aegade kohta",
+            "tooltip": "Kui soovite, et andmeid tehtaks teatava ajavahemiku jooksul mitu korda, pange tähele, et määratlused ja andmekogumismeetod võivad mõnel juhul läbivaatamisperioodi jooksul muutuda."
+        },
+        "whatIsTheFrequencyOfUpdates": {
+            "label": "Kui sageli tuleb andmeid ajakohastada?"
+        },
+        "orderForDataExtraction": {
+            "label": "Kui see mõjutab andmete väljavõtte tulemusi, siis millises järjekorras võetakse kohortandmed? Esitage kaevandamisetappide nummerdatud loetelu. Näiteks: 1. Andmevaldaja A; 2. Andmevaldaja B; 3. Andmevaldaja C"
+        },
+        "definingExtractionCriteria": "Kontrolliks kasutatavate ekstraheerimiskriteeriumide kindlaksmääramine:",
+        "willControlsBeExtracted": {
+            "label": "Kas kohordi kontrollid ekstraheeritakse?"
+        },
+        "hasTheGroupRelativesFormed2": {
+            "label": "Kas kontrollrühm on moodustatud varem väljastatud loa alusel?"
+        },
+        "willSameDataBeExtractedForControls": {
+            "label": "Kas kontrolli jaoks võetakse välja samad andmed nagu kohordi kohta?"
+        },
+        "regionForControlsDataExtraction": {
+            "label": "Kui te ei küsi kontrolliks andmeid kogu riigilt, siis millisest piirkonnast (piirkondadest) ja/või linnast/linnadest ja/või omavalitsusest/omavalitsustest andmeid otsite?"
+        },
+        "fromWhichDataHolderLabel": "Millise(te)lt andmevaldaja(te)lt võetakse kontrollimiseks vajalikud andmed?",
+        "fromWhichDatabaseLabel": "Millistest andmebaasidest/registritest/registritest võetakse kontrollimiseks vajalikud andmed?",
+        "fromWhichDatasetLabel": "Millistest andmekogumite kirje(te)st/registri(te)st võetakse kontrollimiseks vajalikud andmed?",
+        "variablesForDataExtraction": {
+            "label": "Kui teave on kättesaadav, loetlege muutujad, mida kasutatakse andmete väljavõtmisel. Kasutage vastava(te) andmevaldaja(te) poolt metaandmete kataloogis esitatud täpseid mõisteid."
+        },
+        "timePeriodForDataExtraction": {
+            "label": "Millise ajavahemiku (milliste ajavahemike) kohta andmestiku kirjed tehakse?"
+        },
+        "extractionCriteriaForControls": {
+            "label": "Täpsustage kontrollide ekstraheerimise kriteeriumid, nt vastavuskriteeriumid"
+        },
+        "sizeOfControlGroup": {
+            "label": "Kontrollrühma suurus"
+        },
+        "sizeOfControlGroupEstimationOrExact": {
+            "label": "Kontrollrühma suurus (Radio Buttons)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "See on kontrollide rühma suuruse hinnang."
+                },
+                {
+                    "key": "b",
+                    "value": "See on kontrollide rühma täpne suurus."
+                }
+            ]
+        },
+        "controlsPerPersonInStudyCohort": {
+            "label": "Mitu kontrolli tehakse kohorti kuuluva isiku kohta?"
+        },
+        "inclusionCriteriaForControls": {
+            "label": "Kirjeldage kontrollist väljavõtte tegemise kriteeriume"
+        },
+        "exclusionCriteriaForControls": {
+            "label": "Kirjeldage kontrolli ekstraheerimise võimalikke välistamiskriteeriume"
+        },
+        "ifTheGroupHasBeenFormed": "Kui kontrollirühm on moodustatud varem väljastatud loa alusel, loetlege siia järgmine teave:",
+        "previouslyIssuedPermitIssuer2": {
+            "label": "Loaotsuse väljastaja"
+        },
+        "previouslyIssuedPermitDate2": {
+            "label": "Kuupäev"
+        },
+        "validityPeriod2": "Kehtivuse ajavahemik",
+        "previouslyIssuedPermitValidityPeriodFrom2": {
+            "label": "Alates"
+        },
+        "previouslyIssuedPermitValidityPeriodTo2": {
+            "label": "Kuni"
+        },
+        "previouslyIssuedPermitNumber2": {
+            "label": "Loa number"
+        },
+        "dataExtractionAndOrderForControls": " Andmete väljavõtmise aeg ja kontrollimise järjekord",
+        "willDataForControlsBeExtractedSimultaneously": {
+            "label": "Kas kontrollideks vajalikud andmed võetakse välja samal ajal ja samas järjekorras kui kohordi andmed?"
+        },
+        "hasTheGroupRelativesFormed3": {
+            "label": "Kas sugulaste rühm on moodustatud varem väljastatud loa alusel?"
+        },
+        "ifTheGroupOfRelativesHasBeenFormed": {
+            "label": "Kui sugulaste rühm on moodustatud varem väljastatud loa alusel, loetlege siia järgmine teave:"
+        },
+        "previouslyIssuedPermitIssuer3": {
+            "label": "Loaotsuse väljastaja"
+        },
+        "previouslyIssuedPermitDate3": {
+            "label": "Kuupäev"
+        },
+        "validityPeriod3": "Kehtivuse ajavahemik",
+        "previouslyIssuedPermitValidityPeriodFrom3": {
+            "label": "Alates"
+        },
+        "previouslyIssuedPermitValidityPeriodTo3": {
+            "label": "Kuni"
+        },
+        "previouslyIssuedPermitNumber3": {
+            "label": "Loa number"
+        },
+        "dataExtractionFrequency": {
+            "label": "Kui sageli tuleb andmetest väljavõtteid teha?"
+        },
+        "dataExtractionFrequencyMultipleTimesInformation": {
+            "label": "Korduva väljavõtte korral esitage tellimuses eraldi teave iga andmeväljavõtmise protsessi kohta."
+        },
+        "dataNeedsToBeExtractedEvery": {
+            "label": "Andmed tuleb teha igast järgmisest:",
+            "tooltip": "Kui soovite, et andmeid tehtaks teatava ajavahemiku jooksul mitu korda, pange tähele, et mõnel juhul võivad määratlused ja andmekogumismeetod läbivaatamisperioodi jooksul muutuda. Pange tähele, et andmete väljavõtmise maksimaalne sagedus on igas kvartalis."
+        },
+        "specifyOther": {
+            "label": "Täpsustage „Muu“"
+        },
+        "moreInfoOnExtractionPeriods": {
+            "label": "Esitage rohkem teavet kaevandamisperioodide/-aegade kohta"
+        },
+        "orderOfControlsDataExtraction": {
+            "label": "Kui see mõjutab andmete väljavõtte tulemusi, siis millises järjekorras võetakse kontrollide andmed välja? Esitage kaevandamisetappide nummerdatud loetelu. Näiteks: 1. Andmevaldaja A; 2. Andmevaldaja B; 3. Andmevaldaja C"
+        },
+        "definingTheExtractionCriteria": "Sugulaste väljatõmbamiskriteeriumide kindlaksmääramine:",
+        "willRelativesBeExtracted": {
+            "label": "Kas sugulased võetakse kohordi jaoks?"
+        },
+        "willSameDataBeExtractedForRelatives": {
+            "label": "Kas sugulaste puhul võetakse välja samad andmed nagu kohordi kohta?"
+        },
+        "whichDataHoldersForRelatives": "Millise(te)lt andmevaldaja(te)lt võetakse andmeid sugulaste kohta?",
+        "whichDatabaseForRelatives": "Millistest andmebaasidest/registritest/registritest võetakse andmeid sugulaste kohta?",
+        "whichDatasetsForRelatives": "Millisest andmekogumi kirje(te)st/registri(te)st tehakse sugulaste andmed?",
+        "variablesForDataExtractionRelatives": {
+            "label": "Kui teave on kättesaadav, loetlege muutujad, mida kasutatakse andmete väljavõtmisel. Kasutage vastava(te) andmevaldaja(te) poolt metaandmete kataloogis esitatud täpseid mõisteid."
+        },
+        "timePeriodForDataExtractionRelatives": {
+            "label": "Millise ajavahemiku (milliste ajavahemike) kohta andmestiku kirjed tehakse?"
+        },
+        "relationshipToStudyCohort": {
+            "label": "Määrata kindlaks sugulaste suhe kohorti kuuluva isikuga (nt vanavanemad, bioloogilised vanemad, ema)"
+        },
+        "sizeOfRelativesGroup": {
+            "label": "Sugulaste rühma suurus"
+        },
+        "sizeOfRelativesGroupEstimateOrExact": {
+            "label": "Sugulaste rühma suurus (raadionupud)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "See on sugulaste rühma suuruse hinnang."
+                },
+                {
+                    "key": "b",
+                    "value": "See on sugulaste rühma täpne suurus."
+                }
+            ]
+        },
+        "willDataForRelativesBeExtractedSimultaneously": {
+            "label": "Kas sugulaste andmed võetakse välja samal ajal ja samas järjekorras kui kohordi andmed?"
+        },
+        "dataExtractionFrequencyRelatives": {
+            "label": "Kui sageli tuleb andmetest väljavõtteid teha?"
+        },
+        "dataNeedsToBeExtractedEveryRelatives": {
+            "label": "Andmed tuleb teha igast järgmisest:",
+            "tooltip": "Kui soovite, et andmeid tehtaks teatava ajavahemiku jooksul mitu korda, pange tähele, et määratlused ja andmekogumismeetod võivad mõnel juhul läbivaatamisperioodi jooksul muutuda. Pange tähele, et andmete väljavõtmise maksimaalne sagedus on igas kvartalis."
+        },
+        "dataExtractionFrequencyMultipleTimesInformationRelatives": {
+            "label": "Korduva väljavõtte korral esitage tellimuses eraldi teave iga andmeväljavõtmise protsessi kohta."
+        },
+        "needForDataExtractionEveryOptions": {
+            "label": "Andmed tuleb teha igast järgmisest:",
+            "tooltip": "Kui soovite, et andmeid tehtaks teatava ajavahemiku jooksul mitu korda, pange tähele, et määratlused ja andmekogumismeetod võivad mõnel juhul läbivaatamisperioodi jooksul muutuda. Pange tähele, et andmete väljavõtmise maksimaalne sagedus on igas kvartalis."
+        },
+        "specifyOtherRelatives": {
+            "label": "Täpsustage „Muu“"
+        },
+        "moreInfoOnExtractionPeriodsRelatives": {
+            "label": "Esitage rohkem teavet kaevandamisperioodide/-aegade kohta"
+        },
+        "orderOfRelativesDataExtraction": {
+            "label": "Kui see mõjutab andmete väljavõtte tulemusi, siis millises järjekorras lähedaste andmed välja võetakse? Esitage kaevandamisetappide nummerdatud loetelu. Näiteks: 1. Andmevaldaja A; 2. Andmevaldaja B; 3. Andmevaldaja C"
+        }
+    },
+    "section7": {
+        "section7h5": "Muud kombineeritavad andmed",
+        "section7Description": "Muid isikuandmeid, näiteks teie valduses olevaid andmeid või mujalt saadud andmeid, on võimalik kombineerida muu loaga käesoleva taotlusega taotletud andmetega. Loetlege teave kõigi lisaandmete kohta, mida kombineeritakse terviseandmetele juurdepääsu asutuse poolt lubatud andmetega. Kui soovite hiljem kombineerida muid isikuandmeid terviseandmetele juurdepääsu asutuse poolt lubatud andmetega, peate esitama samale terviseandmetele juurdepääsu asutusele muutmistaotluse. Kui teil on mõni muu kohort, mida soovite terviseandmetele juurdepääsu asutusel kombineerida taotletavate andmetega, saate juhised selle kohta, kuidas edastada andmeid turvaliselt pärast loa andmist.",
+        "addDataPermit": "Lisa andmeluba",
+        "addInfo": "Lisa teave",
+        "removeDataPermit": "Andmeloa eemaldamine",
+        "willDataBeCombinedWithDataObtained": {
+            "label": "Kas taotletavaid andmeid kombineeritakse andmetega, mille olete juba saanud, või andmetega, mida taotletakse muudest allikatest?"
+        },
+        "listOtherDataToBeCompined": "Loetlege muud kombineeritavad andmed ja nende allikad:",
+        "combinedCountries": {
+            "label": "Riigid"
+        },
+        "combinedDataHolders": {
+            "label": "Andmevaldajad"
+        },
+        "combinedDatabaseRegistries": {
+            "label": "Andmebaasid/registrid"
+        },
+        "combinedDatasetsRegistries": {
+            "label": "Andmekogumid/registrid"
+        },
+        "provideInformationList": {
+            "label": "Esitage teave kombineeritavate andmete ja kavandatava kombineerimismeetodi kohta",
+            "tooltip": "Esitage kohaldatavas ulatuses järgmine teave: andmekogum, failide arv, failide vorming, failide suurus, erimärkused (kas on olemas otsesed/kaudsed tunnused, andmed tuleks pseudonüümida jne)"
+        },
+        "dataset": {
+            "label": "Andmekogum"
+        },
+        "numberOfFiles": {
+            "label": "Failide arv"
+        },
+        "formatOfFiles": {
+            "label": "Failide vorming"
+        },
+        "sizeOfFiles": {
+            "label": "Failide suurus"
+        },
+        "notes": {
+            "label": "Märkmed"
+        },
+        "listAnyOtherDataPermit": "Loetlege siin muud sama projekti jaoks väljastatud andmeload. Load peavad andmete töötlemise ajal kehtima:",
+        "otherPermits": {
+            "label": "Muud load: Loa andja, väljaandmise kuupäev, kehtivusaeg, identifitseerimisandmed"
+        },
+        "permitIssuer": {
+            "label": "Loa väljastaja"
+        },
+        "permitStartDateOfIssue": {
+            "label": "Väljaandmise kuupäev"
+        },
+        "permitEndDateOfIssue": {
+            "label": "Aegumise kuupäev"
+        },
+        "permitIdentificationInformation": {
+            "label": "Loa identifitseerimisandmed"
+        },
+        "attachmentOfPermitDocuments": {
+            "label": "Kui andmestiku kirjed hõlmavad teiste isikute väljastatud lubasid või kui need on kogutud nõusolekul, lisage siia loadokumendid."
+        },
+        "otherPermitApplications": {
+            "label": "Kas Teil on veel menetluses olevaid loataotlusi?"
+        },
+        "listTheOtherData": "Loetlege muud kombineeritavad andmed ja nende allikad:",
+        "applicationIssuer": {
+            "label": "Väljaandja"
+        },
+        "dateOfSubmittingTheApplication": {
+            "label": "Taotluse esitamise kuupäev"
+        },
+        "identificationCode": {
+            "label": "Loa tunnuskood"
+        }
+    },
+    "section8": {
+        "section8h5": "Andmete töötlemine, andmekaitse ja kaitsemeetmed andmete loata kasutamise vältimiseks",
+        "section8Description": "Ühtse Euroopa terviseandmeruumi määruse ettepaneku artikli 73 lõike 1 kohaselt võimaldavad terviseandmetele juurdepääsu asutused juurdepääsu elektroonilistele terviseandmetele üksnes turvalise töötlemiskeskkonna kaudu.",
+        "addPerson": "Lisa isik",
+        "removePerson": "Eemalda isik",
+        "technicalRequirementsForEnvironment": {
+            "label": "Loetlege siin kõik turvalisele töötlemiskeskkonnale esitatavad tehnilised nõuded."
+        },
+        "nameWebsiteAddressForEnvironment": {
+            "label": "Kui te juba teate, millist töötlemiskeskkonda soovite kasutada, siis milline on selle nimi ja kes seda pakub? Esitage siin turvalise töötlemiskeskkonna nimi ja pakkuja."
+        },
+        "healthDataAccessBody": "Terviseandmetele juurdepääsu asutus edastab andmed pärast taotluse menetlemist, kui teile on antud andmeluba. Terviseandmetele juurdepääsu asutus säilitab pseudonüümimisvõtme ning andmete loomiseks kasutatud väljavõtte tingimused ja dokumendid. Andmeluba antakse ainult taotletud eesmärkide täitmiseks vajaliku aja jooksul. Loa võib anda maksimaalselt kümneks aastaks. Seda kestust võib andmekasutaja taotlusel pikendada ühe korra, tuginedes pikendamist õigustavatele argumentidele ja dokumentidele (ühtse Euroopa terviseandmeruumi määruse ettepanek, artikli 68 lõige 12). Vajaduse korral võib kasutusaega pikendada, taotledes andmeloa muutmist.",
+        "whenDataNeeded": {
+            "label": "Millal vajate andmeid?",
+            "tooltip": "Üldiselt taotleb terviseandmetele juurdepääsu asutus andmevaldajatelt andmete väljavõtet niipea, kui teie taotlust on töödeldud. Kui soovite andmeid hiljem saada, märkige need siia.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Võimalikult kiiresti pärast käesoleva taotluse menetlemist"
+                },
+                {
+                    "key": "b",
+                    "value": "Hiljem, millal?"
+                }
+            ]
+        },
+        "ifLaterWhen": {
+            "label": "Hiljem, millal?"
+        },
+        "informationWhichDataCanAccess": {
+            "label": "Esitage teave ajavahemiku kohta, mille jooksul andmetele on võimalik juurde pääseda."
+        },
+        "frequencyOfAccessOrDataUpdates": {
+            "label": "Milline on sellise juurdepääsu sagedus või andmete ajakohastamise sagedus?"
+        },
+        "estimatedStartAndEnd": {
+            "label": "Millised on selle ajavahemiku hinnangulised algus- ja lõppkuupäevad, mille jooksul elektroonilisi terviseandmeid töötlemiseks vajatakse?",
+            "tooltip": "See ajavahemik võib olla viis aastat. Täiendava loaga võib algset luba pikendada veel viieks aastaks."
+        },
+        "estimatedStartDatesForDataProcessing": {
+            "label": "Alates"
+        },
+        "estimatedEndDatesForDataProcessing": {
+            "label": "Kuni"
+        },
+        "ifStoreNeeded": "Kui teil on vaja andmeid pärast töötlemist säilitada, märkige siia mitteaktiivsete andmete säilitamise aeg.",
+        "startPeriodOfInactiveDataStorage": {
+            "label": "Alates"
+        },
+        "endPeriodOfInactiveDataStorage": {
+            "label": "Kuni"
+        },
+        "willTheDataBeTransferred": {
+            "label": "Kas andmeid edastatakse väljapoole ELi või EMPd?",
+            "tooltip": "Euroopa Andmekaitsenõukogu (EDPB) on kindlaks määranud kolm kumulatiivset kriteeriumi, mille alusel saab töötlemistoimingut käsitada edastamisena: 1) Vastutava töötleja või volitatud töötleja (edaspidi „eksportija“) suhtes kohaldatakse asjaomase töötlemise suhtes isikuandmete kaitse üldmäärust. 2) Eksportija avalikustab isikuandmeid edastamise teel või teeb need muul viisil kättesaadavaks teisele vastutavale töötlejale, kaasvastutavale töötlejale või volitatud töötlejale (edaspidi „importija“). 3) Importija asub kolmandas riigis, olenemata sellest, kas tema suhtes kohaldatakse asjaomase töötlemise puhul isikuandmete kaitse üldmäärust vastavalt artiklile 3, või on ta rahvusvaheline organisatsioon. Rohkem teavet: https://www.edpb.europa.eu/system/files/2023-02/edpb_guidelines_05-2021_interplay_between_the_application_of_art3-chapter_v_of_the_gdpr_v2_en_0.pdf"
+        },
+        "whichCountriesDataBeProcessed": {
+            "label": "Millises riigis/millistes riikides väljaspool ELi/EMPd andmeid töödeldakse?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Diagnostika"
+                },
+                {
+                    "key": "b",
+                    "value": "Epidemioloogia"
+                },
+                {
+                    "key": "c",
+                    "value": "Patsientide ravi"
+                },
+                {
+                    "key": "d",
+                    "value": "Patsiendi ohutus"
+                },
+                {
+                    "key": "e",
+                    "value": "Ennetamine ja ravi"
+                },
+                {
+                    "key": "f",
+                    "value": "Rahvatervisepoliitika"
+                },
+                {
+                    "key": "g",
+                    "value": "Tervishoiuasutuste korraldus"
+                },
+                {
+                    "key": "h",
+                    "value": "Haiguste mõistmine"
+                },
+                {
+                    "key": "i",
+                    "value": "Muud"
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEU": {
+            "label": "Miks edastatakse andmeid väljapoole ELi või EMPd?"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47": {
+            "label": "Artikkel 47: Edastamine kaitse piisavuse otsuse alusel"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47Options": {
+            "label": "Miks edastatakse andmeid väljapoole ELi artikli 47 kohaste valikuvõimaluste alusel?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Isikuandmeid võib edastada kolmandale riigile või rahvusvahelisele organisatsioonile, kui komisjon on vastavalt määruse (EL) 2016/679 artikli 45 lõikele 3 või direktiivi (EL) 2016/680 artikli 36 lõikele 3 otsustanud, et kolmas riik, territoorium või selle kolmanda riigi üks või mitu kindlaksmääratud sektorit või asjaomane rahvusvaheline organisatsioon tagab kaitse piisava taseme ning kui isikuandmeid edastatakse üksnes vastutava töötleja pädevusse kuuluvate ülesannete täitmiseks."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Liidu institutsioonid ja asutused teavitavad komisjoni ja Euroopa Andmekaitseinspektorit juhtudest, kui nad leiavad, et kolmas riik, territoorium või kolmanda riigi üks või mitu kindlaksmääratud sektorit või rahvusvaheline organisatsioon ei taga piisavat kaitsetaset lõike 1 tähenduses."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Liidu institutsioonid ja asutused võtavad vajalikud meetmed komisjoni otsuste täitmiseks, kui komisjon teeb määruse (EL) 2016/679 artikli 45 lõike 3 või 5 või direktiivi (EL) 2016/680 artikli 36 lõike 3 või 5 kohaselt kindlaks, et kolmas riik, territoorium või kolmanda riigi üks või mitu kindlaksmääratud sektorit või rahvusvaheline organisatsioon tagab või enam ei taga kaitse piisavat taset."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48": {
+            "label": "Artikkel 48: Edastamine asjakohaste kaitsemeetmete kohaldamisel"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48bOptions": {
+            "label": "Miks edastatakse andmeid väljapoole ELi artikli 48b kohaste valikuvõimaluste alusel?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "I. Avaliku sektori asutuste või organite vaheline õiguslikult siduv ja täitmisele pööratav dokument"
+                },
+                {
+                    "key": "b",
+                    "value": "II. Isikuandmete kaitse standardklauslid, mille komisjon on vastu võtnud kooskõlas artikli 96 lõikes 2 osutatud kontrollimenetlusega"
+                },
+                {
+                    "key": "c",
+                    "value": "III. Euroopa Andmekaitseinspektori poolt kehtestatud ja komisjoni poolt artikli 96 lõikes 2 osutatud kontrollimenetluse kohaselt heaks kiidetud standardsete andmekaitseklauslitega; L 295/78 ET Euroopa Liidu Teataja, 21.11.2018"
+                },
+                {
+                    "key": "d",
+                    "value": "IV. Kui volitatud töötleja ei ole liidu institutsioon või asutus, siduvate kontsernisiseste eeskirjade, toimimisjuhendite ja määruse (EL) 2016/679 artikli 46 lõike 2 punktidest b, e ja f tulenevate sertifitseerimismehhanismidega."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48a": {
+            "label": "a. Määruse (EL) 2016/679 artikli 45 lõike 3 või direktiivi (EL) 2016/680 artikli 36 lõike 3 kohase otsuse puudumisel võib vastutav töötleja või volitatud töötleja edastada isikuandmeid kolmandale riigile või rahvusvahelisele organisatsioonile üksnes juhul, kui vastutav töötleja või volitatud töötleja on ette näinud asjakohased kaitsemeetmed, ning tingimusel, et andmesubjektide kohtulikult kaitstavad õigused ja tõhusad õiguskaitsevahendid on kättesaadavad. "
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48b": {
+            "label": "b. lõikes 1 osutatud asjakohased kaitsemeetmed võib ilma Euroopa Andmekaitseinspektori eriloata ette näha:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48c": {
+            "label": "C. Euroopa Andmekaitseinspektori loal võivad lõikes 1 osutatud asjakohased kaitsemeetmed ette näha ka eelkõige:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48cOpt": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Vastutava töötleja või volitatud töötleja ning kolmandas riigis või rahvusvahelises organisatsioonis asuva vastutava töötleja, volitatud töötleja või isikuandmete vastuvõtja vahelised lepingutingimused."
+                },
+                {
+                    "key": "b",
+                    "value": "Sätetega, mis tuleb lisada avaliku sektori asutuste või organite vahelistesse halduskokkulepetesse ning mis hõlmavad andmesubjektide kohtulikult kaitstavaid ja tõhusaid õigusi."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48d": {
+            "label": "D. Euroopa Andmekaitseinspektori poolt määruse (EÜ) nr 45/2001 artikli 9 lõike 7 alusel antud load kehtivad seni, kuni Euroopa Andmekaitseinspektor neid vajaduse korral muudab, asendab või tunnistab kehtetuks."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48e": {
+            "label": "e. Liidu institutsioonid ja asutused teavitavad Euroopa Andmekaitseinspektorit juhtumite kategooriatest, mille puhul käesolevat artiklit on kohaldatud."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle49": {
+            "label": "Artikkel 49: Andmete edastamine või avaldamine juhtudel, kui see ei ole liidu õiguse kohaselt lubatud"
+        },
+        "legalBasisForTransferringTheDataOutsideEU": {
+            "label": "Milline on andmete väljapoole ELi või EMPd edastamise õiguslik alus?",
+            "tooltip": "Lisateave isikuandmete kaitse üldmääruse 5. peatükis: <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679#d1e4227-1-1</a>",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Üleandmise riik/territoorium/rahvusvaheline organisatsioon tagab kaitse piisava taseme vastavalt Euroopa Komisjoni otsusele (isikuandmete kaitse üldmääruse artikkel 35)."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Vastutav töötleja või volitatud töötleja on ette näinud asjakohased kaitsemeetmed ning andmesubjektide kohtulikult kaitstavad õigused ja tõhusad õiguskaitsevahendid on kättesaadavad (isikuandmete kaitse üldmääruse artikkel 46)."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Muu erandlik õiguslik alus (kui puuduvad asjakohased kaitsemeetmed vastavalt artiklile 46)"
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUOtherOptions": {
+            "label": "3. Muu erandlik õiguslik alus (kui puuduvad asjakohased kaitsemeetmed vastavalt artiklile 46)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Andmesubjekt on andnud selgesõnalise nõusoleku kavandatavaks edastamiseks pärast seda, kui teda on teavitatud sellise edastamisega kaasnevatest võimalikest ohtudest, mis tulenevad kaitse piisavuse otsuse ja asjakohaste kaitsemeetmete puudumisest."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Edastamine on vajalik andmesubjekti ja vastutava töötleja vahelise lepingu täitmiseks või andmesubjekti taotlusel võetud lepingueelsete meetmete rakendamiseks."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Edastamine on vajalik vastutava töötleja ja teise füüsilise või juriidilise isiku vahel andmesubjekti huvides sõlmitud lepingu sõlmimiseks või täitmiseks."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Edastamine on vajalik avalikust huvist tulenevatel kaalukatel põhjustel."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Edastamine on vajalik õigusnõuete koostamiseks, esitamiseks või kaitsmiseks"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Edastamine on vajalik andmesubjekti või teiste isikute eluliste huvide kaitsmiseks, kui andmesubjekt on füüsiliselt või õiguslikult võimetu nõusolekut andma."
+                },
+                {
+                    "key": "g",
+                    "value": "7. Edastamine toimub registrist, mille eesmärk on liidu või liikmesriigi õiguse kohaselt anda üldsusele teavet ja mis on tutvumiseks avatud kas üldsusele üldiselt või mis tahes isikule, kes suudab tõendada õigustatud huvi, kuid üksnes sel määral, mil konkreetsel juhul on täidetud liidu või liikmesriigi õiguses sätestatud tingimused andmetega tutvumiseks."
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUc1": {
+            "label": "1. Andmesubjekt on andnud selgesõnalise nõusoleku kavandatavaks edastamiseks pärast seda, kui teda on teavitatud sellise edastamisega kaasnevatest võimalikest ohtudest, mis tulenevad kaitse piisavuse otsuse ja asjakohaste kaitsemeetmete puudumisest. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc2": {
+            "label": "2. Edastamine on vajalik andmesubjekti ja vastutava töötleja vahelise lepingu täitmiseks või andmesubjekti taotlusel võetud lepingueelsete meetmete rakendamiseks. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc3": {
+            "label": "3. Edastamine on vajalik vastutava töötleja ja teise füüsilise või juriidilise isiku vahel andmesubjekti huvides sõlmitud lepingu sõlmimiseks või täitmiseks."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc4": {
+            "label": "4. Edastamine on vajalik avalikust huvist tulenevatel kaalukatel põhjustel."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc5": {
+            "label": "5. Edastamine on vajalik õigusnõuete koostamiseks, esitamiseks või kaitsmiseks"
+        },
+        "legalBasisForTransferringTheDataOutsideEUc6": {
+            "label": "6. Edastamine on vajalik andmesubjekti või teiste isikute eluliste huvide kaitsmiseks, kui andmesubjekt on füüsiliselt või õiguslikult võimetu nõusolekut andma."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc7": {
+            "label": "7. Edastamine toimub registrist, mille eesmärk on liidu või liikmesriigi õiguse kohaselt anda üldsusele teavet ja mis on tutvumiseks avatud kas üldsusele üldiselt või mis tahes isikule, kes suudab tõendada õigustatud huvi, kuid üksnes sel määral, mil konkreetsel juhul on täidetud liidu või liikmesriigi õiguses sätestatud tingimused andmetega tutvumiseks."
+        },
+        "safeguardsAreProvidedByReferringGDCP": {
+            "label": "Need kaitsemeetmed on ette nähtud:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Avaliku sektori asutuste või organite vaheline õiguslikult siduv ja täitmisele pööratav dokument"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Siduvad ettevõtluseeskirjad vastavalt artiklile 47"
+                },
+                {
+                    "key": "c",
+                    "value": "3. Komisjoni poolt artikli 93 lõikes 2 osutatud kontrollimenetluse kohaselt vastu võetud standardsed andmekaitseklauslid"
+                },
+                {
+                    "key": "d",
+                    "value": "4. Järelevalveasutuse poolt vastu võetud ja komisjoni poolt artikli 93 lõikes 2 osutatud kontrollimenetluse kohaselt heaks kiidetud standardsed andmekaitseklauslid"
+                },
+                {
+                    "key": "e",
+                    "value": "5. Artikli 40 kohane heakskiidetud käitumisjuhend koos kolmanda riigi vastutava töötleja või volitatud töötleja siduvate ja täitmisele pööratavate kohustustega kohaldada asjakohaseid kaitsemeetmeid, sealhulgas seoses andmesubjektide õigustega;"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Artikli 42 kohane heakskiidetud sertifitseerimismehhanism koos kolmanda riigi vastutava töötleja või volitatud töötleja siduvate ja täitmisele pööratavate kohustustega kohaldada asjakohaseid kaitsemeetmeid, sealhulgas seoses andmesubjektide õigustega;"
+                }
+            ]
+        },
+        "whichOrganizationWillBeTheControllerOfData": {
+            "label": "Milline(ad) organisatsioon(id) või üksikisik on selle taotluse alusel loodavate andmete vastutav töötleja?",
+            "tooltip": "Vastutav töötleja määrab kindlaks isikuandmete töötlemise eesmärgid ja vahendid. Teisisõnu otsustab vastutav töötleja andmetöötlustoimingu viisi ja põhjuse. Vastutav töötleja võib olla juriidiline isik, näiteks ettevõte, VKE, avaliku sektori asutus, amet või muu organ. Rohkem teavet: https://edpb.europa.eu/sme-data-protection-guide/data-controller-data-processor_en"
+        },
+        "complyWithDataMinimisationPrinciple": {
+            "label": "Kuidas järgite andmete töötlemisel võimalikult väheste andmete kogumise põhimõtet (ELi isikuandmete kaitse üldmäärus)?",
+            "tooltip": "Isikuandmete kaitse üldmääruse artikli 5 lõike 1 punkt c: „Isikuandmed peavad olema piisavad, asjakohased ja piirduma sellega, mis on vajalik nende töötlemise eesmärgi täitmiseks („võimalikult väheste andmete kogumine“).“ "
+        },
+        "complyWithDataMinimisationPrincipleNotEUMember": {
+            "label": "Kuidas järgite andmete töötlemisel võimalikult väheste andmete kogumise põhimõtet (ELi andmekaitsemäärus)? ",
+            "tooltip": "ELi isikuandmete kaitse määruse artikli 4 lõike 1 punkt c: „Isikuandmed peavad olema piisavad, asjakohased ja piirduma sellega, mis on vajalik nende töötlemise eesmärgi saavutamiseks („võimalikult väheste andmete kogumine“)“."
+        },
+        "protectionAndSecurityStatements": {
+            "label": "Taotluse menetlemiseks peate kinnitama järgmised avaldused (andmekaitse ja turvalisusega seotud avaldused):"
+        },
+        "protectionAndSecurityStatementsA": {
+            "label": "1. Kinnitan, et kui terviseandmetele juurdepääsu asutus annab mulle taotletud andmed, kasutan neid ainult käesolevas taotlusvormis märgitud eesmärgil (eesmärkidel)."
+        },
+        "protectionAndSecurityStatementsB": {
+            "label": "2. Saan aru, et andmete kopeerimine turvalisest töötlemiskeskkonnast on keelatud."
+        },
+        "protectionAndSecurityStatementsC": {
+            "label": "3. Saan aru, et seadme ekraani kuvatõmmiste või fotode tegemine turvalises töötlemiskeskkonnas on keelatud."
+        },
+        "protectionAndSecurityStatementsD": {
+            "label": "4. Olen kehtestanud piisavad ohutusmeetmed (näiteks tulemüüri), et kaitsta erinevaid võrke, millega turvalisele töötlemiskeskkonnale juurdepääsuks kasutatavad seadmed on ühendatud."
+        },
+        "protectionAndSecurityStatementsE": {
+            "label": "5. Saan aru, et tagasituvastuskatsed on keelatud ja terviseandmetele juurdepääsu asutus võib määrata karistusi vastavalt Euroopa terviseandmete määruse artiklile 43."
+        },
+        "onlyThePeopleMentioned": "Juurdepääs andmete töötlemiseks turvalises töötlemiskeskkonnas antakse ainult andmeloas nimetatud isikutele.",
+        "sameAsContactPerson": {
+            "label": "Sama mis 3. jaos nimetatud kontaktisik?"
+        },
+        "listTheFullNames": {
+            "label": "Loetlege kõigi andmeid töötlevate isikute täisnimed, liikmeskonnad ja e-posti aadressid."
+        },
+        "fullName": {
+            "label": "Täisnimi"
+        },
+        "affiliation": {
+            "label": "Liitumine"
+        },
+        "emailAddress": {
+            "label": "E-posti aadress"
+        },
+        "lawfulnessOfProcessing": "Töötlemise seaduslikkus;",
+        "legalBasisForProcessingPersonalData": {
+            "label": "Milline on käesoleva taotlusvormiga taotletavate isikuandmete töötlemise õiguslik alus?"
+        },
+        "lawfulForProcessingPersonalData": {
+            "label": "Käesoleva taotlusvormiga taotletavate isikuandmete töötlemine on seaduslik ainult siis ja sellises ulatuses, kui on täidetud vähemalt üks järgmistest tingimustest (kooskõlas ELi isikuandmete kaitse üldmääruse (määrus (EL) 2016/679) artikli 6 lõikega 1):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Andmesubjekt on andnud nõusoleku oma isikuandmete töötlemiseks ühel või mitmel konkreetsel eesmärgil"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Isikuandmete töötlemine on vajalik andmesubjekti osalusel sõlmitud lepingu täitmiseks või lepingu sõlmimisele eelnevate meetmete võtmiseks vastavalt andmesubjekti taotlusele."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Isikuandmete töötlemine on vajalik vastutava töötleja õiguslikult siduva kohustuse täitmiseks."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Töötlemine on vajalik andmesubjekti või muu füüsilise isiku eluliste huvide kaitsmiseks."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Töötlemine on vajalik avalikes huvides oleva ülesande täitmiseks või vastutava töötleja avaliku võimu teostamiseks"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Isikuandmete töötlemine on vajalik vastutava töötleja või kolmanda isiku õigustatud huvi eesmärgil, välja arvatud juhul, kui sellise huvi kaaluvad üles andmesubjekti huvid või põhiõigused ja -vabadused, mille nimel tuleb kaitsta isikuandmeid, eriti juhul, kui andmesubjekt on laps."
+                }
+            ]
+        },
+        "lawfulForProcessingPersonalDataNaturalPersonOption": {
+            "key": "f",
+            "value": "6. Isikuandmete töötlemine on vajalik vastutava töötleja või kolmanda isiku õigustatud huvi eesmärgil, välja arvatud juhul, kui sellise huvi kaaluvad üles andmesubjekti huvid või põhiõigused ja -vabadused, mille nimel tuleb kaitsta isikuandmeid, eriti juhul, kui andmesubjekt on laps."
+        },
+        "otherLegalBasisForProcessingPersonalData": {
+            "label": "Muu, mis?"
+        },
+        "legalBasisForProcessingCombinedData": {
+            "label": "Milline on õiguslik alus muude andmete töötlemiseks, mida te kombineerite käesolevas taotluses taotletud andmetega? "
+        },
+        "otherLegalBasisForProcessingCombinedData": {
+            "label": "Muu, mis?"
+        },
+        "europeanUnionInstitution": {
+            "label": "Käesoleva taotlusvormiga taotletavate isikuandmete töötlemine on seaduslik ainult siis ja sellises ulatuses, kui on täidetud vähemalt üks järgmistest tingimustest (kooskõlas ELi isikuandmete kaitse määruse (määrus (EL) 2018/1725) artikli 5 lõikega 1):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Nende töötlemine on vajalik avalikes huvides oleva ülesande täitmiseks või liidu institutsiooni või organi avaliku võimu teostamiseks"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Töötlemine on vajalik vastutava töötleja õiguslikult siduva kohustuse täitmiseks."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Isikuandmete töötlemine on vajalik andmesubjekti osalusel sõlmitud lepingu täitmiseks või lepingu sõlmimisele eelnevate meetmete võtmiseks vastavalt andmesubjekti taotlusele."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Andmesubjekt on andnud nõusoleku oma isikuandmete töötlemiseks ühel või mitmel konkreetsel eesmärgil."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Isikuandmete töötlemine on vajalik andmesubjekti või mõne muu füüsilise isiku eluliste huvide kaitsmiseks."
+                }
+            ]
+        },
+        "legalBasisForProcessingApplicationData": {
+            "label": "Milline on käesoleva taotlusvormiga taotletavate isikuandmete töötlemise õiguslik alus?"
+        },
+        "otherLegalBasisForProcessingApplicationData": {
+            "label": "Muu, mis?"
+        },
+        "legalBasisForProcessingCombinedApplicationData": {
+            "label": "Milline on õiguslik alus muude andmete töötlemiseks, mida te kombineerite käesolevas taotluses taotletud andmetega?"
+        },
+        "otherLegalBasisForProcessingCombinedApplicationData": {
+            "label": "Muu, mis?"
+        },
+        "attachResearchPermitIfRequired": {
+            "label": "Kui teie uuringuks on vaja oma liituva organisatsiooni uurimisluba, lisage uuringuluba."
+        }
+    },
+    "section9": {
+        "section9h5": "Täiendav teave",
+        "section9Description": "Siin saate esitada lisateavet oma kandideerimisavalduse mis tahes osa kohta. Märkige jaotise number ja küsimus, millele Teie märkus viitab.",
+        "additionalInformation": {
+            "label": "Lisateave või lisamärkused",
+            "tooltip": "Siin saate esitada lisateavet oma kandideerimisavalduse mis tahes osa kohta. Märkige jaotise number ja küsimus, millele Teie märkus viitab. Tehnilise rakendamise soovitus: Teise võimalusena võiks taotlejal olla võimalus siduda teave vormi konkreetsete osadega, et hõlbustada HDAB-de tööd."
+        },
+        "additionalAttachment": {
+            "label": "Täiendav manus. Ärge lisage taotlusele tervise- ega isikuandmeid.",
+            "tooltip": "Kui teil on mõni muu manus, mida peate oma taotluse menetlemisel asjakohaseks ja mis on vajalik selleks, et terviseandmetele juurdepääsu asutus saaks seda näha, lisage see siia. Kirjeldage selle asjakohasust eespool esitatud tekstiväljal."
+        }
+    },
+    "section10": {
+        "section10h5": "Teabe kinnitamine",
+        "section10Description": "Enne käesoleva taotluse menetlemist peate taotlejana menetlustasud heaks kiitma.",
+        "submitYouApplicationText": "Avalduse esitamiseks peate kinnitama järgmist:",
+        "acceptHealthDataBody": {
+            "label": "Olen nõus, et terviseandmete asutus koostab statistika ja mul ei ole juurdepääsu statistika koostamiseks kasutatud andmetele."
+        },
+        "awareProcessingFee": {
+            "label": "Olen teadlik, et minu taotluse menetlemise eest võetakse menetlustasu. Seda kohaldatakse ka tühistatud taotluse või negatiivse otsuse korral."
+        },
+        "awareChargeFee": {
+            "label": "Olen teadlik, et andmevaldaja(d) võivad nõuda tasu."
+        },
+        "awareInformationCorrect": {
+            "label": "Kinnitan, et esitatud teave on õige."
+        }
+    },
+    "commonFields": {
+        "aboutThisSection": "Selle osa kohta",
+        "yesOrNoOptions": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Jah"
+                },
+                {
+                    "key": "b",
+                    "value": "Ei"
+                }
+            ]
+        },
+        "onceOrMultipleTimes": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Kord"
+                },
+                {
+                    "key": "b",
+                    "value": "Mitu korda"
+                }
+            ]
+        },
+        "everyWhen": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Igal aastal"
+                },
+                {
+                    "key": "b",
+                    "value": "Pool aastat"
+                },
+                {
+                    "key": "c",
+                    "value": "Nõuded"
+                },
+                {
+                    "key": "d",
+                    "value": "Muud"
+                }
+            ]
+        },
+        "processingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. e) töötlemine on vajalik avalikes huvides oleva ülesande täitmiseks või vastutava töötleja avaliku võimu teostamiseks;"
+                },
+                {
+                    "key": "b",
+                    "value": "2. f) Töötlemine on vajalik vastutava töötleja või kolmanda isiku õigustatud huvide elluviimiseks, välja arvatud juhul, kui sellised huvid kaaluvad üles andmesubjekti huvid või põhiõigused ja -vabadused, mis nõuavad isikuandmete kaitset, eelkõige juhul, kui andmesubjekt on laps."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Muud"
+                }
+            ]
+        },
+        "legalBasisForProcessingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. a) Töötlemine on vajalik avalikes huvides oleva ülesande täitmiseks või liidu institutsiooni või organi avaliku võimu teostamiseks."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Muud"
+                }
+            ]
+        }
+    }
+}

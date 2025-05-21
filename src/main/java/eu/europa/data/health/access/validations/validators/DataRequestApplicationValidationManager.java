@@ -284,9 +284,6 @@ public class DataRequestApplicationValidationManager extends AbstractSchemaValid
       case 4:
         cleanSection4(mongoApplication);
         break;
-      case 5:
-        cleanSection5(mongoApplication);
-        break;
       default:
         break;
     }
@@ -297,19 +294,6 @@ public class DataRequestApplicationValidationManager extends AbstractSchemaValid
   }
 
   private void cleanSection2(JsonObject section2) {
-
-    JsonArray theResearchFocusesOnTheFollowingObjectives = section2.getJsonArray(
-      "theResearchFocusesOnTheFollowingObjectives");
-    if (Objects.nonNull(theResearchFocusesOnTheFollowingObjectives) && notContainsKey(
-      theResearchFocusesOnTheFollowingObjectives, "i")) {
-      section2.remove("theResearchFocusesOnTheFollowingObjectivesOther");
-    }
-
-    JsonArray areaOfResearch = section2.getJsonArray("areaOfResearch");
-    if (Objects.nonNull(areaOfResearch) && notContainsKey(areaOfResearch, "aj")) {
-      section2.remove("areaOfResearchOther");
-    }
-
     boolean isDescriptionChecked =
       section2.containsKey(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION)
         && section2.getBoolean(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION,
@@ -317,8 +301,6 @@ public class DataRequestApplicationValidationManager extends AbstractSchemaValid
 
     if (!isDescriptionChecked) {
       section2.remove("descriptionOfTheProject");
-    } else {
-      section2.remove("descriptionOfTheDataYouWillUse");
     }
 
     boolean isSummaryChecked =
@@ -386,33 +368,6 @@ public class DataRequestApplicationValidationManager extends AbstractSchemaValid
     }
   }
 
-  private void cleanSection5(JsonObject section5) {
-    JsonArray purposeOfUse = section5.getJsonArray("purposeOfUse");
-    if (Objects.nonNull(purposeOfUse) && notContainsKey(purposeOfUse, "b")) {
-      section5.remove("legalBasis");
-      section5.remove("linkToTheSupportingLegalBasis");
-    }
-
-    if (Objects.nonNull(purposeOfUse) && notContainsSelectedValueWithoutSpecificValue(
-      purposeOfUse)) {
-      section5.remove("summaryOfPlanForUsingTheData");
-      section5.remove("summaryOfPlanForUsingTheDataLanguage");
-      section5.remove("personResponsibleSameAsContactPerson");
-      section5.remove("personResponsibleName");
-      section5.remove("personResponsibleJobTitle");
-      section5.remove("personResponsibleAffiliation");
-    }
-
-    if (Objects.nonNull(purposeOfUse) && notContainsKey(purposeOfUse, "e")) {
-      section5.remove("summaryOfResearchPlan");
-      section5.remove("summaryOfResearchPlanLanguage");
-      section5.remove("personResearchSameAsContactPerson");
-      section5.remove("personResearchName");
-      section5.remove("personResearchJobTitle");
-      section5.remove("personResearchAffiliation");
-    }
-  }
-
   private void cleanSection6(JsonArray section6Array) {
 
     for (int i = 0; i < section6Array.size(); i++) {
@@ -449,30 +404,6 @@ public class DataRequestApplicationValidationManager extends AbstractSchemaValid
         section.remove("needForDataExtractionEveryOther");
       }
     }
-  }
-
-  //Method to check if the JsonArray doesn't contain an object with a specific key value
-  private boolean notContainsKey(JsonArray jsonArray, String keyToCheck) {
-    for (int i = 0; i < jsonArray.size(); i++) {
-      JsonObject obj = jsonArray.getJsonObject(i);
-      String key = obj.getString("key");
-      if (keyToCheck.equals(key)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  private boolean notContainsSelectedValueWithoutSpecificValue(JsonArray jsonArray) {
-    for (int i = 0; i < jsonArray.size(); i++) {
-      JsonObject obj = jsonArray.getJsonObject(i);
-      String key = obj.getString("key");
-
-      if (!key.equals("e")) {
-        return false;
-      }
-    }
-    return true;
   }
 
   private String getCountryId(ConstraintViolation<SectionDTO> violation) {
@@ -711,7 +642,8 @@ public class DataRequestApplicationValidationManager extends AbstractSchemaValid
 
   static String getSection6Subsection(String fieldName) {
     if (fieldName != null && (fieldName.equals("country_id")
-      || fieldName.equals("hdabContacts"))) {
+      || fieldName.equals("hdabContacts")
+      || fieldName.equals("howWillTheDataFromDifferentSourcesBeLinked"))) {
       return "6.0";
     } else if (fieldName != null && (fieldName.equals("willControlsBeExtracted")
       || fieldName.equals("willSameDataBeExtractedForControls")
@@ -725,13 +657,7 @@ public class DataRequestApplicationValidationManager extends AbstractSchemaValid
       || fieldName.equals("sizeOfControlGroup")
       || fieldName.equals("sizeOfControlGroupEstimationOrExact")
       || fieldName.equals("controlsPerPersonInStudyCohort")
-      || fieldName.equals("inclusionCriteriaForControls")
       || fieldName.equals("exclusionCriteriaForControls")
-      || fieldName.equals("previouslyIssuedPermitIssuer")
-      || fieldName.equals("previouslyIssuedPermitDate")
-      || fieldName.equals("previouslyIssuedPermitValidityPeriodFrom")
-      || fieldName.equals("previouslyIssuedPermitValidityPeriodTo")
-      || fieldName.equals("previouslyIssuedPermitNumber")
       || fieldName.equals("willDataForControlsBeExtractedSimultaneously")
       || fieldName.equals("dataExtractionFrequencyMultipleTimesInformation")
       || fieldName.equals("dataExtractionFrequency")
@@ -749,7 +675,6 @@ public class DataRequestApplicationValidationManager extends AbstractSchemaValid
       || fieldName.equals("variablesForDataExtractionRelatives")
       || fieldName.equals("timePeriodForDataExtractionRelatives")
       || fieldName.equals("relationshipToStudyCohort")
-      || fieldName.equals("previouslyIssuedPermitIssuerRelatives")
       || fieldName.equals("sizeOfRelativesGroup")
       || fieldName.equals("sizeOfRelativesGroupEstimateOrExact")
       || fieldName.equals("willDataForRelativesBeExtractedSimultaneously")

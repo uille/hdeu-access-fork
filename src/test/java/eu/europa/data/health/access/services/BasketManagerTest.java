@@ -24,6 +24,7 @@ import eu.europa.data.health.access.RoutingContextMocker;
 import eu.europa.data.health.access.handlers.DBHandler;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.RoutingContext;
@@ -36,6 +37,7 @@ import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testcontainers.containers.MongoDBContainer;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 @ExtendWith(VertxExtension.class)
@@ -470,6 +472,52 @@ import java.util.concurrent.TimeUnit;
       })
       .onFailure(testContext::failNow);
 
+  }
+
+  @Test
+  @Timeout(value = 5, unit = TimeUnit.MINUTES)
+  void testDeleteDistributionsByDistributionIdList(Vertx vertx, VertxTestContext testContext) {
+
+    String datasetIdStr = "7cdaaad8-1123-42c4-9a0b-a648a23d637b";
+    String distributionIdStr1 = "18054bf7-09a5-41be-9f5c-f465f6c07a1b";
+    String distributionIdStr2 = "28054bf7-09a5-41be-9f5c-f465f6c07a1b";
+
+    JsonObject datasetId = new JsonObject().put("dataset_id", datasetIdStr);
+
+    RoutingContext context1 = RoutingContextMocker.mockRoutingContext(
+      new JsonObject().put("dataset_id", datasetIdStr).put("distribution_id", distributionIdStr1));
+    RoutingContext context2 = RoutingContextMocker.mockRoutingContext(
+      new JsonObject().put("dataset_id", datasetIdStr).put("distribution_id", distributionIdStr2));
+
+    basketManager.createOrUpdateBasketDataset(context1)
+      .compose(res1 -> basketManager.createOrUpdateBasketDataset(context2))
+      .onSuccess(res2 -> {
+        vertx.setTimer(500, t1 -> {
+          ArrayList<JsonObject> distributionsToDelete = new ArrayList<>();
+          distributionsToDelete.add(new JsonObject().put("distribution_id", distributionIdStr1));
+
+          basketManager.deleteDistributionsByDistributionIdList(datasetId, distributionsToDelete);
+
+          vertx.setTimer(1000, t2 -> {
+            mongoClient.findOne("BASKET", datasetId, null, ar -> {
+              if (ar.succeeded()) {
+                JsonObject result = ar.result();
+                assertNotNull(result, "Dataset should still exist");
+                JsonArray remainingDistributions = result.getJsonArray("distributions");
+
+                assertNotNull(remainingDistributions, "Distributions array should not be null");
+                assertEquals(1, remainingDistributions.size(), "Only one distribution should remain");
+                assertEquals(distributionIdStr2, remainingDistributions.getJsonObject(0).getString("distribution_id"));
+
+                testContext.completeNow();
+              } else {
+                testContext.failNow(ar.cause());
+              }
+            });
+          });
+        });
+      })
+      .onFailure(testContext::failNow);
   }
 
 }

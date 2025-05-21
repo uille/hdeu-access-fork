@@ -18,11 +18,25 @@ package eu.europa.data.health.access.handlers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
+import io.vertx.ext.mongo.MongoClientUpdateResult;
+import io.vertx.ext.mongo.UpdateOptions;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
 import io.vertx.serviceproxy.ServiceException;
@@ -31,8 +45,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.shaded.org.awaitility.Awaitility;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 @ExtendWith(VertxExtension.class)
@@ -44,6 +61,10 @@ class DBHandlerTest {
 
   private static final String JUNIT_TEST_DATABASE = "junitTestDatabase";
   private static final String DB_HANDLER_COLLECTION = "dbHandlerCollection";
+  private boolean skipCleanup = false;
+
+  Logger logger = (Logger) LoggerFactory.getLogger(DBHandler.class);
+
 
   @BeforeEach
   void setUp(VertxTestContext testContext) {
@@ -63,6 +84,10 @@ class DBHandlerTest {
 
   @AfterEach
   void tearDown(VertxTestContext testContext) {
+    if (skipCleanup) {
+      testContext.completeNow();
+      return; // skip teardown logic
+    }
     try {
       mongoClient.close().onComplete(v -> {
         mongoDBContainer.stop();
@@ -154,21 +179,22 @@ class DBHandlerTest {
   @Timeout(value = 5, unit = TimeUnit.MINUTES)
   void testFindDocumentByField(VertxTestContext testContext) {
 
-    JsonObject document = new JsonObject().put("key", "testFindDocumentByFieldKey").put("value", "testFindDocumentByFieldValue");
+    JsonObject document = new JsonObject().put("key", "testFindDocumentByFieldKey")
+      .put("value", "testFindDocumentByFieldValue");
 
     dbHandler.create(DB_HANDLER_COLLECTION, document)
-      .compose(id -> {
+      .onSuccess(id -> {
         assertNotNull(id);
-        JsonObject documentToFindByField = new JsonObject().put("key", "testFindDocumentByFieldKey");
-        return dbHandler.findByField(DB_HANDLER_COLLECTION, documentToFindByField);
-      })
-      .onSuccess(result -> {
-        assertNotNull(result);
-        assertEquals("testFindDocumentByFieldKey", result.getString("key"));
-        assertEquals("testFindDocumentByFieldValue", result.getString("value"));
-        testContext.completeNow();
-      })
-      .onFailure(testContext::failNow);
+        JsonObject documentToFindByField = new JsonObject().put("key",
+          "testFindDocumentByFieldKey");
+        dbHandler.findByField(DB_HANDLER_COLLECTION, documentToFindByField)
+          .onSuccess(result -> {
+            assertNotNull(result);
+            assertEquals("testFindDocumentByFieldKey", result.getString("key"));
+            assertEquals("testFindDocumentByFieldValue", result.getString("value"));
+            testContext.completeNow();
+          });
+      }).onFailure(testContext::failNow);
   }
 
   @Test
@@ -545,5 +571,81 @@ class DBHandlerTest {
       })
       .onFailure(testContext::failNow);
   }
+
+
+  @Test
+  void testUpdateLinkableFieldsSuccess() {
+    skipCleanup = true;
+
+    ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+    listAppender.start();
+    logger.addAppender(listAppender);
+
+    // Arrange
+    String collection = "testCollection";
+    String objectId = "12345";
+
+    // Act
+    Future<Object> result = dbHandler.updateLinkableFields(collection, objectId);
+
+
+    Awaitility.await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> {
+      boolean found = listAppender.list.stream()
+        .anyMatch(event ->
+          event.getLevel() == Level.INFO &&
+            event.getFormattedMessage().contains("Linkable fields updated successfully"));
+      assertTrue(found);
+      assertTrue(result.isComplete());
+
+    });
+
+  }
+
+
+  @Test
+  void testUpdateLinkableFieldsFailure() {
+    skipCleanup = true;
+
+    ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+    listAppender.start();
+    logger.addAppender(listAppender);
+
+    // Arrange
+    String collection = "testCollection";
+    String objectId = "12345";
+
+    mongoClient = mock(MongoClient.class);
+    dbHandler = new DBHandler(mongoClient);
+
+        when(mongoClient.updateCollectionWithOptions(
+      anyString(),
+      any(JsonObject.class),
+      any(JsonObject.class),
+      any(UpdateOptions.class),
+      any()
+    ))
+      .thenAnswer(invocation -> {
+        Handler<AsyncResult<MongoClientUpdateResult>> handler = invocation.getArgument(4); // use correct index
+        handler.handle(Future.failedFuture("error")); // simulate failure
+        return null;
+      });
+
+    // Act
+    Future<Object> result = dbHandler.updateLinkableFields(collection, objectId);
+
+
+    Awaitility.await().atMost(Duration.ofSeconds(4)).untilAsserted(() -> {
+      boolean found = listAppender.list.stream()
+        .anyMatch(event ->
+          event.getLevel() == Level.ERROR &&
+            event.getFormattedMessage().contains("Failed"));
+      assertTrue(found);
+      assertTrue(result.isComplete());
+
+    });
+
+  }
+
+
 
 }

@@ -9,8 +9,10 @@
 - [Configuration](#configuration)
 - [AWS Secrets Manager Integration](#aws-secrets-manager-integration)
   - [How It Works](#how-it-works)
-  - [SecretProviderClass Definition](#secretproviderclass-definition)
-  - [Mapping AWS Secrets to Kubernetes Secrets](#mapping-aws-secrets-to-kubernetes-secrets)
+  - [Enabling the Integration](#enabling-the-integration)
+  - [Example Configuration](#example-configuration)
+  - [SecretProviderClass Template (Auto-Generated)](#secretproviderclass-template-auto-generated)
+  - [Mapping Overview](#mapping-overview)
   - [How to Use](#how-to-use)
 - [License](#license)
 
@@ -75,9 +77,25 @@ This Helm chart supports integration with **AWS Secrets Manager** using the **Se
 - The **SecretProviderClass** defines which secrets to retrieve and how they are mapped.
 - The retrieved secrets are automatically created as **Kubernetes secrets** and mounted into the application as environment variables.
 
-### SecretProviderClass Definition
+### Enabling the Integration
 
-The following **SecretProviderClass** is created when `aws.enabled` is set to `true`:
+To enable AWS Secrets Manager integration, configure your `values.yaml` as follows:
+
+```yaml
+aws:
+  enabled: true
+  secrets:
+    provider: aws
+    objects: []
+```
+
+- `enabled`: Enables or disables secret integration.
+- `provider`: The CSI provider (aws).
+- `objects`: A list of secrets and their keys to fetch from AWS Secrets Manager.
+
+### Example Configuration
+
+Here's an example of how to define secrets in your values.yaml file:
 
 ```yaml
 apiVersion: secrets-store.csi.x-k8s.io/v1
@@ -135,7 +153,76 @@ spec:
           key: export_data_access_api_key
 ```
 
-### Mapping AWS Secrets to Kubernetes Secrets
+### SecretProviderClass Template (Auto-Generated)
+
+When `aws.enabled: true`, the Helm chart generates a `SecretProviderClass` similar to this:
+
+```yaml
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: {{ include "health-data-access.name" . }}-spc
+spec:
+  provider: {{ .Values.secrets.provider }}
+  parameters:
+    objects: |
+      - objectName: "HEALTHDATA_MONGO_DB_SECRET"
+        objectType: "secretsmanager"
+        jmesPath:
+          - path: username
+            objectAlias: username
+          - path: password
+            objectAlias: password
+          - path: mongo_uri
+            objectAlias: mongo_uri
+      - objectName: "HEALTHDATA_API_KEYS"
+        objectType: "secretsmanager"
+        jmesPath:
+          - path: hub_store_data_upload_api_key
+            objectAlias: hub_store_data_upload_api_key
+          - path: health_data_access_api_key
+            objectAlias: health_data_access_api_key
+          - path: dispatcher_x_api_key
+            objectAlias: dispatcher_x_api_key
+          - path: export_data_access_api_key
+            objectAlias: export_data_access_api_key
+      - objectName: "HEALTH_DATA_ACCESS_SECRETS"
+        objectType: "secretsmanager"
+        jmesPath:
+          - path: access_auth_config
+            objectAlias: access_auth_config
+  secretObjects:
+    - secretName:  {{ include "health-data-access.name" . }}-secrets
+      type: Opaque
+      data:
+        - objectName: username
+          key: username
+        - objectName: password
+          key: password
+        - objectName: mongo_uri
+          key: mongo_uri
+        - objectName: hub_store_data_upload_api_key
+          key: hub_store_data_upload_api_key
+        - objectName: health_data_access_api_key
+          key: health_data_access_api_key
+        - objectName: dispatcher_x_api_key
+          key: dispatcher_x_api_key
+        - objectName: access_auth_config
+          key: access_auth_config
+        - objectName: export_data_access_api_key
+          key: export_data_access_api_key
+```
+
+### Mapping Overview
+
+Each entry in the `objects` list defines the mapping from AWS Secrets Manager to Kubernetes secrets.
+
+| AWS Secret Name              | AWS Key (path)                    | Kubernetes Secret Key            |
+|------------------------------|-----------------------------------|----------------------------------|
+| `name:` from `objects`       | `path:` from `jmesPath`           | `objectAlias:` value             |
+|                              |                                   |
+
+Below is a full example of mapping:
 
 | AWS Secret Name                       | AWS Key (path)                      | Kubernetes Secret Key            |
 |---------------------------------------|-------------------------------------|----------------------------------|

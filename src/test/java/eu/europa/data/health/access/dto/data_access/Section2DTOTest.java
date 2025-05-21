@@ -26,9 +26,10 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import org.junit.jupiter.api.Test;
+
 import java.util.List;
 import java.util.Set;
-import org.junit.jupiter.api.Test;
 
 class Section2DTOTest {
 
@@ -43,9 +44,7 @@ class Section2DTOTest {
     dto.setProjectLeader("Leader A");
     dto.setCountryOfProjectLeader(new SelectObjectDTO("US", "United States"));
     dto.setPurposeForWhichDataWillBeUsed(List.of(new SelectObjectDTO("a", "a. value")));
-    dto.setAreaOfResearch(List.of(new SelectObjectDTO("a", "a. value")));
     dto.setSummaryOfTheProject("Summary A");
-    dto.setDescriptionOfTheDataYouWillUse("Description A");
 
     Set<ConstraintViolation<Section2DTO>> violations = validator.validate(dto);
     assertTrue(violations.isEmpty(), "Expected no validation errors.");
@@ -83,14 +82,10 @@ class Section2DTOTest {
     dto.setProjectName("Project A");
     dto.setProjectLeader("Leader A");
     dto.setCountryOfProjectLeader(new SelectObjectDTO("US", "United States"));
-    dto.setTheResearchFocusesOnTheFollowingObjectives(List.of(
-      new SelectObjectDTO("1", "Other")
-    ));
-    dto.setTheResearchFocusesOnTheFollowingObjectivesOther(null);
 
     Set<ConstraintViolation<Section2DTO>> violations = validator.validate(dto);
     assertFalse(violations.isEmpty(), "Expected validation errors for missing other field.");
-    assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("theResearchFocusesOnTheFollowingObjectivesOther must be provided")),
+    assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("summaryOfTheProject must be provided when theNatureOfTheDataDoesNotLetYouProvideADescription is false")),
       "Expected validation message for missing other field.");
   }
 

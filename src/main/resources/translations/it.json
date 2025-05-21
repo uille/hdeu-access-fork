@@ -1,0 +1,1588 @@
+{
+    "section1": {
+        "section1h5": "Selezione delle fonti di dati per il progetto",
+        "section1Description": "Gli utenti dei dati dovrebbero richiedere solo dati adeguati, pertinenti e limitati a quanto necessario in relazione alla loro finalità d'uso, \nseguendo il principio della minimizzazione dei dati di cui al regolamento generale sulla protezione dei dati dell'UE del 58 (articolo 5, paragrafo 1 quater). \nL'organismo responsabile dell'accesso ai dati sanitari valuta attentamente se i requisiti sono in linea con il principio di minimizzazione dei dati del GDPR.",
+        "section1DescriptionDR": "Un'applicazione per l'accesso ai dati sanitari elettronici per l'uso secondario in formato statistico anonimizzato",
+        "applicationDatasets": {
+            "label": "Da quali registrazioni di serie di dati o registri e/o distribuzione saranno estratti i dati?"
+        },
+        "applicationCountries": {
+            "label": "Da quale paese/quali paesi chiede i dati?"
+        },
+        "applicationDataHolders": {
+            "label": "Da quale titolare o quali titolari dei dati saranno estratti i dati?"
+        },
+        "applicationHDABs": {
+            "label": "A quale organismo/organismi responsabile dell'accesso ai dati sanitari desideri presentare la domanda?"
+        },
+        "applicationDatabases": {
+            "label": "Da quali banche dati o registri saranno estratti i dati?"
+        }
+    },
+    "section2": {
+        "section2h5": "Informazione del pubblico sul progetto",
+        "section2Description": "Gli organismi responsabili dell'accesso ai dati sanitari nell'Unione europea sono tenuti a pubblicare sul loro sito web informazioni sulle autorizzazioni, richieste e domande relative ai dati entro 30 giorni lavorativi dal rilascio dell'autorizzazione ai dati o dalla risposta a una richiesta di dati. In questa sezione si prega di fornire informazioni sul progetto che possono essere condivise con il pubblico. Assicuratevi che non siano incluse informazioni riservate. Fornisci le tue risposte in termini di non addetti ai lavori. In quanto utente dei dati, l'utente sarà tenuto a rendere pubblici i risultati o le realizzazioni del progetto entro 18 mesi dal completamento del trattamento o dal ricevimento della risposta alla richiesta di dati. Occorre inoltre comunicare all'organismo responsabile dell'accesso ai dati sanitari il numero di pubblicazioni di ricerca sottoposte a valutazione inter pares, documenti strategici e/o procedure di regolamentazione condotte utilizzando i dati consultati tramite questa applicazione.",
+        "projectName": {
+            "label": "Nome del progetto"
+        },
+        "projectLeader": {
+            "label": "Nome del responsabile del progetto (organizzazione, istituzione, soggetto del settore privato o persona fisica)",
+            "tooltip": "Questa è la persona responsabile dell'uso dei dati."
+        },
+        "countryOfProjectLeader": {
+            "label": "Domicilio ufficiale (paese) del soggetto responsabile del progetto"
+        },
+        "purposeForWhichDataWillBeUsed": {
+            "label": "Scopo per il quale i dati saranno utilizzati",
+            "tooltip": "Finalità del regolamento sullo spazio europeo dei dati sanitari.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "A. pubblico interesse nell'ambito della sanità pubblica o della medicina del lavoro, come nel caso delle attività per la protezione da gravi minacce per la salute a carattere transfrontaliero, della sorveglianza della sanità pubblica o delle attività per la garanzia di elevati livelli di qualità e sicurezza dell'assistenza sanitaria, inclusa la sicurezza dei pazienti, e di medicinali o dispositivi medici."
+                },
+                {
+                    "key": "b",
+                    "value": "B. definizione delle politiche e attività regolamentari a sostegno di enti pubblici o di istituzioni, organi e organismi dell'Unione, comprese le autorità di regolamentazione, del settore sanitario o dell'assistenza affinché svolgano i compiti definiti nei rispettivi mandati."
+                },
+                {
+                    "key": "c",
+                    "value": "C.  statistiche quali definite all’articolo 3, punto 1), del regolamento (UE) n. 223/2009, come le statistiche ufficiali a livello nazionale, multinazionale e dell'Unione, relative al settore sanitario o dell'assistenza."
+                },
+                {
+                    "key": "d",
+                    "value": "D. attività d'istruzione o d'insegnamento nel settore sanitario o dell'assistenza al livello della formazione professionale o dell'istruzione superiore."
+                },
+                {
+                    "key": "e",
+                    "value": "E. ricerca scientifica nel settore sanitario o dell'assistenza che contribuisce alla sanità pubblica o alla valutazione delle tecnologie sanitarie o che garantisce elevati livelli di qualità e sicurezza dell'assistenza sanitaria, dei medicinali o dei dispositivi medici, con l'obiettivo di favorire gli utenti finali, quali i pazienti, i professionisti sanitari e gli amministratori sanitari, tra cui:  \\ n\ni) attività di sviluppo e innovazione per prodotti o servizi;  \\ n\nii) attività di addestramento, prova e valutazione degli algoritmi, anche nell'ambito di dispositivi medici, dispositivi medico-diagnostici in vitro, sistemi di IA e applicazioni di sanità digitale."
+                },
+                {
+                    "key": "f",
+                    "value": "F. miglioramento della prestazione di assistenza, ottimizzazione delle cure ed erogazione di assistenza sanitaria sulla base dei dati sanitari elettronici di altre persone fisiche."
+                }
+            ]
+        },
+        "theNatureOfTheDataDoesNotLetYouProvideADescription": {
+            "label": "La natura del progetto non consente di fornire una descrizione"
+        },
+        "descriptionOfTheProject": {
+            "label": "Spiegare i motivi per cui non è possibile fornire una descrizione dei dati.",
+            "tooltip": "La spiegazione dei motivi non sarà pubblicata."
+        },
+        "summaryOfTheProject": {
+            "label": "Riassunto del progetto",
+            "tooltip": "In termini di non addetti ai lavori, fornire una breve sintesi (250 parole o meno) degli obiettivi del progetto, dei dati da utilizzare, dei metodi e della forma dei risultati attesi"
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummary": {
+            "label": "La natura del progetto non consente di fornire una sintesi"
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason": {
+            "label": "Spiegare i motivi per cui non è possibile fornire una sintesi del progetto",
+            "tooltip": "La spiegazione dei motivi non sarà pubblicata."
+        }
+    },
+    "section3": {
+        "section3h5": "Informazioni sul richiedente e sulla persona di contatto",
+        "section3Description": "La domanda di autorizzazione ai dati dovrebbe indicare il nome e i recapiti del richiedente, persona fisica o giuridica. Dovrebbero essere incluse anche le informazioni sulla persona di contatto che risponde a qualsiasi richiesta di informazioni relativa alla domanda, che si tratti della stessa persona del richiedente o di un'altra persona. Se la persona di contatto non è la stessa persona del richiedente, il suo rapporto, ad esempio sulla base di un contratto di lavoro, dovrebbe essere chiarito.",
+        "section3DescriptionRequest": "La domanda di richiesta di dati dovrebbe indicare il nome e i recapiti del richiedente, persona fisica o giuridica. Dovrebbero essere incluse anche informazioni sulla persona di contatto che risponde a qualsiasi richiesta di informazioni relativa alla domanda, che si tratti della stessa persona del richiedente (nel caso di una persona fisica come il richiedente) o di un'altra persona.\nSe la persona di contatto non è la stessa persona del richiedente, il suo rapporto, ad esempio sulla base di un contratto di lavoro, dovrebbe essere chiarito.",
+        "applyingForDataOnBehalfOfPublicSector": {
+            "label": "Presenta domanda di dati per conto di un ente pubblico o di un'istituzione, un organo o un organismo dell'Unione europea?"
+        },
+        "applyingForDataForCarryingOutTasks": {
+            "label": "Presenta domanda di dati per svolgere compiti sanciti dal mandato della sua organizzazione/istituzione?",
+            "tooltip": "Per compiti che rientrano nel mandato della vostra organizzazione/istituzione si intendono compiti basati sul diritto nazionale o dell'Unione europea."
+        },
+        "legalOrNaturalPerson": {
+            "label": "Il richiedente è una persona fisica o giuridica?",
+            "tooltip": "Persona fisica = una persona fisica, un essere umano individuale, una persona giuridica = una società, un'organizzazione o un'associazione.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Persona giuridica"
+                },
+                {
+                    "key": "b",
+                    "value": "Persona fisica",
+                    "info": "(Se scegli questa opzione, confermi di richiedere i dati in qualità di privato senza affiliazione.)"
+                }
+            ]
+        },
+        "legalPerson": "Persona giuridica",
+        "naturalPerson": "Persona fisica",
+        "legalPersonName": {
+            "label": "Nome completo"
+        },
+        "postalAddress": "Indirizzo",
+        "legalPersonAddress": {
+            "label": "Via e numero civico"
+        },
+        "legalPersonZipCode": {
+            "label": "Codice zip"
+        },
+        "legalPersonCity": {
+            "label": "Città/Comune"
+        },
+        "legalPersonCountry": {
+            "label": "Paese"
+        },
+        "contactPersonInformation": "Informazioni relative alla persona da contattare",
+        "contactPersonInformationDescription": "Per persona di contatto si intende la persona che risponde alle richieste di informazioni relative alla domanda. I dati della persona di contatto possono essere trasmessi al titolare del trattamento durante il trattamento di una domanda se sono necessarie informazioni supplementari per definire l'estrazione dei dati. ",
+        "contactPersonName": {
+            "label": "Nome completo"
+        },
+        "contactPersonEmail": {
+            "label": "Email"
+        },
+        "contactPersonPhone": {
+            "label": "Telefono"
+        },
+        "contactPersonNameOfTheOrganisation": {
+            "label": "Nome dell'organizzazione"
+        },
+        "contactPersonBusinessIdentifier": {
+            "label": "ID aziendale dell'organizzazione"
+        },
+        "contactPersonOperatorIdentifier": {
+            "label": "ID gestore"
+        },
+        "contactPersonJobTitle": {
+            "label": "Qualifica"
+        },
+        "contactPersonAffiliation": {
+            "label": "Affiliazione"
+        },
+        "contactPersonRelationship": {
+            "label": "Qual è il rapporto tra la persona di contatto e il richiedente? (Ad esempio, un dipendente che presenta domanda di dati per conto della propria organizzazione)."
+        },
+        "naturalPersonName": {
+            "label": "Nome completo"
+        },
+        "naturalPersonAddress": {
+            "label": "Via e numero civico"
+        },
+        "naturalPersonZipCode": {
+            "label": "Codice zip"
+        },
+        "naturalPersonCity": {
+            "label": "Città/Comune"
+        },
+        "naturalPersonCountry": {
+            "label": "Paese"
+        },
+        "naturalPersonEmail": {
+            "label": "Email"
+        },
+        "naturalPersonPhone": {
+            "label": "Telefono"
+        },
+        "naturalPersonJobTitle": {
+            "label": "Qualifica"
+        },
+        "naturalPersonAffiliation": {
+            "label": "Affiliazione"
+        }
+    },
+    "section4": {
+        "section4h5": "Dettagli del pagamento",
+        "section4Description": "Gli estremi di pagamento della persona alla quale l'organismo responsabile dell'accesso ai dati sanitari si rivolge alle fatture relative alla presente domanda e alla conseguente autorizzazione ai dati, se concessa.",
+        "sameAsContactPerson": {
+            "label": "Lo stesso della persona di contatto di cui alla sezione 3?"
+        },
+        "fullName": {
+            "label": "Nome completo"
+        },
+        "address": {
+            "label": "Indirizzo"
+        },
+        "email": {
+            "label": "Email"
+        },
+        "phone": {
+            "label": "Telefono"
+        },
+        "invoiceType": {
+            "label": "Tipo di fattura",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Carta"
+                },
+                {
+                    "key": "b",
+                    "value": "Elettronica"
+                }
+            ]
+        },
+        "invoiceReferenceNumber": {
+            "label": "Numero di riferimento fattura"
+        },
+        "invoiceAddress": {
+            "label": "Indirizzo della fattura elettronica (EDI o IBAN)"
+        },
+        "operatorIdentifier": {
+            "label": "ID gestore"
+        },
+        "nameOfTheOrganisation": {
+            "label": "Nome dell'organizzazione"
+        },
+        "businessIdentifierOrganization": {
+            "label": "ID aziendale dell'organizzazione"
+        },
+        "vatNumber": {
+            "label": "Numero IVA"
+        },
+        "peppolCode": {
+            "label": "Codice PEPPOL (se del caso)"
+        },
+        "isTheProjectFinanciallyCovered": {
+            "label": "Il progetto è coperto finanziariamente?"
+        },
+        "rangeOfAmountOfFinancing": {
+            "label": "Qual è la gamma dell'importo del finanziamento del progetto che utilizzerà i dati richiesti?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "&10 000 EUR"
+                },
+                {
+                    "key": "b",
+                    "value": "ANNO 10 000 — EUR 50 000"
+                },
+                {
+                    "key": "c",
+                    "value": "ANNO 50 000 — EUR 100 000"
+                },
+                {
+                    "key": "d",
+                    "value": "ANNO 100 000 — EUR 500 000"
+                },
+                {
+                    "key": "e",
+                    "value": "ANNO 500 000 — EUR 1 000 000"
+                },
+                {
+                    "key": "f",
+                    "value": "PIÙ DI 1 000 000 EUR"
+                }
+            ]
+        }
+    },
+    "section5": {
+        "section5h5": "Finalità dell'uso dei dati",
+        "section5Description": "I richiedenti dovrebbero indicare lo scopo per il quale sono richiesti i dati, conformemente all'articolo 53, paragrafo 1, della rettifica del regolamento sullo spazio europeo dei dati sanitari approvata dal Parlamento europeo il 17/12. \nI richiedenti devono spiegare e spiegare perché i dati richiesti sono necessari per il loro scopo d'uso indicato. I richiedenti sono inoltre invitati a fornire informazioni sull'obiettivo del progetto. Successivamente, a seconda della finalità d'uso (ricerca o non ricerca), i richiedenti devono fornire una sintesi del piano per l'utilizzo dei dati o una sintesi del piano di ricerca, nonché informazioni sulla persona responsabile dell'uso dei dati o della ricerca.",
+        "purposeOfUse": {
+            "label": "Finalità dell'uso dei dati. Gli organismi responsabili dell'accesso ai dati sanitari forniscono l'accesso ai dati sanitari elettronici di cui all'articolo 51 solo se la finalità prevista del trattamento perseguito dal richiedente è conforme alle seguenti finalità (di cui all'articolo 53, paragrafo 1) elencate di seguito.",
+            "tooltip": "Finalità del regolamento sullo spazio europeo dei dati sanitari.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "A. l'interesse pubblico nei settori della salute pubblica o del lavoro, quali le attività di protezione contro gravi minacce per la salute a carattere transfrontaliero, la sorveglianza della sanità pubblica o le attività che garantiscono elevati livelli di qualità e sicurezza dell'assistenza sanitaria, compresa la sicurezza dei pazienti, e dei medicinali o dispositivi medici."
+                },
+                {
+                    "key": "b",
+                    "value": "B. attività decisionali e di regolamentazione volte a sostenere gli enti pubblici o le istituzioni, gli organi e gli organismi dell'Unione, comprese le autorità di regolamentazione, nel settore sanitario o dell'assistenza nello svolgimento dei loro compiti definiti nei loro mandati."
+                },
+                {
+                    "key": "c",
+                    "value": "C. statistiche quali definite all'articolo 3, punto (1), del regolamento (UE) n. 223/2009, quali le statistiche ufficiali a livello nazionale, multinazionale e dell'Unione, relative ai settori della sanità o dell'assistenza."
+                },
+                {
+                    "key": "d",
+                    "value": "D. attività di istruzione o di insegnamento nei settori della sanità o dell'assistenza a livello di istruzione professionale o superiore."
+                },
+                {
+                    "key": "e",
+                    "value": "E. ricerca scientifica relativa ai settori della sanità o dell'assistenza che contribuisce alla sanità pubblica o alla valutazione delle tecnologie sanitarie o garantisce elevati livelli di qualità e sicurezza dell'assistenza sanitaria, dei medicinali o dei dispositivi medici, con l'obiettivo di avvantaggiare gli utilizzatori finali, quali pazienti, operatori sanitari e amministratori sanitari, tra cui:\ni) attività di sviluppo e innovazione per prodotti o servizi;\nII) formazione, prova e valutazione di algoritmi, anche nei dispositivi medici, nei dispositivi medico-diagnostici in vitro, nei sistemi di IA e nelle applicazioni di sanità digitale."
+                },
+                {
+                    "key": "f",
+                    "value": "F. miglioramento della prestazione di assistenza, dell'ottimizzazione delle cure e della prestazione di assistenza sanitaria, sulla base dei dati sanitari elettronici di altre persone fisiche."
+                }
+            ]
+        },
+        "whyTheDataIsNeeded": {
+            "label": "Perché i dati richiesti sono necessari per la finalità d'uso indicata? Spiegare qui perché la quantità e il tipo di dati richiesti sono necessari per la finalità d'uso dei dati"
+        },
+        "whyAreTheDataRequested": {
+            "label": "Perché i dati richiesti con questa domanda sono necessari per la finalità d'uso indicata?"
+        },
+        "whatIsTheAimAndTopicOfTheProject": {
+            "label": "Qual è l'obiettivo e l'argomento del progetto?"
+        },
+        "whichAreTheExpectedBenefits": {
+            "label": "Qual è il beneficio previsto connesso all'uso dei dati sanitari elettronici e in che modo tale beneficio contribuisce alle finalità di cui al punto 5.1?"
+        },
+        "legalBasis": {
+            "label": "Specificare la base giuridica, ad esempio la legislazione pertinente, che definisce i compiti che rientrano nel Suo mandato e conferma che l'uso previsto dei dati è finalizzato a facilitare tali compiti.",
+            "tooltip": "Spiegare qui perché la quantità di dati richiesti è necessaria per la finalità d'uso dei dati. Giustificare e descrivere in che modo il contenuto delle statistiche richieste corrisponde alla finalità d'uso indicata nell'applicazione e soddisfa i requisiti in materia di dati."
+        },
+        "linkToTheSupportingLegalBasis": {
+            "label": "Fornire un link alla documentazione giustificativa come prova della base giuridica"
+        },
+        "summaryOfPlanForUsingTheData": {
+            "label": "Fornire una sintesi del piano per l'utilizzo dei dati. La sintesi deve essere redatta in una delle lingue ufficiali dell'UE."
+        },
+        "summaryOfPlanForUsingTheDataLanguage": {
+            "label": "Selezionare la lingua della sintesi",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgaro"
+                },
+                {
+                    "key": "hr",
+                    "value": "Croato"
+                },
+                {
+                    "key": "cs",
+                    "value": "Ceco"
+                },
+                {
+                    "key": "da",
+                    "value": "Danese"
+                },
+                {
+                    "key": "nl",
+                    "value": "Neerlandese"
+                },
+                {
+                    "key": "en",
+                    "value": "Inglese"
+                },
+                {
+                    "key": "et",
+                    "value": "Estone"
+                },
+                {
+                    "key": "fi",
+                    "value": "Finlandese"
+                },
+                {
+                    "key": "fr",
+                    "value": "Francese"
+                },
+                {
+                    "key": "de",
+                    "value": "Tedesco"
+                },
+                {
+                    "key": "el",
+                    "value": "Greco"
+                },
+                {
+                    "key": "hu",
+                    "value": "Ungherese"
+                },
+                {
+                    "key": "ga",
+                    "value": "Irlandese"
+                },
+                {
+                    "key": "it",
+                    "value": "Italiano"
+                },
+                {
+                    "key": "lv",
+                    "value": "Lettone"
+                },
+                {
+                    "key": "lt",
+                    "value": "Lituano"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltese"
+                },
+                {
+                    "key": "pl",
+                    "value": "Polacco"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portoghese"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumeno"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovacco"
+                },
+                {
+                    "key": "sl",
+                    "value": "Sloveno"
+                },
+                {
+                    "key": "es",
+                    "value": "Spagnolo"
+                },
+                {
+                    "key": "sv",
+                    "value": "Svedese"
+                }
+            ]
+        },
+        "summaryOfResearchPlan": {
+            "label": "Fornire una sintesi del piano di ricerca. La sintesi deve essere redatta in una delle lingue ufficiali dell'UE."
+        },
+        "summaryOfResearchPlanLanguage": {
+            "label": "Selezionare la lingua della sintesi",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgaro"
+                },
+                {
+                    "key": "hr",
+                    "value": "Croato"
+                },
+                {
+                    "key": "cs",
+                    "value": "Ceco"
+                },
+                {
+                    "key": "da",
+                    "value": "Danese"
+                },
+                {
+                    "key": "nl",
+                    "value": "Neerlandese"
+                },
+                {
+                    "key": "en",
+                    "value": "Inglese"
+                },
+                {
+                    "key": "et",
+                    "value": "Estone"
+                },
+                {
+                    "key": "fi",
+                    "value": "Finlandese"
+                },
+                {
+                    "key": "fr",
+                    "value": "Francese"
+                },
+                {
+                    "key": "de",
+                    "value": "Tedesco"
+                },
+                {
+                    "key": "el",
+                    "value": "Greco"
+                },
+                {
+                    "key": "hu",
+                    "value": "Ungherese"
+                },
+                {
+                    "key": "ga",
+                    "value": "Irlandese"
+                },
+                {
+                    "key": "it",
+                    "value": "Italiano"
+                },
+                {
+                    "key": "lv",
+                    "value": "Lettone"
+                },
+                {
+                    "key": "lt",
+                    "value": "Lituano"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltese"
+                },
+                {
+                    "key": "pl",
+                    "value": "Polacco"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portoghese"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumeno"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovacco"
+                },
+                {
+                    "key": "sl",
+                    "value": "Sloveno"
+                },
+                {
+                    "key": "es",
+                    "value": "Spagnolo"
+                },
+                {
+                    "key": "sv",
+                    "value": "Svedese"
+                }
+            ]
+        },
+        "personResponsibleLabel": "Persona responsabile dell'uso dei dati",
+        "personResponsibleName": {
+            "label": "Nome completo"
+        },
+        "personResponsibleJobTitle": {
+            "label": "Qualifica"
+        },
+        "personResponsibleAffiliation": {
+            "label": "Affiliazione"
+        },
+        "personResearchSameAsContactPerson": {
+            "label": "Lo stesso della persona di contatto di cui alla sezione 3 (Informazioni sul richiedente e sulla persona di contatto)?"
+        },
+        "personResponsibleForResearchLabel": "Responsabile della ricerca",
+        "personResponsibleSameAsContactPerson": {
+            "label": "Lo stesso della persona di contatto di cui alla sezione 3 (Informazioni sul richiedente e sulla persona di contatto)?"
+        },
+        "personResearchName": {
+            "label": "Nome completo"
+        },
+        "personResearchJobTitle": {
+            "label": "Qualifica"
+        },
+        "personResearchAffiliation": {
+            "label": "Affiliazione"
+        },
+        "formatOfTheElectronicHealthData": {
+            "label": "Selezionare il formato dei dati sanitari elettronici da mettere a disposizione:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Anonimizzato"
+                },
+                {
+                    "key": "b",
+                    "value": "Pseudonimizzato"
+                }
+            ]
+        },
+        "inOrderToApplyPseudonymisedData": "Sono consapevole del fatto che, per richiedere dati pseudonimizzati, devo:",
+        "inOrderToApplyPseudonymisedDataA": {
+            "label": "a) Spiegare in che modo rispetterò l'articolo 6, paragrafo 1, del regolamento generale sulla protezione dei dati (o l'articolo 5, paragrafo 1, del regolamento UE sulla protezione dei dati se un'istituzione, un organo o un organismo dell'UE presenta domanda di dati)"
+        },
+        "inOrderToApplyPseudonymisedDataB": {
+            "label": "b) Valutare gli aspetti etici del trattamento dei dati, se del caso e in linea con il diritto nazionale o il diritto applicabile."
+        },
+        "whyNeedForPseudonymisation": {
+            "label": "Perché sono necessari dati pseudonimizzati per il progetto?"
+        }
+    },
+    "section6": {
+        "section6h5": "Descrizione dei dati necessari",
+        "section6Description": "In questa sezione occorre fornire una descrizione della serie di dati richiesta, indicando chiaramente quali serie di dati riguarda la domanda. È opportuno presentare domanda solo per dati adeguati, pertinenti e limitati a quanto necessario in relazione alla finalità d'uso, secondo il principio della minimizzazione dei dati di cui al regolamento generale sulla protezione dei dati dell'UE (articolo 5, paragrafo 1 quater). L'organismo responsabile dell'accesso ai dati sanitari valuta attentamente se i requisiti sono in linea con il principio di minimizzazione dei dati del GDPR.",
+        "descriptionSection6_1": "Definizione dei criteri di estrazione della coorte:",
+        "descriptionOfTheDataNeeded": "Descrizione dei dati necessari:",
+        "applicationHDABsForSelectedCountry": "A quale organismo responsabile dell'accesso ai dati sanitari desideri presentare la domanda?",
+        "applicationDatasetsPerCountry": "Registro (i) e distribuzione (i) di set di dati",
+        "informationProviderSameAsContactPerson": {
+            "label": "Lo stesso della persona di contatto di cui alla sezione 3?"
+        },
+        "hdabContacts": {
+            "label": "Se siete stati in contatto con qualcuno dell'organismo responsabile dell'accesso ai dati sanitari per quanto riguarda i dati richiesti, elencare qui i nomi e gli indirizzi di posta elettronica di questa persona"
+        },
+        "howWillTheDataFromDifferentSourcesBeLinked": {
+            "label": "Come saranno collegati i dati di una persona proveniente da fonti diverse? Ad esempio sulla base del codice di identificazione personale. Se si utilizza un altro metodo di giunzione, descriverlo qui"
+        },
+        "indicateTheSizeOfTheStudyCohort": {
+            "label": "Indicare le dimensioni della coorte"
+        },
+        "indicateTheSizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Dimensioni della coorte (pulsanti radio)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Si tratta di una stima delle dimensioni della coorte."
+                },
+                {
+                    "key": "b",
+                    "value": "Questa è la dimensione esatta della coorte."
+                }
+            ]
+        },
+        "howIsTheStudyCohortFormed": {
+            "label": "Come si forma la coorte?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "La coorte sarà costituita sulla base dei criteri indicati di seguito."
+                },
+                {
+                    "key": "b",
+                    "value": "La coorte si è già formata."
+                },
+                {
+                    "key": "c",
+                    "value": "La coorte sarà costituita da queste due categorie: una nuova coorte costituita sulla base dei criteri indicati di seguito e una coorte già formata."
+                },
+                {
+                    "key": "d",
+                    "value": "La coorte sarà l'intera popolazione di uno o più paesi indicati all'inizio del presente modulo."
+                }
+            ]
+        },
+        "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants": {
+            "label": "Se desidera utilizzare una coorte basata sul suo precedente studio di indagine, la coorte è stata costituita sulla base del consenso informato dei partecipanti allo studio? Ad esempio, coorte formata sulla base di uno studio di indagine o di uno studio clinico, a cui i dati basati sui registri saranno collegati a norma del regolamento sullo spazio europeo dei dati sanitari."
+        },
+        "doesTheInformedConsentCoverTheRequestedRegistryExtractions": {
+            "label": "Il consenso informato copre le estrazioni di registri richieste?"
+        },
+        "consentAndInformationLetterAttachment": {
+            "label": "Allegare la lettera di consenso e di informazione inviata alle materie di studio. Non allegare moduli compilati perché contengono dati personali."
+        },
+        "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
+            "label": "Confermo che l'autorizzazione ai dati è stata concessa per questo progetto di ricerca"
+        },
+        "ifTheGroupHasBeenFormedBasedOnPreviousIssued": {
+            "label": "Se la coorte è stata costituita sulla base di un'autorizzazione rilasciata in precedenza, elencare qui le seguenti informazioni:"
+        },
+        "previouslyIssuedPermitIssuer1": {
+            "label": "Emittente della decisione di autorizzazione"
+        },
+        "previouslyIssuedPermitDate1": {
+            "label": "Giorno"
+        },
+        "validityPeriod1": "Durata della validità",
+        "previouslyIssuedPermitValidityPeriodFrom1": {
+            "label": "Da"
+        },
+        "previouslyIssuedPermitValidityPeriodTo1": {
+            "label": "A"
+        },
+        "previouslyIssuedPermitNumber1": {
+            "label": "Numero di permesso"
+        },
+        "permitDecisionAttachment": {
+            "label": "Allegare una decisione di autorizzazione relativa all'estrazione dei dati della coorte in questa sezione."
+        },
+        "howTheStudyCohortWasObtained": {
+            "label": "Descrivere come è stata ottenuta la coorte e i motivi della mancanza di autorizzazione/consenso ai dati."
+        },
+        "providedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Ha fornito informazioni sull'uso dei dati ai soggetti corrispondenti? Ad esempio, informazioni condivise sull'uso dei dati sul sito web del progetto.",
+            "tooltip": "Per ulteriori informazioni, cfr. gli articoli 13 e 14 del regolamento generale sulla protezione dei dati: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
+            "tooltipForm": "Per ulteriori informazioni, cfr. gli articoli 13 e 14 del regolamento generale <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\"> sulla protezione dei dati."
+        },
+        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Quali?"
+        },
+        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Perché?"
+        },
+        "whoWillDeliverTheInformationOnTheStudy": {
+            "label": "Chi fornirà le informazioni sulla coorte all'organismo responsabile dell'accesso ai dati sanitari? Questa persona riceverà istruzioni su come fornire i dati attraverso il portale comune EHDS."
+        },
+        "informationProviderName": {
+            "label": "Nome completo"
+        },
+        "informationProviderEmail": {
+            "label": "E-mail"
+        },
+        "informationProviderPhone": {
+            "label": "Telefono"
+        },
+        "whyNeedDataOfaWholePopulation": {
+            "label": "Spiegare perché sono necessari dati sull'intera popolazione/sull'intera popolazione?",
+            "tooltip": "Assicurarsi di definire la formazione della coorte in modo sufficientemente chiaro e delimitare la dimensione della coorte in base all'uso previsto. Prestare particolare attenzione alla registrazione della coorte e ai criteri di inclusione e di esclusione della coorte. Ad esempio, una definizione geografica può significare il luogo di residenza, il luogo di nascita, il luogo di lavoro o il luogo in cui sono utilizzati i servizi."
+        },
+        "sizeOfTheStudyCohort": {
+            "label": "Indicare le dimensioni della coorte"
+        },
+        "sizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Dimensioni della coorte (pulsanti radio)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Si tratta di una stima delle dimensioni della coorte."
+                },
+                {
+                    "key": "b",
+                    "value": "Questa è la dimensione esatta della coorte."
+                }
+            ]
+        },
+        "whyNeedStudyCohortOfThisSize": {
+            "label": "Perché hai bisogno di una coorte di queste dimensioni per il tuo progetto?"
+        },
+        "ethicalReview": "Esame etico — testo da fornire a cura dell'unità tematica",
+        "ethicalReviewDescription": "Esame etico",
+        "ethicalReviewInput": {
+            "label": "Esame etico",
+            "tooltip": "Testo da fornire a cura dell'unità Politica."
+        },
+        "ethicalReviewAttachment": {
+            "label": "Esame etico"
+        },
+        "dataHolders": "Da quale titolare o quali titolari dei dati saranno estratti i dati?",
+        "whichDatabasesDataExtracted": "Da quali basi di dati/registro/registri saranno estratti i dati?",
+        "whichDatasetDataExtracted": "Da quali registrazioni di serie di dati/registri saranno estratti i dati?",
+        "variablesToBeUsedInDataExtractionAttachment": {
+            "label": "Se le informazioni sono disponibili, allegare l'elenco delle variabili da utilizzare nell'estrazione dei dati. Utilizzare i termini esatti forniti dai rispettivi titolari dei dati nel catalogo dei metadati."
+        },
+        "timePeriodOfDataExtraction": {
+            "label": "Per quale periodo di tempo saranno estratti i dati delle serie di dati?"
+        },
+        "extractionMethod": {
+            "label": "Metodo di estrazione:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "campione casuale"
+                },
+                {
+                    "key": "b",
+                    "value": "tutte le persone che soddisfano i criteri"
+                },
+                {
+                    "key": "c",
+                    "value": "altro campione"
+                }
+            ]
+        },
+        "samplingMethod": {
+            "label": "Descrivere il metodo di campionamento"
+        },
+        "sampleSize": {
+            "label": "Dimensioni del campione",
+            "tooltip": "Le risposte possono essere, ad esempio: 100000 persone o il 50 % delle persone che soddisfano i criteri."
+        },
+        "inclusionCriteria": {
+            "label": "Descrivere i criteri di inclusione per l'estrazione di coorte ",
+            "tooltip": "Ricordate di chiarire in questa sede i criteri di inclusione che possono essere ambigui. Ad esempio, se si desidera includere interessati di una certa età, chiarire in base a quale variabile l'età dovrebbe essere calcolata e in quale momento."
+        },
+        "potentialExclusionCriteria": {
+            "label": "Descrivere i potenziali criteri di esclusione per l'estrazione di coorte"
+        },
+        "tabulationPlanArray": {
+            "label": "Struttura del piano di tabulazione",
+            "tooltip": "Inoltre, per ciascuna tabella sono riportate le seguenti informazioni: ● registrazione da utilizzare ● possibile coorte ● informazioni sulle variabili richieste (se disponibili) ● formazione di variabili in cui non è possibile accedervi direttamente dalla banca dati ● direzione desiderata di aggregazione delle percentuali ● ordine in cui le tabelle sono generate quando le tabelle precedentemente generate sono utilizzate per creare altre tabelle ● qualsiasi altro fattore pertinente relativo alla generazione della o delle tabelle richieste"
+        },
+        "tabulationRegisteredToBeUsed": {
+            "label": "Registro da utilizzare"
+        },
+        "tabulationPossibleStudyCohort": {
+            "label": "Possibile coorte"
+        },
+        "tabulationInformationOfRequiredVariables": {
+            "label": "Informazioni sulle variabili richieste (se disponibili)"
+        },
+        "tabulationFormationVariables": {
+            "label": "Formazione di variabili per le quali non è possibile accedervi direttamente dalla banca dati"
+        },
+        "tabulationDesiredDirection": {
+            "label": "Direzione desiderata di aggregazione delle percentuali"
+        },
+        "tabulationOrderInWhichTable": {
+            "label": "Ordine in cui le tabelle sono generate quando le tabelle generate in precedenza sono utilizzate per creare altre tabelle"
+        },
+        "tabulationAnyOtherRelevant": {
+            "label": "Qualsiasi altro fattore pertinente relativo alla generazione della o delle tabelle richieste "
+        },
+        "tabulationPlanButton": "Aggiungi piano di tabella",
+        "tabulationPlan": {
+            "label": "Piano di calcolo",
+            "tooltip": "Per ciascuna statistica richiesta allegare un esempio di tabella Excel (o equivalente)."
+        },
+        "extractionDescriptionAndCompilation": {
+            "label": "Descrizione dell'estrazione e compilazione delle statistiche",
+            "tooltip": "Un organismo responsabile dell'accesso ai dati sanitari fornisce i dati richiesti solo in un formato statistico anonimizzato, se la richiesta di dati è accettata. A causa dell'anonimato, l'utente dei dati non ha accesso ai dati sanitari elettronici utilizzati per fornire tale risposta. Tutte le informazioni richieste devono essere rese a un livello generale per evitare conteggi di piccole celle con un elevato potenziale di reidentificazione."
+        },
+        "dataExtraction": "Tempi di estrazione dei dati e ordine della coorte",
+        "dataExtractionTimes": "Tempi di estrazione dei dati e ordine della coorte",
+        "howOftenDoesTheDataNeedToBeExtracted": {
+            "label": "Con quale frequenza è necessario estrarre i dati?"
+        },
+        "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
+            "label": "Con quale frequenza è necessario estrarre i dati?"
+        },
+        "needForDataExtractionEvery": {
+            "label": "I dati devono essere estratti ogni",
+            "tooltip": "Se si desidera che i dati siano estratti più volte nell'arco di un determinato periodo di tempo, si noti che le definizioni e il metodo di raccolta dei dati possono in alcuni casi cambiare durante il periodo di riesame. Si noti che la frequenza massima di estrazione dei dati è ogni trimestre"
+        },
+        "needForDataExtractionEveryOther": {
+            "label": "Specificare altro"
+        },
+        "needForDataExtractionEveryDescriptionDR": {
+            "label": "Fornire maggiori informazioni sui periodi/sugli orari di estrazione",
+            "tooltip": "Se si desidera che i dati siano estratti più volte nell'arco di un determinato periodo di tempo, si noti che le definizioni e il metodo di raccolta dei dati possono in alcuni casi cambiare durante il periodo di riesame."
+        },
+        "needForDataExtractionEveryDescription": {
+            "label": "Fornire maggiori informazioni sui periodi/tempi di estrazione della coorte",
+            "tooltip": "Se si desidera che i dati siano estratti più volte nell'arco di un determinato periodo di tempo, si noti che le definizioni e il metodo di raccolta dei dati possono in alcuni casi cambiare durante il periodo di riesame."
+        },
+        "whatIsTheFrequencyOfUpdates": {
+            "label": "Qual è la frequenza degli aggiornamenti dei dati richiesti?"
+        },
+        "orderForDataExtraction": {
+            "label": "Se incide sui risultati dell'estrazione dei dati, in quale ordine saranno estratti i dati della coorte? Fornire un elenco numerato delle fasi di estrazione. Per esempio: 1. Titolare dei dati A; 2. Titolare dei dati B; 3. Titolare dei dati C"
+        },
+        "definingExtractionCriteria": "Definizione dei criteri di estrazione per i controlli:",
+        "willControlsBeExtracted": {
+            "label": "Saranno estratti i controlli per la coorte?"
+        },
+        "hasTheGroupRelativesFormed2": {
+            "label": "Il gruppo di controllo è stato costituito sulla base di un'autorizzazione rilasciata in precedenza?"
+        },
+        "willSameDataBeExtractedForControls": {
+            "label": "Saranno estratti per i controlli gli stessi dati della coorte?"
+        },
+        "regionForControlsDataExtraction": {
+            "label": "Se non richiede dati per i controlli da tutto il paese, a quale regione e/o città e/o comune/comuni chiede i dati?"
+        },
+        "fromWhichDataHolderLabel": "Da quali titolari dei dati saranno estratti i dati per i controlli?",
+        "fromWhichDatabaseLabel": "Da quali basi di dati/registro/registri saranno estratti i dati per i controlli?",
+        "fromWhichDatasetLabel": "Da quali registri/registri di serie di dati saranno estratti i dati per i controlli?",
+        "variablesForDataExtraction": {
+            "label": "Se le informazioni sono disponibili, elencare le variabili da utilizzare nell'estrazione dei dati. Utilizzare i termini esatti forniti dai rispettivi titolari dei dati nel catalogo dei metadati."
+        },
+        "timePeriodForDataExtraction": {
+            "label": "Per quale periodo di tempo saranno estratti i record del set di dati?"
+        },
+        "extractionCriteriaForControls": {
+            "label": "Specificare i criteri di estrazione per i controlli, ad esempio i criteri di rispondenza"
+        },
+        "sizeOfControlGroup": {
+            "label": "Dimensioni del gruppo di controllo"
+        },
+        "sizeOfControlGroupEstimationOrExact": {
+            "label": "Dimensioni del gruppo di controllo (pulsanti radio)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Si tratta di una stima delle dimensioni del gruppo di controlli."
+                },
+                {
+                    "key": "b",
+                    "value": "Si tratta delle dimensioni esatte del gruppo di controlli."
+                }
+            ]
+        },
+        "controlsPerPersonInStudyCohort": {
+            "label": "Quanti controlli sono estratti per persona appartenente alla coorte?"
+        },
+        "inclusionCriteriaForControls": {
+            "label": "Descrivere i criteri di inclusione per l'estrazione dei controlli"
+        },
+        "exclusionCriteriaForControls": {
+            "label": "Descrivere i potenziali criteri di esclusione per l'estrazione dei controlli"
+        },
+        "ifTheGroupHasBeenFormed": "Se il gruppo di controlli è stato costituito sulla base di un'autorizzazione rilasciata in precedenza, elencare qui le seguenti informazioni:",
+        "previouslyIssuedPermitIssuer2": {
+            "label": "Emittente della decisione di autorizzazione"
+        },
+        "previouslyIssuedPermitDate2": {
+            "label": "Giorno"
+        },
+        "validityPeriod2": "Durata della validità",
+        "previouslyIssuedPermitValidityPeriodFrom2": {
+            "label": "Da"
+        },
+        "previouslyIssuedPermitValidityPeriodTo2": {
+            "label": "A"
+        },
+        "previouslyIssuedPermitNumber2": {
+            "label": "Numero di permesso"
+        },
+        "dataExtractionAndOrderForControls": " Tempi di estrazione dei dati e ordine dei controlli",
+        "willDataForControlsBeExtractedSimultaneously": {
+            "label": "I dati per i controlli saranno estratti contemporaneamente e nello stesso ordine dei dati della coorte?"
+        },
+        "hasTheGroupRelativesFormed3": {
+            "label": "Il gruppo di parenti è stato costituito sulla base di un permesso rilasciato in precedenza?"
+        },
+        "ifTheGroupOfRelativesHasBeenFormed": {
+            "label": "Se il gruppo di parenti è stato costituito sulla base di un permesso precedentemente rilasciato, elencare qui le seguenti informazioni:"
+        },
+        "previouslyIssuedPermitIssuer3": {
+            "label": "Emittente della decisione di autorizzazione"
+        },
+        "previouslyIssuedPermitDate3": {
+            "label": "Giorno"
+        },
+        "validityPeriod3": "Durata della validità",
+        "previouslyIssuedPermitValidityPeriodFrom3": {
+            "label": "Da"
+        },
+        "previouslyIssuedPermitValidityPeriodTo3": {
+            "label": "A"
+        },
+        "previouslyIssuedPermitNumber3": {
+            "label": "Numero di permesso"
+        },
+        "dataExtractionFrequency": {
+            "label": "Con quale frequenza è necessario estrarre i dati?"
+        },
+        "dataExtractionFrequencyMultipleTimesInformation": {
+            "label": "In caso di estrazione ricorrente, fornire separatamente le informazioni su ciascun processo di estrazione dei dati nelle istruzioni per l'ordine."
+        },
+        "dataNeedsToBeExtractedEvery": {
+            "label": "I dati devono essere estratti ogni",
+            "tooltip": "Se si desidera che i dati siano estratti più volte nell'arco di un determinato periodo di tempo, si noti che le definizioni e il metodo di raccolta dei dati possono in alcuni casi cambiare durante il periodo di riesame. Si noti che la frequenza massima di estrazione dei dati è ogni trimestre"
+        },
+        "specifyOther": {
+            "label": "Specificare altro"
+        },
+        "moreInfoOnExtractionPeriods": {
+            "label": "Fornire maggiori informazioni sui periodi/sugli orari di estrazione"
+        },
+        "orderOfControlsDataExtraction": {
+            "label": "Se incide sui risultati dell'estrazione dei dati, in quale ordine saranno estratti i dati dei controlli? Fornire un elenco numerato delle fasi di estrazione. Per esempio: 1. Titolare dei dati A; 2. Titolare dei dati B; 3. Titolare dei dati C"
+        },
+        "definingTheExtractionCriteria": "Definizione dei criteri di estrazione per i parenti:",
+        "willRelativesBeExtracted": {
+            "label": "I parenti saranno estratti per la coorte?"
+        },
+        "willSameDataBeExtractedForRelatives": {
+            "label": "Saranno estratti gli stessi dati della coorte per i parenti?"
+        },
+        "whichDataHoldersForRelatives": "Da quale titolare o quali titolari dei dati saranno estratti i dati per i parenti?",
+        "whichDatabaseForRelatives": "Da quali basi di dati/registro/registri saranno estratti i dati relativi ai parenti?",
+        "whichDatasetsForRelatives": "Da quali registrazioni di serie di dati/registri saranno estratti i dati relativi ai parenti?",
+        "variablesForDataExtractionRelatives": {
+            "label": "Se le informazioni sono disponibili, elencare le variabili da utilizzare nell'estrazione dei dati. Utilizzare i termini esatti forniti dai rispettivi titolari dei dati nel catalogo dei metadati."
+        },
+        "timePeriodForDataExtractionRelatives": {
+            "label": "Per quale periodo di tempo saranno estratti i record del set di dati?"
+        },
+        "relationshipToStudyCohort": {
+            "label": "Definire il rapporto tra i parenti e la persona appartenente alla coorte (ad esempio nonni, genitori biologici, madre)"
+        },
+        "sizeOfRelativesGroup": {
+            "label": "Dimensioni del gruppo di parenti"
+        },
+        "sizeOfRelativesGroupEstimateOrExact": {
+            "label": "Dimensioni del gruppo di parenti (pulsanti radio)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Si tratta di una stima delle dimensioni del gruppo di parenti."
+                },
+                {
+                    "key": "b",
+                    "value": "Si tratta delle dimensioni esatte del gruppo di parenti."
+                }
+            ]
+        },
+        "willDataForRelativesBeExtractedSimultaneously": {
+            "label": "I dati relativi ai parenti saranno estratti contemporaneamente e nello stesso ordine dei dati della coorte?"
+        },
+        "dataExtractionFrequencyRelatives": {
+            "label": "Con quale frequenza è necessario estrarre i dati?"
+        },
+        "dataNeedsToBeExtractedEveryRelatives": {
+            "label": "I dati devono essere estratti ogni",
+            "tooltip": "Se si desidera che i dati siano estratti più volte nell'arco di un determinato periodo di tempo, si noti che le definizioni e il metodo di raccolta dei dati possono in alcuni casi cambiare durante il periodo di riesame. Si noti che la frequenza massima di estrazione dei dati è ogni trimestre"
+        },
+        "dataExtractionFrequencyMultipleTimesInformationRelatives": {
+            "label": "In caso di estrazione ricorrente, fornire separatamente le informazioni su ciascun processo di estrazione dei dati nelle istruzioni per l'ordine."
+        },
+        "needForDataExtractionEveryOptions": {
+            "label": "I dati devono essere estratti ogni",
+            "tooltip": "Se si desidera che i dati siano estratti più volte nell'arco di un determinato periodo di tempo, si noti che le definizioni e il metodo di raccolta dei dati possono in alcuni casi cambiare durante il periodo di riesame. Si noti che la frequenza massima di estrazione dei dati è ogni trimestre"
+        },
+        "specifyOtherRelatives": {
+            "label": "Specificare altro"
+        },
+        "moreInfoOnExtractionPeriodsRelatives": {
+            "label": "Fornire maggiori informazioni sui periodi/sugli orari di estrazione"
+        },
+        "orderOfRelativesDataExtraction": {
+            "label": "Se incide sui risultati dell'estrazione dei dati, in quale ordine saranno estratti i dati dei parenti? Fornire un elenco numerato delle fasi di estrazione. Per esempio: 1. Titolare dei dati A; 2. Titolare dei dati B; 3. Titolare dei dati C"
+        }
+    },
+    "section7": {
+        "section7h5": "Altri dati da combinare",
+        "section7Description": "È possibile combinare altri dati personali, come i dati già in suo possesso o quelli ottenuti altrove con un'altra autorizzazione, con i dati richiesti con la presente domanda. Elencare le informazioni per tutti i dati aggiuntivi che saranno combinati con i dati autorizzati dall'organismo responsabile dell'accesso ai dati sanitari. Se in seguito desideri combinare altri dati personali con i dati autorizzati dall'organismo responsabile dell'accesso ai dati sanitari, devi presentare una domanda di modifica allo stesso organismo responsabile dell'accesso ai dati sanitari. Se disponete di un'altra coorte che vorrebbe associare all'organismo responsabile dell'accesso ai dati sanitari con i dati richiesti, riceverete istruzioni su come fornire i dati in modo sicuro dopo il rilascio dell'autorizzazione.",
+        "addDataPermit": "Aggiungi autorizzazione dati",
+        "addInfo": "Aggiungi informazioni",
+        "removeDataPermit": "Elimina l'autorizzazione ai dati",
+        "willDataBeCombinedWithDataObtained": {
+            "label": "I dati richiesti saranno combinati con i dati già ottenuti o quelli che saranno richiesti da altre fonti?"
+        },
+        "listOtherDataToBeCompined": "Elencare gli altri dati da combinare e le relative fonti:",
+        "combinedCountries": {
+            "label": "Paesi"
+        },
+        "combinedDataHolders": {
+            "label": "Titolari dei dati"
+        },
+        "combinedDatabaseRegistries": {
+            "label": "Banche dati/registri"
+        },
+        "combinedDatasetsRegistries": {
+            "label": "Serie di dati/registri"
+        },
+        "provideInformationList": {
+            "label": "Fornire informazioni sui dati da combinare e sul metodo di combinazione previsto",
+            "tooltip": "Fornire, se del caso, informazioni su quanto segue: insieme di dati, numero di file, formato dei file, dimensioni dei file, note speciali (vi sono identificatori diretti/indiretti, i dati devono essere pseudonimizzati, ecc.)"
+        },
+        "dataset": {
+            "label": "Serie di dati"
+        },
+        "numberOfFiles": {
+            "label": "Numero di fascicoli"
+        },
+        "formatOfFiles": {
+            "label": "Formato dei file"
+        },
+        "sizeOfFiles": {
+            "label": "Dimensioni dei file"
+        },
+        "notes": {
+            "label": "Note"
+        },
+        "listAnyOtherDataPermit": "Elencare qui eventuali altri permessi di dati rilasciati per lo stesso progetto. Le autorizzazioni devono essere valide al momento del trattamento dei dati:",
+        "otherPermits": {
+            "label": "Altre autorizzazioni: Emittente del permesso, data di emissione, data di scadenza, informazioni di identificazione"
+        },
+        "permitIssuer": {
+            "label": "Emittente del permesso"
+        },
+        "permitStartDateOfIssue": {
+            "label": "Data di rilascio"
+        },
+        "permitEndDateOfIssue": {
+            "label": "Data scadenza"
+        },
+        "permitIdentificationInformation": {
+            "label": "Informazioni sull'identificazione dell'autorizzazione"
+        },
+        "attachmentOfPermitDocuments": {
+            "label": "Se i registri delle serie di dati comportano autorizzazioni rilasciate da altre parti o sono stati raccolti con il consenso, allegare qui i documenti di autorizzazione"
+        },
+        "otherPermitApplications": {
+            "label": "Avete altre domande di autorizzazione in sospeso?"
+        },
+        "listTheOtherData": "Elencare gli altri dati da combinare e le relative fonti:",
+        "applicationIssuer": {
+            "label": "Emittente"
+        },
+        "dateOfSubmittingTheApplication": {
+            "label": "Data di presentazione della domanda"
+        },
+        "identificationCode": {
+            "label": "Codice identificativo dell'autorizzazione"
+        }
+    },
+    "section8": {
+        "section8h5": "Trattamento dei dati, protezione dei dati e garanzie per impedire l'uso non autorizzato dei dati",
+        "section8Description": "A norma dell'articolo 73, paragrafo 1, della proposta di regolamento sullo spazio europeo dei dati sanitari, gli organismi responsabili dell'accesso ai dati sanitari forniscono l'accesso ai dati sanitari elettronici solo attraverso un ambiente di trattamento sicuro.",
+        "addPerson": "Aggiungi persona",
+        "removePerson": "Rimuovi persona",
+        "technicalRequirementsForEnvironment": {
+            "label": "Elencare qui tutti i requisiti tecnici per l'ambiente di trattamento sicuro."
+        },
+        "nameWebsiteAddressForEnvironment": {
+            "label": "Se conosci già quale ambiente di trattamento desidera utilizzare, qual è il suo nome e da chi è fornito? Indicare qui il nome e il fornitore dell'ambiente di trattamento sicuro."
+        },
+        "healthDataAccessBody": "L'organismo responsabile dell'accesso ai dati sanitari fornirà i dati una volta che la domanda sarà trattata in caso di rilascio di un'autorizzazione ai dati. L'organismo responsabile dell'accesso ai dati sanitari conserverà la chiave di pseudonimizzazione, i termini di estrazione e la documentazione utilizzati per generare i dati. L'autorizzazione ai dati sarà concessa solo per la durata necessaria a conseguire le finalità richieste. L'autorizzazione può essere concessa per un periodo massimo di 10 anni. Tale durata può essere prorogata una sola volta, su richiesta dell'utente dei dati, sulla base di argomentazioni e documenti che giustificano la proroga (proposta di regolamento sullo spazio europeo dei dati sanitari, articolo 68, paragrafo 12). Se necessario, il periodo di utilizzo può essere prorogato presentando una domanda di modifica dell'autorizzazione ai dati.",
+        "whenDataNeeded": {
+            "label": "Quando ha bisogno dei dati?",
+            "tooltip": "In generale, l'organismo responsabile dell'accesso ai dati sanitari chiederà l'estrazione dei dati dai titolari dei dati non appena la tua domanda sarà stata trattata. Se desideri ricevere i dati in un secondo momento, indicarli qui.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Non appena possibile dopo il trattamento della presente domanda"
+                },
+                {
+                    "key": "b",
+                    "value": "Successivamente, quando?"
+                }
+            ]
+        },
+        "ifLaterWhen": {
+            "label": "Successivamente, quando?"
+        },
+        "informationWhichDataCanAccess": {
+            "label": "Fornire informazioni sul periodo per il quale è possibile accedere ai dati."
+        },
+        "frequencyOfAccessOrDataUpdates": {
+            "label": "Qual è la frequenza di tale accesso o la frequenza degli aggiornamenti dei dati?"
+        },
+        "estimatedStartAndEnd": {
+            "label": "Quali sono le date stimate di inizio e fine del periodo durante il quale i dati sanitari elettronici sono necessari per il trattamento?",
+            "tooltip": "Tale periodo può essere di cinque anni. Con un'autorizzazione supplementare, l'autorizzazione originaria può essere prorogata di altri cinque anni."
+        },
+        "estimatedStartDatesForDataProcessing": {
+            "label": "Da"
+        },
+        "estimatedEndDatesForDataProcessing": {
+            "label": "A"
+        },
+        "ifStoreNeeded": "Se è necessario conservare i dati dopo il trattamento, indicare qui il periodo di conservazione inattiva dei dati",
+        "startPeriodOfInactiveDataStorage": {
+            "label": "Da"
+        },
+        "endPeriodOfInactiveDataStorage": {
+            "label": "A"
+        },
+        "willTheDataBeTransferred": {
+            "label": "I dati saranno trasferiti al di fuori dell'UE o del SEE?",
+            "tooltip": "Il comitato europeo per la protezione dei dati (EDPB) ha individuato tre criteri cumulativi per qualificare un'operazione di trattamento come trasferimento: 1) un titolare del trattamento o un responsabile del trattamento (\"esportatore\") è soggetto al GDPR per il trattamento in questione. 2) l'esportatore comunica i dati personali mediante trasmissione o altrimenti mette a disposizione di un altro titolare del trattamento, contitolare del trattamento o responsabile del trattamento (\"importatore\") dati personali soggetti a tale trattamento. 3) l'importatore si trova in un paese terzo, indipendentemente dal fatto che sia soggetto o meno al GDPR per il trattamento in questione conformemente all'articolo 3, o sia un'organizzazione internazionale. Per ulteriori informazioni: https://www.edpb.europa.eu/system/files/2023-02/edpb_guidelines_05-2021_interplay_between_the_application_of_art3-chapter_v_of_the_gdpr_v2_en_0.pdf"
+        },
+        "whichCountriesDataBeProcessed": {
+            "label": "In quale/i paese/i al di fuori dell'UE/SEE saranno trattati i dati?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Diagnostica"
+                },
+                {
+                    "key": "b",
+                    "value": "Epidemiologia"
+                },
+                {
+                    "key": "c",
+                    "value": "Gestione dei pazienti"
+                },
+                {
+                    "key": "d",
+                    "value": "Sicurezza dei pazienti"
+                },
+                {
+                    "key": "e",
+                    "value": "Prevenzione e trattamento"
+                },
+                {
+                    "key": "f",
+                    "value": "Politica sanitaria"
+                },
+                {
+                    "key": "g",
+                    "value": "Organizzazione delle strutture sanitarie"
+                },
+                {
+                    "key": "h",
+                    "value": "Comprendere le malattie"
+                },
+                {
+                    "key": "i",
+                    "value": "Altro"
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEU": {
+            "label": "Perché i dati saranno trasferiti al di fuori dell'UE o del SEE?"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47": {
+            "label": "Articolo 47: Trasferimento sulla base di una decisione di adeguatezza"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47Options": {
+            "label": "Perché i dati saranno trasferiti al di fuori dell'UE in base alle opzioni di cui all'articolo 47?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Il trasferimento di dati personali a un paese terzo o a un'organizzazione internazionale può aver luogo se la Commissione ha deciso, a norma dell'articolo 45, paragrafo 3, del regolamento (UE) 2016/679 o dell'articolo 36, paragrafo 3, della direttiva (UE) 2016/680, che il paese terzo, un territorio o uno o più settori specifici all'interno del paese terzo o l'organizzazione internazionale in questione garantiscono un livello di protezione adeguato e i dati personali sono trasferiti unicamente per consentire lo svolgimento di compiti di competenza del titolare del trattamento."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Le istituzioni e gli organi dell'Unione informano la Commissione e il garante europeo della protezione dei dati dei casi in cui ritengono che un paese terzo, un territorio o uno o più settori specifici all'interno di un paese terzo o un'organizzazione internazionale in questione non garantisca un livello di protezione adeguato ai sensi del paragrafo 1."
+                },
+                {
+                    "key": "c",
+                    "value": "C. le istituzioni e gli organi dell'Unione adottano le misure necessarie per conformarsi alle decisioni adottate dalla Commissione quando stabilisce, a norma dell'articolo 45, paragrafo 3 o (5) del regolamento (UE) 2016/679 o dell'articolo 36, paragrafo 3 o (5) della direttiva (UE) 2016/680, che un paese terzo, un territorio o uno o più settori specifici all'interno di un paese terzo o un'organizzazione internazionale garantisce o non garantisce più un livello di protezione adeguato."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48": {
+            "label": "Articolo 48: Trasferimenti soggetti a garanzie adeguate"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48bOptions": {
+            "label": "Perché i dati saranno trasferiti al di fuori dell'UE in base alle opzioni di cui all'articolo 48 ter?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "I. uno strumento giuridicamente vincolante ed esecutivo tra autorità o organismi pubblici"
+                },
+                {
+                    "key": "b",
+                    "value": "II. Clausole tipo di protezione dei dati adottate dalla Commissione secondo la procedura d'esame di cui all'articolo 96, paragrafo 2"
+                },
+                {
+                    "key": "c",
+                    "value": "III. Le clausole tipo di protezione dei dati adottate dal garante europeo della protezione dei dati e approvate dalla Commissione secondo la procedura d'esame di cui all'articolo 96, paragrafo 2; L 295/78 EN Gazzetta ufficiale dell'Unione europea 21.11.2018"
+                },
+                {
+                    "key": "d",
+                    "value": "IV. Qualora il responsabile del trattamento non sia un'istituzione o un organo dell'Unione, le norme vincolanti d'impresa, i codici di condotta o i meccanismi di certificazione ai sensi dell'articolo 46, paragrafo 2, lettere b), e) ed f), del regolamento (UE) 2016/679."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48a": {
+            "label": "a. In assenza di una decisione ai sensi dell'articolo 45, paragrafo 3, del regolamento (UE) 2016/679 o dell'articolo 36, paragrafo 3, della direttiva (UE) 2016/680, un titolare del trattamento o un responsabile del trattamento può trasferire dati personali verso un paese terzo o un'organizzazione internazionale solo se il titolare del trattamento o il responsabile del trattamento ha fornito garanzie adeguate e a condizione che siano disponibili per gli interessati diritti azionabili e mezzi di ricorso effettivi. "
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48b": {
+            "label": "b. Le garanzie adeguate di cui al paragrafo 1 possono essere fornite, senza richiedere alcuna autorizzazione specifica da parte del garante europeo della protezione dei dati:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48c": {
+            "label": "c. Fatta salva l'autorizzazione del garante europeo della protezione dei dati, le garanzie adeguate di cui al paragrafo 1 possono anche essere fornite, in particolare:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48cOpt": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Clausole contrattuali tra il titolare del trattamento o l'incaricato del trattamento e il responsabile del trattamento, l'incaricato del trattamento o il destinatario dei dati personali nel paese terzo o nell'organizzazione internazionale."
+                },
+                {
+                    "key": "b",
+                    "value": "Le disposizioni da inserire in accordi amministrativi tra autorità pubbliche o organismi pubblici che comprendono diritti effettivi e azionabili degli interessati."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48d": {
+            "label": "d. Le autorizzazioni rilasciate dal Garante europeo della protezione dei dati sulla base dell'articolo 9, paragrafo 7, del regolamento (CE) n. 45/2001 restano valide fino a quando non vengono modificate, sostituite o abrogate, se necessario, dal Garante europeo della protezione dei dati."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48e": {
+            "label": "e. Le istituzioni e gli organi dell'Unione informano il garante europeo della protezione dei dati in merito alle categorie di casi in cui è stato applicato il presente articolo."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle49": {
+            "label": "Articolo 49: Trasferimento o comunicazione non autorizzati dal diritto dell'Unione"
+        },
+        "legalBasisForTransferringTheDataOutsideEU": {
+            "label": "Qual è la base giuridica per il trasferimento dei dati al di fuori dell'UE o del SEE?",
+            "tooltip": "Per maggiori informazioni consultare il capo 5 del regolamento generale sulla protezione dei dati: <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679#d1e4227-1-1</a>",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Il paese/territorio/l'organizzazione internazionale di trasferimento garantisce un livello di protezione adeguato conformemente a una decisione della Commissione europea (articolo 35 GDPR)"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Il titolare del trattamento o il responsabile del trattamento ha fornito garanzie adeguate e sono disponibili diritti azionabili dell'interessato e mezzi di ricorso effettivi per gli interessati (articolo 46 GDPR)."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Altra base giuridica eccezionale (in assenza di garanzie adeguate a norma dell'articolo 46)"
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUOtherOptions": {
+            "label": "3. Altra base giuridica eccezionale (in assenza di garanzie adeguate a norma dell'articolo 46)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. L'interessato ha esplicitamente acconsentito al trasferimento proposto, dopo essere stato informato dei possibili rischi di tali trasferimenti per l'interessato a causa dell'assenza di una decisione di adeguatezza e di garanzie adeguate."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Il trasferimento è necessario per l'esecuzione di un contratto tra l'interessato e il responsabile del trattamento o per l'attuazione di misure precontrattuali adottate su richiesta dell'interessato."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Il trasferimento è necessario per la conclusione o l'esecuzione di un contratto concluso nell'interesse dell'interessato tra il responsabile del trattamento e un'altra persona fisica o giuridica"
+                },
+                {
+                    "key": "d",
+                    "value": "4. Il trasferimento è necessario per importanti motivi di interesse pubblico"
+                },
+                {
+                    "key": "e",
+                    "value": "5. Il trasferimento è necessario per accertare, esercitare o difendere un diritto in sede giudiziaria"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Il trasferimento è necessario per tutelare gli interessi vitali dell'interessato o di altre persone, qualora l'interessato si trovi nell'incapacità fisica o giuridica di prestare il proprio consenso."
+                },
+                {
+                    "key": "g",
+                    "value": "7. Il trasferimento è effettuato a partire da un registro che, a norma del diritto dell'Unione o degli Stati membri, è destinato a fornire informazioni al pubblico e che è aperto alla consultazione del pubblico in generale o di qualsiasi persona in grado di dimostrare un interesse legittimo, ma solo nella misura in cui siano soddisfatte le condizioni per la consultazione previste dal diritto dell'Unione o degli Stati membri nel caso specifico."
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUc1": {
+            "label": "1. L'interessato ha esplicitamente acconsentito al trasferimento proposto, dopo essere stato informato dei possibili rischi di tali trasferimenti per l'interessato a causa dell'assenza di una decisione di adeguatezza e di garanzie adeguate. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc2": {
+            "label": "2. Il trasferimento è necessario per l'esecuzione di un contratto tra l'interessato e il responsabile del trattamento o per l'attuazione di misure precontrattuali adottate su richiesta dell'interessato. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc3": {
+            "label": "3. Il trasferimento è necessario per la conclusione o l'esecuzione di un contratto concluso nell'interesse dell'interessato tra il responsabile del trattamento e un'altra persona fisica o giuridica"
+        },
+        "legalBasisForTransferringTheDataOutsideEUc4": {
+            "label": "4. Il trasferimento è necessario per importanti motivi di interesse pubblico"
+        },
+        "legalBasisForTransferringTheDataOutsideEUc5": {
+            "label": "5. Il trasferimento è necessario per accertare, esercitare o difendere un diritto in sede giudiziaria"
+        },
+        "legalBasisForTransferringTheDataOutsideEUc6": {
+            "label": "6. Il trasferimento è necessario per tutelare gli interessi vitali dell'interessato o di altre persone, qualora l'interessato si trovi nell'incapacità fisica o giuridica di prestare il proprio consenso."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc7": {
+            "label": "7. Il trasferimento è effettuato a partire da un registro che, a norma del diritto dell'Unione o degli Stati membri, è destinato a fornire informazioni al pubblico e che è aperto alla consultazione del pubblico in generale o di qualsiasi persona in grado di dimostrare un interesse legittimo, ma solo nella misura in cui siano soddisfatte le condizioni per la consultazione previste dal diritto dell'Unione o degli Stati membri nel caso specifico."
+        },
+        "safeguardsAreProvidedByReferringGDCP": {
+            "label": "Tali garanzie sono fornite da:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Un titolo giuridicamente vincolante ed esecutivo tra autorità o organismi pubblici"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Norme vincolanti d'impresa conformemente all'articolo 47"
+                },
+                {
+                    "key": "c",
+                    "value": "3. Clausole tipo di protezione dei dati adottate dalla Commissione secondo la procedura d'esame di cui all'articolo 93, paragrafo 2"
+                },
+                {
+                    "key": "d",
+                    "value": "4. Clausole tipo di protezione dei dati adottate da un'autorità di controllo e approvate dalla Commissione secondo la procedura d'esame di cui all'articolo 93, paragrafo 2"
+                },
+                {
+                    "key": "e",
+                    "value": "5. Un codice di condotta approvato a norma dell'articolo 40, unitamente all'impegno vincolante ed esecutivo del titolare del trattamento o dell'incaricato del trattamento nel paese terzo ad applicare le garanzie adeguate, anche per quanto riguarda i diritti degli interessati"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Un meccanismo di certificazione approvato a norma dell'articolo 42, unitamente all'impegno vincolante ed esecutivo del titolare del trattamento o dell'incaricato del trattamento nel paese terzo ad applicare le garanzie adeguate, anche per quanto riguarda i diritti degli interessati"
+                }
+            ]
+        },
+        "whichOrganizationWillBeTheControllerOfData": {
+            "label": "Quali organizzazioni o persone fisiche saranno il titolare del trattamento dei dati da costituire sulla base della presente domanda?",
+            "tooltip": "Il titolare del trattamento determina le finalità e i mezzi del trattamento dei dati personali. In altre parole, il titolare del trattamento decide come e perché un'operazione di trattamento dei dati. Il titolare del trattamento può essere una persona giuridica, ad esempio un'impresa, una PMI, un'autorità pubblica, un'agenzia o un altro organismo. Per ulteriori informazioni: https://edpb.europa.eu/sme-data-protection-guide/data-controller-data-processor_en"
+        },
+        "complyWithDataMinimisationPrinciple": {
+            "label": "In che modo rispetta il principio della minimizzazione dei dati (regolamento generale dell'UE sulla protezione dei dati) nel trattamento dei dati?",
+            "tooltip": "Articolo 5, paragrafo 1, lettera c), GDPR: \"I dati personali sono adeguati, pertinenti e limitati a quanto necessario rispetto alle finalità per le quali sono trattati (\" minimizzazione dei dati \")\". "
+        },
+        "complyWithDataMinimisationPrincipleNotEUMember": {
+            "label": "In che modo rispetta il principio della minimizzazione dei dati (regolamento UE sulla protezione dei dati) nel trattamento dei dati? ",
+            "tooltip": "Articolo 4, paragrafo 1 quater, del DPR \"I dati personali sono adeguati, pertinenti e limitati a quanto necessario rispetto alle finalità per le quali sono trattati (\" minimizzazione dei dati \")\""
+        },
+        "protectionAndSecurityStatements": {
+            "label": "Per procedere con la presente domanda occorre confermare le seguenti dichiarazioni (dichiarazioni relative alla protezione dei dati e alla sicurezza):"
+        },
+        "protectionAndSecurityStatementsA": {
+            "label": "1. Confermo che, se l'organismo responsabile dell'accesso ai dati sanitari mi concede i dati per i quali chiedo, li utilizzerò solo per le finalità indicate nel presente modulo di domanda."
+        },
+        "protectionAndSecurityStatementsB": {
+            "label": "2. Sono consapevole del divieto di copiare i dati dall'ambiente di trattamento sicuro."
+        },
+        "protectionAndSecurityStatementsC": {
+            "label": "3. Sono consapevole del fatto che è vietato scattare schermate o fotografie dello schermo del dispositivo, una volta nell'ambiente di trattamento sicuro."
+        },
+        "protectionAndSecurityStatementsD": {
+            "label": "4. Dispongo di misure di sicurezza sufficienti (come un firewall) per proteggere le diverse reti a cui sono collegati i dispositivi utilizzati per accedere all'ambiente di trattamento sicuro."
+        },
+        "protectionAndSecurityStatementsE": {
+            "label": "5. Sono consapevole del fatto che i tentativi di reidentificazione sono vietati e che l'organismo responsabile dell'accesso ai dati sanitari può imporre sanzioni a norma dell'articolo 43 del regolamento europeo sui dati sanitari"
+        },
+        "onlyThePeopleMentioned": "Solo le persone menzionate nell'autorizzazione ai dati avranno accesso al trattamento dei dati nell'ambiente di trattamento sicuro.",
+        "sameAsContactPerson": {
+            "label": "Lo stesso della persona di contatto di cui alla sezione 3?"
+        },
+        "listTheFullNames": {
+            "label": "Elencare i nomi completi, le affiliazioni e gli indirizzi di posta elettronica di tutte le persone che elaboreranno i dati."
+        },
+        "fullName": {
+            "label": "Denominazione"
+        },
+        "affiliation": {
+            "label": "Affiliazione"
+        },
+        "emailAddress": {
+            "label": "Indirizzo di posta elettronica"
+        },
+        "lawfulnessOfProcessing": "Liceità del trattamento;",
+        "legalBasisForProcessingPersonalData": {
+            "label": "Qual è la base giuridica per il trattamento dei dati personali per i quali si richiede il presente modulo di domanda?"
+        },
+        "lawfulForProcessingPersonalData": {
+            "label": "Il trattamento dei dati personali richiesti con il presente modulo di domanda è lecito solo se e nella misura in cui si applica almeno una delle seguenti condizioni (conformemente all'articolo 6, paragrafo 1, del regolamento generale sulla protezione dei dati dell'UE, regolamento (UE) 2016/679):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. L'interessato ha prestato il consenso al trattamento dei propri dati personali per una o più specifiche finalità"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Il trattamento è necessario all'esecuzione di un contratto di cui l'interessato è parte o all'esecuzione di misure precontrattuali adottate su richiesta dello stesso."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Il trattamento è necessario per adempiere un obbligo legale al quale è soggetto il titolare del trattamento."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Il trattamento è necessario per tutelare un interesse vitale dell'interessato o di un'altra persona fisica"
+                },
+                {
+                    "key": "e",
+                    "value": "5. Il trattamento è necessario per l'esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici poteri di cui è investito il titolare del trattamento"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Il trattamento è necessario per il perseguimento del legittimo interesse del titolare del trattamento o di terzi, a condizione che non prevalgano gli interessi o i diritti e le libertà fondamentali dell'interessato che richiedono la protezione dei dati personali, in particolare se l'interessato è un minore."
+                }
+            ]
+        },
+        "lawfulForProcessingPersonalDataNaturalPersonOption": {
+            "key": "f",
+            "value": "6. Il trattamento è necessario per il perseguimento del legittimo interesse del titolare del trattamento o di terzi, a condizione che non prevalgano gli interessi o i diritti e le libertà fondamentali dell'interessato che richiedono la protezione dei dati personali, in particolare se l'interessato è un minore."
+        },
+        "otherLegalBasisForProcessingPersonalData": {
+            "label": "Altro, quale?"
+        },
+        "legalBasisForProcessingCombinedData": {
+            "label": "Qual è la base giuridica per il trattamento degli altri dati che combinerà con i dati richiesti nella presente domanda? "
+        },
+        "otherLegalBasisForProcessingCombinedData": {
+            "label": "Altro, quale?"
+        },
+        "europeanUnionInstitution": {
+            "label": "Il trattamento dei dati personali richiesti con il presente modulo di domanda è lecito solo se e nella misura in cui si applica almeno una delle seguenti condizioni (conformemente all'articolo 5, paragrafo 1, del regolamento UE sulla protezione dei dati, regolamento (UE) 2018/1725):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Il trattamento è necessario per l'esecuzione di un compito svolto nell'interesse pubblico o nell'esercizio di pubblici poteri di cui sono investiti l'istituzione o l'organo dell'Unione;"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Il trattamento è necessario per adempiere un obbligo legale al quale è soggetto il titolare del trattamento."
+                },
+                {
+                    "key": "c",
+                    "value": "3. L trattamento è necessario all'esecuzione di un contratto di cui l'interessato è parte o all'esecuzione di misure precontrattuali adottate su richiesta dello stesso;"
+                },
+                {
+                    "key": "d",
+                    "value": "4. L'interessato ha espresso il consenso al trattamento dei propri dati personali per una o più specifiche finalità."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Il trattamento è necessario per la salvaguardia degli interessi vitali dell'interessato o di un'altra persona fisica."
+                }
+            ]
+        },
+        "legalBasisForProcessingApplicationData": {
+            "label": "Qual è la base giuridica per il trattamento dei dati personali per i quali si richiede il presente modulo di domanda?"
+        },
+        "otherLegalBasisForProcessingApplicationData": {
+            "label": "Altro, quale?"
+        },
+        "legalBasisForProcessingCombinedApplicationData": {
+            "label": "Qual è la base giuridica per il trattamento degli altri dati che combinerà con i dati richiesti nella presente domanda?"
+        },
+        "otherLegalBasisForProcessingCombinedApplicationData": {
+            "label": "Altro, quale?"
+        },
+        "attachResearchPermitIfRequired": {
+            "label": "Se la ricerca richiede un permesso di ricerca da parte dell'organizzazione di affiliazione, allegare il permesso di ricerca"
+        }
+    },
+    "section9": {
+        "section9h5": "Informazioni aggiuntive",
+        "section9Description": "Qui è possibile fornire ulteriori informazioni su una qualsiasi delle sezioni della candidatura. Indicare il numero della sezione e la domanda cui si riferisce il commento.",
+        "additionalInformation": {
+            "label": "Ulteriori informazioni o note aggiuntive",
+            "tooltip": "Qui è possibile fornire ulteriori informazioni su una qualsiasi delle sezioni della candidatura. Indicare il numero della sezione e la domanda cui si riferisce il commento. Proposta di attuazione tecnica: In alternativa, potrebbe esistere un modo per consentire al richiedente di collegare le informazioni a parti specifiche del modulo per facilitare il lavoro degli HDAB."
+        },
+        "additionalAttachment": {
+            "label": "Un allegato aggiuntivo. Non allegare dati sanitari o personali alla presente applicazione.",
+            "tooltip": "Se disponete di qualsiasi altro allegato ritenuto pertinente per il trattamento della domanda e necessario affinché l'organismo responsabile dell'accesso ai dati sanitari possa vedere, allegarlo qui. Descriverne la pertinenza nel campo di testo di cui sopra."
+        }
+    },
+    "section10": {
+        "section10h5": "Conferma delle informazioni",
+        "section10Description": "Prima di trattare la presente domanda, il richiedente deve approvare le tasse di trattamento.",
+        "submitYouApplicationText": "Per presentare la candidatura occorre confermare quanto segue:",
+        "acceptHealthDataBody": {
+            "label": "Accetto che l'organismo responsabile dei dati sanitari rediga le statistiche e non ho accesso ai dati utilizzati per formare le statistiche."
+        },
+        "awareProcessingFee": {
+            "label": "Sono consapevole del fatto che per il trattamento della mia domanda sarà riscosso un diritto di trattamento. Si applica anche in caso di annullamento di una richiesta o di una decisione negativa."
+        },
+        "awareChargeFee": {
+            "label": "Sono consapevole del fatto che il titolare o i titolari dei dati possono addebitare una tariffa."
+        },
+        "awareInformationCorrect": {
+            "label": "Confermo che le informazioni da me fornite sono corrette."
+        }
+    },
+    "commonFields": {
+        "aboutThisSection": "Informazioni su questa sezione",
+        "yesOrNoOptions": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Sì"
+                },
+                {
+                    "key": "b",
+                    "value": "No"
+                }
+            ]
+        },
+        "onceOrMultipleTimes": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Una volta"
+                },
+                {
+                    "key": "b",
+                    "value": "Più volte"
+                }
+            ]
+        },
+        "everyWhen": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Ogni anno"
+                },
+                {
+                    "key": "b",
+                    "value": "In sei mesi"
+                },
+                {
+                    "key": "c",
+                    "value": "Trimestre"
+                },
+                {
+                    "key": "d",
+                    "value": "Altro"
+                }
+            ]
+        },
+        "processingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. e) il trattamento è necessario per l'esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici poteri di cui è investito il responsabile del trattamento;"
+                },
+                {
+                    "key": "b",
+                    "value": "2. f) il trattamento è necessario per il perseguimento del legittimo interesse del responsabile del trattamento o di terzi, a condizione che non prevalgano gli interessi o i diritti e le libertà fondamentali dell'interessato che richiedono la protezione dei dati personali, in particolare se l'interessato è un minore."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Altro"
+                }
+            ]
+        },
+        "legalBasisForProcessingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. a) Il trattamento è necessario per l'esecuzione di un compito svolto nell'interesse pubblico o nell'esercizio di pubblici poteri di cui sono investiti l'istituzione o l'organo dell'Unione."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Altro"
+                }
+            ]
+        }
+    }
+}

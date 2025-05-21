@@ -24,12 +24,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
   @ListContainsSpecificValue(
-    listField = "section5purposeOfUse",
+    listField = "section2purposeOfUse",
     baseField = "key",
     baseFieldValue = "b",
     mandatoryField = "whatIsTheFrequencyOfUpdates",
     message = "whatIsTheFrequencyOfUpdates must be provided when "
-      + "purposeOfUse is 2. b. To support public sector bodies or Union institutions, agencies and bodies including regulatory authorities, in the health or care sector to carry out their tasks defined in their mandates"
+      + "section2purposeOfUse is 2. b. To support public sector bodies or Union institutions, agencies and bodies including regulatory authorities, in the health or care sector to carry out their tasks defined in their mandates"
   )
 
 @Data
@@ -37,7 +37,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Section6BindToOtherSections {
 
-  List<SelectObjectDTO> section5purposeOfUse;
+  List<SelectObjectDTO> section2purposeOfUse;
 
   @Size(max = 2000)
   String whatIsTheFrequencyOfUpdates;

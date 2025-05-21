@@ -40,7 +40,7 @@ class SchemaFilesTest {
   void testEnumValues() {
     // Verify the number of constants in the enum
     SchemaFiles[] values = SchemaFiles.values();
-    assertEquals(11, values.length);
+    assertEquals(16, values.length);
 
     // Verify each constant is present
     assertEquals(SchemaFiles.BASKET_SCHEMA_FILE, SchemaFiles.valueOf("BASKET_SCHEMA_FILE"));

@@ -34,56 +34,6 @@ import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ListContainsSpecificValue(
-  listField = "purposeOfUse",
-  baseField = "key",
-  baseFieldValue = "b",
-  mandatoryField = "legalBasis",
-  message = "legalBasis must be provided when purposeOfUse list has at least one key as: b"
-)
-@ListContainsSpecificValue(
-  listField = "purposeOfUse",
-  baseField = "key",
-  baseFieldValue = "b",
-  mandatoryField = "linkToTheSupportingLegalBasis",
-  message = "linkToTheSupportingLegalBasis must be provided when purposeOfUse list has at least one key as: b"
-)
-@ListContainsSpecificValue(
-  listField = "purposeOfUse",
-  baseField = "key",
-  baseFieldValue = "e",
-  mandatoryField = "personResearchName",
-  message = "personResearchName must be provided when purposeOfUse list has at least one key as: e"
-)
-@ListContainsSpecificValue(
-  listField = "purposeOfUse",
-  baseField = "key",
-  baseFieldValue = "e",
-  mandatoryField = "personResearchJobTitle",
-  message = "personResearchJobTitle must be provided when purposeOfUse list has at least one key as: e"
-)
-@ListContainsSpecificValue(
-  listField = "purposeOfUse",
-  baseField = "key",
-  baseFieldValue = "e",
-  mandatoryField = "personResearchAffiliation",
-  message = "personResearchAffiliation must be provided when purposeOfUse list has at least one key as: e"
-)
-@ListContainsSpecificValue(
-  listField = "purposeOfUse",
-  baseField = "key",
-  baseFieldValue = "e",
-  mandatoryField = "summaryOfResearchPlan",
-  message = "summaryOfResearchPlan must be provided when purposeOfUse list has at least one key as: e"
-)
-@ListContainsSpecificValue(
-  listField = "purposeOfUse",
-  baseField = "key",
-  baseFieldValue = "e",
-  mandatoryField = "summaryOfResearchPlanLanguage",
-  message = "summaryOfResearchPlanLanguage must be provided when purposeOfUse list has at least one key as: e"
-)
-
 @RequiredFieldBasedOnObjectValue(
   objectName = "formatOfTheElectronicHealthData",
   baseField = "key",
@@ -109,55 +59,10 @@ import lombok.NoArgsConstructor;
   message = "whyNeedForPseudonymisation must be provided when formatOfTheElectronicHealthData list has at least one key as: b"
 )
 
-@ListContainsOneMoreValueThanASpecificValue(
-  listField = "purposeOfUse",
-  baseField = "key",
-  baseFieldValues = {"a", "b", "c", "d", "f", "g", "h"}, // Provide multiple values here
-  mandatoryField = "personResponsibleName",
-  message = "personResponsibleName must be provided when purposeOfUse list has key other than e or has more than one values e included"
-)
-@ListContainsOneMoreValueThanASpecificValue(
-  listField = "purposeOfUse",
-  baseField = "key",
-  baseFieldValues = {"a", "b", "c", "d", "f", "g", "h"}, // Provide multiple values here
-  mandatoryField = "personResponsibleJobTitle",
-  message = "personResponsibleJobTitle must be provided when purposeOfUse list has key other than e or has more than one values e included"
-)
-@ListContainsOneMoreValueThanASpecificValue(
-  listField = "purposeOfUse",
-  baseField = "key",
-  baseFieldValues = {"a", "b", "c", "d", "f", "g", "h"}, // Provide multiple values here
-  mandatoryField = "personResponsibleAffiliation",
-  message = "personResponsibleAffiliation must be provided when purposeOfUse list has key other than e or has more than one values e included"
-)
-
-@ListContainsOneMoreValueExpectASpecificValue(
-  listField = "purposeOfUse",
-  baseField = "key",
-  expectFieldValue = "e", //not contain Value
-  baseFieldValue = "e", //not contain Value
-  mandatoryField = "summaryOfPlanForUsingTheData",
-  message = "summaryOfPlanForUsingTheData must be provided when purposeOfUse list has key other than e or has more than one values e included"
-)
-
-@ListContainsOneMoreValueExpectASpecificValue(
-  listField = "purposeOfUse",
-  baseField = "key",
-  expectFieldValue = "e", //not contain Value
-  baseFieldValue = "e", //not contain Value
-  mandatoryField = "summaryOfPlanForUsingTheDataLanguage",
-  message = "summaryOfPlanForUsingTheDataLanguage must be provided when purposeOfUse list has key other than e or has more than one values e included"
-)
-
 @Data
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Section5DTO extends SectionDTO {
-
-  @NotNull
-  @NotEmpty
-  @CheckEnumValue(fieldName = "purposeOfUse", sectionNumber = "section5")
-  List<SelectObjectDTO> purposeOfUse;
   @NotBlank
   @Size(max = 1000)
   String whyTheDataIsNeeded;
@@ -167,38 +72,6 @@ public class Section5DTO extends SectionDTO {
   @NotBlank
   @Size(max = 2000)
   String whichAreTheExpectedBenefits;
-  @Size(max = 2000)
-  String legalBasis;
-  @Size(max = 500)
-  String linkToTheSupportingLegalBasis;
-  @ListOfAttachmentsValidation(allowedExtensions = {"doc", "docx", "pdf", "xls",
-    "xlsx", "odt"}, maxSize = 5242880, fieldName = "summaryOfPlanForUsingTheData") // 5MB
-  List<AttachmentDTO> summaryOfPlanForUsingTheData;
-  @CheckEnumValue(fieldName = "summaryOfPlanForUsingTheDataLanguage", sectionNumber = "section5")
-  SelectObjectDTO summaryOfPlanForUsingTheDataLanguage;
-  @ListOfAttachmentsValidation(allowedExtensions = {"doc", "docx", "pdf", "xls", "xlsx",
-    "odt"}, maxSize = 5242880, fieldName = "summaryOfResearchPlan") // 5MB
-  List<AttachmentDTO> summaryOfResearchPlan;
-  @CheckEnumValue(fieldName = "summaryOfResearchPlanLanguage", sectionNumber = "section5")
-  SelectObjectDTO summaryOfResearchPlanLanguage;
-  @NotNull
-  boolean personResponsibleSameAsContactPerson;
-
-  @Size(max = 500)
-  String personResponsibleName;
-  @Size(max = 500)
-  String personResponsibleJobTitle;
-  @Size(max = 500)
-  String personResponsibleAffiliation;
-
-  @NotNull
-  boolean personResearchSameAsContactPerson;
-  @Size(max = 500)
-  String personResearchName;
-  @Size(max = 500)
-  String personResearchJobTitle;
-  @Size(max = 500)
-  String personResearchAffiliation;
   @NotNull
   @CheckEnumValue(fieldName = "formatOfTheElectronicHealthData", sectionNumber = "section5")
   SelectObjectDTO formatOfTheElectronicHealthData;

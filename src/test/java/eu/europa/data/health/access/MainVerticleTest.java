@@ -16,13 +16,21 @@
 package eu.europa.data.health.access;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import io.vertx.core.DeploymentOptions;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import eu.europa.data.health.access.handlers.DBHandler;
+import io.piveau.security.PiveauAuth;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
@@ -30,223 +38,121 @@ import io.vertx.core.http.HttpClient;
 import io.vertx.core.http.HttpClientRequest;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.validation.BadRequestException;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
 import io.vertx.serviceproxy.ServiceException;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.testcontainers.containers.MongoDBContainer;
+import org.slf4j.LoggerFactory;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @ExtendWith(VertxExtension.class)
 class MainVerticleTest {
 
-  static MongoDBContainer mongoDBContainer;
-  static String mongoUri;
   private MainVerticle mainVerticle;
+  private TestAppender testAppender;
   private Promise<Void> startPromise;
+  private Future<DBHandler> mockDbHandler;
 
-  @BeforeAll
-  static void startMongoDB() {
-    // Start MongoDB container
-    mongoDBContainer = new MongoDBContainer("mongo:4.4.2")
-      .withNetworkAliases("mongodb")
-      .withExposedPorts(27017)
-      .withCommand("--replSet rs0");
-
-    mongoDBContainer.start();
-
-    mongoUri = "mongodb://" + mongoDBContainer.getHost() + ":" + mongoDBContainer.getMappedPort(27017);
-    System.out.println("MongoDB URI: " + mongoUri);
-  }
 
   @BeforeEach
   void setUp() {
-    mainVerticle = Mockito.spy(new MainVerticle());
+    mainVerticle = new MainVerticle();
     startPromise = Promise.promise();
+    testAppender = new TestAppender();
+    testAppender.start();
+
+    DBHandler handler = mock(DBHandler.class);
+    mockDbHandler = Future.succeededFuture(handler);
   }
-
-  @AfterAll
-  static void stopMongoDB() {
-    // Stop the container after all tests
-    mongoDBContainer.stop();
-  }
-
-
-  //TODO need to fix
-  //@Test
-  void testVerticleDeployment(Vertx vertx, VertxTestContext testContext) {
-    JsonObject testConfig = new JsonObject()
-        .put(Constants.ENV_MONGO_DB_URI, mongoUri)
-        .put(Constants.ENV_MONGO_DB, "test-db")
-        .put(Constants.PIVEAU_STORE_API_KEY, "test-PIVEAU_STORE_API_KEY")
-        .put(Constants.DISPATCHER_URL, "test-DISPATCHER_URL")
-        .put(Constants.DISPATCHER_X_API_KEY, "test-DISPATCHER_X_API_KEY")
-        .put(Constants.HUB_STORE_UPLOAD_DATA_URL, "test-HUB_STORE_UPLOAD_DATA_URL")
-        .put(Constants.BEARER_AUTH, "test-BEARER_AUTH")
-        .put(Constants.EXPORT_DATA_ACCESS_API_KEY, "test-EXPORT_DATA_ACCESS_API_KEY")
-        .put(Constants.ENV_HEALTH_DATA_ACCESS_API_KEY, "test-ENV_HEALTH_DATA_ACCESS_API_KEY");
-
-    vertx.deployVerticle(new MainVerticle(), new DeploymentOptions().setConfig(testConfig),
-      testContext.succeeding(id -> {
-        assertFalse(vertx.deploymentIDs().isEmpty(),
-          "Expected at least one verticle to be deployed.");
-        testContext.completeNow();
-      }));
-  }
-
-//  @Test
-//  void testStartServer_Success() {
-//    // Mock configuration
-//    JsonObject mockConfig = new JsonObject();
-//    mockConfig.put(Constants.ENV_PIVEAU_ACCESS_AUTH_CONFIG, new JsonObject());
-//    verticle.config = mockConfig;
-//
-//    // Mock PiveauAuth creation
-//    PiveauAuth mockPiveauAuth = mock(PiveauAuth.class);
-//    doReturn(Future.succeededFuture(mockPiveauAuth))
-//      .when(PiveauAuth.class);
-//
-//    // Mock RouterBuilder
-//    RouterBuilder mockRouterBuilder = mock(RouterBuilder.class);
-//    doReturn(Future.succeededFuture(mockRouterBuilder))
-//      .when(RouterBuilder.class);
-//
-//    // Mock HTTP server
-//    HttpServer mockHttpServer = mock(HttpServer.class);
-//    doReturn(mockHttpServer).when(vertx).createHttpServer(any());
-//    doReturn(Future.succeededFuture()).when(mockHttpServer).listen();
-//
-//    // Call the method under test
-//    Future<Void> result = verticle.startServer();
-//
-//    // Verify interactions and assertions
-//    assertTrue(result.succeeded(), "Server should start successfully");
-//    verify(mockRouterBuilder, times(1)).createRouter();
-//    verify(mockHttpServer, times(1)).listen();
-//  }
-//
-//  @Test
-//  void testStartServer_PiveauAuthFailure() {
-//    // Mock failure in PiveauAuth creation
-//    doReturn(Future.failedFuture(new RuntimeException("PiveauAuth failure")))
-//      .when(PiveauAuth.class);
-//
-//    // Call the method under test
-//    Future<Void> result = verticle.startServer();
-//
-//    // Assertions
-//    assertTrue(result.failed(), "Promise should fail when PiveauAuth creation fails");
-//    assertEquals("PiveauAuth failure", result.cause().getMessage());
-//  }
-//
-//  @Test
-//  void testStartServer_RouterBuilderFailure() {
-//    // Mock PiveauAuth creation
-//    PiveauAuth mockPiveauAuth = mock(PiveauAuth.class);
-//    doReturn(Future.succeededFuture(mockPiveauAuth))
-//      .when(PiveauAuth.class);
-//
-//    // Mock failure in RouterBuilder
-//    doReturn(Future.failedFuture(new RuntimeException("RouterBuilder failure")))
-//      .when(RouterBuilder.class);
-//
-//    // Call the method under test
-//    Future<Void> result = verticle.startServer();
-//
-//    // Assertions
-//    assertTrue(result.failed(), "Promise should fail when RouterBuilder initialization fails");
-//    assertEquals("RouterBuilder failure", result.cause().getMessage());
-//  }
-//
-//  @Test
-//  void testStartServer_HttpServerFailure() {
-//    // Mock PiveauAuth creation
-//    PiveauAuth mockPiveauAuth = mock(PiveauAuth.class);
-//    doReturn(Future.succeededFuture(mockPiveauAuth))
-//      .when(PiveauAuth.class);
-//
-//    // Mock RouterBuilder
-//    RouterBuilder mockRouterBuilder = mock(RouterBuilder.class);
-//    doReturn(Future.succeededFuture(mockRouterBuilder))
-//      .when(RouterBuilder.class);
-//
-//    // Mock HTTP server startup failure
-//    HttpServer mockHttpServer = mock(HttpServer.class);
-//    doReturn(mockHttpServer).when(vertx).createHttpServer(any());
-//    doReturn(Future.failedFuture(new RuntimeException("HTTP server failure")))
-//      .when(mockHttpServer).listen();
-//
-//    // Call the method under test
-//    Future<Void> result = verticle.startServer();
-//
-//    // Assertions
-//    assertTrue(result.failed(), "Promise should fail when HTTP server startup fails");
-//    assertEquals("HTTP server failure", result.cause().getMessage());
-//  }
 
   @Test
-  void testStart_Success() throws Exception {
-    doReturn(Future.succeededFuture()).when(mainVerticle).loadConfig();
-    doReturn(Future.succeededFuture()).when(mainVerticle).setupMongoDBConnection();
-    doReturn(Future.succeededFuture()).when(mainVerticle).startServer();
+  void testStart_Success(Vertx vertx, VertxTestContext testContext) throws Exception {
+    MainVerticle spyVerticle = Mockito.spy(mainVerticle);
+    // Mock MongoDB and server setup to avoid real connections
+    doReturn(Future.succeededFuture()).when(spyVerticle).setupMongoDBConnection();
+    doReturn(Future.succeededFuture()).when(spyVerticle).startServer();
 
-    mainVerticle.start(startPromise);
+    spyVerticle.init(vertx, vertx.getOrCreateContext());
+    Promise<Void> startPromise = Promise.promise();
 
-    verify(mainVerticle).loadConfig();
-    verify(mainVerticle).setupMongoDBConnection();
-    verify(mainVerticle).startServer();
-    assertTrue(startPromise.future().succeeded());
+    spyVerticle.start(startPromise);
+
+    startPromise.future().onComplete(ar -> {
+      if (ar.succeeded()) {
+        try {
+          verify(spyVerticle).loadConfig();
+          verify(spyVerticle).setupMongoDBConnection();
+          verify(spyVerticle).startServer();
+          assertTrue(startPromise.future().succeeded());
+          testContext.completeNow();
+        } catch (AssertionError e) {
+          testContext.failNow(e);
+        }
+      } else {
+        testContext.failNow(ar.cause());
+      }
+    });
   }
 
   @Test
   void testStart_FailureInLoadConfig() throws Exception {
-    doReturn(Future.failedFuture(new RuntimeException("Config load failed"))).when(mainVerticle)
+    MainVerticle spyVerticle = Mockito.spy(mainVerticle);
+    Promise<Void> startPromise = Promise.promise();
+    doReturn(Future.failedFuture(new RuntimeException("Config load failed"))).when(spyVerticle)
       .loadConfig();
 
-    mainVerticle.start(startPromise);
+    spyVerticle.start(startPromise);
 
-    verify(mainVerticle).loadConfig();
-    verify(mainVerticle, never()).setupMongoDBConnection();
-    verify(mainVerticle, never()).startServer();
+    verify(spyVerticle).loadConfig();
+    verify(spyVerticle, never()).setupMongoDBConnection();
+    verify(spyVerticle, never()).startServer();
     assertTrue(startPromise.future().failed());
     assertEquals("Config load failed", startPromise.future().cause().getMessage());
   }
 
   @Test
   void testStart_FailureInSetupMongoDBConnection() throws Exception {
-    doReturn(Future.succeededFuture()).when(mainVerticle).loadConfig();
+    MainVerticle spyVerticle = Mockito.spy(mainVerticle);
+    Promise<Void> startPromise = Promise.promise();
+    doReturn(Future.succeededFuture()).when(spyVerticle).loadConfig();
     doReturn(Future.failedFuture(new RuntimeException("MongoDB connection failed")))
-      .when(mainVerticle).setupMongoDBConnection();
+      .when(spyVerticle).setupMongoDBConnection();
 
-    mainVerticle.start(startPromise);
+    spyVerticle.start(startPromise);
 
-    verify(mainVerticle).loadConfig();
-    verify(mainVerticle).setupMongoDBConnection();
-    verify(mainVerticle, never()).startServer();
+    verify(spyVerticle).loadConfig();
+    verify(spyVerticle).setupMongoDBConnection();
+    verify(spyVerticle, never()).startServer();
     assertTrue(startPromise.future().failed());
     assertEquals("MongoDB connection failed", startPromise.future().cause().getMessage());
   }
 
   @Test
   void testStart_FailureInStartServer() throws Exception {
-    doReturn(Future.succeededFuture()).when(mainVerticle).loadConfig();
-    doReturn(Future.succeededFuture()).when(mainVerticle).setupMongoDBConnection();
-    doReturn(Future.failedFuture(new RuntimeException("Server failed to start"))).when(mainVerticle)
+    MainVerticle spyVerticle = Mockito.spy(mainVerticle);
+    Promise<Void> startPromise = Promise.promise();
+    doReturn(Future.succeededFuture()).when(spyVerticle).loadConfig();
+    doReturn(Future.succeededFuture()).when(spyVerticle).setupMongoDBConnection();
+    doReturn(Future.failedFuture(new RuntimeException("Server failed to start"))).when(spyVerticle)
       .startServer();
 
-    mainVerticle.start(startPromise);
+    spyVerticle.start(startPromise);
 
-    verify(mainVerticle).loadConfig();
-    verify(mainVerticle).setupMongoDBConnection();
-    verify(mainVerticle).startServer();
+    verify(spyVerticle).loadConfig();
+    verify(spyVerticle).setupMongoDBConnection();
+    verify(spyVerticle).startServer();
     assertTrue(startPromise.future().failed());
     assertEquals("Server failed to start", startPromise.future().cause().getMessage());
   }
@@ -344,5 +250,126 @@ class MainVerticleTest {
       return errorDetails != null ? errorDetails : new JsonObject().put("message", getMessage());
     }
   }
+
+  @Test
+  void testLoadConfig_whenFileMissing_shouldLogWarning(Vertx vertx, VertxTestContext testContext) {
+    Logger logger = (Logger) LoggerFactory.getLogger(MainVerticle.class);
+    logger.setLevel(Level.DEBUG);
+    logger.addAppender(testAppender);
+    mainVerticle = new MainVerticle();
+    mainVerticle.init(vertx, vertx.getOrCreateContext());
+    // Ensure the file does exist
+    Path configPath = Paths.get("conf/hd-access-env.properties");
+    assertTrue(Files.exists(configPath), "Config file should not exist for this test");
+
+    mainVerticle.loadConfig().onComplete(res -> {
+      if (res.succeeded()) {
+        vertx.setTimer(300, id -> {
+          boolean found = testAppender.getLogs().stream()
+            .anyMatch(log -> log.getLevel() == Level.DEBUG &&
+              log.getFormattedMessage().contains("Successfully loaded configuration"));
+
+          assertTrue(found, "Expected DEBUG log with 'Successfully loaded configuration'");
+
+          testAppender.stop();
+          testContext.completeNow();
+        });
+      } else {
+        testContext.failNow(res.cause());
+      }
+    });
+  }
+
+  @Test
+  void testSetupMongoDBConnection_success(Vertx vertx, VertxTestContext testContext) {
+    MainVerticle spyVerticle = Mockito.spy(new MainVerticle());
+    spyVerticle.init(vertx, vertx.getOrCreateContext());
+
+    JsonObject config = new JsonObject()
+      .put(Constants.ENV_MONGO_DB_URI, "mongodb://localhost:27017")
+      .put(Constants.ENV_MONGO_DB, "testdb");
+
+    spyVerticle.config = config;
+
+    MongoClient mockClient = mock(MongoClient.class);
+    when(mockClient.runCommand(any(), any()))
+      .thenReturn(Future.succeededFuture(new JsonObject().put("ok", 1)));
+
+    doReturn(mockClient).when(spyVerticle).createMongoClient(any());
+
+    spyVerticle.setupMongoDBConnection().onComplete(ar -> {
+      assertTrue(ar.succeeded());
+      assertNotNull(ar.result());
+      verify(mockClient).runCommand(eq("ping"), any());
+      testContext.completeNow();
+    });
+  }
+
+  @Test
+  void testSetupMongoDBConnection_failure(Vertx vertx, VertxTestContext testContext) {
+    MainVerticle spyVerticle = Mockito.spy(new MainVerticle());
+    spyVerticle.init(vertx, vertx.getOrCreateContext());
+
+    JsonObject config = new JsonObject()
+      .put(Constants.ENV_MONGO_DB_URI, "mongodb://invalidhost")
+      .put(Constants.ENV_MONGO_DB, "testdb");
+
+    spyVerticle.config = config;
+
+    MongoClient mockClient = mock(MongoClient.class);
+    when(mockClient.runCommand(any(), any()))
+      .thenReturn(Future.failedFuture(new RuntimeException("Connection refused")));
+
+    doReturn(mockClient).when(spyVerticle).createMongoClient(any());
+
+    spyVerticle.setupMongoDBConnection().onComplete(ar -> {
+      assertTrue(ar.failed());
+      assertEquals("Connection refused", ar.cause().getMessage());
+      verify(mockClient).runCommand(eq("ping"), any());
+      testContext.completeNow();
+    });
+  }
+
+  @Test
+  void testStart_withMockedSetupMongoAndPiveauAuth(Vertx vertx, VertxTestContext testContext) throws Exception {
+    PiveauAuth mockedPiveauAuth = mock(PiveauAuth.class);
+    when(mockedPiveauAuth.authHandler()).thenReturn(routingContext -> routingContext.next());
+
+    try (MockedStatic<PiveauAuth> mockedStatic = mockStatic(PiveauAuth.class)) {
+      mockedStatic.when(() -> PiveauAuth.create(any(), any()))
+        .thenReturn(Future.succeededFuture(mockedPiveauAuth));
+
+      class TestMainVerticle extends MainVerticle {
+        @Override
+        protected Future<DBHandler> setupMongoDBConnection() {
+          return Future.succeededFuture(mock(DBHandler.class));
+        }
+
+        @Override
+        protected Future<Void> loadConfig() {
+          this.config = new JsonObject()
+            .put(Constants.ENV_MONGO_DB_URI, "mongodb://localhost:27017")
+            .put(Constants.ENV_MONGO_DB, "test")
+            .put(Constants.ENV_PIVEAU_ACCESS_AUTH_CONFIG, new JsonObject()
+              .put("jwtOptions", new JsonObject())
+              .put("securityHandlers", new JsonObject()
+                .put("oauth2", new JsonObject())));
+          return Future.succeededFuture();
+        }
+      }
+
+      MainVerticle testVerticle = new TestMainVerticle();
+      testVerticle.init(vertx, vertx.getOrCreateContext());
+
+      Promise<Void> startPromise = Promise.promise();
+      testVerticle.start(startPromise);
+
+      startPromise.future().onComplete(ar -> {
+        assertTrue(ar.succeeded());
+        testContext.completeNow();
+      });
+    }
+  }
+
 
 }

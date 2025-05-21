@@ -15,18 +15,24 @@
  */
 package eu.europa.data.health.access.services;
 
+import static eu.europa.data.health.access.Constants.COUNTRY_CODE;
 import static eu.europa.data.health.access.Constants.EXPORT_DATASET_EXTERNAL_URL;
 import static eu.europa.data.health.access.Constants.EXTERNAL_DATASET_ID;
 import static eu.europa.data.health.access.Constants.LABEL;
+import static eu.europa.data.health.access.Constants.NUMBER;
 import static eu.europa.data.health.access.Constants.PROVENANCE;
 import static eu.europa.data.health.access.Constants.RESULT;
+import static eu.europa.data.health.access.Constants.VALUE;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.wml.CTBorder;
 import org.docx4j.wml.CTShd;
@@ -280,7 +286,26 @@ public  abstract class DocumentExportUtility {
   }
 
   void generatedJsonArrayValues(WordprocessingMLPackage document, JsonArray jsonArray, String type) {
-    if (Objects.nonNull(jsonArray) && !jsonArray.isEmpty()) {
+    if (jsonArray == null || jsonArray.isEmpty()) {
+      // Create a table with one empty cell
+      ObjectFactory objectFactory = new ObjectFactory();
+
+      Tbl table = objectFactory.createTbl();
+      setFixedTableWidth(table, document);
+
+      Tr tableRow = objectFactory.createTr();
+      Tc tableCell = objectFactory.createTc();
+
+      // Add an empty paragraph
+      P emptyParagraph = createStyledParagraph(objectFactory, "", false, false);
+      tableCell.getContent().add(emptyParagraph);
+      setTableCellBorders(tableCell);
+
+      tableRow.getContent().add(tableCell);
+      table.getContent().add(tableRow);
+
+      document.getMainDocumentPart().addObject(table);
+    } else {
       ObjectFactory objectFactory = new ObjectFactory();
 
       // Create a single table
@@ -295,16 +320,17 @@ public  abstract class DocumentExportUtility {
           // Create a cell with the value
           Tc tableCell = objectFactory.createTc();
           String text = jsonItem.getString(type);
-          if (Objects.nonNull(text)) {
+          if (text != null) {
             P paragraph = createStyledParagraph(objectFactory, text, false, false);
             tableCell.getContent().add(paragraph);
-            setTableCellBorders(tableCell); // Optional: Add borders to each cell
+          } else {
+            P emptyParagraph = createStyledParagraph(objectFactory, "", false, false);
+            tableCell.getContent().add(emptyParagraph);
           }
 
-          // Add the cell to the row
-          tableRow.getContent().add(tableCell);
+          setTableCellBorders(tableCell);
 
-          // Add the row to the table
+          tableRow.getContent().add(tableCell);
           table.getContent().add(tableRow);
         }
       }
@@ -441,6 +467,83 @@ public  abstract class DocumentExportUtility {
         addTextToNewParagraphWithTable(document, value, false, false);
       }
     }
+  }
+
+  // Helper for safe field extraction
+  public String getField(JsonObject section, String key) {
+    return (section != null && section.containsKey(key)) ? section.getString(key, "") : "";
+  }
+
+  public JsonArray getArrayField(JsonObject section, String key) {
+    return (section != null && section.containsKey(key)) ? section.getJsonArray(key) : null;
+  }
+
+  public boolean isChecked(JsonObject section, String key) {
+    return section != null && section.getBoolean(key, false);
+  }
+
+  public JsonObject getObject(JsonObject sec, String key) {
+    return (sec != null && sec.containsKey(key)) ? sec.getJsonObject(key) : null;
+  }
+
+  public String getObjectValue(JsonObject sec, String key) {
+    JsonObject obj = getObject(sec, key);
+    return obj != null ? obj.getString(VALUE, "") : "";
+  }
+
+  public boolean isKey(JsonObject obj, String expectedKey) {
+    return obj != null && expectedKey.equals(obj.getString("key", ""));
+  }
+
+  public String buildPhone(JsonObject phoneObj) {
+    if (phoneObj == null) {
+      return "";
+    }
+    return "+" + phoneObj.getString(COUNTRY_CODE, "") + " " + phoneObj.getString(NUMBER, "");
+  }
+
+  public static List<String> extractCatalogIds(JsonArray hubDatasets) {
+    if (hubDatasets != null && !hubDatasets.isEmpty()) {
+      return hubDatasets.stream()
+        .map(jsonValue -> (JsonObject) jsonValue)
+        .map(item -> {
+          JsonObject result = item.getJsonObject("result");
+          if (result != null) {
+            JsonObject catalog = result.getJsonObject("catalog");
+            if (catalog != null) {
+              return catalog.getString("id", null);
+            }
+          }
+          return null;
+        })
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
+    } else {
+      return new ArrayList<>();
+    }
+  }
+
+  public static JsonObject findSection6ObjectByCatalogId(JsonArray section6Array,
+    String catalogId) {
+    if (section6Array == null || section6Array.isEmpty() || catalogId == null) {
+      return null;
+    }
+
+    for (Object value : section6Array) {
+      JsonObject section6Object = (JsonObject) value;
+      JsonArray catalogIdsArray = section6Object.getJsonArray("catalog_ids");
+
+      if (catalogIdsArray != null) {
+        for (Object idValue : catalogIdsArray) {
+          String id = idValue.toString().replace("\"", ""); // remove quotes
+          if (catalogId.equals(id)) {
+            return section6Object; // match found
+          }
+        }
+      }
+    }
+
+    return null; // no match found
   }
 
 }

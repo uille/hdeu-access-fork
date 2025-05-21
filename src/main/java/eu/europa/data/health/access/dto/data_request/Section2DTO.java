@@ -46,30 +46,10 @@ import lombok.NoArgsConstructor;
     message = "descriptionOfTheProject must be provided when theNatureOfTheDataDoesNotLetYouProvideADescription is true"
   )
   @RequiredFieldBasedOnValue(
-    baseField = "theNatureOfTheDataDoesNotLetYouProvideADescription",
-    baseFieldValue = "null",
-    mandatoryField = "descriptionOfTheDataYouWillUse",
-    message = "descriptionOfTheDataYouWillUse must be provided when theNatureOfTheDataDoesNotLetYouProvideADescription is false"
-  )
-  @RequiredFieldBasedOnValue(
     baseField = "theNatureOfTheProjectDoesNotLetYouProvideASummary",
     baseFieldValue = "null",
     mandatoryField = "summaryOfTheProject",
     message = "summaryOfTheProject must be provided when theNatureOfTheDataDoesNotLetYouProvideADescription is false"
-  )
-  @ListContainsSpecificValue(
-    listField = "theResearchFocusesOnTheFollowingObjectives",
-    baseField = "value",
-    baseFieldValue = "Other",
-    mandatoryField = "theResearchFocusesOnTheFollowingObjectivesOther",
-    message = "theResearchFocusesOnTheFollowingObjectivesOther must be provided when theResearchFocusesOnTheFollowingObjectives list has at least one value as: other"
-  )
-  @ListContainsSpecificValue(
-    listField = "areaOfResearch",
-    baseField = "value",
-    baseFieldValue = "Other",
-    mandatoryField = "areaOfResearchOther",
-    message = "areaOfResearchOther must be provided when areaOfResearch list has at least one value as: other"
   )
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -89,16 +69,6 @@ public class Section2DTO extends SectionDTO
   @Valid
   @CheckEnumValue(fieldName = "purposeForWhichDataWillBeUsed" , sectionNumber = "section2")
   List<SelectObjectDTO> purposeForWhichDataWillBeUsed;
-  @CheckEnumValue(fieldName = "theResearchFocusesOnTheFollowingObjectives" , sectionNumber = "section2")
-  List<SelectObjectDTO> theResearchFocusesOnTheFollowingObjectives;
-  @Size(max = 2000)
-  String theResearchFocusesOnTheFollowingObjectivesOther;
-  @CheckEnumValue(fieldName = "areaOfResearch" , sectionNumber = "section2")
-  List<SelectObjectDTO> areaOfResearch;
-  @Size(max = 2000)
-  String areaOfResearchOther;
-  @Size(max = 2000)
-  String descriptionOfTheDataYouWillUse;
   Boolean theNatureOfTheDataDoesNotLetYouProvideADescription;
   @Size(max = 2000)
   String descriptionOfTheProject;

@@ -1,0 +1,1588 @@
+{
+    "section1": {
+        "section1h5": "Val á gagnalindum fyrir verkefnið",
+        "section1Description": "Gagnanotendur skulu einungis sækja um gögn sem eru fullnægjandi, viðeigandi og takmörkuð við það sem nauðsynlegt er í tengslum við tilgang þeirra með notkun, \nsamkvæmt meginreglunni um lágmörkun gagna í almennu persónuverndarreglugerð ESB 58 (grein 5(1c)). \nStofnunin um aðgang að heilbrigðisgögnum metur vandlega hvort kröfur þínar séu í samræmi við meginregluna um lágmörkun gagna frá GDPR.",
+        "section1DescriptionDR": "Umsókn um aðgang að rafrænum heilsufarsgögnum til aukanotkunar á nafnlausu tölfræðilegu sniði",
+        "applicationDatasets": {
+            "label": "Úr hvaða gagnasöfnum eða skrám eða skrám og/eða dreifingu verða gögnin dregin út?"
+        },
+        "applicationCountries": {
+            "label": "Frá hvaða landi/löndum leitar þú gagna?"
+        },
+        "applicationDataHolders": {
+            "label": "Frá hvaða gagnahafa verða gögnin dregin út?"
+        },
+        "applicationHDABs": {
+            "label": "Til hvaða heilbrigðisgagnaaðgangsaðila eða -aðila viltu senda inn umsóknina?"
+        },
+        "applicationDatabases": {
+            "label": "Úr hvaða gagnagrunni eða skrám eða skrám verða gögnin dregin út?"
+        }
+    },
+    "section2": {
+        "section2h5": "Opinberar upplýsingar um verkefnið",
+        "section2Description": "Aðilum, sem hafa aðgang að heilbrigðisgögnum í Evrópusambandinu, ber skylda til að birta upplýsingar um gagnaleyfi, beiðnir og umsóknir á vefsetri sínu innan 30 virkra daga frá útgáfu leyfisins fyrir gögnum eða svara beiðni um gögn. Í þessum kafla ertu beðinn um að veita upplýsingar um verkefnið þitt sem hægt er að deila með almenningi. Gakktu úr skugga um að þetta feli ekki í sér neinar trúnaðarupplýsingar. Gefðu svör þín í skilmálum leikmanna. Sem gagnanotandi ber þér skylda til að birta niðurstöður eða úttak verkefnisins eigi síðar en 18 mánuðum eftir að vinnslunni lýkur eða svar við beiðni um gögn hefur borist. Að auki verður þú að upplýsa heilbrigðisgagnaaðgangsaðilann um fjölda ritrýndra rannsóknarrita, stefnuskjala og/eða reglna sem gerðar eru með því að nota gögnin sem aðgangur er að í gegnum þetta forrit.",
+        "projectName": {
+            "label": "Heiti verkefnis"
+        },
+        "projectLeader": {
+            "label": "Heiti verkefnisstjóra (stofnun, stofnun, aðili í einkageiranum eða einstaklingur)",
+            "tooltip": "Þetta er sá sem ber ábyrgð á gagnanotkun"
+        },
+        "countryOfProjectLeader": {
+            "label": "Opinbert lögheimili (land) aðilans sem ber ábyrgð á verkefninu"
+        },
+        "purposeForWhichDataWillBeUsed": {
+            "label": "Í hvaða tilgangi gögnin verða notuð",
+            "tooltip": "Tilgangur með reglugerðinni um EHDS-reglugerðina.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. almannahagsmunir á sviði lýðheilsu eða vinnuverndar, s.s. aðgerðir til að vernda gegn alvarlegum heilsufarsógnum sem ná yfir landamæri, lýðheilsueftirlit eða starfsemi sem tryggir hátt gæðastig og öryggi heilbrigðisþjónustu, þ.m.t. öryggi sjúklinga, og lyfja eða lækningatækja."
+                },
+                {
+                    "key": "b",
+                    "value": "B. stefnumótun og reglusetningu til að styðja opinbera aðila eða stofnanir, aðila, skrifstofur og sérstofnanir Sambandsins, þ.m.t. eftirlitsyfirvöld, í heilbrigðis- eða umönnunargeiranum til að sinna verkefnum sínum sem skilgreind eru í umboði þeirra."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Hagskýrslur eins og þær eru skilgreindar í 1. lið 3. gr. reglugerðar (ESB) nr. 223/2009, s.s. landsbundnar, fjölþjóðlegar og opinberar hagskýrslur á vettvangi Sambandsins sem tengjast heilbrigðis- eða umönnunargeirum."
+                },
+                {
+                    "key": "d",
+                    "value": "D. Menntun eða kennslu á heilbrigðis- eða umönnunarsviði á starfsmenntunar- eða háskólastigi."
+                },
+                {
+                    "key": "e",
+                    "value": "e. Vísindalegar rannsóknir sem tengjast heilbrigðis- eða umönnunargeirum sem stuðla að mati á lýðheilsu eða heilbrigðistækni, eða tryggir mikil gæði og öryggi heilbrigðisþjónustu, lyfja eða lækningatækja, með það að markmiði að gagnast endanlegum notendum, s.s. sjúklingum, fagfólki í heilbrigðisþjónustu og stjórnendum heilbrigðisþjónustu, þ.m.t.: n(i) þróunar- og nýsköpunarstarfsemi að því er varðar vörur eða þjónustu,\\n(ii) þjálfun, prófun og mat á reikniritum, þ.m.t. í lækningatækjum, lækningatækjum til sjúkdómsgreiningar í glasi, gervigreindarkerfi og stafrænum heilbrigðisbúnaði."
+                },
+                {
+                    "key": "f",
+                    "value": "F. Bæta við veitingu umönnunar, hámörkun meðferðar og veitingu heilbrigðisþjónustu á grundvelli rafrænna heilsufarsupplýsinga annarra einstaklinga."
+                }
+            ]
+        },
+        "theNatureOfTheDataDoesNotLetYouProvideADescription": {
+            "label": "Eðli verkefnisins leyfir þér ekki að gefa lýsingu"
+        },
+        "descriptionOfTheProject": {
+            "label": "Vinsamlegast útskýrðu ástæðurnar fyrir því að þú getur ekki gefið upp lýsingu á gögnunum.",
+            "tooltip": "Skýringin á ástæðunum eða ástæðunum verður ekki birt."
+        },
+        "summaryOfTheProject": {
+            "label": "Samantekt á verkefninu",
+            "tooltip": "Í skilmálum leikmanna skal gefa stutta (250 orð eða minna) samantekt á markmiðum verkefnisins, gögnum sem nota á, aðferðum og hvers konar árangri er vænst."
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummary": {
+            "label": "Eðli verkefnisins leyfir þér ekki að gefa upp yfirlit"
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason": {
+            "label": "Vinsamlegast útskýrðu ástæðurnar fyrir því að þú getur ekki gefið upp samantekt á verkefninu þínu",
+            "tooltip": "Skýringin á ástæðunum eða ástæðunum verður ekki birt."
+        }
+    },
+    "section3": {
+        "section3h5": "Upplýsingar um umsækjanda og tengilið",
+        "section3Description": "Í umsókn um leyfi fyrir gögnum skal tilgreina nafn og samskiptaupplýsingar umsækjanda, annaðhvort lögaðila eða einstaklings. Upplýsingar um tengilið sem svarar fyrirspurnum varðandi umsóknina, hvort sem um er að ræða sama einstakling og umsækjandi eða annar aðili, skulu einnig fylgja. Ef tengiliður er ekki sami einstaklingur og umsækjandi skal skýra tengsl þeirra, t.d. á grundvelli ráðningarsamnings.",
+        "section3DescriptionRequest": "Í umsókn um beiðni um gögn skal tilgreina nafn og samskiptaupplýsingar umsækjanda, annaðhvort lögaðila eða einstaklings. Upplýsingar um tengiliðinn, sem svarar fyrirspurnum sem tengjast umsókninni, hvort sem um er að ræða sama einstakling og umsækjandinn (ef um er að ræða einstakling sem umsækjandi) eða annar aðili, skulu einnig fylgja með.\nEf tengiliður er ekki sami einstaklingur og umsækjandi skal skýra tengsl þeirra, t.d. á grundvelli ráðningarsamnings.",
+        "applyingForDataOnBehalfOfPublicSector": {
+            "label": "Sækir þú um gögn fyrir hönd opinbers aðila eða stofnunar, aðila, skrifstofu eða stofnunar Evrópusambandsins?"
+        },
+        "applyingForDataForCarryingOutTasks": {
+            "label": "Ertu að sækja um gögn til að framkvæma verkefni sem eru bundin í umboði fyrirtækis þíns/stofnunar?",
+            "tooltip": "Verkefni í umboði fyrirtækis þíns/stofnunar fela í sér verkefni sem byggjast á landslögum eða lögum Evrópusambandsins."
+        },
+        "legalOrNaturalPerson": {
+            "label": "Er umsækjandi lögaðili eða einstaklingur?",
+            "tooltip": "Einstaklingur = einstaklingur, einstaklingur, lögaðili = félag, félag eða félag.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Lögaðili"
+                },
+                {
+                    "key": "b",
+                    "value": "Einstaklingur",
+                    "info": "(Ef þú velur þennan valkost staðfestir þú að þú sækir um gögn sem einstaklingur án tengsla.)"
+                }
+            ]
+        },
+        "legalPerson": "Lögaðili",
+        "naturalPerson": "Einstaklingur",
+        "legalPersonName": {
+            "label": "Fullt nafn"
+        },
+        "postalAddress": "Póstfang",
+        "legalPersonAddress": {
+            "label": "Götuheiti og númer"
+        },
+        "legalPersonZipCode": {
+            "label": "Póstnúmer"
+        },
+        "legalPersonCity": {
+            "label": "Borg/bær"
+        },
+        "legalPersonCountry": {
+            "label": "Land"
+        },
+        "contactPersonInformation": "Upplýsingar um tengilið",
+        "contactPersonInformationDescription": "Tengiliður vísar til þess einstaklings sem svarar fyrirspurnum varðandi umsóknina. Hægt er að senda upplýsingar tengiliðarins til ábyrgðaraðila meðan á vinnslu umsóknar stendur ef þörf er á viðbótarupplýsingum til að skilgreina gagnaútdráttinn. ",
+        "contactPersonName": {
+            "label": "Fullt nafn"
+        },
+        "contactPersonEmail": {
+            "label": "Tölvupóstfang"
+        },
+        "contactPersonPhone": {
+            "label": "Sími"
+        },
+        "contactPersonNameOfTheOrganisation": {
+            "label": "Heiti stofnunarinnar"
+        },
+        "contactPersonBusinessIdentifier": {
+            "label": "Viðskiptaauðkenni fyrirtækisins/stofnunarinnar"
+        },
+        "contactPersonOperatorIdentifier": {
+            "label": "Auðkenni rekstraraðila"
+        },
+        "contactPersonJobTitle": {
+            "label": "Starfsheiti"
+        },
+        "contactPersonAffiliation": {
+            "label": "Tengsl"
+        },
+        "contactPersonRelationship": {
+            "label": "Hver eru tengsl tengiliðarins og umsækjandans? (T.d. starfsmaður sem sækir um gögn fyrir hönd fyrirtækis síns.)"
+        },
+        "naturalPersonName": {
+            "label": "Fullt nafn"
+        },
+        "naturalPersonAddress": {
+            "label": "Götuheiti og númer"
+        },
+        "naturalPersonZipCode": {
+            "label": "Póstnúmer"
+        },
+        "naturalPersonCity": {
+            "label": "Borg/bær"
+        },
+        "naturalPersonCountry": {
+            "label": "Land"
+        },
+        "naturalPersonEmail": {
+            "label": "Tölvupóstfang"
+        },
+        "naturalPersonPhone": {
+            "label": "Sími"
+        },
+        "naturalPersonJobTitle": {
+            "label": "Starfsheiti"
+        },
+        "naturalPersonAffiliation": {
+            "label": "Tengsl"
+        }
+    },
+    "section4": {
+        "section4h5": "Greiðsluupplýsingar",
+        "section4Description": "Greiðsluupplýsingar um einstaklinginn sem heilsufarsgögnin fá aðgang að fjallar um reikninga sem tengjast þessari umsókn og leyfi fyrir gögnum sem af því leiðir, ef það er veitt.",
+        "sameAsContactPerson": {
+            "label": "Sama og tengiliður sem tilgreindur er í 3. lið?"
+        },
+        "fullName": {
+            "label": "Fullt nafn"
+        },
+        "address": {
+            "label": "Heimilisfang"
+        },
+        "email": {
+            "label": "Tölvupóstfang"
+        },
+        "phone": {
+            "label": "Sími"
+        },
+        "invoiceType": {
+            "label": "Tegund reiknings",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Pappír"
+                },
+                {
+                    "key": "b",
+                    "value": "Electronic"
+                }
+            ]
+        },
+        "invoiceReferenceNumber": {
+            "label": "Tilvísunarnúmer reiknings"
+        },
+        "invoiceAddress": {
+            "label": "Heimilisfang rafrænna reikninga (EDI eða IBAN)"
+        },
+        "operatorIdentifier": {
+            "label": "Auðkenni rekstraraðila"
+        },
+        "nameOfTheOrganisation": {
+            "label": "Heiti stofnunarinnar"
+        },
+        "businessIdentifierOrganization": {
+            "label": "Viðskiptaauðkenni fyrirtækisins/stofnunarinnar"
+        },
+        "vatNumber": {
+            "label": "Virðisaukaskattsnúmer"
+        },
+        "peppolCode": {
+            "label": "PEPPOL-kóði (ef við á)"
+        },
+        "isTheProjectFinanciallyCovered": {
+            "label": "Er verkefnið fjárhagslega tryggt?"
+        },
+        "rangeOfAmountOfFinancing": {
+            "label": "Hvert er umfang fjármögnunar fyrir verkefnið sem mun nota umbeðin gögn?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "< 10000 evrur"
+                },
+                {
+                    "key": "b",
+                    "value": "10000 — 50000 EVRUR"
+                },
+                {
+                    "key": "c",
+                    "value": "50000 — 100000 EVRUR"
+                },
+                {
+                    "key": "d",
+                    "value": "100000 — 500000 EVRUR"
+                },
+                {
+                    "key": "e",
+                    "value": "500000 — 1000000 EVRUR"
+                },
+                {
+                    "key": "f",
+                    "value": "> 1000000 EVRUR"
+                }
+            ]
+        }
+    },
+    "section5": {
+        "section5h5": "Tilgangur gagnanotkunar",
+        "section5Description": "Umsækjendur skulu tilgreina í hvaða tilgangi óskað er eftir gögnum, í samræmi við 1. mgr. 53. gr. reglugerðarinnar um greiningarkerfi fyrir sprengiefni, sem Evrópuþingið samþykkti 17/12. \nUmsækjendur þurfa að útskýra og rökstyðja hvers vegna umbeðin gögn eru nauðsynleg vegna tilgreinds tilgangs þeirra. Einnig eru umsækjendur beðnir um að veita upplýsingar um markmið verkefnisins. Þá, eftir tilgangi notkunar (rannsóknir eða ekki rannsóknir), þurfa umsækjendur að leggja fram samantekt á áætluninni um að nota gögnin eða samantekt rannsóknaráætlunarinnar og upplýsingar um þann sem ber ábyrgð á gagnanotkun eða rannsóknum.",
+        "purposeOfUse": {
+            "label": "Tilgangur gagnanotkunar. Aðilar, sem fá aðgang að heilbrigðisgögnum, skulu aðeins veita aðgang að rafrænum heilbrigðisgögnum, sem um getur í 51. gr., ef fyrirhugaður tilgangur vinnslu umsækjandans er í samræmi við eftirfarandi markmið (sbr. 1. mgr. 53. gr.) sem tilgreindur er hér á eftir).",
+            "tooltip": "Tilgangur með reglugerðinni um EHDS-reglugerðina.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. almannahagsmunir á sviði lýðheilsu eða vinnuverndar, s.s. aðgerðir til að vernda gegn alvarlegum heilsufarsógnum sem ná yfir landamæri, lýðheilsueftirlit eða starfsemi sem tryggir hátt gæðastig og öryggi heilbrigðisþjónustu, þ.m.t. öryggi sjúklinga, og lyfja eða lækningatækja."
+                },
+                {
+                    "key": "b",
+                    "value": "B. stefnumótun og reglusetningu til að styðja opinbera aðila eða stofnanir, aðila, skrifstofur og sérstofnanir Sambandsins, þ.m.t. eftirlitsyfirvöld, í heilbrigðis- eða umönnunargeiranum til að sinna verkefnum sínum sem skilgreind eru í umboði þeirra."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Hagskýrslur eins og þær eru skilgreindar í 1. lið 3. gr. reglugerðar (ESB) nr. 223/2009, s.s. landsbundnar, fjölþjóðlegar og opinberar hagskýrslur á vettvangi Sambandsins sem tengjast heilbrigðis- eða umönnunargeirum."
+                },
+                {
+                    "key": "d",
+                    "value": "D. Menntun eða kennslu á heilbrigðis- eða umönnunarsviði á starfsmenntunar- eða háskólastigi."
+                },
+                {
+                    "key": "e",
+                    "value": "e. Vísindalegar rannsóknir sem tengjast heilbrigðis- eða umönnunargeirum sem stuðla að mati á lýðheilsu eða heilbrigðistækni eða tryggir mikil gæði og öryggi heilbrigðisþjónustu, lyfja eða lækningatækja í því skyni að gagnast endanlegum notendum, s.s. sjúklingum, fagfólki í heilbrigðisþjónustu og stjórnendum heilbrigðisþjónustu, þ.m.t.:\nI) þróunar- og nýsköpunarstarfsemi í tengslum við vörur eða þjónustu,\nII) þjálfun, prófun og mat á reikniritum, þ.m.t. í lækningatækjum, lækningatækjum til sjúkdómsgreiningar í glasi, gervigreindarkerfi og stafrænum heilbrigðisbúnaði."
+                },
+                {
+                    "key": "f",
+                    "value": "F. Bæta við veitingu umönnunar, hámörkun meðferðar og veitingu heilbrigðisþjónustu á grundvelli rafrænna heilsufarsupplýsinga annarra einstaklinga."
+                }
+            ]
+        },
+        "whyTheDataIsNeeded": {
+            "label": "Hvers vegna eru upplýsingarnar sem þú sækir um nauðsynlegar fyrir tilgreindan tilgang notkunar? Útskýrðu hér hvers vegna magn og tegund gagna sem þú sækir um eru nauðsynleg til að nota gögnin þín"
+        },
+        "whyAreTheDataRequested": {
+            "label": "Hvers vegna eru gögnin sem beðið er um með þessu forriti nauðsynleg fyrir tilgreindan tilgang notkunar?"
+        },
+        "whatIsTheAimAndTopicOfTheProject": {
+            "label": "Hvert er markmið og viðfangsefni verkefnisins?"
+        },
+        "whichAreTheExpectedBenefits": {
+            "label": "Hver er áætlaður ávinningur í tengslum við notkun rafrænna heilbrigðisgagna og hvernig ávinningurinn stuðlar að þeim tilgangi sem um getur í lið 5.1?"
+        },
+        "legalBasis": {
+            "label": "Tilgreina lagagrundvöllinn, til dæmis viðeigandi löggjöf, sem skilgreinir verkefnin sem falla undir umboð þitt og staðfestir að fyrirhuguð notkun þín á gögnunum sé að auðvelda slík verkefni.",
+            "tooltip": "Útskýrðu hér hvers vegna gagnamagnið sem þú sækir um er nauðsynlegt til að nota gögnin þín. Rökstyðja og lýsa því hvernig innihald umbeðinna tölfræðilegra upplýsinga samsvarar tilganginum með notkun sem fram kemur í umsókninni og uppfyllir kröfur um gögn."
+        },
+        "linkToTheSupportingLegalBasis": {
+            "label": "Leggja skal fram tengil á fylgiskjölin sem sönnunargögn um lagagrundvöll"
+        },
+        "summaryOfPlanForUsingTheData": {
+            "label": "Gefðu yfirlit yfir áætlun þína um að nota gögnin. Samantektin skal vera á einu af opinberum tungumálum ESB"
+        },
+        "summaryOfPlanForUsingTheDataLanguage": {
+            "label": "Veldu tungumál samantektarinnar",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Búlgarska"
+                },
+                {
+                    "key": "hr",
+                    "value": "Króatíska"
+                },
+                {
+                    "key": "cs",
+                    "value": "Czech"
+                },
+                {
+                    "key": "da",
+                    "value": "Danska"
+                },
+                {
+                    "key": "nl",
+                    "value": "Hollenska"
+                },
+                {
+                    "key": "en",
+                    "value": "Enska"
+                },
+                {
+                    "key": "et",
+                    "value": "Eistneska"
+                },
+                {
+                    "key": "fi",
+                    "value": "Finnska"
+                },
+                {
+                    "key": "fr",
+                    "value": "Franska"
+                },
+                {
+                    "key": "de",
+                    "value": "Þýska"
+                },
+                {
+                    "key": "el",
+                    "value": "Gríska"
+                },
+                {
+                    "key": "hu",
+                    "value": "Ungverska"
+                },
+                {
+                    "key": "ga",
+                    "value": "Írska"
+                },
+                {
+                    "key": "it",
+                    "value": "Ítalska"
+                },
+                {
+                    "key": "lv",
+                    "value": "Lettneska"
+                },
+                {
+                    "key": "lt",
+                    "value": "Litháíska"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltneska"
+                },
+                {
+                    "key": "pl",
+                    "value": "Pólska"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portúgalska"
+                },
+                {
+                    "key": "ro",
+                    "value": "Romanian"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slóvakíska"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slóvenska"
+                },
+                {
+                    "key": "es",
+                    "value": "Spænska"
+                },
+                {
+                    "key": "sv",
+                    "value": "Sænska"
+                }
+            ]
+        },
+        "summaryOfResearchPlan": {
+            "label": "Gefðu yfirlit yfir rannsóknaráætlun þína. Samantektin skal vera á einu af opinberum tungumálum ESB"
+        },
+        "summaryOfResearchPlanLanguage": {
+            "label": "Veldu tungumál samantektarinnar",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Búlgarska"
+                },
+                {
+                    "key": "hr",
+                    "value": "Króatíska"
+                },
+                {
+                    "key": "cs",
+                    "value": "Czech"
+                },
+                {
+                    "key": "da",
+                    "value": "Danska"
+                },
+                {
+                    "key": "nl",
+                    "value": "Hollenska"
+                },
+                {
+                    "key": "en",
+                    "value": "Enska"
+                },
+                {
+                    "key": "et",
+                    "value": "Eistneska"
+                },
+                {
+                    "key": "fi",
+                    "value": "Finnska"
+                },
+                {
+                    "key": "fr",
+                    "value": "Franska"
+                },
+                {
+                    "key": "de",
+                    "value": "Þýska"
+                },
+                {
+                    "key": "el",
+                    "value": "Gríska"
+                },
+                {
+                    "key": "hu",
+                    "value": "Ungverska"
+                },
+                {
+                    "key": "ga",
+                    "value": "Írska"
+                },
+                {
+                    "key": "it",
+                    "value": "Ítalska"
+                },
+                {
+                    "key": "lv",
+                    "value": "Lettneska"
+                },
+                {
+                    "key": "lt",
+                    "value": "Litháíska"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltneska"
+                },
+                {
+                    "key": "pl",
+                    "value": "Pólska"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portúgalska"
+                },
+                {
+                    "key": "ro",
+                    "value": "Romanian"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slóvakíska"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slóvenska"
+                },
+                {
+                    "key": "es",
+                    "value": "Spænska"
+                },
+                {
+                    "key": "sv",
+                    "value": "Sænska"
+                }
+            ]
+        },
+        "personResponsibleLabel": "Einstaklingur sem ber ábyrgð á gagnanotkun",
+        "personResponsibleName": {
+            "label": "Fullt nafn"
+        },
+        "personResponsibleJobTitle": {
+            "label": "Starfsheiti"
+        },
+        "personResponsibleAffiliation": {
+            "label": "Tengsl"
+        },
+        "personResearchSameAsContactPerson": {
+            "label": "Sama og tengiliður sem tilgreindur er í 3. þætti (upplýsingar umsækjanda og tengiliðar)?"
+        },
+        "personResponsibleForResearchLabel": "Einstaklingur sem ber ábyrgð á rannsókninni",
+        "personResponsibleSameAsContactPerson": {
+            "label": "Sama og tengiliður sem tilgreindur er í 3. þætti (upplýsingar umsækjanda og tengiliðar)?"
+        },
+        "personResearchName": {
+            "label": "Fullt nafn"
+        },
+        "personResearchJobTitle": {
+            "label": "Starfsheiti"
+        },
+        "personResearchAffiliation": {
+            "label": "Tengsl"
+        },
+        "formatOfTheElectronicHealthData": {
+            "label": "Velja snið rafrænna heilbrigðisgagna sem á að gera aðgengilegar:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Nafnlaust"
+                },
+                {
+                    "key": "b",
+                    "value": "Dulnefni"
+                }
+            ]
+        },
+        "inOrderToApplyPseudonymisedData": "Ég geri mér grein fyrir því að til að sækja um dulnefni þarf ég að:",
+        "inOrderToApplyPseudonymisedDataA": {
+            "label": "a) Útskýrið hvernig ég mun fara að grein 6(1) í almennu persónuverndarreglugerðinni (eða grein 5(1) í reglugerð ESB um gagnavernd ef stofnun, aðili, skrifstofa eða stofnun ESB sækir um gögn)"
+        },
+        "inOrderToApplyPseudonymisedDataB": {
+            "label": "B) Mat á siðferðilegum þáttum vinnslu gagnanna, eftir atvikum og í samræmi við landslög eða gildandi lög."
+        },
+        "whyNeedForPseudonymisation": {
+            "label": "Af hverju þarftu dulnefna gögn fyrir verkefnið þitt?"
+        }
+    },
+    "section6": {
+        "section6h5": "Lýsing á nauðsynlegum gögnum",
+        "section6Description": "Í þessum kafla þarftu að veita lýsingu á umbeðnu gagnasafni, sem gefur skýrt til kynna hvaða gagnasöfn umsókn varðar. Þú ættir aðeins að sækja um gögn sem eru fullnægjandi, viðeigandi og takmörkuð við það sem nauðsynlegt er í tengslum við tilgang þinn með notkun, samkvæmt meginreglunni um lágmörkun gagna í almennu persónuverndarreglugerð ESB (grein 5(1c)). Stofnunin um aðgang að heilbrigðisgögnum metur vandlega hvort kröfur þínar séu í samræmi við meginregluna um lágmörkun gagna frá GDPR.",
+        "descriptionSection6_1": "Skilgreining á útdráttarviðmiðunum fyrir þýðið:",
+        "descriptionOfTheDataNeeded": "Lýsing á nauðsynlegum gögnum:",
+        "applicationHDABsForSelectedCountry": "Til hvaða heilbrigðisgagnaaðgangsaðila viltu senda inn umsóknina?",
+        "applicationDatasetsPerCountry": "Viðkomandi gagnamengi Record(s) and Distributions",
+        "informationProviderSameAsContactPerson": {
+            "label": "Sama og tengiliður sem tilgreindur er í 3. lið?"
+        },
+        "hdabContacts": {
+            "label": "Ef þú hefur verið í sambandi við einhvern frá heilbrigðisgagnastofnun varðandi þau gögn sem þú leitar að skaltu skrá hér nöfn og netföng þessa einstaklings"
+        },
+        "howWillTheDataFromDifferentSourcesBeLinked": {
+            "label": "Hvernig er hægt að tengja gögn fyrir einn einstakling frá mismunandi heimildum? T.d. á grundvelli persónuauðkenniskóða. Ef einhver önnur tengslaaðferð er notuð, lýsið því hér"
+        },
+        "indicateTheSizeOfTheStudyCohort": {
+            "label": "Tilgreinið stærð þýðisins"
+        },
+        "indicateTheSizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Stærð þýðisins (útvarpshnappar)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Þetta er mat á stærð þýðisins."
+                },
+                {
+                    "key": "b",
+                    "value": "Þetta er nákvæmlega stærð aldurshópsins."
+                }
+            ]
+        },
+        "howIsTheStudyCohortFormed": {
+            "label": "Hvernig er stofninn stofnaður?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Hópurinn verður stofnaður á grundvelli viðmiðananna hér á eftir."
+                },
+                {
+                    "key": "b",
+                    "value": "Hópurinn hefur þegar verið stofnaður."
+                },
+                {
+                    "key": "c",
+                    "value": "Hópurinn mun samanstanda af þessum tveimur: nýtt þýði myndað byggt á þeim viðmiðunum sem tilgreindar eru hér á eftir og sem þegar hefur myndast þýði."
+                },
+                {
+                    "key": "d",
+                    "value": "Þýðið verður allt íbúafjöldi lands/landa sem tilgreint er í upphafi þessa eyðublaðs."
+                }
+            ]
+        },
+        "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants": {
+            "label": "Ef þú vilt nota hóp byggt á þinni eigin könnunarrannsókn, hefur aldurshópurinn verið myndaður á grundvelli upplýsts samþykkis þátttakenda í rannsókninni? T.d. þýði sem var stofnað á grundvelli könnunarrannsóknar eða klínískrar rannsóknar, sem gögn, byggð á skrám, verða tengd samkvæmt reglugerðinni um greiningarkerfi fyrir sjúklinga."
+        },
+        "doesTheInformedConsentCoverTheRequestedRegistryExtractions": {
+            "label": "Nær upplýsta samþykkið til útdráttar umbeðnar skrár?"
+        },
+        "consentAndInformationLetterAttachment": {
+            "label": "Látið fylgja með samþykki og upplýsingabréfi sem þú hefur sent til þátttakenda rannsóknarinnar. Ekki láta fylgja með eyðublöð sem eru fyllt út vegna þess að þau innihalda persónuupplýsingar."
+        },
+        "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
+            "label": "Ég staðfesti að gagnaleyfið hefur verið veitt til þessa rannsóknarverkefnis."
+        },
+        "ifTheGroupHasBeenFormedBasedOnPreviousIssued": {
+            "label": "Ef aldurshópurinn hefur verið stofnaður á grundvelli áður útgefins leyfis skal skrá hér eftirfarandi upplýsingar:"
+        },
+        "previouslyIssuedPermitIssuer1": {
+            "label": "Útgefandi ákvörðunarinnar um leyfi"
+        },
+        "previouslyIssuedPermitDate1": {
+            "label": "Dagsetning"
+        },
+        "validityPeriod1": "Gildistími",
+        "previouslyIssuedPermitValidityPeriodFrom1": {
+            "label": "Frá"
+        },
+        "previouslyIssuedPermitValidityPeriodTo1": {
+            "label": "Til"
+        },
+        "previouslyIssuedPermitNumber1": {
+            "label": "Númer leyfis"
+        },
+        "permitDecisionAttachment": {
+            "label": "Hér skal fylgja leyfisákvörðun um útdrátt gagna úr aldurshópnum í þessum lið."
+        },
+        "howTheStudyCohortWasObtained": {
+            "label": "Lýsið hvernig þýðið var aflað og ástæðurnar fyrir skorti á leyfi/samþykki til gagna."
+        },
+        "providedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Hefur þú veitt samsvarandi einstaklingum upplýsingar um gögnin? T.d. samnýttar upplýsingar um gagnanotkun á vefsetri verkefnis.",
+            "tooltip": "Nánari upplýsingar er að finna í 13. og 14. gr. almennu persónuverndarreglugerðarinnar: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
+            "tooltipForm": "Nánari upplýsingar er að finna í <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\"> Almenna persónuverndarreglugerðin, 13. og 14. gr. </a>."
+        },
+        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Hvernig?"
+        },
+        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Af hverju ekki?"
+        },
+        "whoWillDeliverTheInformationOnTheStudy": {
+            "label": "Hver mun afhenda upplýsingar um aldurshópinn til heilbrigðisgagnaaðgangsaðilans? Þessi einstaklingur mun fá leiðbeiningar um hvernig á að afhenda gögnin í gegnum sameiginlegu EHDS gáttina."
+        },
+        "informationProviderName": {
+            "label": "Fullt nafn"
+        },
+        "informationProviderEmail": {
+            "label": "Tölvupóstfang"
+        },
+        "informationProviderPhone": {
+            "label": "Símanúmer"
+        },
+        "whyNeedDataOfaWholePopulation": {
+            "label": "Gefðu rök fyrir því hvers vegna þú þarft gögn um alla íbúa/heill íbúa?",
+            "tooltip": "Gakktu úr skugga um að skilgreina myndun þýðisins nægilega vel og afmarka stærð þýðisins í samræmi við fyrirhugaða notkun. Gefa skal sérstakan gaum frá því hvaða aldurshópur er tekinn úr og viðmiðanir fyrir skráningu og útilokun fyrir aldurshópinn. Landfræðileg skilgreining getur t.d. átt við búsetustað, fæðingarstað, vinnustað eða staðinn þar sem þjónusta er notuð."
+        },
+        "sizeOfTheStudyCohort": {
+            "label": "Tilgreinið stærð þýðisins"
+        },
+        "sizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Stærð þýðisins (útvarpshnappar)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Þetta er mat á stærð þýðisins."
+                },
+                {
+                    "key": "b",
+                    "value": "Þetta er nákvæmlega stærð aldurshópsins."
+                }
+            ]
+        },
+        "whyNeedStudyCohortOfThisSize": {
+            "label": "Af hverju þarf að taka þátt í þessari stærð fyrir verkefnið þitt?"
+        },
+        "ethicalReview": "Siðferðileg endurskoðun — texti sem stefnumótandi eining gefur upp",
+        "ethicalReviewDescription": "Siðferðileg endurskoðun",
+        "ethicalReviewInput": {
+            "label": "Siðferðileg endurskoðun",
+            "tooltip": "Texti sem Stefnadeild skal leggja fram."
+        },
+        "ethicalReviewAttachment": {
+            "label": "Siðferðileg endurskoðun"
+        },
+        "dataHolders": "Frá hvaða gagnahafa verða gögnin dregin út?",
+        "whichDatabasesDataExtracted": "Úr hvaða gagnagrunni/skrám verða gögnin dregin út?",
+        "whichDatasetDataExtracted": "Úr hvaða gagnasöfnum/skrám verða gögnin dregin út?",
+        "variablesToBeUsedInDataExtractionAttachment": {
+            "label": "Ef upplýsingarnar liggja fyrir skal láta skrána fylgja með breyturnar sem nota skal við gagnaútdráttinn. Nota skal nákvæm hugtök sem viðkomandi gagnahafi eða -aðilar láta í té í lýsigagnaskránni."
+        },
+        "timePeriodOfDataExtraction": {
+            "label": "Á hvaða tímabili eða tímabilum verða gagnasöfnin dregin út?"
+        },
+        "extractionMethod": {
+            "label": "Útdráttaraðferð:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "slembiúrtak"
+                },
+                {
+                    "key": "b",
+                    "value": "allt fólkið sem uppfyllir skilyrðin"
+                },
+                {
+                    "key": "c",
+                    "value": "annað sýni"
+                }
+            ]
+        },
+        "samplingMethod": {
+            "label": "Lýsið sýnatökuaðferðinni"
+        },
+        "sampleSize": {
+            "label": "Úrtaksstærð",
+            "tooltip": "Svör geta til dæmis verið: 100000 manns eða 50 % þeirra sem uppfylla skilyrðin."
+        },
+        "inclusionCriteria": {
+            "label": "Lýsið viðmiðunum fyrir þátttöku í þýðisútdrætti ",
+            "tooltip": "Mundu að skýra hér allar reglur sem kunna að vera óljósar. Til dæmis, ef þú vilt taka með skráða einstaklinga á ákveðnum aldri, skýra út frá því hvaða breytilegum aldri ætti að reikna út aldur og á hvaða tímapunkti."
+        },
+        "potentialExclusionCriteria": {
+            "label": "Lýsið hugsanlegum útilokunarviðmiðunum fyrir útdrátt í þýði"
+        },
+        "tabulationPlanArray": {
+            "label": "Töfluáætlunarröð",
+            "tooltip": "Auk þess skal rita niður eftirfarandi upplýsingar fyrir hverja töflu: ● Skráðu sem á að nota ● mögulegar þýði ● upplýsingar um nauðsynlegar breytur (ef þær eru tiltækar) ● myndun breytna þar sem ekki er hægt að nálgast þær beint úr gagnagrunninum ● æskilegri samsöfnunarstefnu hundraðshluta ● þar sem töflur eru búnar til þegar áður voru búnar til töflur eru notaðar til að búa til aðrar töflur ● allir aðrir viðeigandi þættir sem tengjast því að búa til nauðsynlegar töflur"
+        },
+        "tabulationRegisteredToBeUsed": {
+            "label": "Skrá sem á að nota"
+        },
+        "tabulationPossibleStudyCohort": {
+            "label": "Mögulegur hópur"
+        },
+        "tabulationInformationOfRequiredVariables": {
+            "label": "Upplýsingar um tilskildar breytur (ef þær liggja fyrir)"
+        },
+        "tabulationFormationVariables": {
+            "label": "Myndun breytna þar sem ekki er hægt að nálgast þær beint úr gagnagrunninum"
+        },
+        "tabulationDesiredDirection": {
+            "label": "Æskileg samsöfnunarstefna hundraðshluta"
+        },
+        "tabulationOrderInWhichTable": {
+            "label": "Röð í hvaða töflur eru búnar til þegar áður búnar töflur eru notaðar til að búa til aðrar töflur"
+        },
+        "tabulationAnyOtherRelevant": {
+            "label": "Aðrir þættir sem skipta máli og tengjast því að búa til töflu eða töflur sem krafist er "
+        },
+        "tabulationPlanButton": "Bæta við töfluáætlun",
+        "tabulationPlan": {
+            "label": "Töfluáætlun",
+            "tooltip": "Fyrir hverja tölfræði sem þú biður um skaltu hengja dæmi um Excel (eða samsvarandi) töflu."
+        },
+        "extractionDescriptionAndCompilation": {
+            "label": "Lýsing á útdrætti og samantekt hagskýrslna",
+            "tooltip": "Aðili sem hefur aðgang að heilbrigðisgögnum skal aðeins láta í té þau gögn sem þú óskar eftir á nafnlausu tölfræðilegu sniði, ef beiðnin um gögnin þín er samþykkt. Vegna nafnleyndar skal gagnanotandi ekki hafa neinn aðgang að rafrænu heilbrigðisgögnunum sem notuð eru til að veita þetta svar. Allar upplýsingar sem þú biður um verður að gefa niður á almennu stigi til að koma í veg fyrir smáfrumutalningu með mikilli endurauðkenningu."
+        },
+        "dataExtraction": "Tími gagnaútdráttar og pöntun fyrir þýðið",
+        "dataExtractionTimes": "Tími gagnaútdráttar og pöntun fyrir þýðið",
+        "howOftenDoesTheDataNeedToBeExtracted": {
+            "label": "Hversu oft þarf að draga gögnin út?"
+        },
+        "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
+            "label": "Hversu oft þarf að draga gögnin út?"
+        },
+        "needForDataExtractionEvery": {
+            "label": "Gögnin þurfa að vera dregin hvert",
+            "tooltip": "Ef þú vilt að gögnin séu dregin út mörgum sinnum yfir ákveðinn tíma skaltu hafa í huga að skilgreiningar og gagnasöfnunaraðferð geta breyst á endurskoðunartímabilinu í sumum tilvikum. Athugið að hámarkstíðni gagnaútdráttar er á hverjum ársfjórðungi"
+        },
+        "needForDataExtractionEveryOther": {
+            "label": "Tilgreina annað"
+        },
+        "needForDataExtractionEveryDescriptionDR": {
+            "label": "Veita frekari upplýsingar um útdráttartímabil/tíma",
+            "tooltip": "Ef þú vilt að gögnin séu dregin út mörgum sinnum yfir ákveðinn tíma skaltu hafa í huga að skilgreiningar og gagnasöfnunaraðferð geta breyst á endurskoðunartímabilinu í sumum tilvikum."
+        },
+        "needForDataExtractionEveryDescription": {
+            "label": "Veitið frekari upplýsingar um útdráttartímabil í þýði/tíma",
+            "tooltip": "Ef þú vilt að gögnin séu dregin út mörgum sinnum yfir ákveðinn tíma skaltu hafa í huga að skilgreiningar og gagnasöfnunaraðferð geta breyst á endurskoðunartímabilinu í sumum tilvikum."
+        },
+        "whatIsTheFrequencyOfUpdates": {
+            "label": "Hversu oft er þörf á uppfærslum á þeim gögnum sem þörf er á?"
+        },
+        "orderForDataExtraction": {
+            "label": "Ef það hefur áhrif á niðurstöður gagnaútdráttar, í hvaða röð verða gögn úr þýðinu dregin út? Leggið fram númeraða skrá yfir útdráttarfasa. Til dæmis: 1. Gagnahafi A, 2. Gagnahafa B, 3. Gagnahafi C"
+        },
+        "definingExtractionCriteria": "Skilgreining á útdráttarviðmiðunum fyrir samanburðarprófanir:",
+        "willControlsBeExtracted": {
+            "label": "Verður eftirlitið dregið út fyrir aldurshópinn?"
+        },
+        "hasTheGroupRelativesFormed2": {
+            "label": "Hefur samanburðarhópurinn verið stofnaður á grundvelli áður útgefins leyfis?"
+        },
+        "willSameDataBeExtractedForControls": {
+            "label": "Verða sömu gögn og fyrir þýðið dregin út fyrir samanburðarhópa?"
+        },
+        "regionForControlsDataExtraction": {
+            "label": "Ef þú leitar ekki gagna vegna eftirlits frá öllu landinu, frá hvaða svæðum og/eða borg/borgum og/eða sveitarfélagi/sveitum ertu að leita að gögnum?"
+        },
+        "fromWhichDataHolderLabel": "Frá hvaða gagnahafa verða gögn um eftirlit dregin út?",
+        "fromWhichDatabaseLabel": "Úr hvaða gagnagrunni/skrám verða gögnin vegna eftirlits dregin út?",
+        "fromWhichDatasetLabel": "Úr hvaða gagnasöfnum/skrám verða gögn um eftirlit dregin út?",
+        "variablesForDataExtraction": {
+            "label": "Ef upplýsingarnar liggja fyrir skal skrá breyturnar sem nota skal við útdrátt gagna. Nota skal nákvæm hugtök sem viðkomandi gagnahafi eða -aðilar láta í té í lýsigagnaskránni."
+        },
+        "timePeriodForDataExtraction": {
+            "label": "Á hvaða tímabili eða tímabilum verða gagnapakkarnir dregnar út?"
+        },
+        "extractionCriteriaForControls": {
+            "label": "Tilgreinið viðmiðanir fyrir útdrátt fyrir eftirlit, t.d. samsvarandi viðmiðanir"
+        },
+        "sizeOfControlGroup": {
+            "label": "Stærð samanburðarhópsins"
+        },
+        "sizeOfControlGroupEstimationOrExact": {
+            "label": "Stærð samanburðarhópsins (útvarpshnappar)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Þetta er mat á stærð samanburðarhópsins."
+                },
+                {
+                    "key": "b",
+                    "value": "Þetta er nákvæmlega stærð samanburðarhópsins."
+                }
+            ]
+        },
+        "controlsPerPersonInStudyCohort": {
+            "label": "Hversu mörg eftirlit er unnið á hvern einstakling sem tilheyrir aldurshópnum?"
+        },
+        "inclusionCriteriaForControls": {
+            "label": "Lýsið færsluviðmiðunum fyrir útdrátt úr samanburðarprófunum"
+        },
+        "exclusionCriteriaForControls": {
+            "label": "Lýsið hugsanlegum útilokunarviðmiðunum fyrir útdrátt úr eftirliti"
+        },
+        "ifTheGroupHasBeenFormed": "Ef eftirlitshópur hefur verið myndaður á grundvelli áður útgefins leyfis skal skrá hér eftirfarandi upplýsingar:",
+        "previouslyIssuedPermitIssuer2": {
+            "label": "Útgefandi ákvörðunarinnar um leyfi"
+        },
+        "previouslyIssuedPermitDate2": {
+            "label": "Dagsetning"
+        },
+        "validityPeriod2": "Gildistími",
+        "previouslyIssuedPermitValidityPeriodFrom2": {
+            "label": "Frá"
+        },
+        "previouslyIssuedPermitValidityPeriodTo2": {
+            "label": "Til"
+        },
+        "previouslyIssuedPermitNumber2": {
+            "label": "Númer leyfis"
+        },
+        "dataExtractionAndOrderForControls": " Tími gagnaútdráttar og röð fyrir eftirlit",
+        "willDataForControlsBeExtractedSimultaneously": {
+            "label": "Verða gögnin um eftirlit dregin út á sama tíma og í sömu röð og gögnin fyrir þýðið?"
+        },
+        "hasTheGroupRelativesFormed3": {
+            "label": "Hefur hópur ættingja verið myndaður á grundvelli áður útgefins leyfis?"
+        },
+        "ifTheGroupOfRelativesHasBeenFormed": {
+            "label": "Ef hópur aðstandenda hefur verið myndaður á grundvelli áður útgefins leyfis skal skrá hér eftirfarandi upplýsingar:"
+        },
+        "previouslyIssuedPermitIssuer3": {
+            "label": "Útgefandi ákvörðunarinnar um leyfi"
+        },
+        "previouslyIssuedPermitDate3": {
+            "label": "Dagsetning"
+        },
+        "validityPeriod3": "Gildistími",
+        "previouslyIssuedPermitValidityPeriodFrom3": {
+            "label": "Frá"
+        },
+        "previouslyIssuedPermitValidityPeriodTo3": {
+            "label": "Til"
+        },
+        "previouslyIssuedPermitNumber3": {
+            "label": "Númer leyfis"
+        },
+        "dataExtractionFrequency": {
+            "label": "Hversu oft þarf að draga gögnin út?"
+        },
+        "dataExtractionFrequencyMultipleTimesInformation": {
+            "label": "Ef um er að ræða endurtekinn útdrátt skal veita upplýsingar um hvert gagnaútdráttarferli sérstaklega í pöntunarleiðbeiningunum."
+        },
+        "dataNeedsToBeExtractedEvery": {
+            "label": "Gögnin þurfa að vera dregin hvert",
+            "tooltip": "Ef þú vilt að gögnin séu dregin út mörgum sinnum yfir ákveðinn tíma skaltu hafa í huga að skilgreiningar og gagnasöfnunaraðferð geta breyst á endurskoðunartímabilinu í sumum tilvikum. Athugið að hámarkstíðni gagnaútdráttar er á hverjum ársfjórðungi"
+        },
+        "specifyOther": {
+            "label": "Tilgreina annað"
+        },
+        "moreInfoOnExtractionPeriods": {
+            "label": "Veita frekari upplýsingar um útdráttartímabil/tíma"
+        },
+        "orderOfControlsDataExtraction": {
+            "label": "Ef það hefur áhrif á niðurstöður gagnaútdráttar, í hvaða röð verða gögn úr eftirlitinu dregin út? Leggið fram númeraða skrá yfir útdráttarfasa. Til dæmis: 1. Gagnahafi A, 2. Gagnahafa B, 3. Gagnahafi C"
+        },
+        "definingTheExtractionCriteria": "Skilgreining á útdráttarviðmiðunum fyrir skyldmenni:",
+        "willRelativesBeExtracted": {
+            "label": "Verða ættingjar teknir út fyrir aldurshópinn?"
+        },
+        "willSameDataBeExtractedForRelatives": {
+            "label": "Verða sömu gögn og fyrir aldurshópinn dregin út fyrir ættingja?"
+        },
+        "whichDataHoldersForRelatives": "Frá hvaða gagnahafa verða gögn um skyldmenni dregin út?",
+        "whichDatabaseForRelatives": "Úr hvaða gagnagrunni/skrám verða gögnin um skyldmenni dregin út?",
+        "whichDatasetsForRelatives": "Úr hvaða gagnasöfnum/skrám verða gögn um skyldmenni dregin út?",
+        "variablesForDataExtractionRelatives": {
+            "label": "Ef upplýsingarnar liggja fyrir skal skrá breyturnar sem nota skal við gagnaútdráttinn. Nota skal nákvæm hugtök sem viðkomandi gagnahafi eða -aðilar láta í té í lýsigagnaskránni."
+        },
+        "timePeriodForDataExtractionRelatives": {
+            "label": "Á hvaða tímabili eða tímabilum verða gagnapakkarnir dregnar út?"
+        },
+        "relationshipToStudyCohort": {
+            "label": "Skilgreina tengsl ættingja við þann sem tilheyrir aldurshópnum (t.d. afa og ömmur, líffræðilegir foreldrar, móðir)"
+        },
+        "sizeOfRelativesGroup": {
+            "label": "Stærð hóps ættingja"
+        },
+        "sizeOfRelativesGroupEstimateOrExact": {
+            "label": "Stærð hóps ættingja (útvarp hnappar)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Þetta er mat á stærð hóps ættingja."
+                },
+                {
+                    "key": "b",
+                    "value": "Þetta er nákvæmlega stærð hóps ættingja."
+                }
+            ]
+        },
+        "willDataForRelativesBeExtractedSimultaneously": {
+            "label": "Verða gögn um skyldmenni dregin út á sama tíma og í sömu röð og gögnin fyrir aldurshópinn?"
+        },
+        "dataExtractionFrequencyRelatives": {
+            "label": "Hversu oft þarf að draga gögnin út?"
+        },
+        "dataNeedsToBeExtractedEveryRelatives": {
+            "label": "Gögnin þurfa að vera dregin hvert",
+            "tooltip": "Ef þú vilt að gögnin séu dregin út mörgum sinnum yfir ákveðinn tíma skaltu hafa í huga að skilgreiningar og gagnasöfnunaraðferð geta breyst á endurskoðunartímabilinu í sumum tilvikum. Athugið að hámarkstíðni gagnaútdráttar er á hverjum ársfjórðungi"
+        },
+        "dataExtractionFrequencyMultipleTimesInformationRelatives": {
+            "label": "Ef um er að ræða endurtekinn útdrátt skal veita upplýsingar um hvert gagnaútdráttarferli sérstaklega í pöntunarleiðbeiningunum."
+        },
+        "needForDataExtractionEveryOptions": {
+            "label": "Gögnin þurfa að vera dregin hvert",
+            "tooltip": "Ef þú vilt að gögnin séu dregin út mörgum sinnum yfir ákveðinn tíma skaltu hafa í huga að skilgreiningar og gagnasöfnunaraðferð geta breyst á endurskoðunartímabilinu í sumum tilvikum. Athugið að hámarkstíðni gagnaútdráttar er á hverjum ársfjórðungi"
+        },
+        "specifyOtherRelatives": {
+            "label": "Tilgreina annað"
+        },
+        "moreInfoOnExtractionPeriodsRelatives": {
+            "label": "Veita frekari upplýsingar um útdráttartímabil/tíma"
+        },
+        "orderOfRelativesDataExtraction": {
+            "label": "Ef það hefur áhrif á niðurstöður gagnaútdráttar, í hvaða röð verða gögn ættingjanna dregin út? Leggið fram númeraða skrá yfir útdráttarfasa. Til dæmis: 1. Gagnahafi A, 2. Gagnahafa B, 3. Gagnahafi C"
+        }
+    },
+    "section7": {
+        "section7h5": "Önnur gögn sem á að sameina",
+        "section7Description": "Það er hægt að sameina aðrar persónuupplýsingar, svo sem gögn sem þegar eru í vörslu þinni eða gögn sem fengin eru annars staðar með öðru leyfi, við gögnin sem sótt er um með þessu forriti. Skrá skal upplýsingar um öll viðbótargögn sem verða sameinuð þeim gögnum sem aðilinn um aðgang að heilbrigðisgögnum heimilar. Ef þú vilt síðar sameina aðrar persónuupplýsingar og þau gögn sem stofnunin hefur heimilað að fá aðgang að heilbrigðisgögnum þarftu að senda inn umsókn um breytingu til sama aðila um aðgang að heilbrigðisgögnum. Ef þú ert með einhvern annan hóp sem þú vilt fá aðgang að heilbrigðisgögnum til að sameina þeim gögnum sem þú sækir um færðu leiðbeiningar um hvernig eigi að afhenda gögnin á öruggan hátt eftir að leyfið hefur verið veitt.",
+        "addDataPermit": "Add data permit",
+        "addInfo": "Bæta við upplýsingum",
+        "removeDataPermit": "Fjarlægja gagnaleyfi",
+        "willDataBeCombinedWithDataObtained": {
+            "label": "Munu gögnin sem þú sækir um verða sameinuð þeim gögnum sem þú hefur þegar fengið, eða gögnum sem sótt verður um frá öðrum heimildum?"
+        },
+        "listOtherDataToBeCompined": "Skrá skal önnur gögn sem á að sameina og heimildir þessara gagna:",
+        "combinedCountries": {
+            "label": "Lönd"
+        },
+        "combinedDataHolders": {
+            "label": "Gagnahafar"
+        },
+        "combinedDatabaseRegistries": {
+            "label": "Gagnagrunnar/skráningar"
+        },
+        "combinedDatasetsRegistries": {
+            "label": "Gagnasöfn/skráningar"
+        },
+        "provideInformationList": {
+            "label": "Veitið upplýsingar um gögn sem á að sameina og fyrirhugaða samlagningaraðferð",
+            "tooltip": "Veita skal upplýsingar um eftirfarandi, að því marki sem við á: gagnasafn, fjöldi skráa, snið skránna, stærð skránna, sérstakar athugasemdir (eru til staðar bein/óbein auðkenni, gögn ættu að vera dulnefni o.s.frv.)"
+        },
+        "dataset": {
+            "label": "Gagnasafn"
+        },
+        "numberOfFiles": {
+            "label": "Fjöldi skráa"
+        },
+        "formatOfFiles": {
+            "label": "Snið skráa"
+        },
+        "sizeOfFiles": {
+            "label": "Stærð skránna"
+        },
+        "notes": {
+            "label": "Athugasemdir"
+        },
+        "listAnyOtherDataPermit": "Skrá hér öll önnur gögn leyfi sem gefin eru út fyrir sama verkefni. Leyfin verða að vera gild á þeim tíma sem gögn eru unnin:",
+        "otherPermits": {
+            "label": "Önnur leyfi: Útgefandi leyfisins, útgáfudagur, síðasti dagur, auðkenningarupplýsingar"
+        },
+        "permitIssuer": {
+            "label": "Útgefandi leyfisins"
+        },
+        "permitStartDateOfIssue": {
+            "label": "Útgáfudagur"
+        },
+        "permitEndDateOfIssue": {
+            "label": "Fyrningardagsetning"
+        },
+        "permitIdentificationInformation": {
+            "label": "Upplýsingar um auðkenni leyfis"
+        },
+        "attachmentOfPermitDocuments": {
+            "label": "Ef gagnamengisskrárnar fela í sér leyfi sem gefin eru út af öðrum aðilum eða þeim hefur verið safnað með samþykki skal láta leyfisskjölin fylgja með hér"
+        },
+        "otherPermitApplications": {
+            "label": "Ertu með aðrar leyfisumsóknir í bið?"
+        },
+        "listTheOtherData": "Skrá skal önnur gögn sem á að sameina og heimildir þessara gagna:",
+        "applicationIssuer": {
+            "label": "Útgefandi"
+        },
+        "dateOfSubmittingTheApplication": {
+            "label": "Dagsetning framlagningar umsóknarinnar"
+        },
+        "identificationCode": {
+            "label": "Auðkenniskóði leyfis"
+        }
+    },
+    "section8": {
+        "section8h5": "Gagnavinnsla, gagnavernd og verndarráðstafanir til að koma í veg fyrir óheimila notkun gagna",
+        "section8Description": "Samkvæmt tillögu EHDS reglugerðarinnar skulu aðilar, sem fá aðgang að heilbrigðisgögnum, einungis veita aðgang að rafrænum heilbrigðisgögnum í öruggu vinnsluumhverfi.",
+        "addPerson": "Add person",
+        "removePerson": "Fjarlægja einstakling",
+        "technicalRequirementsForEnvironment": {
+            "label": "Listi hér allar tæknilegar kröfur sem þú hefur fyrir örugga vinnslu umhverfi."
+        },
+        "nameWebsiteAddressForEnvironment": {
+            "label": "Ef þú veist nú þegar hvaða vinnsluumhverfi þú vilt nota, hvað heitir það og hver er það veitt af? Tilgreina hér nafn og veitanda örugga vinnslu umhverfi."
+        },
+        "healthDataAccessBody": "Stofnunin sem fær aðgang að heilbrigðisgögnum mun afhenda gögnin þegar umsókn þín hefur verið tekin til meðferðar ef þú hefur fengið gagnaleyfi. Stofnunin sem fær aðgang að heilbrigðisgögnum mun varðveita lykilinn fyrir dulnefni og útdráttarskilmála og skjöl sem notuð eru til að búa til gögnin. Gagnaleyfið verður aðeins veitt í þann tíma sem nauðsynlegur er til að uppfylla umbeðinn tilgang. Heimilt er að veita leyfið til 10 ára hið mesta. Heimilt er að framlengja þennan tíma einu sinni, að beiðni gagnanotanda, á grundvelli röksemda og skjala sem réttlæta framlenginguna (tillaga að reglugerð EHDS, grein 68(12)). Ef þörf krefur er heimilt að framlengja notkunartímabilið með því að sækja um breytingu á gagnaleyfinu.",
+        "whenDataNeeded": {
+            "label": "Hvenær þarf að fá gögnin?",
+            "tooltip": "Almennt mun stofnunin, sem hefur aðgang að heilbrigðisgögnum, fara fram á útdrátt gagna frá gagnahöfum um leið og umsókn þín hefur verið afgreidd. Ef þú vilt fá gögnin síðar skaltu tilgreina það hér.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Eins fljótt og auðið er eftir að þessi umsókn hefur verið afgreidd"
+                },
+                {
+                    "key": "b",
+                    "value": "Síðar, hvenær?"
+                }
+            ]
+        },
+        "ifLaterWhen": {
+            "label": "Síðar, hvenær?"
+        },
+        "informationWhichDataCanAccess": {
+            "label": "Veita skal upplýsingar um þann tíma sem hægt er að nálgast gögnin."
+        },
+        "frequencyOfAccessOrDataUpdates": {
+            "label": "Hver er tíðni þessa aðgangs eða tíðni gagnauppfærslna?"
+        },
+        "estimatedStartAndEnd": {
+            "label": "Hverjar eru áætlaðar upphafs- og lokadagsetningar þess tímabils sem rafrænar heilbrigðisupplýsingar eru nauðsynlegar til vinnslu?",
+            "tooltip": "Þetta tímabil getur verið fimm ár. Með viðbótarleyfi er hægt að framlengja upphaflega leyfið um fimm ár til viðbótar."
+        },
+        "estimatedStartDatesForDataProcessing": {
+            "label": "Frá"
+        },
+        "estimatedEndDatesForDataProcessing": {
+            "label": "Til"
+        },
+        "ifStoreNeeded": "Ef þú þarft að geyma gögnin eftir vinnslu skaltu tilgreina hér tímabil óvirkrar gagnageymslu",
+        "startPeriodOfInactiveDataStorage": {
+            "label": "Frá"
+        },
+        "endPeriodOfInactiveDataStorage": {
+            "label": "Til"
+        },
+        "willTheDataBeTransferred": {
+            "label": "Verða gögnin flutt út fyrir ESB eða EES?",
+            "tooltip": "Evrópska persónuverndarráðið (EDPB) hefur tilgreint þrjár uppsafnaðar viðmiðanir til að viðurkenna vinnsluaðgerð sem flutning: 1) Ábyrgðaraðili eða vinnsluaðili (\"útflytjandi\") er háður GDPR fyrir tiltekna vinnslu. 2) Útflytjandi birtir með sendingu eða gerir persónuupplýsingar, háð þessari vinnslu, aðgengilegar öðrum ábyrgðaraðila, sameiginlegum ábyrgðaraðila eða vinnsluaðila (\"innflytjanda\"). 3) Innflytjandi er í þriðja landi, óháð því hvort sá innflytjandi fellur undir GDPR-reglugerðina fyrir tiltekna vinnslu í samræmi við 3. gr., eða er alþjóðastofnun. Frekari upplýsingar: https://www.edpb.europa.eu/system/files/2023-02/edpb_guidelines_05-2021_interplay_between_the_application_of_art3-chapter_v_of_the_gdpr_v2_en_0.pdf"
+        },
+        "whichCountriesDataBeProcessed": {
+            "label": "Í hvaða landi/löndum utan ESB/EES verða gögnin unnin?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Greiningar"
+                },
+                {
+                    "key": "b",
+                    "value": "Faraldsfræði"
+                },
+                {
+                    "key": "c",
+                    "value": "Meðferð sjúklinga"
+                },
+                {
+                    "key": "d",
+                    "value": "Öryggi sjúklinga"
+                },
+                {
+                    "key": "e",
+                    "value": "Forvarnir og meðferð"
+                },
+                {
+                    "key": "f",
+                    "value": "Lýðheilsustefna"
+                },
+                {
+                    "key": "g",
+                    "value": "Skipulag heilbrigðisstofnana"
+                },
+                {
+                    "key": "h",
+                    "value": "Skilningur á sjúkdómum"
+                },
+                {
+                    "key": "i",
+                    "value": "Annað"
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEU": {
+            "label": "Hvers vegna verða gögnin flutt út fyrir ESB eða EES?"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47": {
+            "label": "47. gr.: Yfirfærslur á grundvelli ákvörðunar um fullnægjandi vernd"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47Options": {
+            "label": "Hvers vegna verða gögn flutt utan ESB samkvæmt 47. gr. valkosta?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Heimilt er að miðla persónuupplýsingum til þriðja lands eða alþjóðastofnunar ef framkvæmdastjórnin hefur ákveðið skv. 3. mgr. 45. gr. reglugerðar (ESB) 2016/679 eða 3. mgr. 36. gr. tilskipunar (ESB) 2016/680 að þriðja landið, yfirráðasvæði eða einn eða fleiri tilgreindir geirar innan þess þriðja lands eða viðkomandi alþjóðastofnun tryggi fullnægjandi vernd og ef persónuupplýsingarnar eru einungis fluttar til að gera kleift að sinna verkefnum sem falla undir valdsvið ábyrgðaraðilans."
+                },
+                {
+                    "key": "b",
+                    "value": "B. stofnanir og aðilar Sambandsins skulu upplýsa framkvæmdastjórnina og Evrópsku persónuverndarstofnunina um tilvik þar sem þau telja að þriðja land, yfirráðasvæði eða einn eða fleiri tilgreindir geirar innan þriðja lands eða alþjóðastofnun sem um er að ræða tryggi ekki fullnægjandi vernd í skilningi 1. mgr."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Stofnunir og aðilar Sambandsins skulu gera nauðsynlegar ráðstafanir til að fara að ákvörðunum framkvæmdastjórnarinnar ef hún kemur á fót, skv. 3. eða 5. mgr. 45. gr. reglugerðar (ESB) 2016/679 eða 3. eða 5. mgr. 36. gr. tilskipunar (ESB) 2016/680, að þriðja land, yfirráðasvæði eða einn eða fleiri tilgreindir geirar innan þriðja lands eða alþjóðastofnun tryggi ekki lengur fullnægjandi vernd."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48": {
+            "label": "48. gr.: Flutningur með fyrirvara um viðeigandi verndarráðstafanir"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48bOptions": {
+            "label": "Hvers vegna verða gögn flutt utan ESB samkvæmt 48. gr. b?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "I. lagalega bindandi og framfylgjanlegur gerningur milli opinberra yfirvalda eða stofnana"
+                },
+                {
+                    "key": "b",
+                    "value": "II. Stöðluð ákvæði um gagnavernd sem framkvæmdastjórnin samþykkir í samræmi við rannsóknarmálsmeðferðina sem um getur í 2. mgr. 96. gr."
+                },
+                {
+                    "key": "c",
+                    "value": "III. Stöðluð ákvæði um gagnavernd sem Evrópska persónuverndarstofnunin hefur samþykkt og framkvæmdastjórnin hefur samþykkt samkvæmt rannsóknarmálsmeðferðinni sem um getur í 2. mgr. 96. gr., L 295/78 EN Stjórnartíðindi Evrópusambandsins 21.11.2018"
+                },
+                {
+                    "key": "d",
+                    "value": "IV. Ef vinnsluaðilinn er ekki stofnun eða aðili Sambandsins, bindandi fyrirtækjareglur, hátternisreglur eða vottunarkerfi skv. b-, e- og f-lið 2. mgr. 46. gr. reglugerðar (ESB) 2016/679."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48a": {
+            "label": "a. Ef ekki liggur fyrir ákvörðun skv. 3. mgr. 45. gr. reglugerðar (ESB) 2016/679 eða 3. mgr. 36. gr. tilskipunar (ESB) 2016/680 er ábyrgðaraðila eða vinnsluaðila aðeins heimilt að flytja persónuupplýsingar til þriðja lands eða alþjóðastofnunar ef ábyrgðaraðilinn eða vinnsluaðilinn hefur gert viðeigandi verndarráðstafanir og með því skilyrði að framfylgjanleg réttindi skráðs einstaklings og skilvirk lagaleg úrræði séu tiltæk fyrir skráða einstaklinga. "
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48b": {
+            "label": "B. Heimilt er að kveða á um viðeigandi verndarráðstafanir, sem um getur í 1. mgr., án þess að krefjast sérstakrar heimildar Evrópsku persónuverndarstofnunarinnar, með því að:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48c": {
+            "label": "C. Með fyrirvara um heimild Evrópsku persónuverndarstofnunarinnar er einnig heimilt að kveða á um viðeigandi verndarráðstafanir, sem um getur í 1. mgr., einkum með því að:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48cOpt": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Samningsákvæði milli ábyrgðaraðila eða vinnsluaðila og ábyrgðaraðila, vinnsluaðila eða viðtakanda persónuupplýsinga í þriðja landinu eða alþjóðastofnuninni."
+                },
+                {
+                    "key": "b",
+                    "value": "Ákvæði sem fella skal inn í stjórnsýslufyrirkomulag milli opinberra yfirvalda eða aðila sem fela í sér framfylgjanleg og skilvirk réttindi skráðra einstaklinga."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48d": {
+            "label": "D. Leyfi Evrópsku persónuverndarstofnunarinnar á grundvelli 7. mgr. 9. gr. reglugerðar (EB) nr. 45/2001 skulu halda gildi sínu þar til Evrópsku persónuverndarstofnuninni hefur verið breytt, skipt út eða hún felld úr gildi ef nauðsyn krefur."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48e": {
+            "label": "stofnanir og aðilar Sambandsins skulu upplýsa Evrópsku persónuverndarstofnunina um þá flokka mála þar sem þessari grein hefur verið beitt."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle49": {
+            "label": "49. gr.: Framsal eða upplýsingagjöf sem ekki er heimiluð samkvæmt lögum Sambandsins"
+        },
+        "legalBasisForTransferringTheDataOutsideEU": {
+            "label": "Hver er lagagrundvöllurinn fyrir flutningi gagna út fyrir ESB eða EES?",
+            "tooltip": "Nánari upplýsingar í almennu persónuverndarreglugerðinni Kafli 5: <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679#d1e4227-1-1</a>",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Land/yfirráðasvæði/alþjóðleg stofnun tilflutnings tryggir fullnægjandi vernd samkvæmt ákvörðun framkvæmdastjórnar Evrópusambandsins (35. gr. GDPR)"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Ábyrgðaraðilinn eða vinnsluaðilinn hefur gert viðeigandi verndarráðstafanir og fyrir hendi eru framfylgjanleg réttindi skráðs einstaklings og skilvirk lagaleg úrræði fyrir skráða aðila (46. gr. GDPR)."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Annar lagagrundvöllur í undantekningartilvikum (ef ekki er um að ræða viðeigandi verndarráðstafanir skv. 46. gr.)"
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUOtherOptions": {
+            "label": "3. Annar lagagrundvöllur í undantekningartilvikum (ef ekki er um að ræða viðeigandi verndarráðstafanir skv. 46. gr.)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Skráði aðilinn hefur veitt ótvírætt samþykki sitt fyrir fyrirhugaðri miðlun eftir að honum hefur verið tilkynnt um hugsanlega áhættu af slíkum miðlunum fyrir skráða aðilann vegna þess að ekki hefur verið tekin ákvörðun um fullnægjandi vernd og viðeigandi verndarráðstafanir"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Miðlunin er nauðsynleg vegna framkvæmdar samnings milli skráða aðilans og ábyrgðaraðilans eða vegna framkvæmdar ráðstafana sem gerðar eru að beiðni hins skráða áður en samningur er gerður"
+                },
+                {
+                    "key": "c",
+                    "value": "3. Miðlunin er nauðsynleg til að gera eða efna samning milli ábyrgðaraðilans og annars einstaklings eða lögaðila í þágu hins skráða."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Flutningurinn er nauðsynlegur vegna mikilvægra almannahagsmuna"
+                },
+                {
+                    "key": "e",
+                    "value": "5. Framsalið er nauðsynlegt til að stofna, hafa uppi eða verja réttarkröfur"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Miðlunin er nauðsynleg til að vernda brýna hagsmuni hins skráða eða annarra aðila ef skráði aðilinn er líkamlega eða lagalega ófær um að veita samþykki sitt"
+                },
+                {
+                    "key": "g",
+                    "value": "7. Flutningurinn er gerður úr skrá, sem samkvæmt lögum Sambandsins eða lögum aðildarríkis er ætlað að veita almenningi upplýsingar og sem annaðhvort er opin almenningi eða hverjum þeim sem getur sýnt fram á lögmæta hagsmuni, en aðeins að því marki sem skilyrði fyrir samráði, sem mælt er fyrir um í lögum Sambandsins eða lögum aðildarríkis, eru uppfyllt í því tiltekna tilviki"
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUc1": {
+            "label": "1. Skráði aðilinn hefur veitt ótvírætt samþykki sitt fyrir fyrirhugaðri miðlun eftir að honum hefur verið tilkynnt um hugsanlega áhættu af slíkum miðlunum fyrir skráða aðilann vegna þess að ekki hefur verið tekin ákvörðun um fullnægjandi vernd og viðeigandi verndarráðstafanir "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc2": {
+            "label": "2. Miðlunin er nauðsynleg vegna framkvæmdar samnings milli skráða aðilans og ábyrgðaraðilans eða vegna framkvæmdar ráðstafana sem gerðar eru að beiðni hins skráða áður en samningur er gerður "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc3": {
+            "label": "3. Miðlunin er nauðsynleg til að gera eða efna samning milli ábyrgðaraðilans og annars einstaklings eða lögaðila í þágu hins skráða."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc4": {
+            "label": "4. Flutningurinn er nauðsynlegur vegna mikilvægra almannahagsmuna"
+        },
+        "legalBasisForTransferringTheDataOutsideEUc5": {
+            "label": "5. Framsalið er nauðsynlegt til að stofna, hafa uppi eða verja réttarkröfur"
+        },
+        "legalBasisForTransferringTheDataOutsideEUc6": {
+            "label": "6. Miðlunin er nauðsynleg til að vernda brýna hagsmuni hins skráða eða annarra aðila ef skráði aðilinn er líkamlega eða lagalega ófær um að veita samþykki sitt"
+        },
+        "legalBasisForTransferringTheDataOutsideEUc7": {
+            "label": "7. Flutningurinn er gerður úr skrá, sem samkvæmt lögum Sambandsins eða lögum aðildarríkis er ætlað að veita almenningi upplýsingar og sem annaðhvort er opin almenningi eða hverjum þeim sem getur sýnt fram á lögmæta hagsmuni, en aðeins að því marki sem skilyrði fyrir samráði, sem mælt er fyrir um í lögum Sambandsins eða lögum aðildarríkis, eru uppfyllt í því tiltekna tilviki"
+        },
+        "safeguardsAreProvidedByReferringGDCP": {
+            "label": "Þessar verndarráðstafanir eru gerðar af:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Lagalega bindandi og framfylgjanlegur gerningur milli opinberra yfirvalda eða aðila"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Bindandi fyrirtækjareglur í samræmi við 47. gr."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Stöðluð ákvæði um gagnavernd sem framkvæmdastjórnin samþykkir í samræmi við rannsóknarmálsmeðferðina sem um getur í 2. mgr. 93. gr."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Stöðluð ákvæði um gagnavernd sem eftirlitsyfirvald hefur samþykkt og framkvæmdastjórnin hefur samþykkt samkvæmt rannsóknarmálsmeðferðinni sem um getur í 2. mgr. 93. gr."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Samþykktar hátternisreglur skv. 40. gr. ásamt bindandi og framfylgjanlegum skuldbindingum ábyrgðaraðila eða vinnsluaðila í þriðja landinu um að beita viðeigandi verndarráðstöfunum, þ.m.t. að því er varðar réttindi skráðra aðila"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Samþykkt vottunarkerfi skv. 42. gr. ásamt bindandi og framfylgjanlegum skuldbindingum ábyrgðaraðila eða vinnsluaðila í þriðja landinu um að beita viðeigandi verndarráðstöfunum, þ.m.t. að því er varðar réttindi skráðra aðila"
+                }
+            ]
+        },
+        "whichOrganizationWillBeTheControllerOfData": {
+            "label": "Hvaða stofnun (s) eða einstaklingur verður ábyrgðaraðili gagna sem myndast á grundvelli þessa umsóknar?",
+            "tooltip": "Ábyrgðaraðili ákvarðar tilgang og aðferðir við vinnslu persónuupplýsinga. Með öðrum orðum ákveður ábyrgðaraðilinn hvernig og hvers vegna gagnavinnsluaðgerð er. Ábyrgðaraðili gagna getur verið lögaðili, t.d. fyrirtæki, lítið eða meðalstórt fyrirtæki, opinbert yfirvald, stofnun eða annar aðili. Frekari upplýsingar: https://edpb.europa.eu/sme-data-protection-guide/data-controller-data-processor_en"
+        },
+        "complyWithDataMinimisationPrinciple": {
+            "label": "Hvernig fer þú að meginreglunni um lágmörkun gagna (almenna persónuverndarreglugerð ESB) við vinnslu gagnanna?",
+            "tooltip": "GDPR. C-liður 1. mgr. 5. gr.: „Persónuupplýsingar skulu vera fullnægjandi, viðeigandi og takmarkast við það sem nauðsynlegt er í tengslum við tilganginn með vinnslu þeirra („lágmörkun gagna“).“ "
+        },
+        "complyWithDataMinimisationPrincipleNotEUMember": {
+            "label": "Hvernig hlítir þú meginreglunni um lágmörkun gagna (ESB-reglugerð um gagnavernd) við vinnslu gagnanna? ",
+            "tooltip": "Ákvæði 1. mgr. c í 4. gr. ESB „Persónuleg gögn skulu vera fullnægjandi, viðeigandi og takmörkuð við það sem nauðsynlegt er í tengslum við tilganginn með vinnslu þeirra („lágmörkun gagna“).“"
+        },
+        "protectionAndSecurityStatements": {
+            "label": "Til að halda áfram með þetta forrit þarftu að staðfesta eftirfarandi yfirlýsingar (gagnavernd og öryggistengdar yfirlýsingar):"
+        },
+        "protectionAndSecurityStatementsA": {
+            "label": "1. Ég staðfesti að ef heilbrigðisgögnin veita mér þær upplýsingar sem ég sæki um mun ég aðeins nota þær í þeim tilgangi sem fram kemur á þessu umsóknareyðublaði."
+        },
+        "protectionAndSecurityStatementsB": {
+            "label": "2. Ég skil að afrita gögnin úr öruggu vinnslu umhverfi er bönnuð."
+        },
+        "protectionAndSecurityStatementsC": {
+            "label": "3. Ég skil að taka allar skjámyndir eða myndir af skjá tækisins, einu sinni í öruggu vinnslu umhverfi, er bönnuð."
+        },
+        "protectionAndSecurityStatementsD": {
+            "label": "4. Ég hef nægar öryggisráðstafanir (svo sem eldvegg) til að vernda mismunandi netkerfi sem tækin sem notuð eru til að fá aðgang að Öruggu vinnsluumhverfi eru tengd."
+        },
+        "protectionAndSecurityStatementsE": {
+            "label": "5. Ég skil að tilraunir til endurauðkenningar eru bannaðar og að aðilinn sem hefur aðgang að heilbrigðisgögnum getur beitt viðurlögum skv. 43. gr."
+        },
+        "onlyThePeopleMentioned": "Aðeins þeir sem nefndir eru í gagnaleyfinu fá aðgang að úrvinnslu gagna í öruggu vinnsluumhverfi.",
+        "sameAsContactPerson": {
+            "label": "Sama og tengiliður sem tilgreindur er í 3. lið?"
+        },
+        "listTheFullNames": {
+            "label": "Skráið öll nöfn, tengsl og netföng allra þeirra sem munu vinna gögnin."
+        },
+        "fullName": {
+            "label": "Fullt nafn"
+        },
+        "affiliation": {
+            "label": "Tengsl"
+        },
+        "emailAddress": {
+            "label": "Tölvupóstfang"
+        },
+        "lawfulnessOfProcessing": "Lögmæti vinnslu:",
+        "legalBasisForProcessingPersonalData": {
+            "label": "Hver er lagagrundvöllurinn fyrir vinnslu persónuupplýsinga sem þú sækir um með þessu umsóknareyðublaði?"
+        },
+        "lawfulForProcessingPersonalData": {
+            "label": "Vinnsla persónuupplýsinga sem þú sækir um með þessu umsóknareyðublaði er aðeins lögmæt ef og að því marki sem a.m.k. eitt af eftirfarandi á við (í samræmi við 1. mgr. 6. gr. almennrar persónuverndarreglugerðar ESB, reglugerð (ESB) 2016/679):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Hinn skráði hefur veitt samþykki fyrir vinnslu persónuupplýsinga sinna í einum eða fleiri sérstökum tilgangi."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Vinnslan er nauðsynleg vegna framkvæmdar samnings sem skráði aðilinn er aðili að eða til að gera ráðstafanir að beiðni hins skráða áður en samningur er gerður"
+                },
+                {
+                    "key": "c",
+                    "value": "3. Vinnslan er nauðsynleg til að uppfylla lagaskyldu sem hvílir á ábyrgðaraðila"
+                },
+                {
+                    "key": "d",
+                    "value": "4. Vinnslan er nauðsynleg til að vernda brýna hagsmuni hins skráða eða annars einstaklings"
+                },
+                {
+                    "key": "e",
+                    "value": "5. Vinnslan er nauðsynleg vegna verkefnis sem unnið er í þágu almannahagsmuna eða við beitingu opinbers valds sem ábyrgðaraðili fer með"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Vinnslan er nauðsynleg vegna lögmætra hagsmuna sem ábyrgðaraðili eða þriðji aðili gætir, nema hagsmunir eða grundvallarréttindi og frelsi skráða aðilans, sem krefjast verndar persónuupplýsinga, bregðist ekki við slíkum hagsmunum, einkum þegar hinn skráði er barn."
+                }
+            ]
+        },
+        "lawfulForProcessingPersonalDataNaturalPersonOption": {
+            "key": "F",
+            "value": "6. Vinnslan er nauðsynleg vegna lögmætra hagsmuna sem ábyrgðaraðili eða þriðji aðili gætir, nema hagsmunir eða grundvallarréttindi og frelsi skráða aðilans, sem krefjast verndar persónuupplýsinga, bregðist ekki við slíkum hagsmunum, einkum þegar hinn skráði er barn."
+        },
+        "otherLegalBasisForProcessingPersonalData": {
+            "label": "Annað, hvað?"
+        },
+        "legalBasisForProcessingCombinedData": {
+            "label": "Hver er lagagrundvöllurinn fyrir vinnslu annarra gagna sem þú munt sameina við gögn sem sótt er um í þessu forriti? "
+        },
+        "otherLegalBasisForProcessingCombinedData": {
+            "label": "Annað, hvað?"
+        },
+        "europeanUnionInstitution": {
+            "label": "Vinnsla persónuupplýsinga sem þú sækir um með þessu umsóknareyðublaði er aðeins lögmæt ef og að því marki sem a.m.k. eitt af eftirfarandi á við (í samræmi við 1. mgr. 5. gr. persónuverndarreglugerðar ESB, reglugerð (ESB) 2018/1725):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Vinnslan er nauðsynleg vegna verkefnis sem unnið er í þágu almannahagsmuna eða við beitingu opinbers valds sem stofnun eða aðili Sambandsins fer með"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Vinnslan er nauðsynleg til að uppfylla lagaskyldu sem hvílir á ábyrgðaraðila."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Vinnslan er nauðsynleg vegna framkvæmdar samnings sem skráði aðilinn er aðili að eða til að gera ráðstafanir að beiðni hins skráða áður en samningur er gerður."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Hinn skráði hefur veitt samþykki sitt fyrir vinnslu persónuupplýsinga sinna í einum eða fleiri sérstökum tilgangi."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Vinnslan er nauðsynleg til að vernda brýna hagsmuni hins skráða eða annars einstaklings."
+                }
+            ]
+        },
+        "legalBasisForProcessingApplicationData": {
+            "label": "Hver er lagagrundvöllurinn fyrir vinnslu persónuupplýsinga sem þú sækir um með þessu umsóknareyðublaði?"
+        },
+        "otherLegalBasisForProcessingApplicationData": {
+            "label": "Annað, hvað?"
+        },
+        "legalBasisForProcessingCombinedApplicationData": {
+            "label": "Hver er lagagrundvöllurinn fyrir vinnslu annarra gagna sem þú munt sameina við gögn sem sótt er um í þessu forriti?"
+        },
+        "otherLegalBasisForProcessingCombinedApplicationData": {
+            "label": "Annað, hvað?"
+        },
+        "attachResearchPermitIfRequired": {
+            "label": "Ef rannsóknir þínar krefjast rannsóknarleyfis frá aðildarstofnun þinni skaltu láta rannsóknarleyfið fylgja með"
+        }
+    },
+    "section9": {
+        "section9h5": "Viðbótarupplýsingar",
+        "section9Description": "Hér getur þú veitt frekari upplýsingar um hvaða hluta sem er í umsókn þinni. Tilgreina skal fjölda hluta og spurninguna sem athugasemdin vísar til.",
+        "additionalInformation": {
+            "label": "Frekari upplýsingar eða fleiri athugasemdir",
+            "tooltip": "Hér getur þú veitt frekari upplýsingar um hvaða hluta sem er í umsókn þinni. Tilgreina skal fjölda hluta og spurninguna sem athugasemdin vísar til. Tillaga að tæknilegri framkvæmd: Að öðrum kosti gæti verið leið til að gera umsækjanda kleift að tengja upplýsingar við tiltekna hluta eyðublaðsins til að auðvelda störf HDAB."
+        },
+        "additionalAttachment": {
+            "label": "Viðbótarviðhengi. Ekki hengja heilsu eða persónuupplýsingar við þetta forrit.",
+            "tooltip": "Ef þú hefur einhver önnur viðhengi sem þú telur viðeigandi varðandi vinnslu umsóknar þinnar og er nauðsynlegt fyrir stofnunina sem hefur aðgang að heilbrigðisgögnum, látið það fylgja með hér. Lýsið mikilvægi þess í textareitnum hér að ofan."
+        }
+    },
+    "section10": {
+        "section10h5": "Staðfesting á upplýsingum",
+        "section10Description": "Áður en umsókn er afgreidd þarf umsækjandi að samþykkja vinnslugjöld.",
+        "submitYouApplicationText": "Til að senda inn umsókn þarftu að staðfesta eftirfarandi:",
+        "acceptHealthDataBody": {
+            "label": "Ég samþykki að heilbrigðisgagnastofnunin mun taka saman tölfræðina og ég mun ekki hafa aðgang að þeim gögnum sem notuð eru til að mynda tölfræði."
+        },
+        "awareProcessingFee": {
+            "label": "Ég er meðvitaður um að úrvinnslugjald verður innheimt fyrir afgreiðslu umsóknar minnar. Hún gildir einnig ef beiðni er afturkölluð eða neikvæð ákvörðun."
+        },
+        "awareChargeFee": {
+            "label": "Ég er meðvitaður um að gagnahafar geta innheimt gjald."
+        },
+        "awareInformationCorrect": {
+            "label": "Ég staðfesti að upplýsingarnar sem ég hef veitt séu réttar."
+        }
+    },
+    "commonFields": {
+        "aboutThisSection": "Um þennan hluta",
+        "yesOrNoOptions": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Já"
+                },
+                {
+                    "key": "b",
+                    "value": "Nei"
+                }
+            ]
+        },
+        "onceOrMultipleTimes": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Einu sinni"
+                },
+                {
+                    "key": "b",
+                    "value": "Mörgum sinnum"
+                }
+            ]
+        },
+        "everyWhen": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Á hverju ári"
+                },
+                {
+                    "key": "b",
+                    "value": "Hálft ár"
+                },
+                {
+                    "key": "c",
+                    "value": "Ársfjórðungur"
+                },
+                {
+                    "key": "d",
+                    "value": "Annað"
+                }
+            ]
+        },
+        "processingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. e) vinnslan er nauðsynleg vegna verkefnis sem unnið er í þágu almannahagsmuna eða við beitingu opinbers valds sem ábyrgðaraðili fer með;"
+                },
+                {
+                    "key": "b",
+                    "value": "2. F) Vinnsla er nauðsynleg vegna lögmætra hagsmuna sem ábyrgðaraðili eða þriðji aðili gætir, nema hagsmunir eða grundvallarréttindi og frelsi hins skráða, sem krefjast verndar persónuupplýsinga, ganga framar slíkum hagsmunum, einkum þegar hinn skráði er barn."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Annað"
+                }
+            ]
+        },
+        "legalBasisForProcessingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. a) Vinnsla er nauðsynleg vegna verkefnis sem unnið er í þágu almannahagsmuna eða við beitingu opinbers valds sem stofnun eða aðili Sambandsins fer með."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Annað"
+                }
+            ]
+        }
+    }
+}

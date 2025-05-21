@@ -124,6 +124,9 @@ containerPort: 8080
 ## @param config.HUB_SEARCH_DATA_URL URL for hdeu-hub-search data service.
 ## @param config.EXPORT_DATA_ACCESS_API_KEY API key for exporting data access.
 ## @param config.EXPORT_DATASET_EXTERNAL_URL External URL for dataset export.
+## @param config.HUB_REPO_URL URL for hdeu-hub-repo service.
+## @param config.HUB_REPO_X_API_KEY API key for hdeu-hub-repo authentication.
+## @param config.AUTH_URL internal URL for hdeu-auth service.
 ##
 config:
   {}
@@ -153,6 +156,7 @@ config:
   # HUB_SEARCH_DATA_URL: http://hdeu-hub-search.default.svc.cluster.local:8080
   # EXPORT_DATA_ACCESS_API_KEY: 728c0d8c-90d4-4357-89e5-0cb05a38dfb3
   # EXPORT_DATASET_EXTERNAL_URL: https://hdeu-hub-ui.example.com/datasets/
+  # AUTH_URL: http://hdeu-auth.default.svc.cluster.local:8080
 
 ## AWS Secrets Manager Integration
 ##
@@ -183,10 +187,10 @@ config:
 ##
 ## Enables AWS Secrets Manager for retrieving environment variables
 aws:
-  enabled: false
-## Defines AWS as the secret management provider
-secrets:
-  provider: aws
+  enabled: true
+  secrets:
+    provider: aws
+    objects: []
 
 ## Hdeu-Access Ingress
 ## ref: http://kubernetes.io/docs/concepts/services-networking/ingress/

@@ -24,19 +24,26 @@
       },
       "purposeForWhichDataWillBeUsed":[
         {
+          "key":"b"
+        }
+      ],
+      "applyingForDataOnBehalfOfPublicSector":[
+        {
           "key":"a",
           "value":"a. Public interest in the area of public and occupational health, such as activities for protection against serious cross-border threats to health and public health surveillance or activities ensuring high levels of quality and safety of healthcare, including patient safety, and of medicinal products or medical devices"
         }
       ],
-      "descriptionOfTheDataYouWillUse":"Fix",
       "summaryOfTheProject":"Fix",
-      "projectLeader":"Fix"
+      "projectLeader":"Fix",
+      "theNatureOfTheDataDoesNotLetYouProvideADescription": true,
+      "theNatureOfTheProjectDoesNotLetYouProvideASummary": true,
+      "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason": "Please explain the reasons why you cannot provide a summary of your project"
     },
     "section3":{
       "sectionNumber":3,
       "applyingForDataOnBehalfOfPublicSector":{
-        "key":"b",
-        "value":"No"
+        "key":"a",
+        "value":"Yes"
       },
       "legalOrNaturalPerson":{
         "key":"a",
@@ -95,7 +102,7 @@
         }
       ],
       "formatOfTheElectronicHealthData":{
-        "key":"a",
+        "key":"b",
         "value":"Anonymised"
       },
       "summaryOfPlanForUsingTheData":[
@@ -190,6 +197,13 @@
         "key":"a",
         "value":"As soon as possible after this application has been processed"
       },
+
+      "legalBasisForProcessingCombinedApplicationData":[
+        {
+          "key":"b",
+          "value":"Yes"
+        }
+      ],
       "estimatedStartDatesForDataProcessing":"2024-09-19",
       "estimatedEndDatesForDataProcessing":"2024-09-25",
       "startPeriodOfInactiveDataStorage":"2024-09-24",

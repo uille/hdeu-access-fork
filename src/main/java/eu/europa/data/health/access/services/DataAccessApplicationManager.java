@@ -17,8 +17,8 @@ package eu.europa.data.health.access.services;
 
 
 import static eu.europa.data.health.access.Constants.APPLICATION_ID;
-import static eu.europa.data.health.access.Constants.APPLICATION_STATUS_CHANGED;
 import static eu.europa.data.health.access.Constants.APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR;
+import static eu.europa.data.health.access.Constants.AUDIT_LOG_COLLECTION;
 import static eu.europa.data.health.access.Constants.COMPLY_WITH_DATA_MINIMISATION_PRINCIPLE;
 import static eu.europa.data.health.access.Constants.COMPLY_WITH_DATA_MINIMISATION_PRINCIPLE_NOT_EU_MEMBER;
 import static eu.europa.data.health.access.Constants.DATASETS;
@@ -34,11 +34,12 @@ import static eu.europa.data.health.access.Constants.DATA_NEEDS_TO_BE_EXTRACTED_
 import static eu.europa.data.health.access.Constants.DATE_CREATED;
 import static eu.europa.data.health.access.Constants.DATE_MODIFIED;
 import static eu.europa.data.health.access.Constants.DELETION_CAN_NOT_BE_EXECUTED;
-import static eu.europa.data.health.access.Constants.DETAILS_OF_HOW_THE_STUDY_HAS_BEEN_FORMED;
 import static eu.europa.data.health.access.Constants.DISTRIBUTIONS;
 import static eu.europa.data.health.access.Constants.DISTRIBUTION_ID;
 import static eu.europa.data.health.access.Constants.FORM;
 import static eu.europa.data.health.access.Constants.FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA;
+import static eu.europa.data.health.access.Constants.HAS_THE_GROUP_RELATIVES_FORMED_2;
+import static eu.europa.data.health.access.Constants.HAS_THE_GROUP_RELATIVES_FORMED_3;
 import static eu.europa.data.health.access.Constants.HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS;
 import static eu.europa.data.health.access.Constants.ID;
 import static eu.europa.data.health.access.Constants.INFORMATION_PROVIDER_EMAIL;
@@ -55,14 +56,6 @@ import static eu.europa.data.health.access.Constants.LEGAL_BASIS_FOR_TRANSFERRIN
 import static eu.europa.data.health.access.Constants.LEGAL_OR_NATURAL_PERSON;
 import static eu.europa.data.health.access.Constants.NEED_FOR_DATA_EXTRACTION_EVERY;
 import static eu.europa.data.health.access.Constants.OTHER_PERMIT_APPLICATIONS;
-import static eu.europa.data.health.access.Constants.PERSON_RESEARCH_AFFILIATION;
-import static eu.europa.data.health.access.Constants.PERSON_RESEARCH_JOB_TITLE;
-import static eu.europa.data.health.access.Constants.PERSON_RESEARCH_NAME;
-import static eu.europa.data.health.access.Constants.PERSON_RESEARCH_SAME_AS_CONTACT_PERSON;
-import static eu.europa.data.health.access.Constants.PERSON_RESPONSIBLE_AFFILIATION;
-import static eu.europa.data.health.access.Constants.PERSON_RESPONSIBLE_JOB_TITLE;
-import static eu.europa.data.health.access.Constants.PERSON_RESPONSIBLE_NAME;
-import static eu.europa.data.health.access.Constants.PERSON_RESPONSIBLE_SAME_AS_CONTACT_PERSON;
 import static eu.europa.data.health.access.Constants.PROVIDED_APPLICATION_ID;
 import static eu.europa.data.health.access.Constants.PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS;
 import static eu.europa.data.health.access.Constants.PURPOSE_FOR_WHICH_DATA_WILL_BE_USED;
@@ -99,8 +92,13 @@ import static eu.europa.data.health.access.Constants.WILL_THE_DATA_BE_TRANSFERRE
 
 import com.fasterxml.jackson.databind.JsonNode;
 import eu.europa.data.health.access.ApplicationStatus;
+import eu.europa.data.health.access.AuditLogAction;
+import eu.europa.data.health.access.AuditLogActionDescription;
+import eu.europa.data.health.access.AuditLogObject;
+import eu.europa.data.health.access.Context;
 import eu.europa.data.health.access.Sections;
 import eu.europa.data.health.access.dto.SectionDTO;
+import eu.europa.data.health.access.dto.data_access.Section7DTO;
 import eu.europa.data.health.access.handlers.DBHandler;
 import eu.europa.data.health.access.validations.business_validators.DataAccessApplicationBusinessValidationManager;
 import eu.europa.data.health.access.validations.validators.DataAccessApplicationValidationManager;
@@ -118,6 +116,11 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -129,10 +132,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DataAccessApplicationManager extends CommonApplicationManager {
 
@@ -144,6 +143,8 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
   private final DataAccessApplicationBusinessValidationManager dataAccessApplicationBusinessValidationManager;
 
+  private final AuditLogManager auditLogManager;
+
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   /**
@@ -152,12 +153,14 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
   public DataAccessApplicationManager(DBHandler dbHandler, MongoClient mongoClient,
     BasketManager basketManager, HubStoreClient hubStoreClient, Vertx vertx,
     DataAccessApplicationValidationManager dataAccessApplicationValidationManager,
-    DataAccessApplicationBusinessValidationManager dataAccessApplicationBusinessValidationManager) {
-    super(dbHandler, basketManager, mongoClient, vertx, hubStoreClient);
+    DataAccessApplicationBusinessValidationManager dataAccessApplicationBusinessValidationManager,
+    AuditLogManager auditLogManager) {
+    super(dbHandler, basketManager, mongoClient, vertx, hubStoreClient, auditLogManager);
     this.dbHandler = dbHandler;
     this.mongoClient = mongoClient;
     this.dataAccessApplicationValidationManager = dataAccessApplicationValidationManager;
     this.dataAccessApplicationBusinessValidationManager = dataAccessApplicationBusinessValidationManager;
+    this.auditLogManager = auditLogManager;
   }
 
   /**
@@ -192,8 +195,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
     super.getEntity(context, DATA_ACCESS_APPLICATION_COLLECTION, pageSize, pageLimit,
       StringUtils.isNotEmpty(sortByString) ? sortByString : DATE_CREATED,
-      StringUtils.isNotEmpty(sortOrderString) ? sortOrderString : "desc",
-      status);
+      StringUtils.isNotEmpty(sortOrderString) ? sortOrderString : "desc", status);
   }
 
   /**
@@ -214,7 +216,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
    * Delete a Document by field ID for the Data Access Application collection.
    */
   public void deleteDataAccessApplicationById(@NotNull RoutingContext context) {
-    deleteDataAccessApplicationById(context, DATA_ACCESS_APPLICATION_COLLECTION);
+    deleteApplicationById(context, DATA_ACCESS_APPLICATION_COLLECTION);
   }
 
   /**
@@ -230,35 +232,32 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     JsonArray updatedApplications = new JsonArray();
 
     // A composition of all the asynchronous operations in order to perform one by one the updates of the applications
-    CompositeFuture.all(updateApplicationsAsync(context))
-      .onComplete(ar -> {
-        if (ar.succeeded()) {
-          log.info(DATA_ACCESS_APPLICATION_COLLECTION
-            + "All update application operations have been completed successfully");
+    CompositeFuture.all(updateApplicationsAsync(context)).onComplete(ar -> {
+      if (ar.succeeded()) {
+        log.info(DATA_ACCESS_APPLICATION_COLLECTION
+          + " All update application operations have been completed successfully");
 
-          // Access the results of each operation
-          for (Object updatedApplication : ar.result().list()) {
+        // Access the results of each operation
+        for (Object updatedApplication : ar.result().list()) {
 
-            if (updatedApplication != null && !((JsonObject) updatedApplication).isEmpty()) {
-              updatedApplications.add(updatedApplication);
-            } else {
-              log.info(DATA_ACCESS_APPLICATION_COLLECTION
-                + "Application returned was null");
-            }
+          if (updatedApplication != null && !((JsonObject) updatedApplication).isEmpty()) {
+            updatedApplications.add(updatedApplication);
+          } else {
+            log.info(DATA_ACCESS_APPLICATION_COLLECTION + "Application returned was null");
           }
-        } else {
-          log.info(DATA_ACCESS_APPLICATION_COLLECTION
-            + "Some operations have failed");
         }
+      } else {
+        log.info(DATA_ACCESS_APPLICATION_COLLECTION + "Some operations have failed");
+      }
 
-        // Setup the context response containing all the updated applications
-        if (updatedApplications.isEmpty()) {
-          setUpContextResponse(context, HttpResponseStatus.NO_CONTENT);
-        } else {
-          setUpContextResponse(context, HttpResponseStatus.OK, updatedApplications.encode());
-        }
+      // Setup the context response containing all the updated applications
+      if (updatedApplications.isEmpty()) {
+        setUpContextResponse(context, HttpResponseStatus.NO_CONTENT);
+      } else {
+        setUpContextResponse(context, HttpResponseStatus.OK, updatedApplications.encode());
+      }
 
-      });
+    });
   }
 
   /**
@@ -268,7 +267,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
     // Get the application id
     JsonObject query = new JsonObject().put(ID, context.pathParam(APPLICATION_ID));
-    query.put(USER_ID, getUserId(context));
+    query.put(USER_ID, Context.getEcasId(context));
     // Search in database based on the provided application id and user Id
     mongoClient.findOne(DATA_ACCESS_APPLICATION_COLLECTION, query, null, ar -> {
       if (ar.succeeded()) {
@@ -283,9 +282,8 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
             JsonArray requestContent = context.body().asJsonArray();
             AtomicBoolean applicationModified = new AtomicBoolean(false);
             requestContent.forEach(requestDataset -> {
-              String requestDatasetId = ((JsonObject) requestDataset).getString(
-                DATASET_ID);
-              if (deleteApplicationDataset(mongoApplication, requestDatasetId)) {
+              String requestDatasetId = ((JsonObject) requestDataset).getString(DATASET_ID);
+              if (deleteApplicationDataset(mongoApplication, requestDatasetId, context)) {
                 applicationModified.set(true);
               }
             });
@@ -320,7 +318,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
     // Get the application id
     JsonObject query = new JsonObject().put(ID, context.pathParam(APPLICATION_ID));
-    query.put(USER_ID, getUserId(context));
+    query.put(USER_ID, Context.getEcasId(context));
     // Search in database based on the provided application id and user Id
     mongoClient.findOne(DATA_ACCESS_APPLICATION_COLLECTION, query, null, ar -> {
       if (ar.succeeded()) {
@@ -339,7 +337,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
               String requestDistributionId = ((JsonObject) datasetDistributionCombo).getString(
                 DISTRIBUTION_ID);
               deleteApplicationDatasetDistribution(mongoApplication, requestDatasetId,
-                requestDistributionId);
+                requestDistributionId, context);
 
             });
             replaceApplication(mongoApplication);
@@ -362,8 +360,8 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     });
   }
 
-  private boolean deleteApplicationDataset(JsonObject mongoApplication,
-    String requestDatasetId) {
+  boolean deleteApplicationDataset(JsonObject mongoApplication, String requestDatasetId,
+    @NotNull RoutingContext context) {
     // Loop every dataset to check if provided dataset id is contained
     JsonArray mongoDatasets = mongoApplication.getJsonArray(DATASETS);
     boolean modified = false;
@@ -374,9 +372,24 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
       if (datasetObj instanceof JsonObject mongoDataset && mongoDataset.getString(DATASET_ID)
         .equals(requestDatasetId)) {
         if (mongoDatasets.size() == 1) {
-          JsonObject deleteById = new JsonObject().put(ID,
-            mongoApplication.getValue(ID));
+          JsonObject deleteById = new JsonObject().put(ID, mongoApplication.getValue(ID));
           dbHandler.deleteById(DATA_ACCESS_APPLICATION_COLLECTION, deleteById);
+
+          //Audit Log
+          dbHandler.updateLinkableFields(AUDIT_LOG_COLLECTION, mongoApplication.getString(ID));
+          JsonObject datasetObjJson = (JsonObject) datasetObj;
+          JsonArray distributions = datasetObjJson.getJsonArray("distributions");
+          String distributionsString = auditLogManager.extractDistributionIds(
+            distributions.toString());
+          String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+            AuditLogActionDescription.DATA_ACCESS_APPLICATION_DISCARDED.getString(),
+            mongoApplication.getString(ID), mongoApplication.getString(TITLE),
+            datasetObjJson.getString(DATASET_ID), distributionsString);
+          auditLogManager.insertAuditLog(AuditLogObject.DATA_ACCESS_APPLICATION.getString(),
+            mongoApplication.getString(ID),
+            AuditLogAction.DATA_ACCESS_APPLICATION_DISCARDED.getString(), auditLogActionDescription,
+            false, context);
+
           return false;
         } else {
           datasetIterator.remove();
@@ -384,14 +397,27 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
           // If dataset removed, delete section6 too.
           deleteSection6ByDataset(mongoApplication, mongoDataset.getString("catalog_id"));
+
+          //Audit Log
+          JsonObject datasetObjJson = (JsonObject) datasetObj;
+          JsonArray distributions = datasetObjJson.getJsonArray("distributions");
+          String distributionsString = auditLogManager.extractDistributionIds(
+            distributions.toString());
+          String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+            AuditLogActionDescription.DATA_ACCESS_APPLICATION_DATASET_DELETED.getString(),
+            datasetObjJson.getString(DATASET_ID), distributionsString,
+            mongoApplication.getString(ID), mongoApplication.getString(TITLE));
+          auditLogManager.insertAuditLog(AuditLogObject.DATA_ACCESS_APPLICATION.getString(),
+            mongoApplication.getString(ID), AuditLogAction.DATASET_DELETED.getString(),
+            auditLogActionDescription, true, context);
         }
       }
     }
     return modified;
   }
 
-  private void deleteApplicationDatasetDistribution(JsonObject mongoApplication,
-    String requestDatasetId, String requestDistributionId) {
+  void deleteApplicationDatasetDistribution(JsonObject mongoApplication, String requestDatasetId,
+    String requestDistributionId, @NotNull RoutingContext context) {
     // Loop every dataset to check if provided dataset id is contained
     JsonArray mongoDatasets = mongoApplication.getJsonArray(DATASETS);
 
@@ -408,9 +434,21 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
             && mongoDistribution.getString(DISTRIBUTION_ID).equals(requestDistributionId)) {
             if (mongoDistributions.size() == 1) {
               if (mongoDatasets.size() == 1) {
-                JsonObject deleteById = new JsonObject().put(ID,
-                  mongoApplication.getValue(ID));
+                JsonObject deleteById = new JsonObject().put(ID, mongoApplication.getValue(ID));
                 dbHandler.deleteById(DATA_ACCESS_APPLICATION_COLLECTION, deleteById);
+
+                //Audit Log
+                dbHandler.updateLinkableFields(AUDIT_LOG_COLLECTION,
+                  mongoApplication.getString(ID));
+                String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+                  AuditLogActionDescription.DATA_ACCESS_APPLICATION_DISCARDED.getString(),
+                  mongoApplication.getString(ID), mongoApplication.getString(TITLE),
+                  requestDatasetId, requestDistributionId);
+                auditLogManager.insertAuditLog(AuditLogObject.DATA_ACCESS_APPLICATION.getString(),
+                  mongoApplication.getString(ID),
+                  AuditLogAction.DATA_ACCESS_APPLICATION_DISCARDED.getString(),
+                  auditLogActionDescription, false, context);
+
                 return;
               } else {
                 datasetIterator.remove();
@@ -418,10 +456,28 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
                 // If  dataset removed, remove section 6 too.
                 deleteSection6ByDataset(mongoApplication, mongoDataset.getString("catalog_id"));
+
+                //Audit Log
+                String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+                  AuditLogActionDescription.DATA_ACCESS_APPLICATION_DATASET_DELETED.getString(),
+                  requestDatasetId, requestDistributionId, mongoApplication.getString(ID),
+                  mongoApplication.getString(TITLE));
+                auditLogManager.insertAuditLog(AuditLogObject.DATA_ACCESS_APPLICATION.getString(),
+                  mongoApplication.getString(ID), AuditLogAction.DATASET_DELETED.getString(),
+                  auditLogActionDescription, true, context);
               }
             } else {
               distributionIterator.remove();
               mongoApplication.put(DATE_MODIFIED, Instant.now());
+
+              //Audit Log
+              String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+                AuditLogActionDescription.DATA_ACCESS_APPLICATION_DISTRIBUTION_DELETED.getString(),
+                requestDistributionId, requestDatasetId, mongoApplication.getString(ID),
+                mongoApplication.getString(TITLE));
+              auditLogManager.insertAuditLog(AuditLogObject.DATA_ACCESS_APPLICATION.getString(),
+                mongoApplication.getString(ID), AuditLogAction.DISTRIBUTION_DELETED.getString(),
+                auditLogActionDescription, true, context);
             }
           }
         }
@@ -436,7 +492,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
   public void getSection(@NotNull RoutingContext context) {
 
     JsonObject query = new JsonObject().put(ID, context.pathParam(APPLICATION_ID));
-    query.put(USER_ID, getUserId(context));
+    query.put(USER_ID, Context.getEcasId(context));
     String sectionNumber = SECTION + context.pathParam(SECTION_NUMBER);
 
     JsonObject sectionToRetrieve = new JsonObject().put(FORM + sectionNumber, 1);
@@ -473,7 +529,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     if ("SUBMITTED".equalsIgnoreCase(targetStatus)) {
 
       JsonObject query = new JsonObject().put(ID, applicationId);
-      query.put(USER_ID, getUserId(context));
+      query.put(USER_ID, Context.getEcasId(context));
       query.put("status.status", "DRAFT");
 
       JsonObject submittingStatus = new JsonObject().put("$set",
@@ -498,21 +554,27 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
               // Replace application and return result
               replaceApplication(mongoApplication).onSuccess(replaceResult -> {
-                auditLog(context.body().asJsonObject(), applicationId, APPLICATION_STATUS_CHANGED,
-                  context);
 
                 // If status is submitted then we need to add the application to the dispatcher table
                 ApplicationStatus requestStatus = ApplicationStatus.fromStatus(
                   mongoApplication.getJsonObject(STATUS).getString(STATUS));
-                if (ApplicationStatus.SUBMITTED.equals(requestStatus))
+                if (ApplicationStatus.SUBMITTED.equals(requestStatus)) {
                   sendApplicationForDispatch(mongoApplication, DATA_ACCESS_APPLICATION_COLLECTION);
 
+                  //Audit Log
+                  String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+                    AuditLogActionDescription.DATA_ACCESS_APPLICATION_SUBMITTED.getString(),
+                    applicationId, mongoApplication.getString(TITLE));
+                  auditLogManager.insertAuditLog(AuditLogObject.DATA_ACCESS_APPLICATION.getString(),
+                    applicationId, AuditLogAction.DATA_ACCESS_APPLICATION_SUBMITTED.getString(),
+                    auditLogActionDescription, true, context);
+                }
                 setUpContextResponse(context, HttpResponseStatus.OK, replaceResult.encode());
               }).onFailure(fail -> {
-                  rollbackStatusToDraft(applicationId, DATA_ACCESS_APPLICATION_COLLECTION);
-                setUpMessageContextResponse(context,
-                  HttpResponseStatus.INTERNAL_SERVER_ERROR, fail.getMessage());
-                });
+                rollbackStatusToDraft(applicationId, DATA_ACCESS_APPLICATION_COLLECTION);
+                setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+                  fail.getMessage());
+              });
 
             } else {
               setUpMessageContextResponse(context, HttpResponseStatus.NOT_FOUND,
@@ -531,8 +593,8 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
   private boolean performBusinessValidation(JsonObject form, RoutingContext context) {
 
-    return dataAccessApplicationBusinessValidationManager.section4Validation(form, context) &&
-      dataAccessApplicationBusinessValidationManager.section8Validation(form, context);
+    return dataAccessApplicationBusinessValidationManager.section4Validation(form, context)
+      && dataAccessApplicationBusinessValidationManager.section8Validation(form, context);
   }
 
   private boolean performDTOValidation(JsonObject mongoApplication, RoutingContext context) {
@@ -571,6 +633,14 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
         // Validate SectionDTO
         Set<ConstraintViolation<SectionDTO>> violations = validator.validate(sectionDTO);
 
+        // provideInformationList is a dynamic list which is required based on condition
+        // remove violation from provideInformationList when the list is null
+        if (section.getSection().equals(SECTION_7)
+          && ((Section7DTO) sectionDTO).getProvideInformationList() == null) {
+          violations.removeIf(violation -> violation.getPropertyPath().toString()
+            .startsWith("provideInformationList"));
+        }
+
         if (!violations.isEmpty()) {
           setUpMessageContextResponse(context, HttpResponseStatus.FORBIDDEN,
             "Section errors exist at section: " + section.getSectionNumber()
@@ -604,13 +674,13 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
    * performed when application are on statuses draft or withdrawn. And withdrawn can be performed
    * only when application is on status submitted
    */
-  private boolean canChangeStatus(JsonObject requestStatusObject, JsonObject mongoApplication,
+  boolean canChangeStatus(JsonObject requestStatusObject, JsonObject mongoApplication,
     RoutingContext context) {
 
     String statusStr = requestStatusObject.getString(STATUS);
     if (!ApplicationStatus.isValid(statusStr)) {
-      setUpMessageContextResponse(context, HttpResponseStatus.FORBIDDEN, "Status cannot be "
-        + "updated: wrong status value");
+      setUpMessageContextResponse(context, HttpResponseStatus.FORBIDDEN,
+        "Status cannot be " + "updated: wrong status value");
       return false;
     }
 
@@ -619,8 +689,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
       mongoApplication.getJsonObject(STATUS).getString(STATUS));
     Map<ApplicationStatus, Set<ApplicationStatus>> allowStatuses = Map.of(
       ApplicationStatus.SUBMITTED, EnumSet.of(ApplicationStatus.DRAFT, ApplicationStatus.WITHDRAWN),
-      ApplicationStatus.WITHDRAWN, EnumSet.of(ApplicationStatus.SUBMITTED)
-    );
+      ApplicationStatus.WITHDRAWN, EnumSet.of(ApplicationStatus.SUBMITTED));
     boolean statusChangeAllowed = allowStatuses.getOrDefault(requestStatus, Collections.emptySet())
       .contains(mongoStatus);
 
@@ -630,20 +699,21 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
       statusChangeAllowed = performDTOValidation(mongoApplication, context);
       // If DTO's validations passed successfully, then we need to perform the business validations
       if (statusChangeAllowed) {
-        statusChangeAllowed = performBusinessValidation(mongoApplication.getJsonObject("form"),
-          context) && dataAccessApplicationBusinessValidationManager.validateCatalogs(
-          mongoApplication, context);
+        statusChangeAllowed =
+          performBusinessValidation(mongoApplication.getJsonObject("form"), context)
+            && dataAccessApplicationBusinessValidationManager.validateCatalogs(mongoApplication,
+            context);
       }
     } else {
-      setUpMessageContextResponse(context, HttpResponseStatus.FORBIDDEN, "Status cannot be "
-        + "updated: wrong flow");
+      setUpMessageContextResponse(context, HttpResponseStatus.FORBIDDEN,
+        "Status cannot be " + "updated: wrong flow");
       return false;
     }
 
     return statusChangeAllowed;
   }
 
-  private void performCleanUpForm(JsonObject mongoApplication) {
+  void performCleanUpForm(JsonObject mongoApplication) {
     cleanSection2(mongoApplication.getJsonObject("form"));
     cleanSection3(mongoApplication.getJsonObject("form"));
     cleanSection4(mongoApplication.getJsonObject("form"));
@@ -655,39 +725,13 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
   private void cleanSection5(JsonObject mongoApplicationForm) {
     JsonObject section5 = mongoApplicationForm.getJsonObject(SECTION_5);
-
-    JsonArray purposeOfUse = section5.getJsonArray("purposeOfUse");
-
-    if (notContainsSelectedValueWithoutSpecificValue(purposeOfUse)) {
-      section5.remove(PERSON_RESPONSIBLE_SAME_AS_CONTACT_PERSON);
-      section5.remove(PERSON_RESPONSIBLE_NAME);
-      section5.remove(PERSON_RESPONSIBLE_JOB_TITLE);
-      section5.remove(PERSON_RESPONSIBLE_AFFILIATION);
+    if (Objects.isNull(section5)) {
+      return;
     }
-
-    if (notContainsKey(purposeOfUse, "e")) {
-      section5.remove(PERSON_RESEARCH_SAME_AS_CONTACT_PERSON);
-      section5.remove(PERSON_RESEARCH_NAME);
-      section5.remove(PERSON_RESEARCH_JOB_TITLE);
-      section5.remove(PERSON_RESEARCH_AFFILIATION);
-    }
-
-    if (notContainsKey(purposeOfUse, "b")) {
-      section5.remove("legalBasis");
-      section5.remove("linkToTheSupportingLegalBasis");
-    }
-
-    if (notContainsSelectedValueWithoutSpecificValue(purposeOfUse)) {
-      section5.remove("summaryOfPlanForUsingTheData");
-    }
-
-    if (notContainsKey(purposeOfUse, "e")) {
-      section5.remove("summaryOfResearchPlan");
-    }
-
     JsonObject formatOfTheElectronicHealthData = section5.getJsonObject(
       FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA);
-    if (!Objects.equals(formatOfTheElectronicHealthData.getString("key"), "b")) {
+    if (Objects.nonNull(formatOfTheElectronicHealthData) && !Objects.equals(
+      formatOfTheElectronicHealthData.getString("key"), "b")) {
       section5.remove(IN_ORDER_TO_APPLY_PSEUDONYMISED_DATA_A);
       section5.remove(IN_ORDER_TO_APPLY_PSEUDONYMISED_DATA_B);
       section5.remove("whyNeedForPseudonymisation");
@@ -698,6 +742,9 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
   private void cleanSection6(JsonObject mongoApplicationForm) {
     JsonArray section6Array = mongoApplicationForm.getJsonArray(SECTION_6);
+    if (Objects.isNull(section6Array) || section6Array.isEmpty()) {
+      return;
+    }
 
     for (int i = 0; i < section6Array.size(); i++) {
 
@@ -705,32 +752,31 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
       JsonObject section = section6Array.getJsonObject(i);
       JsonObject howIsTheStudyCohortFormed = section.getJsonObject("howIsTheStudyCohortFormed");
 
-      if ((!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b")
-        && !Objects.equals(howIsTheStudyCohortFormed.getString("key"), "c"))) {
-        section.remove(DETAILS_OF_HOW_THE_STUDY_HAS_BEEN_FORMED);
-      }
-
       if (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b")) {
         section.remove(HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS);
       }
 
       JsonObject hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants = section.getJsonObject(
         HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS);
-      if (!Objects.equals(
-        howIsTheStudyCohortFormed.getString("key"), "b") || !Objects.equals(
-        hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants.getString("key"),
-        "a")) {
+      if (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") || !Objects.equals(
+        hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants.getString("key"), "a")) {
         section.remove("doesTheInformedConsentCoverTheRequestedRegistryExtractions");
         section.remove("consentAndInformationLetterAttachment");
         section.remove("confirmThatDataPermitHasBeenGrantedForTheResearchProject");
-        section.remove("idOfTheDataPermit");
         section.remove("permitDecisionAttachment");
       }
 
-      if (!Objects.equals(
-        howIsTheStudyCohortFormed.getString("key"), "b") || !Objects.equals(
-        hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants.getString("key"),
-        "b")) {
+      if ((!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(
+        howIsTheStudyCohortFormed.getString("key"), "c"))) {
+        section.remove("previouslyIssuedPermitIssuer1");
+        section.remove("previouslyIssuedPermitDate1");
+        section.remove("previouslyIssuedPermitValidityPeriodFrom1");
+        section.remove("previouslyIssuedPermitValidityPeriodTo1");
+        section.remove("previouslyIssuedPermitNumber1");
+      }
+
+      if (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") || !Objects.equals(
+        hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants.getString("key"), "b")) {
         section.remove("howTheStudyCohortWasObtained");
       }
 
@@ -755,8 +801,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
         section.remove(INFORMATION_PROVIDER_PHONE);
       }
 
-      if (!Objects.equals(
-        howIsTheStudyCohortFormed.getString("key"), "d")) {
+      if (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "d")) {
         section.remove("whyNeedDataOfaWholePopulation");
       }
 
@@ -777,14 +822,24 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
         section.remove(NEED_FOR_DATA_EXTRACTION_EVERY);
       }
 
-      JsonObject needForDataExtractionEvery = section.getJsonObject(
-        NEED_FOR_DATA_EXTRACTION_EVERY);
+      JsonObject needForDataExtractionEvery = section.getJsonObject(NEED_FOR_DATA_EXTRACTION_EVERY);
       if (!Objects.equals(howOftenDoesTheDataNeedToBeExtracted.getString("key"), "b")
         || !Objects.equals(needForDataExtractionEvery.getString("key"), "d")) {
         section.remove("needForDataExtractionEveryOther");
       }
 
       //SECTION 6_2
+
+      JsonObject hasTheGroupRelativesFormed2 = section.getJsonObject(
+        HAS_THE_GROUP_RELATIVES_FORMED_2);
+
+      if (!Objects.equals(hasTheGroupRelativesFormed2.getString("key"), "a")) {
+        section.remove("previouslyIssuedPermitIssuer2");
+        section.remove("previouslyIssuedPermitDate2");
+        section.remove("previouslyIssuedPermitValidityPeriodFrom2");
+        section.remove("previouslyIssuedPermitValidityPeriodTo2");
+        section.remove("previouslyIssuedPermitNumber2");
+      }
 
       JsonObject willControlsBeExtracted = section.getJsonObject(WILL_CONTROLS_BE_EXTRACTED);
       if (!Objects.equals(willControlsBeExtracted.getString("key"), "a")) {
@@ -796,22 +851,15 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
         section.remove("sizeOfControlGroup");
         section.remove("sizeOfControlGroupEstimationOrExact");
         section.remove("controlsPerPersonInStudyCohort");
-        section.remove("inclusionCriteriaForControls");
         section.remove("exclusionCriteriaForControls");
-        section.remove("previouslyIssuedPermitIssuer");
-        section.remove("previouslyIssuedPermitDate");
-        section.remove("previouslyIssuedPermitValidityPeriodFrom");
-        section.remove("previouslyIssuedPermitValidityPeriodTo");
-        section.remove("previouslyIssuedPermitNumber");
         section.remove(WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY);
-        section.remove("previouslyIssuedPermitValidityPeriodFrom");
         section.remove(DATA_EXTRACTION_FREQUENCY);
         section.remove(DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION);
         section.remove(DATA_NEEDS_TO_BE_EXTRACTED_EVERY);
         section.remove(SPECIFY_OTHER);
         section.remove("moreInfoOnExtractionPeriods");
         section.remove("orderOfControlsDataExtraction");
-      }else {
+      } else {
         JsonObject willSameDataBeExtractedForControls = section.getJsonObject(
           WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS);
         if (!Objects.equals(willSameDataBeExtractedForControls.getString("key"), "b")) {
@@ -821,10 +869,9 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
           section.remove("extractionCriteriaForControls");
         }
 
-        JsonObject willDataForControlsBeExtractedSimultaneously =
-          section.getJsonObject(WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY);
-        if (!Objects.equals(
-          willDataForControlsBeExtractedSimultaneously.getString("key"), "b")) {
+        JsonObject willDataForControlsBeExtractedSimultaneously = section.getJsonObject(
+          WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY);
+        if (!Objects.equals(willDataForControlsBeExtractedSimultaneously.getString("key"), "b")) {
 
           section.remove(DATA_EXTRACTION_FREQUENCY);
           section.remove(DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION);
@@ -832,18 +879,17 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
           section.remove(SPECIFY_OTHER);
           section.remove("moreInfoOnExtractionPeriods");
           section.remove("orderOfControlsDataExtraction");
-        }else {
-          JsonObject dataExtractionFrequency =
-            section.getJsonObject(DATA_EXTRACTION_FREQUENCY);
-          if (!Objects.equals(dataExtractionFrequency.getString("key"), "b")){
+        } else {
+          JsonObject dataExtractionFrequency = section.getJsonObject(DATA_EXTRACTION_FREQUENCY);
+          if (!Objects.equals(dataExtractionFrequency.getString("key"), "b")) {
             section.remove(DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION);
             section.remove(DATA_NEEDS_TO_BE_EXTRACTED_EVERY);
           }
 
-          JsonObject dataNeedsToBeExtractedEvery =
-            section.getJsonObject(DATA_NEEDS_TO_BE_EXTRACTED_EVERY);
-          if (!Objects.equals(dataExtractionFrequency.getString("key"), "b") ||
-            !Objects.equals(dataNeedsToBeExtractedEvery.getString("key"), "d") ){
+          JsonObject dataNeedsToBeExtractedEvery = section.getJsonObject(
+            DATA_NEEDS_TO_BE_EXTRACTED_EVERY);
+          if (!Objects.equals(dataExtractionFrequency.getString("key"), "b") || !Objects.equals(
+            dataNeedsToBeExtractedEvery.getString("key"), "d")) {
             section.remove(SPECIFY_OTHER);
           }
         }
@@ -851,15 +897,24 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
       //SECTION 6_3
 
+      JsonObject hasTheGroupRelativesFormed3 = section.getJsonObject(
+        HAS_THE_GROUP_RELATIVES_FORMED_3);
+
+      if (!Objects.equals(hasTheGroupRelativesFormed3.getString("key"), "a")) {
+        section.remove("previouslyIssuedPermitIssuer3");
+        section.remove("previouslyIssuedPermitDate3");
+        section.remove("previouslyIssuedPermitValidityPeriodFrom3");
+        section.remove("previouslyIssuedPermitValidityPeriodTo3");
+        section.remove("previouslyIssuedPermitNumber3");
+      }
+
       JsonObject willRelativesBeExtracted = section.getJsonObject(WILL_RELATIVES_BE_EXTRACTED);
 
-      if (!Objects.equals(willRelativesBeExtracted.getString("key"),
-        "a")){
+      if (!Objects.equals(willRelativesBeExtracted.getString("key"), "a")) {
         section.remove("willSameDataBeExtractedForRelatives");
         section.remove("variablesForDataExtractionRelatives");
         section.remove("timePeriodForDataExtractionRelatives");
         section.remove("relationshipToStudyCohort");
-        section.remove("previouslyIssuedPermitIssuerRelatives");
         section.remove("sizeOfRelativesGroup");
         section.remove("sizeOfRelativesGroupEstimateOrExact");
         section.remove("willDataForRelativesBeExtractedSimultaneously");
@@ -869,31 +924,33 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
         section.remove(SPECIFY_OTHER_RELATIVES);
         section.remove("moreInfoOnExtractionPeriodsRelatives");
         section.remove("orderOfRelativesDataExtraction");
-      }else {
-        JsonObject willSameDataBeExtractedForRelatives = section.getJsonObject("willSameDataBeExtractedForRelatives");
-        if(!Objects.equals(willSameDataBeExtractedForRelatives.getString("key"),
-          "b")){
+      } else {
+        JsonObject willSameDataBeExtractedForRelatives = section.getJsonObject(
+          "willSameDataBeExtractedForRelatives");
+        if (!Objects.equals(willSameDataBeExtractedForRelatives.getString("key"), "b")) {
           section.remove("variablesForDataExtractionRelatives");
           section.remove("timePeriodForDataExtractionRelatives");
           section.remove("relationshipToStudyCohort");
         }
 
-        JsonObject willDataForRelativesBeExtractedSimultaneously = section.getJsonObject("willDataForRelativesBeExtractedSimultaneously");
-        if(!Objects.equals(willDataForRelativesBeExtractedSimultaneously.getString("key"),
-          "b")){
+        JsonObject willDataForRelativesBeExtractedSimultaneously = section.getJsonObject(
+          "willDataForRelativesBeExtractedSimultaneously");
+        if (!Objects.equals(willDataForRelativesBeExtractedSimultaneously.getString("key"), "b")) {
           section.remove(DATA_EXTRACTION_FREQUENCY_RELATIVES);
           section.remove(DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION_RELATIVES1);
           section.remove(DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES);
           section.remove(SPECIFY_OTHER_RELATIVES);
-        }else {
-          JsonObject dataExtractionFrequencyRelatives = section.getJsonObject(DATA_EXTRACTION_FREQUENCY_RELATIVES);
-          if(!Objects.equals(dataExtractionFrequencyRelatives.getString("key"), "b")){
+        } else {
+          JsonObject dataExtractionFrequencyRelatives = section.getJsonObject(
+            DATA_EXTRACTION_FREQUENCY_RELATIVES);
+          if (!Objects.equals(dataExtractionFrequencyRelatives.getString("key"), "b")) {
             section.remove(DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION_RELATIVES1);
             section.remove(DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES);
             section.remove(SPECIFY_OTHER_RELATIVES);
-          }else {
-            JsonObject dataNeedsToBeExtractedEveryRelatives = section.getJsonObject(DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES);
-            if(!Objects.equals(dataNeedsToBeExtractedEveryRelatives.getString("key"), "d")){
+          } else {
+            JsonObject dataNeedsToBeExtractedEveryRelatives = section.getJsonObject(
+              DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES);
+            if (!Objects.equals(dataNeedsToBeExtractedEveryRelatives.getString("key"), "d")) {
               section.remove(SPECIFY_OTHER_RELATIVES);
             }
           }
@@ -907,6 +964,9 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
   private void cleanSection7(JsonObject mongoApplicationForm) {
     JsonObject section7 = mongoApplicationForm.getJsonObject(SECTION_7);
+    if (Objects.isNull(section7)) {
+      return;
+    }
 
     JsonObject willDataBeCombinedWithDataObtained = section7.getJsonObject(
       WILL_DATA_BE_COMBINED_WITH_DATA_OBTAINED);
@@ -916,11 +976,12 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
       section7.remove("combinedDataHolders");
       section7.remove("combinedDatabaseRegistries");
       section7.remove("combinedDatasetsRegistries");
-      section7.remove("providedInformationOnDataCombined");
+      section7.remove("provideInformationList");
     }
 
     JsonObject otherPermitApplications = section7.getJsonObject(OTHER_PERMIT_APPLICATIONS);
-    if (!Objects.equals(otherPermitApplications.getString("key"), "a")) {
+    if (Objects.nonNull(otherPermitApplications) && !Objects.equals(
+      otherPermitApplications.getString("key"), "a")) {
       section7.remove("dateOfSubmittingTheApplication");
       section7.remove("applicationIssuer");
       section7.remove("identificationCode");
@@ -935,14 +996,17 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     JsonObject section5 = mongoApplicationForm.getJsonObject(SECTION_5);
     JsonObject section7 = mongoApplicationForm.getJsonObject(SECTION_7);
     JsonObject section8 = mongoApplicationForm.getJsonObject(SECTION_8);
+    if (Objects.isNull(section8)) {
+      return;
+    }
 
     JsonObject whenDataNeeded = section8.getJsonObject(WHEN_DATA_NEEDED);
-    if (!Objects.equals(whenDataNeeded.getString("key"), "b")) {
+    if (Objects.nonNull(whenDataNeeded) && !Objects.equals(whenDataNeeded.getString("key"), "b")) {
       section8.remove("ifLaterWhen");
     }
 
-    JsonObject applyingForDataOnBehalfOfPublicSector =
-      section3.getJsonObject(APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR);
+    JsonObject applyingForDataOnBehalfOfPublicSector = section3.getJsonObject(
+      APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR);
     if ("b".equals(applyingForDataOnBehalfOfPublicSector.getString("key"))) {
       section8.remove("informationWhichDataCanAccess");
       section8.remove("frequencyOfAccessOrDataUpdates");
@@ -953,14 +1017,14 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     }
 
     JsonObject willTheDataBeTransferred = section8.getJsonObject(WILL_THE_DATA_BE_TRANSFERRED);
-    if (!Objects.equals(willTheDataBeTransferred.getString("key"), "a")) {
+    if (Objects.nonNull(willTheDataBeTransferred) && !Objects.equals(
+      willTheDataBeTransferred.getString("key"), "a")) {
       section8.remove("whichCountriesDataBeProcessed");
       section8.remove(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_47);
 
       boolean isWhyWillDataBeTransferredOutsideEUArticle47 =
         section8.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_47)
-          && section8.getBoolean(
-          WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_47, false);
+          && section8.getBoolean(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_47, false);
       if (!isWhyWillDataBeTransferredOutsideEUArticle47) {
         section8.remove("whyWillDataBeTransferredOutsideEUArticle47Options");
       }
@@ -969,8 +1033,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
       boolean isWhyWillDataBeTransferredOutsideEUArticle48 =
         section8.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48)
-          && section8.getBoolean(
-          WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48, false);
+          && section8.getBoolean(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48, false);
 
       if (!isWhyWillDataBeTransferredOutsideEUArticle48) {
         section8.remove("whyWillDataBeTransferredOutsideEUArticle48a");
@@ -978,8 +1041,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
         boolean isWhyWillDataBeTransferredOutsideEUArticle48b =
           section8.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B)
-            && section8.getBoolean(
-            WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B, false);
+            && section8.getBoolean(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B, false);
 
         if (!isWhyWillDataBeTransferredOutsideEUArticle48b) {
           section8.remove(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B_OPT);
@@ -988,8 +1050,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
         boolean isWhyWillDataBeTransferredOutsideEUArticle48C =
           section8.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C)
-            && section8.getBoolean(
-            WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C, false);
+            && section8.getBoolean(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C, false);
 
         if (!isWhyWillDataBeTransferredOutsideEUArticle48C) {
           section8.remove(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C_OPT);
@@ -999,8 +1060,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
       } else {
         boolean isWhyWillDataBeTransferredOutsideEUArticle48b =
           section8.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B)
-            && section8.getBoolean(
-            WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B, false);
+            && section8.getBoolean(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B, false);
 
         if (!isWhyWillDataBeTransferredOutsideEUArticle48b) {
           section8.remove(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B_OPT);
@@ -1008,8 +1068,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
         boolean isWhyWillDataBeTransferredOutsideEUArticle48C =
           section8.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C)
-            && section8.getBoolean(
-            WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C, false);
+            && section8.getBoolean(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C, false);
 
         if (!isWhyWillDataBeTransferredOutsideEUArticle48C) {
           section8.remove(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C_OPT);
@@ -1021,10 +1080,12 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
       JsonObject legalBasisForTransferringTheDataOutsideEU = section8.getJsonObject(
         LEGAL_BASIS_FOR_TRANSFERRING_THE_DATA_OUTSIDE_EU);
 
-      if (Objects.nonNull(legalBasisForTransferringTheDataOutsideEU) && !Objects.equals(legalBasisForTransferringTheDataOutsideEU.getString("key"), "c")) {
+      if (Objects.nonNull(legalBasisForTransferringTheDataOutsideEU) && !Objects.equals(
+        legalBasisForTransferringTheDataOutsideEU.getString("key"), "c")) {
         section8.remove("legalBasisForTransferringTheDataOutsideEUOtherOptions");
       }
-      if (Objects.nonNull(legalBasisForTransferringTheDataOutsideEU) && !Objects.equals(legalBasisForTransferringTheDataOutsideEU.getString("key"), "b")) {
+      if (Objects.nonNull(legalBasisForTransferringTheDataOutsideEU) && !Objects.equals(
+        legalBasisForTransferringTheDataOutsideEU.getString("key"), "b")) {
         section8.remove("safeguardsAreProvidedByReferringGDCP");
       }
 
@@ -1036,16 +1097,14 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     } else {
       boolean isWhyWillDataBeTransferredOutsideEUArticle47 =
         section8.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_47)
-          && section8.getBoolean(
-          WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_47, false);
+          && section8.getBoolean(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_47, false);
       if (!isWhyWillDataBeTransferredOutsideEUArticle47) {
         section8.remove("whyWillDataBeTransferredOutsideEUArticle47Options");
       }
 
       boolean isWhyWillDataBeTransferredOutsideEUArticle48 =
         section8.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48)
-          && section8.getBoolean(
-          WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48, false);
+          && section8.getBoolean(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48, false);
 
       if (!isWhyWillDataBeTransferredOutsideEUArticle48) {
         section8.remove("whyWillDataBeTransferredOutsideEUArticle48a");
@@ -1053,8 +1112,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
         boolean isWhyWillDataBeTransferredOutsideEUArticle48b =
           section8.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B)
-            && section8.getBoolean(
-            WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B, false);
+            && section8.getBoolean(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B, false);
 
         if (!isWhyWillDataBeTransferredOutsideEUArticle48b) {
           section8.remove(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B_OPT);
@@ -1063,8 +1121,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
         boolean isWhyWillDataBeTransferredOutsideEUArticle48C =
           section8.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C)
-            && section8.getBoolean(
-            WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C, false);
+            && section8.getBoolean(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C, false);
 
         if (!isWhyWillDataBeTransferredOutsideEUArticle48C) {
           section8.remove(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C_OPT);
@@ -1074,8 +1131,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
       } else {
         boolean isWhyWillDataBeTransferredOutsideEUArticle48b =
           section8.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B)
-            && section8.getBoolean(
-            WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B, false);
+            && section8.getBoolean(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B, false);
 
         if (!isWhyWillDataBeTransferredOutsideEUArticle48b) {
           section8.remove(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B_OPT);
@@ -1083,8 +1139,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
         boolean isWhyWillDataBeTransferredOutsideEUArticle48C =
           section8.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C)
-            && section8.getBoolean(
-            WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C, false);
+            && section8.getBoolean(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C, false);
 
         if (!isWhyWillDataBeTransferredOutsideEUArticle48C) {
           section8.remove(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C_OPT);
@@ -1094,10 +1149,12 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
       JsonObject legalBasisForTransferringTheDataOutsideEU = section8.getJsonObject(
         LEGAL_BASIS_FOR_TRANSFERRING_THE_DATA_OUTSIDE_EU);
 
-      if (Objects.nonNull(legalBasisForTransferringTheDataOutsideEU) && !Objects.equals(legalBasisForTransferringTheDataOutsideEU.getString("key"), "c")) {
+      if (Objects.nonNull(legalBasisForTransferringTheDataOutsideEU) && !Objects.equals(
+        legalBasisForTransferringTheDataOutsideEU.getString("key"), "c")) {
         section8.remove("legalBasisForTransferringTheDataOutsideEUOtherOptions");
       }
-      if (Objects.nonNull(legalBasisForTransferringTheDataOutsideEU) && !Objects.equals(legalBasisForTransferringTheDataOutsideEU.getString("key"), "b")) {
+      if (Objects.nonNull(legalBasisForTransferringTheDataOutsideEU) && !Objects.equals(
+        legalBasisForTransferringTheDataOutsideEU.getString("key"), "b")) {
         section8.remove("safeguardsAreProvidedByReferringGDCP");
       }
 
@@ -1115,66 +1172,66 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
         section8.remove("lawfulForProcessingPersonalData");
       }
 
-      if (!"b".equals(applyingForDataOnBehalfOfPublicSector.getString("key"))) {
-        section8.remove(LEGAL_BASIS_FOR_PROCESSING_PERSONAL_DATA);
-      }
-
       JsonArray legalBasisForProcessingPersonalData = section8.getJsonArray(
         LEGAL_BASIS_FOR_PROCESSING_PERSONAL_DATA);
-      if (notContainsKey(legalBasisForProcessingPersonalData, "c") ||
-        !"b".equals(applyingForDataOnBehalfOfPublicSector.getString("key"))) {
+      if (Objects.nonNull(legalBasisForProcessingPersonalData) && (
+        notContainsKey(legalBasisForProcessingPersonalData, "c") || !"b".equals(
+          applyingForDataOnBehalfOfPublicSector.getString("key")))) {
         section8.remove("otherLegalBasisForProcessingPersonalData");
+      }
+
+      if (!"b".equals(applyingForDataOnBehalfOfPublicSector.getString("key"))) {
+        section8.remove(LEGAL_BASIS_FOR_PROCESSING_PERSONAL_DATA);
       }
 
       JsonObject willDataBeCombinedWithDataObtained = section7.getJsonObject(
         WILL_DATA_BE_COMBINED_WITH_DATA_OBTAINED);
 
-      if (!"a".equals(willDataBeCombinedWithDataObtained.getString("key"))
-        || !"b".equals(applyingForDataOnBehalfOfPublicSector.getString("key"))) {
-        section8.remove(LEGAL_BASIS_FOR_PROCESSING_COMBINED_DATA);
-
+      if (!"a".equals(willDataBeCombinedWithDataObtained.getString("key")) || !"b".equals(
+        applyingForDataOnBehalfOfPublicSector.getString("key"))) {
         JsonArray legalBasisForProcessingCombinedData = section8.getJsonArray(
           LEGAL_BASIS_FOR_PROCESSING_COMBINED_DATA);
-        if (notContainsKey(legalBasisForProcessingCombinedData, "b")) {
+        if (Objects.nonNull(legalBasisForProcessingCombinedData) && notContainsKey(
+          legalBasisForProcessingCombinedData, "b")) {
           section8.remove("otherLegalBasisForProcessingCombinedData");
         }
+        section8.remove(LEGAL_BASIS_FOR_PROCESSING_COMBINED_DATA);
       }
 
       if (Objects.nonNull(section5)) {
         JsonObject formatOfTheElectronicHealthData = section5.getJsonObject(
           FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA);
-        if (!"b".equals(formatOfTheElectronicHealthData.getString("key")) || (
-          !"a".equals(applyingForDataOnBehalfOfPublicSector.getString("key")))) {
+        if (!"b".equals(formatOfTheElectronicHealthData.getString("key")) || (!"a".equals(
+          applyingForDataOnBehalfOfPublicSector.getString("key")))) {
           section8.remove("europeanUnionInstitution");
         }
       }
 
       if (!"a".equals(applyingForDataOnBehalfOfPublicSector.getString("key"))) {
-        section8.remove(LEGAL_BASIS_FOR_PROCESSING_APPLICATION_DATA);
-
         JsonArray legalBasisForProcessingApplicationData = section8.getJsonArray(
           LEGAL_BASIS_FOR_PROCESSING_APPLICATION_DATA);
-        if (notContainsKey(legalBasisForProcessingApplicationData, "b")) {
+        if (Objects.nonNull(legalBasisForProcessingApplicationData) && notContainsKey(
+          legalBasisForProcessingApplicationData, "b")) {
           section8.remove("otherLegalBasisForProcessingApplicationData");
         }
+        section8.remove(LEGAL_BASIS_FOR_PROCESSING_APPLICATION_DATA);
       }
 
-      if (!"a".equals(willDataBeCombinedWithDataObtained.getString("key")) ||
-        !"a".equals(applyingForDataOnBehalfOfPublicSector.getString("key"))) {
-        section8.remove(LEGAL_BASIS_FOR_PROCESSING_COMBINED_APPLICATION_DATA);
-
+      if (!"a".equals(willDataBeCombinedWithDataObtained.getString("key")) || !"a".equals(
+        applyingForDataOnBehalfOfPublicSector.getString("key"))) {
         JsonArray legalBasisForProcessingCombinedApplicationData = section8.getJsonArray(
           LEGAL_BASIS_FOR_PROCESSING_COMBINED_APPLICATION_DATA);
         if (notContainsKey(legalBasisForProcessingCombinedApplicationData, "b")) {
           section8.remove("otherLegalBasisForProcessingCombinedApplicationData");
         }
-
+        section8.remove(LEGAL_BASIS_FOR_PROCESSING_COMBINED_APPLICATION_DATA);
       }
     }
 
     JsonArray purposeForWhichDataWillBeUsed = section2.getJsonArray(
       PURPOSE_FOR_WHICH_DATA_WILL_BE_USED);
-    if (notContainsKey(purposeForWhichDataWillBeUsed, "e")) {
+    if (Objects.nonNull(purposeForWhichDataWillBeUsed) && notContainsKey(
+      purposeForWhichDataWillBeUsed, "e")) {
       section8.remove("attachResearchPermitIfRequired");
     }
 
@@ -1239,33 +1296,32 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     }
 
     return ((Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && "b".equals(
-      applyingForDataOnBehalfOfPublicSector.getString("key")) ||
-      (Objects.nonNull(legalBasisForProcessingPersonalData) && containsKey(
-        legalBasisForProcessingPersonalData, "b"))) ||
-      (Objects.nonNull(willDataBeCombinedWithDataObtained) && "a".equals(
+      applyingForDataOnBehalfOfPublicSector.getString("key")) || (
+      Objects.nonNull(legalBasisForProcessingPersonalData) && containsKey(
+        legalBasisForProcessingPersonalData, "b"))) || (
+      Objects.nonNull(willDataBeCombinedWithDataObtained) && "a".equals(
         willDataBeCombinedWithDataObtained.getString("key")) && (
         Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && "b".equals(
-          applyingForDataOnBehalfOfPublicSector.getString("key"))) ||
-        (Objects.nonNull(legalBasisForProcessingCombinedData) && containsKey(
-          legalBasisForProcessingCombinedData, "c")) ||
-        (Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && "a".equals(
-          applyingForDataOnBehalfOfPublicSector.getString("key")) &&
-          (Objects.nonNull(formatOfTheElectronicHealthData) && "a".equals(
-            formatOfTheElectronicHealthData.getString("key"))) ||
-          ((Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && "a".equals(
-            applyingForDataOnBehalfOfPublicSector.getString("key"))) ||
-            (Objects.nonNull(legalBasisForProcessingApplicationData) && containsKey(
-              legalBasisForProcessingApplicationData, "b")) ||
-            (Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && "a".equals(
+          applyingForDataOnBehalfOfPublicSector.getString("key"))) || (
+        Objects.nonNull(legalBasisForProcessingCombinedData) && containsKey(
+          legalBasisForProcessingCombinedData, "c")) || (
+        Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && "a".equals(
+          applyingForDataOnBehalfOfPublicSector.getString("key")) && (
+          Objects.nonNull(formatOfTheElectronicHealthData) && "a".equals(
+            formatOfTheElectronicHealthData.getString("key"))) || (
+          (Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && "a".equals(
+            applyingForDataOnBehalfOfPublicSector.getString("key"))) || (
+            Objects.nonNull(legalBasisForProcessingApplicationData) && containsKey(
+              legalBasisForProcessingApplicationData, "b")) || (
+            Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && "a".equals(
               applyingForDataOnBehalfOfPublicSector.getString("key")) && (
               Objects.nonNull(willDataBeCombinedWithDataObtained) && "a".equals(
-                willDataBeCombinedWithDataObtained.getString("key"))) ||
-              (Objects.nonNull(legalBasisForProcessingCombinedApplicationData) && containsKey(
+                willDataBeCombinedWithDataObtained.getString("key"))) || (
+              Objects.nonNull(legalBasisForProcessingCombinedApplicationData) && containsKey(
                 legalBasisForProcessingCombinedApplicationData, "b")))))));
   }
 
-  private Boolean displayLawfulForProcessingPersonalData(JsonObject section3,
-    JsonObject section5) {
+  private Boolean displayLawfulForProcessingPersonalData(JsonObject section3, JsonObject section5) {
     JsonObject applyingForDataOnBehalfOfPublicSector = null;
     JsonObject formatOfTheElectronicHealthData = null;
     JsonObject legalOrNaturalPerson = null;
@@ -1273,8 +1329,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     if (Objects.nonNull(section3)) {
       applyingForDataOnBehalfOfPublicSector = section3.getJsonObject(
         APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR);
-      legalOrNaturalPerson = section3.getJsonObject(
-        LEGAL_OR_NATURAL_PERSON);
+      legalOrNaturalPerson = section3.getJsonObject(LEGAL_OR_NATURAL_PERSON);
     }
     if (Objects.nonNull(section5)) {
       formatOfTheElectronicHealthData = section5.getJsonObject(
@@ -1282,14 +1337,14 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     }
 
     return ((Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && "a".equals(
-      applyingForDataOnBehalfOfPublicSector.getString("key"))
-      || (Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && "b".equals(
-      legalOrNaturalPerson.getString("key")))) && (Objects.nonNull(formatOfTheElectronicHealthData)
-      &&
-      "b".equals(formatOfTheElectronicHealthData.getString("key"))));
+      applyingForDataOnBehalfOfPublicSector.getString("key")) || (
+      Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && "b".equals(
+        legalOrNaturalPerson.getString("key")))) && (
+      Objects.nonNull(formatOfTheElectronicHealthData) && "b".equals(
+        formatOfTheElectronicHealthData.getString("key"))));
   }
 
-  private List<Future> updateApplicationsAsync(@NotNull RoutingContext context) {
+  List<Future> updateApplicationsAsync(@NotNull RoutingContext context) {
 
     //Retrieve all applications from the request
     JsonArray requestApplications = context.body().asJsonObject().getJsonArray("applications");
@@ -1312,7 +1367,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     JsonObject updatedApplication = new JsonObject();
     //Retrieve the application from Mongo Database
     Future<JsonObject> mongoApplicationFuture = findApplication(requestApplication,
-      getUserId(context));
+      Context.getEcasId(context));
     //Process the result asynchronously
     mongoApplicationFuture.onComplete(ar -> {
       if (ar.succeeded() && ar.result() != null) {
@@ -1346,7 +1401,8 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
                 //Prepare the distribution
                 mongoDistributions.add(requestDistribution);
                 // Update the date_added of the dataset
-                updateDatasetDateAdded(mongoDatasets, requestDatasetIdValue, DATA_ACCESS_APPLICATION_COLLECTION);
+                updateDatasetDateAdded(mongoDatasets, requestDatasetIdValue,
+                  DATA_ACCESS_APPLICATION_COLLECTION);
                 //Add the application id and the title to the response map
                 updatedApplication.put(ID, mongoApplication.getString(ID));
                 updatedApplication.put(VERSION, mongoApplication.getString(VERSION));
@@ -1389,25 +1445,8 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     return promise.future();
   }
 
-  private Future<JsonObject> replaceApplication(JsonObject mongoApplication) {
-    Promise<JsonObject> promise = Promise.promise();
-    JsonObject query = new JsonObject().put(ID, mongoApplication.getValue(ID));
-    mongoApplication.put(DATE_MODIFIED, Instant.now());
-    mongoClient.findOneAndReplace(DATA_ACCESS_APPLICATION_COLLECTION, query, mongoApplication,
-      result -> {
-        if (result.succeeded()) {
-          log.info(DATA_ACCESS_APPLICATION_COLLECTION
-              + " Application with id: {} was updated successfully",
-            mongoApplication.getValue(ID));
-          promise.complete(result.result());
-        } else {
-          log.info(
-            DATA_ACCESS_APPLICATION_COLLECTION + " Failed to replace application with id: {}",
-            mongoApplication.getValue(ID));
-          promise.fail(result.cause());
-        }
-      });
-    return promise.future();
+  Future<JsonObject> replaceApplication(JsonObject mongoApplication) {
+    return replaceApplication(mongoApplication, DATA_ACCESS_APPLICATION_COLLECTION);
   }
 
   private JsonArray getDistributions(JsonArray jsonArray, String field, String value) {
@@ -1425,8 +1464,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
   private Future<JsonObject> findApplication(Object datasetQueryDocument, String userId) {
 
     JsonObject applicationQueryDocument = new JsonObject();
-    applicationQueryDocument.put(ID,
-      ((JsonObject) datasetQueryDocument).getString(APPLICATION_ID));
+    applicationQueryDocument.put(ID, ((JsonObject) datasetQueryDocument).getString(APPLICATION_ID));
     applicationQueryDocument.put(USER_ID, userId);
 
     Promise<JsonObject> promise = Promise.promise();
@@ -1488,9 +1526,11 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
   public void postData(@NotNull RoutingContext context) {
     postData(context, DATA_ACCESS_APPLICATION_COLLECTION);
   }
+
   public void getData(@NotNull RoutingContext context) {
-   getData(context, DATA_ACCESS_APPLICATION_COLLECTION);
+    getData(context, DATA_ACCESS_APPLICATION_COLLECTION);
   }
+
   public void deleteData(@NotNull RoutingContext context) {
     deleteData(context, DATA_ACCESS_APPLICATION_COLLECTION);
   }

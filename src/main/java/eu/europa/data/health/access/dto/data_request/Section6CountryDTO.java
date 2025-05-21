@@ -97,6 +97,9 @@ public class Section6CountryDTO extends SectionDTO {
   List<String> catalogIds;
   @Size(max = 2000)
   String hdabContacts;
+  @NotBlank
+  @Size(max = 2000)
+  String howWillTheDataFromDifferentSourcesBeLinked;
 
   // Starting section 6.1
   @NotNull
@@ -112,9 +115,6 @@ public class Section6CountryDTO extends SectionDTO {
   @Size(max = 2000)
   String whyNeedStudyCohortOfThisSize;
 
-  @Size(max = 2000)
-  String regionsSeekForData;
-
   @ListOfAttachmentsValidation(allowedExtensions = {"doc", "docx", "pdf", "xls", "xlsx",
     "odt"}, maxSize = 5242880, fieldName = "ethicalReviewAttachment") // 5MB
   List<AttachmentDTO> ethicalReviewAttachment;
@@ -122,8 +122,9 @@ public class Section6CountryDTO extends SectionDTO {
   @Size(max = 2000)
   String ethicalReviewInput;
 
-  @Size(max = 2000)
-  String variablesToBeUsedInDataExtraction;
+  @ListOfAttachmentsValidation(allowedExtensions = {"doc", "docx", "pdf", "xls", "xlsx",
+    "odt"}, maxSize = 5242880, fieldName = "variablesToBeUsedInDataExtractionAttachment") // 5MB
+  List<AttachmentDTO>  variablesToBeUsedInDataExtractionAttachment;
 
   @NotBlank
   @Size(max = 500)

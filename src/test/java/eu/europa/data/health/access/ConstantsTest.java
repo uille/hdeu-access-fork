@@ -36,9 +36,6 @@ class ConstantsTest {
     assertEquals("all", Constants.COUNTRIES_ALL);
     assertEquals("noEU", Constants.COUNTRIES_NO_EU);
     assertEquals("euEEA", Constants.COUNTRIES_EU_EEA);
-    assertEquals("APPLICATION_CREATED", Constants.APPLICATION_CREATED);
-    assertEquals("APPLICATION_STATUS_CHANGED", Constants.APPLICATION_STATUS_CHANGED);
-    assertEquals("APPLICATION_DELETED", Constants.APPLICATION_DELETED);
     assertEquals("DATA_ACCESS_DISPATCHER_MAX_RETRIES", Constants.DATA_ACCESS_DISPATCHER_MAX_RETRIES);
     assertEquals("DATA_ACCESS_DISPATCHER_MAX_RETRIES", Constants.DATA_REQUEST_DISPATCHER_MAX_RETRIES);
     assertEquals("DATA_ACCESS_DISPATCHER_INTERVAL", Constants.DATA_ACCESS_DISPATCHER_INTERVAL);

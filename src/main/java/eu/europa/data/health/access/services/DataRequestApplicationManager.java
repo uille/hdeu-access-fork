@@ -16,7 +16,7 @@
 package eu.europa.data.health.access.services;
 
 import static eu.europa.data.health.access.Constants.APPLICATION_ID;
-import static eu.europa.data.health.access.Constants.APPLICATION_STATUS_CHANGED;
+import static eu.europa.data.health.access.Constants.AUDIT_LOG_COLLECTION;
 import static eu.europa.data.health.access.Constants.DATASETS;
 import static eu.europa.data.health.access.Constants.DATASET_ID;
 import static eu.europa.data.health.access.Constants.DATA_REQUEST_APPLICATION_COLLECTION;
@@ -28,14 +28,6 @@ import static eu.europa.data.health.access.Constants.DISTRIBUTION_ID;
 import static eu.europa.data.health.access.Constants.FORM;
 import static eu.europa.data.health.access.Constants.ID;
 import static eu.europa.data.health.access.Constants.NEED_FOR_DATA_EXTRACTION_EVERY;
-import static eu.europa.data.health.access.Constants.PERSON_RESEARCH_AFFILIATION;
-import static eu.europa.data.health.access.Constants.PERSON_RESEARCH_JOB_TITLE;
-import static eu.europa.data.health.access.Constants.PERSON_RESEARCH_NAME;
-import static eu.europa.data.health.access.Constants.PERSON_RESEARCH_SAME_AS_CONTACT_PERSON;
-import static eu.europa.data.health.access.Constants.PERSON_RESPONSIBLE_AFFILIATION;
-import static eu.europa.data.health.access.Constants.PERSON_RESPONSIBLE_JOB_TITLE;
-import static eu.europa.data.health.access.Constants.PERSON_RESPONSIBLE_NAME;
-import static eu.europa.data.health.access.Constants.PERSON_RESPONSIBLE_SAME_AS_CONTACT_PERSON;
 import static eu.europa.data.health.access.Constants.PROVIDED_APPLICATION_ID;
 import static eu.europa.data.health.access.Constants.SECTION;
 import static eu.europa.data.health.access.Constants.SECTION_2;
@@ -51,6 +43,10 @@ import static eu.europa.data.health.access.Constants.VERSION;
 import static eu.europa.data.health.access.Constants.WAS_NOT_FOUND_IN_THE_DATABASE;
 
 import eu.europa.data.health.access.ApplicationStatus;
+import eu.europa.data.health.access.AuditLogAction;
+import eu.europa.data.health.access.AuditLogActionDescription;
+import eu.europa.data.health.access.AuditLogObject;
+import eu.europa.data.health.access.Context;
 import eu.europa.data.health.access.Sections;
 import eu.europa.data.health.access.dto.SectionDTO;
 import eu.europa.data.health.access.handlers.DBHandler;
@@ -70,6 +66,11 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -81,10 +82,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DataRequestApplicationManager extends CommonApplicationManager {
 
@@ -96,6 +93,8 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
 
   private DataRequestApplicationBusinessValidationManager dataRequestApplicationBusinessValidationManager;
 
+  private final AuditLogManager auditLogManager;
+
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   /**
@@ -104,12 +103,13 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
   public DataRequestApplicationManager(DBHandler dbHandler, MongoClient mongoClient,
     BasketManager basketManager, HubStoreClient hubStoreClient, Vertx vertx,
     DataRequestApplicationValidationManager dataRequestApplicationValidationManager,
-    DataRequestApplicationBusinessValidationManager dataRequestApplicationBusinessValidationManager) {
-    super(dbHandler, basketManager, mongoClient, vertx, hubStoreClient);
+    DataRequestApplicationBusinessValidationManager dataRequestApplicationBusinessValidationManager, AuditLogManager auditLogManager) {
+    super(dbHandler, basketManager, mongoClient, vertx, hubStoreClient, auditLogManager);
     this.dbHandler = dbHandler;
     this.mongoClient = mongoClient;
     this.dataRequestApplicationValidationManager = dataRequestApplicationValidationManager;
     this.dataRequestApplicationBusinessValidationManager = dataRequestApplicationBusinessValidationManager;
+    this.auditLogManager = auditLogManager;
   }
 
   /**
@@ -166,7 +166,7 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
    * Delete a Document by field ID for the Data Request Application collection.
    */
   public void deleteDataRequestApplicationById(@NotNull RoutingContext context) {
-    deleteDataAccessApplicationById(context, DATA_REQUEST_APPLICATION_COLLECTION);
+    deleteApplicationById(context, DATA_REQUEST_APPLICATION_COLLECTION);
   }
 
   /**
@@ -219,8 +219,8 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
   public void deleteDatasets(@NotNull RoutingContext context) {
 
     // Get the application id
-    JsonObject query = new JsonObject().put("_id", context.pathParam(APPLICATION_ID));
-    query.put(USER_ID, getUserId(context));
+    JsonObject query = new JsonObject().put(ID, context.pathParam(APPLICATION_ID));
+    query.put(USER_ID, Context.getEcasId(context));
     // Search in database based on the provided application id and user Id
     mongoClient.findOne(DATA_REQUEST_APPLICATION_COLLECTION, query, null, ar -> {
       if (ar.succeeded()) {
@@ -237,7 +237,7 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
             requestContent.forEach(requestDataset -> {
               String requestDatasetId = ((JsonObject) requestDataset).getString(
                 DATASET_ID);
-              if(deleteApplicationDataset(mongoApplication, requestDatasetId))
+              if(deleteApplicationDataset(mongoApplication, requestDatasetId, context))
                 applicationModified.set(true);
             });
             if(applicationModified.get()) {
@@ -270,8 +270,8 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
   public void deleteDistributions(@NotNull RoutingContext context) {
 
     // Get the application id
-    JsonObject query = new JsonObject().put("_id", context.pathParam(APPLICATION_ID));
-    query.put(USER_ID, getUserId(context));
+    JsonObject query = new JsonObject().put(ID, context.pathParam(APPLICATION_ID));
+    query.put(USER_ID, Context.getEcasId(context));
     // Search in database based on the provided application id and user Id
     mongoClient.findOne(DATA_REQUEST_APPLICATION_COLLECTION, query, null, ar -> {
       if (ar.succeeded()) {
@@ -290,7 +290,7 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
               String requestDistributionId = ((JsonObject) datasetDistributionCombo).getString(
                 DISTRIBUTION_ID);
               deleteApplicationDatasetDistribution(mongoApplication, requestDatasetId,
-                requestDistributionId);
+                requestDistributionId, context);
 
             });
             replaceApplication(mongoApplication);
@@ -313,8 +313,8 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
     });
   }
 
-  private boolean deleteApplicationDataset(JsonObject mongoApplication,
-    String requestDatasetId) {
+  boolean deleteApplicationDataset(JsonObject mongoApplication,
+    String requestDatasetId, @NotNull RoutingContext context) {
     // Loop every dataset to check if provided dataset id is contained
     JsonArray mongoDatasets = mongoApplication.getJsonArray(DATASETS);
     boolean modified = false;
@@ -326,9 +326,23 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
         .equals(requestDatasetId)) {
 
           if (mongoDatasets.size() == 1) {
-            JsonObject deleteById = new JsonObject().put("_id",
-              mongoApplication.getValue("_id"));
+            JsonObject deleteById = new JsonObject().put(ID,
+              mongoApplication.getValue(ID));
             dbHandler.deleteById(DATA_REQUEST_APPLICATION_COLLECTION, deleteById);
+
+            //Audit Log
+            dbHandler.updateLinkableFields(AUDIT_LOG_COLLECTION, mongoApplication.getString(ID));
+            JsonObject datasetObjJson = (JsonObject) datasetObj;
+            JsonArray distributions = datasetObjJson.getJsonArray("distributions");
+            String distributionsString = auditLogManager.extractDistributionIds(distributions.toString());
+            String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+              AuditLogActionDescription.DATA_REQUEST_APPLICATION_DISCARDED.getString(),
+              mongoApplication.getString(ID), mongoApplication.getString(TITLE),
+              datasetObjJson.getString(DATASET_ID), distributionsString);
+            auditLogManager.insertAuditLog(AuditLogObject.DATA_REQUEST_APPLICATION.getString(), mongoApplication.getString(ID),
+              AuditLogAction.DATA_REQUEST_APPLICATION_DISCARDED.getString(),
+              auditLogActionDescription, false, context);
+
             return false;
           } else {
             datasetIterator.remove();
@@ -336,14 +350,26 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
 
             // If dataset removed, delete section6 too.
             deleteSection6ByDataset(mongoApplication, mongoDataset.getString("catalog_id"));
+
+            //Audit Log
+            JsonObject datasetObjJson = (JsonObject) datasetObj;
+            JsonArray distributions = datasetObjJson.getJsonArray("distributions");
+            String distributionsString = auditLogManager.extractDistributionIds(distributions.toString());
+            String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+              AuditLogActionDescription.DATA_REQUEST_APPLICATION_DATASET_DELETED.getString(),
+              datasetObjJson.getString(DATASET_ID), distributionsString,
+              mongoApplication.getString(ID), mongoApplication.getString(TITLE));
+            auditLogManager.insertAuditLog(AuditLogObject.DATA_REQUEST_APPLICATION.getString(), mongoApplication.getString(ID),
+              AuditLogAction.DATASET_DELETED.getString(),
+              auditLogActionDescription, true, context);
           }
       }
     }
     return modified;
   }
 
-  private void deleteApplicationDatasetDistribution(JsonObject mongoApplication,
-    String requestDatasetId, String requestDistributionId) {
+  void deleteApplicationDatasetDistribution(JsonObject mongoApplication,
+    String requestDatasetId, String requestDistributionId, @NotNull RoutingContext context) {
     // Loop every dataset to check if provided dataset id is contained
     JsonArray mongoDatasets = mongoApplication.getJsonArray(DATASETS);
 
@@ -361,9 +387,21 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
 
                 if (mongoDistributions.size() == 1) {
                   if (mongoDatasets.size() == 1) {
-                    JsonObject deleteById = new JsonObject().put("_id",
-                      mongoApplication.getValue("_id"));
+                    JsonObject deleteById = new JsonObject().put(ID,
+                      mongoApplication.getValue(ID));
                     dbHandler.deleteById(DATA_REQUEST_APPLICATION_COLLECTION, deleteById);
+
+                    //Audit Log
+                    dbHandler.updateLinkableFields(AUDIT_LOG_COLLECTION, mongoApplication.getString(ID));
+                    String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+                      AuditLogActionDescription.DATA_REQUEST_APPLICATION_DISCARDED.getString(),
+                      mongoApplication.getString(ID), mongoApplication.getString(TITLE),
+                      requestDatasetId, requestDistributionId);
+                    auditLogManager.insertAuditLog(AuditLogObject.DATA_REQUEST_APPLICATION.getString(),
+                      mongoApplication.getString(ID),
+                      AuditLogAction.DATA_REQUEST_APPLICATION_DISCARDED.getString(),
+                      auditLogActionDescription, false, context);
+
                     return;
                   } else {
                     datasetIterator.remove();
@@ -371,10 +409,29 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
 
                     // If  dataset removed, remove section 6 too.
                     deleteSection6ByDataset(mongoApplication, mongoDataset.getString("catalog_id"));
+
+                    //Audit Log
+                    String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+                      AuditLogActionDescription.DATA_REQUEST_APPLICATION_DATASET_DELETED.getString(),
+                      requestDatasetId, requestDistributionId,
+                      mongoApplication.getString(ID), mongoApplication.getString(TITLE));
+                    auditLogManager.insertAuditLog(AuditLogObject.DATA_REQUEST_APPLICATION.getString(),
+                      mongoApplication.getString(ID),
+                      AuditLogAction.DATASET_DELETED.getString(),
+                      auditLogActionDescription, true, context);
                   }
                 } else {
                   distributionIterator.remove();
                   mongoApplication.put(DATE_MODIFIED, Instant.now());
+
+                  //Audit Log
+                  String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+                    AuditLogActionDescription.DATA_REQUEST_APPLICATION_DISTRIBUTION_DELETED.getString(),
+                    requestDistributionId, requestDatasetId,
+                    mongoApplication.getString(ID), mongoApplication.getString(TITLE));
+                  auditLogManager.insertAuditLog(AuditLogObject.DATA_REQUEST_APPLICATION.getString(),
+                    mongoApplication.getString(ID), AuditLogAction.DISTRIBUTION_DELETED.getString(),
+                    auditLogActionDescription, true, context);
                 }
 
             }
@@ -390,8 +447,8 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
 
   public void getSection(@NotNull RoutingContext context) {
 
-    JsonObject query = new JsonObject().put("_id", context.pathParam(APPLICATION_ID));
-    query.put(USER_ID, getUserId(context));
+    JsonObject query = new JsonObject().put(ID, context.pathParam(APPLICATION_ID));
+    query.put(USER_ID, Context.getEcasId(context));
     String sectionNumber = SECTION + context.pathParam(SECTION_NUMBER);
 
     JsonObject sectionToRetrieve = new JsonObject().put(FORM + sectionNumber, 1);
@@ -428,7 +485,7 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
     if ("SUBMITTED".equalsIgnoreCase(targetStatus)) {
 
       JsonObject query = new JsonObject().put(ID, applicationId);
-      query.put(USER_ID, getUserId(context));
+      query.put(USER_ID, Context.getEcasId(context));
       query.put("status.status", "DRAFT");
 
       JsonObject submittingStatus = new JsonObject().put("$set",
@@ -453,15 +510,21 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
 
               // Replace application and return result
               replaceApplication(mongoApplication).onSuccess(replaceResult -> {
-                auditLog(context.body().asJsonObject(), applicationId, APPLICATION_STATUS_CHANGED,
-                  context);
 
                 // If status is submitted then we need to add the application to the dispatcher table
                 ApplicationStatus requestStatus = ApplicationStatus.fromStatus(
                   mongoApplication.getJsonObject(STATUS).getString(STATUS));
-                if (ApplicationStatus.SUBMITTED.equals(requestStatus))
+                if (ApplicationStatus.SUBMITTED.equals(requestStatus)) {
                   sendApplicationForDispatch(mongoApplication, DATA_REQUEST_APPLICATION_COLLECTION);
 
+                  //Audit Log
+                  String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+                    AuditLogActionDescription.DATA_REQUEST_APPLICATION_SUBMITTED.getString(),
+                    applicationId, mongoApplication.getString(TITLE));
+                  auditLogManager.insertAuditLog(AuditLogObject.DATA_REQUEST_APPLICATION.getString(),
+                    mongoApplication.getString(ID), AuditLogAction.DATA_REQUEST_APPLICATION_SUBMITTED.getString(),
+                    auditLogActionDescription, true, context);
+                }
                 setUpContextResponse(context, HttpResponseStatus.OK, replaceResult.encode());
               }).onFailure(fail -> {
                 rollbackStatusToDraft(applicationId, DATA_REQUEST_APPLICATION_COLLECTION);
@@ -556,7 +619,7 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
    * performed when application are on statuses draft or withdrawn. And withdrawn can be performed
    * only when application is on status submitted
    */
-  private boolean canChangeStatus(JsonObject requestStatusObject, JsonObject mongoApplication,
+  boolean canChangeStatus(JsonObject requestStatusObject, JsonObject mongoApplication,
     RoutingContext context) {
 
     String statusStr = requestStatusObject.getString(STATUS);
@@ -596,41 +659,11 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
     return statusChangeAllowed;
   }
 
-  private void performCleanUpForm(JsonObject mongoApplication) {
+  void performCleanUpForm(JsonObject mongoApplication) {
     cleanSection2(mongoApplication.getJsonObject("form"));
     cleanSection3(mongoApplication.getJsonObject("form"));
     cleanSection4(mongoApplication.getJsonObject("form"));
-    cleanSection5(mongoApplication.getJsonObject("form"));
     cleanSection6(mongoApplication.getJsonObject("form"));
-  }
-
-  private void cleanSection5(JsonObject mongoApplicationForm) {
-    JsonObject section5 = mongoApplicationForm.getJsonObject(SECTION_5);
-
-    JsonArray purposeOfUse = section5.getJsonArray("purposeOfUse");
-
-    if (notContainsKey(purposeOfUse, "b")) {
-      section5.remove("legalBasis");
-      section5.remove("linkToTheSupportingLegalBasis");
-    }
-
-    if (notContainsSelectedValueWithoutSpecificValue(purposeOfUse)) {
-      section5.remove("summaryOfPlanForUsingTheData");
-      section5.remove(PERSON_RESPONSIBLE_SAME_AS_CONTACT_PERSON);
-      section5.remove(PERSON_RESPONSIBLE_NAME);
-      section5.remove(PERSON_RESPONSIBLE_JOB_TITLE);
-      section5.remove(PERSON_RESPONSIBLE_AFFILIATION);
-    }
-
-    if (notContainsKey(purposeOfUse, "e")) {
-      section5.remove("summaryOfResearchPlan");
-      section5.remove(PERSON_RESEARCH_SAME_AS_CONTACT_PERSON);
-      section5.remove(PERSON_RESEARCH_NAME);
-      section5.remove(PERSON_RESEARCH_JOB_TITLE);
-      section5.remove(PERSON_RESEARCH_AFFILIATION);
-    }
-
-    mongoApplicationForm.put(SECTION_5, section5);
   }
 
   private void cleanSection6(JsonObject mongoApplicationForm) {
@@ -670,19 +703,7 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
     mongoApplicationForm.put(SECTION_6, section6Array);
   }
 
-  private boolean notContainsSelectedValueWithoutSpecificValue(JsonArray jsonArray) {
-    for (int i = 0; i < jsonArray.size(); i++) {
-      JsonObject obj = jsonArray.getJsonObject(i);
-      String key = obj.getString("key");
-
-      if (!key.equals("e")) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  private List<Future> updateApplicationsAsync(@NotNull RoutingContext context) {
+   List<Future> updateApplicationsAsync(@NotNull RoutingContext context) {
 
     //Retrieve all applications from the request
     JsonArray requestApplications = context.body().asJsonObject().getJsonArray("applications");
@@ -704,7 +725,7 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
     JsonObject updatedApplication = new JsonObject();
     //Retrieve the application from Mongo Database
     Future<JsonObject> mongoApplicationFuture = findApplication(requestApplication,
-      getUserId(context));
+      Context.getEcasId(context));
     //Process the result asynchronously
     mongoApplicationFuture.onComplete(ar -> {
       if (ar.succeeded() && ar.result() != null) {
@@ -781,25 +802,8 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
     return promise.future();
   }
 
-  private Future<JsonObject> replaceApplication(JsonObject mongoApplication) {
-    Promise<JsonObject> promise = Promise.promise();
-    JsonObject query = new JsonObject().put("_id", mongoApplication.getValue("_id"));
-    mongoApplication.put(DATE_MODIFIED, Instant.now());
-    mongoClient.findOneAndReplace(DATA_REQUEST_APPLICATION_COLLECTION, query, mongoApplication,
-      result -> {
-        if (result.succeeded()) {
-          log.info(DATA_REQUEST_APPLICATION_COLLECTION
-              + " Application with id: {} was updated successfully",
-            mongoApplication.getValue("_id"));
-          promise.complete(result.result());
-        } else {
-          log.info(
-            DATA_REQUEST_APPLICATION_COLLECTION + " Failed to replace application with id: {}",
-            mongoApplication.getValue("_id"));
-          promise.fail(result.cause());
-        }
-      });
-    return promise.future();
+  Future<JsonObject> replaceApplication(JsonObject mongoApplication) {
+    return replaceApplication(mongoApplication, DATA_REQUEST_APPLICATION_COLLECTION);
   }
 
   private JsonArray getDistributions(JsonArray jsonArray, String field, String value) {
@@ -817,7 +821,7 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
   private Future<JsonObject> findApplication(Object datasetQueryDocument, String userId) {
 
     JsonObject applicationQueryDocument = new JsonObject();
-    applicationQueryDocument.put("_id",
+    applicationQueryDocument.put(ID,
       ((JsonObject) datasetQueryDocument).getString(APPLICATION_ID));
     applicationQueryDocument.put(USER_ID, userId);
 

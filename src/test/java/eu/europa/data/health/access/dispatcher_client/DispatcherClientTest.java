@@ -16,6 +16,7 @@
 package eu.europa.data.health.access.dispatcher_client;
 
 import static eu.europa.data.health.access.UtilityServiceTest.getStringJsonObject;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
@@ -34,15 +35,17 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 
 class DispatcherClientTest {
@@ -68,7 +71,8 @@ class DispatcherClientTest {
 
   @Test
   void testSendApplicationSuccess() {
-    JsonObject dispatcherRecord = new JsonObject(getStringJsonObject("full_data_application_dispatcher"));
+    JsonObject dispatcherRecord = new JsonObject(
+      getStringJsonObject("full_data_application_dispatcher"));
 
     JsonObject successResponse = new JsonObject().put("message", "Application processed");
 
@@ -98,7 +102,8 @@ class DispatcherClientTest {
 
   @Test
   void testSendApplicationDispatcherFailure() {
-    JsonObject dispatcherRecord = new JsonObject(getStringJsonObject("full_data_application_dispatcher"));
+    JsonObject dispatcherRecord = new JsonObject(
+      getStringJsonObject("full_data_application_dispatcher"));
 
     JsonObject successResponse = new JsonObject().put("message", "Application processed");
 
@@ -123,7 +128,8 @@ class DispatcherClientTest {
 
     assertFalse(result.succeeded());
     List<String> logMessages = testAppender.getLogMessages();
-    assertTrue(logMessages.stream().anyMatch(msg -> msg.contains("Dispatcher failed to process application:")));
+    assertTrue(logMessages.stream()
+      .anyMatch(msg -> msg.contains("Dispatcher failed to process application:")));
   }
 
   @Test
@@ -170,7 +176,7 @@ class DispatcherClientTest {
     }).when(httpRequest).sendBuffer(any(Buffer.class), any());
     JsonObject applications = new JsonObject()
       .put("accessApplications", new JsonArray(applicationIds));
-    Future<String> result =  dispatcherClient.deleteApplicationOnDispatcher(applications);
+    Future<String> result = dispatcherClient.deleteApplicationOnDispatcher(applications);
 
     assertTrue(result.succeeded());
     List<String> logMessages = testAppender.getLogMessages();
@@ -196,7 +202,7 @@ class DispatcherClientTest {
     }).when(httpRequest).sendBuffer(any(Buffer.class), any());
     JsonObject applications = new JsonObject()
       .put("accessApplications", new JsonArray(applicationIds));
-    Future<String> result =  dispatcherClient.deleteApplicationOnDispatcher(applications);
+    Future<String> result = dispatcherClient.deleteApplicationOnDispatcher(applications);
 
     assertFalse(result.succeeded());
     List<String> logMessages = testAppender.getLogMessages();
@@ -222,12 +228,174 @@ class DispatcherClientTest {
     }).when(httpRequest).sendBuffer(any(Buffer.class), any());
     JsonObject applications = new JsonObject()
       .put("accessApplications", new JsonArray(applicationIds));
-    Future<String> result =  dispatcherClient.deleteApplicationOnDispatcher(applications);
+    Future<String> result = dispatcherClient.deleteApplicationOnDispatcher(applications);
 
     assertTrue(result.failed());
     List<String> logMessages = testAppender.getLogMessages();
     assertTrue(logMessages.stream().anyMatch(msg -> msg.contains(
       "DISPATCHER_CLIENT failed to delete application: {\"accessApplications\":[\"appId1\",\"appId2\"]} to dispatcher, with error message: fail")));
+  }
+
+  @Test
+  void testGetCatalogMappingByCatalogId_success() {
+    String catalogId = "catalog123";
+    JsonObject expectedResponse = new JsonObject().put("id", catalogId).put("mapping", "value");
+
+    HttpResponse<Buffer> response = mock(HttpResponse.class);
+    when(response.statusCode()).thenReturn(200);
+    when(response.bodyAsJsonObject()).thenReturn(expectedResponse);
+
+    Future<HttpResponse<Buffer>> futureResponse = Future.succeededFuture(response);
+
+    when(webClient.getAbs(eq(API_URL + "/catalog/catalogId/" + catalogId)))
+      .thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any())).thenReturn(httpRequest);
+    when(httpRequest.send()).thenReturn(futureResponse);
+
+    Future<JsonObject> future = dispatcherClient.getCatalogMappingByCatalogId(catalogId);
+
+    assertTrue(future.succeeded());
+    assertEquals(expectedResponse, future.result());
+
+    List<String> logMessages = testAppender.getLogMessages();
+    assertTrue(logMessages.stream().anyMatch(msg -> msg.contains("Catalog mapping was found for")));
+  }
+
+  @Test
+  void testGetCatalogMappingByCatalogId_notFound() {
+    String catalogId = "nonexistent";
+
+    HttpResponse<Buffer> response = mock(HttpResponse.class);
+    when(response.statusCode()).thenReturn(404);
+    when(response.statusMessage()).thenReturn("Not Found");
+
+    Future<HttpResponse<Buffer>> futureResponse = Future.succeededFuture(response);
+
+    when(webClient.getAbs(eq(API_URL + "/catalog/catalogId/" + catalogId)))
+      .thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any())).thenReturn(httpRequest);
+    when(httpRequest.send()).thenReturn(futureResponse);
+
+    Future<JsonObject> future = dispatcherClient.getCatalogMappingByCatalogId(catalogId);
+
+    assertTrue(future.failed());
+    assertTrue(future.cause().getMessage().contains("Failed to get catalog mapping"));
+
+    List<String> logMessages = testAppender.getLogMessages();
+    assertTrue(logMessages.stream().anyMatch(msg -> msg.contains("Failed to get catalog mapping")));
+  }
+
+  @Test
+  void testGetCatalogMappingByCatalogId_requestFailure() {
+    String catalogId = "catalog-crash";
+
+    when(webClient.getAbs(eq(API_URL + "/catalog/catalogId/" + catalogId)))
+      .thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any())).thenReturn(httpRequest);
+    when(httpRequest.send()).thenReturn(
+      Future.failedFuture("Connection timeout")); // ✅ Correct mocking
+
+    Future<JsonObject> future = dispatcherClient.getCatalogMappingByCatalogId(catalogId);
+
+    assertTrue(future.failed());
+    assertTrue(future.cause().getMessage().contains("Connection timeout"));
+  }
+
+  @Test
+  void testDeleteCatalogMappingByMongoId_success() {
+    String mongoId = "mongo123";
+    String fullUrl = API_URL + "/catalogs/" + mongoId;
+
+    RoutingContext context = mock(RoutingContext.class);
+    when(context.get("catalogMappingMongoId")).thenReturn(mongoId);
+
+    HttpResponse<Buffer> response = mock(HttpResponse.class);
+    when(response.statusCode()).thenReturn(200);
+
+    when(webClient.deleteAbs(eq(fullUrl))).thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any())).thenReturn(httpRequest);
+    when(httpRequest.send()).thenReturn(Future.succeededFuture(response));
+
+    Future<Integer> result = dispatcherClient.deleteCatalogMappingByMongoId(context);
+
+    assertTrue(result.succeeded());
+    assertEquals(200, result.result());
+
+    List<String> logMessages = testAppender.getLogMessages();
+    assertTrue(logMessages.stream()
+      .anyMatch(msg -> msg.contains("deleted for: catalog mapping with mongo id")));
+  }
+
+
+  @Test
+  void testDeleteCatalogMappingByMongoId_notFound() {
+    String mongoId = "notExist123";
+    RoutingContext context = mock(RoutingContext.class);
+    when(context.get("catalogMappingMongoId")).thenReturn(mongoId);
+    String fullUrl = API_URL + "/catalogs/" + mongoId;
+
+    HttpResponse<Buffer> response = mock(HttpResponse.class);
+    when(response.statusCode()).thenReturn(404);
+
+    when(webClient.deleteAbs(eq(fullUrl))).thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any())).thenReturn(httpRequest);
+    when(httpRequest.send()).thenReturn(Future.succeededFuture(response));
+
+    Future<Integer> result = dispatcherClient.deleteCatalogMappingByMongoId(context);
+
+    assertTrue(result.succeeded());
+    assertEquals(404, result.result());
+
+    List<String> logMessages = testAppender.getLogMessages();
+    assertTrue(logMessages.stream().anyMatch(msg -> msg.contains("was not found for")));
+  }
+
+  @Test
+  void testDeleteCatalogMappingByMongoId_failure() {
+    String mongoId = "mongoFail";
+    RoutingContext context = mock(RoutingContext.class);
+    when(context.get("catalogMappingMongoId")).thenReturn(mongoId);
+    String fullUrl = API_URL + "/catalogs/" + mongoId;
+
+    HttpResponse<Buffer> response = mock(HttpResponse.class);
+    when(response.statusCode()).thenReturn(500);
+    when(response.statusMessage()).thenReturn("Internal Server Error");
+
+    when(webClient.deleteAbs(eq(fullUrl))).thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any())).thenReturn(httpRequest);
+    when(httpRequest.send()).thenReturn(Future.succeededFuture(response));
+
+    Future<Integer> result = dispatcherClient.deleteCatalogMappingByMongoId(context);
+
+    assertTrue(result.failed());
+    assertTrue(result.cause().getMessage().contains("Failed to delete catalog mapping"));
+
+    List<String> logMessages = testAppender.getLogMessages();
+    assertTrue(
+      logMessages.stream().anyMatch(msg -> msg.contains("Failed to delete catalog mapping")));
+  }
+
+  @Test
+  void testDeleteCatalogMappingByMongoId_sendFailure() {
+    String mongoId = "mongoError";
+    RoutingContext context = mock(RoutingContext.class);
+    when(context.get("catalogMappingMongoId")).thenReturn(mongoId);
+    String fullUrl = API_URL + "/catalogs/" + mongoId;
+
+    when(webClient.deleteAbs(eq(fullUrl))).thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any())).thenReturn(httpRequest);
+    when(httpRequest.send()).thenReturn(Future.failedFuture("Connection refused"));
+
+    Future<Integer> result = dispatcherClient.deleteCatalogMappingByMongoId(context);
+
+    assertTrue(result.failed(), "Expected the future to fail");
+    assertTrue(result.cause().getMessage().contains("Connection refused"),
+      "Expected 'Connection refused' in the error message");
+
+    List<String> logMessages = testAppender.getLogMessages();
+    logMessages.forEach(System.out::println);
+    assertTrue(
+      logMessages.stream().anyMatch(msg -> msg.contains("Failed to delete catalog mapping")));
   }
 
 }

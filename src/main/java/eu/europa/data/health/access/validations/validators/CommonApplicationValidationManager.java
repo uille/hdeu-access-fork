@@ -16,12 +16,14 @@
 package eu.europa.data.health.access.validations.validators;
 
 import static eu.europa.data.health.access.Constants.BASKET_COLLECTION;
+import static eu.europa.data.health.access.Constants.CATALOGUE_ID;
 import static eu.europa.data.health.access.Constants.CATALOG_ID;
 import static eu.europa.data.health.access.Constants.DATASETS;
 import static eu.europa.data.health.access.Constants.DATASET_ID;
 import static eu.europa.data.health.access.Constants.DISTRIBUTIONS;
 import static eu.europa.data.health.access.Constants.DISTRIBUTION_ID;
 import static eu.europa.data.health.access.Constants.ERRORS;
+import static eu.europa.data.health.access.Constants.FILE_UPLOAD_CATALOGUE_VALID_TYPES;
 import static eu.europa.data.health.access.Constants.FILE_UPLOAD_VALID_TYPES;
 import static eu.europa.data.health.access.Constants.RESULT_MESSAGE;
 import static eu.europa.data.health.access.Constants.THE_PARSING_OF_JSON_FAILED_WITH_ERROR;
@@ -30,6 +32,7 @@ import static eu.europa.data.health.access.Constants.USER_ID;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.europa.data.health.access.Context;
 import eu.europa.data.health.access.dto.ApplicationDTO;
 import eu.europa.data.health.access.exceptions.FieldError;
 import eu.europa.data.health.access.handlers.DBHandler;
@@ -108,7 +111,7 @@ public class CommonApplicationValidationManager extends AbstractManager {
     // Retrieve the title of application.
     JsonObject titleReceived = new JsonObject().put(TITLE,
       context.body().asJsonObject().getValue(TITLE));
-    titleReceived.put(USER_ID, getUserId(context));
+    titleReceived.put(USER_ID, Context.getEcasId(context));
 
     mongoClient.findOne(collectionName, titleReceived, null, asyncResult -> {
       if (asyncResult.result() != null) {
@@ -234,7 +237,7 @@ public class CommonApplicationValidationManager extends AbstractManager {
   public Future<List<JsonObject>> fetchMongoDatasets(RoutingContext context) {
 
     Promise<List<JsonObject>> promise = Promise.promise();
-    String userId = context.user().principal().getString("sub");
+    String userId = Context.getEcasId(context);
 
     dbHandler.findAll(BASKET_COLLECTION, null, null, null, null, null, userId)
       .onComplete(result -> {
@@ -251,7 +254,10 @@ public class CommonApplicationValidationManager extends AbstractManager {
   public void validateFile(RoutingContext context) {
     if (context.fileUploads().size() == 1) {
       FileUpload fileUploaded = context.fileUploads().get(0);
-      if(isValidFileType(fileUploaded.fileName())){
+      String validFileList = (context.pathParam(CATALOGUE_ID) == null)
+        ? FILE_UPLOAD_VALID_TYPES
+        : FILE_UPLOAD_CATALOGUE_VALID_TYPES;
+      if(isValidFileType(fileUploaded.fileName(), validFileList)){
         context.next();
       } else {
         setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
@@ -266,7 +272,7 @@ public class CommonApplicationValidationManager extends AbstractManager {
     }
   }
 
-  private boolean isValidFileType(String fileName) {
-    return fileName.toLowerCase().matches(FILE_UPLOAD_VALID_TYPES);
+  private boolean isValidFileType(String fileName, String validFileList) {
+    return fileName.toLowerCase().matches(validFileList);
   }
 }

@@ -1,0 +1,1588 @@
+{
+    "section1": {
+        "section1h5": "Výběr zdrojů údajů pro projekt",
+        "section1Description": "Uživatelé údajů by měli žádat pouze o data, která jsou přiměřená, relevantní a omezená na to, co je nezbytné ve vztahu k účelu jejich použití, \nv souladu se zásadou minimalizace údajů stanovenou v obecném nařízení EU o ochraně osobních údajů 58 (čl. 5 odst. 1c). \nSubjekt pro přístup ke zdravotním datům pečlivě vyhodnotí, zda jsou vaše požadavky v souladu se zásadou minimalizace údajů podle obecného nařízení o ochraně osobních údajů.",
+        "section1DescriptionDR": "Žádost o přístup k elektronickým zdravotním datům pro sekundární využití v anonymizovaném statistickém formátu",
+        "applicationDatasets": {
+            "label": "Z jakého datového souboru (záznamů) nebo registru (registrů) a/nebo distribuce (distribucí) budou údaje získány?"
+        },
+        "applicationCountries": {
+            "label": "Ze které země/jakých zemí údaje hledáte?"
+        },
+        "applicationDataHolders": {
+            "label": "Od kterého držitele (držitelů) dat budou data získána?"
+        },
+        "applicationHDABs": {
+            "label": "U kterého subjektu/subjektů pro přístup ke zdravotním datům chcete žádost podat?"
+        },
+        "applicationDatabases": {
+            "label": "Z jaké databáze (databází) nebo registru/registrů budou údaje získány?"
+        }
+    },
+    "section2": {
+        "section2h5": "Veřejné informace o projektu",
+        "section2Description": "Subjekty pro přístup ke zdravotním datům v Evropské unii jsou povinny zveřejnit informace o Povoleních k údajům, žádostech a žádostech o zdravotní data na svých internetových stránkách do 30 pracovních dnů od vydání Povolení k údajům nebo odpovědi na žádost o zdravotní data. V této části Vás žádáme, abyste poskytli informace o svém projektu, které lze sdílet s veřejností. Nezahrnujte žádné důvěrné informace. Poskytněte své odpovědi laicky. Jako uživatel údajů budete muset zveřejnit výsledky nebo výstupy projektu nejpozději 18 měsíců po dokončení zpracování nebo obdržení odpovědi na žádost o zdravotní data. Kromě toho musíte subjekt pro přístup ke zdravotním datům informovat o počtu recenzovaných výzkumných publikací, politických dokumentů a/nebo regulačních postupů provedených s využitím dat, k nimž se v této aplikaci přistupovalo.",
+        "projectName": {
+            "label": "Název akce"
+        },
+        "projectLeader": {
+            "label": "Jméno vedoucího projektu (organizace, instituce, subjekt soukromého sektoru nebo fyzická osoba)",
+            "tooltip": "Jedná se o osobu odpovědnou za použití údajů."
+        },
+        "countryOfProjectLeader": {
+            "label": "Oficiální bydliště (země) subjektu odpovědného za projekt"
+        },
+        "purposeForWhichDataWillBeUsed": {
+            "label": "Účel, pro který budou údaje použity",
+            "tooltip": "Účely nařízení o EHDS.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "A. veřejný zájem v oblasti veřejného zdraví nebo zdraví při práci, například ochrana před vážnými přeshraničními zdravotními hrozbami, dohled nad veřejným zdravím nebo zajištění vysoké úrovně kvality a bezpečnosti zdravotní péče, včetně bezpečnosti pacientů, a léčivých přípravků nebo zdravotnických prostředků."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Tvorba politiky a regulační činnost na podporu subjektů veřejného sektoru nebo orgánů, institucí a jiných subjektů Unie z oblasti zdravotnictví nebo pečovatelství, včetně regulačních orgánů, při plnění jejich úkolů vymezených v jejich mandátech."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Statistiky, ve smyslu čl. 3 bodu 1 nařízení (EU) č. 223/2009, jako jsou statistiky na vnitrostátní a nadnárodní úrovni a na úrovni Unie, které se týkají oblasti zdravotnictví nebo pečovatelství."
+                },
+                {
+                    "key": "d",
+                    "value": "D. Vzdělávací nebo výukové činnosti v oblasti zdravotnictví nebo pečovatelství na úrovni odborného nebo vysokoškolského vzdělávání."
+                },
+                {
+                    "key": "e",
+                    "value": "e. Vědecký výzkum související s oblastí zdravotnictví nebo pečovatelství, který přispívá k ochraně veřejného zdraví nebo hodnocení zdravotnických technologií nebo zajišťuje vysokou úroveň kvality a bezpečnosti zdravotní péče, léčivých přípravků nebo zdravotnických prostředků, s cílem přinést prospěch koncovým uživatelům, jako jsou pacienti, zdravotničtí pracovníci a správci zdravotnictví, včetně: i) činností v oblasti vývoje a inovací produktů nebo služeb; ii) odborné přípravy, testování a hodnocení algoritmů, mimo jiné v oblasti zdravotnických prostředků, diagnostických zdravotnických prostředků in vitro, systémů AI a digitálních zdravotnických aplikac."
+                },
+                {
+                    "key": "f",
+                    "value": "F. Zlepšení poskytování péče, optimalizace léčby a poskytování zdravotní péče na základě elektronických zdravotních údajů jiných fyzických osob."
+                }
+            ]
+        },
+        "theNatureOfTheDataDoesNotLetYouProvideADescription": {
+            "label": "Povaha vašeho projektu vám neumožňuje poskytnout popis"
+        },
+        "descriptionOfTheProject": {
+            "label": "Vysvětlete prosím důvody, proč nemůžete údaje popsat.",
+            "tooltip": "Toto vysvětlení důvodu (důvodů) nebude zveřejněno."
+        },
+        "summaryOfTheProject": {
+            "label": "Shrnutí projektu",
+            "tooltip": "Laicky stručně (maximálně 250 slov) shrnutí cílů projektu, údajů, které mají být použity, metod a očekávaných výsledků."
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummary": {
+            "label": "Povaha vašeho projektu vám neumožňuje poskytnout shrnutí"
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason": {
+            "label": "Vysvětlete prosím důvody, proč nemůžete poskytnout shrnutí svého projektu.",
+            "tooltip": "Toto vysvětlení důvodu (důvodů) nebude zveřejněno."
+        }
+    },
+    "section3": {
+        "section3h5": "Údaje o žadateli a kontaktní osobě",
+        "section3Description": "V žádosti o Povolení k údajům by mělo být uvedeno jméno a kontaktní údaje žadatele, ať už právnické, nebo fyzické osoby. Měly by být rovněž uvedeny informace o kontaktní osobě, která odpovídá na jakékoli dotazy týkající se žádosti, ať už se jedná o stejnou osobu jako žadatel, nebo o jinou osobu. Není-li kontaktní osoba totožná s žadatelem, měl by být vyjasněn její vztah, např. založený na pracovní smlouvě.",
+        "section3DescriptionRequest": "V žádosti o údaje by mělo být uvedeno jméno a kontaktní údaje žadatele, ať už právnické, nebo fyzické osoby. Měly by být rovněž uvedeny informace o kontaktní osobě, která odpovídá na jakékoli dotazy týkající se žádosti, ať už se jedná o tutéž osobu jako žadatel (v případě fyzické osoby jako žadatel), nebo o jinou osobu.\nNení-li kontaktní osoba totožná s žadatelem, měl by být vyjasněn její vztah, např. založený na pracovní smlouvě.",
+        "applyingForDataOnBehalfOfPublicSector": {
+            "label": "Žádáte o data jménem subjektu veřejného sektoru nebo orgánu, instituce nebo jiného subjektu Evropské unie?"
+        },
+        "applyingForDataForCarryingOutTasks": {
+            "label": "Žádáte o údaje pro plnění úkolů zakotvených v mandátu vaší organizace/instituce?",
+            "tooltip": "Úkoly spadajícími do mandátu vaší organizace/instituce se rozumí úkoly vycházející z vnitrostátního práva nebo práva Evropské unie."
+        },
+        "legalOrNaturalPerson": {
+            "label": "Je žadatel právnickou nebo fyzickou osobou?",
+            "tooltip": "Fyzická osoba = fyzická osoba, fyzická osoba, právnická osoba = společnost, organizace nebo sdružení.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Právnická osoba"
+                },
+                {
+                    "key": "b",
+                    "value": "Fyzická osoba",
+                    "info": "(Pokud zvolíte tuto možnost, potvrďte, že žádáte o údaje jako soukromá osoba bez jakékoli vazby.)"
+                }
+            ]
+        },
+        "legalPerson": "Právnická osoba",
+        "naturalPerson": "Fyzická osoba",
+        "legalPersonName": {
+            "label": "Celé jméno"
+        },
+        "postalAddress": "Poštovní adresa",
+        "legalPersonAddress": {
+            "label": "Ulice a číslo"
+        },
+        "legalPersonZipCode": {
+            "label": "Kód zipu"
+        },
+        "legalPersonCity": {
+            "label": "Město/Obec"
+        },
+        "legalPersonCountry": {
+            "label": "Země"
+        },
+        "contactPersonInformation": "Údaje o kontaktní osobě",
+        "contactPersonInformationDescription": "Kontaktní osobou se rozumí osoba, která odpovídá na dotazy týkající se žádosti. Údaje o kontaktní osobě mohou být předány správci během zpracování žádosti, pokud jsou k definování extrakce údajů zapotřebí další informace. ",
+        "contactPersonName": {
+            "label": "Celé jméno"
+        },
+        "contactPersonEmail": {
+            "label": "Email"
+        },
+        "contactPersonPhone": {
+            "label": "Telefon"
+        },
+        "contactPersonNameOfTheOrganisation": {
+            "label": "Název organizace"
+        },
+        "contactPersonBusinessIdentifier": {
+            "label": "Obchodní identifikační číslo organizace"
+        },
+        "contactPersonOperatorIdentifier": {
+            "label": "ID provozovatele"
+        },
+        "contactPersonJobTitle": {
+            "label": "Pracovní zařazení"
+        },
+        "contactPersonAffiliation": {
+            "label": "Příslušnost"
+        },
+        "contactPersonRelationship": {
+            "label": "Jaký je vztah mezi kontaktní osobou a žadatelem? (Např. zaměstnanec žádající o údaje jménem své organizace.)"
+        },
+        "naturalPersonName": {
+            "label": "Celé jméno"
+        },
+        "naturalPersonAddress": {
+            "label": "Ulice a číslo"
+        },
+        "naturalPersonZipCode": {
+            "label": "Kód zipu"
+        },
+        "naturalPersonCity": {
+            "label": "Město/Obec"
+        },
+        "naturalPersonCountry": {
+            "label": "Země"
+        },
+        "naturalPersonEmail": {
+            "label": "Email"
+        },
+        "naturalPersonPhone": {
+            "label": "Telefon"
+        },
+        "naturalPersonJobTitle": {
+            "label": "Pracovní zařazení"
+        },
+        "naturalPersonAffiliation": {
+            "label": "Příslušnost"
+        }
+    },
+    "section4": {
+        "section4h5": "Platební údaje",
+        "section4Description": "Platební údaje osoby, které subjekt pro přístup ke zdravotním datům zasílá účty související s touto žádostí a následné povolení k datům, pokud bylo uděleno.",
+        "sameAsContactPerson": {
+            "label": "Stejná jako kontaktní osoba uvedená v oddíle 3?"
+        },
+        "fullName": {
+            "label": "Celé jméno"
+        },
+        "address": {
+            "label": "Adresa"
+        },
+        "email": {
+            "label": "Email"
+        },
+        "phone": {
+            "label": "Telefon"
+        },
+        "invoiceType": {
+            "label": "Druh faktury",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Papírové"
+                },
+                {
+                    "key": "b",
+                    "value": "Elektronické"
+                }
+            ]
+        },
+        "invoiceReferenceNumber": {
+            "label": "Referenční číslo faktury"
+        },
+        "invoiceAddress": {
+            "label": "Adresa elektronické faktury (EDI nebo IBAN)"
+        },
+        "operatorIdentifier": {
+            "label": "ID provozovatele"
+        },
+        "nameOfTheOrganisation": {
+            "label": "Název organizace"
+        },
+        "businessIdentifierOrganization": {
+            "label": "Obchodní identifikační číslo organizace"
+        },
+        "vatNumber": {
+            "label": "Číslo plátce DPH"
+        },
+        "peppolCode": {
+            "label": "Kód PEPPOL (v příslušných případech)"
+        },
+        "isTheProjectFinanciallyCovered": {
+            "label": "Je projekt finančně kryt?"
+        },
+        "rangeOfAmountOfFinancing": {
+            "label": "Jaký je rozsah výše financování projektu, který požadované údaje využije?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "& 10000 EUR"
+                },
+                {
+                    "key": "b",
+                    "value": "10000–50000 EUR"
+                },
+                {
+                    "key": "c",
+                    "value": "50000–100000 EUR"
+                },
+                {
+                    "key": "d",
+                    "value": "100000–500000 EUR"
+                },
+                {
+                    "key": "e",
+                    "value": "500000–1000000 EUR"
+                },
+                {
+                    "key": "f",
+                    "value": "> 1 000 000 EUR"
+                }
+            ]
+        }
+    },
+    "section5": {
+        "section5h5": "Účel použití údajů",
+        "section5Description": "Žadatelé by měli uvést účel, pro který jsou údaje požadovány, v souladu s čl. 53 odst. 1 nařízení o EHDS, oprava schválená Evropským parlamentem dne 17. prosince. \nŽadatelé musí vysvětlit a odůvodnit, proč jsou požadované údaje nezbytné pro jejich uvedený účel použití. Žadatelé jsou rovněž požádáni, aby poskytli informace o cíli projektu. Poté musí žadatelé v závislosti na účelu použití (výzkum či nikoli) předložit shrnutí plánu využití údajů nebo shrnutí výzkumného plánu a informace o osobě odpovědné za použití nebo výzkum údajů.",
+        "purposeOfUse": {
+            "label": "Účel použití dat. Subjekty pro přístup ke zdravotním datům poskytnou přístup k elektronickým zdravotním datům uvedeným v článku 51, pouze pokud zamýšlený účel zpracování sledovaný žadatelem splňuje níže uvedené účely (podle čl. 53 odst. 1)",
+            "tooltip": "Účely nařízení o EHDS.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "veřejný zájem v oblasti veřejného zdraví nebo zdraví při práci, jako jsou činnosti na ochranu před vážnými přeshraničními zdravotními hrozbami, dohled nad veřejným zdravím nebo činnosti zajišťující vysokou úroveň kvality a bezpečnosti zdravotní péče, včetně bezpečnosti pacientů, a léčivých přípravků nebo zdravotnických prostředků."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Tvorba politik a regulační činnosti na podporu subjektů veřejného sektoru nebo orgánů, institucí a jiných subjektů Unie, včetně regulačních orgánů, v odvětví zdravotnictví nebo péče při plnění jejich úkolů vymezených v jejich mandátech."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Statistiky ve smyslu čl. 3 bodu 1 nařízení (EU) č. 223/2009, jako jsou vnitrostátní, nadnárodní a unijní oficiální statistiky týkající se odvětví zdravotnictví nebo péče."
+                },
+                {
+                    "key": "d",
+                    "value": "D. Vzdělávací nebo výukové činnosti v odvětví zdravotnictví nebo péče na odborné nebo vysokoškolské úrovni."
+                },
+                {
+                    "key": "e",
+                    "value": "e. Vědecký výzkum týkající se odvětví zdravotnictví nebo péče, který přispívá k veřejnému zdraví nebo hodnocení zdravotnických technologií nebo zajišťuje vysokou úroveň kvality a bezpečnosti zdravotní péče, léčivých přípravků nebo zdravotnických prostředků, s cílem přinést prospěch konečným uživatelům, jako jsou pacienti, zdravotničtí pracovníci a zdravotní administrátoři, včetně:\ni) vývojové a inovační činnosti pro výrobky nebo služby;\nII) odborná příprava, testování a hodnocení algoritmů, a to i v oblasti zdravotnických prostředků, diagnostických zdravotnických prostředků in vitro, systémů umělé inteligence a digitálních zdravotnických aplikací."
+                },
+                {
+                    "key": "f",
+                    "value": "F. Zlepšení poskytování péče, optimalizace léčby a poskytování zdravotní péče na základě elektronických zdravotních dat jiných fyzických osob."
+                }
+            ]
+        },
+        "whyTheDataIsNeeded": {
+            "label": "Proč jsou údaje, o které žádáte, potřebné pro uvedený účel použití? Zde vysvětlete, proč jsou množství a druh údajů, o něž žádáte, nezbytné pro váš účel použití údajů."
+        },
+        "whyAreTheDataRequested": {
+            "label": "Proč jsou údaje požadované v této žádosti potřebné pro uvedený účel použití?"
+        },
+        "whatIsTheAimAndTopicOfTheProject": {
+            "label": "Jaký je cíl a téma vašeho projektu?"
+        },
+        "whichAreTheExpectedBenefits": {
+            "label": "Jaký je očekávaný přínos související s používáním elektronických zdravotních dat a jak tento přínos přispívá k účelům uvedeným v bodě 5.1?"
+        },
+        "legalBasis": {
+            "label": "Uveďte právní základ, například příslušné právní předpisy, které definují úkoly spadající do Vašeho mandátu a potvrzují, že vaše plánované použití údajů má tyto úkoly usnadnit.",
+            "tooltip": "Zde vysvětlete, proč je množství údajů, o něž žádáte, nezbytné pro váš účel použití údajů. Zdůvodněte a popište, jak obsah požadovaných statistik odpovídá účelu použití uvedenému v žádosti a jak splňuje vaše požadavky na údaje."
+        },
+        "linkToTheSupportingLegalBasis": {
+            "label": "Jako důkaz právního základu uveďte odkaz na podpůrnou dokumentaci."
+        },
+        "summaryOfPlanForUsingTheData": {
+            "label": "Uveďte shrnutí svého plánu využití údajů. Shrnutí musí být napsáno v jednom z úředních jazyků EU."
+        },
+        "summaryOfPlanForUsingTheDataLanguage": {
+            "label": "Vyberte jazyk shrnutí",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulharština"
+                },
+                {
+                    "key": "hr",
+                    "value": "Chorvatština"
+                },
+                {
+                    "key": "cs",
+                    "value": "Čeština"
+                },
+                {
+                    "key": "da",
+                    "value": "Dánština"
+                },
+                {
+                    "key": "nl",
+                    "value": "Nizozemština"
+                },
+                {
+                    "key": "en",
+                    "value": "Angličtina"
+                },
+                {
+                    "key": "et",
+                    "value": "Estonština"
+                },
+                {
+                    "key": "fi",
+                    "value": "Finština"
+                },
+                {
+                    "key": "fr",
+                    "value": "Francouzština"
+                },
+                {
+                    "key": "de",
+                    "value": "Němčina"
+                },
+                {
+                    "key": "el",
+                    "value": "Řečtina"
+                },
+                {
+                    "key": "hu",
+                    "value": "Maďarština"
+                },
+                {
+                    "key": "ga",
+                    "value": "Irština"
+                },
+                {
+                    "key": "it",
+                    "value": "Italština"
+                },
+                {
+                    "key": "lv",
+                    "value": "Lotyština"
+                },
+                {
+                    "key": "lt",
+                    "value": "Litevština"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltština"
+                },
+                {
+                    "key": "pl",
+                    "value": "Polština"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugalština"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumunština"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovenština"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slovinština"
+                },
+                {
+                    "key": "es",
+                    "value": "Španělština"
+                },
+                {
+                    "key": "sv",
+                    "value": "Švédština"
+                }
+            ]
+        },
+        "summaryOfResearchPlan": {
+            "label": "Poskytněte shrnutí svého výzkumného plánu. Shrnutí musí být napsáno v jednom z úředních jazyků EU."
+        },
+        "summaryOfResearchPlanLanguage": {
+            "label": "Vyberte jazyk shrnutí",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulharština"
+                },
+                {
+                    "key": "hr",
+                    "value": "Chorvatština"
+                },
+                {
+                    "key": "cs",
+                    "value": "Čeština"
+                },
+                {
+                    "key": "da",
+                    "value": "Dánština"
+                },
+                {
+                    "key": "nl",
+                    "value": "Nizozemština"
+                },
+                {
+                    "key": "en",
+                    "value": "Angličtina"
+                },
+                {
+                    "key": "et",
+                    "value": "Estonština"
+                },
+                {
+                    "key": "fi",
+                    "value": "Finština"
+                },
+                {
+                    "key": "fr",
+                    "value": "Francouzština"
+                },
+                {
+                    "key": "de",
+                    "value": "Němčina"
+                },
+                {
+                    "key": "el",
+                    "value": "Řečtina"
+                },
+                {
+                    "key": "hu",
+                    "value": "Maďarština"
+                },
+                {
+                    "key": "ga",
+                    "value": "Irština"
+                },
+                {
+                    "key": "it",
+                    "value": "Italština"
+                },
+                {
+                    "key": "lv",
+                    "value": "Lotyština"
+                },
+                {
+                    "key": "lt",
+                    "value": "Litevština"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltština"
+                },
+                {
+                    "key": "pl",
+                    "value": "Polština"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugalština"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumunština"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovenština"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slovinština"
+                },
+                {
+                    "key": "es",
+                    "value": "Španělština"
+                },
+                {
+                    "key": "sv",
+                    "value": "Švédština"
+                }
+            ]
+        },
+        "personResponsibleLabel": "Osoba odpovědná za využívání údajů",
+        "personResponsibleName": {
+            "label": "Celé jméno"
+        },
+        "personResponsibleJobTitle": {
+            "label": "Pracovní zařazení"
+        },
+        "personResponsibleAffiliation": {
+            "label": "Příslušnost"
+        },
+        "personResearchSameAsContactPerson": {
+            "label": "Stejné jako kontaktní osoba uvedená v oddíle 3 (Údaje o žadateli a kontaktní osobě)?"
+        },
+        "personResponsibleForResearchLabel": "Osoba odpovědná za výzkum",
+        "personResponsibleSameAsContactPerson": {
+            "label": "Stejné jako kontaktní osoba uvedená v oddíle 3 (Údaje o žadateli a kontaktní osobě)?"
+        },
+        "personResearchName": {
+            "label": "Celé jméno"
+        },
+        "personResearchJobTitle": {
+            "label": "Pracovní zařazení"
+        },
+        "personResearchAffiliation": {
+            "label": "Příslušnost"
+        },
+        "formatOfTheElectronicHealthData": {
+            "label": "Vyberte formát elektronických zdravotních dat, která mají být zpřístupněna:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Anonymní"
+                },
+                {
+                    "key": "b",
+                    "value": "Pseudonymizováno"
+                }
+            ]
+        },
+        "inOrderToApplyPseudonymisedData": "Jsem si vědom(a) toho, že abych mohl požádat o pseudonymizované údaje, musím:",
+        "inOrderToApplyPseudonymisedDataA": {
+            "label": "a) Vysvětlete, jak budu dodržovat čl. 6 odst. 1 obecného nařízení o ochraně osobních údajů (nebo čl. 5 odst. 1 nařízení EU o ochraně údajů, pokud o údaje žádá orgán, instituce nebo jiný subjekt EU)"
+        },
+        "inOrderToApplyPseudonymisedDataB": {
+            "label": "b) posuzuje etické aspekty zpracování údajů, je-li to relevantní a v souladu s vnitrostátními právními předpisy nebo platnými právními předpisy."
+        },
+        "whyNeedForPseudonymisation": {
+            "label": "Proč potřebujete pro svůj projekt pseudonymizované údaje?"
+        }
+    },
+    "section6": {
+        "section6h5": "Popis potřebných údajů",
+        "section6Description": "V tomto oddíle musíte uvést popis požadovaného souboru údajů a jasně uvést, kterých datových souborů se žádost týká. Měli byste žádat pouze o údaje, které jsou přiměřené, relevantní a omezené na to, co je nezbytné ve vztahu k vašemu účelu použití, v souladu se zásadou minimalizace údajů stanovenou v obecném nařízení EU o ochraně osobních údajů (čl. 5 odst. 1c). Subjekt pro přístup ke zdravotním datům pečlivě vyhodnotí, zda jsou vaše požadavky v souladu se zásadou minimalizace údajů podle obecného nařízení o ochraně osobních údajů.",
+        "descriptionSection6_1": "Vymezení extrakčních kritérií pro kohortu:",
+        "descriptionOfTheDataNeeded": "Popis potřebných údajů:",
+        "applicationHDABsForSelectedCountry": "Kterému subjektu pro přístup ke zdravotním datům chcete žádost podat?",
+        "applicationDatasetsPerCountry": "Příslušné záznamy o souboru údajů a distribuce",
+        "informationProviderSameAsContactPerson": {
+            "label": "Stejná jako kontaktní osoba uvedená v oddíle 3?"
+        },
+        "hdabContacts": {
+            "label": "Pokud jste byli v kontaktu s osobou subjektu pro přístup ke zdravotním datům ohledně údajů, které hledáte, uveďte zde jména a e-mailové adresy této osoby."
+        },
+        "howWillTheDataFromDifferentSourcesBeLinked": {
+            "label": "Jak budou údaje o jedné osobě z různých zdrojů propojeny? Např. na základě osobního identifikačního kódu. Je-li použit jiný druh metody propojení, popište to zde."
+        },
+        "indicateTheSizeOfTheStudyCohort": {
+            "label": "Uveďte velikost kohorty"
+        },
+        "indicateTheSizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Velikost kohorty (Radio tlačítka)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Jedná se o odhad velikosti kohorty."
+                },
+                {
+                    "key": "b",
+                    "value": "Jedná se o přesnou velikost kohorty."
+                }
+            ]
+        },
+        "howIsTheStudyCohortFormed": {
+            "label": "Jak se kohorta vytváří?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Kohorta bude vytvořena na základě níže uvedených kritérií."
+                },
+                {
+                    "key": "b",
+                    "value": "Kohorta již vznikla."
+                },
+                {
+                    "key": "c",
+                    "value": "Kohorta bude sestávat z těchto dvou skupin: nová kohorta vytvořená na základě níže uvedených kritérií a již vytvořená kohorta."
+                },
+                {
+                    "key": "d",
+                    "value": "Kohortou bude celá populace země/zemí uvedených na začátku tohoto formuláře."
+                }
+            ]
+        },
+        "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants": {
+            "label": "Pokud chcete použít kohortu na základě vlastní předchozí studie, byla kohorta vytvořena na základě informovaného souhlasu účastníků studie? Např. kohorta vytvořená na základě průzkumné studie nebo klinické studie, s níž budou údaje založené na registrech propojeny podle nařízení o EHDS."
+        },
+        "doesTheInformedConsentCoverTheRequestedRegistryExtractions": {
+            "label": "Vztahuje se informovaný souhlas na požadované výpisy z rejstříku?"
+        },
+        "consentAndInformationLetterAttachment": {
+            "label": "Připojte souhlas a informační dopis, které jste zaslal(a) subjektům studie. Nepřipojte formuláře, které jsou vyplněny, protože obsahují osobní údaje."
+        },
+        "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
+            "label": "Potvrzuji, že pro tento výzkumný projekt bylo uděleno povolení k datům."
+        },
+        "ifTheGroupHasBeenFormedBasedOnPreviousIssued": {
+            "label": "Pokud byla kohorta vytvořena na základě dříve vydaného povolení, uveďte zde tyto informace:"
+        },
+        "previouslyIssuedPermitIssuer1": {
+            "label": "Vydavatel rozhodnutí o povolení"
+        },
+        "previouslyIssuedPermitDate1": {
+            "label": "Datum"
+        },
+        "validityPeriod1": "Doba platnosti",
+        "previouslyIssuedPermitValidityPeriodFrom1": {
+            "label": "Od"
+        },
+        "previouslyIssuedPermitValidityPeriodTo1": {
+            "label": "Až"
+        },
+        "previouslyIssuedPermitNumber1": {
+            "label": "Číslo povolení"
+        },
+        "permitDecisionAttachment": {
+            "label": "Připojte rozhodnutí o povolení týkající se extrakce údajů z kohorty v tomto oddíle."
+        },
+        "howTheStudyCohortWasObtained": {
+            "label": "Popište, jak byla kohorta získána, a důvody chybějícího povolení/souhlasu k datům."
+        },
+        "providedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Poskytli jste příslušným subjektům informace o použití údajů? Např. sdílené informace o použití údajů na internetových stránkách projektu.",
+            "tooltip": "Další informace viz články 13 a 14 obecného nařízení o ochraně osobních údajů: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
+            "tooltipForm": "Další informace viz články 13 a 14 obecného nařízení o ochraně osobních údajů <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">"
+        },
+        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "S jakou?"
+        },
+        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Proč ne?"
+        },
+        "whoWillDeliverTheInformationOnTheStudy": {
+            "label": "Kdo poskytne informace o kohortě subjektu pro přístup ke zdravotním datům? Tato osoba obdrží pokyny, jak údaje poskytovat prostřednictvím společného portálu EHDS."
+        },
+        "informationProviderName": {
+            "label": "Celé jméno"
+        },
+        "informationProviderEmail": {
+            "label": "E-mail"
+        },
+        "informationProviderPhone": {
+            "label": "Telefonní číslo"
+        },
+        "whyNeedDataOfaWholePopulation": {
+            "label": "Uveďte důvody, proč potřebujete údaje o celé populaci/celých populacích?",
+            "tooltip": "Zajistěte dostatečně jasně definovat tvorbu kohorty a vymezit velikost kohorty podle zamýšleného použití. Věnovat zvláštní pozornost tomu, z jakých rejstříků je kohorta získána, a kritériím pro zařazení a vyloučení kohorty. Zeměpisná definice může například znamenat místo bydliště, místo narození, místo výkonu práce nebo místo, kde jsou využívány služby."
+        },
+        "sizeOfTheStudyCohort": {
+            "label": "Uveďte velikost kohorty"
+        },
+        "sizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Velikost kohorty (Radio tlačítka)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Jedná se o odhad velikosti kohorty."
+                },
+                {
+                    "key": "b",
+                    "value": "Jedná se o přesnou velikost kohorty."
+                }
+            ]
+        },
+        "whyNeedStudyCohortOfThisSize": {
+            "label": "Proč potřebujete pro svůj projekt kohortu této velikosti?"
+        },
+        "ethicalReview": "Etický přezkum – text poskytne oddělení politik",
+        "ethicalReviewDescription": "Etický přezkum",
+        "ethicalReviewInput": {
+            "label": "Etický přezkum",
+            "tooltip": "Text poskytne oddělení politik."
+        },
+        "ethicalReviewAttachment": {
+            "label": "Etický přezkum"
+        },
+        "dataHolders": "Od kterého držitele (držitelů) dat budou data získána?",
+        "whichDatabasesDataExtracted": "Ze kterých databází/registrů/registrů budou údaje získány?",
+        "whichDatasetDataExtracted": "Z jakého datového souboru (záznamů)/rejstříku (rejstříků) budou údaje získány?",
+        "variablesToBeUsedInDataExtractionAttachment": {
+            "label": "Jsou-li informace k dispozici, připojte seznam proměnných, které mají být použity při extrakci údajů. Použijte přesné termíny poskytnuté příslušným držitelem (příslušnými držiteli) dat v katalogu metadat."
+        },
+        "timePeriodOfDataExtraction": {
+            "label": "Za jaké časové období budou záznamy datových souborů extrahovány?"
+        },
+        "extractionMethod": {
+            "label": "Extrakční metoda:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "namátkový vzorek"
+                },
+                {
+                    "key": "b",
+                    "value": "všechny osoby splňující kritéria"
+                },
+                {
+                    "key": "c",
+                    "value": "jiný vzorek"
+                }
+            ]
+        },
+        "samplingMethod": {
+            "label": "Popište metodu odběru vzorků"
+        },
+        "sampleSize": {
+            "label": "Velikost vzorku",
+            "tooltip": "Odpovědi mohou být například: 100000 osob nebo 50 % osob splňujících kritéria."
+        },
+        "inclusionCriteria": {
+            "label": "Popište kritéria zahrnutí pro extrakci kohorty ",
+            "tooltip": "Nezapomeňte zde vyjasnit všechna kritéria pro zařazení, která mohou být nejednoznačná. Pokud například chcete zahrnout subjekty údajů určitého věku, objasněte, na základě jaké proměnné by se věk měl vypočítat a v jakém časovém okamžiku."
+        },
+        "potentialExclusionCriteria": {
+            "label": "Popište potenciální kritéria vyloučení pro extrakci kohorty"
+        },
+        "tabulationPlanArray": {
+            "label": "Pole tabulkového plánu",
+            "tooltip": "Kromě toho u každé tabulky uveďte tyto informace: ● zaregistrujte se ● možná kohorta ● informace o požadovaných proměnných (jsou-li k dispozici) ● vytváření proměnných, pokud k nim nelze získat přímý přístup z databáze ● žádoucí směr agregace procentních podílů ● pořadí, v jakém jsou tabulky generovány, pokud jsou dříve vygenerované tabulky použity k vytvoření jiných tabulek ● jakýkoli jiný relevantní faktor související s vytvářením požadované tabulky (tabulek)"
+        },
+        "tabulationRegisteredToBeUsed": {
+            "label": "Registrace, která má být použita"
+        },
+        "tabulationPossibleStudyCohort": {
+            "label": "Možná kohorta"
+        },
+        "tabulationInformationOfRequiredVariables": {
+            "label": "Informace o požadovaných proměnných (jsou-li k dispozici)"
+        },
+        "tabulationFormationVariables": {
+            "label": "Tvorba proměnných, pokud k nim nelze získat přímý přístup z databáze"
+        },
+        "tabulationDesiredDirection": {
+            "label": "Požadovaný směr agregace procentních podílů"
+        },
+        "tabulationOrderInWhichTable": {
+            "label": "Pořadí, v jakém jsou tabulky generovány, pokud se dříve vygenerované tabulky používají k vytvoření jiných tabulek"
+        },
+        "tabulationAnyOtherRelevant": {
+            "label": "Jakékoli další relevantní faktory související s vytvářením požadované tabulky (tabulek) "
+        },
+        "tabulationPlanButton": "Přidat tabulkový plán",
+        "tabulationPlan": {
+            "label": "Tabulkový plán",
+            "tooltip": "Pro každou statistiku, kterou požadujete, připojte příklad excelové (nebo rovnocenné) tabulky."
+        },
+        "extractionDescriptionAndCompilation": {
+            "label": "Popis extrakce a sestavování statistik",
+            "tooltip": "Subjekt pro přístup ke zdravotním datům poskytne data, která požadujete, pouze v anonymizovaném statistickém formátu, pouze pokud je vaše žádost o data přijata. Z důvodu anonymity nemá uživatel dat přístup k elektronickým zdravotním datům použitým k poskytnutí této odpovědi. Veškeré informace, které požadujete, musí být odstraněny na obecnou úroveň, aby se zabránilo malému počtu buněk s vysokým potenciálem opětovné identifikace."
+        },
+        "dataExtraction": "Doba extrakce dat a pořadí kohorty",
+        "dataExtractionTimes": "Doba extrakce dat a pořadí kohorty",
+        "howOftenDoesTheDataNeedToBeExtracted": {
+            "label": "Jak často je třeba údaje získat?"
+        },
+        "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
+            "label": "Jak často je třeba údaje získat?"
+        },
+        "needForDataExtractionEvery": {
+            "label": "Údaje je třeba vytěžit z každého",
+            "tooltip": "Chcete-li, aby byly údaje extrahovány několikrát za určité časové období, vezměte prosím na vědomí, že definice a metoda shromažďování údajů se mohou během období přezkumu v některých případech změnit. Upozorňujeme, že maximální četnost extrakce údajů je každé čtvrtletí."
+        },
+        "needForDataExtractionEveryOther": {
+            "label": "Upřesněte jiné"
+        },
+        "needForDataExtractionEveryDescriptionDR": {
+            "label": "Uveďte více informací o dobách/dobách výtěžku",
+            "tooltip": "Chcete-li, aby byly údaje extrahovány několikrát za určité časové období, vezměte prosím na vědomí, že definice a metoda shromažďování údajů se mohou během období přezkumu v některých případech změnit."
+        },
+        "needForDataExtractionEveryDescription": {
+            "label": "Uveďte více informací o dobách/dobách extrahování kohort",
+            "tooltip": "Chcete-li, aby byly údaje extrahovány několikrát za určité časové období, vezměte prosím na vědomí, že definice a metoda shromažďování údajů se mohou během období přezkumu v některých případech změnit."
+        },
+        "whatIsTheFrequencyOfUpdates": {
+            "label": "Jaká je četnost požadovaných aktualizací údajů?"
+        },
+        "orderForDataExtraction": {
+            "label": "Pokud ovlivní výsledky extrakce údajů, v jakém pořadí budou údaje z kohorty extrahovány? Uveďte číslovaný seznam fází extrakce. Například: 1. Držitel dat A; 2. Držitel dat B; 3. Držitel dat C"
+        },
+        "definingExtractionCriteria": "Vymezení extrakčních kritérií pro kontroly:",
+        "willControlsBeExtracted": {
+            "label": "Budou pro kohortu extrahovány kontroly?"
+        },
+        "hasTheGroupRelativesFormed2": {
+            "label": "Byla kontrolní skupina vytvořena na základě dříve vydaného povolení?"
+        },
+        "willSameDataBeExtractedForControls": {
+            "label": "Budou pro účely kontrol extrahovány stejné údaje jako pro kohortu?"
+        },
+        "regionForControlsDataExtraction": {
+            "label": "Pokud nehledáte údaje pro kontroly z celé země, od kterého regionu (regionů) a/nebo města/měst a/nebo obce/obce údaje hledáte?"
+        },
+        "fromWhichDataHolderLabel": "Od kterého (kterých) budou data pro kontroly extrahována?",
+        "fromWhichDatabaseLabel": "Z jaké databáze (databází)/registrů/registrů budou údaje pro kontroly získány?",
+        "fromWhichDatasetLabel": "Z jakého datového souboru (záznamů)/rejstříku (rejstříků) budou údaje pro kontroly extrahovány?",
+        "variablesForDataExtraction": {
+            "label": "Jsou-li informace k dispozici, uveďte proměnné, které mají být použity při extrakci dat. Použijte přesné termíny poskytnuté příslušným držitelem (příslušnými držiteli) dat v katalogu metadat."
+        },
+        "timePeriodForDataExtraction": {
+            "label": "Za jaké časové období budou záznamy datového souboru extrahovány?"
+        },
+        "extractionCriteriaForControls": {
+            "label": "Upřesněte kritéria pro extrakci kontrol, např. odpovídající kritéria"
+        },
+        "sizeOfControlGroup": {
+            "label": "Velikost kontrolní skupiny"
+        },
+        "sizeOfControlGroupEstimationOrExact": {
+            "label": "Velikost kontrolní skupiny (Radio Buttons)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Jedná se o odhad velikosti skupiny kontrol."
+                },
+                {
+                    "key": "b",
+                    "value": "Jedná se o přesnou velikost skupiny kontrol."
+                }
+            ]
+        },
+        "controlsPerPersonInStudyCohort": {
+            "label": "Kolik kontrol se získává na osobu patřící do kohorty?"
+        },
+        "inclusionCriteriaForControls": {
+            "label": "Popište kritéria zahrnutí pro extrakci kontrol"
+        },
+        "exclusionCriteriaForControls": {
+            "label": "Popište potenciální kritéria pro vyloučení pro extrakci kontrol"
+        },
+        "ifTheGroupHasBeenFormed": "Pokud byla skupina kontrol vytvořena na základě dříve vydaného povolení, uveďte zde tyto informace:",
+        "previouslyIssuedPermitIssuer2": {
+            "label": "Vydavatel rozhodnutí o povolení"
+        },
+        "previouslyIssuedPermitDate2": {
+            "label": "Datum"
+        },
+        "validityPeriod2": "Doba platnosti",
+        "previouslyIssuedPermitValidityPeriodFrom2": {
+            "label": "Od"
+        },
+        "previouslyIssuedPermitValidityPeriodTo2": {
+            "label": "Až"
+        },
+        "previouslyIssuedPermitNumber2": {
+            "label": "Číslo povolení"
+        },
+        "dataExtractionAndOrderForControls": " Doba extrakce dat a pořadí kontrol",
+        "willDataForControlsBeExtractedSimultaneously": {
+            "label": "Budou údaje pro kontroly získávány současně a ve stejném pořadí jako údaje pro kohortu?"
+        },
+        "hasTheGroupRelativesFormed3": {
+            "label": "Byla skupina příbuzných vytvořena na základě dříve vydaného povolení?"
+        },
+        "ifTheGroupOfRelativesHasBeenFormed": {
+            "label": "Pokud byla skupina příbuzných vytvořena na základě dříve vydaného povolení, uveďte zde tyto informace:"
+        },
+        "previouslyIssuedPermitIssuer3": {
+            "label": "Vydavatel rozhodnutí o povolení"
+        },
+        "previouslyIssuedPermitDate3": {
+            "label": "Datum"
+        },
+        "validityPeriod3": "Doba platnosti",
+        "previouslyIssuedPermitValidityPeriodFrom3": {
+            "label": "Od"
+        },
+        "previouslyIssuedPermitValidityPeriodTo3": {
+            "label": "Až"
+        },
+        "previouslyIssuedPermitNumber3": {
+            "label": "Číslo povolení"
+        },
+        "dataExtractionFrequency": {
+            "label": "Jak často je třeba údaje získat?"
+        },
+        "dataExtractionFrequencyMultipleTimesInformation": {
+            "label": "V případě opakované extrakce uveďte informace o každém procesu extrakce dat zvlášť v pokynech k objednávce."
+        },
+        "dataNeedsToBeExtractedEvery": {
+            "label": "Údaje je třeba vytěžit z každého",
+            "tooltip": "Chcete-li, aby byly údaje extrahovány několikrát za určité časové období, vezměte prosím na vědomí, že definice a metoda sběru údajů se v některých případech mohou během období přezkumu změnit. Upozorňujeme, že maximální četnost extrakce údajů je každé čtvrtletí."
+        },
+        "specifyOther": {
+            "label": "Upřesněte jiné"
+        },
+        "moreInfoOnExtractionPeriods": {
+            "label": "Uveďte více informací o dobách/dobách výtěžku"
+        },
+        "orderOfControlsDataExtraction": {
+            "label": "Pokud to ovlivňuje výsledky extrakce údajů, v jakém pořadí budou údaje z kontrol extrahovány? Uveďte číslovaný seznam fází extrakce. Například: 1. Držitel dat A; 2. Držitel dat B; 3. Držitel dat C"
+        },
+        "definingTheExtractionCriteria": "Vymezení kritérií pro extrakci pro příbuzné:",
+        "willRelativesBeExtracted": {
+            "label": "Budou z kohorty extrahováni příbuzní?"
+        },
+        "willSameDataBeExtractedForRelatives": {
+            "label": "Budou pro příbuzné získány stejné údaje jako pro kohortu?"
+        },
+        "whichDataHoldersForRelatives": "Od kterého držitele (držitelů) dat budou data o příbuzných získána?",
+        "whichDatabaseForRelatives": "Z jaké databáze (databází)/registrů/registrů budou údaje o příbuzných získány?",
+        "whichDatasetsForRelatives": "Z jakého datového souboru (záznamů)/rejstříku (rejstříků) budou údaje o příbuzných získány?",
+        "variablesForDataExtractionRelatives": {
+            "label": "Jsou-li informace k dispozici, uveďte proměnné, které mají být použity při extrakci údajů. Použijte přesné termíny poskytnuté příslušným držitelem (příslušnými držiteli) dat v katalogu metadat."
+        },
+        "timePeriodForDataExtractionRelatives": {
+            "label": "Za jaké časové období budou záznamy datového souboru extrahovány?"
+        },
+        "relationshipToStudyCohort": {
+            "label": "Definovat vztah příbuzných k osobě patřící do kohorty (např. prarodiče, biologické rodiče, matka)"
+        },
+        "sizeOfRelativesGroup": {
+            "label": "Velikost skupiny příbuzných"
+        },
+        "sizeOfRelativesGroupEstimateOrExact": {
+            "label": "Velikost skupiny příbuzných (Radio tlačítka)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Jedná se o odhad velikosti skupiny příbuzných."
+                },
+                {
+                    "key": "b",
+                    "value": "Jedná se o přesnou velikost skupiny příbuzných."
+                }
+            ]
+        },
+        "willDataForRelativesBeExtractedSimultaneously": {
+            "label": "Budou údaje o příbuzných získávány současně a ve stejném pořadí jako údaje pro kohortu?"
+        },
+        "dataExtractionFrequencyRelatives": {
+            "label": "Jak často je třeba údaje získat?"
+        },
+        "dataNeedsToBeExtractedEveryRelatives": {
+            "label": "Údaje je třeba vytěžit z každého",
+            "tooltip": "Chcete-li, aby byly údaje extrahovány několikrát za určité časové období, vezměte prosím na vědomí, že definice a metoda shromažďování údajů se mohou během období přezkumu v některých případech změnit. Upozorňujeme, že maximální četnost extrakce údajů je každé čtvrtletí."
+        },
+        "dataExtractionFrequencyMultipleTimesInformationRelatives": {
+            "label": "V případě opakované extrakce uveďte informace o každém procesu extrakce dat zvlášť v pokynech k objednávce."
+        },
+        "needForDataExtractionEveryOptions": {
+            "label": "Údaje je třeba vytěžit z každého",
+            "tooltip": "Chcete-li, aby byly údaje extrahovány několikrát za určité časové období, vezměte prosím na vědomí, že definice a metoda shromažďování údajů se mohou během období přezkumu v některých případech změnit. Upozorňujeme, že maximální četnost extrakce údajů je každé čtvrtletí."
+        },
+        "specifyOtherRelatives": {
+            "label": "Upřesněte jiné"
+        },
+        "moreInfoOnExtractionPeriodsRelatives": {
+            "label": "Uveďte více informací o dobách/dobách výtěžku"
+        },
+        "orderOfRelativesDataExtraction": {
+            "label": "Pokud má vliv na výsledky extrakce údajů, v jakém pořadí budou údaje příbuzných získány? Uveďte číslovaný seznam fází extrakce. Například: 1. Držitel dat A; 2. Držitel dat B; 3. Držitel dat C"
+        }
+    },
+    "section7": {
+        "section7h5": "Další údaje, které je třeba kombinovat",
+        "section7Description": "Je možné kombinovat jiné osobní údaje, jako jsou údaje, které již máte k dispozici, nebo údaje získané z jiných zdrojů s jiným povolením, s údaji požadovanými v této žádosti. Uveďte informace pro všechna další data, která budou kombinována s daty povolenými subjektem pro přístup ke zdravotním datům. Chcete-li později kombinovat další osobní údaje s daty povolenými subjektem pro přístup ke zdravotním datům, musíte podat žádost o změnu u téhož subjektu pro přístup ke zdravotním datům. Pokud máte jinou kohortu, kterou by subjekt pro přístup ke zdravotním datům chtěl kombinovat s daty, o něž žádáte, obdržíte pokyny, jak data bezpečně poskytnout po udělení povolení.",
+        "addDataPermit": "Přidat povolení k datům",
+        "addInfo": "Přidat informace",
+        "removeDataPermit": "Odstranit povolení k datům",
+        "willDataBeCombinedWithDataObtained": {
+            "label": "Budou údaje, o něž žádáte, kombinovány s údaji, které jste již získali, nebo s údaji, které budou požadovány z jiných zdrojů?"
+        },
+        "listOtherDataToBeCompined": "Uveďte další údaje, které je třeba kombinovat, a zdroje těchto údajů:",
+        "combinedCountries": {
+            "label": "Země"
+        },
+        "combinedDataHolders": {
+            "label": "Držitelé dat"
+        },
+        "combinedDatabaseRegistries": {
+            "label": "Databáze/registry"
+        },
+        "combinedDatasetsRegistries": {
+            "label": "Datové soubory/rejstříky"
+        },
+        "provideInformationList": {
+            "label": "Uveďte informace o údajích, které mají být kombinovány, a o plánované metodě kombinace",
+            "tooltip": "Uveďte v příslušném rozsahu tyto informace: soubor údajů, počet souborů, formát souborů, velikost souborů, zvláštní poznámky (existují přímé/nepřímé identifikátory, údaje by měly být pseudonymizovány atd.)"
+        },
+        "dataset": {
+            "label": "Soubor údajů"
+        },
+        "numberOfFiles": {
+            "label": "Číslo spisů"
+        },
+        "formatOfFiles": {
+            "label": "Formát souborů"
+        },
+        "sizeOfFiles": {
+            "label": "Velikost souborů"
+        },
+        "notes": {
+            "label": "Poznámky"
+        },
+        "listAnyOtherDataPermit": "Zde uveďte veškerá další povolení k údajům vydaná pro tentýž projekt. Povolení musí být platná v době zpracování údajů:",
+        "otherPermits": {
+            "label": "Ostatní povolení: Vydavatel povolení, datum vydání, datum skončení platnosti, identifikační údaje"
+        },
+        "permitIssuer": {
+            "label": "Vydavatel povolení"
+        },
+        "permitStartDateOfIssue": {
+            "label": "Datum vydání"
+        },
+        "permitEndDateOfIssue": {
+            "label": "Datum uplynutí"
+        },
+        "permitIdentificationInformation": {
+            "label": "Identifikační údaje o povolení"
+        },
+        "attachmentOfPermitDocuments": {
+            "label": "Pokud záznamy souboru údajů zahrnují povolení vydaná jinými stranami nebo pokud byly shromážděny se souhlasem, připojte zde dokumenty o povolení."
+        },
+        "otherPermitApplications": {
+            "label": "Máte jiné nevyřízené žádosti o povolení?"
+        },
+        "listTheOtherData": "Uveďte další údaje, které je třeba kombinovat, a zdroje těchto údajů:",
+        "applicationIssuer": {
+            "label": "Emitent"
+        },
+        "dateOfSubmittingTheApplication": {
+            "label": "Datum podání žádosti"
+        },
+        "identificationCode": {
+            "label": "Identifikační kód povolení"
+        }
+    },
+    "section8": {
+        "section8h5": "Zpracování údajů, ochrana údajů a záruky proti neoprávněnému použití údajů",
+        "section8Description": "Podle čl. 73 odst. 1 návrhu nařízení o EHDS poskytují subjekty pro přístup ke zdravotním datům přístup k elektronickým zdravotním datům pouze prostřednictvím bezpečného zpracovatelského prostředí.",
+        "addPerson": "Přidat osobu",
+        "removePerson": "Odstranit osobu",
+        "technicalRequirementsForEnvironment": {
+            "label": "Zde uveďte všechny technické požadavky na bezpečné zpracovatelské prostředí."
+        },
+        "nameWebsiteAddressForEnvironment": {
+            "label": "Pokud již víte, jaké zpracovatelské prostředí chcete používat, jaký je jeho název a kdo jej poskytuje? Zde uveďte jméno a poskytovatele bezpečného zpracovatelského prostředí."
+        },
+        "healthDataAccessBody": "Subjekt pro přístup ke zdravotním datům poskytne data, jakmile bude vaše žádost zpracována, pokud vám bude uděleno povolení k datům. Subjekt pro přístup ke zdravotním datům si ponechá pseudonymizační klíč a podmínky extrakce a dokumentaci použité k generování dat. Povolení k datům bude uděleno pouze na dobu nezbytnou ke splnění požadovaných účelů. Povolení může být uděleno na dobu nejvýše deseti let. Tato doba může být na žádost uživatele údajů jednou prodloužena na základě argumentů a dokumentů odůvodňujících prodloužení (návrh nařízení o EHDS, čl. 68 odst. 12). V případě potřeby může být doba používání prodloužena podáním žádosti o změnu povolení k datům.",
+        "whenDataNeeded": {
+            "label": "Kdy údaje potřebujete?",
+            "tooltip": "Subjekt pro přístup ke zdravotním datům obecně požádá držitele dat o extrakci dat, jakmile bude vaše žádost zpracována. Pokud chcete údaje obdržet později, uveďte je zde.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Co nejdříve po zpracování této žádosti"
+                },
+                {
+                    "key": "b",
+                    "value": "Později, kdy?"
+                }
+            ]
+        },
+        "ifLaterWhen": {
+            "label": "Později, kdy?"
+        },
+        "informationWhichDataCanAccess": {
+            "label": "Uveďte informace o době, po kterou lze údaje získat."
+        },
+        "frequencyOfAccessOrDataUpdates": {
+            "label": "Jaká je četnost tohoto přístupu nebo četnost aktualizací dat?"
+        },
+        "estimatedStartAndEnd": {
+            "label": "Jaká jsou odhadovaná počáteční a konečná data období, během něhož jsou elektronická zdravotní data potřebná ke zpracování?",
+            "tooltip": "Toto období může být pět let. S dodatečným povolením může být původní povolení prodlouženo o dalších pět let."
+        },
+        "estimatedStartDatesForDataProcessing": {
+            "label": "Od"
+        },
+        "estimatedEndDatesForDataProcessing": {
+            "label": "Až"
+        },
+        "ifStoreNeeded": "Pokud potřebujete údaje po zpracování uložit, uveďte zde dobu neaktivního uchovávání údajů.",
+        "startPeriodOfInactiveDataStorage": {
+            "label": "Od"
+        },
+        "endPeriodOfInactiveDataStorage": {
+            "label": "Až"
+        },
+        "willTheDataBeTransferred": {
+            "label": "Budou údaje předávány mimo EU nebo EHP?",
+            "tooltip": "Evropský sbor pro ochranu osobních údajů (EDPB) určil tři kumulativní kritéria, podle nichž lze operaci zpracování považovat za předávání údajů: 1) Správce nebo zpracovatel (dále jen „vývozce“) podléhá nařízení GDPR pro dané zpracování. 2) Vývozce předáním nebo jiným způsobem zpřístupní osobní údaje, které jsou předmětem tohoto zpracování, jinému správci, společnému správci nebo zpracovateli (dále jen „dovozce“). 3) Dovozce se nachází ve třetí zemi bez ohledu na to, zda se na tohoto dovozce vztahuje nařízení GDPR pro dané zpracování v souladu s článkem 3, nebo zda je mezinárodní organizací. Více informací: https://www.edpb.europa.eu/system/files/2023-02/edpb_guidelines_05-2021_interplay_between_the_application_of_art3-chapter_v_of_the_gdpr_v2_en_0.pdf"
+        },
+        "whichCountriesDataBeProcessed": {
+            "label": "Ve které zemi/zemích mimo EU/EHP budou údaje zpracovávány?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Diagnostika"
+                },
+                {
+                    "key": "b",
+                    "value": "Epidemiologie"
+                },
+                {
+                    "key": "c",
+                    "value": "Péče o pacienty"
+                },
+                {
+                    "key": "d",
+                    "value": "Bezpečnost pacientů"
+                },
+                {
+                    "key": "e",
+                    "value": "Prevence a léčba"
+                },
+                {
+                    "key": "f",
+                    "value": "Politika veřejného zdraví"
+                },
+                {
+                    "key": "g",
+                    "value": "Organizace zdravotnických zařízení"
+                },
+                {
+                    "key": "h",
+                    "value": "Porozumění nemocem"
+                },
+                {
+                    "key": "i",
+                    "value": "Ostatní"
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEU": {
+            "label": "Proč budou údaje předávány mimo EU nebo EHP?"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47": {
+            "label": "Článek 47: Předávání založené na rozhodnutí o odpovídající ochraně"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47Options": {
+            "label": "Proč budou údaje předávány mimo EU podle možností podle článku 47?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Předávání osobních údajů do třetí země nebo mezinárodní organizaci se může uskutečnit, pokud Komise rozhodla podle čl. 45 odst. 3 nařízení (EU) 2016/679 nebo čl. 36 odst. 3 směrnice (EU) 2016/680, že daná třetí země, území nebo jedno či více konkrétních odvětví v této třetí zemi nebo daná mezinárodní organizace zajišťuje odpovídající úroveň ochrany a pokud jsou osobní údaje předávány pouze proto, aby umožnily plnění úkolů spadajících do pravomoci správce."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Orgány a instituce Unie informují Komisi a evropského inspektora ochrany údajů o případech, kdy se domnívají, že třetí země, území nebo jedno či více konkrétních odvětví ve třetí zemi nebo daná mezinárodní organizace nezajišťují odpovídající úroveň ochrany ve smyslu odstavce 1."
+                },
+                {
+                    "key": "c",
+                    "value": "c. Orgány a subjekty Unie přijmou opatření nezbytná k dosažení souladu s rozhodnutími přijatými Komisí, pokud podle čl. 45 odst. 3 nebo 5 nařízení (EU) 2016/679 nebo čl. 36 odst. 3 nebo 5 směrnice (EU) 2016/680 zjistí, že třetí země, území nebo jedno či více konkrétních odvětví v rámci třetí země nebo mezinárodní organizace zajišťuje nebo již nezajišťuje odpovídající úroveň ochrany."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48": {
+            "label": "Článek 48: Předávání založené na vhodných zárukách"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48bOptions": {
+            "label": "Proč budou údaje předávány mimo EU podle možností podle článku 48b?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "I. Právně závazný a vymahatelný nástroj mezi orgány veřejné moci nebo veřejnoprávními subjekty"
+                },
+                {
+                    "key": "b",
+                    "value": "II. Standardní doložky o ochraně údajů přijaté Komisí přezkumným postupem podle čl. 96 odst. 2"
+                },
+                {
+                    "key": "c",
+                    "value": "III. Standardních doložek o ochraně údajů přijatých evropským inspektorem ochrany údajů a schválených Komisí přezkumným postupem podle čl. 96 odst. 2; L 295/78 EN Úřední věstník Evropské unie, 21.11.2018"
+                },
+                {
+                    "key": "d",
+                    "value": "IV. Pokud zpracovatel není orgánem či subjektem Unie, závazných podnikových pravidel, kodexů chování nebo mechanismů pro vydávání osvědčení podle čl. 46 odst. 2 písm. b), e) a f) nařízení (EU) 2016/679."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48a": {
+            "label": "a. Není-li přijato rozhodnutí podle čl. 45 odst. 3 nařízení (EU) 2016/679 nebo čl. 36 odst. 3 směrnice (EU) 2016/680, může správce nebo zpracovatel předat osobní údaje do třetí země nebo mezinárodní organizaci pouze tehdy, pokud správce nebo zpracovatel poskytl vhodné záruky a za podmínky, že jsou k dispozici vymahatelná práva subjektu údajů a účinné opravné prostředky pro subjekty údajů. "
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48b": {
+            "label": "b. vhodné záruky uvedené v odstavci 1 mohou být stanoveny, aniž by bylo nutné zvláštní povolení evropského inspektora ochrany údajů:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48c": {
+            "label": "C. S výhradou povolení evropského inspektora ochrany údajů mohou být vhodné záruky uvedené v odstavci 1 rovněž stanoveny zejména:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48cOpt": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Smluvní doložky mezi správcem nebo zpracovatelem a správcem, zpracovatelem nebo příjemcem osobních údajů ve třetí zemi nebo mezinárodní organizaci."
+                },
+                {
+                    "key": "b",
+                    "value": "Ustanovení určených k vložení do správních ujednání mezi orgány veřejné moci nebo veřejnými subjekty, která zahrnují vymahatelná a účinná práva subjektu údajů."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48d": {
+            "label": "D. Povolení evropského inspektora ochrany údajů na základě čl. 9 odst. 7 nařízení (ES) č. 45/2001 zůstávají v platnosti do doby, než je evropský inspektor ochrany údajů v případě potřeby změní, nahradí nebo zruší."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48e": {
+            "label": "e. Orgány a instituce Unie informují evropského inspektora ochrany údajů o kategoriích případů, v nichž byl tento článek použit."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle49": {
+            "label": "Článek 49: Předávání či zveřejnění údajů nepovolené právem Unie"
+        },
+        "legalBasisForTransferringTheDataOutsideEU": {
+            "label": "Jaký je právní základ pro předávání údajů mimo EU nebo EHP?",
+            "tooltip": "Více informací naleznete v kapitole 5 obecného nařízení o ochraně osobních údajů: <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679#d1e4227-1-1</a>",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Země/území/mezinárodní organizace přemístění zajišťuje odpovídající úroveň ochrany podle rozhodnutí Evropské komise (článek 35 GDPR)"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Správce nebo zpracovatel údajů poskytl vhodné záruky a subjektům údajů jsou k dispozici vymahatelná práva a účinné právní prostředky nápravy (článek 46 nařízení GDPR)."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Jiný výjimečný právní základ (při neexistenci vhodných záruk podle článku 46)"
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUOtherOptions": {
+            "label": "3. Jiný výjimečný právní základ (při neexistenci vhodných záruk podle článku 46)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Subjekt údajů s navrhovaným předáním výslovně souhlasil poté, co byl informován o možných rizicích takového předání pro subjekt údajů z důvodu neexistence rozhodnutí o odpovídající ochraně a vhodných záruk."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Předání je nezbytné pro plnění smlouvy mezi subjektem údajů a správcem nebo pro provedení opatření přijatých před uzavřením smlouvy na žádost subjektu údajů."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Předání je nezbytné pro uzavření nebo plnění smlouvy uzavřené v zájmu subjektu údajů mezi správcem a jinou fyzickou nebo právnickou osobou."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Předání je nezbytné z důležitých důvodů veřejného zájmu."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Předání je nezbytné pro stanovení, výkon nebo obhajobu právních nároků."
+                },
+                {
+                    "key": "f",
+                    "value": "6. Předání je nezbytné pro ochranu životně důležitých zájmů subjektu údajů nebo jiných osob, pokud subjekt údajů není fyzicky nebo právně způsobilý udělit souhlas."
+                },
+                {
+                    "key": "g",
+                    "value": "7. K předání dochází z rejstříku, který je podle práva Unie nebo členského státu určen k informování veřejnosti a který je přístupný k nahlížení veřejnosti obecně nebo jakékoli osobě, která může prokázat oprávněný zájem, avšak pouze v rozsahu, v jakém jsou v daném případě splněny podmínky pro nahlížení stanovené právem Unie nebo členského státu."
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUc1": {
+            "label": "1. Subjekt údajů s navrhovaným předáním výslovně souhlasil poté, co byl informován o možných rizicích takového předání pro subjekt údajů z důvodu neexistence rozhodnutí o odpovídající ochraně a vhodných záruk. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc2": {
+            "label": "2. Předání je nezbytné pro plnění smlouvy mezi subjektem údajů a správcem nebo pro provedení opatření přijatých před uzavřením smlouvy na žádost subjektu údajů. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc3": {
+            "label": "3. Předání je nezbytné pro uzavření nebo plnění smlouvy uzavřené v zájmu subjektu údajů mezi správcem a jinou fyzickou nebo právnickou osobou."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc4": {
+            "label": "4. Předání je nezbytné z důležitých důvodů veřejného zájmu."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc5": {
+            "label": "5. Předání je nezbytné pro stanovení, výkon nebo obhajobu právních nároků."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc6": {
+            "label": "6. Předání je nezbytné pro ochranu životně důležitých zájmů subjektu údajů nebo jiných osob, pokud subjekt údajů není fyzicky nebo právně způsobilý udělit souhlas."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc7": {
+            "label": "7. K předání dochází z rejstříku, který je podle práva Unie nebo členského státu určen k informování veřejnosti a který je přístupný k nahlížení veřejnosti obecně nebo jakékoli osobě, která může prokázat oprávněný zájem, avšak pouze v rozsahu, v jakém jsou v daném případě splněny podmínky pro nahlížení stanovené právem Unie nebo členského státu."
+        },
+        "safeguardsAreProvidedByReferringGDCP": {
+            "label": "Tyto záruky poskytují:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Právně závazný a vymahatelný nástroj mezi orgány veřejné moci nebo veřejnoprávními subjekty"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Závazná podniková pravidla v souladu s článkem 47"
+                },
+                {
+                    "key": "c",
+                    "value": "3. Standardní doložky o ochraně údajů přijaté Komisí přezkumným postupem podle čl. 93 odst. 2"
+                },
+                {
+                    "key": "d",
+                    "value": "4. Standardní doložky o ochraně údajů přijaté orgánem dozoru a schválené Komisí přezkumným postupem podle čl. 93 odst. 2"
+                },
+                {
+                    "key": "e",
+                    "value": "5. Schválený kodex chování podle článku 40 spolu se závaznými a vymahatelnými závazky správce nebo zpracovatele ve třetí zemi uplatňovat vhodné záruky, a to i pokud jde o práva subjektů údajů;"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Schválený mechanismus pro vydávání osvědčení podle článku 42 spolu se závaznými a vymahatelnými závazky správce nebo zpracovatele ve třetí zemi uplatňovat vhodné záruky, a to i pokud jde o práva subjektů údajů;"
+                }
+            ]
+        },
+        "whichOrganizationWillBeTheControllerOfData": {
+            "label": "Která organizace nebo fyzická osoba bude správcem údajů, které mají být na základě této žádosti vytvořeny?",
+            "tooltip": "Účel a prostředky zpracování osobních údajů určuje správce údajů. Jinými slovy, správce údajů rozhoduje o tom, jak a proč operace zpracování údajů. Správcem údajů může být právnická osoba, například podnik, malý nebo střední podnik, orgán veřejné moci, agentura nebo jiný subjekt. Více informací: https://edpb.europa.eu/sme-data-protection-guide/data-controller-data-processor_en"
+        },
+        "complyWithDataMinimisationPrinciple": {
+            "label": "Jak při zpracování údajů dodržujete zásadu minimalizace údajů (obecné nařízení EU o ochraně osobních údajů)?",
+            "tooltip": "Čl. 5 odst. 1 písm. c) nařízení GDPR: „Osobní údaje musí být přiměřené, relevantní a omezené na to, co je nezbytné ve vztahu k účelům, pro které jsou zpracovávány („minimalizace údajů“)“ "
+        },
+        "complyWithDataMinimisationPrincipleNotEUMember": {
+            "label": "Jak dodržujete při zpracování údajů zásadu minimalizace údajů (nařízení EU o ochraně údajů)? ",
+            "tooltip": "Čl. 4 odst. 1c nařízení EU o ochraně osobních údajů: „Osobní údaje musí být přiměřené, relevantní a omezené na to, co je nezbytné ve vztahu k účelům, pro které jsou zpracovávány („minimalizace údajů“)“"
+        },
+        "protectionAndSecurityStatements": {
+            "label": "Chcete-li pokračovat v této aplikaci, musíte potvrdit následující prohlášení (prohlášení týkající se ochrany údajů a bezpečnosti):"
+        },
+        "protectionAndSecurityStatementsA": {
+            "label": "1. Potvrzuji, že pokud mi subjekt pro přístup ke zdravotním datům poskytne data, o něž žádám, použijem je pouze pro účely uvedené v tomto formuláři žádosti."
+        },
+        "protectionAndSecurityStatementsB": {
+            "label": "2. Chápu, že kopírování údajů z bezpečného zpracovatelského prostředí je zakázáno."
+        },
+        "protectionAndSecurityStatementsC": {
+            "label": "3. Chápu, že je zakázáno pořizovat jakékoli snímky obrazovky nebo fotografie obrazovky přístroje, jakmile se nacházejí v bezpečném zpracovatelském prostředí."
+        },
+        "protectionAndSecurityStatementsD": {
+            "label": "4. Mám zavedena dostatečná bezpečnostní opatření (např. firewall) na ochranu různých sítí, k nimž jsou připojena zařízení používaná pro přístup k bezpečnému zpracovatelskému prostředí."
+        },
+        "protectionAndSecurityStatementsE": {
+            "label": "5. Chápu, že pokusy o opětovnou identifikaci jsou zakázány a že subjekt pro přístup ke zdravotním datům může ukládat sankce podle článku 43 evropského nařízení o zdravotních datech."
+        },
+        "onlyThePeopleMentioned": "Přístup ke zpracování dat v bezpečném zpracovatelském prostředí budou mít pouze osoby uvedené v povolení k datům.",
+        "sameAsContactPerson": {
+            "label": "Stejná jako kontaktní osoba uvedená v oddíle 3?"
+        },
+        "listTheFullNames": {
+            "label": "Uveďte úplná jména, příslušnost a e-mailové adresy všech osob, které budou údaje zpracovávat."
+        },
+        "fullName": {
+            "label": "Plné jméno"
+        },
+        "affiliation": {
+            "label": "Příslušnost"
+        },
+        "emailAddress": {
+            "label": "Elektronická adresa"
+        },
+        "lawfulnessOfProcessing": "Zákonnost zpracování;",
+        "legalBasisForProcessingPersonalData": {
+            "label": "Jaký je právní základ pro zpracování osobních údajů, o něž žádáte prostřednictvím tohoto formuláře žádosti?"
+        },
+        "lawfulForProcessingPersonalData": {
+            "label": "Zpracování osobních údajů, o něž žádáte spolu s tímto formulářem žádosti, je zákonné pouze tehdy a v rozsahu, v jakém platí alespoň jedna z následujících podmínek (v souladu s čl. 6 odst. 1 obecného nařízení EU o ochraně osobních údajů, nařízení (EU) 2016/679):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Subjekt údajů udělil souhlas se zpracováním svých osobních údajů pro jeden nebo více konkrétních účelů"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Zpracování je nezbytné pro splnění smlouvy, jejíž smluvní stranou je subjekt údajů, nebo pro provedení opatření přijatých před uzavřením smlouvy na žádost tohoto subjektu údajů"
+                },
+                {
+                    "key": "c",
+                    "value": "3. Zpracování je nezbytné pro splnění právní povinnosti, která se na správce vztahuje"
+                },
+                {
+                    "key": "d",
+                    "value": "4. Zpracování je nezbytné pro ochranu životně důležitých zájmů subjektu údajů nebo jiné fyzické osoby."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Zpracování je nezbytné pro splnění úkolu prováděného ve veřejném zájmu nebo při výkonu veřejné moci, kterým je pověřen správce."
+                },
+                {
+                    "key": "f",
+                    "value": "6. Zpracování je nezbytné pro účely oprávněných zájmů příslušného správce či třetí strany, kromě případů, kdy před těmito zájmy mají přednost zájmy nebo základní práva a svobody subjektu údajů vyžadující ochranu osobních údajů, zejména pokud je subjektem údajů dítě."
+                }
+            ]
+        },
+        "lawfulForProcessingPersonalDataNaturalPersonOption": {
+            "key": "F",
+            "value": "6. Zpracování je nezbytné pro účely oprávněných zájmů příslušného správce či třetí strany, kromě případů, kdy před těmito zájmy mají přednost zájmy nebo základní práva a svobody subjektu údajů vyžadující ochranu osobních údajů, zejména pokud je subjektem údajů dítě."
+        },
+        "otherLegalBasisForProcessingPersonalData": {
+            "label": "Jiná, jaká?"
+        },
+        "legalBasisForProcessingCombinedData": {
+            "label": "Jaký je právní základ pro zpracování ostatních údajů, které budete kombinovat s údaji požadovanými v této žádosti? "
+        },
+        "otherLegalBasisForProcessingCombinedData": {
+            "label": "Jiná, jaká?"
+        },
+        "europeanUnionInstitution": {
+            "label": "Zpracování osobních údajů, o něž žádáte spolu s tímto formulářem žádosti, je zákonné pouze tehdy a v rozsahu, v jakém platí alespoň jedna z následujících podmínek (v souladu s čl. 5 odst. 1 nařízení EU o ochraně údajů, nařízení (EU) 2018/1725):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Zpracování je nezbytné ke splnění úkolu prováděného ve veřejném zájmu nebo při výkonu veřejné moci, kterým je orgán nebo subjekt Unie pověřen"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Zpracování je nezbytné pro splnění právní povinnosti, která se na správce vztahuje."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Zpracování je nezbytné pro plnění smlouvy, jejíž stranou je subjekt údajů, nebo pro přijetí opatření na žádost tohoto subjektu údajů před uzavřením smlouvy."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Subjekt údajů udělil souhlas se zpracováním svých osobních údajů k jednomu či více konkrétním účelům."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Zpracování je nezbytné pro ochranu životně důležitých zájmů subjektu údajů nebo jiné fyzické osoby."
+                }
+            ]
+        },
+        "legalBasisForProcessingApplicationData": {
+            "label": "Jaký je právní základ pro zpracování osobních údajů, o něž žádáte prostřednictvím tohoto formuláře žádosti?"
+        },
+        "otherLegalBasisForProcessingApplicationData": {
+            "label": "Jiná, jaká?"
+        },
+        "legalBasisForProcessingCombinedApplicationData": {
+            "label": "Jaký je právní základ pro zpracování ostatních údajů, které budete kombinovat s údaji požadovanými v této žádosti?"
+        },
+        "otherLegalBasisForProcessingCombinedApplicationData": {
+            "label": "Jiná, jaká?"
+        },
+        "attachResearchPermitIfRequired": {
+            "label": "Pokud váš výzkum vyžaduje povolení k výzkumu od vaší přidružené organizace, připojte povolení k výzkumu."
+        }
+    },
+    "section9": {
+        "section9h5": "Další informace",
+        "section9Description": "Zde můžete poskytnout další informace o kterékoli části vaší přihlášky. Uveďte číslo oddílu a otázku, k níž se vaše připomínka vztahuje.",
+        "additionalInformation": {
+            "label": "Další informace nebo jakékoli další poznámky",
+            "tooltip": "Zde můžete poskytnout další informace o kterékoli části vaší přihlášky. Uveďte číslo oddílu a otázku, k níž se vaše připomínka vztahuje. Návrh technického provedení: Alternativně by mohl existovat způsob, jak žadateli umožnit propojit informace s konkrétními částmi formuláře s cílem usnadnit práci HDAB."
+        },
+        "additionalAttachment": {
+            "label": "Další příloha. K této žádosti nepřipojujte údaje o zdravotním stavu nebo osobní údaje.",
+            "tooltip": "Pokud máte jakoukoli jinou přílohu, kterou považujete za relevantní pro zpracování vaší žádosti a kterou potřebujete pro subjekt pro přístup ke zdravotním údajům, připojte ji zde. Popište jeho význam ve výše uvedeném textovém poli."
+        }
+    },
+    "section10": {
+        "section10h5": "Potvrzení informací",
+        "section10Description": "Před zpracováním této žádosti musíte jako žadatel schválit poplatky za zpracování.",
+        "submitYouApplicationText": "K podání přihlášky musíte potvrdit následující:",
+        "acceptHealthDataBody": {
+            "label": "Souhlasím s tím, že subjekt pro zdravotní data statistiky sestavuje a nebudem mít přístup k údajům použitým k vytvoření statistiky."
+        },
+        "awareProcessingFee": {
+            "label": "Jsem si vědom(a) toho, že za zpracování mé žádosti bude účtován poplatek za zpracování. Použije se rovněž v případě zrušené žádosti nebo zamítavého rozhodnutí."
+        },
+        "awareChargeFee": {
+            "label": "Jsem si vědom(a) toho, že držitel (držitelé) dat si může (mohou) účtovat poplatek."
+        },
+        "awareInformationCorrect": {
+            "label": "Potvrzuji, že informace, které jsem poskytl, jsou správné."
+        }
+    },
+    "commonFields": {
+        "aboutThisSection": "O této části",
+        "yesOrNoOptions": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Ano"
+                },
+                {
+                    "key": "b",
+                    "value": "Žádné"
+                }
+            ]
+        },
+        "onceOrMultipleTimes": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Jednou"
+                },
+                {
+                    "key": "b",
+                    "value": "Vícenásobně"
+                }
+            ]
+        },
+        "everyWhen": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Každý rok"
+                },
+                {
+                    "key": "b",
+                    "value": "Půl roku"
+                },
+                {
+                    "key": "c",
+                    "value": "Čtvrtina"
+                },
+                {
+                    "key": "d",
+                    "value": "Ostatní"
+                }
+            ]
+        },
+        "processingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. e) zpracování je nezbytné pro splnění úkolu prováděného ve veřejném zájmu nebo při výkonu veřejné moci, kterým je pověřen správce;"
+                },
+                {
+                    "key": "b",
+                    "value": "2. F) Zpracování je nezbytné pro účely oprávněných zájmů správce nebo třetí strany, s výjimkou případů, kdy nad těmito zájmy převažují zájmy nebo základní práva a svobody subjektu údajů vyžadující ochranu osobních údajů, zejména pokud je subjektem údajů dítě."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Ostatní"
+                }
+            ]
+        },
+        "legalBasisForProcessingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. a) Zpracování je nezbytné pro splnění úkolu prováděného ve veřejném zájmu nebo při výkonu veřejné moci, kterým je orgán nebo subjekt Unie pověřen."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Ostatní"
+                }
+            ]
+        }
+    }
+}

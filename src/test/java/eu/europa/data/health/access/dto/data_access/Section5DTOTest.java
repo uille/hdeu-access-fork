@@ -36,9 +36,9 @@ class Section5DTOTest {
 
   @Test
   void testLegalBasisRequiredWhenPurposeOfUseContainsB() {
-    Section5DTO dto = new Section5DTO();
+    Section5BindToOtherSections dto = new Section5BindToOtherSections();
     SelectObjectDTO purposeOfUseItem = new SelectObjectDTO("b", "value");
-    dto.setPurposeOfUse(Arrays.asList(purposeOfUseItem));  // contains "b"
+    dto.setSection2purposeForWhichDataWillBeUsed(Arrays.asList(purposeOfUseItem));  // contains "b"
     dto.setLegalBasis(null);  // should trigger validation error
 
     var violations = validator.validate(dto);
@@ -49,9 +49,9 @@ class Section5DTOTest {
 
   @Test
   void testLinkToTheSupportingLegalBasisRequiredWhenPurposeOfUseContainsB() {
-    Section5DTO dto = new Section5DTO();
+    Section5BindToOtherSections dto = new Section5BindToOtherSections();
     SelectObjectDTO purposeOfUseItem = new SelectObjectDTO("b", "value");
-    dto.setPurposeOfUse(Arrays.asList(purposeOfUseItem));  // contains "b"
+    dto.setSection2purposeForWhichDataWillBeUsed(Arrays.asList(purposeOfUseItem));  // contains "b"
     dto.setLinkToTheSupportingLegalBasis(null);  // should trigger validation error
 
     var violations = validator.validate(dto);
@@ -62,9 +62,9 @@ class Section5DTOTest {
 
   @Test
   void testPersonResearchNameRequiredWhenPurposeOfUseContainsE() {
-    Section5DTO dto = new Section5DTO();
+    Section5BindToOtherSections dto = new Section5BindToOtherSections();
     SelectObjectDTO purposeOfUseItem = new SelectObjectDTO("e", "value");
-    dto.setPurposeOfUse(Arrays.asList(purposeOfUseItem));  // contains "e"
+    dto.setSection2purposeForWhichDataWillBeUsed(Arrays.asList(purposeOfUseItem));  // contains "b"
     dto.setPersonResearchName(null);  // should trigger validation error
 
     var violations = validator.validate(dto);
@@ -88,10 +88,10 @@ class Section5DTOTest {
 
   @Test
   void testPersonResponsibleNameRequiredWhenPurposeOfUseContainsMoreThanOneValue() {
-    Section5DTO dto = new Section5DTO();
+    Section5BindToOtherSections dto = new Section5BindToOtherSections();
     SelectObjectDTO purposeOfUseItem1 = new SelectObjectDTO("a", "value_a");
     SelectObjectDTO purposeOfUseItem2 = new SelectObjectDTO("e", "value_e");
-    dto.setPurposeOfUse(Arrays.asList(purposeOfUseItem1, purposeOfUseItem2)); // contains more than one value
+    dto.setSection2purposeForWhichDataWillBeUsed(Arrays.asList(purposeOfUseItem1,purposeOfUseItem2));  // contains "b"
     dto.setPersonResponsibleName(null); // should trigger validation error
 
     var violations = validator.validate(dto);
@@ -102,9 +102,9 @@ class Section5DTOTest {
 
   @Test
   void testPersonResponsibleNameRequiredWhenPurposeOfUseDoesNotContainE() {
-    Section5DTO dto = new Section5DTO();
+    Section5BindToOtherSections dto = new Section5BindToOtherSections();
     SelectObjectDTO purposeOfUseItem = new SelectObjectDTO("a", "value");
-    dto.setPurposeOfUse(Arrays.asList(purposeOfUseItem)); // does not contain "e"
+    dto.setSection2purposeForWhichDataWillBeUsed(Arrays.asList(purposeOfUseItem));  // contains "b"
     dto.setPersonResponsibleName(null); // should trigger validation error
 
     var violations = validator.validate(dto);
@@ -115,9 +115,9 @@ class Section5DTOTest {
 
   @Test
   void testSummaryOfPlanForUsingTheDataRequiredWhenPurposeOfUseDoesNotContainE() {
-    Section5DTO dto = new Section5DTO();
+    Section5BindToOtherSections dto = new Section5BindToOtherSections();
     SelectObjectDTO purposeOfUseItem = new SelectObjectDTO("a", "value");
-    dto.setPurposeOfUse(Arrays.asList(purposeOfUseItem)); // does not contain "e"
+    dto.setSection2purposeForWhichDataWillBeUsed(Arrays.asList(purposeOfUseItem));  // contains "b"
     dto.setSummaryOfPlanForUsingTheData(null); // should trigger validation error
 
     var violations = validator.validate(dto);
@@ -128,9 +128,9 @@ class Section5DTOTest {
 
   @Test
   void testSummaryOfPlanForUsingTheDataLanguageRequiredWhenPurposeOfUseDoesNotContainE() {
-    Section5DTO dto = new Section5DTO();
+    Section5BindToOtherSections dto = new Section5BindToOtherSections();
     SelectObjectDTO purposeOfUseItem = new SelectObjectDTO("a", "value");
-    dto.setPurposeOfUse(Arrays.asList(purposeOfUseItem)); // does not contain "e"
+    dto.setSection2purposeForWhichDataWillBeUsed(Arrays.asList(purposeOfUseItem));  // contains "b"
     dto.setSummaryOfPlanForUsingTheDataLanguage(null); // should trigger validation error
 
     var violations = validator.validate(dto);

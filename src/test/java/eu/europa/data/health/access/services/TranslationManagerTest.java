@@ -19,8 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
@@ -62,23 +64,7 @@ class TranslationManagerTest {
     verify(routingContext.response()).setStatusCode(200);
     verify(routingContext.response()).end(captor.capture());
     JsonObject actualResponse = new JsonObject(captor.getValue());
-    assertEquals("Selecting Project Sources", actualResponse.getString("section1h5"));
-  }
-
-  @Test
-  void testGetTranslationForSectionFileNotFound() {
-    Map<String, String> pathParams = Map.of(
-      "lg", "gr",
-      "section", "section1"
-    );
-
-    RoutingContext routingContext = RoutingContextMocker.mockRoutingContext(null, pathParams, true);
-
-
-    translationManager.getTranslationForSection(routingContext);
-
-    verify(routingContext.response()).setStatusCode(404);
-    verify(routingContext.response()).end("Translation file for languish: gr not found.");
+    assertEquals("Selecting data sources for the project", actualResponse.getString("section1h5"));
   }
 
   @Test
@@ -94,7 +80,7 @@ class TranslationManagerTest {
     translationManager.getTranslationForSection(routingContext);
 
     verify(routingContext.response()).setStatusCode(404);
-    verify(routingContext.response()).end("Not section found: wrongSection");
+    verify(routingContext.response()).end("Section not found for: wrongSection");
   }
 
   @Test
@@ -110,7 +96,7 @@ class TranslationManagerTest {
     JsonObject result = translationManager.getTranslationByLanguish("en");
 
     assertNotNull(result);
-    assertEquals("Selecting Project Sources", result.getJsonObject("section1").getString("section1h5"));
+    assertEquals("Selecting data sources for the project", result.getJsonObject("section1").getString("section1h5"));
   }
 
   @Test
@@ -132,7 +118,7 @@ class TranslationManagerTest {
   }
 
   @Test
-  void testGetTranslationForSection_IOException() throws IOException {
+  void testGetTranslationForSection_IOException() {
     Map<String, String> pathParams = Map.of(
       "lg", "en",
       "section", "section1"
@@ -147,7 +133,51 @@ class TranslationManagerTest {
     translationManagerSpy.getTranslationForSection(routingContext);
 
     verify(routingContext.response()).setStatusCode(500);
-    verify(routingContext.response()).end("Simulated IOException");
+    verify(routingContext.response()).end("Error loading translation file.");
+  }
+
+  @Test
+  void testGetTranslationForSection_inputStreamNull_thenLoadsDefault() {
+    Map<String, String> pathParams = Map.of(
+      "lg", "nonexistentLang",
+      "section", "section1"
+    );
+
+    RoutingContext routingContext = RoutingContextMocker.mockRoutingContext(null, pathParams, true);
+
+    TranslationManager translationManagerSpy = spy(translationManager);
+
+    doReturn(null)
+      .doReturn(getClass().getResourceAsStream("/translations/en.json"))
+      .when(translationManagerSpy).getTranslationFileStream(anyString());
+
+    translationManagerSpy.getTranslationForSection(routingContext);
+
+    ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+    verify(routingContext.response()).setStatusCode(200);
+    verify(routingContext.response()).end(captor.capture());
+
+    JsonObject jsonResponse = new JsonObject(captor.getValue());
+    assertEquals("Selecting data sources for the project", jsonResponse.getString("section1h5"));
+  }
+
+  @Test
+  void testGetTranslationForSection_defaultFileAlsoMissing() {
+    Map<String, String> pathParams = Map.of(
+      "lg", "nonexistentLang",
+      "section", "section1"
+    );
+
+    RoutingContext routingContext = RoutingContextMocker.mockRoutingContext(null, pathParams, true);
+
+    TranslationManager translationManagerSpy = spy(translationManager);
+
+    doReturn(null).when(translationManagerSpy).getTranslationFileStream(anyString());
+
+    translationManagerSpy.getTranslationForSection(routingContext);
+
+    verify(routingContext.response()).setStatusCode(500);
+    verify(routingContext.response()).end("Translation file for default language: en not found.");
   }
 
 }

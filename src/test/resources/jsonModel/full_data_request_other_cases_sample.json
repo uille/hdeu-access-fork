@@ -1,0 +1,141 @@
+{
+  "_id": "674f16747c83a20e0e556914",
+  "title": "request",
+  "datasets": [
+    {
+      "dataset_id": "8ddbd740-0c51-4a65-8ae8-0f03bb6fef5e",
+      "catalog_id": "726200a0-7940-4446-b5f8-a62e6cc00b1b",
+      "distributions": [
+        {
+          "distribution_id": "c6b25d3a-f33e-4766-896d-d12db2c3e322"
+        }
+      ],
+      "date_added": "2024-12-03T14:32:20.306919Z"
+    }
+  ],
+  "date_created": "2024-12-03T14:32:20.305922700Z",
+  "date_modified": "2024-12-04T12:12:21.727374Z",
+  "userId": "8c9ae1e1-d59a-45c4-9b51-8e809cd3fb69",
+  "status": {
+    "status": "DRAFT",
+    "date": "2024-12-03T14:32:20.306919Z",
+    "user": ""
+  },
+  "version": 1,
+  "form": {
+    "section2": {
+      "sectionNumber": 2,
+      "theNatureOfTheDataDoesNotLetYouProvideADescription": true,
+      "theNatureOfTheProjectDoesNotLetYouProvideASummary": true,
+      "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason": "e3e3e3",
+      "purposeForWhichDataWillBeUsed": [
+        {
+          "key": "a",
+          "value": "a. Scientific research related to health or care sectors"
+        },
+        {
+          "key": "b",
+          "value": "b. To support public sector bodies or Union institutions, agencies and bodies including regulatory authorities, in the health or care sector to carry out their tasks defined in their mandates"
+      }
+      ]
+    },
+    "section3": {
+      "sectionNumber": 3,
+      "legalOrNaturalPerson": {
+        "key": "b",
+        "value": "Natural person"
+      },
+      "applyingForDataOnBehalfOfPublicSector": {
+        "key": "a",
+        "value": "sample"
+      }
+    },
+    "section4": {
+      "sectionNumber": 4,
+      "invoiceType": {
+        "key": "b",
+        "value": "Electronic"
+      },
+      "email": "brebre@gmail.com",
+      "phone": {
+        "number": "323213123",
+        "countryCode": "43"
+      },
+      "address": "dedew",
+      "invoiceReferenceNumber": "ddwed",
+      "invoiceAddress": "wedew",
+      "operatorIdentifier": "dwed",
+      "nameOfTheOrganisation": "wed",
+      "vatNumber": "eqw",
+      "businessIdentifierOrganization": "ewe"
+    },
+    "section5": {
+      "sectionNumber": 5,
+      "purposeOfUse": [
+        {
+          "key": "e",
+          "value": "e. Scientific research related to health or care sectors"
+        },
+        {
+          "key": "b",
+          "value": "b. To support public sector bodies or Union institutions, agencies and bodies including regulatory authorities, in the health or care sector to carry out their tasks defined in their mandates"
+        }
+      ],
+      "personResponsibleSameAsContactPerson": false,
+      "personResponsibleName": "george",
+      "personResponsibleJobTitle": "job",
+      "personResponsibleAffiliation": "afflia",
+      "personResearchSameAsContactPerson": false,
+      "personResearchName": "responsible ",
+      "personResearchJobTitle": "responsible ",
+      "personResearchAffiliation": "responsible ",
+      "whyAreTheDataRequested": "Why are the data requested with this application needed for the indicated purpose of use? ",
+      "whatIsTheAimAndTopicOfTheProject": "What is the aim and topic of your project?",
+      "whichAreTheExpectedBenefits":"Fix",
+      "linkToTheSupportingLegalBasis": "legal basis",
+      "legalBasis": "legal basis",
+      "summaryOfResearchPlanLanguage": {
+        "key": "el",
+        "value": "Greek"
+      },
+      "summaryOfPlanForUsingTheDataLanguage": {
+        "key": "fi",
+        "value": "Finnish"
+      }
+    },
+    "section6": [
+      {
+        "sectionNumber": 6,
+        "country_id": "Belgium",
+        "catalog_ids": [
+          "726200a0-7940-4446-b5f8-a62e6cc00b1b"
+        ],
+        "tabulationPlanArray": [
+          {
+            "tabulationRegisteredToBeUsed": "gv",
+            "tabulationPossibleStudyCohort": "gv",
+            "tabulationInformationOfRequiredVariables": "gv",
+            "tabulationFormationVariables": "gv",
+            "tabulationDesiredDirection": "gv",
+            "tabulationOrderInWhichTable": "gv",
+            "tabulationAnyOtherRelevant": "gv",
+            "tabulationPlan": {
+              "name": "LeaveRequest.pdf",
+              "size": 107156,
+              "id": "67504709075b484946da5a44"
+            }
+          }
+        ],
+        "extractionMethod": {
+          "key": "a",
+          "value": "random sample"
+        },
+        "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
+          "key": "a",
+          "value": "Once"
+        },
+        "needForDataExtractionEveryDescription": "dededeee"
+      }
+    ]
+  }
+}

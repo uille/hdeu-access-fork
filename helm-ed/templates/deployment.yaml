@@ -129,6 +129,11 @@ spec:
                 secretKeyRef:
                   key: export_data_access_api_key
                   name: {{ include "health-data-access.name" . }}-secrets
+            - name: HUB_REPO_X_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: hub_repo_api_key
+                  name: {{ include "health-data-access.name" . }}-secrets
             - name: PIVEAU_ACCESS_AUTH_CONFIG
               valueFrom:
                 secretKeyRef:

@@ -32,13 +32,12 @@ import org.jetbrains.annotations.NotNull;
  */
 public class BasketValidationManager extends AbstractSchemaValidator {
 
-  private final WebClient client;
-  private final JsonObject config;
+  private final HubSearchClient hubSearchClient;
+
 
   public BasketValidationManager(
-    WebClient client, JsonObject config) {
-    this.client = client;
-    this.config = config;
+     HubSearchClient hubSearchClient) {
+      this.hubSearchClient = hubSearchClient;
   }
   /**
    * A method validating that the json object inside the request body complies to the basket json
@@ -50,33 +49,46 @@ public class BasketValidationManager extends AbstractSchemaValidator {
     validateJsonSchema(context, SchemaFiles.BASKET_SCHEMA_FILE.getValue());
   }
 
-  public void validateDatasetAndDistributionExist(@NotNull RoutingContext context){
+  public void validateDatasetAndDistributionExist(@NotNull RoutingContext context) {
 
     String datasetId = context.body().asJsonObject().getString(DATASET_ID);
     String distributionId = context.body().asJsonObject().getString(DISTRIBUTION_ID);
 
-    HubSearchClient hubSearchClient = new HubSearchClient(client, config);
     hubSearchClient.getDataset(datasetId)
       .onComplete(result -> {
         if (result.succeeded()) {
           JsonObject response = result.result();
-          if(response.containsKey("result")){
-            JsonArray distributions = response.getJsonObject("result").getJsonArray("distributions");
-            boolean foundDistributionId = distributions.stream()
-              .filter(distribution -> distribution instanceof JsonObject)
-              .map(distribution -> (JsonObject) distribution)
-              .anyMatch(distributionJson -> distributionJson.getString("id").equals(distributionId));
-            if(foundDistributionId){
-              context.next();
-            } else {
-              setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST, String.format("Distribution id: %s not found", distributionId));
-            }
-          }else {
-            setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST, String.format("Dataset id: %s not found", datasetId));
-          }
 
+            if (response.containsKey("result")) {
+
+              JsonObject resultObj = response.getJsonObject("result");
+
+              if (resultObj.containsKey("publisher")) {
+                context.put("publisher", resultObj.getJsonObject("publisher").getString("name"));
+
+                JsonArray distributions = resultObj.getJsonArray("distributions");
+                boolean foundDistributionId = distributions.stream()
+                  .filter(distribution -> distribution instanceof JsonObject)
+                  .map(distribution -> (JsonObject) distribution)
+                  .anyMatch(
+                    distributionJson -> distributionJson.getString("id").equals(distributionId));
+                if (foundDistributionId) {
+                  context.next();
+                } else {
+                  setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
+                    String.format("Distribution id: %s not found", distributionId));
+                }
+              } else {
+                setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
+                  "Publisher value not found");
+              }
+            } else {
+              setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
+                String.format("Dataset id: %s not found", datasetId));
+            }
         } else {
-          setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR, result.cause().getMessage());
+          setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+            result.cause().getMessage());
         }
       });
   }

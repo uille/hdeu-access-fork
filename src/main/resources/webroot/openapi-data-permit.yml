@@ -9,10 +9,43 @@ info:
 tags:
   - name: Basket
     x-displayName: "Basket"
-    description: Operations related to a Basket
+    description: Operations related to a Basket, like create/update/delete basket, get all datasets, get dataset by id, delete dataset by id and more...
   - name: Data Access Form
     x-displayName: "Data Access Form"
-    description: Operations related to a Data Access Form
+    description: Operations related to a Data Access Form, like create/update/delete an application, get an application by id, get/delete all applications, create/update/delete datasets and distributions of an application, upload file for an application, submit/update a section of an application, validate application and sections and more...
+  - name: Data Request Form
+    x-displayName: "Data Request Form"
+    description: Operations related to a Data Request Form, like create/update/delete an application, get an application by id, get/delete all applications, create/update/delete datasets and distributions of an application, upload file for an application, submit/update a section of an application, validate application and sections and more...
+  - name: Country
+    x-displayName: "Countries"
+    description: Operations related to countries, like retrieving a list of all european countries.
+  - name: Translation
+    x-displayName: "Translations"
+    description: Operations related to translations, like retrieving the translation of a specific language for a specific section of the application.
+  - name: User Profile
+    x-displayName: "User Profile"
+    description: Operations related to a user's profile, like get/create/delete a user profile.
+  - name: User
+    x-displayName: "User"
+    description: Operations related to users, like search a user, delete a user or update a user's role. All these operations can only be performed by an administrator.
+  - name: Dispatcher
+    x-displayName: "Dispatcher"
+    description: Operations related to Dispatcher component, like update the status of an application and receive the status of an ncp.
+  - name: Document
+    x-displayName: "Documents"
+    description: Operations related to Document operations, like export an application into pdf or word.
+  - name: Administration
+    x-displayName: "Administration"
+    description: Operations related to applications that can only be performed by an administrator, like get all applications or resubmit a failed application.
+  - name: Audit Logs
+    x-displayName: "Audit Logs"
+    description: Operations related to Audit Logs that can only be performed by an administrator, like search audit logs with sorting and filtering and submit audit log from dispatcher.
+  - name: Catalogue
+    x-displayName: "Catalogues"
+    description: Operations related to catalogues that can only be performed by an administrator, like create/update/delete catalogue, validate catalogue, get all catalogues, upload a catalogue file and more...
+  - name: Data Permit
+    x-displayName: "Data Permit"
+    description: Operations related to a Data Permit, like download a data permit file.
 
 security:
   - BearerAuth: []
@@ -24,60 +57,48 @@ paths:
 
   /basket:
     put:
+      tags:
+        - Basket
       summary: Creates or updates one dataset to the basket having one distributionId
       operationId: putBasketDataset
       security:
         - BearerAuth: [ ]
-      tags:
-        - Basket
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/basket'
       responses:
         '201':
           description: Provided Dataset has been added to the Basket.
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/resultMessage'
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
     delete:
+      tags:
+        - Basket
       summary: Delete all datasets from the basket
       operationId: deleteBasketDatasets
       security:
         - BearerAuth: [ ]
-      tags:
-        - Basket
       responses:
         '204':
           description: Basket has been deleted.
-          content:
-            application/json:
-              schema:
-                type: string
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
     get:
+      tags:
+        - Basket
       summary: Retrieve all datasets from the basket with pagination
       operationId: getBasketDatasets
       security:
         - BearerAuth: [ ]
-      tags:
-        - Basket
       parameters:
         - name: limit
           in: query
@@ -107,21 +128,17 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+                  $ref: '#/components/schemas/getBasketResponse'
         '500':
           description: Internal Server Error
   /basket/{dataset_id}:
     get:
+      tags:
+        - Basket
       summary: Retrieve one dataset from the basket by providing the dataset id
       operationId: getBasketDatasetByDatasetId
       security:
         - BearerAuth: [ ]
-      tags:
-        - Basket
       parameters:
         - name: dataset_id
           in: path
@@ -135,22 +152,18 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+                $ref: '#/components/schemas/BasketItem'
         '404':
           description: Not found
         '500':
           description: Internal Server Error
     delete:
+      tags:
+        - Basket
       summary: Delete one dataset from the basket by providing the dataset id
       operationId: deleteBasketDatasetByDatasetId
       security:
         - BearerAuth: [ ]
-      tags:
-        - Basket
       parameters:
         - name: dataset_id
           in: path
@@ -161,66 +174,50 @@ paths:
       responses:
         '204':
           description: Provided Dataset has been deleted from basket.
-          content:
-            application/json:
-              schema:
-                type: object
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '404':
           description: Provided Datasets were not found in Basket
         '500':
           description: Internal Server Error
   /basket/distribution:
     delete:
+      tags:
+        - Basket
       summary: Delete one distribution from a Dataset by providing the distribution id
       operationId: deleteDistributionByDistributionId
       security:
         - BearerAuth: [ ]
-      tags:
-        - Basket
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/basket'
       responses:
         '200':
           description: Provided Distribution has been deleted from the Dataset.
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/resultMessage'
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
   /basket/distribution/count:
     get:
+      tags:
+        - Basket
       summary: Retrieve the count of all distributions for each dataset
       operationId: getDistributionCount
       security:
         - BearerAuth: [ ]
-      tags:
-          - Basket
       responses:
         '200':
           description: Returns a json object containing the count number of all distributions
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+                $ref: '#/components/schemas/distributionCountResponse'
         '500':
           description: Internal Server Error
 
@@ -230,12 +227,12 @@ paths:
 
   /data-access/application/{id}:
     get:
-      summary: Get Data Access Form list
+      tags:
+        - Data Access Form
+      summary: Get Data Access Form by providing the application id
       operationId: getDataAccessApplicationById
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data Access Application Form
       parameters:
         - name: id
           in: path
@@ -245,22 +242,18 @@ paths:
             type: string
       responses:
         '200':
-          description: Returns a JSON array containing the Data Access Form list
+          description: Returns the data access application form
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
+                type: object
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
     patch:
+      tags:
+        - Data Access Form
       summary: Update a data access application
       operationId: patchDataAccessApplication
       security:
@@ -280,26 +273,22 @@ paths:
               type: object
       responses:
         '201':
-          description: Data Access Form created. Returns the created Data Access Form
+          description: Data Access Form created. Returns the updated Data Access Form
           content:
             application/json:
               schema:
-                type: object  # Assuming that the response is a single object, not an array
+                type: object
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
     delete:
-      summary: Get Data Access Form list
+      tags:
+        - Data Access Form
+      summary: Delete a Data Access form by providing the application id
       operationId: deleteDataAccessApplicationById
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data Access Application Form
       parameters:
         - name: id
           in: path
@@ -309,43 +298,35 @@ paths:
             type: string
       responses:
         '200':
-          description: Returns a JSON array containing the Data Access Form list
+          description: Returns a json object with the result of the delete operation and the application id
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
+                $ref: '#/components/schemas/DeleteApplicationResponse'
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
   /data-access/application:
     delete:
+      tags:
+        - Data Access Form
       summary: Delete All Data Access Applications
       operationId: deleteAllDataAccessApplications
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data Access Form
       responses:
         '204':
           description: Data Access Forms have been deleted
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '404':
           description: Provided Data Access Forms were not found
         '500':
           description: Internal Server Error
     post:
+      tags:
+        - Data Access Form
       summary: Create a data access application
       operationId: postDataAccessApplication
       security:
@@ -355,24 +336,22 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/CreateDataRequest'
       responses:
         '201':
           description: Data Access Form created. Returns the created Data Access Form
           content:
             application/json:
               schema:
-                type: object  # Assuming that the response is a single object, not an array
+                $ref: '#/components/schemas/CreateDataResponse'
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
     put:
-      summary: Create a data access application
+      tags:
+        - Data Access Form
+      summary: Update a data access application
       operationId: putDataAccessApplication
       security:
         - BearerAuth: [ ]
@@ -388,22 +367,18 @@ paths:
           content:
             application/json:
               schema:
-                type: object  # Assuming that the response is a single object, not an array
+                type: object
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
     get:
-      summary: Get All Data Access Applications list
+      tags:
+        - Data Access Form
+      summary: Get All Data Access Applications in a list
       operationId: getAllDataAccessApplications
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data Access Application Form
       parameters:
         - name: limit
           in: query
@@ -441,49 +416,41 @@ paths:
                   type: object
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
   /data-access/application/distributions:
     put:
+      tags:
+        - Data Access Form
       summary: Update multiple data access applications
       operationId: putDistributionsApplication
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data access application
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/UpdateDatasetRequest'
       responses:
-        '201':
+        '200':
           description: Updated data access applications.
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/UpdateDatasetResponse'
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
   /data-access/application/{application_id}/datasets:
     delete:
-      summary: Delete a list of datasets
+      tags:
+        - Data Access Form
+      summary: Delete a list of datasets of a specific application
       operationId: deleteDatasets
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data access application
       parameters:
         - name: application_id
           in: path
@@ -496,32 +463,28 @@ paths:
         content:
           application/json:
             schema:
-              type: array
+              $ref: '#/components/schemas/DeleteDatasetItemList'
       responses:
         '200':
           description: Datasets have been deleted
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/resultMessage'
         '400':
           description: Bad Request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
   /data-access/application/{application_id}/distributions:
     delete:
-      summary: Delete a list of dataset/distributions
+      tags:
+        - Data Access Form
+      summary: Delete a list of dataset/distributions of a specific application
       operationId: deleteDistributions
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data access application
       parameters:
         - name: application_id
           in: path
@@ -534,32 +497,28 @@ paths:
         content:
           application/json:
             schema:
-              type: array
+              $ref: '#/components/schemas/DeleteDatasetDistributionItemList'
       responses:
         '200':
           description: Distributions have been deleted
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/resultMessage'
         '400':
           description: Bad Request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
   /data-access/application/{application_id}/section/{section_number}:
     put:
+      tags:
+        - Data Access Form
       summary: Update or create a section for the provided application
       operationId: putSectionApplication
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data access application
       parameters:
         - name: application_id
           in: path
@@ -591,16 +550,14 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+                $ref: '#/components/schemas/resultMessage'
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
     get:
+      tags:
+        - Data Access Form
       summary: Get a section for the provided application
       operationId: getSectionApplication
       security:
@@ -626,18 +583,16 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+                $ref: '#/components/schemas/resultMessage'
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
   /data-access/application/{application_id}/section/{section_number}/validation:
     post:
-      summary: Retrieve validation errors for a specific section using the given application ID
+      tags:
+        - Data Access Form
+      summary: Retrieve validation errors for a specific section using the given application id
       operationId: getSectionErrors
       security:
         - BearerAuth: [ ]
@@ -672,23 +627,19 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+                $ref: '#/components/schemas/resultMessage'
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
   /data-access/application/{application_id}/data:
     post:
+      tags:
+        - Data Access Form
       summary: Upload a multipart file for the provided application
       operationId: postData
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data access application
       parameters:
         - name: application_id
           in: path
@@ -708,29 +659,20 @@ paths:
       responses:
         '201':
           description: Successfully uploaded the multipart file to the hub-store
-          headers:
-            Location:
-              schema:
-                type: string
-              description: the location of the created resource
         '400':
           description: Bad Request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
   /data-access/application/{application_id}/data/{data_id}:
     get:
-      summary: Retrieve the file based on the provided data_id
+      tags:
+        - Data Access Form
+      summary: Retrieve the file based on the provided file id
       operationId: getData
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data access application
       parameters:
         - name: data_id
           in: path
@@ -747,22 +689,29 @@ paths:
             type: string
       responses:
         '200':
-          description: Successfully uploaded the multipart file to the hub-store
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+          description: Successful file download
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+              example: file content in binary
+          headers:
+            Content-Disposition:
+              description: Indicates if content should be displayed inline or as an attachment
+              schema:
+                type: string
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
     delete:
-      summary: Delete the file based on the provided data_id
+      tags:
+        - Data Access Form
+      summary: Delete the file based on the provided file id
       operationId: deleteData
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data access application
       parameters:
         - name: data_id
           in: path
@@ -780,22 +729,22 @@ paths:
       responses:
         '200':
           description: Successfully delete the multipart file to the hub-store
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resultMessage'
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
   /data-access/application/{application_id}/status:
     put:
+      tags:
+        - Data Access Form
       summary: Create or update the status of an application
       operationId: putStatusApplication
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data access application
       parameters:
         - name: application_id
           in: path
@@ -808,26 +757,26 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/PutStatusRequest'
       responses:
         '200':
           description: Updated the provided status for the application
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
   /data-access/application/{application_id}/title:
     put:
+      tags:
+        - Data Access Form
       summary: Update the title of an application
       operationId: putTitleApplication
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data access application
       parameters:
         - name: application_id
           in: path
@@ -840,26 +789,26 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/ChangeTitleRequest'
       responses:
         '200':
           description: Updated the provided title for the application
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resultMessage'
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
   /data-access/application/{id}/export/{type}/{lg}:
     get:
+      tags:
+        - Data Access Form
       summary: Export on Pdf or World on Data Access Form list
       operationId: exportDataAccessApplication
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data Access Application Form
       parameters:
         - name: id
           in: path
@@ -881,19 +830,18 @@ paths:
             type: string
       responses:
         '200':
-          description: Returns a Pdf or World containing the Data Access Form list
+          description: File download (PDF or DOCX)
           content:
-            application/json:
+            application/pdf:
               schema:
-                type: array
-                items:
-                  type: object
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.wordprocessingml.document:
+              schema:
+                type: string
+                format: binary
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
 
@@ -903,12 +851,12 @@ paths:
 
   /data-request/application/{id}:
     get:
+      tags:
+        - Data Request Form
       summary: Get Data Request Form list
       operationId: getDataRequestApplicationById
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data Request Application Form
       parameters:
         - name: id
           in: path
@@ -918,22 +866,18 @@ paths:
             type: string
       responses:
         '200':
-          description: Returns a JSON array containing the Data Request Form list
+          description: Returns the data request application form
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
+                type: object
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
     patch:
+      tags:
+        - Data Request Form
       summary: Update a data request application
       operationId: patchDataRequestApplication
       security:
@@ -957,22 +901,18 @@ paths:
           content:
             application/json:
               schema:
-                type: object  # Assuming that the response is a single object, not an array
+                type: object
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
     delete:
+      tags:
+        - Data Request Form
       summary: Get Data Request Form list
       operationId: deleteDataRequestApplicationById
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data Request Application Form
       parameters:
         - name: id
           in: path
@@ -982,43 +922,35 @@ paths:
             type: string
       responses:
         '200':
-          description: Returns a JSON array containing the Data Request Form list
+          description: Returns a json object with the result of the delete operation and the application id
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
+                $ref: '#/components/schemas/DeleteApplicationResponse'
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
   /data-request/application:
     delete:
+      tags:
+        - Data Request Form
       summary: Delete All Data Request Applications
       operationId: deleteAllDataRequestApplications
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data Request Form
       responses:
         '204':
           description: Data Request Forms have been deleted
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '404':
           description: Provided Data Request Forms were not found
         '500':
           description: Internal Server Error
     post:
+      tags:
+        - Data Request Form
       summary: Create a data request application
       operationId: postDataRequestApplication
       security:
@@ -1028,23 +960,21 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/CreateDataRequest'
       responses:
         '201':
           description: Data Request Form created. Returns the created Data Request Form
           content:
             application/json:
               schema:
-                type: object  # Assuming that the response is a single object, not an array
+                $ref: '#/components/schemas/CreateDataResponse'
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
     put:
+      tags:
+        - Data Request Form
       summary: Create a data Request application
       operationId: putDataRequestApplication
       security:
@@ -1061,22 +991,18 @@ paths:
           content:
             application/json:
               schema:
-                type: object  # Assuming that the response is a single object, not an array
+                type: object
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
     get:
+      tags:
+        - Data Request Form
       summary: Get All Data Request Applications list
       operationId: getAllDataRequestApplications
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data Request Application Form
       parameters:
         - name: limit
           in: query
@@ -1114,49 +1040,41 @@ paths:
                   type: object
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
   /data-request/application/distributions:
     put:
+      tags:
+        - Data Request Form
       summary: Update multiple data request applications
       operationId: putDistributionsDataRequestApplication
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data Request application
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/UpdateDatasetRequest'
       responses:
         '201':
           description: Updated data request applications.
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/UpdateDatasetResponse'
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
   /data-request/application/{application_id}/datasets:
     delete:
+      tags:
+        - Data Request Form
       summary: Delete a list of datasets
       operationId: deleteDataRequestDatasets
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data Request application
       parameters:
         - name: application_id
           in: path
@@ -1169,32 +1087,28 @@ paths:
         content:
           application/json:
             schema:
-              type: array
+              $ref: '#/components/schemas/DeleteDatasetItemList'
       responses:
         '200':
           description: Datasets have been deleted
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/resultMessage'
         '400':
           description: Bad Request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
   /data-request/application/{application_id}/distributions:
     delete:
+      tags:
+        - Data Request Form
       summary: Delete a list of dataset/distributions
       operationId: deleteDataRequestDistributions
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data Request application
       parameters:
         - name: application_id
           in: path
@@ -1207,32 +1121,28 @@ paths:
         content:
           application/json:
             schema:
-              type: array
+              $ref: '#/components/schemas/DeleteDatasetDistributionItemList'
       responses:
         '200':
           description: Distributions have been deleted
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/resultMessage'
         '400':
           description: Bad Request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
   /data-request/application/{application_id}/section/{section_number}:
     put:
+      tags:
+        - Data Request Form
       summary: Update or create a section for the provided application
       operationId: putSectionDataRequestApplication
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data Request application
       parameters:
         - name: application_id
           in: path
@@ -1264,16 +1174,14 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+                $ref: '#/components/schemas/resultMessage'
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
     get:
+      tags:
+        - Data Request Form
       summary: Get a section for the provided application
       operationId: getSectionDataRequestApplication
       security:
@@ -1299,17 +1207,15 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+                $ref: '#/components/schemas/resultMessage'
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
   /data-request/application/{application_id}/section/{section_number}/validation:
     post:
+      tags:
+        - Data Request Form
       summary: Retrieve validation errors for a specific section using the given application ID
       operationId: getDataRequestSectionErrors
       security:
@@ -1345,23 +1251,19 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+                $ref: '#/components/schemas/resultMessage'
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
   /data-request/application/{application_id}/data:
     post:
+      tags:
+        - Data Request Form
       summary: Upload a multipart file for the provided application
       operationId: postRequestData
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data request application
       parameters:
         - name: application_id
           in: path
@@ -1381,29 +1283,20 @@ paths:
       responses:
         '201':
           description: Successfully uploaded the multipart file to the hub-store
-          headers:
-            Location:
-              schema:
-                type: string
-              description: the location of the created resource
         '400':
           description: Bad Request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
   /data-request/application/{application_id}/data/{data_id}:
     get:
+      tags:
+        - Data Request Form
       summary: Retrieve the file based on the provided data_id
       operationId: getRequestData
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data request application
       parameters:
         - name: data_id
           in: path
@@ -1420,22 +1313,24 @@ paths:
             type: string
       responses:
         '200':
-          description: Successfully uploaded the multipart file to the hub-store
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+          description: Successful file download
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+              example: file content in binary
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
     delete:
+      tags:
+        - Data Request Form
       summary: Delete the file based on the provided data_id
       operationId: deleteRequestData
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data request application
       parameters:
         - name: data_id
           in: path
@@ -1453,22 +1348,22 @@ paths:
       responses:
         '200':
           description: Successfully delete the multipart file to the hub-store
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resultMessage'
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
   /data-request/application/{application_id}/status:
     put:
+      tags:
+        - Data Request Form
       summary: Create or update the status of an application
       operationId: putStatusDataRequestApplication
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data request application
       parameters:
         - name: application_id
           in: path
@@ -1481,26 +1376,26 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/PutStatusRequest'
       responses:
         '200':
           description: Updated the provided status for the application
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
   /data-request/application/{application_id}/title:
     put:
+      tags:
+        - Data Request Form
       summary: Update the title of an application
       operationId: putTitleDataRequestApplication
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data request application
       parameters:
         - name: application_id
           in: path
@@ -1513,26 +1408,26 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/ChangeTitleRequest'
       responses:
         '200':
           description: Updated the provided title for the application
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resultMessage'
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
   /data-request/application/{id}/export/{type}/{lg}:
     get:
+      tags:
+        - Data Request Form
       summary: Export on Pdf or World on Data Request Form list
       operationId: exportDataRequestApplication
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data Request Application Form
       parameters:
         - name: id
           in: path
@@ -1563,21 +1458,21 @@ paths:
                   type: object
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
 
+  #############
+  # Countries #
+  #############
+
   /countries/{lg}/{filter}:
     get:
+      tags:
+        - Country
       summary: Get Countries names list
       operationId: getCountries
       security:
         - BearerAuth: [ ]
-      tags:
-        - Countries List
       parameters:
         - name: lg
           in: path
@@ -1602,20 +1497,49 @@ paths:
                   type: object
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
+
+  ################
+  # Translations #
+  ################
+
+  /countriesTranslation/{lg}:
+    get:
+      tags:
+        - Country
+      summary: Get Countries Translation list only for European Union
+      operationId: getCountriesTranslation
+      security: []
+      parameters:
+        - name: lg
+          in: path
+          description: language of the resource to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Countries names list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
   /translations/{lg}/{section}:
     get:
+      tags:
+        - Translation
       summary: Get Translation per section
       operationId: getTranslations
       security:
         - BearerAuth: [ ]
-      tags:
-        - Translation List
       parameters:
         - name: lg
           in: path
@@ -1640,59 +1564,48 @@ paths:
                   type: object
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '500':
           description: Internal Server Error
-  ##########
-  #  User  #
-  ##########
+
+  #################
+  #  User Profile #
+  #################
 
   /user:
     put:
+      tags:
+        - User Profile
       summary: Creates or updates a user profile
       operationId: putUser
       security:
         - BearerAuth: [ ]
-      tags:
-        - User
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/userProfile'
       responses:
         '200':
           description: Provided User has been added.
           content:
-            application/json:
+            text/plain:
               schema:
-                type: object
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+                type: string
     get:
+      tags:
+        - User Profile
       summary: Get a user profile
       operationId: getUser
       security:
         - BearerAuth: [ ]
-      tags:
-        - User
       responses:
         '200':
           description: User has been successfully retrieved.
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+                $ref: '#/components/schemas/userProfileResponse'
         '404':
           description: Not Found
           content:
@@ -1700,31 +1613,26 @@ paths:
               schema:
                 type: object
     delete:
+      tags:
+        - User Profile
       summary: Delete a user
       operationId: deleteUser
       security:
         - BearerAuth: []
-      tags:
-        - User
       responses:
         '204':
           description: Successfully deleted a user
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '404':
           description: Not Found
-          content:
-            application/json:
-              schema:
-                type: object
+
   ################
   #  Dispatcher  #
   ################
 
   /dispatcher/status:
     post:
+      tags:
+        - Dispatcher
       summary: Update the status of the application
       operationId: postStatusFromDispatcher
       security:
@@ -1734,28 +1642,56 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: object
+              $ref: '#/components/schemas/DispatcherMessages'
       responses:
         '200':
           description: Provided Status has been updated.
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/dispatcherDecisionRequest'
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '404':
           description: Application Not Found
         '500':
           description: Internal Server Error
+  /dispatcher/decision:
+    put:
+      tags:
+        - Dispatcher
+      summary: Update the status of the application upon decision from NCP
+      operationId: putStatusFromDispatcher
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dispatcherDecisionRequest'
+      responses:
+        '200':
+          description: Provided Status has been updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resultMessage'
+        '400':
+          description: Bad request
+        '404':
+          description: Application Not Found
+        '500':
+          description: Internal Server Error
+
+  ################
+  #  Documents   #
+  ################
+
   /application/export:
     get:
+      tags:
+        - Document
       summary: Export on Pdf or World on Data Access Form list
       operationId: externalExportDataAccessApplication
       security:
@@ -1775,16 +1711,14 @@ paths:
                 type: object
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '404':
           description: Application Not Found
         '500':
           description: Internal Server Error
   /data-request/application/export:
     get:
+      tags:
+        - Document
       summary: Export on Pdf or World on Data Access Form list
       operationId: externalExportDataRequestApplication
       security:
@@ -1804,19 +1738,19 @@ paths:
                 type: object
         '400':
           description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '404':
           description: Application Not Found
         '500':
           description: Internal Server Error
+
   ##########################
   #  Administration Tasks  #
   ##########################
+
   /admin/resubmit/application/{application_id}:
     put:
+      tags:
+        - Administration
       summary: resubmit an application to be sent into dispatcher
       operationId: resubmitApplication
       security:
@@ -1831,24 +1765,26 @@ paths:
       responses:
         '200':
           description: Application has been resubmitted
-        '400':
-          description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Resubmit action is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resultMessage'
         '404':
           description: Application Not Found
+        '403':
+          description: Resubmit action is forbidden
+        '400':
+          description: Bad request
         '500':
           description: Internal Server Error
   /admin/data-access/applications:
     get:
+      tags:
+        - Administration
       summary: Get All Data Access Applications list
       operationId: getAllDataAccessApplicationsByAdmin
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data Access Application Form
       parameters:
         - name: limit
           in: query
@@ -1894,12 +1830,12 @@ paths:
           description: Internal Server Error
   /admin/data-request/applications:
     get:
+      tags:
+        - Administration
       summary: Get All Data Request Applications list
       operationId: getAllDataRequestApplicationsByAdmin
       security:
         - BearerAuth: [ ]
-      tags:
-        - Data Access Application Form
       parameters:
         - name: limit
           in: query
@@ -1944,6 +1880,541 @@ paths:
         '500':
           description: Internal Server Error
 
+  ##############
+  # Audit Logs #
+  ##############
+
+  /admin/audit/search:
+    post:
+      tags:
+        - Audit Logs
+      summary: Search audit logs with sorting and filtering. Can be performed only by an administrator.
+      operationId: searchAuditLogs
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Audit logs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAuditLogResponse'
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+  /admin/audit/submitDatasetAuditLog:
+    post:
+      tags:
+        - Audit Logs
+      summary: Submit a new dataset audit log. This api is exposed to dispatcher component in order to insert an audit log record in case that an application status is changed.
+      operationId: submitDatasetAuditLog
+      security:
+        - ApiKeyAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                datasetId:
+                  type: string
+                  description: The ID of the dataset being audited
+                datasetAction:
+                  type: string
+                  description: The action performed on the dataset
+                  enum:
+                    - "create"
+                    - "update"
+                    - "delete"
+                ncp:
+                  type: string
+                  description: The NCP (Network Control Point) associated with the audit
+              required:
+                - datasetId
+                - ncp
+              additionalProperties: false
+      responses:
+        '200':
+          description: Successfully submitted the dataset audit log
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resultMessage'
+        '400':
+          description: Bad request, invalid data or missing required fields
+        '500':
+          description: Internal server error
+
+    ##############
+    # Catalogues #
+    ##############
+
+  /admin/catalogue:
+    post:
+      tags:
+        - Catalogue
+      summary: Creates one catalogue
+      operationId: createCatalogue
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Provided catalogue created/updated.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+  /admin/catalogue/search:
+    post:
+      tags:
+        - Catalogue
+      summary: Get all catalogue by criteria
+      operationId: getAllCatalogue
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing a list of catalogues filtered
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+  /admin/catalogue/validate:
+    post:
+      tags:
+        - Catalogue
+      summary: Validate creation or update of one catalogue
+      operationId: validateUpdateCatalogue
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: catalogueId
+          in: query
+          description: the catalogue id to validate
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Provided catalogue validate.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+  /admin/catalogue/{catalogueId}:
+    post:
+      tags:
+        - Catalogue
+      summary: Update one catalogue
+      operationId: updateCatalogue
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: catalogueId
+          in: path
+          description: ID of the catalogue to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Provided catalogue created/updated.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+    get:
+      tags:
+        - Catalogue
+      summary: Get catalogue by id or all catalogues
+      operationId: getCatalogue
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: catalogueId
+          in: path
+          description: ID of the catalogue to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the catalogue or a list of catalogues
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - Catalogue
+      summary: Delete catalog by providing the id
+      operationId: deleteCatalog
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: catalogueId
+          in: path
+          description: ID of the catalog to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Provided Catalog has been deleted.
+        '404':
+          description: Provided Catalog were not found.
+        '500':
+          description: Internal Server Error
+  /admin/catalogue/create/{catalogueId}/data:
+    post:
+      tags:
+        - Catalogue
+      summary: Upload a multipart file for the provided catalogue
+      operationId: postDataCreateCatalogue
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: catalogueId
+          in: path
+          description: ID of the catalogue
+          required: true
+          schema:
+            type: string
+        - name: currentGeographicalURL
+          in: query
+          description: ID of the catalogue
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: string
+      responses:
+        '201':
+          description: Successfully uploaded the multipart file to the hub-store
+          headers:
+            Location:
+              schema:
+                type: string
+              description: the location of the created resource
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /admin/catalogue/{catalogueId}/data:
+    get:
+      tags:
+        - Catalogue
+      summary: Retrieve the file based on the provided data_id
+      operationId: getRDFFileData
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: catalogueId
+          in: path
+          description: ID of the catalogue
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieve the file from the hub-store
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /admin/catalogue/{catalogueId}/metadata:
+    get:
+      tags:
+        - Catalogue
+      summary: Retrieve the metadata of the file based on the provided data_id
+      operationId: getRDFFileMetadata
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: catalogueId
+          in: path
+          description: ID of the catalogue
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieve the metadata of the file from the hub-store
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /admin/catalogue/geographicalCoverage/{lg}:
+    get:
+      tags:
+        - Catalogue
+      summary: Get geographical coverage of existing catalogues
+      operationId: getAllGeographicalCoverage
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: lg
+          in: path
+          description: language of the resource to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON object containing the geographical coverage list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  #########
+  #  User #
+  #########
+
+  /admin/users/search:
+    post:
+      tags:
+        - User
+      summary: Search users
+      operationId: searchUsers
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+  /admin/users/deleteUser/{username}/{userId}:
+    delete:
+      tags:
+        - User
+      summary: Delete a user
+      operationId: adminDeleteUser
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: username
+          in: path
+          description: The keycloak username of the user to delete.
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: path
+          description: The keycloak identifier of the user to delete.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: User deleted successfully.
+        '400':
+          description: Bad request.
+        '404':
+          description: User not found.
+        '500':
+          description: Internal Server Error.
+  /admin/users/updateRole/{operation}/{role}/{userId}:
+    put:
+      tags:
+        - User
+      summary: Update a user's roles
+      operationId: updateUserRole
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: operation
+          in: path
+          description: The role update operation to perform (e.g., "add" or "remove")
+          required: true
+          schema:
+            type: string
+        - name: role
+          in: path
+          description: The role name
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: path
+          description: The Keycloak identifier of the user to update.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Roles updated successfully.
+          content:
+            application/json:
+              schema:
+                type: boolean
+        '400':
+          description: Bad request.
+        '404':
+          description: User not found.
+        '500':
+          description: Internal Server Error.
+
+  ################
+  # Data Permit  #
+  ################
+
+  /data-permit/export:
+    get:
+      tags:
+        - Data Permit
+      summary: Download data-permit document
+      operationId: downloadDataPermitDocument
+      security: []
+      responses:
+        '200':
+          description: A .docx document with the data permit template
+          content:
+            application/vnd.openxmlformats-officedocument.wordprocessingml.document:
+              schema:
+                type: string
+                format: binary
+          headers:
+            Content-Disposition:
+              description: Used to indicate a downloadable file attachment
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
 components:
   securitySchemes:
     BearerAuth:
@@ -1958,3 +2429,450 @@ components:
       type: apiKey
       in: header
       name: X-EXPORT-API-Key
+  schemas:
+
+    basket:
+      type: object
+      properties:
+        dataset_id:
+          type: string
+        distribution_id:
+          type: string
+      required:
+        - dataset_id
+        - distribution_id
+
+    resultMessage:
+      type: object
+      properties:
+        result_message:
+          type: string
+
+    getBasketResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BasketItem'
+        metadata:
+          $ref: '#/components/schemas/PaginationMetadata'
+
+    BasketItem:
+      type: object
+      properties:
+        _id:
+          type: string
+        dataset_id:
+          type: string
+          format: uuid
+        publisher:
+          type: string
+        userId:
+          type: string
+        date_added:
+          type: string
+          format: date-time
+        distributions:
+          type: array
+          items:
+            $ref: '#/components/schemas/DistributionItem'
+
+    DistributionItem:
+      type: object
+      properties:
+        distribution_id:
+          type: string
+          format: uuid
+
+    PaginationMetadata:
+      type: object
+      properties:
+        total_documents:
+          type: integer
+        total_documents_filtered:
+          type: integer
+        page_size:
+          type: integer
+        current_page:
+          type: integer
+        total_pages:
+          type: integer
+        sort_by:
+          type: string
+        sort_order:
+          type: string
+          enum: [ asc, desc ]
+
+    distributionCountResponse:
+      type: object
+      properties:
+        distribution_count:
+          type: integer
+
+    getAuditLogResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditLogItem'
+        metadata:
+          $ref: '#/components/schemas/PaginationMetadata'
+
+    AuditLogItem:
+      type: object
+      properties:
+        _id:
+          type: string
+        date:
+          type: string
+          format: date-time
+        object:
+          type: string
+        objectId:
+          type: string
+          nullable: true
+        action:
+          type: string
+        actionDescription:
+          type: string
+        userId:
+          type: string
+        linkable:
+          type: boolean
+        name:
+          type: string
+
+    KeyValue:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Machine-readable code or identifier
+        value:
+          type: string
+          description: Human-readable label
+
+    Phone:
+      type: object
+      properties:
+        countryCode:
+          type: string
+          description: Country calling code (e.g., "359")
+        number:
+          type: string
+          description: Phone number without country code
+
+    userProfile:
+      type: object
+      required:
+        - legalOrNaturalPerson
+      properties:
+        legalOrNaturalPerson:
+          $ref: '#/components/schemas/KeyValue'
+        legalPersonOrganisationName:
+          type: string
+        legalPersonBusinessID:
+          type: string
+        legalPersonOperatorID:
+          type: string
+        legalPersonJobTitle:
+          type: string
+        legalPersonAffiliation:
+          type: string
+        legalPersonAddress:
+          type: string
+        legalPersonZipCode:
+          type: string
+        legalPersonCity:
+          type: string
+        legalPersonCountry:
+          $ref: '#/components/schemas/KeyValue'
+        legalPersonPhone:
+          $ref: '#/components/schemas/Phone'
+
+    userProfileResponse:
+      allOf:
+        - $ref: '#/components/schemas/userProfile'
+        - type: object
+          properties:
+            date_modified:
+              type: string
+              format: date-time
+              description: Last time the profile was modified (ISO 8601 format)
+
+    dispatcherDecisionRequest:
+      type: object
+      required:
+        - type
+        - operation
+        - objectId
+        - payload
+      properties:
+        type:
+          type: string
+          enum: [ application ]
+        operation:
+          type: string
+          enum: [ decision ]
+        objectId:
+          type: string
+          minLength: 1
+        payload:
+          type: object
+          required:
+            - applicationType
+            - catalogId
+            - decisions
+          properties:
+            applicationType:
+              type: string
+              enum: [ DATA_ACCESS_APPLICATION, DATA_REQUEST_APPLICATION ]
+            catalogId:
+              type: string
+              minLength: 1
+            decisions:
+              type: array
+              minItems: 1
+              items:
+                type: object
+                required:
+                  - publisher
+                  - decision
+                properties:
+                  publisher:
+                    type: string
+                    minLength: 1
+                  decision:
+                    type: string
+                    minLength: 1
+
+    DispatcherMessage:
+      type: object
+      properties:
+        application_id:
+          type: string
+          description: ID of the application
+        data_permit_id:
+          type: string
+          description: ID of the associated data permit
+        catalog_ids:
+          type: array
+          items:
+            type: string
+          description: List of related catalog IDs
+        status:
+          type: string
+          description: Current status of the dispatch result
+      required:
+        - application_id
+        - data_permit_id
+        - catalog_ids
+        - status
+
+    DispatcherMessages:
+      type: array
+      items:
+        $ref: '#/components/schemas/DispatcherMessage'
+
+    DeleteApplicationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates whether the operation was successful
+        result:
+          type: object
+          properties:
+            id:
+              type: string
+              description: ID of the deleted application
+
+    Distribution:
+      type: object
+      properties:
+        distribution_id:
+          type: string
+          format: uuid
+          description: ID of the distribution
+      required:
+        - distribution_id
+
+    DatasetItem:
+      type: object
+      properties:
+        dataset_id:
+          type: string
+          format: uuid
+          description: ID of the dataset
+        catalog_id:
+          type: string
+          format: uuid
+          description: ID of the catalog
+        distributions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Distribution'
+      required:
+        - dataset_id
+        - catalog_id
+        - distributions
+
+    CreateDataRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the request
+        datasets:
+          type: array
+          items:
+            $ref: '#/components/schemas/DatasetItem'
+      required:
+        - title
+        - datasets
+
+    CreateDataResponse:
+      type: object
+      properties:
+        result_message:
+          type: string
+          description: A message describing the result of the operation
+        id:
+          type: string
+          description: ID of the newly created document
+
+    ApplicationItem:
+      type: object
+      properties:
+        application_id:
+          type: string
+          pattern: "^[a-fA-F0-9]{24}$"
+          description: ID of the application
+      required:
+        - application_id
+
+    UpdateDistribution:
+      type: object
+      properties:
+        distribution_id:
+          type: string
+          format: uuid
+          description: ID of the distribution
+      required:
+        - distribution_id
+
+    UpdateDatasetItem:
+      type: object
+      properties:
+        dataset_id:
+          type: string
+          format: uuid
+          description: ID of the dataset
+        catalog_id:
+          type: string
+          format: uuid
+          description: ID of the catalog
+        distributions:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpdateDistribution'
+      required:
+        - dataset_id
+        - catalog_id
+        - distributions
+
+    UpdateDatasetRequest:
+      type: object
+      properties:
+        applications:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationItem'
+        datasets:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpdateDatasetItem'
+      required:
+        - applications
+        - datasets
+
+    ApplicationSummary:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+          description: Unique identifier of the application
+        version:
+          type: string
+          description: Version of the application
+        title:
+          type: string
+          description: Title of the application
+      required:
+        - _id
+        - version
+        - title
+
+    UpdateDatasetResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/ApplicationSummary'
+
+    DeleteDatasetItem:
+      type: object
+      additionalProperties: false
+      properties:
+        dataset_id:
+          type: string
+          description: Unique identifier of the dataset
+      required:
+        - dataset_id
+
+    DeleteDatasetItemList:
+      type: array
+      items:
+        $ref: '#/components/schemas/DeleteDatasetItem'
+
+    DatasetDistributionItem:
+      type: object
+      additionalProperties: false
+      properties:
+        dataset_id:
+          type: string
+          description: Unique identifier of the dataset
+        distribution_id:
+          type: string
+          description: Unique identifier of the distribution
+      required:
+        - dataset_id
+        - distribution_id
+
+    DeleteDatasetDistributionItemList:
+      type: array
+      items:
+        $ref: '#/components/schemas/DatasetDistributionItem'
+
+    PutStatusRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          minLength: 1
+          description: Status code or label (must be at least 1 character)
+        comment:
+          type: string
+          description: Optional comment providing additional information
+      required:
+        - status
+
+    ChangeTitleRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the object
+      required:
+        - title

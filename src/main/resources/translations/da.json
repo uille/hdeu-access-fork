@@ -1,0 +1,1588 @@
+{
+    "section1": {
+        "section1h5": "Udvælgelse af datakilder til projektet",
+        "section1Description": "Databrugere bør kun ansøge om data, der er tilstrækkelige, relevante og begrænset til, hvad der er nødvendigt i forhold til deres anvendelsesformål — \ni overensstemmelse med princippet om dataminimering i EU's generelle forordning om databeskyttelse 58 (artikel 5, stk. 1c). \nOrganet med ansvar for adgang til sundhedsdata evaluerer omhyggeligt, om dine krav er i overensstemmelse med GDPR's dataminimeringsprincip.",
+        "section1DescriptionDR": "En ansøgning om adgang til elektroniske sundhedsdata til sekundær anvendelse i et anonymiseret statistisk format",
+        "applicationDatasets": {
+            "label": "Fra hvilke (n) datasætregistrering (er) eller register (er) og/eller fordeling (er) vil dataene blive udtrukket?"
+        },
+        "applicationCountries": {
+            "label": "Fra hvilket eller hvilke lande søger du oplysninger?"
+        },
+        "applicationDataHolders": {
+            "label": "Fra hvilke (n) dataindehaver (e) vil dataene blive udtrukket?"
+        },
+        "applicationHDABs": {
+            "label": "Til hvilket organ/hvilke organer med ansvar for adgang til sundhedsdata ønsker du at indgive ansøgningen?"
+        },
+        "applicationDatabases": {
+            "label": "Hvilke (n) database (er) eller registratur/registre vil dataene blive udtrukket?"
+        }
+    },
+    "section2": {
+        "section2h5": "Offentlig information om projektet",
+        "section2Description": "Organer med ansvar for adgang til sundhedsdata i Den Europæiske Union er forpligtet til at offentliggøre oplysninger om datatilladelser, sundhedsdataanmodninger og ansøgninger om adgang til sundhedsdata på deres websted senest 30 arbejdsdage efter udstedelsen af datatilladelsen eller svaret på en sundhedsdataanmodning.\nI dette afsnit bedes du give oplysninger om dit projekt, som kan deles med offentligheden. Sørg for, at dette ikke omfatter fortrolige oplysninger. Giv dine svar som lægmand. Som databruger vil du være forpligtet til at offentliggøre projektets resultater eller output senest 18 måneder efter afslutningen af behandlingen eller modtagelsen af svaret på sundhedsdataanmodningen.\nDu skal desuden oplyse organet med ansvar for adgang til sundhedsdata om antallet af fagfællebedømte forskningspublikationer, politikdokumenter og/eller reguleringsprocedurer, der er gennemført ved hjælp af de data, der tilgås via denne ansøgning om adgang til sundhedsdata.",
+        "projectName": {
+            "label": "Projektets navn"
+        },
+        "projectLeader": {
+            "label": "Projektlederens navn (organisation, institution, enhed i den private sektor eller en fysisk person)",
+            "tooltip": "Dette er den person, der er ansvarlig for dataanvendelsen"
+        },
+        "countryOfProjectLeader": {
+            "label": "Officielt hjemsted (land) for den enhed, der er ansvarlig for projektet"
+        },
+        "purposeForWhichDataWillBeUsed": {
+            "label": "Formål, hvortil oplysningerne vil blive anvendt",
+            "tooltip": "Formål med forordningen om det europæiske sundhedsdataområde.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Offentlighedens interesse for så vidt angår folkesundheden eller sundhed på arbejdspladsen, såsom aktiviteter til beskyttelse mod alvorlige grænseoverskridende sundhedstrusler, overvågning af folkesundheden eller aktiviteter til sikring af et højt kvalitets- og sikkerhedsniveau for sundhedsydelser, herunder patientsikkerhed, og lægemidler eller medicinsk udstyr."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Politikudformning og reguleringsmæssige tiltag til støtte for offentlige myndigheder eller EU-institutioner, -organer, -kontorer eller -agenturer, herunder regulerende myndigheder, i sundheds- eller plejesektoren med udførelsen af deres opgaver som beskrevet i deres mandater."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Statistikker som defineret i artikel 3, nr. 1), i forordning (EF) nr. 223/2009, såsom officielle statistikker på nationalt og tværnationalt plan og EU-plan, vedrørende sundheds- eller plejesektoren."
+                },
+                {
+                    "key": "d",
+                    "value": "d. Uddannelses- eller undervisningsaktiviteter inden for sundheds- eller plejesektoren på erhvervsuddannelsesniveau eller videregående uddannelsesniveau."
+                },
+                {
+                    "key": "e",
+                    "value": "E. Videnskabelig forskning inden for sundheds- eller plejesektoren, der bidrager til vurderinger af folkesundhed eller medicinske teknologivurderinger eller sikrer et højt kvalitets- og sikkerhedsniveau i forbindelse med sundhedsydelser, lægemidler eller medicinsk udstyr, således at slutbrugere, såsom patienter, sundhedsprofessionelle og sundhedsadministratorer, kan få gavn heraf, herunder: i) udviklings- og innovationsaktiviteter i forhold til produkter eller tjenester ii) træning, test og evaluering af algoritmer, herunder i medicinsk udstyr, medicinsk udstyr til in vitro-diagnostik, AI-systemer og digitale sundhedsapplikationer."
+                },
+                {
+                    "key": "f",
+                    "value": "F. Forbedring af leveringen af pleje, af optimeringen af behandling og af leveringen af sundhedsydelser på grundlag af andre fysiske personers elektroniske sundhedsdata."
+                }
+            ]
+        },
+        "theNatureOfTheDataDoesNotLetYouProvideADescription": {
+            "label": "Projektets art giver ikke dig en beskrivelse"
+        },
+        "descriptionOfTheProject": {
+            "label": "Forklar venligst, hvorfor du ikke kan give en beskrivelse af dataene.",
+            "tooltip": "Denne forklaring af årsagen/årsagerne vil ikke blive offentliggjort."
+        },
+        "summaryOfTheProject": {
+            "label": "Resumé af projektet",
+            "tooltip": "Giv et kort (250 ord eller mindre) resumé af projektets mål, data, der skal anvendes, metoder og den form for resultater, der forventes."
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummary": {
+            "label": "Projektets art giver ikke mulighed for at give et resumé"
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason": {
+            "label": "Forklar venligst, hvorfor du ikke kan give et resumé af dit projekt",
+            "tooltip": "Denne forklaring af årsagen/årsagerne vil ikke blive offentliggjort."
+        }
+    },
+    "section3": {
+        "section3h5": "Oplysninger om ansøger og kontaktperson",
+        "section3Description": "En ansøgning om adgang til sundhedsdata bør indeholde navn og kontaktoplysninger på ansøgeren, enten en juridisk eller en fysisk person. Oplysninger om den kontaktperson, der besvarer eventuelle forespørgsler i forbindelse med ansøgningen om adgang til sundhedsdata, uanset om det er den samme person som ansøgeren eller en anden person, bør også medtages. Hvis kontaktpersonen ikke er den samme som ansøgeren, bør dennes forhold, f.eks. baseret på en ansættelseskontrakt, præciseres.",
+        "section3DescriptionRequest": "En anmodning om oplysninger bør indeholde navn og kontaktoplysninger på ansøgeren, enten en juridisk eller en fysisk person. Oplysninger om den kontaktperson, der besvarer eventuelle forespørgsler i forbindelse med ansøgningen, uanset om det er den samme person som ansøgeren (i tilfælde af en fysisk person som ansøgeren) eller en anden person, bør også medtages.\nHvis kontaktpersonen ikke er den samme som ansøgeren, bør dennes forhold, f.eks. baseret på en ansættelseskontrakt, præciseres.",
+        "applyingForDataOnBehalfOfPublicSector": {
+            "label": "Ansøger du om data på vegne af en offentlig myndighed eller en EU-institution, et EU-organ, -kontor eller -agentur?"
+        },
+        "applyingForDataForCarryingOutTasks": {
+            "label": "Ansøger du om data til udførelse af opgaver, der er fastsat i din organisations/institutions mandat?",
+            "tooltip": "Opgaver i din organisations/institutions mandat betyder opgaver, der er baseret på national lovgivning eller EU-lovgivning."
+        },
+        "legalOrNaturalPerson": {
+            "label": "Er ansøgeren en juridisk eller fysisk person?",
+            "tooltip": "Fysisk person = en fysisk person, en fysisk person, en juridisk person = en virksomhed, organisation eller en sammenslutning.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Juridisk person"
+                },
+                {
+                    "key": "b",
+                  "value": "Fysisk person",
+                  "info": "(Hvis du vælger denne mulighed, bekræfter du, at du ansøger om oplysninger som privatperson uden tilknytning.)"
+                }
+            ]
+        },
+        "legalPerson": "Juridisk person",
+        "naturalPerson": "Fysisk person",
+        "legalPersonName": {
+            "label": "Fulde navn"
+        },
+        "postalAddress": "Postadresse",
+        "legalPersonAddress": {
+            "label": "Nummer, gadenavn"
+        },
+        "legalPersonZipCode": {
+            "label": "Zip-kode"
+        },
+        "legalPersonCity": {
+            "label": "By/by"
+        },
+        "legalPersonCountry": {
+            "label": "Land"
+        },
+        "contactPersonInformation": "Oplysninger om kontaktperson",
+        "contactPersonInformationDescription": "Kontaktperson henviser til den person, der besvarer forespørgsler vedrørende ansøgningen. Kontaktpersonens oplysninger kan videresendes til den dataansvarlige under behandlingen af en ansøgning, hvis der er behov for yderligere oplysninger for at definere dataudtrækket. ",
+        "contactPersonName": {
+            "label": "Fulde navn"
+        },
+        "contactPersonEmail": {
+            "label": "Perfab@um.dk"
+        },
+        "contactPersonPhone": {
+            "label": "Telefon"
+        },
+        "contactPersonNameOfTheOrganisation": {
+            "label": "Organisationens navn:"
+        },
+        "contactPersonBusinessIdentifier": {
+            "label": "Organisationens virksomheds-ID"
+        },
+        "contactPersonOperatorIdentifier": {
+            "label": "Operatør-ID"
+        },
+        "contactPersonJobTitle": {
+            "label": "Jobbetegnelse"
+        },
+        "contactPersonAffiliation": {
+            "label": "Tilhørsforhold"
+        },
+        "contactPersonRelationship": {
+            "label": "Hvad er forholdet mellem kontaktpersonen og ansøgeren? (F.eks. en medarbejder, der ansøger om data på vegne af deres organisation)."
+        },
+        "naturalPersonName": {
+            "label": "Fulde navn"
+        },
+        "naturalPersonAddress": {
+            "label": "Nummer, gadenavn"
+        },
+        "naturalPersonZipCode": {
+            "label": "Zip-kode"
+        },
+        "naturalPersonCity": {
+            "label": "By/by"
+        },
+        "naturalPersonCountry": {
+            "label": "Land"
+        },
+        "naturalPersonEmail": {
+            "label": "Perfab@um.dk"
+        },
+        "naturalPersonPhone": {
+            "label": "Telefon"
+        },
+        "naturalPersonJobTitle": {
+            "label": "Jobbetegnelse"
+        },
+        "naturalPersonAffiliation": {
+            "label": "Tilhørsforhold"
+        }
+    },
+    "section4": {
+        "section4h5": "Betalingsoplysninger",
+        "section4Description": "Betalingsoplysninger for den person, som organet med ansvar for adgang til sundhedsdata behandler regninger vedrørende denne ansøgning og den deraf følgende datatilladelse, hvis den er udstedt.",
+        "sameAsContactPerson": {
+            "label": "Samme som kontaktperson, der er nævnt i afsnit 3?"
+        },
+        "fullName": {
+            "label": "Fulde navn"
+        },
+        "address": {
+            "label": "Adresse"
+        },
+        "email": {
+            "label": "Perfab@um.dk"
+        },
+        "phone": {
+            "label": "Telefon"
+        },
+        "invoiceType": {
+            "label": "Fakturatype",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Papir"
+                },
+                {
+                    "key": "b",
+                    "value": "Elektronisk"
+                }
+            ]
+        },
+        "invoiceReferenceNumber": {
+            "label": "Fakturanummer"
+        },
+        "invoiceAddress": {
+            "label": "E-fakturaadresse (EDI eller IBAN)"
+        },
+        "operatorIdentifier": {
+            "label": "Operatør-ID"
+        },
+        "nameOfTheOrganisation": {
+            "label": "Organisationens navn:"
+        },
+        "businessIdentifierOrganization": {
+            "label": "Organisationens virksomheds-ID"
+        },
+        "vatNumber": {
+            "label": "Nummer på beholder"
+        },
+        "peppolCode": {
+            "label": "PEPPOL-kode (hvis relevant)"
+        },
+        "isTheProjectFinanciallyCovered": {
+            "label": "Er projektet finansielt dækket?"
+        },
+        "rangeOfAmountOfFinancing": {
+            "label": "Hvad er finansieringsbeløbet for det projekt, der vil anvende de ønskede data?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "KL. 10 000 EUR"
+                },
+                {
+                    "key": "b",
+                    "value": "10 000-50 000 EUR"
+                },
+                {
+                    "key": "c",
+                    "value": "50 000-100 000 EUR"
+                },
+                {
+                    "key": "d",
+                    "value": "100 000-500 000 EUR"
+                },
+                {
+                    "key": "e",
+                    "value": "500 000-1 000 000 EUR"
+                },
+                {
+                    "key": "f",
+                    "value": "> 1 000 000 EUR"
+                }
+            ]
+        }
+    },
+    "section5": {
+        "section5h5": "Formålet med dataanvendelsen",
+        "section5Description": "Ansøgerne skal angive formålet med at søge oplysninger i henhold til artikel 53, stk. 1, i forordningen om det europæiske sundhedsdataområde, som Europa-Parlamentet godkendte den 17/12. \nAnsøgerne skal forklare og forklare, hvorfor de ønskede oplysninger er nødvendige for deres angivne formål. Ansøgerne anmodes også om at fremlægge oplysninger om formålet med projektet. Afhængigt af anvendelsesformålet (forskning eller ikke forskning) skal ansøgerne derefter fremlægge et resumé af planen for anvendelse af dataene eller et resumé af forskningsplanen samt oplysninger om den person, der er ansvarlig for dataanvendelsen eller forskningen.",
+        "purposeOfUse": {
+            "label": "Formålet med dataanvendelsen. Organer med ansvar for adgang til sundhedsdata giver kun adgang til de elektroniske sundhedsdata, der er omhandlet i artikel 51, hvis det tilsigtede formål med behandlingen, som ansøgeren forfølger, opfylder følgende formål (jf. artikel 53, stk. 1) nedenfor).",
+            "tooltip": "Formål med forordningen om det europæiske sundhedsdataområde.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Den offentlige interesse inden for folkesundhed eller sundhed på arbejdspladsen, såsom aktiviteter til beskyttelse mod alvorlige grænseoverskridende sundhedstrusler, overvågning af folkesundheden eller aktiviteter, der sikrer et højt kvalitets- og sikkerhedsniveau for sundhedsydelser, herunder patientsikkerhed, og for lægemidler eller medicinsk udstyr."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Politisk beslutningstagning og reguleringsaktiviteter til støtte for offentlige myndigheder eller Unionens institutioner, organer, kontorer og agenturer, herunder tilsynsmyndigheder, i sundheds- eller plejesektoren med henblik på at udføre deres opgaver som defineret i deres mandater."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Statistikker som defineret i artikel 3, nr. (1), i forordning (EU) nr. 223/2009, såsom officielle statistikker på nationalt plan, tværnationalt plan og EU-plan vedrørende sundheds- eller plejesektoren."
+                },
+                {
+                    "key": "d",
+                    "value": "d. Uddannelses- eller undervisningsaktiviteter inden for sundheds- eller plejesektoren på erhvervs- eller videregående uddannelsesniveau."
+                },
+                {
+                    "key": "e",
+                    "value": "E. Videnskabelig forskning i sundheds- eller plejesektoren, der bidrager til folkesundhed eller medicinsk teknologivurdering eller sikrer et højt kvalitets- og sikkerhedsniveau for sundhedsydelser, lægemidler eller medicinsk udstyr med det formål at gavne slutbrugere såsom patienter, sundhedsprofessionelle og sundhedsadministratorer, herunder:\ni) udviklings- og innovationsaktiviteter for produkter eller tjenesteydelser\nII) træning, testning og evaluering af algoritmer, herunder i medicinsk udstyr, medicinsk udstyr til in vitro-diagnostik, AI-systemer og digitale sundhedsapplikationer."
+                },
+                {
+                    "key": "f",
+                    "value": "F. Forbedring af leveringen af pleje, af optimeringen af behandlingen og af leveringen af sundhedsydelser på grundlag af andre fysiske personers elektroniske sundhedsdata."
+                }
+            ]
+        },
+        "whyTheDataIsNeeded": {
+            "label": "Hvorfor er de oplysninger, du ansøger om, nødvendige til det angivne formål? Forklar her, hvorfor mængden og typen af data, du ansøger om, er nødvendig til dit dataanvendelsesformål"
+        },
+        "whyAreTheDataRequested": {
+            "label": "Hvorfor er de data, der anmodes om sammen med denne applikation, nødvendige til det angivne formål?"
+        },
+        "whatIsTheAimAndTopicOfTheProject": {
+            "label": "Hvad er formålet med og emnet for dit projekt?"
+        },
+        "whichAreTheExpectedBenefits": {
+            "label": "Hvad er den forventede fordel ved anvendelsen af de elektroniske sundhedsdata, og hvordan bidrager denne fordel til de formål, der er omhandlet i punkt 5.1?"
+        },
+        "legalBasis": {
+            "label": "Angiv retsgrundlaget, f.eks. den relevante lovgivning, som definerer de opgaver, der falder ind under dit mandat, og bekræfter, at din planlagte anvendelse af oplysningerne er at lette sådanne opgaver.",
+            "tooltip": "Forklar her, hvorfor den mængde data, du ansøger om, er nødvendig til dit dataanvendelsesformål. Begrund og beskriv, hvordan indholdet af de statistikker, der anmodes om, svarer til det formål, der er angivet i ansøgningen om adgang til sundhedsdata, og opfylder dine datakrav."
+        },
+        "linkToTheSupportingLegalBasis": {
+            "label": "Angiv et link til støttedokumentationen som bevis for retsgrundlaget"
+        },
+        "summaryOfPlanForUsingTheData": {
+            "label": "Giv et resumé af din plan for anvendelse af dataene. Resuméet skal affattes på et af de officielle EU-sprog"
+        },
+        "summaryOfPlanForUsingTheDataLanguage": {
+            "label": "Vælg det sprog, som resuméet er affattet på",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgarsk"
+                },
+                {
+                    "key": "hr",
+                    "value": "Kroatisk"
+                },
+                {
+                    "key": "cs",
+                    "value": "Tjekkisk"
+                },
+                {
+                    "key": "da",
+                    "value": "Dansk"
+                },
+                {
+                    "key": "nl",
+                    "value": "Nederlandsk"
+                },
+                {
+                    "key": "en",
+                    "value": "Engelsk"
+                },
+                {
+                    "key": "et",
+                    "value": "Estisk"
+                },
+                {
+                    "key": "fi",
+                    "value": "Finsk"
+                },
+                {
+                    "key": "fr",
+                    "value": "Fransk"
+                },
+                {
+                    "key": "de",
+                    "value": "Tysk"
+                },
+                {
+                    "key": "el",
+                    "value": "Græsk"
+                },
+                {
+                    "key": "hu",
+                    "value": "Ungarsk"
+                },
+                {
+                    "key": "ga",
+                    "value": "Irsk"
+                },
+                {
+                    "key": "it",
+                    "value": "Italiensk"
+                },
+                {
+                    "key": "lv",
+                    "value": "Lettisk"
+                },
+                {
+                    "key": "lt",
+                    "value": "Litauisk"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltesisk"
+                },
+                {
+                    "key": "pl",
+                    "value": "Polsk"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugisisk"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumænsk"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovakisk"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slovensk"
+                },
+                {
+                    "key": "es",
+                    "value": "Spansk"
+                },
+                {
+                    "key": "sv",
+                    "value": "Svensk"
+                }
+            ]
+        },
+        "summaryOfResearchPlan": {
+            "label": "Giv et resumé af din forskningsplan. Resuméet skal affattes på et af de officielle EU-sprog"
+        },
+        "summaryOfResearchPlanLanguage": {
+            "label": "Vælg det sprog, som resuméet er affattet på",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgarsk"
+                },
+                {
+                    "key": "hr",
+                    "value": "Kroatisk"
+                },
+                {
+                    "key": "cs",
+                    "value": "Tjekkisk"
+                },
+                {
+                    "key": "da",
+                    "value": "Dansk"
+                },
+                {
+                    "key": "nl",
+                    "value": "Nederlandsk"
+                },
+                {
+                    "key": "en",
+                    "value": "Engelsk"
+                },
+                {
+                    "key": "et",
+                    "value": "Estisk"
+                },
+                {
+                    "key": "fi",
+                    "value": "Finsk"
+                },
+                {
+                    "key": "fr",
+                    "value": "Fransk"
+                },
+                {
+                    "key": "de",
+                    "value": "Tysk"
+                },
+                {
+                    "key": "el",
+                    "value": "Græsk"
+                },
+                {
+                    "key": "hu",
+                    "value": "Ungarsk"
+                },
+                {
+                    "key": "ga",
+                    "value": "Irsk"
+                },
+                {
+                    "key": "it",
+                    "value": "Italiensk"
+                },
+                {
+                    "key": "lv",
+                    "value": "Lettisk"
+                },
+                {
+                    "key": "lt",
+                    "value": "Litauisk"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltesisk"
+                },
+                {
+                    "key": "pl",
+                    "value": "Polsk"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugisisk"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumænsk"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovakisk"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slovensk"
+                },
+                {
+                    "key": "es",
+                    "value": "Spansk"
+                },
+                {
+                    "key": "sv",
+                    "value": "Svensk"
+                }
+            ]
+        },
+        "personResponsibleLabel": "Person med ansvar for dataanvendelse",
+        "personResponsibleName": {
+            "label": "Fulde navn"
+        },
+        "personResponsibleJobTitle": {
+            "label": "Jobbetegnelse"
+        },
+        "personResponsibleAffiliation": {
+            "label": "Tilhørsforhold"
+        },
+        "personResearchSameAsContactPerson": {
+            "label": "Samme som den kontaktperson, der er nævnt i afsnit 3 (oplysninger om ansøger og kontaktperson)?"
+        },
+        "personResponsibleForResearchLabel": "Den person, der er ansvarlig for forskningen",
+        "personResponsibleSameAsContactPerson": {
+            "label": "Samme som den kontaktperson, der er nævnt i afsnit 3 (oplysninger om ansøger og kontaktperson)?"
+        },
+        "personResearchName": {
+            "label": "Fulde navn"
+        },
+        "personResearchJobTitle": {
+            "label": "Jobbetegnelse"
+        },
+        "personResearchAffiliation": {
+            "label": "Tilhørsforhold"
+        },
+        "formatOfTheElectronicHealthData": {
+            "label": "Vælg formatet for de elektroniske sundhedsdata, der skal stilles til rådighed:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Anonymiseret"
+                },
+                {
+                    "key": "b",
+                    "value": "Pseudonymiserede"
+                }
+            ]
+        },
+        "inOrderToApplyPseudonymisedData": "Jeg er bekendt med, at jeg for at ansøge om pseudonymiserede oplysninger skal:",
+        "inOrderToApplyPseudonymisedDataA": {
+            "label": "a) Forklar, hvordan jeg vil overholde artikel 6, stk. 1, i den generelle forordning om databeskyttelse (eller artikel 5, stk. 1, i EU's forordning om databeskyttelse, hvis en EU-institution, et EU-organ, -kontor eller -agentur ansøger om data)"
+        },
+        "inOrderToApplyPseudonymisedDataB": {
+            "label": "b) vurdere de etiske aspekter af behandlingen af oplysningerne, hvor det er relevant og i overensstemmelse med national ret eller gældende lovgivning."
+        },
+        "whyNeedForPseudonymisation": {
+            "label": "Hvorfor har du brug for pseudonymiserede data til dit projekt?"
+        }
+    },
+    "section6": {
+        "section6h5": "Beskrivelse af de nødvendige data",
+        "section6Description": "I dette afsnit skal du give en beskrivelse af det ønskede datasæt og tydeligt angive, hvilke datasæt applikationen vedrører. Du bør kun ansøge om data, der er tilstrækkelige, relevante og begrænset til, hvad der er nødvendigt i forhold til dit formål med anvendelsen, i overensstemmelse med princippet om dataminimering i EU's generelle forordning om databeskyttelse (artikel 5, stk. 1c). Organet med ansvar for adgang til sundhedsdata evaluerer omhyggeligt, om dine krav er i overensstemmelse med GDPR's dataminimeringsprincip.",
+        "descriptionSection6_1": "Definition af ekstraktionskriterier for kohorten:",
+        "descriptionOfTheDataNeeded": "Beskrivelse af de nødvendige data:",
+        "applicationHDABsForSelectedCountry": "Hvilket organ med ansvar for adgang til sundhedsdata ønsker du at indgive ansøgningen?",
+        "applicationDatasetsPerCountry": "De (t) respektive datasætregister (er) og distribution",
+        "informationProviderSameAsContactPerson": {
+            "label": "Samme som kontaktperson, der er nævnt i afsnit 3?"
+        },
+        "hdabContacts": {
+            "label": "Hvis du har været i kontakt med en person fra organet med ansvar for adgang til sundhedsdata vedrørende de oplysninger, du søger, skal du her angive denne persons navne og e-mailadresser"
+        },
+        "howWillTheDataFromDifferentSourcesBeLinked": {
+            "label": "Hvordan sammenkædes dataene for én person fra forskellige kilder? F.eks. baseret på personlig identifikationskode. Hvis der anvendes en anden form for sammenkædningsmetode, beskrives følgende her:"
+        },
+        "indicateTheSizeOfTheStudyCohort": {
+            "label": "Angiv kohortens størrelse"
+        },
+        "indicateTheSizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Kohortens størrelse (radioknapper)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Dette er et skøn over kohortens størrelse."
+                },
+                {
+                    "key": "b",
+                    "value": "Dette er kohortens nøjagtige størrelse."
+                }
+            ]
+        },
+        "howIsTheStudyCohortFormed": {
+            "label": "Hvordan dannes kohorten?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Kohorten vil blive dannet på grundlag af nedenstående kriterier."
+                },
+                {
+                    "key": "b",
+                    "value": "Kohorten er allerede blevet dannet."
+                },
+                {
+                    "key": "c",
+                    "value": "Kohorten består af disse to: en ny kohorte dannet på grundlag af nedenstående kriterier og en allerede dannet kohorte."
+                },
+                {
+                    "key": "d",
+                    "value": "Kohorten vil være hele befolkningen i det eller de lande, der er angivet i begyndelsen af denne formular."
+                }
+            ]
+        },
+        "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants": {
+            "label": "Hvis du ønsker at anvende en kohorte baseret på dit eget tidligere undersøgelsesstudie, er kohorten da blevet dannet på grundlag af informeret samtykke fra studiedeltagerne? F.eks. kohorte, der er dannet på grundlag af et undersøgelsesstudie eller et klinisk studie, som registerbaserede data vil blive knyttet til i henhold til forordningen om det europæiske sundhedsdataområde."
+        },
+        "doesTheInformedConsentCoverTheRequestedRegistryExtractions": {
+            "label": "Omfatter det informerede samtykke de ønskede registerudtræk?"
+        },
+        "consentAndInformationLetterAttachment": {
+            "label": "Vedlæg den samtykke- og informationsskrivelse, du har sendt til forsøgspersonerne. Vedlæg ikke formularer, der er udfyldt, fordi de indeholder personoplysninger."
+        },
+        "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
+            "label": "Jeg bekræfter, at datatilladelsen er udstedt for dette forskningsprojekt"
+        },
+        "ifTheGroupHasBeenFormedBasedOnPreviousIssued": {
+            "label": "Hvis kohorten er dannet på grundlag af en tidligere udstedt tilladelse, anføres her følgende oplysninger:"
+        },
+        "previouslyIssuedPermitIssuer1": {
+            "label": "Udsteder af afgørelsen om tilladelse"
+        },
+        "previouslyIssuedPermitDate1": {
+            "label": "Dato"
+        },
+        "validityPeriod1": "Gyldighedsperiode",
+        "previouslyIssuedPermitValidityPeriodFrom1": {
+            "label": "Fra"
+        },
+        "previouslyIssuedPermitValidityPeriodTo1": {
+            "label": "Til"
+        },
+        "previouslyIssuedPermitNumber1": {
+            "label": "Tilladelsens nummer"
+        },
+        "permitDecisionAttachment": {
+            "label": "Vedlæg en afgørelse om tilladelse, der omfatter udtræk af kohortedata i dette afsnit."
+        },
+        "howTheStudyCohortWasObtained": {
+            "label": "Beskriv, hvordan kohorten blev opnået, og årsagerne til manglen på datatilladelse/samtykke."
+        },
+        "providedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Har du givet oplysninger om dataanvendelsen til de pågældende emner? F.eks. udvekslede oplysninger om dataanvendelsen på et projektwebsted.",
+            "tooltip": "Yderligere oplysninger findes i artikel 13 og 14 i den generelle forordning om databeskyttelse: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
+            "tooltipForm": "For yderligere oplysninger henvises til artikel 13 og 14 i den generelle forordning om databeskyttelse (<a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">)."
+        },
+        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Hvordan?"
+        },
+        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Hvorfor ikke?"
+        },
+        "whoWillDeliverTheInformationOnTheStudy": {
+            "label": "Hvem vil levere oplysningerne om kohorten til organet med ansvar for adgang til sundhedsdata? Denne person vil modtage instrukser om, hvordan dataene leveres via den fælles portal for det europæiske sundhedsdataområde."
+        },
+        "informationProviderName": {
+            "label": "Fulde navn"
+        },
+        "informationProviderEmail": {
+            "label": "E-mail"
+        },
+        "informationProviderPhone": {
+            "label": "Telefonnummer"
+        },
+        "whyNeedDataOfaWholePopulation": {
+            "label": "Fremlæg argumenter for, hvorfor du har brug for data for en hel population/hele populationer?",
+            "tooltip": "Sørg for at definere kohortens dannelse tilstrækkeligt klart og afgrænse kohortens størrelse efter den påtænkte anvendelse. Vær særlig opmærksom på, hvilke registre kohorten er udtrukket af, og inklusions- og udelukkelseskriterierne for kohorten. En geografisk definition kan f.eks. omfatte bopæl, fødested, arbejdssted eller det sted, hvor tjenesteydelserne anvendes."
+        },
+        "sizeOfTheStudyCohort": {
+            "label": "Angiv kohortens størrelse"
+        },
+        "sizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Kohortens størrelse (radioknapper)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Dette er et skøn over kohortens størrelse."
+                },
+                {
+                    "key": "b",
+                    "value": "Dette er kohortens nøjagtige størrelse."
+                }
+            ]
+        },
+        "whyNeedStudyCohortOfThisSize": {
+            "label": "Hvorfor har du brug for en kohorte af denne størrelse til dit projekt?"
+        },
+        "ethicalReview": "Etisk gennemgang — tekst skal stilles til rådighed af den politiske enhed",
+        "ethicalReviewDescription": "Etisk gennemgang",
+        "ethicalReviewInput": {
+            "label": "Etisk gennemgang",
+            "tooltip": "Teksten skal stilles til rådighed af enheden for politik."
+        },
+        "ethicalReviewAttachment": {
+            "label": "Etisk gennemgang"
+        },
+        "dataHolders": "Fra hvilke (n) dataindehaver (e) vil dataene blive udtrukket?",
+        "whichDatabasesDataExtracted": "Fra hvilke (n) database (er)/registratur/registre vil oplysningerne blive udtrukket?",
+        "whichDatasetDataExtracted": "Fra hvilke datasætposter/registre vil dataene blive udtrukket?",
+        "variablesToBeUsedInDataExtractionAttachment": {
+            "label": "Hvis oplysningerne foreligger, vedlægges listen over variabler, der skal anvendes i dataudtrækningen. Anvend de nøjagtige termer, som den eller de respektive dataindehavere har angivet i metadatakataloget."
+        },
+        "timePeriodOfDataExtraction": {
+            "label": "For hvilket eller hvilke tidsperioder vil datasætregistreringerne blive udtrukket?"
+        },
+        "extractionMethod": {
+            "label": "Ekstraktionsmetode:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "stikprøve"
+                },
+                {
+                    "key": "b",
+                    "value": "alle de personer, der opfylder kriterierne"
+                },
+                {
+                    "key": "c",
+                    "value": "anden prøve"
+                }
+            ]
+        },
+        "samplingMethod": {
+            "label": "Beskriv prøveudtagningsmetoden"
+        },
+        "sampleSize": {
+            "label": "Antal stikprøver",
+            "tooltip": "Svarene kan f.eks. være: 100000 personer eller 50 % af de personer, der opfylder kriterierne."
+        },
+        "inclusionCriteria": {
+            "label": "Beskriv inklusionskriterierne for kohorteekstraktion ",
+            "tooltip": "Husk her at præcisere eventuelle opførelseskriterier, der kan være tvetydige. Hvis du f.eks. ønsker at medtage registrerede i en bestemt alder, skal du præcisere, på grundlag af hvilken variabel alder skal beregnes, og på hvilket tidspunkt."
+        },
+        "potentialExclusionCriteria": {
+            "label": "Beskriv de potentielle udelukkelseskriterier for kohorteekstraktion"
+        },
+        "tabulationPlanArray": {
+            "label": "Oversigt over tabellerne",
+            "tooltip": "Desuden nedskrives følgende oplysninger for hver tabel: register, der skal anvendes mulig kohorte oplysninger om de krævede variabler (hvis de foreligger) dannelse af variabler, hvor de ikke kan tilgås direkte fra databasen ønskede aggregeringsretning for procentdele i hvilken tabeller genereres, når tidligere genererede tabeller anvendes til at oprette andre tabeller enhver anden relevant faktor i forbindelse med generering af de krævede tabeller"
+        },
+        "tabulationRegisteredToBeUsed": {
+            "label": "Register, der skal anvendes"
+        },
+        "tabulationPossibleStudyCohort": {
+            "label": "Mulig kohorte"
+        },
+        "tabulationInformationOfRequiredVariables": {
+            "label": "Oplysninger om de krævede variabler (hvis de foreligger)"
+        },
+        "tabulationFormationVariables": {
+            "label": "Dannelse af variabler, hvor der ikke er direkte adgang til dem fra databasen"
+        },
+        "tabulationDesiredDirection": {
+            "label": "Ønsket aggregeringsretning for procentdele"
+        },
+        "tabulationOrderInWhichTable": {
+            "label": "Rækkefølge, hvori tabeller genereres, når tidligere genererede tabeller anvendes til at oprette andre tabeller"
+        },
+        "tabulationAnyOtherRelevant": {
+            "label": "Eventuelle andre relevante faktorer i forbindelse med udarbejdelsen af de (n) krævede tabel (er) "
+        },
+        "tabulationPlanButton": "Tilføj tabelplan",
+        "tabulationPlan": {
+            "label": "Oversigtsplan",
+            "tooltip": "For hver statistik, du anmoder om, vedlægges et eksempel på Excel-tabel (eller tilsvarende)."
+        },
+        "extractionDescriptionAndCompilation": {
+            "label": "Beskrivelse af udtræk og udarbejdelse af statistikker",
+            "tooltip": "Et organ med ansvar for adgang til sundhedsdata må kun levere de data, du anmoder om, i et anonymiseret statistisk format, hvis din sundhedsdataanmodning accepteres. På grund af anonymitet har databrugeren ikke adgang til de elektroniske sundhedsdata, der anvendes til at give dette svar. Alle de oplysninger, du anmoder om, skal sænkes til et generelt niveau for at undgå små celletal med et stort potentiale for genidentifikation."
+        },
+        "dataExtraction": "Dataudtrækningstider og -rækkefølge for kohorten",
+        "dataExtractionTimes": "Dataudtrækningstider og -rækkefølge for kohorten",
+        "howOftenDoesTheDataNeedToBeExtracted": {
+            "label": "Hvor ofte skal dataene udtrækkes?"
+        },
+        "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
+            "label": "Hvor ofte skal dataene udtrækkes?"
+        },
+        "needForDataExtractionEvery": {
+            "label": "Dataene skal udtrækkes hver for sig",
+            "tooltip": "Hvis du ønsker, at dataene skal udtrækkes flere gange over en vis periode, skal du bemærke, at definitionerne og dataindsamlingsmetoden i nogle tilfælde kan ændre sig i løbet af revisionsperioden. Bemærk, at den maksimale hyppighed af dataudtrækning er hvert kvartal"
+        },
+        "needForDataExtractionEveryOther": {
+            "label": "Angiv andet"
+        },
+        "needForDataExtractionEveryDescriptionDR": {
+            "label": "Angiv flere oplysninger om udtrækningsperioder/-tider",
+            "tooltip": "Hvis du ønsker, at dataene skal udtrækkes flere gange over en vis periode, skal du bemærke, at definitionerne og dataindsamlingsmetoden i nogle tilfælde kan ændre sig i løbet af revisionsperioden."
+        },
+        "needForDataExtractionEveryDescription": {
+            "label": "Giv flere oplysninger om den kohorte, der udtrækker perioder/tidspunkter",
+            "tooltip": "Hvis du ønsker, at dataene skal udtrækkes flere gange over en vis periode, skal du bemærke, at definitionerne og dataindsamlingsmetoden i nogle tilfælde kan ændre sig i løbet af revisionsperioden."
+        },
+        "whatIsTheFrequencyOfUpdates": {
+            "label": "Hvor ofte er der behov for opdateringer af de data, der er nødvendige?"
+        },
+        "orderForDataExtraction": {
+            "label": "Hvis det påvirker resultaterne af dataudtrækningen, i hvilken rækkefølge vil kohortedataene da blive udtrukket? Angiv en nummereret liste over ekstraktionsfaser. F.eks. 1. Dataindehaver A 2. Dataindehaver B 3. Dataindehaver C"
+        },
+        "definingExtractionCriteria": "Definition af ekstraktionskriterier for kontrol:",
+        "willControlsBeExtracted": {
+            "label": "Vil der blive udtaget kontroller til kohorten?"
+        },
+        "hasTheGroupRelativesFormed2": {
+            "label": "Er kontrolgruppen blevet dannet på grundlag af en tidligere udstedt tilladelse?"
+        },
+        "willSameDataBeExtractedForControls": {
+            "label": "Vil de samme data som for kohorten blive udtrukket til kontrol?"
+        },
+        "regionForControlsDataExtraction": {
+            "label": "Hvis du ikke søger data til kontrol fra hele landet, fra hvilken eller hvilke region (er) og/eller by/byer og/eller kommune/kommuner søger du data?"
+        },
+        "fromWhichDataHolderLabel": "Fra hvilke (n) dataindehaver (e) vil dataene til kontrol blive udtrukket?",
+        "fromWhichDatabaseLabel": "Hvilke (n) database (er)/registratur/registre vil data til kontrol blive udtrukket?",
+        "fromWhichDatasetLabel": "Fra hvilke (n) datasæt-record (er)/register (er) vil dataene til kontrol blive udtrukket?",
+        "variablesForDataExtraction": {
+            "label": "Hvis oplysningerne foreligger, angives de variabler, der skal anvendes ved ekstraktion af disse data. Anvend de nøjagtige termer, som den eller de respektive dataindehavere har angivet i metadatakataloget."
+        },
+        "timePeriodForDataExtraction": {
+            "label": "For hvilket eller hvilke tidsperioder vil datasætposterne blive udtrukket?"
+        },
+        "extractionCriteriaForControls": {
+            "label": "Angiv ekstraktionskriterier for kontroller, f.eks. matchningskriterier"
+        },
+        "sizeOfControlGroup": {
+            "label": "Kontrolgruppens størrelse"
+        },
+        "sizeOfControlGroupEstimationOrExact": {
+            "label": "Kontrolgruppens størrelse (radioknapper)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Dette er et skøn over størrelsen af gruppen af kontroller."
+                },
+                {
+                    "key": "b",
+                    "value": "Dette er den nøjagtige størrelse af gruppen af kontroller."
+                }
+            ]
+        },
+        "controlsPerPersonInStudyCohort": {
+            "label": "Hvor mange kontroller udtrækkes pr. person, der tilhører kohorten?"
+        },
+        "inclusionCriteriaForControls": {
+            "label": "Beskriv inklusionskriterierne for ekstraktion af kontrollerne"
+        },
+        "exclusionCriteriaForControls": {
+            "label": "Beskriv de potentielle udelukkelseskriterier for udtræk af kontroller"
+        },
+        "ifTheGroupHasBeenFormed": "Hvis gruppen af kontroller er dannet på grundlag af en tidligere udstedt tilladelse, anføres her følgende oplysninger:",
+        "previouslyIssuedPermitIssuer2": {
+            "label": "Udsteder af afgørelsen om tilladelse"
+        },
+        "previouslyIssuedPermitDate2": {
+            "label": "Dato"
+        },
+        "validityPeriod2": "Gyldighedsperiode",
+        "previouslyIssuedPermitValidityPeriodFrom2": {
+            "label": "Fra"
+        },
+        "previouslyIssuedPermitValidityPeriodTo2": {
+            "label": "Til"
+        },
+        "previouslyIssuedPermitNumber2": {
+            "label": "Tilladelsens nummer"
+        },
+        "dataExtractionAndOrderForControls": " Tidspunkter for dataudtrækning og kontrolrækkefølge",
+        "willDataForControlsBeExtractedSimultaneously": {
+            "label": "Vil kontroldataene blive udtrukket samtidig og i samme rækkefølge som dataene for kohorten?"
+        },
+        "hasTheGroupRelativesFormed3": {
+            "label": "Er gruppen af slægtninge blevet dannet på grundlag af en tidligere udstedt tilladelse?"
+        },
+        "ifTheGroupOfRelativesHasBeenFormed": {
+            "label": "Hvis gruppen af slægtninge er dannet på grundlag af en tidligere udstedt tilladelse, anføres her følgende oplysninger:"
+        },
+        "previouslyIssuedPermitIssuer3": {
+            "label": "Udsteder af afgørelsen om tilladelse"
+        },
+        "previouslyIssuedPermitDate3": {
+            "label": "Dato"
+        },
+        "validityPeriod3": "Gyldighedsperiode",
+        "previouslyIssuedPermitValidityPeriodFrom3": {
+            "label": "Fra"
+        },
+        "previouslyIssuedPermitValidityPeriodTo3": {
+            "label": "Til"
+        },
+        "previouslyIssuedPermitNumber3": {
+            "label": "Tilladelsens nummer"
+        },
+        "dataExtractionFrequency": {
+            "label": "Hvor ofte skal dataene udtrækkes?"
+        },
+        "dataExtractionFrequencyMultipleTimesInformation": {
+            "label": "I tilfælde af tilbagevendende udtræk angives oplysninger om hver dataudtrækningsproces separat i ordreinstrukserne"
+        },
+        "dataNeedsToBeExtractedEvery": {
+            "label": "Dataene skal udtrækkes hver for sig",
+            "tooltip": "Hvis du ønsker, at dataene skal udtrækkes flere gange over en vis periode, skal du bemærke, at definitionerne og dataindsamlingsmetoden i nogle tilfælde kan ændre sig i løbet af revisionsperioden. Bemærk, at den maksimale hyppighed af dataudtrækning er hvert kvartal"
+        },
+        "specifyOther": {
+            "label": "Angiv andet"
+        },
+        "moreInfoOnExtractionPeriods": {
+            "label": "Angiv flere oplysninger om udtrækningsperioder/-tider"
+        },
+        "orderOfControlsDataExtraction": {
+            "label": "Hvis det påvirker resultaterne af dataudtrækningen, i hvilken rækkefølge vil kontroldataene da blive udtrukket? Angiv en nummereret liste over ekstraktionsfaser. F.eks. 1. Dataindehaver A 2. Dataindehaver B 3. Dataindehaver C"
+        },
+        "definingTheExtractionCriteria": "Definition af udvindingskriterier for slægtninge:",
+        "willRelativesBeExtracted": {
+            "label": "Vil slægtninge blive udtrukket til kohorten?"
+        },
+        "willSameDataBeExtractedForRelatives": {
+            "label": "Vil de samme data som for kohorten blive udtrukket for slægtninge?"
+        },
+        "whichDataHoldersForRelatives": "Fra hvilke (n) dataindehaver (e) vil dataene for slægtninge blive udtrukket?",
+        "whichDatabaseForRelatives": "Hvilke (n) database (er)/registratur/registre vil oplysningerne om slægtninge blive udtrukket?",
+        "whichDatasetsForRelatives": "Fra hvilke datasætposter/registre vil oplysningerne om slægtninge blive udtrukket?",
+        "variablesForDataExtractionRelatives": {
+            "label": "Hvis oplysningerne foreligger, angives de variabler, der skal anvendes i dataudtrækningen. Anvend de nøjagtige termer, som den eller de respektive dataindehavere har angivet i metadatakataloget."
+        },
+        "timePeriodForDataExtractionRelatives": {
+            "label": "For hvilket eller hvilke tidsperioder vil datasætposterne blive udtrukket?"
+        },
+        "relationshipToStudyCohort": {
+            "label": "Definere slægtningenes forhold til den person, der tilhører kohorten (f.eks. bedsteforældre, biologiske forældre, moder)"
+        },
+        "sizeOfRelativesGroup": {
+            "label": "Størrelsen af gruppen af slægtninge"
+        },
+        "sizeOfRelativesGroupEstimateOrExact": {
+            "label": "Størrelsen af gruppen af slægtninge (radioknapper)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Dette er et skøn over størrelsen af gruppen af slægtninge."
+                },
+                {
+                    "key": "b",
+                    "value": "Det er den nøjagtige størrelse af gruppen af slægtninge."
+                }
+            ]
+        },
+        "willDataForRelativesBeExtractedSimultaneously": {
+            "label": "Vil oplysningerne om slægtninge blive udtrukket samtidig og i samme rækkefølge som oplysningerne for kohorten?"
+        },
+        "dataExtractionFrequencyRelatives": {
+            "label": "Hvor ofte skal dataene udtrækkes?"
+        },
+        "dataNeedsToBeExtractedEveryRelatives": {
+            "label": "Dataene skal udtrækkes hver for sig",
+            "tooltip": "Hvis du ønsker, at dataene skal udtrækkes flere gange over en vis periode, skal du bemærke, at definitionerne og dataindsamlingsmetoden i nogle tilfælde kan ændre sig i løbet af revisionsperioden. Bemærk, at den maksimale hyppighed af dataudtrækning er hvert kvartal"
+        },
+        "dataExtractionFrequencyMultipleTimesInformationRelatives": {
+            "label": "I tilfælde af tilbagevendende udtræk angives oplysninger om hver dataudtrækningsproces separat i ordreinstrukserne"
+        },
+        "needForDataExtractionEveryOptions": {
+            "label": "Dataene skal udtrækkes hver for sig",
+            "tooltip": "Hvis du ønsker, at dataene skal udtrækkes flere gange over en vis periode, skal du bemærke, at definitionerne og dataindsamlingsmetoden i nogle tilfælde kan ændre sig i løbet af revisionsperioden. Bemærk, at den maksimale hyppighed af dataudtrækning er hvert kvartal"
+        },
+        "specifyOtherRelatives": {
+            "label": "Angiv andet"
+        },
+        "moreInfoOnExtractionPeriodsRelatives": {
+            "label": "Angiv flere oplysninger om udtrækningsperioder/-tider"
+        },
+        "orderOfRelativesDataExtraction": {
+            "label": "Hvis det påvirker resultaterne af dataudtrækningen, i hvilken rækkefølge vil de pårørendes data da blive udtrukket? Angiv en nummereret liste over ekstraktionsfaser. F.eks. 1. Dataindehaver A 2. Dataindehaver B 3. Dataindehaver C"
+        }
+    },
+    "section7": {
+        "section7h5": "Andre data, der skal kombineres",
+        "section7Description": "Det er muligt at kombinere andre personoplysninger, f.eks. oplysninger, som du allerede er i besiddelse af, eller oplysninger fra andre steder med en anden tilladelse, med de oplysninger, der ansøges om i forbindelse med denne ansøgning. Angiv oplysningerne for alle yderligere data, der vil blive kombineret med de data, der er godkendt af organet med ansvar for adgang til sundhedsdata. Hvis du senere ønsker at kombinere andre personoplysninger med de oplysninger, der er godkendt af organet med ansvar for adgang til sundhedsdata, skal du indsende en ændringsansøgning til det samme organ med ansvar for adgang til sundhedsdata. Hvis du har en anden kohorte, som du ønsker, at organet med ansvar for adgang til sundhedsdata skal kombinere med de data, du ansøger om, vil du modtage instrukser i, hvordan du leverer dataene sikkert, efter at tilladelsen er givet.",
+        "addDataPermit": "Tilføj datatilladelse",
+        "addInfo": "Tilføj oplysninger",
+        "removeDataPermit": "Fjern datatilladelse",
+        "willDataBeCombinedWithDataObtained": {
+            "label": "Vil de data, du ansøger om, blive kombineret med data, du allerede har indhentet, eller data, der vil blive ansøgt om fra andre kilder?"
+        },
+        "listOtherDataToBeCompined": "Angiv de øvrige data, der skal kombineres, og kilderne til disse data:",
+        "combinedCountries": {
+            "label": "Lande"
+        },
+        "combinedDataHolders": {
+            "label": "Dataindehavere"
+        },
+        "combinedDatabaseRegistries": {
+            "label": "Databaser/registre"
+        },
+        "combinedDatasetsRegistries": {
+            "label": "Datasæt/registre"
+        },
+        "provideInformationList": {
+            "label": "Angiv oplysninger om de data, der skal kombineres, og den planlagte kombinationsmetode",
+            "tooltip": "Angiv oplysninger om følgende, i det omfang det er relevant: datasæt, antal filer, filformat, filstørrelse, særlige noter (findes der direkte/indirekte identifikatorer, data bør pseudonymiseres osv.)"
+        },
+        "dataset": {
+            "label": "Datasæt"
+        },
+        "numberOfFiles": {
+            "label": "Sagsnummer"
+        },
+        "formatOfFiles": {
+            "label": "Filernes format"
+        },
+        "sizeOfFiles": {
+            "label": "Filernes størrelse"
+        },
+        "notes": {
+            "label": "Noter"
+        },
+        "listAnyOtherDataPermit": "Anfør her eventuelle andre datatilladelser, der er udstedt for det samme projekt. Tilladelserne skal være gyldige på det tidspunkt, hvor oplysningerne behandles:",
+        "otherPermits": {
+            "label": "Andre tilladelser: Udsteder af tilladelsen, udstedelsesdato, udløbsdato, identifikationsoplysninger"
+        },
+        "permitIssuer": {
+            "label": "Udsteder af tilladelsen"
+        },
+        "permitStartDateOfIssue": {
+            "label": "Udstedelsesdato"
+        },
+        "permitEndDateOfIssue": {
+            "label": "Udløbsdato:"
+        },
+        "permitIdentificationInformation": {
+            "label": "Oplysninger om identifikation af tilladelse"
+        },
+        "attachmentOfPermitDocuments": {
+            "label": "Hvis datasætregistreringerne omfatter tilladelser udstedt af andre parter, eller de er indsamlet med samtykke, vedlægges tilladelsesdokumenterne her."
+        },
+        "otherPermitApplications": {
+            "label": "Har du andre ansøgninger om tilladelse, der endnu ikke er færdigbehandlet?"
+        },
+        "listTheOtherData": "Angiv de øvrige data, der skal kombineres, og kilderne til disse data:",
+        "applicationIssuer": {
+            "label": "Udsteder"
+        },
+        "dateOfSubmittingTheApplication": {
+            "label": "Dato for indgivelse af ansøgningen"
+        },
+        "identificationCode": {
+            "label": "Tilladelsens identifikationskode"
+        }
+    },
+    "section8": {
+        "section8h5": "Databehandling, databeskyttelse og garantier for at forhindre uautoriseret brug af oplysninger",
+        "section8Description": "I henhold til artikel 73, stk. 1, i forslaget til forordning om det europæiske sundhedsdataområde giver organerne med ansvar for adgang til sundhedsdata kun adgang til elektroniske sundhedsdata gennem et sikkert databehandlingsmiljø.",
+        "addPerson": "Tilføj person",
+        "removePerson": "Fjern person",
+        "technicalRequirementsForEnvironment": {
+            "label": "Angiv her alle de tekniske krav, du har til det sikre databehandlingsmiljø."
+        },
+        "nameWebsiteAddressForEnvironment": {
+            "label": "Hvis du allerede ved, hvilket forarbejdningsmiljø du ønsker at anvende, hvad er dets navn, og hvem leverer det? Angiv her navnet på og udbyderen af det sikre databehandlingsmiljø."
+        },
+        "healthDataAccessBody": "Organet med ansvar for adgang til sundhedsdata leverer oplysningerne, når din ansøgning er behandlet, hvis du får en datatilladelse. Organet med ansvar for adgang til sundhedsdata vil opbevare pseudonymiseringsnøglen og de udtræk og den dokumentation, der anvendes til at generere dataene. Datatilladelsen udstedes kun i den periode, der er nødvendig for at opfylde de ønskede formål. Tilladelsen kan gives for en periode på højst 10 år. Denne varighed kan forlænges én gang efter anmodning fra databrugeren på grundlag af argumenter og dokumenter, der begrunder forlængelsen (forslaget til forordning om det europæiske sundhedsdataområde, artikel 68, stk. 12). Anvendelsesperioden kan om nødvendigt forlænges ved at ansøge om ændring af datatilladelsen.",
+        "whenDataNeeded": {
+            "label": "Hvornår har du brug for oplysningerne?",
+            "tooltip": "Generelt vil organet med ansvar for adgang til sundhedsdata anmode dataindehaverne om at udtrække data, så snart din ansøgning er blevet behandlet. Hvis du ønsker at modtage oplysningerne senere, skal du angive dem her.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Så hurtigt som muligt efter behandlingen af denne ansøgning"
+                },
+                {
+                    "key": "b",
+                    "value": "Senere, hvornår?"
+                }
+            ]
+        },
+        "ifLaterWhen": {
+            "label": "Senere, hvornår?"
+        },
+        "informationWhichDataCanAccess": {
+            "label": "Angiv oplysninger om den periode, for hvilken dataene kan tilgås."
+        },
+        "frequencyOfAccessOrDataUpdates": {
+            "label": "Hvor ofte er denne adgang eller dataopdateringshyppigheden?"
+        },
+        "estimatedStartAndEnd": {
+            "label": "Hvad er de anslåede start- og slutdatoer for den periode, hvor de elektroniske sundhedsdata er nødvendige for behandling?",
+            "tooltip": "Denne periode kan være fem år. Med yderligere tilladelse kan den oprindelige tilladelse forlænges med yderligere fem år."
+        },
+        "estimatedStartDatesForDataProcessing": {
+            "label": "Fra"
+        },
+        "estimatedEndDatesForDataProcessing": {
+            "label": "Til"
+        },
+        "ifStoreNeeded": "Hvis du har brug for at lagre oplysningerne efter behandlingen, angives her lagringsperioden for inaktive oplysninger",
+        "startPeriodOfInactiveDataStorage": {
+            "label": "Fra"
+        },
+        "endPeriodOfInactiveDataStorage": {
+            "label": "Til"
+        },
+        "willTheDataBeTransferred": {
+            "label": "Vil oplysningerne blive overført til lande uden for EU eller EØS?",
+            "tooltip": "Det Europæiske Databeskyttelsesråd har identificeret tre kumulative kriterier for at kvalificere en behandlingsaktivitet som en overførsel: 1) en dataansvarlig eller en databehandler (\"eksportør\") er omfattet af GDPR for den pågældende behandling. 2) eksportøren videregiver personoplysninger ved fremsendelse eller på anden måde stiller personoplysninger til rådighed for en anden dataansvarlig, fælles dataansvarlig eller databehandler (\"importør\"). 3) importøren befinder sig i et tredjeland, uanset om denne importør er omfattet af GDPR for den pågældende behandling i overensstemmelse med artikel 3 eller er en international organisation. Flere oplysninger: https://www.edpb.europa.eu/system/files/2023-02/edpb_guidelines_05-2021_interplay_between_the_application_of_art3-chapter_v_of_the_gdpr_v2_en_0.pdf"
+        },
+        "whichCountriesDataBeProcessed": {
+            "label": "I hvilket land/hvilke lande uden for EU/EØS vil oplysningerne blive behandlet?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Diagnostik"
+                },
+                {
+                    "key": "b",
+                    "value": "Epidemiologi"
+                },
+                {
+                    "key": "c",
+                    "value": "Patientbehandling"
+                },
+                {
+                    "key": "d",
+                    "value": "Patientsikkerhed"
+                },
+                {
+                    "key": "e",
+                    "value": "Forebyggelse og behandling"
+                },
+                {
+                    "key": "f",
+                    "value": "Folkesundhedspolitik"
+                },
+                {
+                    "key": "g",
+                    "value": "Organisation af sundhedsinstitutioner"
+                },
+                {
+                    "key": "h",
+                    "value": "Forståelse af sygdomme"
+                },
+                {
+                    "key": "i",
+                    "value": "Andre"
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEU": {
+            "label": "Hvorfor vil oplysningerne blive overført til lande uden for EU eller EØS?"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47": {
+            "label": "Artikel 47 er affattet således: Overførsler baseret på en afgørelse om tilstrækkeligheden af beskyttelsesniveauet"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47Options": {
+            "label": "Hvorfor vil data blive overført til lande uden for EU i henhold til artikel 47-mulighederne?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. En videregivelse af personoplysninger til et tredjeland eller en international organisation kan finde sted, hvis Kommissionen i henhold til artikel 45, stk. 3, i forordning (EU) 2016/679 eller artikel 36, stk. 3, i direktiv (EU) 2016/680 har besluttet, at tredjelandet, et område eller en eller flere specifikke sektorer i det pågældende tredjeland eller den pågældende internationale organisation sikrer et tilstrækkeligt beskyttelsesniveau, og hvis personoplysningerne udelukkende videregives for at gøre det muligt at udføre opgaver, der henhører under den dataansvarliges kompetence."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Unionens institutioner og organer underretter Kommissionen og Den Europæiske Tilsynsførende for Databeskyttelse om tilfælde, hvor de mener, at et tredjeland, et område eller en eller flere specifikke sektorer i et tredjeland eller en international organisation ikke sikrer et tilstrækkeligt beskyttelsesniveau som omhandlet i stk. 1."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Unionens institutioner og organer træffer de nødvendige foranstaltninger til at efterkomme afgørelser truffet af Kommissionen, hvis den i henhold til artikel 45, stk. 3 eller (5), i forordning (EU) 2016/679 eller artikel 36, stk. 3 eller (5), i direktiv (EU) 2016/680 konstaterer, at et tredjeland, et område eller en eller flere specifikke sektorer i et tredjeland eller en international organisation sikrer eller ikke længere sikrer et tilstrækkeligt beskyttelsesniveau."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48": {
+            "label": "Artikel 48 er affattet således: Videregivelser omfattet af fornødne garantier"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48bOptions": {
+            "label": "Hvorfor vil data blive overført til lande uden for EU i henhold til artikel 48b-mulighederne?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "i. Et retligt bindende instrument, der kan håndhæves mellem offentlige myndigheder eller organer"
+                },
+                {
+                    "key": "b",
+                    "value": "II. Standardbestemmelser om databeskyttelse vedtaget af Kommissionen efter undersøgelsesproceduren i artikel 96, stk. 2"
+                },
+                {
+                    "key": "c",
+                    "value": "III. Standardbestemmelser om databeskyttelse vedtaget af Den Europæiske Tilsynsførende for Databeskyttelse og godkendt af Kommissionen efter undersøgelsesproceduren i artikel 96, stk. 2 L 295/78 Den Europæiske Unions Tidende 21.11.2018"
+                },
+                {
+                    "key": "d",
+                    "value": "IV. Når databehandleren ikke er en af Unionens institutioner eller et af Unionens organer, bindende virksomhedsregler, adfærdskodekser eller certificeringsmekanismer i henhold til artikel 46, stk. 2, litra b), e) og f), i forordning (EU) 2016/679."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48a": {
+            "label": "a. I mangel af en afgørelse i henhold til artikel 45, stk. 3, i forordning (EU) 2016/679 eller artikel 36, stk. 3, i direktiv (EU) 2016/680 må en dataansvarlig eller databehandler kun overføre personoplysninger til et tredjeland eller til en international organisation, hvis den dataansvarlige eller databehandleren har givet de fornødne garantier, og på betingelse af, at de registreredes rettigheder, der kan håndhæves, og effektive retsmidler for registrerede er tilgængelige. "
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48b": {
+            "label": "b. De fornødne garantier, der er omhandlet i stk. 1, kan uden særlig tilladelse fra Den Europæiske Tilsynsførende for Databeskyttelse fastsættes af:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48c": {
+            "label": "C. Med forbehold af Den Europæiske Tilsynsførende for Databeskyttelses godkendelse kan de fornødne garantier, der er omhandlet i stk. 1, også fastsættes, navnlig ved:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48cOpt": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Kontraktbestemmelser mellem den dataansvarlige eller databehandleren og den dataansvarlige, databehandleren eller modtageren af personoplysningerne i tredjelandet eller den internationale organisation."
+                },
+                {
+                    "key": "b",
+                    "value": "Bestemmelser, der medtages i administrative ordninger mellem offentlige myndigheder eller organer, og som omfatter eksigible effektive rettigheder for registrerede."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48d": {
+            "label": "d. Tilladelser fra Den Europæiske Tilsynsførende for Databeskyttelse på grundlag af artikel 9, stk. 7, i forordning (EF) nr. 45/2001 forbliver gyldige, indtil de om nødvendigt ændres, erstattes eller ophæves af Den Europæiske Tilsynsførende for Databeskyttelse."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48e": {
+            "label": "E. Unionens institutioner og organer underretter Den Europæiske Tilsynsførende for Databeskyttelse om de kategorier af tilfælde, hvor denne artikel er blevet anvendt."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle49": {
+            "label": "Artikel 49 er affattet således: Overførsel eller videregivelse uden hjemmel i EU-retten"
+        },
+        "legalBasisForTransferringTheDataOutsideEU": {
+            "label": "Hvad er retsgrundlaget for overførsel af data uden for EU eller EØS?",
+            "tooltip": "Yderligere oplysninger findes i kapitel 5 i den generelle forordning om databeskyttelse: <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679#d1e4227-1-1</a>",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Overførselslandet/territoriet/den internationale organisation sikrer et tilstrækkeligt beskyttelsesniveau i henhold til en afgørelse fra Europa-Kommissionen (artikel 35 i GDPR)"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Den dataansvarlige eller databehandleren har givet de fornødne garantier, og de registreredes rettigheder, der kan håndhæves, og effektive retsmidler for registrerede er til rådighed (artikel 46 i GDPR)."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Andet ekstraordinært retsgrundlag (i mangel af fornødne garantier i henhold til artikel 46)"
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUOtherOptions": {
+            "label": "3. Andet ekstraordinært retsgrundlag (i mangel af fornødne garantier i henhold til artikel 46)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Den registrerede udtrykkeligt har givet sit samtykke til den foreslåede overførsel efter at være blevet underrettet om de mulige risici ved sådanne overførsler for den registrerede som følge af manglen på en afgørelse om tilstrækkeligheden af beskyttelsesniveauet og de fornødne garantier"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Videregivelsen er nødvendig af hensyn til opfyldelsen af en kontrakt mellem den registrerede og den registeransvarlige eller gennemførelsen af foranstaltninger forud for kontraktindgåelse, der træffes på den registreredes anmodning."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Videregivelsen er nødvendig af hensyn til indgåelse eller opfyldelse af en kontrakt, der i den registreredes interesse er indgået mellem den dataansvarlige og en anden fysisk eller juridisk person."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Overførslen er nødvendig af hensyn til vigtige samfundsinteresser"
+                },
+                {
+                    "key": "e",
+                    "value": "5. Overførslen er nødvendig for, at retskrav kan fastslås, gøres gældende eller forsvares."
+                },
+                {
+                    "key": "f",
+                    "value": "6. Videregivelsen er nødvendig for at beskytte den registreredes eller andre personers vitale interesser, hvis den registrerede fysisk eller juridisk ikke er i stand til at give sit samtykke."
+                },
+                {
+                    "key": "g",
+                    "value": "7. Videregivelsen sker fra et register, der i henhold til EU-retten eller medlemsstaternes nationale ret har til formål at informere offentligheden, og som er tilgængeligt for offentligheden generelt eller for enhver person, der kan påvise en legitim interesse heri, men kun i det omfang de betingelser, der er fastsat i EU-retten eller medlemsstaternes nationale ret for konsultation, er opfyldt i det konkrete tilfælde."
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUc1": {
+            "label": "1. Den registrerede udtrykkeligt har givet sit samtykke til den foreslåede overførsel efter at være blevet underrettet om de mulige risici ved sådanne overførsler for den registrerede som følge af manglen på en afgørelse om tilstrækkeligheden af beskyttelsesniveauet og de fornødne garantier "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc2": {
+            "label": "2. Videregivelsen er nødvendig af hensyn til opfyldelsen af en kontrakt mellem den registrerede og den registeransvarlige eller gennemførelsen af foranstaltninger forud for kontraktindgåelse, der træffes på den registreredes anmodning. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc3": {
+            "label": "3. Videregivelsen er nødvendig af hensyn til indgåelse eller opfyldelse af en kontrakt, der i den registreredes interesse er indgået mellem den dataansvarlige og en anden fysisk eller juridisk person."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc4": {
+            "label": "4. Overførslen er nødvendig af hensyn til vigtige samfundsinteresser"
+        },
+        "legalBasisForTransferringTheDataOutsideEUc5": {
+            "label": "5. Overførslen er nødvendig for, at retskrav kan fastslås, gøres gældende eller forsvares."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc6": {
+            "label": "6. Videregivelsen er nødvendig for at beskytte den registreredes eller andre personers vitale interesser, hvis den registrerede fysisk eller juridisk ikke er i stand til at give sit samtykke."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc7": {
+            "label": "7. Videregivelsen sker fra et register, der i henhold til EU-retten eller medlemsstaternes nationale ret har til formål at informere offentligheden, og som er tilgængeligt for offentligheden generelt eller for enhver person, der kan påvise en legitim interesse heri, men kun i det omfang de betingelser, der er fastsat i EU-retten eller medlemsstaternes nationale ret for konsultation, er opfyldt i det konkrete tilfælde."
+        },
+        "safeguardsAreProvidedByReferringGDCP": {
+            "label": "Disse garantier er fastsat i:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Et retligt bindende dokument, der kan håndhæves mellem offentlige myndigheder eller organer"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Bindende virksomhedsregler i overensstemmelse med artikel 47"
+                },
+                {
+                    "key": "c",
+                    "value": "3. Standardbestemmelser om databeskyttelse vedtaget af Kommissionen efter undersøgelsesproceduren i artikel 93, stk. 2"
+                },
+                {
+                    "key": "d",
+                    "value": "4. Standardbestemmelser om databeskyttelse vedtaget af en tilsynsmyndighed og godkendt af Kommissionen efter undersøgelsesproceduren i artikel 93, stk. 2"
+                },
+                {
+                    "key": "e",
+                    "value": "5. En godkendt adfærdskodeks i henhold til artikel 40 sammen med bindende tilsagn, der kan håndhæves, fra den dataansvarlige eller databehandleren i tredjelandet om at anvende de fornødne garantier, herunder med hensyn til registreredes rettigheder"
+                },
+                {
+                    "key": "f",
+                    "value": "6. En godkendt certificeringsmekanisme i henhold til artikel 42 sammen med bindende tilsagn, der kan håndhæves, fra den dataansvarlige eller databehandleren i tredjelandet om at anvende de fornødne garantier, herunder med hensyn til registreredes rettigheder"
+                }
+            ]
+        },
+        "whichOrganizationWillBeTheControllerOfData": {
+            "label": "Hvilken eller hvilke organisationer eller enkeltpersoner vil være registeransvarlige for de oplysninger, der skal oprettes på grundlag af denne ansøgning?",
+            "tooltip": "En dataansvarlig afgør, til hvilket formål og med hvilke hjælpemidler der må foretages behandling af personoplysninger. Med andre ord afgør den dataansvarlige, hvordan og hvorfor en databehandling skal foretages. En dataansvarlig kan være en juridisk person, f.eks. en virksomhed, en SMV, en offentlig myndighed, et agentur eller et andet organ. Flere oplysninger: https://edpb.europa.eu/sme-data-protection-guide/data-controller-data-processor_en"
+        },
+        "complyWithDataMinimisationPrinciple": {
+            "label": "Hvordan overholder du princippet om dataminimering (EU's generelle forordning om databeskyttelse), når du behandler oplysningerne?",
+            "tooltip": "Databeskyttelsesforordningens artikel 5, stk. 1, litra c): \"Personoplysninger skal være tilstrækkelige, relevante og begrænset til, hvad der er nødvendigt i forhold til de formål, hvortil de behandles (\" dataminimering \")\" "
+        },
+        "complyWithDataMinimisationPrincipleNotEUMember": {
+            "label": "Hvordan overholder du princippet om dataminimering (EU's forordning om databeskyttelse), når du behandler oplysningerne? ",
+            "tooltip": "Artikel 4, stk. 1c, i EU DPR: \"Personoplysninger skal være tilstrækkelige, relevante og begrænset til, hvad der er nødvendigt i forhold til de formål, hvortil de behandles (\" dataminimering \")\""
+        },
+        "protectionAndSecurityStatements": {
+            "label": "For at gå videre med denne ansøgning skal du bekræfte følgende udsagn (databeskyttelses- og sikkerhedsrelaterede udsagn):"
+        },
+        "protectionAndSecurityStatementsA": {
+            "label": "1. Jeg bekræfter, at hvis organet med ansvar for adgang til sundhedsdata giver mig de data, jeg ansøger om, vil jeg kun anvende dem til de formål, der er angivet i dette ansøgningsskema."
+        },
+        "protectionAndSecurityStatementsB": {
+            "label": "2. Jeg forstår, at kopiering af data fra det sikre databehandlingsmiljø er forbudt."
+        },
+        "protectionAndSecurityStatementsC": {
+            "label": "3. Jeg forstår, at det er forbudt at tage skærmbilleder eller billeder af enhedens skærm, når de befinder sig i et sikkert databehandlingsmiljø."
+        },
+        "protectionAndSecurityStatementsD": {
+            "label": "4. Jeg har indført tilstrækkelige sikkerhedsforanstaltninger (f.eks. en firewall) til at beskytte de forskellige net, som de anordninger, der anvendes til at få adgang til det sikre databehandlingsmiljø, er tilsluttet."
+        },
+        "protectionAndSecurityStatementsE": {
+            "label": "5. Jeg forstår, at forsøg på genidentifikation er forbudt, og at organet med ansvar for adgang til sundhedsdata kan pålægge sanktioner i henhold til artikel 43 i forordningen om europæiske sundhedsdata"
+        },
+        "onlyThePeopleMentioned": "Kun de personer, der er nævnt i datatilladelsen, vil få adgang til at behandle oplysningerne i det sikre databehandlingsmiljø.",
+        "sameAsContactPerson": {
+            "label": "Samme som kontaktperson, der er nævnt i afsnit 3?"
+        },
+        "listTheFullNames": {
+            "label": "Angiv fulde navn, tilhørsforhold og e-mailadresser på alle de personer, der behandler oplysningerne."
+        },
+        "fullName": {
+            "label": "Fulde navn"
+        },
+        "affiliation": {
+            "label": "Tilhørsforhold"
+        },
+        "emailAddress": {
+            "label": "E-mailadresse"
+        },
+        "lawfulnessOfProcessing": "Lovlig behandling af personoplysninger;",
+        "legalBasisForProcessingPersonalData": {
+            "label": "Hvad er retsgrundlaget for behandlingen af de personoplysninger, du ansøger om med dette ansøgningsskema?"
+        },
+        "lawfulForProcessingPersonalData": {
+            "label": "Behandling af de personoplysninger, du ansøger om med dette ansøgningsskema, er kun lovlig, hvis og i det omfang mindst et af følgende forhold gør sig gældende (i overensstemmelse med artikel 6, stk. 1, i EU's generelle forordning om databeskyttelse, forordning (EU) 2016/679):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Den registrerede har givet samtykke til behandling af sine personoplysninger til et eller flere specifikke formål"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Det er nødvendigt at behandle dem af hensyn til opfyldelse af en kontrakt, som den registrerede er part i, eller af hensyn til gennemførelse af foranstaltninger, der træffes på den registreredes anmodning forud for indgåelse af en kontrakt"
+                },
+                {
+                    "key": "c",
+                    "value": "3. Behandlingen er nødvendig for at overholde en retlig forpligtelse, som påhviler den dataansvarlige"
+                },
+                {
+                    "key": "d",
+                    "value": "4. Behandlingen er nødvendig for at beskytte den registreredes eller en anden fysisk persons vitale interesser"
+                },
+                {
+                    "key": "e",
+                    "value": "5. Behandlingen er nødvendig af hensyn til udførelsen af en opgave i samfundets interesse eller henhørende under offentlig myndighedsudøvelse, som den dataansvarlige har fået pålagt"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Behandling er nødvendig for, at den dataansvarlige eller en tredjemand kan forfølge en legitim interesse, medmindre den registreredes interesser eller grundlæggende rettigheder og frihedsrettigheder, der kræver beskyttelse af personoplysninger, går forud herfor, navnlig hvis den registrerede er et barn."
+                }
+            ]
+        },
+        "lawfulForProcessingPersonalDataNaturalPersonOption": {
+            "key": "F",
+            "value": "6. Behandling er nødvendig for, at den dataansvarlige eller en tredjemand kan forfølge en legitim interesse, medmindre den registreredes interesser eller grundlæggende rettigheder og frihedsrettigheder, der kræver beskyttelse af personoplysninger, går forud herfor, navnlig hvis den registrerede er et barn."
+        },
+        "otherLegalBasisForProcessingPersonalData": {
+            "label": "Andet, hvad?"
+        },
+        "legalBasisForProcessingCombinedData": {
+            "label": "Hvad er retsgrundlaget for behandlingen af de andre oplysninger, som du vil kombinere med de oplysninger, der ansøges om i denne ansøgning? "
+        },
+        "otherLegalBasisForProcessingCombinedData": {
+            "label": "Andet, hvad?"
+        },
+        "europeanUnionInstitution": {
+            "label": "Behandling af de personoplysninger, du ansøger om med dette ansøgningsskema, er kun lovlig, hvis og i det omfang mindst et af følgende forhold gør sig gældende (i overensstemmelse med artikel 5, stk. 1, i EU's forordning om databeskyttelse, forordning (EU) 2018/1725):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Behandlingen er nødvendig enten for at udføre en opgave i samfundets interesse eller som led i udøvelsen af den offentlige myndighed, som Unionens institutioner eller organer har fået pålagt"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Behandling er nødvendig for at overholde en retlig forpligtelse, som påhviler den dataansvarlige."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Behandling er nødvendig af hensyn til opfyldelse af en kontrakt, som den registrerede er part i, eller af hensyn til gennemførelse af foranstaltninger, der træffes på den registreredes anmodning forud for indgåelse af en kontrakt."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Den registrerede har givet samtykke til behandling af sine personoplysninger til et eller flere specifikke formål."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Behandling er nødvendig for at beskytte den registreredes eller en anden fysisk persons vitale interesser."
+                }
+            ]
+        },
+        "legalBasisForProcessingApplicationData": {
+            "label": "Hvad er retsgrundlaget for behandlingen af de personoplysninger, du ansøger om med dette ansøgningsskema?"
+        },
+        "otherLegalBasisForProcessingApplicationData": {
+            "label": "Andet, hvad?"
+        },
+        "legalBasisForProcessingCombinedApplicationData": {
+            "label": "Hvad er retsgrundlaget for behandlingen af de andre oplysninger, som du vil kombinere med de oplysninger, der ansøges om i denne ansøgning?"
+        },
+        "otherLegalBasisForProcessingCombinedApplicationData": {
+            "label": "Andet, hvad?"
+        },
+        "attachResearchPermitIfRequired": {
+            "label": "Hvis din forskning kræver en forskningstilladelse fra din medlemsorganisation, vedlægges forskningstilladelsen"
+        }
+    },
+    "section9": {
+        "section9h5": "Yderligere oplysninger",
+        "section9Description": "Her kan du give yderligere oplysninger om alle afsnit i din ansøgning. Angiv antallet af afsnit og det spørgsmål, som din kommentar henviser til.",
+        "additionalInformation": {
+            "label": "Yderligere oplysninger eller eventuelle supplerende bemærkninger",
+            "tooltip": "Her kan du give yderligere oplysninger om alle afsnit i din ansøgning. Angiv antallet af afsnit og det spørgsmål, som din kommentar henviser til. Forslag til teknisk gennemførelse: Alternativt kunne ansøgeren få mulighed for at knytte oplysninger til specifikke dele af formularen for at lette HDABS-jobbet."
+        },
+        "additionalAttachment": {
+            "label": "Et yderligere bilag. Vedlæg ikke helbredsoplysninger eller personoplysninger til denne ansøgning.",
+            "tooltip": "Hvis du har andre bilag, som du anser for relevante for behandlingen af din ansøgning, og som er nødvendige for, at organet med ansvar for adgang til sundhedsdata kan se, vedlægges det her. Beskriv dets relevans i ovenstående tekstfelt."
+        }
+    },
+    "section10": {
+        "section10h5": "Bekræftelse af oplysninger",
+        "section10Description": "Inden denne ansøgning behandles, skal du som ansøger godkende behandlingsgebyrer.",
+        "submitYouApplicationText": "For at indsende din ansøgning skal du bekræfte følgende:",
+        "acceptHealthDataBody": {
+            "label": "Jeg accepterer, at sundhedsdataorganet vil udarbejde statistikkerne, og jeg vil ikke have adgang til de data, der anvendes til at udarbejde statistikkerne."
+        },
+        "awareProcessingFee": {
+            "label": "Jeg er bekendt med, at der vil blive opkrævet et behandlingsgebyr for behandlingen af min ansøgning. Den finder også anvendelse i tilfælde af en annulleret anmodning eller en negativ afgørelse."
+        },
+        "awareChargeFee": {
+            "label": "Jeg er bekendt med, at dataindehaver (e) kan opkræve et gebyr."
+        },
+        "awareInformationCorrect": {
+            "label": "Jeg bekræfter, at de oplysninger, jeg har afgivet, er korrekte."
+        }
+    },
+    "commonFields": {
+        "aboutThisSection": "Om dette afsnit",
+        "yesOrNoOptions": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Ja"
+                },
+                {
+                    "key": "b",
+                    "value": "Nej"
+                }
+            ]
+        },
+        "onceOrMultipleTimes": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Én gang"
+                },
+                {
+                    "key": "b",
+                    "value": "Flere gange"
+                }
+            ]
+        },
+        "everyWhen": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Hvert år"
+                },
+                {
+                    "key": "b",
+                    "value": "Et halvt år"
+                },
+                {
+                    "key": "c",
+                    "value": "Kvartal"
+                },
+                {
+                    "key": "d",
+                    "value": "Andre"
+                }
+            ]
+        },
+        "processingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. e) Behandling er nødvendig af hensyn til udførelse af en opgave i samfundets interesse eller henhørende under offentlig myndighedsudøvelse, som den dataansvarlige har fået pålagt"
+                },
+                {
+                    "key": "b",
+                    "value": "2. F) Behandling er nødvendig, for at den registeransvarlige eller tredjemand kan forfølge en legitim interesse, medmindre den registreredes interesser eller grundlæggende rettigheder og frihedsrettigheder går forud herfor, navnlig hvis den registrerede er et barn."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Andre"
+                }
+            ]
+        },
+        "legalBasisForProcessingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. a) Behandling er nødvendig af hensyn til udførelse af en opgave, der udføres i samfundets interesse, eller som henhører under offentlig myndighedsudøvelse, som den eller det pågældende af Unionens institutioner eller organer har fået pålagt."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Andre"
+                }
+            ]
+        }
+    }
+}

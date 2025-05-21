@@ -1,6 +1,6 @@
 {
   "section1": {
-    "section1h5": "Selecting Project Sources",
+    "section1h5": "Selecting data sources for the project",
     "section1Description": "Data users should only apply for data that is adequate, relevant and limited to what is necessary in relation to their purpose of use, \nfollowing the principle of data minimization of the EU’s General Data Protection Regulation 58 (Article 5(1c)). \nThe health data access body evaluates carefully if your requirements are in line with the GDPR data minimization principle.",
     "section1DescriptionDR": "An application for accessing electronic health data for secondary use in an anonymized statistical format",
     "applicationDatasets": {
@@ -30,7 +30,7 @@
       "tooltip": "This is the person responsible for data use"
     },
     "countryOfProjectLeader": {
-      "label": "Country of the project leader"
+      "label": "Official domicile (country) of the entity responsible for the project"
     },
     "purposeForWhichDataWillBeUsed": {
       "label": "Purpose for which the data will be used",
@@ -62,215 +62,16 @@
         }
       ]
     },
-    "theResearchFocusesOnTheFollowingObjectives": {
-      "label": "The research focuses on the following objectives",
-      "items": [
-        {
-          "key": "a",
-          "value": "Diagnostics"
-        },
-        {
-          "key": "b",
-          "value": "Epidemiology"
-        },
-        {
-          "key": "c",
-          "value": "Patient management"
-        },
-        {
-          "key": "d",
-          "value": "Patient safety"
-        },
-        {
-          "key": "e",
-          "value": "Prevention and treatment"
-        },
-        {
-          "key": "f",
-          "value": "Public health policy"
-        },
-        {
-          "key": "g",
-          "value": "Organisation of healthcare establishments"
-        },
-        {
-          "key": "h",
-          "value": "Understanding diseases"
-        },
-        {
-          "key": "i",
-          "value": "Other"
-        }
-      ]
-    },
-    "theResearchFocusesOnTheFollowingObjectivesOther": {
-      "label": "Please describe ‘Other’ objective of the research"
-    },
-    "areaOfResearch": {
-      "label": "Area of research: The research concerns the following medical or other field(s):",
-      "items": [
-        {
-          "key": "a",
-          "value": "Allergology"
-        },
-        {
-          "key": "b",
-          "value": "Anatomy and cytology"
-        },
-        {
-          "key": "c",
-          "value": "Anesthesiology and intensive care"
-        },
-        {
-          "key": "d",
-          "value": "Biology"
-        },
-        {
-          "key": "e",
-          "value": "Cardiology"
-        },
-        {
-          "key": "f",
-          "value": "Deficiencies and handicaps"
-        },
-        {
-          "key": "g",
-          "value": "Dermatology and venereology"
-        },
-        {
-          "key": "h",
-          "value": "Ear, nose and throat"
-        },
-        {
-          "key": "i",
-          "value": "Economics"
-        },
-        {
-          "key": "j",
-          "value": "Emergency medicine"
-        },
-        {
-          "key": "k",
-          "value": "Endocrinology and metabolism"
-        },
-        {
-          "key": "l",
-          "value": "Gastroenterology and hepatology"
-        },
-        {
-          "key": "m",
-          "value": "General medicine"
-        },
-        {
-          "key": "n",
-          "value": "Geriatrics"
-        },
-        {
-          "key": "o",
-          "value": "Gynaecology and obstetrics"
-        },
-        {
-          "key": "p",
-          "value": "Haematology"
-        },
-        {
-          "key": "q",
-          "value": "Immunology"
-        },
-        {
-          "key": "r",
-          "value": "Infectious diseases"
-        },
-        {
-          "key": "s",
-          "value": "Internal medicine"
-        },
-        {
-          "key": "t",
-          "value": "Neurology"
-        },
-        {
-          "key": "u",
-          "value": "Nuclear medicine"
-        },
-        {
-          "key": "v",
-          "value": "Occupational medicine"
-        },
-        {
-          "key": "w",
-          "value": "Odontology"
-        },
-        {
-          "key": "x",
-          "value": "Oncology"
-        },
-        {
-          "key": "y",
-          "value": "Ophthalmology"
-        },
-        {
-          "key": "z",
-          "value": "Paediatrics"
-        },
-        {
-          "key": "aa",
-          "value": "Physical and rehabilitation medicine"
-        },
-        {
-          "key": "ab",
-          "value": "Pneumology"
-        },
-        {
-          "key": "ac",
-          "value": "Psychology and psychiatry"
-        },
-        {
-          "key": "ad",
-          "value": "Radiology and Medical imaging"
-        },
-        {
-          "key": "ae",
-          "value": "Rare diseases"
-        },
-        {
-          "key": "af",
-          "value": "Rheumatology"
-        },
-        {
-          "key": "ag",
-          "value": "Sociology"
-        },
-        {
-          "key": "ah",
-          "value": "Traumatology"
-        },
-        {
-          "key": "ai",
-          "value": "Urology, andrology and nephrology"
-        },
-        {
-          "key": "aj",
-          "value": "Other"
-        }
-      ]
-    },
-    "areaOfResearchOther": {
-      "label": "Please describe ‘Other’ area of the research"
-    },
-    "descriptionOfTheDataYouWillUse": {
-      "label": "Description of the data you will use",
-      "tooltip": "Describe it on the level suitable to be published on the health data access body’s website."
-    },
     "theNatureOfTheDataDoesNotLetYouProvideADescription": {
-      "label": "The nature of your data does not let you provide a description"
+      "label": "The nature of your project does not let you provide a description"
     },
     "descriptionOfTheProject": {
       "label": "Please explain the reasons why you cannot provide a description of the data.",
       "tooltip": "This explanation of the reason(s) will not be published."
     },
     "summaryOfTheProject": {
-      "label": "Summary of the project"
+      "label": "Summary of the project",
+      "tooltip": "In  layman’s terms, provide a short (250 words or less) summary of the project’s aims, data to be used, methods and what form of results are expected"
     },
     "theNatureOfTheProjectDoesNotLetYouProvideASummary": {
       "label": "The nature of your project does not let you provide a summary"
@@ -282,7 +83,8 @@
   },
   "section3": {
     "section3h5": "Applicant and contact person information",
-    "section3Description": "A data permit application should state the name and contact details of the applicant, either a legal or a natural person. Information on the contact person responding to any inquiries related to the application, be it the same person as the applicant or another person, should also be included. If the contact person is not the same person as the applicant, their relationship, e.g. based on an employment contract, should be clarified.",
+    "section3Description": "A data permit application should state the name and contact details of the applicant, either a legal or a natural person. Information on the contact person responding to any inquiries related to the application, be it the same person as the applicant (in the case of a natural person as the applicant) or another person, should also be included.\nIf the contact person is not the same person as the applicant, their relationship, e.g. based on an employment contract, should be clarified.",
+    "section3DescriptionRequest": "A data request application should state the name and contact details of the applicant, either a legal or a natural person. Information on the contact person responding to any inquiries related to the application, be it the same person as the applicant (in the case of a natural person as the applicant) or another person, should also be included.\nIf the contact person is not the same person as the applicant, their relationship, e.g. based on an employment contract, should be clarified.",
     "applyingForDataOnBehalfOfPublicSector": {
       "label": "Are you applying for data on behalf of a public sector body or a European Union institution, body, office or agency?"
     },
@@ -291,8 +93,8 @@
       "tooltip": "Tasks in your organisation's/institution's mandate mean tasks based on national or European Union law."
     },
     "legalOrNaturalPerson": {
-      "label": "Are you a legal or a natural person?",
-      "tooltip": "Natural person = a physical person, an individual human being,Legal person = A company, organisation or an association.",
+      "label": "Is the applicant a legal or a natural person?",
+      "tooltip": "Natural person = a physical person, an individual human being, Legal person = A company, organisation or an association.",
       "items": [
         {
           "key": "a",
@@ -326,8 +128,7 @@
     "contactPersonInformation": "Contact person information",
     "contactPersonInformationDescription": "Contact person refers to the person who responds to enquiries concerning the application. The contact person’s details can be forwarded to the controller during the processing of an application if additional information is required for defining the data extraction. ",
     "contactPersonName": {
-      "label": "Full name",
-      "tooltip": "(if related to the project and data processing)"
+      "label": "Full name"
     },
     "contactPersonEmail": {
       "label": "Email"
@@ -387,7 +188,6 @@
     "sameAsContactPerson": {
       "label": "Same as contact person mentioned in the Section 3?"
     },
-    "postalAddressLabel": "Postal Address",
     "fullName": {
       "label": "Full name"
     },
@@ -398,7 +198,7 @@
       "label": "Email"
     },
     "phone": {
-      "label": "Phone number"
+      "label": "Phone"
     },
     "invoiceType": {
       "label": "Invoice type",
@@ -438,7 +238,7 @@
       "label": "Is the project financially covered?"
     },
     "rangeOfAmountOfFinancing": {
-      "label": "Range of amount of financing",
+      "label": "What is the range of the amount of financing for the project which will use the requested data?",
       "items": [
         {
           "key": "a",
@@ -471,39 +271,32 @@
     "section5h5": "Purpose of data use",
     "section5Description": "Applicants should indicate the purpose for which data are sought, according to the Article 53(1) of EHDS Regulation corrigendum approved by the European Parliament on 17/12. \nApplicants need to explain and argue why the requested data are necessary for their indicated purpose of use. Applicants are also asked to provide information on the aim of the project. Then, depending on the use purpose (research or not research), applicants need to provide a summary of the plan for using the data or a summary of the research plan, and information on the person responsible for the data use or research.",
     "purposeOfUse": {
-      "label": "Select the option corresponding to your purpose of data use.\n\nHealth data access bodies shall only provide access to electronic health data referred to in Article 53 where the intended purpose of processing pursued by the applicant complies with the following purposes (as per Article 53(1)) listed below).",
+      "label": "Purpose of data use. Health data access bodies shall only provide access to electronic health data referred to in Article 51 where the intended purpose of processing pursued by the applicant complies with the following purposes (as per Article 53(1)) listed below).",
+      "tooltip": "Purposes from the EHDS regulation.",
       "items": [
         {
           "key": "a",
-          "value": "a. Activities for reasons of public interest in the area of public and occupational health, such as protection against serious cross-border threats to health, public health surveillance or ensuring high levels of quality and safety of healthcare and of medicinal products or medical devices"
+          "value": "a. The public interest in the areas of public or occupational health, such as activities to protect against serious cross-border threats to health, public health surveillance or activities ensuring high levels of quality and safety of healthcare, including patient safety, and of medicinal products or medical devices."
         },
         {
           "key": "b",
-          "value": "b. To support public sector bodies or Union institutions, agencies and bodies including regulatory authorities, in the health or care sector to carry out their tasks defined in their mandates"
+          "value": "b. Policy making and regulatory activities to support public sector bodies or Union institutions, bodies, offices and agencies, including regulatory authorities, in the health or care sector to carry out their tasks defined in their mandates."
         },
         {
           "key": "c",
-          "value": "c. To produce national, multi-national and Union level official statistics related to health or care sectors"
+          "value": "c. Statistics as defined in Article 3, point (1), of Regulation (EU) No 223/2009, such as national, multi-national and Union level official statistics, related to health or care sectors."
         },
         {
           "key": "d",
-          "value": "d. Education or teaching activities in health or care sectors"
+          "value": "d. Education or teaching activities in health or care sectors at vocational or higher education level."
         },
         {
           "key": "e",
-          "value": "e. Scientific research related to health or care sectors"
+          "value": "e. Scientific research related to health or care sectors that contributes to public health or health technology assessment, or ensures high levels of quality and safety of healthcare, of medicinal products or of medical devices, with the aim of benefitting end-users, such as patients, health professionals and health administrators, including:\n(i) development and innovation activities for products or services;\n(ii) training, testing and evaluation of algorithms, including in medical devices, in vitro diagnostic medical devices, AI systems and digital health applications."
         },
         {
           "key": "f",
-          "value": "f. Development and innovation activities for products or services contributing to public health or social security, or ensuring high levels of quality and safety of health care, of medicinal products or of medical devices"
-        },
-        {
-          "key": "g",
-          "value": "g. Training, testing and evaluating of algorithms, including in medical devices, AI systems and digital health applications, contributing to the public health or social security, or ensuring high levels of quality and safety of health care, of medicinal products or of medical devices"
-        },
-        {
-          "key": "h",
-          "value": "h. Providing personalised healthcare consisting in assessing, maintaining or restoring the state of health of natural persons, based on the health data of other natural persons"
+          "value": "f. Improvement of the delivery of care, of the optimization of treatment and of the provision of healthcare, based on the electronic health data of other natural persons."
         }
       ]
     },
@@ -517,7 +310,7 @@
       "label": "What is the aim and topic of your project?"
     },
     "whichAreTheExpectedBenefits": {
-      "label": "Which are the expected benefits related to the use of the electronic health data and how this benefit contributes to the purposes referred above."
+      "label": "Which is the expected benefit related to the use of the electronic health data and how this benefit contributes to the purposes referred to in 5.1?"
     },
     "legalBasis": {
       "label": "Specify the legal basis, for example the relevant legislation, which defines the tasks falling within your mandate and confirms that your planned use of the data is to facilitate such tasks.",
@@ -745,11 +538,11 @@
       "label": "Affiliation"
     },
     "personResearchSameAsContactPerson": {
-      "label": "Same as contact person mentioned in the Section 3?"
+      "label": "Same as contact person mentioned in the section 3 (Applicant and contact person information)?"
     },
     "personResponsibleForResearchLabel": "Person responsible for the research",
     "personResponsibleSameAsContactPerson": {
-      "label": "Same as contact person mentioned in the Section 3?"
+      "label": "Same as contact person mentioned in the section 3 (Applicant and contact person information)?"
     },
     "personResearchName": {
       "label": "Full name"
@@ -761,7 +554,7 @@
       "label": "Affiliation"
     },
     "formatOfTheElectronicHealthData": {
-      "label": "Format of the electronic health data",
+      "label": "Select the format of the electronic health data to be made available:",
       "items": [
         {
           "key": "a",
@@ -787,9 +580,9 @@
   "section6": {
     "section6h5": "Description of the data needed",
     "section6Description": "In this section, you need to provide a description of the requested dataset, clearly indicating which datasets the application concerns. You should only apply for data that are adequate, relevant and limited to what is necessary in relation to your purpose of use, following the principle of data minimisation of the EU’s General Data Protection Regulation (Article 5(1c)). The health data access body evaluates carefully if your requirements are in line with the GDPR data minimisation principle.",
-    "descriptionSection6_1": "Defining the extraction criteria for the study cohort:",
+    "descriptionSection6_1": "Defining the extraction criteria for the cohort:",
     "descriptionOfTheDataNeeded": "Description of the data needed:",
-    "applicationHDABsForSelectedCountry": "To which health data access body/bodies do you want to submit the application",
+    "applicationHDABsForSelectedCountry": "To which health data access body do you want to submit the application?",
     "applicationDatasetsPerCountry": "Respective Dataset Record(s) and Distributions",
     "informationProviderSameAsContactPerson": {
       "label": "Same as contact person mentioned in the Section 3?"
@@ -798,47 +591,47 @@
       "label": "If you have been in contact with someone from the health data access body regarding the data you seek, list here the names and the e-mail addresses of this person"
     },
     "howWillTheDataFromDifferentSourcesBeLinked": {
-      "label": "How will the data from different sources be linked? E.g. based on personal identification code. If some kind of other linkage method is used, describe that here"
+      "label": "How will the data for one person from different sources be linked? E.g. based on personal identification code. If some kind of other linkage method is used, describe that here"
     },
     "indicateTheSizeOfTheStudyCohort": {
-      "label": "Indicate the size of the study cohort"
+      "label": "Indicate the size of the cohort"
     },
     "indicateTheSizeOfTheStudyCohortEstimationOrExact": {
-      "label": "Size of the study cohort (Radio buttons)",
+      "label": "Size of the cohort (Radio buttons)",
       "items": [
         {
           "key": "a",
-          "value": "This is an estimation of the size of the study cohort."
+          "value": "This is an estimation of the size of the cohort."
         },
         {
           "key": "b",
-          "value": "This is the exact size of the study cohort."
+          "value": "This is the exact size of the cohort."
         }
       ]
     },
     "howIsTheStudyCohortFormed": {
-      "label": "How is the study cohort formed?",
+      "label": "How is the cohort formed?",
       "items": [
         {
           "key": "a",
-          "value": "The study cohort will be formed based on the criteria given below."
+          "value": "The cohort will be formed based on the criteria given below."
         },
         {
           "key": "b",
-          "value": "The study cohort has already been formed."
+          "value": "The cohort has already been formed."
         },
         {
           "key": "c",
-          "value": "The study cohort will consist of these two: a new cohort formed based on the criteria given below and an already formed cohort"
+          "value": "The cohort will consist of these two: a new cohort formed based on the criteria given below and an already formed cohort."
         },
         {
           "key": "d",
-          "value": "The study cohort will be the whole population of a country/countries indicated at the beginning of this form."
+          "value": "The cohort will be the whole population of a country/countries indicated at the beginning of this form."
         }
       ]
     },
     "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants": {
-      "label": "If you wish to use a study cohort based on your own previous survey study, has the study cohort been formed based on informed consents of study participants? E.g. cohort formed based on a survey study or a clinical study, to which register-based data will be linked under the EHDS Regulation"
+      "label": "If you wish to use a cohort based on your own previous survey study, has the cohort been formed based on informed consents of study participants? E.g. cohort formed based on a survey study or a clinical study, to which register-based data will be linked under the EHDS Regulation."
     },
     "doesTheInformedConsentCoverTheRequestedRegistryExtractions": {
       "label": "Does the informed consent cover the requested registry extractions?"
@@ -849,14 +642,30 @@
     "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
       "label": "I confirm that the data permit has been granted for this research project"
     },
-    "idOfTheDataPermit": {
-      "label": "Issuer, date, validity period and the code/other identifying information of the permit decision for the study cohort E.g. a research permit granted by another authority, covering the formation of the cohort and possible gathering of non-EHDS data regarding the study subjects."
+    "ifTheGroupHasBeenFormedBasedOnPreviousIssued": {
+      "label": "If the cohort has been formed based on a previously issued permit, list here the following information:"
+    },
+    "previouslyIssuedPermitIssuer1": {
+      "label": "Issuer of the permit decision"
+    },
+    "previouslyIssuedPermitDate1": {
+      "label": "Date"
+    },
+    "validityPeriod1": "Validity period",
+    "previouslyIssuedPermitValidityPeriodFrom1": {
+      "label": "From"
+    },
+    "previouslyIssuedPermitValidityPeriodTo1": {
+      "label": "To"
+    },
+    "previouslyIssuedPermitNumber1": {
+      "label": "Permit number"
     },
     "permitDecisionAttachment": {
-      "label": "Attach a permit decision covering the extraction of the study cohort data in this section"
+      "label": "Attach a permit decision covering the extraction of the cohort data in this section."
     },
     "howTheStudyCohortWasObtained": {
-      "label": "Describe how the study cohort was obtained and the reasons for the lack of data permit/consent"
+      "label": "Describe how the cohort was obtained and the reasons for the lack of data permit/consent."
     },
     "providedInformationOfTheDataUseToCorrespondingSubjects": {
       "label": "Have you provided information of the data use to the corresponding subjects? E.g. shared information of the data use on a project website.",
@@ -869,11 +678,8 @@
     "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
       "label": "Why not?"
     },
-    "detailsOfHowTheStudyCohortHasBeenFormed": {
-      "label": "Provide details on how and based on what legal documents (e.g. permits and/or informed consent) the study cohort has been formed"
-    },
     "whoWillDeliverTheInformationOnTheStudy": {
-     "label": "Who will deliver the information on the study cohort to the health data access body? This person will receive instructions on how to deliver the data through the common EHDS portal."
+     "label": "Who will deliver the information on the cohort to the health data access body? This person will receive instructions on how to deliver the data through the common EHDS portal."
     },
     "informationProviderName": {
       "label": "Full name"
@@ -886,29 +692,26 @@
     },
     "whyNeedDataOfaWholePopulation": {
       "label": "Provide arguments why you need data of a whole population/whole populations?",
-      "tooltip": "Make sure to define the formation of the study cohort clearly enough and delimit the cohort size according to the intended use. Pay special attention to which registers the study cohort is extracted from, and the inclusion and exclusion criteria for the study cohort. For example, a geographic definition may mean the place of residence, the place of birth, the place of work, or the place where services are used."
+      "tooltip": "Make sure to define the formation of the cohort clearly enough and delimit the cohort size according to the intended use. Pay special attention to which registers the cohort is extracted from, and the inclusion and exclusion criteria for the cohort. For example, a geographic definition may mean the place of residence, the place of birth, the place of work, or the place where services are used."
     },
     "sizeOfTheStudyCohort": {
-      "label": "Size of the study cohort"
+      "label": "Indicate the size of the cohort"
     },
     "sizeOfTheStudyCohortEstimationOrExact": {
-      "label": "Size of the study cohort (Radio buttons)",
+      "label": "Size of the cohort (Radio buttons)",
       "items": [
         {
           "key": "a",
-          "value": "This is an estimation of the size of the study cohort."
+          "value": "This is an estimation of the size of the cohort."
         },
         {
           "key": "b",
-          "value": "This is the exact size of the study cohort."
+          "value": "This is the exact size of the cohort."
         }
       ]
     },
     "whyNeedStudyCohortOfThisSize": {
-      "label": "Why do you need a study cohort of this size for your project?"
-    },
-    "regionsSeekForData": {
-      "label": "If you do not seek data from the whole country, from which region(s) and/or city/cities and/or municipality/municipalities do you seek data?"
+      "label": "Why do you need a cohort of this size for your project?"
     },
     "ethicalReview": "Ethical review - text to be provided by policy unit",
     "ethicalReviewDescription": "Ethical review",
@@ -922,14 +725,14 @@
     "dataHolders": "From which data holder(s) will the data be extracted?",
     "whichDatabasesDataExtracted": "From which database(s)/registry/registries will the data be extracted?",
     "whichDatasetDataExtracted": "From which dataset record(s)/register(s) will the data be extracted?",
-    "variablesToBeUsedInDataExtraction": {
-      "label": "If the information is available, list the variables to be used in the data extraction. Use the exact terms provided by the respective data holder(s) in the metadata catalogue."
+    "variablesToBeUsedInDataExtractionAttachment": {
+      "label": "If the information is available, attach the list the variables to be used in the data extraction. Use the exact terms provided by the respective data holder(s) in the metadata catalogue."
     },
     "timePeriodOfDataExtraction": {
       "label": "For which time period(s) will the datasets records be extracted?"
     },
     "extractionMethod": {
-      "label": "Extraction method",
+      "label": "Extraction method:",
       "items": [
         {
           "key": "a",
@@ -953,21 +756,21 @@
       "tooltip": "Answers can be for example: 100000 persons or 50% of the people fulfilling the criteria."
     },
     "inclusionCriteria": {
-      "label": "Describe the inclusion criteria for study cohort extraction ",
+      "label": "Describe the inclusion criteria for cohort extraction ",
       "tooltip": "Remember to clarify here any inclusion criteria that may be ambiguous. For example, if you want to include data subjects of certain age, clarify based on which variable the age should be calculated and at which time point."
     },
     "potentialExclusionCriteria": {
-      "label": "Describe the potential exclusion criteria for study cohort group extraction"
+      "label": "Describe the potential exclusion criteria for cohort extraction"
     },
     "tabulationPlanArray": {
       "label": "Tabulation plan array",
-      "tooltip": "In addition, write down the following information for each table: ● register to be used ● possible study cohort ● information on the required variables (if available) ● formation of variables where they cannot be directly accessed from the database ● desired direction of aggregation of percentages ● order in which tables are generated when previously generated tables are used to create other tables ● any other relevant factor related to generating the required table(s)"
+      "tooltip": "In addition, write down the following information for each table: ● register to be used ● possible cohort ● information on the required variables (if available) ● formation of variables where they cannot be directly accessed from the database ● desired direction of aggregation of percentages ● order in which tables are generated when previously generated tables are used to create other tables ● any other relevant factor related to generating the required table(s)"
     },
     "tabulationRegisteredToBeUsed": {
       "label": "Register to be used"
     },
     "tabulationPossibleStudyCohort": {
-      "label": "Possible study cohort"
+      "label": "Possible cohort"
     },
     "tabulationInformationOfRequiredVariables": {
       "label": "Information on the required variables (if available)"
@@ -982,24 +785,24 @@
       "label": "Order in which tables are generated when previously generated tables are used to create other tables"
     },
     "tabulationAnyOtherRelevant": {
-      "label": "Any other relevant factor related to generating the required table(s) "
+      "label": "Any other relevant factors related to generating the required table(s) "
     },
     "tabulationPlanButton": "Add tabulation plan",
     "tabulationPlan": {
       "label": "Tabulation Plan",
-      "tooltip": "For each statistic you request, attach an example Excel (or equivalent) table.  Attach a tabulation plan here"
+      "tooltip": "For each statistic you request, attach an example Excel (or equivalent) table."
     },
     "extractionDescriptionAndCompilation": {
       "label": "Extraction description and compilation of statistics",
       "tooltip": "A health data access body shall only provide the data you request only in an anonymised statistical format, if your data request is accepted. Due to anonymity, the data user shall have no access to the electronic health data used to provide this answer. All the information you request must be rendered down to a general level in order to avoid small cell counts with high re-identification potential."
     },
-    "dataExtraction": "Data extraction times and order for the study cohort",
-    "dataExtractionTimes": "Data extraction times and order for the study cohort",
+    "dataExtraction": "Data extraction times and order for the cohort",
+    "dataExtractionTimes": "Data extraction times and order for the cohort",
     "howOftenDoesTheDataNeedToBeExtracted": {
       "label": "How often does the data need to be extracted?"
     },
     "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
-      "label": "How often does the data need to be extracted? once / multiple times"
+      "label": "How often does the data need to be extracted?"
     },
     "needForDataExtractionEvery": {
       "label": "The data needs to be extracted every",
@@ -1013,21 +816,24 @@
       "tooltip": "If you want the data to be extracted multiple times over a certain period of time, note that the definitions and the data gathering method may change during the review period in some cases."
     },
     "needForDataExtractionEveryDescription": {
-      "label": "Provide more information on the study cohort extracting periods/times",
+      "label": "Provide more information on the cohort extracting periods/times",
       "tooltip": "If you want the data to be extracted multiple times over a certain period of time, note that the definitions and the data gathering method may change during the review period in some cases."
     },
     "whatIsTheFrequencyOfUpdates": {
       "label": "What is the frequency of any updates to the data which are required?"
     },
     "orderForDataExtraction": {
-      "label": "If it affects the results of the data extraction, in which order will the study cohort data be extracted? Provide a numbered list of extraction phases. For example: 1. Data holder A; 2. Data holder B; 3. Data holder C"
+      "label": "If it affects the results of the data extraction, in which order will the cohort data be extracted? Provide a numbered list of extraction phases. For example: 1. Data holder A; 2. Data holder B; 3. Data holder C"
     },
     "definingExtractionCriteria": "Defining the extraction criteria for controls:",
     "willControlsBeExtracted": {
-      "label": "Will controls be extracted?"
+      "label": "Will controls be extracted for the cohort?"
+    },
+    "hasTheGroupRelativesFormed2": {
+      "label": "Has the control group been formed based on a previously issued permit?"
     },
     "willSameDataBeExtractedForControls": {
-      "label": "Will same data as for the study cohort be extracted for controls?"
+      "label": "Will same data as for the cohort be extracted for controls?"
     },
     "regionForControlsDataExtraction": {
       "label": "If you do not seek data for controls from the whole country, from which region(s) and/or city/cities and/or municipality/municipalities do you seek data?"
@@ -1036,7 +842,7 @@
     "fromWhichDatabaseLabel": "From which database(s)/registry/registries will the data for controls be extracted?",
     "fromWhichDatasetLabel": "From which dataset record(s)/register(s) will the data for controls be extracted?",
     "variablesForDataExtraction": {
-      "label": "If the information is available, list the variables to be used in thedata extraction. Use the exact terms provided by the respective data holder(s) in the metadata catalogue."
+      "label": "If the information is available, list the variables to be used in the data extraction. Use the exact terms provided by the respective data holder(s) in the metadata catalogue."
     },
     "timePeriodForDataExtraction": {
       "label": "For which time period(s) will the dataset records be extracted?"
@@ -1061,7 +867,7 @@
       ]
     },
     "controlsPerPersonInStudyCohort": {
-      "label": "How many controls are extracted per person belonging to the study cohort?"
+      "label": "How many controls are extracted per person belonging to the cohort?"
     },
     "inclusionCriteriaForControls": {
       "label": "Describe the inclusion criteria for controls’ extraction"
@@ -1070,25 +876,47 @@
       "label": "Describe the potential exclusion criteria for controls’ extraction"
     },
     "ifTheGroupHasBeenFormed": "If the group of controls has been formed based on a previously issued permit, list here the following information:",
-    "previouslyIssuedPermitIssuer": {
+    "previouslyIssuedPermitIssuer2": {
       "label": "Issuer of the permit decision"
     },
-    "previouslyIssuedPermitDate": {
+    "previouslyIssuedPermitDate2": {
       "label": "Date"
     },
-    "validityPeriod": "Validity period",
-    "previouslyIssuedPermitValidityPeriodFrom": {
+    "validityPeriod2": "Validity period",
+    "previouslyIssuedPermitValidityPeriodFrom2": {
       "label": "From"
     },
-    "previouslyIssuedPermitValidityPeriodTo": {
+    "previouslyIssuedPermitValidityPeriodTo2": {
       "label": "To"
     },
-    "previouslyIssuedPermitNumber": {
+    "previouslyIssuedPermitNumber2": {
       "label": "Permit number"
     },
     "dataExtractionAndOrderForControls": " Data extraction times and order for controls",
     "willDataForControlsBeExtractedSimultaneously": {
-      "label": "Will data for controls be extracted simultaneously with the study cohort data?"
+      "label": "Will the data for controls be extracted at the same time and in the same order as the data for the cohort?"
+    },
+    "hasTheGroupRelativesFormed3": {
+      "label": "Has the group of relatives been formed based on a previously issued permit?"
+    },
+    "ifTheGroupOfRelativesHasBeenFormed": {
+      "label": "If the group of relatives has been formed based on a previously issued permit, list here the following information:"
+    },
+    "previouslyIssuedPermitIssuer3": {
+      "label": "Issuer of the permit decision"
+    },
+    "previouslyIssuedPermitDate3": {
+      "label": "Date"
+    },
+    "validityPeriod3": "Validity period",
+    "previouslyIssuedPermitValidityPeriodFrom3": {
+      "label": "From"
+    },
+    "previouslyIssuedPermitValidityPeriodTo3": {
+      "label": "To"
+    },
+    "previouslyIssuedPermitNumber3": {
+      "label": "Permit number"
     },
     "dataExtractionFrequency": {
       "label": "How often does the data need to be extracted?"
@@ -1111,10 +939,10 @@
     },
     "definingTheExtractionCriteria": "Defining the extraction criteria for relatives:",
     "willRelativesBeExtracted": {
-      "label": "Will relatives be extracted for the study cohort?"
+      "label": "Will relatives be extracted for the cohort?"
     },
     "willSameDataBeExtractedForRelatives": {
-      "label": "Will same data as for the study cohort be extracted for relatives?"
+      "label": "Will same data as for the cohort be extracted for relatives?"
     },
     "whichDataHoldersForRelatives": "From which data holder(s) will the data for relatives be extracted?",
     "whichDatabaseForRelatives": "From which database(s)/registry/registries will the data for relatives be extracted?",
@@ -1126,10 +954,7 @@
       "label": "For which time period(s) will the dataset records be extracted?"
     },
     "relationshipToStudyCohort": {
-      "label": "Define the relationship of the relatives to the person belonging to the study cohort (e.g. grandparents, biological parents, mother)"
-    },
-    "previouslyIssuedPermitIssuerRelatives": {
-      "label": "If the group of relatives have been formed on the basis of a previously issued permit(s), list here the issuer of the permit decision, date, validity period and any identifying information"
+      "label": "Define the relationship of the relatives to the person belonging to the cohort (e.g. grandparents, biological parents, mother)"
     },
     "sizeOfRelativesGroup": {
       "label": "Size of the group of relatives"
@@ -1148,7 +973,7 @@
       ]
     },
     "willDataForRelativesBeExtractedSimultaneously": {
-      "label": "Will the data for relatives be extracted at the same time and in the same order as the data for the study cohort?"
+      "label": "Will the data for relatives be extracted at the same time and in the same order as the data for the cohort?"
     },
     "dataExtractionFrequencyRelatives": {
       "label": "How often does the data need to be extracted?"
@@ -1176,34 +1001,51 @@
   },
   "section7": {
     "section7h5": "Other data to be combined",
-    "section7Description": "It is possible to combine other data, such as data in your possession or data obtained from elsewhere, with the data applied for with this application. List the information for all additional data that will be combined with the data authorised by the health data access body. If you later want to combine data with the data authorised by the health data access body, you need to submit an amendment application to the same health data access body.  If you have any other data in addition to the study cohort that you would like the health data access body to combine with the data you are applying for, you will receive instructions on how to deliver the data securely after the permit has been granted.",
+    "section7Description": "It is possible to combine other personal data, such as data already in your possession or data obtained from elsewhere with another permit, with the data applied for with this application. List the information for all additional data that will be combined with the data authorised by the health data access body. If you later want to combine other personal data with the data authorised by the health data access body, you need to submit an amendment application to the same health data access body. If you have any other cohort that you would like the health data access body to combine with the data you are applying for, you will receive instructions on how to deliver the data securely after the permit has been granted.",
     "addDataPermit": "Add data permit",
+    "addInfo": "Add Info",
     "removeDataPermit": "Remove data permit",
     "willDataBeCombinedWithDataObtained": {
-      "label": "Will the data you are applying for be combined with data you have already obtained or data from other sources?"
+      "label": "Will the data you are applying for be combined with data you have already obtained, or data that will be applied for from other sources?"
     },
     "listOtherDataToBeCompined": "List the other data to be combined and the sources of this data:",
     "combinedCountries": {
-      "label": "Country/countries"
+      "label": "Countries"
     },
     "combinedDataHolders": {
-      "label": "Data holder(s)"
+      "label": "Data holders"
     },
     "combinedDatabaseRegistries": {
-      "label": "Database(s)/Registry/Registries"
+      "label": "Databases/Registries"
     },
     "combinedDatasetsRegistries": {
-      "label": "Dataset Record(s)/Register/Registers"
+      "label": "Datasets/Registers"
     },
-    "providedInformationOnDataCombined": {
-      "label": "Provide information on the following, to the extent applicable: data set, number of the files, format of the files, size of the files, special notes (are there direct/indirect identifiers, data should be pseudonymised, etc.)"
+    "provideInformationList": {
+      "label": "Provide information on data to be combined and the planned combination method",
+      "tooltip": "Provide information on the following, to the extent applicable: dataset, number of the files, format of the files, size of the files, special notes (are there direct/indirect identifiers, data should be pseudonymised, etc.)"
+    },
+    "dataset": {
+      "label": "Dataset"
+    },
+    "numberOfFiles": {
+      "label": "Number of the files"
+    },
+    "formatOfFiles": {
+      "label": "Format of the files"
+    },
+    "sizeOfFiles": {
+      "label": "Size of the files"
+    },
+    "notes": {
+      "label": "Notes"
     },
     "listAnyOtherDataPermit": "List here any other data permits issued for the same project. The permits must be valid at the time data are processed:",
     "otherPermits": {
-      "label": "Other permits: issuer, date of issue, expiry date, identification information"
+      "label": "Other permits: Issuer of the permit, date of issue, expiry date, identification information"
     },
     "permitIssuer": {
-      "label": "Issuer"
+      "label": "Issuer of the permit"
     },
     "permitStartDateOfIssue": {
       "label": "Date of issue"
@@ -1212,14 +1054,13 @@
       "label": "Expiry Date"
     },
     "permitIdentificationInformation": {
-      "label": "Identification Information"
+      "label": "Permit Identification Information"
     },
     "attachmentOfPermitDocuments": {
       "label": "If the dataset records involve permits issued by other parties or they have been collected with consent, attach the permit documents here"
     },
     "otherPermitApplications": {
-      "label": "Do you have other pending permit applications?",
-      "tooltip": "Provide information on the following, to the extent applicable: data set, number of the files, format of the files, size of the files, special notes (are there direct/indirect identifiers, data should be pseudonymised, etc.)"
+      "label": "Do you have other pending permit applications?"
     },
     "listTheOtherData": "List the other data to be combined and the sources of this data:",
     "applicationIssuer": {
@@ -1229,7 +1070,7 @@
       "label": "Date of submitting the application"
     },
     "identificationCode": {
-      "label": "Identification code"
+      "label": "Permit  Identification code"
     }
   },
   "section8": {
@@ -1241,12 +1082,12 @@
       "label": "List here all the technical requirements you have for the secure processing environment."
     },
     "nameWebsiteAddressForEnvironment": {
-      "label": "If you already know which processing environment you want to use, what is its name and where is it located? Provide here the name and the website address of the secure processing environment."
+      "label": "If you already know which processing environment you want to use, what is its name and who is it provided by? Provide here the name and the provider of the secure processing environment."
     },
-    "healthDataAccessBody": "The health data access body will deliver the data once your application is processed if you are granted a data permit. \nThe health data access body will retain the pseudonymisation key and the extraction terms and documentation used to generate the data. \nThe data permit will be granted only for the duration necessary to fulfil the requested purposes. The permit can be granted for a maximum period of 10 years. \nThis duration may be extended once, at the request of the data user, based on arguments and documents justifying the extension (EHDS Regulation proposal, Article 68(12)). \nWhere needed, the period of use may be extended by applying for an amendment of the data permit.",
+    "healthDataAccessBody": "The health data access body will deliver the data once your application is processed if you are granted a data permit. The health data access body will retain the pseudonymisation key and the extraction terms and documentation used to generate the data. The data permit will be granted only for the duration necessary to fulfil the requested purposes. The permit can be granted for a maximum period of 10 years. This duration may be extended once, at the request of the data user, based on arguments and documents justifying the extension (EHDS Regulation proposal, Article 68(12)). Where needed, the period of use may be extended by applying for an amendment of the data permit.",
     "whenDataNeeded": {
       "label": "When do you need the data?",
-      "tooltip": "In general, the health data access body will conduct the data extraction as soon as your application has been processed. If you wish to receive the data later, indicate it here.",
+      "tooltip": "In general, the health data access body will request the data extraction from the data holders as soon as your application has been processed. If you wish to receive the data later, indicate it here.",
       "items": [
         {
           "key": "a",
@@ -1520,7 +1361,7 @@
       "tooltip": "EU DPR Article 4(1c) “Personal data shall be adequate, relevant and limited to what is necessary in relation to the purposes for which they are processed (‘data minimisation’)”"
     },
     "protectionAndSecurityStatements": {
-      "label": "To proceed with this application, you need to confirm the following statements: -data protection and security related statements?"
+      "label": "To proceed with this application, you need to confirm the following statements (data protection and security related statements):"
     },
     "protectionAndSecurityStatementsA": {
       "label": "1. I confirm that if the health data access body grants me the data I am applying for, I will use it only for the purpose(s) stated in this application form."
@@ -1532,12 +1373,15 @@
       "label": "3. I understand that taking any screenshots or photos of the device screen, once in the secure processing environment, is prohibited."
     },
     "protectionAndSecurityStatementsD": {
-      "label": "4. I have sufficient safety measures (such as a firewall) in place to protect the different networks to which the devices containing data are connected."
+      "label": "4. I have sufficient safety measures (such as a firewall) in place to protect the different networks to which the devices used to access the Secure Processing Environment are connected."
     },
     "protectionAndSecurityStatementsE": {
       "label": "5. I understand that re-identification attempts are prohibited, and that the health data access body can impose penalties according to Article 43 of the European Health Data Regulation"
     },
     "onlyThePeopleMentioned": "Only the people mentioned in the data permit will be granted access to process the data in the secure processing environment.",
+    "sameAsContactPerson": {
+      "label": "Same as contact person mentioned in the Section 3?"
+    },
     "listTheFullNames":{
       "label": "List the full names, affiliations and e-mail addresses of all the people who will be processing the data."
     },
@@ -1639,10 +1483,10 @@
   },
   "section9": {
     "section9h5": "Additional information",
-    "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers. Suggestion for the technical implementation: Alternatively, there could be a way to allow the applicant to link information to specific parts of the form to facilitate HDABs job.",
+    "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
     "additionalInformation": {
       "label": "Further information or any additional notes",
-      "tooltip": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers. Suggestion for the technical implementation: Alternatively, there could be a way to allow the applicant to link information to specific parts of the form to facilitate HDABs job."
+      "tooltip": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers."
     },
     "additionalAttachment": {
       "label": "An additional attachment. Do not attach health or personal data to this application.",
@@ -1651,10 +1495,10 @@
   },
   "section10": {
     "section10h5": "Confirmation of information",
-    "section10Description": "Before this application is processed, you as the applicant must approve processing fees. To add information on the prices and the maximum price estimate for data extraction once available.",
+    "section10Description": "Before this application is processed, you as the applicant must approve processing fees.",
     "submitYouApplicationText": "To submit your application, you need to confirm the following:",
     "acceptHealthDataBody":{
-      "label": "I accept that the health data body will compile the statistics and I will have no access to\nthe data used to form the statistics."
+      "label": "I accept that the health data body will compile the statistics and I will have no access to the data used to form the statistics."
     },
     "awareProcessingFee": {
       "label": "I am aware that a processing fee will be charged for processing my application. It will also apply in case of a cancelled request or negative decision."

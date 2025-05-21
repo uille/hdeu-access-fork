@@ -25,11 +25,12 @@ import static eu.europa.data.health.access.Constants.DATA_EXTRACTION_FREQUENCY_M
 import static eu.europa.data.health.access.Constants.DATA_EXTRACTION_FREQUENCY_RELATIVES;
 import static eu.europa.data.health.access.Constants.DATA_NEEDS_TO_BE_EXTRACTED_EVERY;
 import static eu.europa.data.health.access.Constants.DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES;
-import static eu.europa.data.health.access.Constants.DETAILS_OF_HOW_THE_STUDY_HAS_BEEN_FORMED;
 import static eu.europa.data.health.access.Constants.ERRORS;
 import static eu.europa.data.health.access.Constants.ERROR_CODE;
 import static eu.europa.data.health.access.Constants.EXTRACTION_CRITERIA_FOR_CONTROLS;
 import static eu.europa.data.health.access.Constants.FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA;
+import static eu.europa.data.health.access.Constants.HAS_THE_GROUP_RELATIVES_FORMED_2;
+import static eu.europa.data.health.access.Constants.HAS_THE_GROUP_RELATIVES_FORMED_3;
 import static eu.europa.data.health.access.Constants.HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS;
 import static eu.europa.data.health.access.Constants.INFORMATION_PROVIDER_SAME_AS_CONTACT_PERSON;
 import static eu.europa.data.health.access.Constants.IN_ORDER_TO_APPLY_PSEUDONYMISED_DATA_A;
@@ -105,6 +106,7 @@ import eu.europa.data.health.access.dto.SectionDTO;
 import eu.europa.data.health.access.dto.data_access.Section3DTO;
 import eu.europa.data.health.access.dto.data_access.Section6CountryDTO;
 import eu.europa.data.health.access.dto.data_access.Section6DTO;
+import eu.europa.data.health.access.dto.data_access.Section7DTO;
 import eu.europa.data.health.access.dto.data_access.SectionDTODataAccessBuilderFactory;
 import eu.europa.data.health.access.exceptions.FieldError;
 import eu.europa.data.health.access.exceptions.GeneralException;
@@ -215,6 +217,19 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
           violation -> violation.getPropertyPath().toString().startsWith(NATURAL_PERSON_PHONE));
       }
     }
+    if (sectionNumberFromUrl.equals(7) && sectionDTO instanceof Section7DTO section7DTO) {
+      // Access the legalOrNaturalPerson property
+      String willDataBeCombinedWithDataObtained =
+        Objects.isNull(section7DTO.getWillDataBeCombinedWithDataObtained()) ? null
+          : section7DTO.getWillDataBeCombinedWithDataObtained().getKey();
+      if (Objects.nonNull(willDataBeCombinedWithDataObtained)
+        && willDataBeCombinedWithDataObtained.equals(
+        "b")) {
+        // remove contactPersonPhone violations as they do not exist for "Natural Person"
+        violations.removeIf(
+          violation -> violation.getPropertyPath().toString().startsWith("provideInformationList"));
+      }
+    }
     if (!violations.isEmpty()) {
       // Handle validation errors
       List<FieldError> errors = new ArrayList<>();
@@ -289,18 +304,6 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
   }
 
   private void cleanSection2(JsonObject section2) {
-    JsonArray theResearchFocusesOnTheFollowingObjectives = section2.getJsonArray(
-      "theResearchFocusesOnTheFollowingObjectives");
-    if (Objects.nonNull(theResearchFocusesOnTheFollowingObjectives) && notContainsKey(
-      theResearchFocusesOnTheFollowingObjectives, "i")) {
-      section2.remove("theResearchFocusesOnTheFollowingObjectivesOther");
-    }
-
-    JsonArray areaOfResearch = section2.getJsonArray("areaOfResearch");
-    if (Objects.nonNull(areaOfResearch) && notContainsKey(areaOfResearch, "aj")) {
-      section2.remove("areaOfResearchOther");
-    }
-
     boolean isDescriptionChecked =
       section2.containsKey(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION)
         && section2.getBoolean(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION,
@@ -308,8 +311,6 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
 
     if (!isDescriptionChecked) {
       section2.remove("descriptionOfTheProject");
-    } else {
-      section2.remove("descriptionOfTheDataYouWillUse");
     }
 
     boolean isSummaryChecked =
@@ -319,7 +320,7 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
 
     if (!isSummaryChecked) {
       section2.remove(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY_REASON);
-    }else {
+    } else {
       section2.remove("summaryOfTheProject");
     }
   }
@@ -378,39 +379,6 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
   }
 
   private void cleanSection5(JsonObject section5) {
-    JsonArray purposeOfUse = section5.getJsonArray("purposeOfUse");
-
-    if (Objects.nonNull(purposeOfUse) && notContainsSelectedValueWithoutSpecificValue(
-      purposeOfUse)) {
-      section5.remove("personResponsibleSameAsContactPerson");
-      section5.remove("personResponsibleName");
-      section5.remove("personResponsibleJobTitle");
-      section5.remove("personResponsibleAffiliation");
-    }
-
-    if (Objects.nonNull(purposeOfUse) && notContainsKey(purposeOfUse, "e")) {
-      section5.remove("personResearchSameAsContactPerson");
-      section5.remove("personResearchName");
-      section5.remove("personResearchJobTitle");
-      section5.remove("personResearchAffiliation");
-    }
-
-    if (Objects.nonNull(purposeOfUse) && notContainsKey(purposeOfUse, "b")) {
-      section5.remove("legalBasis");
-      section5.remove("linkToTheSupportingLegalBasis");
-    }
-
-    if (Objects.nonNull(purposeOfUse) && notContainsSelectedValueWithoutSpecificValue(
-      purposeOfUse)) {
-      section5.remove("summaryOfPlanForUsingTheData");
-      section5.remove("summaryOfPlanForUsingTheDataLanguage");
-    }
-
-    if (Objects.nonNull(purposeOfUse) && notContainsKey(purposeOfUse, "e")) {
-      section5.remove("summaryOfResearchPlan");
-      section5.remove("summaryOfResearchPlanLanguage");
-    }
-
     JsonObject formatOfTheElectronicHealthData = section5.getJsonObject(
       FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA);
     if (Objects.nonNull(formatOfTheElectronicHealthData) && !Objects.equals(
@@ -428,12 +396,6 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
       JsonObject section = section6Array.getJsonObject(i);
       JsonObject howIsTheStudyCohortFormed = section.getJsonObject("howIsTheStudyCohortFormed");
 
-      if (Objects.nonNull(howIsTheStudyCohortFormed) && (
-        !Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b")
-          && !Objects.equals(howIsTheStudyCohortFormed.getString("key"), "c"))) {
-        section.remove(DETAILS_OF_HOW_THE_STUDY_HAS_BEEN_FORMED);
-      }
-
       if (Objects.nonNull(howIsTheStudyCohortFormed) &&
         !Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b")) {
         section.remove(HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS);
@@ -450,8 +412,16 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
         section.remove("doesTheInformedConsentCoverTheRequestedRegistryExtractions");
         section.remove("consentAndInformationLetterAttachment");
         section.remove("confirmThatDataPermitHasBeenGrantedForTheResearchProject");
-        section.remove("idOfTheDataPermit");
         section.remove("permitDecisionAttachment");
+      }
+
+      if ((Objects.nonNull(howIsTheStudyCohortFormed) && (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(
+        howIsTheStudyCohortFormed.getString("key"), "c")))) {
+        section.remove("previouslyIssuedPermitIssuer1");
+        section.remove("previouslyIssuedPermitDate1");
+        section.remove("previouslyIssuedPermitValidityPeriodFrom1");
+        section.remove("previouslyIssuedPermitValidityPeriodTo1");
+        section.remove("previouslyIssuedPermitNumber1");
       }
 
       if ((Objects.nonNull(howIsTheStudyCohortFormed) && !Objects.equals(
@@ -523,6 +493,19 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
 
       //SECTION 6_2
 
+      JsonObject hasTheGroupRelativesFormed2 = section.getJsonObject(
+        HAS_THE_GROUP_RELATIVES_FORMED_2);
+
+      if (Objects.nonNull(hasTheGroupRelativesFormed2) && !Objects.equals(
+        hasTheGroupRelativesFormed2.getString("key"),
+        "a")) {
+        section.remove("previouslyIssuedPermitIssuer2");
+        section.remove("previouslyIssuedPermitDate2");
+        section.remove("previouslyIssuedPermitValidityPeriodFrom2");
+        section.remove("previouslyIssuedPermitValidityPeriodTo2");
+        section.remove("previouslyIssuedPermitNumber2");
+      }
+
       JsonObject willControlsBeExtracted = section.getJsonObject(WILL_CONTROLS_BE_EXTRACTED);
       if (Objects.nonNull(willControlsBeExtracted) && !Objects.equals(
         willControlsBeExtracted.getString("key"), "a")) {
@@ -534,13 +517,7 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
         section.remove("sizeOfControlGroup");
         section.remove("sizeOfControlGroupEstimationOrExact");
         section.remove("controlsPerPersonInStudyCohort");
-        section.remove("inclusionCriteriaForControls");
         section.remove("exclusionCriteriaForControls");
-        section.remove("previouslyIssuedPermitIssuer");
-        section.remove("previouslyIssuedPermitDate");
-        section.remove(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM);
-        section.remove("previouslyIssuedPermitValidityPeriodTo");
-        section.remove("previouslyIssuedPermitNumber");
         section.remove(WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY);
         section.remove(DATA_EXTRACTION_FREQUENCY);
         section.remove(DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION);
@@ -591,6 +568,19 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
 
       //SECTION 6_3
 
+      JsonObject hasTheGroupRelativesFormed3 = section.getJsonObject(
+        HAS_THE_GROUP_RELATIVES_FORMED_3);
+
+      if (Objects.nonNull(hasTheGroupRelativesFormed3) && !Objects.equals(
+        hasTheGroupRelativesFormed3.getString("key"),
+        "a")) {
+        section.remove("previouslyIssuedPermitIssuer3");
+        section.remove("previouslyIssuedPermitDate3");
+        section.remove("previouslyIssuedPermitValidityPeriodFrom3");
+        section.remove("previouslyIssuedPermitValidityPeriodTo3");
+        section.remove("previouslyIssuedPermitNumber3");
+      }
+
       JsonObject willRelativesBeExtracted = section.getJsonObject(WILL_RELATIVES_BE_EXTRACTED);
 
       if (Objects.nonNull(willRelativesBeExtracted) && !Objects.equals(
@@ -600,7 +590,6 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
         section.remove(VARIABLES_FOR_DATA_EXTRACTION_RELATIVES);
         section.remove(TIME_PERIOD_FOR_DATA_EXTRACTION_RELATIVES);
         section.remove(RELATIONSHIP_TO_STUDY_COHORT);
-        section.remove("previouslyIssuedPermitIssuerRelatives");
         section.remove("sizeOfRelativesGroup");
         section.remove("sizeOfRelativesGroupEstimateOrExact");
         section.remove(WILL_DATA_FOR_RELATIVES_BE_EXTRACTED_SIMULTANEOUSLY);
@@ -661,7 +650,7 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
       section7.remove("combinedDataHolders");
       section7.remove("combinedDatabaseRegistries");
       section7.remove("combinedDatasetsRegistries");
-      section7.remove("providedInformationOnDataCombined");
+      section7.remove("provideInformationList");
     }
 
     JsonObject otherPermitApplications = section7.getJsonObject(OTHER_PERMIT_APPLICATIONS);
@@ -744,34 +733,10 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
       if (Objects.nonNull(legalBasisForTransferringTheDataOutsideEU) && !Objects.equals(
         legalBasisForTransferringTheDataOutsideEU.getString("key"), "c")) {
         section8.remove(LEGAL_BASIS_FOR_TRANSFERRING_THE_DATA_OUTSIDE_EU_OTHER_OPTIONS);
-      }else if(Objects.isNull(legalBasisForTransferringTheDataOutsideEU)){
+      } else if (Objects.isNull(legalBasisForTransferringTheDataOutsideEU)) {
         section8.remove(LEGAL_BASIS_FOR_TRANSFERRING_THE_DATA_OUTSIDE_EU_OTHER_OPTIONS);
       }
     }
-  }
-
-  //Method to check if the JsonArray doesn't contain an object with a specific key value
-  private boolean notContainsKey(JsonArray jsonArray, String keyToCheck) {
-    for (int i = 0; i < jsonArray.size(); i++) {
-      JsonObject obj = jsonArray.getJsonObject(i);
-      String key = obj.getString("key");
-      if (keyToCheck.equals(key)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  private boolean notContainsSelectedValueWithoutSpecificValue(JsonArray jsonArray) {
-    for (int i = 0; i < jsonArray.size(); i++) {
-      JsonObject obj = jsonArray.getJsonObject(i);
-      String key = obj.getString("key");
-
-      if (!key.equals("e")) {
-        return false;
-      }
-    }
-    return true;
   }
 
 
@@ -1024,6 +989,7 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
       || fieldName.equals("howWillTheDataFromDifferentSourcesBeLinked"))) {
       return "6.0";
     } else if (fieldName != null && (fieldName.equals(WILL_CONTROLS_BE_EXTRACTED)
+      || fieldName.equals("hasTheGroupRelativesFormed2")
       || fieldName.equals(WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS)
       || fieldName.equals(REGION_FOR_CONTROLS_DATA_EXTRACTION)
       || fieldName.equals("dataHoldersForControls")
@@ -1035,13 +1001,12 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
       || fieldName.equals("sizeOfControlGroup")
       || fieldName.equals("sizeOfControlGroupEstimationOrExact")
       || fieldName.equals("controlsPerPersonInStudyCohort")
-      || fieldName.equals("inclusionCriteriaForControls")
       || fieldName.equals("exclusionCriteriaForControls")
-      || fieldName.equals("previouslyIssuedPermitIssuer")
-      || fieldName.equals("previouslyIssuedPermitDate")
+      || fieldName.equals("previouslyIssuedPermitIssuer2")
+      || fieldName.equals("previouslyIssuedPermitDate2")
       || fieldName.equals(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM)
-      || fieldName.equals("previouslyIssuedPermitValidityPeriodTo")
-      || fieldName.equals("previouslyIssuedPermitNumber")
+      || fieldName.equals("previouslyIssuedPermitValidityPeriodTo2")
+      || fieldName.equals("previouslyIssuedPermitNumber2")
       || fieldName.equals(WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY)
       || fieldName.equals(DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION)
       || fieldName.equals(DATA_EXTRACTION_FREQUENCY)
@@ -1059,7 +1024,6 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
       || fieldName.equals(VARIABLES_FOR_DATA_EXTRACTION_RELATIVES)
       || fieldName.equals(TIME_PERIOD_FOR_DATA_EXTRACTION_RELATIVES)
       || fieldName.equals(RELATIONSHIP_TO_STUDY_COHORT)
-      || fieldName.equals("previouslyIssuedPermitIssuerRelatives")
       || fieldName.equals("sizeOfRelativesGroup")
       || fieldName.equals("sizeOfRelativesGroupEstimateOrExact")
       || fieldName.equals(WILL_DATA_FOR_RELATIVES_BE_EXTRACTED_SIMULTANEOUSLY)
@@ -1069,7 +1033,13 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
       || fieldName.equals(SPECIFY_OTHER_RELATIVES)
       || fieldName.equals("moreInfoOnExtractionPeriodsRelatives")
       || fieldName.equals("orderOfRelativesDataExtraction")
-      || fieldName.equals("extractionPhasesRelatives"))) {
+      || fieldName.equals("extractionPhasesRelatives")
+      || fieldName.equals("hasTheGroupRelativesFormed3")
+      || fieldName.equals("previouslyIssuedPermitIssuer3")
+      || fieldName.equals("previouslyIssuedPermitDate3")
+      || fieldName.equals("previouslyIssuedPermitValidityPeriodFrom3")
+      || fieldName.equals("previouslyIssuedPermitValidityPeriodTo3")
+      || fieldName.equals("previouslyIssuedPermitNumber3"))) {
       return "6.3";
     } else {
       return "6.1";
@@ -1129,11 +1099,8 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
 
   private Set<ConstraintViolation<ApplicationCommonDTO>> validateDataAccessApplicationCommonDTO(
     ApplicationCommonDTO applicationCommonDTO) {
-
     ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     Validator validator = factory.getValidator();
     return validator.validate(applicationCommonDTO);
-
   }
-
 }

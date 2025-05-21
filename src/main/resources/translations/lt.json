@@ -1,0 +1,1588 @@
+{
+    "section1": {
+        "section1h5": "Projekto duomenų šaltinių pasirinkimas",
+        "section1Description": "Duomenų naudotojai turėtų teikti paraiškas tik tiems duomenims, kurie yra tinkami, aktualūs ir neviršija to, kas būtina atsižvelgiant į jų naudojimo tikslą, \nlaikantis ES Bendrojo duomenų apsaugos reglamento 58 duomenų kiekio mažinimo principo (5 straipsnio 1c dalis). \nPrieigos prie sveikatos duomenų įstaiga atidžiai įvertina, ar jūsų reikalavimai atitinka BDAR duomenų kiekio mažinimo principą.",
+        "section1DescriptionDR": "Anonimizuotu statistiniu formatu pateikiama paraiška dėl prieigos prie elektroninių sveikatos duomenų antrinio naudojimo tikslais",
+        "applicationDatasets": {
+            "label": "Iš kurio (-ių) duomenų rinkinio įrašo (-ų) ar registro (-ų) ir (arba) platinimo (-ų) bus gauti duomenys?"
+        },
+        "applicationCountries": {
+            "label": "Iš kurios (-ių) šalies (-ių) ieškote duomenų?"
+        },
+        "applicationDataHolders": {
+            "label": "Iš kurio (-ių) duomenų turėtojo (-ų) bus gauti duomenys?"
+        },
+        "applicationHDABs": {
+            "label": "Kuriai (-ioms) prieigos prie sveikatos duomenų įstaigai (-oms) norite pateikti paraišką?"
+        },
+        "applicationDatabases": {
+            "label": "Iš kurios (-ių) duomenų bazės (-ių) ar registro (-ų) bus gaunami duomenys?"
+        }
+    },
+    "section2": {
+        "section2h5": "Vieša informacija apie projektą",
+        "section2Description": "Europos Sąjungos prieigos prie sveikatos duomenų įstaigos privalo paskelbti informaciją apie duomenų leidimus, prašymus ir prašymus savo interneto svetainėje per 30 darbo dienų nuo duomenų leidimo išdavimo arba atsakymo į duomenų užklausą. Šiame skirsnyje jūsų prašoma pateikti informaciją apie savo projektą, kuria galima dalytis su visuomene. Įsitikinkite, kad tai neapima jokios konfidencialios informacijos. Atsakymus pateikite nespecialistu. Jūs, kaip duomenų naudotojas, privalėsite viešai paskelbti projekto rezultatus arba išdirbius ne vėliau kaip per 18 mėnesių nuo duomenų tvarkymo užbaigimo arba atsakymo į duomenų užklausą gavimo. Be to, turite informuoti prieigos prie sveikatos duomenų įstaigą apie recenzuotų mokslinių tyrimų publikacijų, politikos dokumentų ir (arba) reguliavimo procedūrų, atliktų naudojantis per šią taikomąją programą gautais duomenimis, skaičių.",
+        "projectName": {
+            "label": "Projekto pavadinimas"
+        },
+        "projectLeader": {
+            "label": "Projekto vadovo vardas ir pavardė (organizacija, institucija, privačiojo sektoriaus subjektas arba fizinis asmuo)",
+            "tooltip": "Tai asmuo, atsakingas už duomenų naudojimą."
+        },
+        "countryOfProjectLeader": {
+            "label": "Už projektą atsakingo subjekto oficiali buveinė (šalis)"
+        },
+        "purposeForWhichDataWillBeUsed": {
+            "label": "Tikslas, kuriuo duomenys bus naudojami",
+            "tooltip": "ESDE reglamento tikslai.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. užtikrinti viešąjį interesą visuomenės ar profesinės sveikatos srityje, pvz., vykdyti veiklą apsaugos nuo didelių tarpvalstybinių grėsmių sveikatai ir visuomenės sveikatos priežiūros tikslais ar veiklą, kuria užtikrinamas aukštas sveikatos priežiūros paslaugų, įskaitant pacientų saugumą, bei vaistų ar medicinos priemonių kokybės ir saugos lygis."
+                },
+                {
+                    "key": "b",
+                    "value": "b. vykdyti politikos formavimo ir reguliavimo veiklą siekiant padėti viešojo sektoriaus įstaigoms arba Sąjungos institucijoms, organams, įstaigoms ar agentūroms, įskaitant reguliavimo institucijas, sveikatos ar priežiūros sektoriuje vykdyti jų įgaliojimuose apibrėžtas užduotis."
+                },
+                {
+                    "key": "c",
+                    "value": "c. statistikos, kaip apibrėžta Reglamento (ES) Nr. 223/2009 3 straipsnio 1 punkte, pavyzdžiui, nacionalinius, daugiašalius ir Sąjungos lygmens oficialius statistinius duomenis, susijusius su sveikatos ar priežiūros sektoriais."
+                },
+                {
+                    "key": "d",
+                    "value": "d. vykdyti švietimo ar mokymo veiklą sveikatos ar priežiūros sektoriuose profesinio ar aukštojo mokslo lygmeniu."
+                },
+                {
+                    "key": "e",
+                    "value": "e. vykdyti mokslinius tyrimus, susijusius su sveikatos ar priežiūros sektoriais, kuriais prisidedama prie visuomenės sveikatos ar sveikatos technologijos vertinimo arba užtikrinamas aukštas sveikatos priežiūros, vaistų ar medicinos priemonių kokybės ir saugos lygis, siekiant naudos tokiems galutiniams naudotojams kaip pacientai, sveikatos priežiūros specialistai ir sveikatos priežiūros administratoriai, įskaitant:\ni) produktų ar paslaugų kūrimo ir naujovių diegimo veiklą;\nii) algoritmų, be kita ko, medicinos priemonėse, in vitro diagnostikos medicinos priemonėse, DI sistemose ir skaitmeninės sveikatos programėlėse, mokymo, testavimo ir vertinimo veiklą."
+                },
+                {
+                    "key": "f",
+                    "value": "f. gerinti priežiūros teikimą, gydymo optimizavimą ir sveikatos priežiūros paslaugų teikimą, remiantis kitų fizinių asmenų elektroniniais sveikatos duomenimis."
+                }
+            ]
+        },
+        "theNatureOfTheDataDoesNotLetYouProvideADescription": {
+            "label": "Jūsų projekto pobūdis neleidžia jums pateikti aprašymo"
+        },
+        "descriptionOfTheProject": {
+            "label": "Paaiškinkite, kodėl negalite pateikti duomenų aprašymo.",
+            "tooltip": "Šis (-ių) priežasties (-ių) paaiškinimas nebus skelbiamas."
+        },
+        "summaryOfTheProject": {
+            "label": "Projekto santrauka",
+            "tooltip": "Nespecialistas trumpai (ne daugiau kaip 250 žodžių) apibendrinkite projekto tikslus, naudotinus duomenis, metodus ir kokių rezultatų tikimasi."
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummary": {
+            "label": "Dėl savo projekto pobūdžio santraukos pateikti negalite"
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason": {
+            "label": "Paaiškinkite, kodėl negalite pateikti savo projekto santraukos",
+            "tooltip": "Šis (-ių) priežasties (-ių) paaiškinimas nebus skelbiamas."
+        }
+    },
+    "section3": {
+        "section3h5": "Informacija apie pareiškėją ir asmenį ryšiams",
+        "section3Description": "Duomenų leidimas prašyme turėtų būti nurodytas pareiškėjo – juridinio arba fizinio asmens – vardas, pavardė (pavadinimas) ir kontaktiniai duomenys. Taip pat turėtų būti įtraukta informacija apie kontaktinį asmenį, kuris atsako į visas su paraiška susijusias užklausas, nesvarbu, ar tai būtų tas pats asmuo kaip prašytojas, ar kitas asmuo. Jei kontaktinis asmuo nėra tas pats asmuo kaip pareiškėjas, reikėtų paaiškinti jo santykius, pvz., remiantis darbo sutartimi.",
+        "section3DescriptionRequest": "Duomenų prašymo paraiškoje turėtų būti nurodytas pareiškėjo – juridinio arba fizinio asmens – vardas, pavardė (pavadinimas) ir kontaktiniai duomenys. Taip pat turėtų būti įtraukta informacija apie kontaktinį asmenį, kuris atsako į visas su paraiška susijusias užklausas, nesvarbu, ar tai tas pats asmuo kaip pareiškėjas (fizinio asmens atveju kaip pareiškėjas), ar kitas asmuo.\nJei kontaktinis asmuo nėra tas pats asmuo kaip pareiškėjas, reikėtų paaiškinti jo santykius, pvz., remiantis darbo sutartimi.",
+        "applyingForDataOnBehalfOfPublicSector": {
+            "label": "Ar teikiate paraišką dėl duomenų viešojo sektoriaus institucijos arba Europos Sąjungos institucijos, įstaigos, organo ar agentūros vardu?"
+        },
+        "applyingForDataForCarryingOutTasks": {
+            "label": "Ar teikiate paraišką dėl duomenų, reikalingų užduotims, numatytoms jūsų organizacijos/institucijos įgaliojimuose, atlikti?",
+            "tooltip": "Užduotys, susijusios su jūsų organizacijos/institucijos įgaliojimais, reiškia užduotis, grindžiamas nacionaline arba Europos Sąjungos teise."
+        },
+        "legalOrNaturalPerson": {
+            "label": "Ar pareiškėjas yra juridinis ar fizinis asmuo?",
+            "tooltip": "Fizinis asmuo – fizinis asmuo, asmuo, juridinis asmuo – įmonė, organizacija ar asociacija.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Juridinis asmuo"
+                },
+                {
+                    "key": "b",
+                    "value": "Fizinis asmuo",
+                    "info": "(Jei pasirinkote šį variantą, patvirtinate, kad teikiate prašymą dėl duomenų kaip privatus asmuo, neturintis jokių ryšių)."
+                }
+            ]
+        },
+        "legalPerson": "Juridinis asmuo",
+        "naturalPerson": "Fizinis asmuo",
+        "legalPersonName": {
+            "label": "Visas pavadinimas"
+        },
+        "postalAddress": "Pašto adresas",
+        "legalPersonAddress": {
+            "label": "Gatvės pavadinimas ir namo numeris"
+        },
+        "legalPersonZipCode": {
+            "label": "ZIP kodas"
+        },
+        "legalPersonCity": {
+            "label": "Miestą;"
+        },
+        "legalPersonCountry": {
+            "label": "Šalis"
+        },
+        "contactPersonInformation": "Asmuo ryšiams",
+        "contactPersonInformationDescription": "Kontaktinis asmuo – asmuo, kuris atsako į užklausas dėl prašymo. Tvarkant prašymą, kontaktinio asmens duomenis galima perduoti duomenų valdytojui, jei duomenų išgavimui apibrėžti reikia papildomos informacijos. ",
+        "contactPersonName": {
+            "label": "Visas pavadinimas"
+        },
+        "contactPersonEmail": {
+            "label": "Paštas"
+        },
+        "contactPersonPhone": {
+            "label": "Telefonas"
+        },
+        "contactPersonNameOfTheOrganisation": {
+            "label": "Organizacijos pavadinimas"
+        },
+        "contactPersonBusinessIdentifier": {
+            "label": "Organizacijos veiklos identifikavimo kodas"
+        },
+        "contactPersonOperatorIdentifier": {
+            "label": "Operatoriaus kodas"
+        },
+        "contactPersonJobTitle": {
+            "label": "Pareigybė"
+        },
+        "contactPersonAffiliation": {
+            "label": "Priklausymas"
+        },
+        "contactPersonRelationship": {
+            "label": "Koks yra kontaktinio asmens ir prašytojo ryšys? (Pvz., darbuotojas, prašantis duomenų savo organizacijos vardu.)"
+        },
+        "naturalPersonName": {
+            "label": "Visas pavadinimas"
+        },
+        "naturalPersonAddress": {
+            "label": "Gatvės pavadinimas ir namo numeris"
+        },
+        "naturalPersonZipCode": {
+            "label": "ZIP kodas"
+        },
+        "naturalPersonCity": {
+            "label": "Miestą;"
+        },
+        "naturalPersonCountry": {
+            "label": "Šalis"
+        },
+        "naturalPersonEmail": {
+            "label": "Paštas"
+        },
+        "naturalPersonPhone": {
+            "label": "Telefonas"
+        },
+        "naturalPersonJobTitle": {
+            "label": "Pareigybė"
+        },
+        "naturalPersonAffiliation": {
+            "label": "Priklausymas"
+        }
+    },
+    "section4": {
+        "section4h5": "Mokėjimo duomenys",
+        "section4Description": "Asmens, kuriam prieigos prie sveikatos duomenų įstaiga adresuoja su šiuo prašymu susijusias sąskaitas ir su tuo susijusį duomenų leidimą, jei jis išduotas, mokėjimo duomenys.",
+        "sameAsContactPerson": {
+            "label": "Tas pats, kaip ir 3 skirsnyje nurodytas kontaktinis asmuo?"
+        },
+        "fullName": {
+            "label": "Visas pavadinimas"
+        },
+        "address": {
+            "label": "Adresas"
+        },
+        "email": {
+            "label": "Paštas"
+        },
+        "phone": {
+            "label": "Telefonas"
+        },
+        "invoiceType": {
+            "label": "Sąskaitos faktūros rūšis",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Popieriaus"
+                },
+                {
+                    "key": "b",
+                    "value": "Elektroniniai"
+                }
+            ]
+        },
+        "invoiceReferenceNumber": {
+            "label": "Sąskaitos numeris"
+        },
+        "invoiceAddress": {
+            "label": "E. sąskaitos faktūros adresas (EDI arba IBAN)"
+        },
+        "operatorIdentifier": {
+            "label": "Operatoriaus kodas"
+        },
+        "nameOfTheOrganisation": {
+            "label": "Organizacijos pavadinimas"
+        },
+        "businessIdentifierOrganization": {
+            "label": "Organizacijos veiklos identifikavimo kodas"
+        },
+        "vatNumber": {
+            "label": "PVM kodas"
+        },
+        "peppolCode": {
+            "label": "PEPPOL kodas (jei taikoma)"
+        },
+        "isTheProjectFinanciallyCovered": {
+            "label": "Ar projektas finansuojamas finansiškai?"
+        },
+        "rangeOfAmountOfFinancing": {
+            "label": "Koks yra projekto, kuriam bus naudojami prašomi duomenys, finansavimo sumos intervalas?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "&lt; 10 000 EUR"
+                },
+                {
+                    "key": "b",
+                    "value": "10000–50000 EUR"
+                },
+                {
+                    "key": "c",
+                    "value": "50000–100000 EUR"
+                },
+                {
+                    "key": "d",
+                    "value": "100000–500000 EUR"
+                },
+                {
+                    "key": "e",
+                    "value": "500000–1000000 EUR"
+                },
+                {
+                    "key": "f",
+                    "value": "> 1 000 000 EUR"
+                }
+            ]
+        }
+    },
+    "section5": {
+        "section5h5": "Duomenų naudojimo tikslas",
+        "section5Description": "Pareiškėjai turėtų nurodyti tikslą, kuriuo duomenų prašoma, pagal ESDE reglamento 53 straipsnio 1 dalį, klaidų ištaisymą, kurį Europos Parlamentas patvirtino gruodžio 17 d. \nPareiškėjai turi paaiškinti ir pagrįsti, kodėl prašomi duomenys yra būtini nurodytam jų naudojimo tikslui. Pareiškėjų taip pat prašoma pateikti informaciją apie projekto tikslą. Tada, priklausomai nuo naudojimo tikslo (mokslinių tyrimų ar ne mokslinių tyrimų), pareiškėjai turi pateikti duomenų naudojimo plano santrauką arba mokslinių tyrimų plano santrauką ir informaciją apie asmenį, atsakingą už duomenų naudojimą ar mokslinius tyrimus.",
+        "purposeOfUse": {
+            "label": "Duomenų naudojimo tikslas. Prieigos prie sveikatos duomenų įstaigos suteikia prieigą prie 51 straipsnyje nurodytų elektroninių sveikatos duomenų tik tuo atveju, jei prašytojo siekiamas duomenų tvarkymo tikslas atitinka toliau išvardytus tikslus (kaip nurodyta 53 straipsnio 1 dalyje).",
+            "tooltip": "ESDE reglamento tikslai.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. visuomenės interesas visuomenės ar profesinės sveikatos srityse, pavyzdžiui, apsaugos nuo didelių tarpvalstybinio pobūdžio grėsmių sveikatai veikla, visuomenės sveikatos priežiūra arba veikla, kuria užtikrinamas aukštas sveikatos priežiūros, įskaitant pacientų saugą, ir vaistų ar medicinos priemonių kokybės ir saugos lygis."
+                },
+                {
+                    "key": "b",
+                    "value": "b. politikos formavimo ir reguliavimo veiklą, kuria siekiama padėti viešojo sektoriaus institucijoms arba Sąjungos institucijoms, įstaigoms, organams ir agentūroms, įskaitant reguliavimo institucijas, sveikatos ar priežiūros sektoriuje vykdyti jų įgaliojimuose nustatytas užduotis."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Statistika, kaip apibrėžta Reglamento (ES) Nr. 223/2009 3 straipsnio 1 punkte, pavyzdžiui, nacionalinė, daugianacionalinė ir Sąjungos lygmens oficiali statistika, susijusi su sveikatos ar priežiūros sektoriais."
+                },
+                {
+                    "key": "d",
+                    "value": "D. Švietimo ar mokymo veikla sveikatos ar priežiūros sektoriuose profesinio ar aukštojo mokslo lygmeniu."
+                },
+                {
+                    "key": "e",
+                    "value": "e. Su sveikatos ar priežiūros sektoriais susiję moksliniai tyrimai, kuriais prisidedama prie visuomenės sveikatos ar sveikatos technologijų vertinimo arba užtikrinamas aukštas sveikatos priežiūros, vaistų ar medicinos priemonių kokybės ir saugos lygis, siekiant naudos galutiniams naudotojams, pavyzdžiui, pacientams, sveikatos priežiūros specialistams ir sveikatos administratoriams, įskaitant:\nI) produktų ar paslaugų kūrimo ir inovacijų veiklą;\nII) algoritmų mokymą, testavimą ir vertinimą, be kita ko, medicinos priemonėse, in vitro diagnostikos medicinos priemonėse, DI sistemose ir skaitmeninėse sveikatos prietaikose."
+                },
+                {
+                    "key": "f",
+                    "value": "F. Slaugos teikimo, gydymo optimizavimo ir sveikatos priežiūros paslaugų teikimo gerinimas, remiantis kitų fizinių asmenų elektroniniais sveikatos duomenimis."
+                }
+            ]
+        },
+        "whyTheDataIsNeeded": {
+            "label": "Kodėl duomenys, dėl kurių teikiate paraišką, reikalingi nurodytu naudojimo tikslu? Paaiškinkite, kodėl duomenų, dėl kurių teikiate paraišką, kiekis ir rūšis yra būtini jūsų duomenų naudojimo tikslais."
+        },
+        "whyAreTheDataRequested": {
+            "label": "Kodėl šioje taikomojoje programoje prašomi duomenys reikalingi nurodytu naudojimo tikslu?"
+        },
+        "whatIsTheAimAndTopicOfTheProject": {
+            "label": "Koks jūsų projekto tikslas ir tema?"
+        },
+        "whichAreTheExpectedBenefits": {
+            "label": "Kokia numatoma nauda, susijusi su elektroninių sveikatos duomenų naudojimu, ir kaip ši nauda padeda siekti 5.1 punkte nurodytų tikslų?"
+        },
+        "legalBasis": {
+            "label": "Nurodykite teisinį pagrindą, pavyzdžiui, atitinkamus teisės aktus, kuriais apibrėžiamos užduotys, patenkančios į jūsų įgaliojimų sritį, ir patvirtinate, kad jūsų planuojamas duomenų naudojimas yra skirtas tokioms užduotims palengvinti.",
+            "tooltip": "Paaiškinkite, kodėl duomenų, dėl kurių teikiate paraišką, kiekis yra būtinas jūsų duomenų naudojimo tikslais. Pagrįskite ir aprašykite, kaip prašomų statistinių duomenų turinys atitinka paraiškoje nurodytą naudojimo tikslą ir jūsų duomenų reikalavimus."
+        },
+        "linkToTheSupportingLegalBasis": {
+            "label": "Pateikite nuorodą į patvirtinamuosius dokumentus kaip teisinio pagrindo įrodymą"
+        },
+        "summaryOfPlanForUsingTheData": {
+            "label": "Pateikite savo duomenų naudojimo plano santrauką. Santrauka turi būti parengta viena iš oficialiųjų ES kalbų."
+        },
+        "summaryOfPlanForUsingTheDataLanguage": {
+            "label": "Pasirinkite santraukos kalbą",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgarų"
+                },
+                {
+                    "key": "hr",
+                    "value": "Kroatų"
+                },
+                {
+                    "key": "cs",
+                    "value": "Čekų"
+                },
+                {
+                    "key": "da",
+                    "value": "Danų"
+                },
+                {
+                    "key": "nl",
+                    "value": "Nyderlandų"
+                },
+                {
+                    "key": "en",
+                    "value": "Anglų"
+                },
+                {
+                    "key": "et",
+                    "value": "Estų"
+                },
+                {
+                    "key": "fi",
+                    "value": "Suomių"
+                },
+                {
+                    "key": "fr",
+                    "value": "Prancūzų"
+                },
+                {
+                    "key": "de",
+                    "value": "Vokiečių"
+                },
+                {
+                    "key": "el",
+                    "value": "Graikų"
+                },
+                {
+                    "key": "hu",
+                    "value": "Vengrų"
+                },
+                {
+                    "key": "ga",
+                    "value": "Airių"
+                },
+                {
+                    "key": "it",
+                    "value": "Italų"
+                },
+                {
+                    "key": "lv",
+                    "value": "Latvių"
+                },
+                {
+                    "key": "lt",
+                    "value": "Lietuvių"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltiečių"
+                },
+                {
+                    "key": "pl",
+                    "value": "Lenkų"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugalų"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumunų"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovakų"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slovėnų"
+                },
+                {
+                    "key": "es",
+                    "value": "Ispanų"
+                },
+                {
+                    "key": "sv",
+                    "value": "Švedų"
+                }
+            ]
+        },
+        "summaryOfResearchPlan": {
+            "label": "Pateikite savo mokslinių tyrimų plano santrauką. Santrauka turi būti parengta viena iš oficialiųjų ES kalbų."
+        },
+        "summaryOfResearchPlanLanguage": {
+            "label": "Pasirinkite santraukos kalbą",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgarų"
+                },
+                {
+                    "key": "hr",
+                    "value": "Kroatų"
+                },
+                {
+                    "key": "cs",
+                    "value": "Čekų"
+                },
+                {
+                    "key": "da",
+                    "value": "Danų"
+                },
+                {
+                    "key": "nl",
+                    "value": "Nyderlandų"
+                },
+                {
+                    "key": "en",
+                    "value": "Anglų"
+                },
+                {
+                    "key": "et",
+                    "value": "Estų"
+                },
+                {
+                    "key": "fi",
+                    "value": "Suomių"
+                },
+                {
+                    "key": "fr",
+                    "value": "Prancūzų"
+                },
+                {
+                    "key": "de",
+                    "value": "Vokiečių"
+                },
+                {
+                    "key": "el",
+                    "value": "Graikų"
+                },
+                {
+                    "key": "hu",
+                    "value": "Vengrų"
+                },
+                {
+                    "key": "ga",
+                    "value": "Airių"
+                },
+                {
+                    "key": "it",
+                    "value": "Italų"
+                },
+                {
+                    "key": "lv",
+                    "value": "Latvių"
+                },
+                {
+                    "key": "lt",
+                    "value": "Lietuvių"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltiečių"
+                },
+                {
+                    "key": "pl",
+                    "value": "Lenkų"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugalų"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumunų"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovakų"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slovėnų"
+                },
+                {
+                    "key": "es",
+                    "value": "Ispanų"
+                },
+                {
+                    "key": "sv",
+                    "value": "Švedų"
+                }
+            ]
+        },
+        "personResponsibleLabel": "Už duomenų naudojimą atsakingas asmuo",
+        "personResponsibleName": {
+            "label": "Visas pavadinimas"
+        },
+        "personResponsibleJobTitle": {
+            "label": "Pareigybė"
+        },
+        "personResponsibleAffiliation": {
+            "label": "Priklausymas"
+        },
+        "personResearchSameAsContactPerson": {
+            "label": "Tas pats kaip kontaktinis asmuo, nurodytas 3 skirsnyje (Pareiškėjo ir kontaktinio asmens informacija)?"
+        },
+        "personResponsibleForResearchLabel": "Už mokslinius tyrimus atsakingas asmuo",
+        "personResponsibleSameAsContactPerson": {
+            "label": "Tas pats kaip kontaktinis asmuo, nurodytas 3 skirsnyje (Pareiškėjo ir kontaktinio asmens informacija)?"
+        },
+        "personResearchName": {
+            "label": "Visas pavadinimas"
+        },
+        "personResearchJobTitle": {
+            "label": "Pareigybė"
+        },
+        "personResearchAffiliation": {
+            "label": "Priklausymas"
+        },
+        "formatOfTheElectronicHealthData": {
+            "label": "Pasirinkite teiktinų elektroninių sveikatos duomenų formatą:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Anonimizuotas"
+                },
+                {
+                    "key": "b",
+                    "value": "Pseudoniminiai"
+                }
+            ]
+        },
+        "inOrderToApplyPseudonymisedData": "Žinau, kad norėdamas pateikti prašymą dėl pseudoniminių duomenų turiu:",
+        "inOrderToApplyPseudonymisedDataA": {
+            "label": "a) Paaiškinsiu, kaip laikysiuosi Bendrojo duomenų apsaugos reglamento 6 straipsnio 1 dalies (arba ES duomenų apsaugos reglamento 5 straipsnio 1 dalies, jei ES institucija, įstaiga, organas ar agentūra prašo duomenų)"
+        },
+        "inOrderToApplyPseudonymisedDataB": {
+            "label": "b) įvertinti etinius duomenų tvarkymo aspektus, kai taikytina ir laikantis nacionalinės teisės arba taikytinų teisės aktų."
+        },
+        "whyNeedForPseudonymisation": {
+            "label": "Kodėl jūsų projektui reikalingi pseudoniminiai duomenys?"
+        }
+    },
+    "section6": {
+        "section6h5": "Reikalingų duomenų aprašymas",
+        "section6Description": "Šiame skirsnyje turite pateikti prašomo duomenų rinkinio aprašymą, aiškiai nurodydami, su kuriais duomenų rinkiniais susijusi paraiška. Paraišką turėtumėte teikti tik dėl duomenų, kurie yra tinkami, aktualūs ir neviršija to, kas būtina jūsų naudojimo tikslui, laikantis ES bendrajame duomenų apsaugos reglamente nustatyto duomenų kiekio mažinimo principo (5 straipsnio 1c dalis). Prieigos prie sveikatos duomenų įstaiga atidžiai įvertina, ar jūsų reikalavimai atitinka BDAR duomenų kiekio mažinimo principą.",
+        "descriptionSection6_1": "Kohortos ekstrahavimo kriterijų nustatymas:",
+        "descriptionOfTheDataNeeded": "Reikalingų duomenų aprašymas:",
+        "applicationHDABsForSelectedCountry": "Kuriai prieigos prie sveikatos duomenų įstaigai norite pateikti paraišką?",
+        "applicationDatasetsPerCountry": "Atitinkamas (-i) duomenų rinkinio įrašas (-ai) ir paskirstymas",
+        "informationProviderSameAsContactPerson": {
+            "label": "Tas pats, kaip ir 3 skirsnyje nurodytas kontaktinis asmuo?"
+        },
+        "hdabContacts": {
+            "label": "Jei dėl ieškomų duomenų kontaktavote su prieigos prie sveikatos duomenų įstaigos asmeniu, čia išvardykite šio asmens vardus, pavardes ir e. pašto adresus."
+        },
+        "howWillTheDataFromDifferentSourcesBeLinked": {
+            "label": "Kaip bus susieti vieno asmens iš skirtingų šaltinių duomenys? Pvz., remiantis asmens tapatybės kodu. Jei taikomas koks nors kitas susiejimo metodas, aprašykite tai čia."
+        },
+        "indicateTheSizeOfTheStudyCohort": {
+            "label": "Nurodykite kohortos dydį"
+        },
+        "indicateTheSizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Kohortos dydis (Radio mygtukai)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Tai kohortos dydžio įvertis."
+                },
+                {
+                    "key": "b",
+                    "value": "Tai tikslus kohortos dydis."
+                }
+            ]
+        },
+        "howIsTheStudyCohortFormed": {
+            "label": "Kaip formuojama kohorta?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Kohorta bus sudaryta remiantis toliau pateiktais kriterijais."
+                },
+                {
+                    "key": "b",
+                    "value": "Kohorta jau sudaryta."
+                },
+                {
+                    "key": "c",
+                    "value": "Kohortą sudarys šie du elementai: nauja kohorta, sudaryta remiantis toliau pateiktais kriterijais, ir jau suformuota kohorta."
+                },
+                {
+                    "key": "d",
+                    "value": "Kohortą sudaro visi šalies (-ių), nurodytos (-ų) šios formos pradžioje, gyventojai."
+                }
+            ]
+        },
+        "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants": {
+            "label": "Jei norite pasinaudoti kohorta, pagrįsta jūsų ankstesniu apklausos tyrimu, ar grupė buvo sudaryta remiantis informuoto tyrimo dalyvių sutikimu? Pvz., tyrimo arba klinikinio tyrimo pagrindu sudaryta kohorta, su kuria registru pagrįsti duomenys bus susieti pagal ESDE reglamentą."
+        },
+        "doesTheInformedConsentCoverTheRequestedRegistryExtractions": {
+            "label": "Ar informuoto asmens sutikimas apima prašomus registro duomenis?"
+        },
+        "consentAndInformationLetterAttachment": {
+            "label": "Pridėkite sutikimą ir informacinį raštą, kurį išsiuntėte studijuojantiems tiriamiesiems asmenims. Nepridėkite užpildytų formų, nes jose yra asmens duomenų."
+        },
+        "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
+            "label": "Patvirtinu, kad duomenų leidimas suteiktas šiam mokslinių tyrimų projektui."
+        },
+        "ifTheGroupHasBeenFormedBasedOnPreviousIssued": {
+            "label": "Jei kohorta sudaryta remiantis anksčiau išduotu leidimu, čia išvardykite šią informaciją:"
+        },
+        "previouslyIssuedPermitIssuer1": {
+            "label": "Sprendimo dėl leidimo išdavėjas"
+        },
+        "previouslyIssuedPermitDate1": {
+            "label": "Datą"
+        },
+        "validityPeriod1": "Galiojimo laikas",
+        "previouslyIssuedPermitValidityPeriodFrom1": {
+            "label": "Nuo"
+        },
+        "previouslyIssuedPermitValidityPeriodTo1": {
+            "label": "Iki"
+        },
+        "previouslyIssuedPermitNumber1": {
+            "label": "Leidimo numeris"
+        },
+        "permitDecisionAttachment": {
+            "label": "Pridėkite sprendimą dėl leidimo, apimantį kohortos duomenų išgavimą šiame skirsnyje."
+        },
+        "howTheStudyCohortWasObtained": {
+            "label": "Aprašykite, kaip buvo gauta kohorta ir kodėl nebuvo duomenų leidimo ir (arba) sutikimo."
+        },
+        "providedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Ar pateikėte informaciją apie duomenų naudojimą atitinkamiems subjektams? Pvz., bendra informacija apie duomenų naudojimą projekto interneto svetainėje.",
+            "tooltip": "Daugiau informacijos pateikiama Bendrojo duomenų apsaugos reglamento 13 ir 14 straipsniuose: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
+            "tooltipForm": "Daugiau informacijos pateikiama <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\"> Bendrojo duomenų apsaugos reglamento 13 ir 14 straipsniuose </a>."
+        },
+        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Kaip?"
+        },
+        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Kodėl?"
+        },
+        "whoWillDeliverTheInformationOnTheStudy": {
+            "label": "Kas pateiks informaciją apie kohortą prieigos prie sveikatos duomenų įstaigai? Šis asmuo gaus nurodymus, kaip pateikti duomenis per bendrą ESDE portalą."
+        },
+        "informationProviderName": {
+            "label": "Visas pavadinimas"
+        },
+        "informationProviderEmail": {
+            "label": "E. paštas"
+        },
+        "informationProviderPhone": {
+            "label": "Telefono numerį"
+        },
+        "whyNeedDataOfaWholePopulation": {
+            "label": "Pateikite argumentų, kodėl jums reikia duomenų apie visą populiaciją/visą populiaciją?",
+            "tooltip": "Būtina pakankamai aiškiai apibrėžti kohortos susidarymą ir nustatyti kohortos dydį pagal numatytą paskirtį. Atkreipti ypatingą dėmesį į tai, iš kokių registrų gaunama kohorta, ir į grupės įtraukimo ir neįtraukimo kriterijus. Pavyzdžiui, geografinė apibrėžtis gali reikšti gyvenamąją vietą, gimimo vietą, darbo vietą arba vietą, kurioje naudojamasi paslaugomis."
+        },
+        "sizeOfTheStudyCohort": {
+            "label": "Nurodykite kohortos dydį"
+        },
+        "sizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Kohortos dydis (Radio mygtukai)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Tai kohortos dydžio įvertis."
+                },
+                {
+                    "key": "b",
+                    "value": "Tai tikslus kohortos dydis."
+                }
+            ]
+        },
+        "whyNeedStudyCohortOfThisSize": {
+            "label": "Kodėl jūsų projektui reikia tokio dydžio kohortos?"
+        },
+        "ethicalReview": "Etinė peržiūra – tekstą turi pateikti politikos skyrius",
+        "ethicalReviewDescription": "Etikos vertinimas",
+        "ethicalReviewInput": {
+            "label": "Etikos vertinimas",
+            "tooltip": "Tekstą turi pateikti politikos skyrius."
+        },
+        "ethicalReviewAttachment": {
+            "label": "Etikos vertinimas"
+        },
+        "dataHolders": "Iš kurio (-ių) duomenų turėtojo (-ų) bus gauti duomenys?",
+        "whichDatabasesDataExtracted": "Iš kurios (-ių) duomenų bazės (-ių)/registrų/registrų bus gaunami duomenys?",
+        "whichDatasetDataExtracted": "Iš kurio (-ių) duomenų rinkinio įrašo (-ų) ir (arba) registro (-ų) bus paimti duomenys?",
+        "variablesToBeUsedInDataExtractionAttachment": {
+            "label": "Jei turima informacijos, pridėkite kintamųjų, kurie turi būti naudojami išgaunant duomenis, sąrašą. Vartoti tikslius terminus, kuriuos metaduomenų kataloge pateikė atitinkamas (-i) duomenų turėtojas (-ai)."
+        },
+        "timePeriodOfDataExtraction": {
+            "label": "Kuriuo (-iais) laikotarpiu (-iais) bus gauti duomenų rinkinių įrašai?"
+        },
+        "extractionMethod": {
+            "label": "Ekstrahavimo metodas:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "atsitiktinė imtis"
+                },
+                {
+                    "key": "b",
+                    "value": "visi kriterijus atitinkantys asmenys"
+                },
+                {
+                    "key": "c",
+                    "value": "kiti mėginiai"
+                }
+            ]
+        },
+        "samplingMethod": {
+            "label": "Aprašykite ėminių ėmimo metodą"
+        },
+        "sampleSize": {
+            "label": "Imties dydis",
+            "tooltip": "Atsakymai gali būti, pavyzdžiui: 100000 asmenų arba 50 proc. kriterijus atitinkančių asmenų."
+        },
+        "inclusionCriteria": {
+            "label": "Aprašykite kohortos ekstrahavimo įtraukimo kriterijus ",
+            "tooltip": "Nepamirškite paaiškinti visus įtraukimo kriterijus, kurie gali būti dviprasmiški. Pavyzdžiui, jei norite įtraukti tam tikro amžiaus duomenų subjektus, paaiškinkite, pagal kurį kintamąjį reikėtų apskaičiuoti amžių ir kada."
+        },
+        "potentialExclusionCriteria": {
+            "label": "Aprašykite kohortos ekstrahavimo galimo atmetimo kriterijus"
+        },
+        "tabulationPlanArray": {
+            "label": "Lentelių matrica",
+            "tooltip": "Be to, kiekvienoje lentelėje įrašoma ši informacija: ● naudotinas registras ● galima kohorta ● informacija apie reikalaujamus kintamuosius (jei yra) ● kintamųjų, kurių negalima tiesiogiai gauti iš duomenų bazės, sudarymas ● pageidaujama procentinių dalių agregavimo kryptis ● tvarka, kuria lentelės generuojamos, kai kitos lentelės naudojamos kitoms lentelėms kurti ● bet koks kitas svarbus veiksnys, susijęs su reikalaujamos (-ų) lentelės (-ų) generavimu"
+        },
+        "tabulationRegisteredToBeUsed": {
+            "label": "Naudotinas registras"
+        },
+        "tabulationPossibleStudyCohort": {
+            "label": "Galima kohorta"
+        },
+        "tabulationInformationOfRequiredVariables": {
+            "label": "Informacija apie reikiamus kintamuosius (jei yra)"
+        },
+        "tabulationFormationVariables": {
+            "label": "Kintamųjų, kurių negalima tiesiogiai gauti iš duomenų bazės, formavimas"
+        },
+        "tabulationDesiredDirection": {
+            "label": "Pageidaujama procentinių dalių agregavimo kryptis"
+        },
+        "tabulationOrderInWhichTable": {
+            "label": "Lentelių rengimo tvarka, kai anksčiau parengtos lentelės naudojamos kitoms lentelėms kurti"
+        },
+        "tabulationAnyOtherRelevant": {
+            "label": "Visi kiti svarbūs veiksniai, susiję su reikiamos (-ų) lentelės (-ų) generavimu "
+        },
+        "tabulationPlanButton": "Pridėti lentelių planą",
+        "tabulationPlan": {
+            "label": "Lentelių planas",
+            "tooltip": "Prie kiekvieno pageidaujamo statistinio dokumento pridėkite Excel (arba lygiavertės) lentelės pavyzdį."
+        },
+        "extractionDescriptionAndCompilation": {
+            "label": "Ištraukos aprašymas ir statistinių duomenų rengimas",
+            "tooltip": "Prieigos prie sveikatos duomenų įstaiga jūsų prašomus duomenis teikia tik anoniminiu statistiniu formatu, jei jūsų duomenų užklausa priimama. Dėl anonimiškumo duomenų naudotojas neturi prieigos prie elektroninių sveikatos duomenų, naudojamų šiam atsakymui pateikti. Visa jūsų prašoma informacija turi būti pateikta iki bendro lygio, kad būtų išvengta mažų ląstelių, turinčių didelį pakartotinio tapatybės nustatymo potencialą, skaičiaus."
+        },
+        "dataExtraction": "Kohortos duomenų išgavimo laikas ir tvarka",
+        "dataExtractionTimes": "Kohortos duomenų išgavimo laikas ir tvarka",
+        "howOftenDoesTheDataNeedToBeExtracted": {
+            "label": "Kaip dažnai reikia gauti duomenis?"
+        },
+        "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
+            "label": "Kaip dažnai reikia gauti duomenis?"
+        },
+        "needForDataExtractionEvery": {
+            "label": "Duomenis reikia gauti kiekvieną kartą",
+            "tooltip": "Jei norite, kad duomenys būtų gaunami kelis kartus per tam tikrą laikotarpį, atkreipkite dėmesį, kad kai kuriais atvejais apibrėžtys ir duomenų rinkimo metodas peržiūros laikotarpiu gali keistis. Atkreipkite dėmesį į tai, kad didžiausias duomenų išgavimo dažnumas yra kas ketvirtį"
+        },
+        "needForDataExtractionEveryOther": {
+            "label": "Nurodykite „Kita“"
+        },
+        "needForDataExtractionEveryDescriptionDR": {
+            "label": "Pateikite daugiau informacijos apie išgavimo laikotarpius/laikus",
+            "tooltip": "Jei norite, kad duomenys būtų gaunami kelis kartus per tam tikrą laikotarpį, atkreipkite dėmesį, kad kai kuriais atvejais apibrėžtys ir duomenų rinkimo metodas peržiūros laikotarpiu gali keistis."
+        },
+        "needForDataExtractionEveryDescription": {
+            "label": "Pateikite daugiau informacijos apie kohortos ištraukimo laikotarpius/laikus",
+            "tooltip": "Jei norite, kad duomenys būtų gaunami kelis kartus per tam tikrą laikotarpį, atkreipkite dėmesį, kad kai kuriais atvejais apibrėžtys ir duomenų rinkimo metodas peržiūros laikotarpiu gali keistis."
+        },
+        "whatIsTheFrequencyOfUpdates": {
+            "label": "Kaip dažnai reikia atnaujinti duomenis?"
+        },
+        "orderForDataExtraction": {
+            "label": "Jei tai turi įtakos duomenų išgavimo rezultatams, kokia tvarka bus išgaunami kohortos duomenys? Pateikite sunumeruotą ekstrahavimo etapų sąrašą. Pavyzdžiui: 1. A duomenų turėtojas; 2. B duomenų turėtojas; 3. C duomenų turėtojas"
+        },
+        "definingExtractionCriteria": "Kontrolinių bandinių ekstrahavimo kriterijų nustatymas:",
+        "willControlsBeExtracted": {
+            "label": "Ar bus paimti kohortos kontroliniai bandiniai?"
+        },
+        "hasTheGroupRelativesFormed2": {
+            "label": "Ar kontrolinė grupė sudaryta remiantis anksčiau išduotu leidimu?"
+        },
+        "willSameDataBeExtractedForControls": {
+            "label": "Ar kontrolinėms medžiagoms bus gauti tokie patys duomenys kaip ir kohortos atveju?"
+        },
+        "regionForControlsDataExtraction": {
+            "label": "Jei neieškote duomenų kontrolei atlikti iš visos šalies, iš kurio (-ių) regiono (-ų) ir (arba) miesto (-ų) ir (arba) savivaldybės (-ų) duomenų ieškote?"
+        },
+        "fromWhichDataHolderLabel": "Iš kurio (-ių) duomenų turėtojo (-ų) bus gaunami kontrolės duomenys?",
+        "fromWhichDatabaseLabel": "Iš kurios (-ių) duomenų bazės (-ių)/registrų/registrų bus gaunami kontrolės duomenys?",
+        "fromWhichDatasetLabel": "Iš kurio (-ių) duomenų rinkinio įrašo (-ų) ir (arba) registro (-ų) bus gaunami kontrolės duomenys?",
+        "variablesForDataExtraction": {
+            "label": "Jei turima informacijos, išvardykite kintamuosius, kurie turi būti naudojami išgaunant duomenis. Vartoti tikslius terminus, kuriuos metaduomenų kataloge pateikė atitinkamas (-i) duomenų turėtojas (-ai)."
+        },
+        "timePeriodForDataExtraction": {
+            "label": "Kuriuo (-iais) laikotarpiu (-iais) duomenų rinkinio įrašai bus išgauti?"
+        },
+        "extractionCriteriaForControls": {
+            "label": "Nurodyti kontrolinių ėminių ištraukimo kriterijus, pvz., atitikties kriterijus"
+        },
+        "sizeOfControlGroup": {
+            "label": "Kontrolinės grupės dydis"
+        },
+        "sizeOfControlGroupEstimationOrExact": {
+            "label": "Kontrolinės grupės dydis (Radio Buttons)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Tai kontrolės priemonių grupės dydžio įvertis."
+                },
+                {
+                    "key": "b",
+                    "value": "Tai tikslus kontrolės priemonių grupės dydis."
+                }
+            ]
+        },
+        "controlsPerPersonInStudyCohort": {
+            "label": "Kiek kontrolinių ėminių išgaunama vienam kohortai priklausančiam asmeniui?"
+        },
+        "inclusionCriteriaForControls": {
+            "label": "Aprašykite kontrolinių ėminių ekstrahavimo įtraukimo kriterijus"
+        },
+        "exclusionCriteriaForControls": {
+            "label": "Aprašykite kontrolės priemonių ištraukimo galimo atmetimo kriterijus"
+        },
+        "ifTheGroupHasBeenFormed": "Jei kontrolės priemonių grupė sudaryta remiantis anksčiau išduotu leidimu, čia išvardykite šią informaciją:",
+        "previouslyIssuedPermitIssuer2": {
+            "label": "Sprendimo dėl leidimo išdavėjas"
+        },
+        "previouslyIssuedPermitDate2": {
+            "label": "Datą"
+        },
+        "validityPeriod2": "Galiojimo laikas",
+        "previouslyIssuedPermitValidityPeriodFrom2": {
+            "label": "Nuo"
+        },
+        "previouslyIssuedPermitValidityPeriodTo2": {
+            "label": "Iki"
+        },
+        "previouslyIssuedPermitNumber2": {
+            "label": "Leidimo numeris"
+        },
+        "dataExtractionAndOrderForControls": " Duomenų išgavimo laikas ir kontrolės tvarka",
+        "willDataForControlsBeExtractedSimultaneously": {
+            "label": "Ar kontrolinių ėminių duomenys bus gaunami tuo pačiu metu ir ta pačia tvarka kaip ir kohortos duomenys?"
+        },
+        "hasTheGroupRelativesFormed3": {
+            "label": "Ar giminaičių grupė sudaryta remiantis anksčiau išduotu leidimu?"
+        },
+        "ifTheGroupOfRelativesHasBeenFormed": {
+            "label": "Jeigu giminaičių grupė sudaryta remiantis anksčiau išduotu leidimu, čia išvardykite šią informaciją:"
+        },
+        "previouslyIssuedPermitIssuer3": {
+            "label": "Sprendimo dėl leidimo išdavėjas"
+        },
+        "previouslyIssuedPermitDate3": {
+            "label": "Datą"
+        },
+        "validityPeriod3": "Galiojimo laikas",
+        "previouslyIssuedPermitValidityPeriodFrom3": {
+            "label": "Nuo"
+        },
+        "previouslyIssuedPermitValidityPeriodTo3": {
+            "label": "Iki"
+        },
+        "previouslyIssuedPermitNumber3": {
+            "label": "Leidimo numeris"
+        },
+        "dataExtractionFrequency": {
+            "label": "Kaip dažnai reikia gauti duomenis?"
+        },
+        "dataExtractionFrequencyMultipleTimesInformation": {
+            "label": "Jei duomenys pakartotinai išgaunami, pavedimo instrukcijose atskirai pateikti informaciją apie kiekvieną duomenų išgavimo procesą."
+        },
+        "dataNeedsToBeExtractedEvery": {
+            "label": "Duomenis reikia gauti kiekvieną kartą",
+            "tooltip": "Jei norite, kad duomenys būtų gaunami kelis kartus per tam tikrą laikotarpį, atkreipkite dėmesį, kad kai kuriais atvejais apibrėžtys ir duomenų rinkimo metodas peržiūros laikotarpiu gali keistis. Atkreipkite dėmesį į tai, kad didžiausias duomenų išgavimo dažnumas yra kas ketvirtį"
+        },
+        "specifyOther": {
+            "label": "Nurodykite „Kita“"
+        },
+        "moreInfoOnExtractionPeriods": {
+            "label": "Pateikite daugiau informacijos apie išgavimo laikotarpius/laikus"
+        },
+        "orderOfControlsDataExtraction": {
+            "label": "Jei tai turi įtakos duomenų išgavimo rezultatams, kokia tvarka bus gaunami kontrolinių ėminių duomenys? Pateikite sunumeruotą ekstrahavimo etapų sąrašą. Pavyzdžiui: 1. A duomenų turėtojas; 2. B duomenų turėtojas; 3. C duomenų turėtojas"
+        },
+        "definingTheExtractionCriteria": "Giminaičių ekstrahavimo kriterijų nustatymas:",
+        "willRelativesBeExtracted": {
+            "label": "Ar kohortai bus ištraukiami giminaičiai?"
+        },
+        "willSameDataBeExtractedForRelatives": {
+            "label": "Ar giminaičiams bus gauti tokie patys duomenys kaip ir kohortos atveju?"
+        },
+        "whichDataHoldersForRelatives": "Iš kurio (-ių) duomenų turėtojo (-ų) bus gauti giminaičių duomenys?",
+        "whichDatabaseForRelatives": "Iš kurios (-ių) duomenų bazės (-ių)/registrų/registrų bus gaunami giminaičių duomenys?",
+        "whichDatasetsForRelatives": "Iš kurio (-ių) duomenų rinkinio įrašo (-ų) ir (arba) registro (-ų) bus gauti giminaičių duomenys?",
+        "variablesForDataExtractionRelatives": {
+            "label": "Jei turima informacijos, išvardykite kintamuosius, kurie turi būti naudojami išgaunant duomenis. Vartoti tikslius terminus, kuriuos metaduomenų kataloge pateikė atitinkamas (-i) duomenų turėtojas (-ai)."
+        },
+        "timePeriodForDataExtractionRelatives": {
+            "label": "Kuriuo (-iais) laikotarpiu (-iais) duomenų rinkinio įrašai bus išgauti?"
+        },
+        "relationshipToStudyCohort": {
+            "label": "Apibrėžti giminaičių ryšį su kohortai priklausančiu asmeniu (pvz., seneliais, biologiniais tėvais, motina)"
+        },
+        "sizeOfRelativesGroup": {
+            "label": "Giminaičių grupės dydis"
+        },
+        "sizeOfRelativesGroupEstimateOrExact": {
+            "label": "Giminaičių grupės dydis (Radio mygtukai)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Tai giminaičių grupės dydžio įvertis."
+                },
+                {
+                    "key": "b",
+                    "value": "Tai tikslus giminaičių grupės dydis."
+                }
+            ]
+        },
+        "willDataForRelativesBeExtractedSimultaneously": {
+            "label": "Ar giminaičių duomenys bus gaunami tuo pačiu metu ir tokia pačia tvarka kaip ir kohortos duomenys?"
+        },
+        "dataExtractionFrequencyRelatives": {
+            "label": "Kaip dažnai reikia gauti duomenis?"
+        },
+        "dataNeedsToBeExtractedEveryRelatives": {
+            "label": "Duomenis reikia gauti kiekvieną kartą",
+            "tooltip": "Jei norite, kad duomenys būtų gaunami kelis kartus per tam tikrą laikotarpį, atkreipkite dėmesį, kad kai kuriais atvejais apibrėžtys ir duomenų rinkimo metodas peržiūros laikotarpiu gali keistis. Atkreipkite dėmesį į tai, kad didžiausias duomenų išgavimo dažnumas yra kas ketvirtį"
+        },
+        "dataExtractionFrequencyMultipleTimesInformationRelatives": {
+            "label": "Jei duomenys pakartotinai išgaunami, pavedimo instrukcijose atskirai pateikti informaciją apie kiekvieną duomenų išgavimo procesą."
+        },
+        "needForDataExtractionEveryOptions": {
+            "label": "Duomenis reikia gauti kiekvieną kartą",
+            "tooltip": "Jei norite, kad duomenys būtų gaunami kelis kartus per tam tikrą laikotarpį, atkreipkite dėmesį, kad kai kuriais atvejais apibrėžtys ir duomenų rinkimo metodas peržiūros laikotarpiu gali keistis. Atkreipkite dėmesį į tai, kad didžiausias duomenų išgavimo dažnumas yra kas ketvirtį"
+        },
+        "specifyOtherRelatives": {
+            "label": "Nurodykite „Kita“"
+        },
+        "moreInfoOnExtractionPeriodsRelatives": {
+            "label": "Pateikite daugiau informacijos apie išgavimo laikotarpius/laikus"
+        },
+        "orderOfRelativesDataExtraction": {
+            "label": "Jei tai turi įtakos duomenų išgavimo rezultatams, kokia tvarka bus gaunami giminaičių duomenys? Pateikite sunumeruotą ekstrahavimo etapų sąrašą. Pavyzdžiui: 1. A duomenų turėtojas; 2. B duomenų turėtojas; 3. C duomenų turėtojas"
+        }
+    },
+    "section7": {
+        "section7h5": "Kiti duomenys, kuriuos reikia sujungti",
+        "section7Description": "Kitus asmens duomenis, pavyzdžiui, jau turimus duomenis arba iš kitur gautus duomenis, galima sujungti su kitu leidimu su duomenimis, kuriuos prašoma pateikti kartu su šiuo prašymu. Išvardykite informaciją apie visus papildomus duomenis, kurie bus derinami su prieigos prie sveikatos duomenų įstaigos patvirtintais duomenimis. Jei vėliau norite kitus asmens duomenis susieti su prieigos prie sveikatos duomenų įstaigos patvirtintais duomenimis, turite pateikti pakeitimo paraišką tai pačiai prieigos prie sveikatos duomenų įstaigai. Jei turite kokią nors kitą grupę, kurią norėtumėte derinti su duomenimis, dėl kurių teikiate paraišką, prieigos prie sveikatos duomenų įstaiga, gausite nurodymus, kaip saugiai pateikti duomenis po to, kai bus išduotas leidimas.",
+        "addDataPermit": "Pridėti duomenų leidimą",
+        "addInfo": "Pridėti informaciją",
+        "removeDataPermit": "Pašalinti duomenų leidimą",
+        "willDataBeCombinedWithDataObtained": {
+            "label": "Ar duomenys, dėl kurių teikiate paraišką, bus derinami su duomenimis, kuriuos jau gavote, ar duomenimis, dėl kurių bus teikiama paraiška iš kitų šaltinių?"
+        },
+        "listOtherDataToBeCompined": "Išvardykite kitus duomenis, kurie turi būti sujungti, ir šių duomenų šaltinius:",
+        "combinedCountries": {
+            "label": "Šalių"
+        },
+        "combinedDataHolders": {
+            "label": "Duomenų turėtojai"
+        },
+        "combinedDatabaseRegistries": {
+            "label": "Duomenų bazės/registrai"
+        },
+        "combinedDatasetsRegistries": {
+            "label": "Duomenų rinkiniai/registrai"
+        },
+        "provideInformationList": {
+            "label": "Pateikti informaciją apie duomenis, kuriuos reikia sujungti, ir planuojamą derinimo metodą",
+            "tooltip": "Pateikite, kiek taikytina, šią informaciją: duomenų rinkinys, bylų skaičius, rinkmenų formatas, rinkmenų dydis, specialūs pranešimai (ar yra tiesioginiai/netiesioginiai identifikatoriai, duomenys turėtų būti pseudoniminami ir t. t.)"
+        },
+        "dataset": {
+            "label": "Duomenų rinkinys"
+        },
+        "numberOfFiles": {
+            "label": "Bylų skaičius"
+        },
+        "formatOfFiles": {
+            "label": "Rinkmenų formatas"
+        },
+        "sizeOfFiles": {
+            "label": "Bylų dydis"
+        },
+        "notes": {
+            "label": "Pažymi"
+        },
+        "listAnyOtherDataPermit": "Čia išvardykite visus kitus duomenų leidimus, išduotus tam pačiam projektui. Leidimai turi galioti tuo metu, kai tvarkomi duomenys:",
+        "otherPermits": {
+            "label": "Kiti leidimai: Leidimo išdavimas, išdavimo data, galiojimo pabaigos data, identifikavimo informacija"
+        },
+        "permitIssuer": {
+            "label": "Leidimo išdavimas"
+        },
+        "permitStartDateOfIssue": {
+            "label": "Išdavimo data"
+        },
+        "permitEndDateOfIssue": {
+            "label": "Galiojimo pabaigos data"
+        },
+        "permitIdentificationInformation": {
+            "label": "Leidimo identifikavimo informacija"
+        },
+        "attachmentOfPermitDocuments": {
+            "label": "Jei duomenų rinkinio įrašai apima kitų šalių išduotus leidimus arba jie buvo surinkti gavus sutikimą, pridėkite leidimo dokumentus čia."
+        },
+        "otherPermitApplications": {
+            "label": "Ar turite kitų dar neišnagrinėtų prašymų išduoti leidimą?"
+        },
+        "listTheOtherData": "Išvardykite kitus duomenis, kurie turi būti sujungti, ir šių duomenų šaltinius:",
+        "applicationIssuer": {
+            "label": "Išdavė"
+        },
+        "dateOfSubmittingTheApplication": {
+            "label": "Paraiškos pateikimo data"
+        },
+        "identificationCode": {
+            "label": "Leidimo identifikavimo kodas"
+        }
+    },
+    "section8": {
+        "section8h5": "Duomenų tvarkymas, duomenų apsauga ir apsaugos priemonės siekiant užkirsti kelią neteisėtam duomenų naudojimui",
+        "section8Description": "Pagal pasiūlymo dėl ESDE reglamento 73 straipsnio 1 dalį prieigos prie sveikatos duomenų įstaigos suteikia prieigą prie elektroninių sveikatos duomenų tik saugioje duomenų tvarkymo aplinkoje.",
+        "addPerson": "Pridėti asmenį",
+        "removePerson": "Pašalinti asmenį",
+        "technicalRequirementsForEnvironment": {
+            "label": "Čia išvardykite visus techninius saugios duomenų tvarkymo aplinkos reikalavimus."
+        },
+        "nameWebsiteAddressForEnvironment": {
+            "label": "Jei jau žinote, kurią apdorojimo aplinką norite naudoti, koks jos pavadinimas ir kas ją teikia? Čia nurodykite saugios duomenų tvarkymo aplinkos pavadinimą ir teikėją."
+        },
+        "healthDataAccessBody": "Jei jums bus išduotas duomenų leidimas, prieigos prie sveikatos duomenų įstaiga pateiks duomenis, kai jūsų prašymas bus tvarkomas. Prieigos prie sveikatos duomenų įstaiga išsaugo pseudoniminimo raktą ir išgavimo terminus bei dokumentus, naudotus duomenims gauti. Duomenų leidimas bus išduodamas tik tokiam laikotarpiui, kuris būtinas prašomiems tikslams pasiekti. Leidimas gali būti išduodamas ne ilgesniam kaip 10 metų laikotarpiui. Ši trukmė gali būti vieną kartą pratęsta duomenų naudotojo prašymu, remiantis argumentais ir dokumentais, pagrindžiančiais pratęsimą (pasiūlymo dėl ESDE reglamento 68 straipsnio 12 dalis). Prireikus naudojimo laikotarpis gali būti pratęstas prašant iš dalies pakeisti duomenų leidimą.",
+        "whenDataNeeded": {
+            "label": "Kada jums reikia duomenų?",
+            "tooltip": "Apskritai prieigos prie sveikatos duomenų įstaiga paprašys duomenų turėtojų išgauti duomenis, kai tik jūsų prašymas bus išnagrinėtas. Jei duomenis norite gauti vėliau, nurodykite juos čia.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Kuo greičiau po šio prašymo nagrinėjimo"
+                },
+                {
+                    "key": "b",
+                    "value": "Vėliau, kada?"
+                }
+            ]
+        },
+        "ifLaterWhen": {
+            "label": "Vėliau, kada?"
+        },
+        "informationWhichDataCanAccess": {
+            "label": "Pateikite informaciją apie laikotarpį, per kurį galima susipažinti su duomenimis."
+        },
+        "frequencyOfAccessOrDataUpdates": {
+            "label": "Koks yra tos prieigos dažnumas arba duomenų atnaujinimo dažnumas?"
+        },
+        "estimatedStartAndEnd": {
+            "label": "Kokios numatomos laikotarpio, per kurį elektroniniai sveikatos duomenys reikalingi tvarkymui, pradžios ir pabaigos datos?",
+            "tooltip": "Šis laikotarpis gali būti penkeri metai. Gavus papildomą leidimą, pradinis leidimas gali būti pratęstas dar penkeriems metams."
+        },
+        "estimatedStartDatesForDataProcessing": {
+            "label": "Nuo"
+        },
+        "estimatedEndDatesForDataProcessing": {
+            "label": "Iki"
+        },
+        "ifStoreNeeded": "Jei duomenis reikia saugoti po apdorojimo, čia nurodykite neaktyvių duomenų saugojimo laikotarpį.",
+        "startPeriodOfInactiveDataStorage": {
+            "label": "Nuo"
+        },
+        "endPeriodOfInactiveDataStorage": {
+            "label": "Iki"
+        },
+        "willTheDataBeTransferred": {
+            "label": "Ar duomenys bus perduodami už ES ar EEE ribų?",
+            "tooltip": "Europos duomenų apsaugos valdyba (EDAV) nustatė tris kumuliacinius kriterijus, pagal kuriuos duomenų tvarkymo operacija laikoma duomenų perdavimu: 1) duomenų valdytojui arba duomenų tvarkytojui (eksportuotojui) dėl konkretaus duomenų tvarkymo taikomas BDAR. 2) eksportuotojas perduoda asmens duomenis arba kitaip suteikia galimybę su jais susipažinti kitam duomenų valdytojui, bendram duomenų valdytojui arba duomenų tvarkytojui (toliau – importuotojas). 3) importuotojas yra trečiojoje šalyje, neatsižvelgiant į tai, ar šiam importuotojui taikomas BDAR dėl konkretaus duomenų tvarkymo pagal 3 straipsnį, ar jis yra tarptautinė organizacija. Daugiau informacijos – https://www.edpb.europa.eu/system/files/2023-02/edpb_guidelines_05-2021_interplay_between_the_application_of_art3-chapter_v_of_the_gdpr_v2_en_0.pdf"
+        },
+        "whichCountriesDataBeProcessed": {
+            "label": "Kurioje (-iose) ES ir (arba) EEE nepriklausančioje (-iose) šalyje (-yse) duomenys bus tvarkomi?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Diagnostika"
+                },
+                {
+                    "key": "b",
+                    "value": "Epidemiologijos"
+                },
+                {
+                    "key": "c",
+                    "value": "Pacientų priežiūra"
+                },
+                {
+                    "key": "d",
+                    "value": "Pacientų sauga"
+                },
+                {
+                    "key": "e",
+                    "value": "Prevencija ir gydymas"
+                },
+                {
+                    "key": "f",
+                    "value": "Visuomenės sveikatos politika"
+                },
+                {
+                    "key": "g",
+                    "value": "Sveikatos priežiūros įstaigų organizavimas"
+                },
+                {
+                    "key": "h",
+                    "value": "Ligų supratimas"
+                },
+                {
+                    "key": "i",
+                    "value": "Kitų"
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEU": {
+            "label": "Kodėl duomenys bus perduodami už ES ar EEE ribų?"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47": {
+            "label": "47 straipsnis. Duomenų perdavimas remiantis sprendimu dėl tinkamumo"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47Options": {
+            "label": "Kodėl duomenys bus perduodami už ES ribų pagal 47 straipsnio galimybes?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "asmens duomenys gali būti perduodami trečiajai valstybei arba tarptautinei organizacijai, jei Komisija pagal Reglamento (ES) 2016/679 45 straipsnio 3 dalį arba Direktyvos (ES) 2016/680 36 straipsnio 3 dalį yra nusprendusi, kad atitinkama trečioji valstybė, teritorija arba vienas ar daugiau nurodytų sektorių toje trečiojoje valstybėje, arba tarptautinė organizacija užtikrina tinkamą apsaugos lygį, ir kai asmens duomenys perduodami tik tam, kad būtų galima vykdyti duomenų valdytojo kompetencijai priklausančias užduotis."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Sąjungos institucijos ir įstaigos informuoja Komisiją ir Europos duomenų apsaugos priežiūros pareigūną apie atvejus, kai jos mano, kad trečioji šalis, teritorija arba vienas ar daugiau nurodytų sektorių trečiojoje šalyje, arba atitinkama tarptautinė organizacija neužtikrina tinkamo apsaugos lygio, kaip apibrėžta 1 dalyje."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Sąjungos institucijos ir įstaigos imasi būtinų priemonių, kad būtų laikomasi Komisijos priimtų sprendimų, kai ji pagal Reglamento (ES) 2016/679 45 straipsnio 3 ar 5 dalį arba Direktyvos (ES) 2016/680 36 straipsnio 3 ar 5 dalį nustato, kad trečioji valstybė, teritorija arba vienas ar daugiau nurodytų sektorių trečiojoje valstybėje, arba tarptautinė organizacija užtikrina arba nebeužtikrina tinkamo lygio apsaugos."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48": {
+            "label": "48 straipsnis. Duomenų perdavimas taikant tinkamas apsaugos priemones"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48bOptions": {
+            "label": "Kodėl duomenys bus perduodami už ES ribų pagal 48b straipsnio galimybes?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "I. Teisiškai privalomas ir vykdytinas dokumentas tarp valdžios institucijų ar įstaigų"
+                },
+                {
+                    "key": "b",
+                    "value": "II. Standartinės duomenų apsaugos sąlygos, kurias Komisija priima laikydamasi 96 straipsnio 2 dalyje nurodytos nagrinėjimo procedūros"
+                },
+                {
+                    "key": "c",
+                    "value": "III. Standartinėmis duomenų apsaugos sąlygomis, kurias priima Europos duomenų apsaugos priežiūros pareigūnas ir pagal 96 straipsnio 2 dalyje nurodytą nagrinėjimo procedūrą patvirtina Komisija; L 295/78 LT Europos Sąjungos oficialusis leidinys, 2018 11 21"
+                },
+                {
+                    "key": "d",
+                    "value": "IV. Jei duomenų tvarkytojas nėra Sąjungos institucija ar organas, įmonėms privalomomis taisyklėmis, elgesio kodeksais ar sertifikavimo mechanizmais pagal Reglamento (ES) 2016/679 46 straipsnio 2 dalies b, e ir f punktus."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48a": {
+            "label": "a. Nepriėmus sprendimo pagal Reglamento (ES) 2016/679 45 straipsnio 3 dalį arba Direktyvos (ES) 2016/680 36 straipsnio 3 dalį, duomenų valdytojas arba duomenų tvarkytojas gali perduoti asmens duomenis trečiajai valstybei arba tarptautinei organizacijai tik tuo atveju, jei duomenų valdytojas arba duomenų tvarkytojas yra nustatęs tinkamas apsaugos priemones ir su sąlyga, kad duomenų subjektai gali naudotis vykdytinomis duomenų subjektų teisėmis ir veiksmingomis teisių gynimo priemonėmis. "
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48b": {
+            "label": "b. 1 dalyje nurodytas tinkamas apsaugos priemones, nereikalaujant specialaus Europos duomenų apsaugos priežiūros pareigūno leidimo, gali numatyti:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48c": {
+            "label": "C. Remiantis Europos duomenų apsaugos priežiūros pareigūno leidimu, 1 dalyje nurodytos tinkamos apsaugos priemonės taip pat gali būti numatytos, visų pirma:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48cOpt": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Duomenų valdytojo arba duomenų tvarkytojo ir duomenų valdytojo, duomenų tvarkytojo arba asmens duomenų gavėjo trečiojoje valstybėje arba tarptautinės organizacijos sutarčių sąlygos."
+                },
+                {
+                    "key": "b",
+                    "value": "Nuostatomis, kurios turi būti įtrauktos į valdžios institucijų arba įstaigų tarpusavio administracinius susitarimus, kuriais numatomos vykdytinos ir veiksmingos duomenų subjektų teisės."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48d": {
+            "label": "D. Europos duomenų apsaugos priežiūros pareigūno leidimai pagal Reglamento (EB) Nr. 45/2001 9 straipsnio 7 dalį galioja tol, kol Europos duomenų apsaugos priežiūros pareigūnas juos iš dalies pakeičia, pakeičia naujais arba panaikina."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48e": {
+            "label": "e. Sąjungos institucijos ir įstaigos informuoja Europos duomenų apsaugos priežiūros pareigūną apie atvejų, kuriais buvo taikomas šis straipsnis, kategorijas."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle49": {
+            "label": "49 straipsnis: Sąjungos teisėje neleidžiamas duomenų perdavimas ar atskleidimas"
+        },
+        "legalBasisForTransferringTheDataOutsideEU": {
+            "label": "Koks yra duomenų perdavimo už ES arba EEE ribų teisinis pagrindas?",
+            "tooltip": "Daugiau informacijos Bendrojo duomenų apsaugos reglamento 5 skyriuje: <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679#d1e4227-1-1</a>",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Perdavimo šalis/teritorija/tarptautinė organizacija užtikrina tinkamą apsaugos lygį pagal Europos Komisijos sprendimą (BDAR 35 straipsnis)."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Duomenų valdytojas arba duomenų tvarkytojas nustatė tinkamas apsaugos priemones, o duomenų subjektai gali naudotis vykdytinomis duomenų subjektų teisėmis ir veiksmingomis teisių gynimo priemonėmis (BDAR 46 straipsnis)."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Kitas išimtinis teisinis pagrindas (jei nėra tinkamų apsaugos priemonių pagal 46 straipsnį)"
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUOtherOptions": {
+            "label": "3. Kitas išimtinis teisinis pagrindas (jei nėra tinkamų apsaugos priemonių pagal 46 straipsnį)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Duomenų subjektas aiškiai sutiko su siūlomu duomenų perdavimu po to, kai buvo informuotas apie galimą tokio duomenų perdavimo riziką duomenų subjektui dėl to, kad nepriimtas sprendimas dėl tinkamumo ir nėra tinkamų apsaugos priemonių;"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Perduoti duomenis būtina siekiant įvykdyti duomenų subjekto ir duomenų valdytojo sutartį arba įgyvendinti ikisutartines priemones, kurių imtasi duomenų subjekto prašymu."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Perduoti duomenis būtina siekiant sudaryti arba vykdyti duomenų subjekto interesais duomenų valdytojo ir kito fizinio ar juridinio asmens sudarytą sutartį."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Perdavimas yra būtinas dėl svarbių viešojo intereso priežasčių."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Perdavimas yra būtinas teisiniams ieškiniams pareikšti, įgyvendinti ar apginti."
+                },
+                {
+                    "key": "f",
+                    "value": "6. Perduoti duomenis būtina siekiant apsaugoti gyvybinius duomenų subjekto arba kitų asmenų interesus, kai duomenų subjektas fiziškai arba teisiškai negali duoti sutikimo."
+                },
+                {
+                    "key": "g",
+                    "value": "7. Duomenys perduodami iš registro, kuris pagal Sąjungos arba valstybės narės teisę yra skirtas teikti informaciją visuomenei ir su kuriuo gali susipažinti visuomenė apskritai arba bet kuris asmuo, galintis įrodyti teisėtą interesą, tačiau tik tuo atveju, jei konkrečiu atveju tenkinamos Sąjungos arba valstybės narės teisėje nustatytos konsultavimosi sąlygos."
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUc1": {
+            "label": "1. Duomenų subjektas aiškiai sutiko su siūlomu duomenų perdavimu po to, kai buvo informuotas apie galimą tokio duomenų perdavimo riziką duomenų subjektui dėl to, kad nepriimtas sprendimas dėl tinkamumo ir nėra tinkamų apsaugos priemonių; "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc2": {
+            "label": "2. Perduoti duomenis būtina siekiant įvykdyti duomenų subjekto ir duomenų valdytojo sutartį arba įgyvendinti ikisutartines priemones, kurių imtasi duomenų subjekto prašymu. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc3": {
+            "label": "3. Perduoti duomenis būtina siekiant sudaryti arba vykdyti duomenų subjekto interesais duomenų valdytojo ir kito fizinio ar juridinio asmens sudarytą sutartį."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc4": {
+            "label": "4. Perdavimas yra būtinas dėl svarbių viešojo intereso priežasčių."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc5": {
+            "label": "5. Perdavimas yra būtinas teisiniams ieškiniams pareikšti, įgyvendinti ar apginti."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc6": {
+            "label": "6. Perduoti duomenis būtina siekiant apsaugoti gyvybinius duomenų subjekto arba kitų asmenų interesus, kai duomenų subjektas fiziškai arba teisiškai negali duoti sutikimo."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc7": {
+            "label": "7. Duomenys perduodami iš registro, kuris pagal Sąjungos arba valstybės narės teisę yra skirtas teikti informaciją visuomenei ir su kuriuo gali susipažinti visuomenė apskritai arba bet kuris asmuo, galintis įrodyti teisėtą interesą, tačiau tik tuo atveju, jei konkrečiu atveju tenkinamos Sąjungos arba valstybės narės teisėje nustatytos konsultavimosi sąlygos."
+        },
+        "safeguardsAreProvidedByReferringGDCP": {
+            "label": "Šias apsaugos priemones užtikrina:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Teisiškai privalomas ir vykdytinas dokumentas tarp valdžios institucijų ar įstaigų"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Įmonėms privalomos taisyklės pagal 47 straipsnį"
+                },
+                {
+                    "key": "c",
+                    "value": "3. Standartinės duomenų apsaugos sąlygos, kurias Komisija priima laikydamasi 93 straipsnio 2 dalyje nurodytos nagrinėjimo procedūros"
+                },
+                {
+                    "key": "d",
+                    "value": "4. Standartinės duomenų apsaugos sąlygos, kurias priėmė priežiūros institucija ir patvirtino Komisija pagal 93 straipsnio 2 dalyje nurodytą nagrinėjimo procedūrą"
+                },
+                {
+                    "key": "e",
+                    "value": "5. Pagal 40 straipsnį patvirtintas elgesio kodeksas kartu su privalomais ir vykdytinais duomenų valdytojo arba duomenų tvarkytojo trečiojoje valstybėje įsipareigojimais taikyti tinkamas apsaugos priemones, be kita ko, susijusias su duomenų subjektų teisėmis;"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Patvirtintas sertifikavimo mechanizmas pagal 42 straipsnį kartu su privalomais ir vykdytinais duomenų valdytojo arba duomenų tvarkytojo trečiojoje valstybėje įsipareigojimais taikyti tinkamas apsaugos priemones, be kita ko, susijusias su duomenų subjektų teisėmis;"
+                }
+            ]
+        },
+        "whichOrganizationWillBeTheControllerOfData": {
+            "label": "Kuri (-ios) organizacija (-os) ar asmuo bus duomenų, kurie turi būti sudaryti remiantis šiuo prašymu, valdytojas?",
+            "tooltip": "Duomenų valdytojas nustato asmens duomenų tvarkymo tikslus ir priemones. Kitaip tariant, duomenų valdytojas sprendžia, kaip ir kodėl vykdoma duomenų tvarkymo operacija. Duomenų valdytojas gali būti juridinis asmuo, pavyzdžiui, įmonė, MVĮ, valdžios institucija, agentūra ar kita įstaiga. Daugiau informacijos – https://edpb.europa.eu/sme-data-protection-guide/data-controller-data-processor_en"
+        },
+        "complyWithDataMinimisationPrinciple": {
+            "label": "Kaip tvarkydami duomenis laikosite duomenų kiekio mažinimo principo (ES bendrasis duomenų apsaugos reglamentas)?",
+            "tooltip": "BDAR 5 straipsnio 1 dalies c punktas: „Asmens duomenys turi būti tinkami, aktualūs ir tik tokie, kurie yra būtini siekiant tikslų, kuriais jie tvarkomi (duomenų kiekio mažinimas)“. "
+        },
+        "complyWithDataMinimisationPrincipleNotEUMember": {
+            "label": "Kaip tvarkydami duomenis laikosite duomenų kiekio mažinimo principo (ES duomenų apsaugos reglamentas)? ",
+            "tooltip": "ES duomenų apsaugos reglamento 4 straipsnio 1c dalis: „Asmens duomenys turi būti tinkami, aktualūs ir tik tokie, kurie yra būtini siekiant tikslų, kuriais jie tvarkomi (duomenų kiekio mažinimas)“"
+        },
+        "protectionAndSecurityStatements": {
+            "label": "Kad galėtumėte toliau nagrinėti šią paraišką, turite patvirtinti šiuos teiginius (su duomenų apsauga ir saugumu susijusius pareiškimus):"
+        },
+        "protectionAndSecurityStatementsA": {
+            "label": "1. Patvirtinu, kad jei prieigos prie sveikatos duomenų įstaiga man suteiks mano prašomus duomenis, juos naudosiu tik šioje paraiškos formoje nurodytu (-ais) tikslu (-ais)."
+        },
+        "protectionAndSecurityStatementsB": {
+            "label": "2. Suprantu, kad draudžiama nukopijuoti duomenis iš saugios duomenų tvarkymo aplinkos."
+        },
+        "protectionAndSecurityStatementsC": {
+            "label": "3. Suprantu, kad bet kokias įrenginio ekrano ekrano nuotraukas ar nuotraukas draudžiama daryti saugioje duomenų tvarkymo aplinkoje."
+        },
+        "protectionAndSecurityStatementsD": {
+            "label": "4. Turiu pakankamai saugos priemonių (pvz., užkardą), kad apsaugotų įvairius tinklus, prie kurių prijungti įrenginiai, naudojami prieigai prie saugios apdorojimo aplinkos."
+        },
+        "protectionAndSecurityStatementsE": {
+            "label": "5. Suprantu, kad bandymai pakartotinai nustatyti tapatybę yra draudžiami ir kad prieigos prie sveikatos duomenų įstaiga gali taikyti sankcijas pagal Europos sveikatos duomenų reglamento 43 straipsnį."
+        },
+        "onlyThePeopleMentioned": "Prieiga prie duomenų tvarkymo saugioje duomenų tvarkymo aplinkoje bus suteikta tik duomenų leidime nurodytiems asmenims.",
+        "sameAsContactPerson": {
+            "label": "Tas pats, kaip ir 3 skirsnyje nurodytas kontaktinis asmuo?"
+        },
+        "listTheFullNames": {
+            "label": "Išvardykite visų asmenų, kurie tvarkys duomenis, vardus, pavardes, narystę ir e. pašto adresus."
+        },
+        "fullName": {
+            "label": "Visas pavadinimas"
+        },
+        "affiliation": {
+            "label": "Priklausymas"
+        },
+        "emailAddress": {
+            "label": "Pašto adresas"
+        },
+        "lawfulnessOfProcessing": "Duomenų tvarkymo teisėtumas:",
+        "legalBasisForProcessingPersonalData": {
+            "label": "Koks yra asmens duomenų, kurių prašote su šia paraiškos forma, tvarkymo teisinis pagrindas?"
+        },
+        "lawfulForProcessingPersonalData": {
+            "label": "Asmens duomenų, dėl kurių teikiate šią prašymo formą, tvarkymas yra teisėtas tik tuo atveju, jei ir tiek, kiek taikomas bent vienas iš toliau nurodytų reikalavimų (pagal ES Bendrojo duomenų apsaugos reglamento 6 straipsnio 1 dalį – Reglamentas (ES) 2016/679):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Duomenų subjektas davė sutikimą, kad jo asmens duomenys būtų tvarkomi vienu ar keliais konkrečiais tikslais"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Tvarkyti duomenis būtina siekiant įvykdyti sutartį, kurios šalis yra duomenų subjektas, arba siekiant imtis veiksmų duomenų subjekto prašymu prieš sudarant sutartį."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Tvarkyti duomenis būtina, kad būtų įvykdyta duomenų valdytojui taikoma teisinė prievolė."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Tvarkyti duomenis būtina siekiant apsaugoti gyvybinius duomenų subjekto arba kito fizinio asmens interesus."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Tvarkyti duomenis būtina siekiant atlikti užduotį, vykdomą viešojo intereso labui, arba vykdant duomenų valdytojui pavestus viešosios valdžios įgaliojimus."
+                },
+                {
+                    "key": "f",
+                    "value": "6. Tvarkyti duomenis būtina siekiant teisėtų duomenų valdytojo arba trečiosios šalies interesų, išskyrus atvejus, kai tokie duomenų subjekto interesai arba pagrindinės teisės ir laisvės, dėl kurių būtina užtikrinti asmens duomenų apsaugą, yra už juos viršesni, ypač kai duomenų subjektas yra vaikas."
+                }
+            ]
+        },
+        "lawfulForProcessingPersonalDataNaturalPersonOption": {
+            "key": "F",
+            "value": "6. Tvarkyti duomenis būtina siekiant teisėtų duomenų valdytojo arba trečiosios šalies interesų, išskyrus atvejus, kai tokie duomenų subjekto interesai arba pagrindinės teisės ir laisvės, dėl kurių būtina užtikrinti asmens duomenų apsaugą, yra už juos viršesni, ypač kai duomenų subjektas yra vaikas."
+        },
+        "otherLegalBasisForProcessingPersonalData": {
+            "label": "Kitas, koks?"
+        },
+        "legalBasisForProcessingCombinedData": {
+            "label": "Koks yra kitų duomenų, kuriuos derinsite su šioje paraiškoje pateiktais duomenimis, tvarkymo teisinis pagrindas? "
+        },
+        "otherLegalBasisForProcessingCombinedData": {
+            "label": "Kitas, koks?"
+        },
+        "europeanUnionInstitution": {
+            "label": "Asmens duomenų, dėl kurių teikiate šią prašymo formą, tvarkymas yra teisėtas tik tuo atveju, jei ir tiek, kiek taikoma bent viena iš šių sąlygų (pagal ES duomenų apsaugos reglamento 5 straipsnio 1 dalį – Reglamentas (ES) 2018/1725):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Tvarkyti duomenis būtina siekiant atlikti užduotį, vykdomą viešojo intereso labui arba vykdant Sąjungos institucijai ar organui pavestus viešosios valdžios įgaliojimus"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Tvarkyti duomenis būtina, kad būtų įvykdyta duomenų valdytojui taikoma teisinė pareiga."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Tvarkyti duomenis būtina siekiant įvykdyti sutartį, kurios šalis yra duomenų subjektas, arba siekiant imtis veiksmų duomenų subjekto prašymu prieš sudarant sutartį."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Duomenų subjektas davė sutikimą tvarkyti savo asmens duomenis vienu ar keliais konkrečiais tikslais."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Tvarkyti duomenis būtina siekiant apsaugoti gyvybinius duomenų subjekto ar kito fizinio asmens interesus."
+                }
+            ]
+        },
+        "legalBasisForProcessingApplicationData": {
+            "label": "Koks yra asmens duomenų, kurių prašote su šia paraiškos forma, tvarkymo teisinis pagrindas?"
+        },
+        "otherLegalBasisForProcessingApplicationData": {
+            "label": "Kitas, koks?"
+        },
+        "legalBasisForProcessingCombinedApplicationData": {
+            "label": "Koks yra kitų duomenų, kuriuos derinsite su šioje paraiškoje pateiktais duomenimis, tvarkymo teisinis pagrindas?"
+        },
+        "otherLegalBasisForProcessingCombinedApplicationData": {
+            "label": "Kitas, koks?"
+        },
+        "attachResearchPermitIfRequired": {
+            "label": "Jei jūsų moksliniams tyrimams atlikti reikalingas jūsų organizacijos, kuriai priklausote, mokslinių tyrimų leidimas, pridėkite leidimą atlikti tyrimą."
+        }
+    },
+    "section9": {
+        "section9h5": "Papildoma informacija",
+        "section9Description": "Čia galite pateikti daugiau informacijos apie bet kurį savo paraiškos skirsnį. Nurodykite skirsnio numerį ir klausimą, su kuriuo susijusi jūsų pastaba.",
+        "additionalInformation": {
+            "label": "Papildoma informacija arba papildomos pastabos",
+            "tooltip": "Čia galite pateikti daugiau informacijos apie bet kurį savo paraiškos skirsnį. Nurodykite skirsnio numerį ir klausimą, su kuriuo susijusi jūsų pastaba. Techninio įgyvendinimo pasiūlymas: Arba, siekiant palengvinti HDAB darbą, galėtų būti būdas prašytojui susieti informaciją su konkrečiomis formos dalimis."
+        },
+        "additionalAttachment": {
+            "label": "Papildomas priedas. Prie šio prašymo nepridėkite sveikatos ar asmens duomenų.",
+            "tooltip": "Jei turite kokį nors kitą priedą, kuris, jūsų nuomone, yra svarbus tvarkant jūsų paraišką ir kuris būtinas, kad prieigos prie sveikatos duomenų įstaiga galėtų jį peržiūrėti, pridėkite jį čia. Apibūdinkite jo svarbą pirmiau esančiame teksto laukelyje."
+        }
+    },
+    "section10": {
+        "section10h5": "Informacijos patvirtinimas",
+        "section10Description": "Prieš tvarkydami šią paraišką, jūs, kaip pareiškėjas, turite patvirtinti tvarkymo mokesčius.",
+        "submitYouApplicationText": "Kad galėtumėte pateikti paraišką, turite patvirtinti:",
+        "acceptHealthDataBody": {
+            "label": "Sutinku, kad sveikatos duomenų įstaiga rinks statistinius duomenis ir neturėsiu prieigos prie statistiniams duomenims rengti naudojamų duomenų."
+        },
+        "awareProcessingFee": {
+            "label": "Žinau, kad už mano paraiškos tvarkymą bus imamas tvarkymo mokestis. Jis taip pat bus taikomas atšaukus prašymą arba priėmus neigiamą sprendimą."
+        },
+        "awareChargeFee": {
+            "label": "Žinau, kad duomenų turėtojas (-ai) gali imti mokestį."
+        },
+        "awareInformationCorrect": {
+            "label": "Patvirtinu, kad mano pateikta informacija yra teisinga."
+        }
+    },
+    "commonFields": {
+        "aboutThisSection": "Apie šį skirsnį",
+        "yesOrNoOptions": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Taip"
+                },
+                {
+                    "key": "b",
+                    "value": "Ne"
+                }
+            ]
+        },
+        "onceOrMultipleTimes": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Vieną kartą"
+                },
+                {
+                    "key": "b",
+                    "value": "Daug kartų"
+                }
+            ]
+        },
+        "everyWhen": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Kartą per metus"
+                },
+                {
+                    "key": "b",
+                    "value": "Per pusmetį"
+                },
+                {
+                    "key": "c",
+                    "value": "Ketvirčio"
+                },
+                {
+                    "key": "d",
+                    "value": "Kitų"
+                }
+            ]
+        },
+        "processingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. e) tvarkyti duomenis būtina siekiant atlikti užduotį, vykdomą viešojo intereso labui arba vykdant duomenų valdytojui pavestus viešosios valdžios įgaliojimus;"
+                },
+                {
+                    "key": "b",
+                    "value": "2. F) tvarkyti duomenis būtina siekiant teisėtų duomenų valdytojo arba trečiosios šalies interesų, išskyrus atvejus, kai duomenų subjekto interesai arba pagrindinės teisės ir laisvės, kuriems reikalinga asmens duomenų apsauga, yra viršesni už tokius interesus, visų pirma tais atvejais, kai duomenų subjektas yra vaikas."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Kitų"
+                }
+            ]
+        },
+        "legalBasisForProcessingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. a) tvarkyti duomenis būtina siekiant atlikti užduotį, vykdomą viešojo intereso labui arba vykdant Sąjungos institucijai ar organui pavestus viešosios valdžios įgaliojimus."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Kitų"
+                }
+            ]
+        }
+    }
+}

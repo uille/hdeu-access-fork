@@ -21,16 +21,18 @@ import static eu.europa.data.health.access.Constants.NOT_FOUND;
 import static eu.europa.data.health.access.Constants.TRANSLATIONS;
 import static eu.europa.data.health.access.Constants.TRIPLE_LOG_ABBREVIATION;
 
+import eu.europa.data.health.access.Translations;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import org.apache.jena.iri.impl.Main;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Scanner;
-import org.apache.jena.iri.impl.Main;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class TranslationManager {
 
@@ -41,45 +43,67 @@ public class TranslationManager {
    * translations for this section
    */
   public void getTranslationForSection(RoutingContext context) {
-    //to languish that we need return the tranlsations
+    //to languish that we need return the translations
     String lg = context.pathParam("lg");
+
     //which query we need to create
     String sectionParam = context.pathParam("section");
     context.response().putHeader("content-type", "application/json");
-    try (InputStream inputStream = Main.class.getResourceAsStream(
-      TRANSLATIONS + lg + JSON)) {
+
+    JsonObject jsonObject;
+
+    try (InputStream inputStream = getTranslationFileStream(lg)) {
       if (inputStream == null) {
-        log.info(TRIPLE_LOG_ABBREVIATION, JSON_FILE_FOR, lg, NOT_FOUND);
-        context.response().setStatusCode(404).end("Translation file for languish: " + lg + NOT_FOUND);
-        return;
-      }
-      JsonObject jsonObject = loadJsonFromStream(inputStream);
-      if (Objects.nonNull(jsonObject)) {
-        JsonObject section = jsonObject.getJsonObject(sectionParam);
-        //check for wrong value of sections
-        if(Objects.isNull(section)){
-          context.response().setStatusCode(404).end("Not section found: " + sectionParam);
-          return;
+        log.info(TRIPLE_LOG_ABBREVIATION, JSON_FILE_FOR, lg, NOT_FOUND,
+          " Will assign default language: ", Translations.getDefault());
+        lg = Translations.getDefault();
+
+        try (InputStream defaultStream = getTranslationFileStream(lg)) {
+          if (defaultStream == null) {
+            log.error("Default translation file for language '{}' not found.", lg);
+            context.response().setStatusCode(500)
+              .end("Translation file for default language: " + lg + NOT_FOUND);
+            return;
+          }
+          jsonObject = loadJsonFromStream(defaultStream);
         }
-        //include also the common field in every section
-        JsonObject commonField = jsonObject.getJsonObject("commonFields");
-        JsonObject combinedSection = new JsonObject();
-        combinedSection.mergeIn(section);
-        combinedSection.mergeIn(commonField);
-        context.response().setStatusCode(200).end(combinedSection.encode());
       } else {
-        context.response().setStatusCode(404).end("Translation file is empty.");
+        jsonObject = loadJsonFromStream(inputStream);
       }
     } catch (IOException e) {
-      log.info(JSON_FILE_FOR + lg + NOT_FOUND, e);
-      context.response().setStatusCode(500).end(e.getMessage());
+      log.error("Error reading translation file for language '{}': {}", lg, e.getMessage(), e);
+      context.response().setStatusCode(500).end("Error loading translation file.");
+      return;
     }
+
+    // Handle case where JSON file is empty or invalid
+    if (Objects.isNull(jsonObject)) {
+      context.response().setStatusCode(404).end("Translation file is empty.");
+      return;
+    }
+
+    JsonObject section = jsonObject.getJsonObject(sectionParam);
+    //check for wrong value of sections
+    if (Objects.isNull(section)) {
+      context.response().setStatusCode(404).end("Section not found for: " + sectionParam);
+      return;
+    }
+    //include also the common field in every section
+    JsonObject commonField = jsonObject.getJsonObject("commonFields");
+    JsonObject combinedSection = new JsonObject();
+    combinedSection.mergeIn(section);
+    combinedSection.mergeIn(commonField);
+    context.response().setStatusCode(200).end(combinedSection.encode());
+  }
+
+   InputStream getTranslationFileStream(String language) {
+    return Main.class.getResourceAsStream(TRANSLATIONS + language + JSON);
   }
 
   /**
    * Get section translation
    */
-  public JsonObject getTranslation(String lg, String sectionNumber){
+  public JsonObject getTranslation(String lg, String sectionNumber) {
     try (InputStream inputStream = Main.class.getResourceAsStream(
       TRANSLATIONS + lg + JSON)) {
       if (inputStream == null) {

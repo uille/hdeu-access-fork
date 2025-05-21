@@ -1,0 +1,1588 @@
+{
+    "section1": {
+        "section1h5": "Gegevensbronnen voor het project selecteren",
+        "section1Description": "Gegevensgebruikers mogen alleen een aanvraag indienen voor gegevens die adequaat, relevant en beperkt zijn tot wat noodzakelijk is in verband met hun gebruiksdoel, \novereenkomstig het beginsel van gegevensminimalisering van de algemene verordening gegevensbescherming 58 van de EU (artikel 5, lid 1 quater). \nDe instantie voor toegang tot gezondheidsgegevens beoordeelt zorgvuldig of uw vereisten in overeenstemming zijn met het beginsel van minimale gegevensverwerking van de AVG.",
+        "section1DescriptionDR": "Een aanvraag voor toegang tot elektronische gezondheidsgegevens voor secundair gebruik in een geanonimiseerd statistisch formaat",
+        "applicationDatasets": {
+            "label": "Uit welk gegevensbestand (en) of register (en) en/of verspreiding (en) zullen de gegevens worden geëxtraheerd?"
+        },
+        "applicationCountries": {
+            "label": "In welk land/welke landen zoekt u gegevens?"
+        },
+        "applicationDataHolders": {
+            "label": "Uit welke gegevenshouder (s) zullen de gegevens worden geëxtraheerd?"
+        },
+        "applicationHDABs": {
+            "label": "Bij welke instantie (s) voor toegang tot gezondheidsgegevens wilt u de aanvraag indienen?"
+        },
+        "applicationDatabases": {
+            "label": "Uit welke databank (en) of register (s) zullen de gegevens worden geëxtraheerd?"
+        }
+    },
+    "section2": {
+        "section2h5": "Voorlichting van het publiek over het project",
+        "section2Description": "De instanties voor toegang tot gezondheidsgegevens in de Europese Unie zijn verplicht informatie over de gegevensvergunningen, verzoeken en aanvragen op hun website te publiceren binnen 30 werkdagen na de afgifte van de gegevensvergunning of het antwoord op een verzoek om gegevens. In dit deel wordt u verzocht informatie over uw project te verstrekken die met het publiek kan worden gedeeld. Zorg ervoor dat dit geen vertrouwelijke informatie bevat. Geef uw antwoorden in leken. Als gegevensgebruiker bent u verplicht de resultaten of output van het project uiterlijk 18 maanden na de voltooiing van de verwerking of de ontvangst van het antwoord op het verzoek om gegevens openbaar te maken. Daarnaast moet u de instantie voor toegang tot gezondheidsgegevens in kennis stellen van het aantal collegiaal getoetste onderzoekspublicaties, beleidsdocumenten en/of regelgevingsprocedures die zijn uitgevoerd op basis van de gegevens waartoe via deze toepassing toegang is verkregen.",
+        "projectName": {
+            "label": "Project naam"
+        },
+        "projectLeader": {
+            "label": "Naam projectleider (organisatie, instelling, entiteit uit de particuliere sector of een natuurlijke persoon)",
+            "tooltip": "Dit is de persoon die verantwoordelijk is voor het gebruik van de gegevens."
+        },
+        "countryOfProjectLeader": {
+            "label": "Officiële woonplaats (land) van de voor het project verantwoordelijke entiteit"
+        },
+        "purposeForWhichDataWillBeUsed": {
+            "label": "Doel waarvoor de gegevens zullen worden gebruikt",
+            "tooltip": "Doeleinden van de EHDS-verordening.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. het algemeen belang op het gebied van de volksgezondheid of de gezondheid op het werk, zoals activiteiten ter bescherming tegen ernstige grensoverschrijdende bedreigingen van de gezondheid, bewaking van de volksgezondheid of activiteiten ter waarborging van een hoog kwaliteits- en veiligheidsniveau van de gezondheidszorg, met inbegrip van patiëntveiligheid, en van geneesmiddelen of medische hulpmiddelen."
+                },
+                {
+                    "key": "b",
+                    "value": "b. activiteiten op het gebied van beleidsvorming en regelgeving ter ondersteuning van openbare lichamen of instellingen, organen of instanties van de Unie, met inbegrip van regelgevende autoriteiten, in de gezondheids- of zorgsector bij de uitvoering van de in hun mandaat omschreven taken."
+                },
+                {
+                    "key": "c",
+                    "value": "c. statistieken zoals gedefinieerd in artikel 3, punt 1, van Verordening (EG) nr. 223/2009, zoals officiële statistieken op nationaal, multinationaal en Unieniveau met betrekking tot de gezondheids- of zorgsector."
+                },
+                {
+                    "key": "d",
+                    "value": "d. het ontvangen of geven van onderwijs in de gezondheids- of zorgsector op het niveau van het beroepsonderwijs of het hoger onderwijs."
+                },
+                {
+                    "key": "e",
+                    "value": "e. wetenschappelijk onderzoek in verband met de gezondheids- of zorgsector waarmee een bijdrage wordt geleverd aan de volksgezondheid of de evaluatie van gezondheidstechnologie, of waarmee een hoog kwaliteits- en veiligheidsniveau van gezondheidszorg, geneesmiddelen of medische hulpmiddelen wordt gewaarborgd ten behoeve van de eindgebruikers, zoals patiënten, gezondheidswerkers en gezondheidsbeheerders, met inbegrip van:\ni) ontwikkelings- en innovatieactiviteiten voor producten of diensten;\nii) het trainen, testen en evalueren van algoritmen, onder meer in medische hulpmiddelen, medische hulpmiddelen voor in-vitrodiagnostiek, AI-systemen en digitalegezondheidsapps."
+                },
+                {
+                    "key": "f",
+                    "value": "f. het verbeteren van de zorgverlening, de optimalisering van behandelingen en het verstrekken van gezondheidszorg op basis van de elektronische gezondheidsgegevens van andere natuurlijke personen."
+                }
+            ]
+        },
+        "theNatureOfTheDataDoesNotLetYouProvideADescription": {
+            "label": "De aard van uw project geeft u geen beschrijving"
+        },
+        "descriptionOfTheProject": {
+            "label": "Leg uit waarom u geen beschrijving van de gegevens kunt geven.",
+            "tooltip": "Deze verklaring van de reden (en) wordt (worden) niet gepubliceerd."
+        },
+        "summaryOfTheProject": {
+            "label": "Samenvatting van het project",
+            "tooltip": "Geef in leken een korte samenvatting (250 woorden of minder) van de doelstellingen van het project, de te gebruiken gegevens, de methoden en de verwachte vorm van de resultaten."
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummary": {
+            "label": "De aard van uw project geeft u geen samenvatting"
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason": {
+            "label": "Leg uit waarom u geen samenvatting van uw project kunt geven",
+            "tooltip": "Deze verklaring van de reden (en) wordt (worden) niet gepubliceerd."
+        }
+    },
+    "section3": {
+        "section3h5": "Informatie over de aanvrager en de contactpersoon",
+        "section3Description": "In een aanvraag voor een gegevensvergunning moeten de naam en de contactgegevens van de aanvrager, een rechtspersoon of een natuurlijke persoon, worden vermeld. Ook moet informatie worden verstrekt over de contactpersoon die antwoordt op vragen in verband met de aanvraag, ongeacht of het gaat om dezelfde persoon als de verzoeker of een andere persoon. Indien de contactpersoon niet dezelfde persoon is als de aanvrager, moet zijn relatie, bijvoorbeeld op basis van een arbeidsovereenkomst, worden verduidelijkt.",
+        "section3DescriptionRequest": "In een verzoek om gegevens moeten de naam en de contactgegevens van de aanvrager, een rechtspersoon of een natuurlijke persoon, worden vermeld. Informatie over de contactpersoon die antwoordt op vragen in verband met de aanvraag, of het nu gaat om dezelfde persoon als de verzoeker (in het geval van een natuurlijke persoon als de aanvrager) of een andere persoon, moet ook worden vermeld.\nIndien de contactpersoon niet dezelfde persoon is als de aanvrager, moet zijn relatie, bijvoorbeeld op basis van een arbeidsovereenkomst, worden verduidelijkt.",
+        "applyingForDataOnBehalfOfPublicSector": {
+            "label": "Vraagt u data aan namens een overheidsinstantie of een instelling, orgaan of instantie van de Europese Unie?"
+        },
+        "applyingForDataForCarryingOutTasks": {
+            "label": "Vraagt u gegevens aan voor de uitvoering van taken die zijn vastgelegd in het mandaat van uw organisatie/instelling?",
+            "tooltip": "Taken in het kader van het mandaat van uw organisatie/instelling zijn taken die gebaseerd zijn op het nationale recht of het recht van de Europese Unie."
+        },
+        "legalOrNaturalPerson": {
+            "label": "Is de aanvrager een rechtspersoon of een natuurlijke persoon?",
+            "tooltip": "Natuurlijk persoon = een natuurlijke persoon, een individuele mens, een rechtspersoon = een bedrijf, organisatie of vereniging.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Rechtspersoon,"
+                },
+                {
+                    "key": "b",
+                    "value": "Natuurlijke persoon",
+                    "info": "(Als u voor deze optie kiest, bevestigt u dat u gegevens aanvraagt als particulier zonder enige band.)"
+                }
+            ]
+        },
+        "legalPerson": "Rechtspersoon,",
+        "naturalPerson": "Natuurlijke persoon",
+        "legalPersonName": {
+            "label": "De volledige naam"
+        },
+        "postalAddress": "Postadres",
+        "legalPersonAddress": {
+            "label": "Straat en huisnummer"
+        },
+        "legalPersonZipCode": {
+            "label": "Zipcode"
+        },
+        "legalPersonCity": {
+            "label": "Gemeente/stad"
+        },
+        "legalPersonCountry": {
+            "label": "Land"
+        },
+        "contactPersonInformation": "Informatie over de contactpersoon",
+        "contactPersonInformationDescription": "Contactpersoon verwijst naar de persoon die vragen over de aanvraag beantwoordt. De gegevens van de contactpersoon kunnen tijdens de verwerking van een aanvraag aan de verwerkingsverantwoordelijke worden doorgegeven indien aanvullende informatie nodig is om de gegevensextractie te definiëren. ",
+        "contactPersonName": {
+            "label": "De volledige naam"
+        },
+        "contactPersonEmail": {
+            "label": "Email adres"
+        },
+        "contactPersonPhone": {
+            "label": "Telefoon"
+        },
+        "contactPersonNameOfTheOrganisation": {
+            "label": "Naam van de instantie"
+        },
+        "contactPersonBusinessIdentifier": {
+            "label": "Bedrijfsidentificatie van de organisatie"
+        },
+        "contactPersonOperatorIdentifier": {
+            "label": "ID exploitant"
+        },
+        "contactPersonJobTitle": {
+            "label": "Functiebenaming"
+        },
+        "contactPersonAffiliation": {
+            "label": "Aansluiting"
+        },
+        "contactPersonRelationship": {
+            "label": "Wat is de relatie tussen de contactpersoon en de verzoeker? (Bv. een werknemer die gegevens aanvraagt namens hun organisatie.)"
+        },
+        "naturalPersonName": {
+            "label": "De volledige naam"
+        },
+        "naturalPersonAddress": {
+            "label": "Straat en huisnummer"
+        },
+        "naturalPersonZipCode": {
+            "label": "Zipcode"
+        },
+        "naturalPersonCity": {
+            "label": "Gemeente/stad"
+        },
+        "naturalPersonCountry": {
+            "label": "Land"
+        },
+        "naturalPersonEmail": {
+            "label": "Email adres"
+        },
+        "naturalPersonPhone": {
+            "label": "Telefoon"
+        },
+        "naturalPersonJobTitle": {
+            "label": "Functiebenaming"
+        },
+        "naturalPersonAffiliation": {
+            "label": "Aansluiting"
+        }
+    },
+    "section4": {
+        "section4h5": "Betalingsgegevens",
+        "section4Description": "Betalingsgegevens van de persoon aan wie de instantie voor toegang tot gezondheidsgegevens de facturen met betrekking tot deze aanvraag en de bijbehorende gegevensvergunning, indien verleend, toezendt.",
+        "sameAsContactPerson": {
+            "label": "Zelfde als de in punt 3 genoemde contactpersoon?"
+        },
+        "fullName": {
+            "label": "De volledige naam"
+        },
+        "address": {
+            "label": "Adres"
+        },
+        "email": {
+            "label": "Email adres"
+        },
+        "phone": {
+            "label": "Telefoon"
+        },
+        "invoiceType": {
+            "label": "Soort factuur",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Papier"
+                },
+                {
+                    "key": "b",
+                    "value": "Elektronisch"
+                }
+            ]
+        },
+        "invoiceReferenceNumber": {
+            "label": "Referentienummer factuur"
+        },
+        "invoiceAddress": {
+            "label": "E-factuuradres (EDI of IBAN)"
+        },
+        "operatorIdentifier": {
+            "label": "ID exploitant"
+        },
+        "nameOfTheOrganisation": {
+            "label": "Naam van de instantie"
+        },
+        "businessIdentifierOrganization": {
+            "label": "Bedrijfsidentificatie van de organisatie"
+        },
+        "vatNumber": {
+            "label": "Btw-nummer"
+        },
+        "peppolCode": {
+            "label": "PEPPOL-code (indien van toepassing)"
+        },
+        "isTheProjectFinanciallyCovered": {
+            "label": "Wordt het project financieel gedekt?"
+        },
+        "rangeOfAmountOfFinancing": {
+            "label": "Wat is de bandbreedte van het financieringsbedrag voor het project waarvoor de gevraagde gegevens zullen worden gebruikt?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "10 000 EUR"
+                },
+                {
+                    "key": "b",
+                    "value": "10 000-50 000 EUR"
+                },
+                {
+                    "key": "c",
+                    "value": "50 000-100 000 EUR"
+                },
+                {
+                    "key": "d",
+                    "value": "100 000-500 000 EUR"
+                },
+                {
+                    "key": "e",
+                    "value": "500 000-1 000 000 EUR"
+                },
+                {
+                    "key": "f",
+                    "value": "> 1 000 000 EUR"
+                }
+            ]
+        }
+    },
+    "section5": {
+        "section5h5": "Doel van het gegevensgebruik",
+        "section5Description": "Aanvragers moeten het doel vermelden waarvoor gegevens worden opgevraagd, overeenkomstig artikel 53, lid 1, van de rectificatie van de EHDS-verordening, die op 17/12 door het Europees Parlement is goedgekeurd. \nAanvragers moeten uitleggen en motiveren waarom de gevraagde gegevens noodzakelijk zijn voor het aangegeven gebruiksdoel. De aanvragers wordt ook verzocht informatie te verstrekken over het doel van het project. Afhankelijk van het gebruiksdoel (al dan niet onderzoek) moeten de aanvragers dan een samenvatting van het plan voor het gebruik van de gegevens of een samenvatting van het onderzoeksplan verstrekken en informatie verstrekken over de persoon die verantwoordelijk is voor het gebruik van de gegevens of het onderzoek.",
+        "purposeOfUse": {
+            "label": "Doel van het gebruik van gegevens. De instanties voor toegang tot gezondheidsgegevens verlenen alleen toegang tot de in artikel 51 bedoelde elektronische gezondheidsgegevens indien het beoogde doel van de door de aanvrager nagestreefde verwerking in overeenstemming is met de volgende onderstaande doeleinden (overeenkomstig artikel 53, lid 1):",
+            "tooltip": "Doeleinden van de EHDS-verordening.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Het algemeen belang op het gebied van volksgezondheid of gezondheid op het werk, zoals activiteiten ter bescherming tegen ernstige grensoverschrijdende bedreigingen van de gezondheid, toezicht op de volksgezondheid of activiteiten ter waarborging van een hoog kwaliteits- en veiligheidsniveau van de gezondheidszorg, met inbegrip van patiëntveiligheid, en van geneesmiddelen of medische hulpmiddelen."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Beleids- en regelgevingsactiviteiten ter ondersteuning van openbare lichamen of instellingen, organen en instanties van de Unie, met inbegrip van regulerende instanties, in de gezondheids- of zorgsector bij de uitvoering van hun in hun mandaat omschreven taken."
+                },
+                {
+                    "key": "c",
+                    "value": "c. Statistieken zoals gedefinieerd in artikel 3, punt (1), van Verordening (EU) nr. 223/2009, zoals nationale, multinationale en uniale officiële statistieken met betrekking tot de gezondheids- of zorgsector."
+                },
+                {
+                    "key": "d",
+                    "value": "d. Onderwijs- of onderwijsactiviteiten in de gezondheids- of zorgsector op beroeps- of hoger onderwijsniveau."
+                },
+                {
+                    "key": "e",
+                    "value": "e. Wetenschappelijk onderzoek in verband met de gezondheids- of zorgsector dat bijdraagt tot de evaluatie van de volksgezondheid of gezondheidstechnologie, of een hoog kwaliteits- en veiligheidsniveau van de gezondheidszorg, geneesmiddelen of medische hulpmiddelen waarborgt, met als doel eindgebruikers, zoals patiënten, gezondheidswerkers en gezondheidsbeheerders, ten goede te komen, met inbegrip van:\nI) ontwikkelings- en innovatieactiviteiten voor producten of diensten;\nII) het trainen, testen en evalueren van algoritmen, onder meer in medische hulpmiddelen, medische hulpmiddelen voor in-vitrodiagnostiek, AI-systemen en digitale gezondheidstoepassingen."
+                },
+                {
+                    "key": "f",
+                    "value": "f. Verbetering van de verlening van zorg, van de optimalisering van de behandeling en van de verlening van gezondheidszorg, op basis van de elektronische gezondheidsgegevens van andere natuurlijke personen."
+                }
+            ]
+        },
+        "whyTheDataIsNeeded": {
+            "label": "Waarom zijn de gegevens die u aanvraagt nodig voor het aangegeven gebruiksdoel? Leg hier uit waarom de hoeveelheid en het soort gegevens die u aanvraagt, noodzakelijk zijn voor het gebruik van uw gegevens"
+        },
+        "whyAreTheDataRequested": {
+            "label": "Waarom zijn de bij deze aanvraag gevraagde gegevens nodig voor het aangegeven gebruiksdoel?"
+        },
+        "whatIsTheAimAndTopicOfTheProject": {
+            "label": "Wat is het doel en het onderwerp van uw project?"
+        },
+        "whichAreTheExpectedBenefits": {
+            "label": "Wat is het verwachte voordeel in verband met het gebruik van de elektronische gezondheidsgegevens en hoe draagt dit voordeel bij tot de in punt 5.1 genoemde doeleinden?"
+        },
+        "legalBasis": {
+            "label": "Vermeld de rechtsgrondslag, bijvoorbeeld de relevante wetgeving, waarin de taken worden omschreven die onder uw mandaat vallen en waarin wordt bevestigd dat uw geplande gebruik van de gegevens bedoeld is om dergelijke taken te vergemakkelijken.",
+            "tooltip": "Leg hier uit waarom de hoeveelheid gegevens die u aanvraagt noodzakelijk is voor het gebruik van uw gegevens. Motiveer en beschrijf hoe de inhoud van de gevraagde statistieken overeenstemt met het in de aanvraag vermelde gebruiksdoel en voldoet aan uw gegevensvereisten."
+        },
+        "linkToTheSupportingLegalBasis": {
+            "label": "Geef een link naar de ondersteunende documentatie als bewijs van de rechtsgrondslag"
+        },
+        "summaryOfPlanForUsingTheData": {
+            "label": "Geef een samenvatting van uw plan voor het gebruik van de gegevens. De samenvatting moet in een van de officiële EU-talen worden opgesteld."
+        },
+        "summaryOfPlanForUsingTheDataLanguage": {
+            "label": "Kies de taal van de samenvatting",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgaars"
+                },
+                {
+                    "key": "hr",
+                    "value": "Kroatisch"
+                },
+                {
+                    "key": "cs",
+                    "value": "Tsjechisch"
+                },
+                {
+                    "key": "da",
+                    "value": "Deens"
+                },
+                {
+                    "key": "nl",
+                    "value": "Nederlands"
+                },
+                {
+                    "key": "en",
+                    "value": "Engels"
+                },
+                {
+                    "key": "et",
+                    "value": "Ests"
+                },
+                {
+                    "key": "fi",
+                    "value": "Fins"
+                },
+                {
+                    "key": "fr",
+                    "value": "Frans"
+                },
+                {
+                    "key": "de",
+                    "value": "Duits"
+                },
+                {
+                    "key": "el",
+                    "value": "Grieks"
+                },
+                {
+                    "key": "hu",
+                    "value": "Hongaars"
+                },
+                {
+                    "key": "ga",
+                    "value": "Iers"
+                },
+                {
+                    "key": "it",
+                    "value": "Italiaans"
+                },
+                {
+                    "key": "lv",
+                    "value": "Lets"
+                },
+                {
+                    "key": "lt",
+                    "value": "Litouws"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltees"
+                },
+                {
+                    "key": "pl",
+                    "value": "Pools"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugees"
+                },
+                {
+                    "key": "ro",
+                    "value": "Roemeens"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slowaaks"
+                },
+                {
+                    "key": "sl",
+                    "value": "Sloveens"
+                },
+                {
+                    "key": "es",
+                    "value": "Spaans"
+                },
+                {
+                    "key": "sv",
+                    "value": "Zweeds"
+                }
+            ]
+        },
+        "summaryOfResearchPlan": {
+            "label": "Geef een samenvatting van uw onderzoeksplan. De samenvatting moet in een van de officiële EU-talen worden opgesteld."
+        },
+        "summaryOfResearchPlanLanguage": {
+            "label": "Kies de taal van de samenvatting",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgaars"
+                },
+                {
+                    "key": "hr",
+                    "value": "Kroatisch"
+                },
+                {
+                    "key": "cs",
+                    "value": "Tsjechisch"
+                },
+                {
+                    "key": "da",
+                    "value": "Deens"
+                },
+                {
+                    "key": "nl",
+                    "value": "Nederlands"
+                },
+                {
+                    "key": "en",
+                    "value": "Engels"
+                },
+                {
+                    "key": "et",
+                    "value": "Ests"
+                },
+                {
+                    "key": "fi",
+                    "value": "Fins"
+                },
+                {
+                    "key": "fr",
+                    "value": "Frans"
+                },
+                {
+                    "key": "de",
+                    "value": "Duits"
+                },
+                {
+                    "key": "el",
+                    "value": "Grieks"
+                },
+                {
+                    "key": "hu",
+                    "value": "Hongaars"
+                },
+                {
+                    "key": "ga",
+                    "value": "Iers"
+                },
+                {
+                    "key": "it",
+                    "value": "Italiaans"
+                },
+                {
+                    "key": "lv",
+                    "value": "Lets"
+                },
+                {
+                    "key": "lt",
+                    "value": "Litouws"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltees"
+                },
+                {
+                    "key": "pl",
+                    "value": "Pools"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugees"
+                },
+                {
+                    "key": "ro",
+                    "value": "Roemeens"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slowaaks"
+                },
+                {
+                    "key": "sl",
+                    "value": "Sloveens"
+                },
+                {
+                    "key": "es",
+                    "value": "Spaans"
+                },
+                {
+                    "key": "sv",
+                    "value": "Zweeds"
+                }
+            ]
+        },
+        "personResponsibleLabel": "Voor het gebruik van de gegevens verantwoordelijke persoon",
+        "personResponsibleName": {
+            "label": "De volledige naam"
+        },
+        "personResponsibleJobTitle": {
+            "label": "Functiebenaming"
+        },
+        "personResponsibleAffiliation": {
+            "label": "Aansluiting"
+        },
+        "personResearchSameAsContactPerson": {
+            "label": "Zelfde als de in punt 3 genoemde contactpersoon (informatie over de aanvrager en de contactpersoon)?"
+        },
+        "personResponsibleForResearchLabel": "Voor het onderzoek verantwoordelijke persoon",
+        "personResponsibleSameAsContactPerson": {
+            "label": "Zelfde als de in punt 3 genoemde contactpersoon (informatie over de aanvrager en de contactpersoon)?"
+        },
+        "personResearchName": {
+            "label": "De volledige naam"
+        },
+        "personResearchJobTitle": {
+            "label": "Functiebenaming"
+        },
+        "personResearchAffiliation": {
+            "label": "Aansluiting"
+        },
+        "formatOfTheElectronicHealthData": {
+            "label": "Kies het formaat van de beschikbaar te stellen elektronische gezondheidsgegevens:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Geanonimiseerd"
+                },
+                {
+                    "key": "b",
+                    "value": "Gepseudonimiseerd"
+                }
+            ]
+        },
+        "inOrderToApplyPseudonymisedData": "Ik ben mij ervan bewust dat ik, om gepseudonimiseerde gegevens aan te vragen:",
+        "inOrderToApplyPseudonymisedDataA": {
+            "label": "geef aan hoe ik zal voldoen aan artikel 6, lid 1, van de algemene verordening gegevensbescherming (of artikel 5, lid 1, van de EU-verordening gegevensbescherming indien een instelling, orgaan of instantie van de EU gegevens aanvraagt)"
+        },
+        "inOrderToApplyPseudonymisedDataB": {
+            "label": "beoordelen van ethische aspecten van de verwerking van de gegevens, indien van toepassing en in overeenstemming met het nationale recht of de toepasselijke wetgeving."
+        },
+        "whyNeedForPseudonymisation": {
+            "label": "Waarom heeft u gepseudonimiseerde gegevens nodig voor uw project?"
+        }
+    },
+    "section6": {
+        "section6h5": "Beschrijving van de benodigde gegevens",
+        "section6Description": "In dit deel moet u een beschrijving geven van de gevraagde gegevensset en duidelijk aangeven op welke datasets de aanvraag betrekking heeft. U mag alleen gegevens aanvragen die adequaat, relevant en beperkt zijn tot wat nodig is voor uw gebruiksdoel, overeenkomstig het beginsel van gegevensminimalisering van de algemene verordening gegevensbescherming van de EU (artikel 5, lid 1 quater). De instantie voor toegang tot gezondheidsgegevens beoordeelt zorgvuldig of uw vereisten in overeenstemming zijn met het beginsel van minimale gegevensverwerking van de AVG.",
+        "descriptionSection6_1": "Vaststelling van de extractiecriteria voor het cohort:",
+        "descriptionOfTheDataNeeded": "Beschrijving van de benodigde gegevens:",
+        "applicationHDABsForSelectedCountry": "Bij welke instantie voor toegang tot gezondheidsgegevens wilt u de aanvraag indienen?",
+        "applicationDatasetsPerCountry": "Gegevensrecord (s) en distributie",
+        "informationProviderSameAsContactPerson": {
+            "label": "Zelfde als de in punt 3 genoemde contactpersoon?"
+        },
+        "hdabContacts": {
+            "label": "Als u contact hebt gehad met iemand van de instantie voor toegang tot gezondheidsgegevens over de gevraagde gegevens, vermeld dan hier de namen en e-mailadressen van deze persoon."
+        },
+        "howWillTheDataFromDifferentSourcesBeLinked": {
+            "label": "Hoe worden de gegevens voor één persoon uit verschillende bronnen met elkaar verbonden? Bv. op basis van een persoonlijke identificatiecode. Als er een andere koppelingsmethode wordt gebruikt, beschrijf dat dan hier"
+        },
+        "indicateTheSizeOfTheStudyCohort": {
+            "label": "Vermeld de grootte van het cohort"
+        },
+        "indicateTheSizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Grootte van het cohort (radioknoppen)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Dit is een schatting van de grootte van het cohort."
+                },
+                {
+                    "key": "b",
+                    "value": "Dit is de exacte grootte van het cohort."
+                }
+            ]
+        },
+        "howIsTheStudyCohortFormed": {
+            "label": "Hoe wordt het cohort gevormd?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Het cohort wordt gevormd op basis van de onderstaande criteria."
+                },
+                {
+                    "key": "b",
+                    "value": "Het cohort is al gevormd."
+                },
+                {
+                    "key": "c",
+                    "value": "Het cohort bestaat uit deze twee: een nieuw cohort dat is gevormd op basis van de onderstaande criteria en een reeds gevormde cohort."
+                },
+                {
+                    "key": "d",
+                    "value": "Het cohort is de gehele bevolking van een land/landen dat/die aan het begin van dit formulier is/worden vermeld."
+                }
+            ]
+        },
+        "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants": {
+            "label": "Als u een cohort wilt gebruiken op basis van uw eigen eerdere enquêtestudie, is het cohort dan gevormd op basis van geïnformeerde toestemming van de deelnemers aan de studie? Bv. cohort dat is gevormd op basis van een enquêtestudie of een klinische studie, waaraan registergebaseerde gegevens zullen worden gekoppeld in het kader van de EHDS-verordening."
+        },
+        "doesTheInformedConsentCoverTheRequestedRegistryExtractions": {
+            "label": "Heeft de geïnformeerde toestemming betrekking op de gevraagde extracties uit het register?"
+        },
+        "consentAndInformationLetterAttachment": {
+            "label": "Voeg de toestemmings- en informatiebrief bij die u naar de studierichtingen hebt gestuurd. Voeg geen formulieren bij die zijn ingevuld omdat ze persoonsgegevens bevatten."
+        },
+        "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
+            "label": "Ik bevestig dat de gegevensvergunning voor dit onderzoeksproject is verleend."
+        },
+        "ifTheGroupHasBeenFormedBasedOnPreviousIssued": {
+            "label": "Indien de cohort is gevormd op basis van een eerder afgegeven vergunning, vermeld hier de volgende informatie:"
+        },
+        "previouslyIssuedPermitIssuer1": {
+            "label": "Afgever van het vergunningsbesluit"
+        },
+        "previouslyIssuedPermitDate1": {
+            "label": "Datum"
+        },
+        "validityPeriod1": "Geldigheidsperiode",
+        "previouslyIssuedPermitValidityPeriodFrom1": {
+            "label": "Vanaf"
+        },
+        "previouslyIssuedPermitValidityPeriodTo1": {
+            "label": "Naar"
+        },
+        "previouslyIssuedPermitNumber1": {
+            "label": "Registratienummer van de vergunning"
+        },
+        "permitDecisionAttachment": {
+            "label": "Voeg een vergunningsbesluit toe voor de extractie van de cohortgegevens in dit deel."
+        },
+        "howTheStudyCohortWasObtained": {
+            "label": "Beschrijf hoe het cohort is verkregen en de redenen voor het ontbreken van een gegevensvergunning/toestemming."
+        },
+        "providedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Hebt u de betrokkenen informatie verstrekt over het gebruik van de gegevens? Bv. gedeelde informatie over het gegevensgebruik op een projectwebsite.",
+            "tooltip": "Zie voor meer informatie de artikelen 13 en 14 van de algemene verordening gegevensbescherming: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
+            "tooltipForm": "Zie voor meer informatie de artikelen 13 en 14 van de algemene verordening gegevensbescherming van de <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">."
+        },
+        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Hoe?"
+        },
+        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Waarom niet?"
+        },
+        "whoWillDeliverTheInformationOnTheStudy": {
+            "label": "Wie zal de informatie over het cohort verstrekken aan de instantie voor toegang tot gezondheidsgegevens? Deze persoon ontvangt instructies over de wijze waarop de gegevens via het gemeenschappelijke EHDS-portaal kunnen worden verstrekt."
+        },
+        "informationProviderName": {
+            "label": "De volledige naam"
+        },
+        "informationProviderEmail": {
+            "label": "E-mail"
+        },
+        "informationProviderPhone": {
+            "label": "Telefoonnummer"
+        },
+        "whyNeedDataOfaWholePopulation": {
+            "label": "Geef argumenten waarom u gegevens over een hele populatie/hele populaties nodig hebt?",
+            "tooltip": "Zorg ervoor dat de samenstelling van het cohort duidelijk genoeg wordt gedefinieerd en de cohortgrootte wordt afgebakend naargelang van het beoogde gebruik. Bijzondere aandacht besteden aan de registers waaruit de cohort wordt geëxtraheerd en aan de opname- en uitsluitingscriteria voor het cohort. Een geografische definitie kan bijvoorbeeld betrekking hebben op de woonplaats, de geboorteplaats, de werkplek of de plaats waar gebruik wordt gemaakt van diensten."
+        },
+        "sizeOfTheStudyCohort": {
+            "label": "Vermeld de grootte van het cohort"
+        },
+        "sizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Grootte van het cohort (radioknoppen)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Dit is een schatting van de grootte van het cohort."
+                },
+                {
+                    "key": "b",
+                    "value": "Dit is de exacte grootte van het cohort."
+                }
+            ]
+        },
+        "whyNeedStudyCohortOfThisSize": {
+            "label": "Waarom heeft u een cohort van deze omvang nodig voor uw project?"
+        },
+        "ethicalReview": "Ethische evaluatie — door de beleidseenheid te verstrekken tekst",
+        "ethicalReviewDescription": "Ethische evaluatie",
+        "ethicalReviewInput": {
+            "label": "Ethische evaluatie",
+            "tooltip": "Door de Beleidseenheid te verstrekken tekst."
+        },
+        "ethicalReviewAttachment": {
+            "label": "Ethische evaluatie"
+        },
+        "dataHolders": "Uit welke gegevenshouder (s) zullen de gegevens worden geëxtraheerd?",
+        "whichDatabasesDataExtracted": "Uit welke databank (en)/register/registers zullen de gegevens worden geëxtraheerd?",
+        "whichDatasetDataExtracted": "Uit welk gegevensbestand (en)/register (s) zullen de gegevens worden geëxtraheerd?",
+        "variablesToBeUsedInDataExtractionAttachment": {
+            "label": "Indien de informatie beschikbaar is, voeg dan de lijst toe van de variabelen die bij de gegevensextractie moeten worden gebruikt. Gebruik de exacte termen van de respectieve gegevenshouder (s) in de metagegevenscatalogus."
+        },
+        "timePeriodOfDataExtraction": {
+            "label": "Voor welke periode (en) zullen de gegevensbestanden worden geëxtraheerd?"
+        },
+        "extractionMethod": {
+            "label": "Extractiemethode:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "steekproef"
+                },
+                {
+                    "key": "b",
+                    "value": "alle mensen die aan de criteria voldoen"
+                },
+                {
+                    "key": "c",
+                    "value": "ander monster"
+                }
+            ]
+        },
+        "samplingMethod": {
+            "label": "Beschrijf de steekproefmethode"
+        },
+        "sampleSize": {
+            "label": "Steekproefomvang",
+            "tooltip": "Antwoorden kunnen bijvoorbeeld zijn: 100000 personen of 50 % van de personen die aan de criteria voldoen."
+        },
+        "inclusionCriteria": {
+            "label": "Beschrijf de opnamecriteria voor cohortextractie ",
+            "tooltip": "Vergeet niet hier eventuele opnamecriteria te verduidelijken die dubbelzinnig kunnen zijn. Als u bijvoorbeeld betrokkenen van een bepaalde leeftijd wilt opnemen, leg dan uit op basis van welke variabele de leeftijd moet worden berekend en op welk tijdstip."
+        },
+        "potentialExclusionCriteria": {
+            "label": "Beschrijf de mogelijke uitsluitingscriteria voor cohortextractie"
+        },
+        "tabulationPlanArray": {
+            "label": "Tabelplan array",
+            "tooltip": "Bovendien moet voor elke tabel de volgende informatie worden vermeld: ● registreren om te worden gebruikt ● mogelijke cohort ● informatie over de vereiste variabelen (indien beschikbaar) ● vorming van variabelen waarvoor deze niet rechtstreeks uit de databank kunnen worden geraadpleegd ● gewenste richting van aggregatie van percentages ● volgorde waarin tabellen worden gegenereerd wanneer eerder gegenereerde tabellen worden gebruikt om andere tabellen aan te maken ● elke andere relevante factor in verband met het genereren van de vereiste tabel (len)"
+        },
+        "tabulationRegisteredToBeUsed": {
+            "label": "Te gebruiken register"
+        },
+        "tabulationPossibleStudyCohort": {
+            "label": "Mogelijke cohort"
+        },
+        "tabulationInformationOfRequiredVariables": {
+            "label": "Informatie over de vereiste variabelen (indien beschikbaar)"
+        },
+        "tabulationFormationVariables": {
+            "label": "Samenstelling van variabelen die niet rechtstreeks uit de databank kunnen worden geraadpleegd"
+        },
+        "tabulationDesiredDirection": {
+            "label": "Gewenste richting van aggregatie van percentages"
+        },
+        "tabulationOrderInWhichTable": {
+            "label": "Volgorde waarin tabellen worden gegenereerd wanneer eerder gegenereerde tabellen worden gebruikt om andere tabellen aan te maken"
+        },
+        "tabulationAnyOtherRelevant": {
+            "label": "Alle andere relevante factoren in verband met het genereren van de vereiste tabel (len) "
+        },
+        "tabulationPlanButton": "Tabelplan toevoegen",
+        "tabulationPlan": {
+            "label": "Tabelplan",
+            "tooltip": "Voeg voor elke door u gevraagde statistiek een voorbeeldExcel-tabel (of een gelijkwaardige tabel) bij."
+        },
+        "extractionDescriptionAndCompilation": {
+            "label": "Beschrijving van de extractie en opstelling van statistieken",
+            "tooltip": "Een instantie voor toegang tot gezondheidsgegevens verstrekt de door u gevraagde gegevens alleen in een geanonimiseerd statistisch formaat als uw verzoek om gegevens wordt ingewilligd. Vanwege de anonimiteit heeft de gegevensgebruiker geen toegang tot de elektronische gezondheidsgegevens die worden gebruikt om dit antwoord te geven. Alle door u gevraagde informatie moet tot een algemeen niveau worden teruggebracht om kleine celtellingen met een groot heridentificatiepotentieel te voorkomen."
+        },
+        "dataExtraction": "Tijd en volgorde van gegevensextractie voor de cohort",
+        "dataExtractionTimes": "Tijd en volgorde van gegevensextractie voor de cohort",
+        "howOftenDoesTheDataNeedToBeExtracted": {
+            "label": "Hoe vaak moeten de gegevens worden geëxtraheerd?"
+        },
+        "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
+            "label": "Hoe vaak moeten de gegevens worden geëxtraheerd?"
+        },
+        "needForDataExtractionEvery": {
+            "label": "De gegevens moeten elk worden geëxtraheerd",
+            "tooltip": "Als u wilt dat de gegevens gedurende een bepaalde periode meerdere malen worden geëxtraheerd, moet worden opgemerkt dat de definities en de methode voor het verzamelen van gegevens in sommige gevallen tijdens de evaluatieperiode kunnen veranderen. Let op: de maximale frequentie van de gegevensextractie is elk kwartaal."
+        },
+        "needForDataExtractionEveryOther": {
+            "label": "Specificeer “Overige”"
+        },
+        "needForDataExtractionEveryDescriptionDR": {
+            "label": "Geef meer informatie over de winningsperioden/tijdstippen",
+            "tooltip": "Als u wilt dat de gegevens gedurende een bepaalde periode meerdere malen worden geëxtraheerd, moet worden opgemerkt dat de definities en de methode voor het verzamelen van gegevens in sommige gevallen tijdens de evaluatieperiode kunnen veranderen."
+        },
+        "needForDataExtractionEveryDescription": {
+            "label": "Geef meer informatie over de extractieperioden/tijdstippen van cohort",
+            "tooltip": "Als u wilt dat de gegevens gedurende een bepaalde periode meerdere malen worden geëxtraheerd, moet worden opgemerkt dat de definities en de methode voor het verzamelen van gegevens in sommige gevallen tijdens de evaluatieperiode kunnen veranderen."
+        },
+        "whatIsTheFrequencyOfUpdates": {
+            "label": "Hoe vaak moeten de gegevens worden bijgewerkt?"
+        },
+        "orderForDataExtraction": {
+            "label": "Indien dit van invloed is op de resultaten van de gegevensextractie, in welke volgorde zullen de cohortgegevens dan worden geëxtraheerd? Geef een genummerde lijst van extractiefasen. Bijvoorbeeld: 1. Gegevenshouder A; 2. Gegevenshouder B; 3. Gegevenshouder C"
+        },
+        "definingExtractionCriteria": "Vaststelling van de extractiecriteria voor controles:",
+        "willControlsBeExtracted": {
+            "label": "Worden er controles voor de cohort geëxtraheerd?"
+        },
+        "hasTheGroupRelativesFormed2": {
+            "label": "Is de controlegroep gevormd op basis van een eerder afgegeven vergunning?"
+        },
+        "willSameDataBeExtractedForControls": {
+            "label": "Zullen dezelfde gegevens als voor de cohort worden geëxtraheerd voor controles?"
+        },
+        "regionForControlsDataExtraction": {
+            "label": "Als u geen gegevens voor controles van het hele land zoekt, uit welke regio (s) en/of stad (steden) en/of gemeente (s) zoekt u dan gegevens?"
+        },
+        "fromWhichDataHolderLabel": "Uit welke gegevenshouder (s) zullen de gegevens voor controles worden geëxtraheerd?",
+        "fromWhichDatabaseLabel": "Uit welke databank (en)/register/registers zullen de gegevens voor controles worden geëxtraheerd?",
+        "fromWhichDatasetLabel": "Uit welk gegevensbestand (en)/register (s) zullen de gegevens voor controles worden geëxtraheerd?",
+        "variablesForDataExtraction": {
+            "label": "Indien de informatie beschikbaar is, vermeld dan de variabelen die bij de extractie van thedata moeten worden gebruikt. Gebruik de exacte termen van de respectieve gegevenshouder (s) in de metagegevenscatalogus."
+        },
+        "timePeriodForDataExtraction": {
+            "label": "Voor welke periode (en) zullen de gegevensbestanden worden geëxtraheerd?"
+        },
+        "extractionCriteriaForControls": {
+            "label": "Specificeer de extractiecriteria voor controles, bv. matchingcriteria"
+        },
+        "sizeOfControlGroup": {
+            "label": "Omvang van de controlegroep"
+        },
+        "sizeOfControlGroupEstimationOrExact": {
+            "label": "Grootte van de regelgroep (Radio Button)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Dit is een schatting van de omvang van de controlegroep."
+                },
+                {
+                    "key": "b",
+                    "value": "Dit is de exacte omvang van de controlegroep."
+                }
+            ]
+        },
+        "controlsPerPersonInStudyCohort": {
+            "label": "Hoeveel controles worden per tot de cohort behorende persoon geëxtraheerd?"
+        },
+        "inclusionCriteriaForControls": {
+            "label": "Beschrijf de opnamecriteria voor controleextractie"
+        },
+        "exclusionCriteriaForControls": {
+            "label": "Beschrijf de mogelijke uitsluitingscriteria voor de extractie van controles"
+        },
+        "ifTheGroupHasBeenFormed": "Indien de controlegroep is gevormd op basis van een eerder afgegeven vergunning, vermeld hier de volgende informatie:",
+        "previouslyIssuedPermitIssuer2": {
+            "label": "Afgever van het vergunningsbesluit"
+        },
+        "previouslyIssuedPermitDate2": {
+            "label": "Datum"
+        },
+        "validityPeriod2": "Geldigheidsperiode",
+        "previouslyIssuedPermitValidityPeriodFrom2": {
+            "label": "Vanaf"
+        },
+        "previouslyIssuedPermitValidityPeriodTo2": {
+            "label": "Naar"
+        },
+        "previouslyIssuedPermitNumber2": {
+            "label": "Registratienummer van de vergunning"
+        },
+        "dataExtractionAndOrderForControls": " Termijnen voor gegevensextractie en volgorde van controles",
+        "willDataForControlsBeExtractedSimultaneously": {
+            "label": "Zullen de gegevens voor controles tegelijkertijd en in dezelfde volgorde worden geëxtraheerd als de gegevens voor de cohort?"
+        },
+        "hasTheGroupRelativesFormed3": {
+            "label": "Is de groep familieleden gevormd op basis van een eerder afgegeven vergunning?"
+        },
+        "ifTheGroupOfRelativesHasBeenFormed": {
+            "label": "Indien de groep familieleden is gevormd op basis van een eerder afgegeven vergunning, vermeld hier de volgende informatie:"
+        },
+        "previouslyIssuedPermitIssuer3": {
+            "label": "Afgever van het vergunningsbesluit"
+        },
+        "previouslyIssuedPermitDate3": {
+            "label": "Datum"
+        },
+        "validityPeriod3": "Geldigheidsperiode",
+        "previouslyIssuedPermitValidityPeriodFrom3": {
+            "label": "Vanaf"
+        },
+        "previouslyIssuedPermitValidityPeriodTo3": {
+            "label": "Naar"
+        },
+        "previouslyIssuedPermitNumber3": {
+            "label": "Registratienummer van de vergunning"
+        },
+        "dataExtractionFrequency": {
+            "label": "Hoe vaak moeten de gegevens worden geëxtraheerd?"
+        },
+        "dataExtractionFrequencyMultipleTimesInformation": {
+            "label": "In geval van periodieke extractie, informatie over elk gegevensextractieproces afzonderlijk verstrekken in de orderinstructies"
+        },
+        "dataNeedsToBeExtractedEvery": {
+            "label": "De gegevens moeten elk worden geëxtraheerd",
+            "tooltip": "Als u wilt dat de gegevens gedurende een bepaalde periode meerdere malen worden geëxtraheerd, moet worden opgemerkt dat de definities en de methode voor het verzamelen van gegevens in sommige gevallen tijdens de evaluatieperiode kunnen veranderen. Let op: de maximale frequentie van de gegevensextractie is elk kwartaal."
+        },
+        "specifyOther": {
+            "label": "Specificeer “Overige”"
+        },
+        "moreInfoOnExtractionPeriods": {
+            "label": "Geef meer informatie over de winningsperioden/tijdstippen"
+        },
+        "orderOfControlsDataExtraction": {
+            "label": "Indien dit van invloed is op de resultaten van de gegevensextractie, in welke volgorde zullen de controlegegevens dan worden geëxtraheerd? Geef een genummerde lijst van extractiefasen. Bijvoorbeeld: 1. Gegevenshouder A; 2. Gegevenshouder B; 3. Gegevenshouder C"
+        },
+        "definingTheExtractionCriteria": "Vaststelling van de criteria voor de extractie van familieleden:",
+        "willRelativesBeExtracted": {
+            "label": "Worden familieleden voor de cohort geëxtraheerd?"
+        },
+        "willSameDataBeExtractedForRelatives": {
+            "label": "Zullen dezelfde gegevens als voor de cohort worden geëxtraheerd voor familieleden?"
+        },
+        "whichDataHoldersForRelatives": "Uit welke gegevenshouder (s) zullen de gegevens voor familieleden worden geëxtraheerd?",
+        "whichDatabaseForRelatives": "Uit welke databank (en)/register/registers zullen de gegevens voor familieleden worden geëxtraheerd?",
+        "whichDatasetsForRelatives": "Uit welke gegevensbestand (en)/register (s) zullen de gegevens voor familieleden worden geëxtraheerd?",
+        "variablesForDataExtractionRelatives": {
+            "label": "Indien de informatie beschikbaar is, vermeld dan de variabelen die bij de gegevensextractie moeten worden gebruikt. Gebruik de exacte termen van de respectieve gegevenshouder (s) in de metagegevenscatalogus."
+        },
+        "timePeriodForDataExtractionRelatives": {
+            "label": "Voor welke periode (en) zullen de gegevensbestanden worden geëxtraheerd?"
+        },
+        "relationshipToStudyCohort": {
+            "label": "Omschrijf de relatie van de verwanten met de tot de cohort behorende persoon (bv. grootouders, biologische ouders, moeder)"
+        },
+        "sizeOfRelativesGroup": {
+            "label": "Omvang van de groep familieleden"
+        },
+        "sizeOfRelativesGroupEstimateOrExact": {
+            "label": "Grootte van de groep verwanten (radioknoppen)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Dit is een schatting van de omvang van de groep familieleden."
+                },
+                {
+                    "key": "b",
+                    "value": "Dit is de exacte omvang van de groep familieleden."
+                }
+            ]
+        },
+        "willDataForRelativesBeExtractedSimultaneously": {
+            "label": "Zullen de gegevens voor familieleden tegelijkertijd en in dezelfde volgorde worden geëxtraheerd als de gegevens voor de cohort?"
+        },
+        "dataExtractionFrequencyRelatives": {
+            "label": "Hoe vaak moeten de gegevens worden geëxtraheerd?"
+        },
+        "dataNeedsToBeExtractedEveryRelatives": {
+            "label": "De gegevens moeten elk worden geëxtraheerd",
+            "tooltip": "Als u wilt dat de gegevens gedurende een bepaalde periode meerdere malen worden geëxtraheerd, moet worden opgemerkt dat de definities en de methode voor het verzamelen van gegevens in sommige gevallen tijdens de evaluatieperiode kunnen veranderen. Let op: de maximale frequentie van de gegevensextractie is elk kwartaal."
+        },
+        "dataExtractionFrequencyMultipleTimesInformationRelatives": {
+            "label": "In geval van periodieke extractie, informatie over elk gegevensextractieproces afzonderlijk verstrekken in de orderinstructies"
+        },
+        "needForDataExtractionEveryOptions": {
+            "label": "De gegevens moeten elk worden geëxtraheerd",
+            "tooltip": "Als u wilt dat de gegevens gedurende een bepaalde periode meerdere malen worden geëxtraheerd, moet worden opgemerkt dat de definities en de methode voor het verzamelen van gegevens in sommige gevallen tijdens de evaluatieperiode kunnen veranderen. Let op: de maximale frequentie van de gegevensextractie is elk kwartaal."
+        },
+        "specifyOtherRelatives": {
+            "label": "Specificeer “Overige”"
+        },
+        "moreInfoOnExtractionPeriodsRelatives": {
+            "label": "Geef meer informatie over de winningsperioden/tijdstippen"
+        },
+        "orderOfRelativesDataExtraction": {
+            "label": "Indien dit van invloed is op de resultaten van de gegevensextractie, in welke volgorde zullen de gegevens van de verwanten dan worden geëxtraheerd? Geef een genummerde lijst van extractiefasen. Bijvoorbeeld: 1. Gegevenshouder A; 2. Gegevenshouder B; 3. Gegevenshouder C"
+        }
+    },
+    "section7": {
+        "section7h5": "Andere te combineren gegevens",
+        "section7Description": "Het is mogelijk om andere persoonsgegevens, zoals gegevens die u reeds in uw bezit heeft of gegevens uit andere bronnen, met een andere vergunning te combineren met de gegevens die bij deze aanvraag worden aangevraagd. Vermeld de informatie voor alle aanvullende gegevens die zullen worden gecombineerd met de gegevens waarvoor de instantie voor toegang tot gezondheidsgegevens toestemming heeft verleend. Als u later andere persoonsgegevens wilt combineren met de gegevens die zijn toegestaan door de instantie voor toegang tot gezondheidsgegevens, moet u een wijzigingsaanvraag indienen bij dezelfde instantie voor toegang tot gezondheidsgegevens. Als u een andere cohort hebt die u wilt dat de instantie voor toegang tot gezondheidsgegevens wordt gecombineerd met de gegevens waarvoor u een aanvraag indient, ontvangt u instructies over hoe de gegevens veilig kunnen worden verstrekt nadat de vergunning is verleend.",
+        "addDataPermit": "Gegevensvergunning toevoegen",
+        "addInfo": "Informatie toevoegen",
+        "removeDataPermit": "Gegevensvergunning verwijderen",
+        "willDataBeCombinedWithDataObtained": {
+            "label": "Worden de gegevens die u aanvraagt, gecombineerd met gegevens die u reeds heeft verkregen of met gegevens die uit andere bronnen zullen worden aangevraagd?"
+        },
+        "listOtherDataToBeCompined": "Vermeld de andere te combineren gegevens en de bronnen van deze gegevens:",
+        "combinedCountries": {
+            "label": "Landen"
+        },
+        "combinedDataHolders": {
+            "label": "Gegevenshouders"
+        },
+        "combinedDatabaseRegistries": {
+            "label": "Databanken/registers"
+        },
+        "combinedDatasetsRegistries": {
+            "label": "Gegevensverzamelingen/registers"
+        },
+        "provideInformationList": {
+            "label": "Verstrek informatie over de te combineren gegevens en de geplande combinatiemethode",
+            "tooltip": "Verstrek informatie over het volgende, voor zover van toepassing: gegevensverzameling, aantal bestanden, formaat van de bestanden, omvang van de bestanden, speciale aantekeningen (zijn er directe/indirecte identificatiecodes, gegevens moeten gepseudonimiseerd worden enz.)"
+        },
+        "dataset": {
+            "label": "Gegevensverzameling"
+        },
+        "numberOfFiles": {
+            "label": "Aantal dossiers"
+        },
+        "formatOfFiles": {
+            "label": "Formaat van de bestanden"
+        },
+        "sizeOfFiles": {
+            "label": "Omvang van de bestanden"
+        },
+        "notes": {
+            "label": "Notities"
+        },
+        "listAnyOtherDataPermit": "Vermeld hier alle andere gegevensvergunningen die voor hetzelfde project zijn afgegeven. De vergunningen moeten geldig zijn op het moment dat de gegevens worden verwerkt:",
+        "otherPermits": {
+            "label": "Andere vergunningen: Afgever van de vergunning, datum van afgifte, vervaldatum, identificatiegegevens"
+        },
+        "permitIssuer": {
+            "label": "Afgever van de vergunning"
+        },
+        "permitStartDateOfIssue": {
+            "label": "Datum van afgifte"
+        },
+        "permitEndDateOfIssue": {
+            "label": "Einddatum"
+        },
+        "permitIdentificationInformation": {
+            "label": "Informatie over de identificatie van de vergunning"
+        },
+        "attachmentOfPermitDocuments": {
+            "label": "Als de gegevensbestanden betrekking hebben op door andere partijen afgegeven vergunningen of met toestemming zijn verzameld, voeg dan hier de vergunningsdocumenten bij."
+        },
+        "otherPermitApplications": {
+            "label": "Heeft u nog andere vergunningsaanvragen in behandeling?"
+        },
+        "listTheOtherData": "Vermeld de andere te combineren gegevens en de bronnen van deze gegevens:",
+        "applicationIssuer": {
+            "label": "Uitgever"
+        },
+        "dateOfSubmittingTheApplication": {
+            "label": "Datum van indiening van de aanvraag"
+        },
+        "identificationCode": {
+            "label": "Identificatiecode van de vergunning"
+        }
+    },
+    "section8": {
+        "section8h5": "Gegevensverwerking, gegevensbescherming en waarborgen om ongeoorloofd gebruik van gegevens te voorkomen",
+        "section8Description": "Volgens artikel 73, lid 1, van het voorstel voor een EHDS-verordening verlenen de instanties voor toegang tot gezondheidsgegevens uitsluitend toegang tot elektronische gezondheidsgegevens via een beveiligde verwerkingsomgeving.",
+        "addPerson": "Persoon toevoegen",
+        "removePerson": "Persoon verwijderen",
+        "technicalRequirementsForEnvironment": {
+            "label": "Vermeld hier alle technische vereisten die u hebt voor de beveiligde verwerkingsomgeving."
+        },
+        "nameWebsiteAddressForEnvironment": {
+            "label": "Als u al weet welke verwerkingsomgeving u wilt gebruiken, wat is de naam en wie wordt het gegeven? Vermeld hier de naam en de aanbieder van de beveiligde verwerkingsomgeving."
+        },
+        "healthDataAccessBody": "Als u een gegevensvergunning krijgt, verstrekt de instantie voor toegang tot gezondheidsgegevens de gegevens zodra uw aanvraag is verwerkt. De instantie voor toegang tot gezondheidsgegevens bewaart de pseudonimiseringssleutel en de extractievoorwaarden en documentatie die worden gebruikt om de gegevens te genereren. De gegevensvergunning wordt slechts verleend voor de duur die nodig is om de gevraagde doeleinden te verwezenlijken. De vergunning kan worden verleend voor een periode van maximaal 10 jaar. Deze duur kan op verzoek van de gegevensgebruiker eenmaal worden verlengd op basis van argumenten en documenten die de verlenging rechtvaardigen (voorstel voor een EHDS-verordening, artikel 68, lid 12). Indien nodig kan de gebruiksperiode worden verlengd door een aanvraag tot wijziging van de gegevensvergunning in te dienen.",
+        "whenDataNeeded": {
+            "label": "Wanneer heeft u de gegevens nodig?",
+            "tooltip": "In het algemeen zal de instantie voor toegang tot gezondheidsgegevens de gegevenshouders verzoeken de gegevens te extraheren zodra uw aanvraag is verwerkt. Als u de gegevens later wilt ontvangen, vermeld deze dan hier.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Zo spoedig mogelijk na de behandeling van deze aanvraag"
+                },
+                {
+                    "key": "b",
+                    "value": "Later, wanneer?"
+                }
+            ]
+        },
+        "ifLaterWhen": {
+            "label": "Later, wanneer?"
+        },
+        "informationWhichDataCanAccess": {
+            "label": "Geef informatie over de periode waarvoor toegang tot de gegevens kan worden verkregen."
+        },
+        "frequencyOfAccessOrDataUpdates": {
+            "label": "Wat is de frequentie van die toegang of de frequentie van de actualiseringen van de gegevens?"
+        },
+        "estimatedStartAndEnd": {
+            "label": "Wat zijn de geschatte begin- en einddatum van de periode waarin de elektronische gezondheidsgegevens nodig zijn voor de verwerking?",
+            "tooltip": "Deze periode kan vijf jaar bedragen. Met aanvullende vergunning kan de oorspronkelijke vergunning met nog eens vijf jaar worden verlengd."
+        },
+        "estimatedStartDatesForDataProcessing": {
+            "label": "Vanaf"
+        },
+        "estimatedEndDatesForDataProcessing": {
+            "label": "Naar"
+        },
+        "ifStoreNeeded": "Indien u de gegevens na verwerking moet opslaan, vermeld dan hier de periode van inactieve gegevensopslag.",
+        "startPeriodOfInactiveDataStorage": {
+            "label": "Vanaf"
+        },
+        "endPeriodOfInactiveDataStorage": {
+            "label": "Naar"
+        },
+        "willTheDataBeTransferred": {
+            "label": "Worden de gegevens doorgegeven buiten de EU of de EER?",
+            "tooltip": "Het Europees Comité voor gegevensbescherming (EDPB) heeft drie cumulatieve criteria vastgesteld om een verwerking als een doorgifte aan te merken: 1) een verwerkingsverantwoordelijke of een verwerker (“exporteur”) is voor de gegeven verwerking onderworpen aan de AVG. 2) de exporteur de persoonsgegevens, onder voorbehoud van deze verwerking, door middel van doorzending verstrekt of op andere wijze ter beschikking stelt van een andere verwerkingsverantwoordelijke, gezamenlijke verwerkingsverantwoordelijke of verwerker (“importeur”). 3) de importeur bevindt zich in een derde land, ongeacht of deze importeur al dan niet onderworpen is aan de AVG voor de gegeven verwerking overeenkomstig artikel 3, of een internationale organisatie is. Voor meer informatie: https://www.edpb.europa.eu/system/files/2023-02/edpb_guidelines_05-2021_interplay_between_the_application_of_art3-chapter_v_of_the_gdpr_v2_en_0.pdf"
+        },
+        "whichCountriesDataBeProcessed": {
+            "label": "In welk land/welke landen buiten de EU/EER worden de gegevens verwerkt?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Diagnostiek"
+                },
+                {
+                    "key": "b",
+                    "value": "Epidemiologie"
+                },
+                {
+                    "key": "c",
+                    "value": "Patiëntenbeheer"
+                },
+                {
+                    "key": "d",
+                    "value": "Patiëntenveiligheid"
+                },
+                {
+                    "key": "e",
+                    "value": "Preventie en behandeling"
+                },
+                {
+                    "key": "f",
+                    "value": "Volksgezondheidsbeleid"
+                },
+                {
+                    "key": "g",
+                    "value": "Organisatie van zorginstellingen"
+                },
+                {
+                    "key": "h",
+                    "value": "Inzicht in ziekten"
+                },
+                {
+                    "key": "i",
+                    "value": "Andere"
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEU": {
+            "label": "Waarom zullen de gegevens buiten de EU of de EER worden doorgegeven?"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47": {
+            "label": "Artikel 47: Doorgiften op basis van adequaatheidsbesluiten"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47Options": {
+            "label": "Waarom zullen gegevens naar landen buiten de EU worden doorgegeven op grond van de opties uit hoofde van artikel 47?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Een doorgifte van persoonsgegevens aan een derde land of een internationale organisatie kan plaatsvinden wanneer de Commissie op grond van artikel 45, lid 3, van Verordening (EU) 2016/679 of artikel 36, lid 3, van Richtlijn (EU) 2016/680 heeft besloten dat het derde land, een gebied of een of meer nader bepaalde sectoren in dat derde land, of de internationale organisatie in kwestie een passend beschermingsniveau waarborgt, en wanneer de persoonsgegevens uitsluitend worden doorgegeven om de uitvoering van taken die onder de bevoegdheid van de verwerkingsverantwoordelijke vallen, mogelijk te maken."
+                },
+                {
+                    "key": "b",
+                    "value": "b. De instellingen en organen van de Unie stellen de Commissie en de Europese Toezichthouder voor gegevensbescherming in kennis van gevallen waarin zij van mening zijn dat een derde land, een gebied of een of meer nader bepaalde sectoren in een derde land, of een internationale organisatie in kwestie geen passend beschermingsniveau in de zin van lid 1 waarborgt."
+                },
+                {
+                    "key": "c",
+                    "value": "c. De instellingen en organen van de Unie nemen de nodige maatregelen om te voldoen aan de besluiten van de Commissie wanneer zij op grond van artikel 45, lid 3 of (5) van Verordening (EU) 2016/679 of artikel 36, lid 3 of (5) van Richtlijn (EU) 2016/680 vaststelt dat een derde land, een gebied of een of meer nader bepaalde sectoren in een derde land, of een internationale organisatie een passend beschermingsniveau waarborgt of niet langer waarborgt."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48": {
+            "label": "Artikel 48: Doorgifte met passende waarborgen"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48bOptions": {
+            "label": "Waarom zullen gegevens naar landen buiten de EU worden doorgegeven op grond van de opties uit hoofde van artikel 48 ter?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "I. Een juridisch bindende en afdwingbare akte tussen overheidsinstanties of -organen"
+                },
+                {
+                    "key": "b",
+                    "value": "II. Door de Commissie volgens de in artikel 96, lid 2, bedoelde onderzoeksprocedure vastgestelde standaardbepalingen inzake gegevensbescherming"
+                },
+                {
+                    "key": "c",
+                    "value": "III. Standaardbepalingen inzake gegevensbescherming die door de Europese Toezichthouder voor gegevensbescherming zijn vastgesteld en die door de Commissie volgens de in artikel 96, lid 2, bedoelde onderzoeksprocedure zijn goedgekeurd; L 295/78 NL Publicatieblad van de Europese Unie 21.11.2018"
+                },
+                {
+                    "key": "d",
+                    "value": "IV. Bindende bedrijfsvoorschriften, gedragscodes en certificeringsmechanismen op grond van artikel 46, lid 2, onder b), e), en f), van Verordening (EU) 2016/679, wanneer de verwerker geen instelling of orgaan van de Unie is."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48a": {
+            "label": "a. Bij ontstentenis van een besluit op grond van artikel 45, lid 3, van Verordening (EU) 2016/679 of artikel 36, lid 3, van Richtlijn (EU) 2016/680 mag een verwerkingsverantwoordelijke of een verwerker persoonsgegevens alleen aan een derde land of aan een internationale organisatie doorgeven indien de verwerkingsverantwoordelijke of de verwerker passende waarborgen heeft geboden en op voorwaarde dat de betrokkenen afdwingbare rechten en doeltreffende rechtsmiddelen hebben. "
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48b": {
+            "label": "B. de in lid 1 bedoelde passende waarborgen kunnen, zonder specifieke toestemming van de Europese Toezichthouder voor gegevensbescherming, worden geboden door:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48c": {
+            "label": "c. Onverminderd de toestemming van de Europese Toezichthouder voor gegevensbescherming kunnen de in lid 1 bedoelde passende waarborgen ook worden geboden door met name:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48cOpt": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Contractuele bepalingen tussen de verwerkingsverantwoordelijke of de verwerker en de verwerkingsverantwoordelijke, de verwerker of de ontvanger van de persoonsgegevens in het derde land of de internationale organisatie."
+                },
+                {
+                    "key": "b",
+                    "value": "Bepalingen die moeten worden opgenomen in administratieve regelingen tussen overheidsinstanties of -organen, waaronder afdwingbare en effectieve rechten van betrokkenen."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48d": {
+            "label": "d. Vergunningen van de Europese Toezichthouder voor gegevensbescherming op grond van artikel 9, lid 7, van Verordening (EG) nr. 45/2001 blijven geldig totdat zij, indien nodig, door de Europese Toezichthouder voor gegevensbescherming worden gewijzigd, vervangen of ingetrokken."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48e": {
+            "label": "e. De instellingen en organen van de Unie stellen de Europese Toezichthouder voor gegevensbescherming in kennis van de categorieën gevallen waarin dit artikel is toegepast."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle49": {
+            "label": "Artikel 49: Niet bij Unierecht toegestane doorgiften of verstrekkingen"
+        },
+        "legalBasisForTransferringTheDataOutsideEU": {
+            "label": "Wat is de rechtsgrondslag voor de doorgifte van de gegevens buiten de EU of de EER?",
+            "tooltip": "Meer informatie in hoofdstuk 5 van de algemene verordening gegevensbescherming: <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679#d1e4227-1-1</a>",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Het land/gebied/de internationale organisatie van doorgifte waarborgt een passend beschermingsniveau overeenkomstig een besluit van de Europese Commissie (artikel 35 AVG)."
+                },
+                {
+                    "key": "b",
+                    "value": "2. De verwerkingsverantwoordelijke of de verwerker heeft voorzien in passende waarborgen en er zijn afdwingbare rechten van betrokkenen en doeltreffende rechtsmiddelen voor betrokkenen beschikbaar (artikel 46 AVG)."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Andere uitzonderlijke rechtsgrondslag (bij gebrek aan passende waarborgen overeenkomstig artikel 46)"
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUOtherOptions": {
+            "label": "3. Andere uitzonderlijke rechtsgrondslag (bij gebrek aan passende waarborgen overeenkomstig artikel 46)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. De betrokkene heeft uitdrukkelijk ingestemd met de voorgestelde doorgifte, nadat hij in kennis is gesteld van de mogelijke risico’s van dergelijke doorgiften voor de betrokkene als gevolg van het ontbreken van een adequaatheidsbesluit en passende waarborgen."
+                },
+                {
+                    "key": "b",
+                    "value": "2. De doorgifte is noodzakelijk voor de uitvoering van een overeenkomst tussen de betrokkene en de verwerkingsverantwoordelijke of voor de uitvoering van precontractuele maatregelen die op verzoek van de betrokkene zijn genomen."
+                },
+                {
+                    "key": "c",
+                    "value": "3. De doorgifte is noodzakelijk voor het sluiten of uitvoeren van een overeenkomst die in het belang van de betrokkene is gesloten tussen de verwerkingsverantwoordelijke en een andere natuurlijke of rechtspersoon"
+                },
+                {
+                    "key": "d",
+                    "value": "4. De doorgifte is noodzakelijk om gewichtige redenen van algemeen belang"
+                },
+                {
+                    "key": "e",
+                    "value": "5. De overdracht is noodzakelijk voor de vaststelling, uitoefening of verdediging van een rechtsvordering"
+                },
+                {
+                    "key": "f",
+                    "value": "6. De doorgifte is noodzakelijk ter bescherming van de vitale belangen van de betrokkene of van andere personen, wanneer de betrokkene fysiek of juridisch niet in staat is toestemming te geven."
+                },
+                {
+                    "key": "g",
+                    "value": "7. De doorgifte gebeurt vanuit een register dat volgens het Unierecht of het lidstatelijke recht bedoeld is om het publiek te informeren en dat kan worden geraadpleegd door het publiek in het algemeen of door eenieder die een rechtmatig belang kan aantonen, maar alleen voor zover in het specifieke geval is voldaan aan de in het Unierecht of het lidstatelijke recht voor raadpleging vastgestelde voorwaarden voor raadpleging."
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUc1": {
+            "label": "1. De betrokkene heeft uitdrukkelijk ingestemd met de voorgestelde doorgifte, nadat hij in kennis is gesteld van de mogelijke risico’s van dergelijke doorgiften voor de betrokkene als gevolg van het ontbreken van een adequaatheidsbesluit en passende waarborgen. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc2": {
+            "label": "2. De doorgifte is noodzakelijk voor de uitvoering van een overeenkomst tussen de betrokkene en de verwerkingsverantwoordelijke of voor de uitvoering van precontractuele maatregelen die op verzoek van de betrokkene zijn genomen. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc3": {
+            "label": "3. De doorgifte is noodzakelijk voor het sluiten of uitvoeren van een overeenkomst die in het belang van de betrokkene is gesloten tussen de verwerkingsverantwoordelijke en een andere natuurlijke of rechtspersoon"
+        },
+        "legalBasisForTransferringTheDataOutsideEUc4": {
+            "label": "4. De doorgifte is noodzakelijk om gewichtige redenen van algemeen belang"
+        },
+        "legalBasisForTransferringTheDataOutsideEUc5": {
+            "label": "5. De overdracht is noodzakelijk voor de vaststelling, uitoefening of verdediging van een rechtsvordering"
+        },
+        "legalBasisForTransferringTheDataOutsideEUc6": {
+            "label": "6. De doorgifte is noodzakelijk ter bescherming van de vitale belangen van de betrokkene of van andere personen, wanneer de betrokkene fysiek of juridisch niet in staat is toestemming te geven."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc7": {
+            "label": "7. De doorgifte gebeurt vanuit een register dat volgens het Unierecht of het lidstatelijke recht bedoeld is om het publiek te informeren en dat kan worden geraadpleegd door het publiek in het algemeen of door eenieder die een rechtmatig belang kan aantonen, maar alleen voor zover in het specifieke geval is voldaan aan de in het Unierecht of het lidstatelijke recht voor raadpleging vastgestelde voorwaarden voor raadpleging."
+        },
+        "safeguardsAreProvidedByReferringGDCP": {
+            "label": "Deze waarborgen worden geboden door:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Een juridisch bindende en afdwingbare akte tussen overheidsinstanties of -organen"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Bindende bedrijfsvoorschriften overeenkomstig artikel 47"
+                },
+                {
+                    "key": "c",
+                    "value": "3. Door de Commissie volgens de in artikel 93, lid 2, bedoelde onderzoeksprocedure vastgestelde standaardbepalingen inzake gegevensbescherming"
+                },
+                {
+                    "key": "d",
+                    "value": "4. Standaardbepalingen inzake gegevensbescherming die door een toezichthoudende autoriteit zijn vastgesteld en door de Commissie zijn goedgekeurd volgens de in artikel 93, lid 2, bedoelde onderzoeksprocedure"
+                },
+                {
+                    "key": "e",
+                    "value": "5. Een overeenkomstig artikel 40 goedgekeurde gedragscode, samen met bindende en afdwingbare toezeggingen van de verwerkingsverantwoordelijke of de verwerker in het derde land om passende waarborgen toe te passen, onder meer met betrekking tot de rechten van betrokkenen"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Een goedgekeurd certificeringsmechanisme overeenkomstig artikel 42, samen met bindende en afdwingbare toezeggingen van de verwerkingsverantwoordelijke of de verwerker in het derde land om passende waarborgen toe te passen, onder meer met betrekking tot de rechten van betrokkenen"
+                }
+            ]
+        },
+        "whichOrganizationWillBeTheControllerOfData": {
+            "label": "Welke organisatie (s) of persoon zal (zullen) de verwerkingsverantwoordelijke zijn voor de op basis van deze aanvraag op te stellen gegevens?",
+            "tooltip": "Een verwerkingsverantwoordelijke bepaalt het doel van en de middelen voor de verwerking van persoonsgegevens. Met andere woorden, de verwerkingsverantwoordelijke beslist hoe en waarom een gegevensverwerking plaatsvindt. Een verwerkingsverantwoordelijke kan een rechtspersoon zijn, bijvoorbeeld een bedrijf, een kmo, een overheidsinstantie, een agentschap of een ander orgaan. Voor meer informatie: https://edpb.europa.eu/sme-data-protection-guide/data-controller-data-processor_en"
+        },
+        "complyWithDataMinimisationPrinciple": {
+            "label": "Hoe voldoet u bij de verwerking van de gegevens aan het beginsel van minimale gegevensverwerking (algemene verordening gegevensbescherming van de EU)?",
+            "tooltip": "Artikel 5, lid 1, onder c), AVG: “Persoonsgegevens zijn toereikend, ter zake dienend en beperkt tot wat noodzakelijk is voor de doeleinden waarvoor zij worden verwerkt (“minimale gegevensverwerking”).” "
+        },
+        "complyWithDataMinimisationPrincipleNotEUMember": {
+            "label": "Hoe voldoet u bij de verwerking van de gegevens aan het beginsel van minimale gegevensverwerking (EU-verordening gegevensbescherming)? ",
+            "tooltip": "Artikel 4, lid 1, onder c), van het EU-VRB: “De persoonsgegevens zijn toereikend en relevant en beperkt tot wat noodzakelijk is voor de doeleinden waarvoor zij worden verwerkt (“minimale gegevensverwerking”)”."
+        },
+        "protectionAndSecurityStatements": {
+            "label": "Om deze aanvraag in te dienen, moet u de volgende verklaringen bevestigen (verklaringen met betrekking tot gegevensbescherming en beveiliging):"
+        },
+        "protectionAndSecurityStatementsA": {
+            "label": "1. Ik bevestig dat als de instantie voor toegang tot gezondheidsgegevens mij de gegevens verstrekt waarvoor ik een aanvraag heb ingediend, ik deze alleen zal gebruiken voor de in dit aanvraagformulier vermelde doeleinden."
+        },
+        "protectionAndSecurityStatementsB": {
+            "label": "2. Ik begrijp dat het kopiëren van de gegevens uit de beveiligde verwerkingsomgeving verboden is."
+        },
+        "protectionAndSecurityStatementsC": {
+            "label": "3. Ik begrijp dat het verboden is screenshots of foto’s van het beeldscherm te nemen zodra deze zich in de beveiligde verwerkingsomgeving bevinden."
+        },
+        "protectionAndSecurityStatementsD": {
+            "label": "4. Ik heb voldoende veiligheidsmaatregelen (zoals een firewall) om de verschillende netwerken te beschermen waarop de apparaten die worden gebruikt om toegang te krijgen tot de beveiligde verwerkingsomgeving zijn aangesloten."
+        },
+        "protectionAndSecurityStatementsE": {
+            "label": "5. Ik begrijp dat pogingen tot heridentificatie verboden zijn en dat de instantie voor toegang tot gezondheidsgegevens sancties kan opleggen overeenkomstig artikel 43 van de Europese verordening inzake gezondheidsgegevens."
+        },
+        "onlyThePeopleMentioned": "Alleen de in de gegevensvergunning genoemde personen krijgen toegang tot de verwerking van de gegevens in de beveiligde verwerkingsomgeving.",
+        "sameAsContactPerson": {
+            "label": "Zelfde als de in punt 3 genoemde contactpersoon?"
+        },
+        "listTheFullNames": {
+            "label": "Vermeld de volledige namen, banden en e-mailadressen van alle personen die de gegevens zullen verwerken."
+        },
+        "fullName": {
+            "label": "Naam (voluit)"
+        },
+        "affiliation": {
+            "label": "Aansluiting"
+        },
+        "emailAddress": {
+            "label": "E-mailadres"
+        },
+        "lawfulnessOfProcessing": "Rechtmatigheid van de verwerking:",
+        "legalBasisForProcessingPersonalData": {
+            "label": "Wat is de rechtsgrondslag voor de verwerking van de persoonsgegevens die u met dit aanvraagformulier aanvraagt?"
+        },
+        "lawfulForProcessingPersonalData": {
+            "label": "De verwerking van de persoonsgegevens die u met dit aanvraagformulier aanvraagt, is alleen rechtmatig indien en voor zover ten minste een van de volgende situaties van toepassing is (overeenkomstig artikel 6, lid 1, van de algemene verordening gegevensbescherming van de EU, Verordening (EU) 2016/679):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. De betrokkene toestemming heeft gegeven voor de verwerking van zijn persoonsgegevens voor een of meer specifieke doeleinden"
+                },
+                {
+                    "key": "b",
+                    "value": "2. De verwerking noodzakelijk is voor de uitvoering van een overeenkomst waarbij de betrokkene partij is, of om op verzoek van de betrokkene vóór de sluiting van een overeenkomst maatregelen te nemen"
+                },
+                {
+                    "key": "c",
+                    "value": "3. De verwerking noodzakelijk is om te voldoen aan een wettelijke verplichting die op de verwerkingsverantwoordelijke rust"
+                },
+                {
+                    "key": "d",
+                    "value": "4. De verwerking is noodzakelijk ter bescherming van de vitale belangen van de betrokkene of van een andere natuurlijke persoon"
+                },
+                {
+                    "key": "e",
+                    "value": "5. De verwerking is noodzakelijk voor de vervulling van een taak van algemeen belang of in het kader van de uitoefening van het openbaar gezag dat aan de verwerkingsverantwoordelijke is verleend."
+                },
+                {
+                    "key": "f",
+                    "value": "6. De verwerking is noodzakelijk voor de behartiging van de gerechtvaardigde belangen van de verwerkingsverantwoordelijke of van een derde, behalve wanneer de belangen of de grondrechten en de fundamentele vrijheden van de betrokkene die tot bescherming van persoonsgegevens nopen, zwaarder wegen dan die belangen, met name wanneer de betrokkene een kind is."
+                }
+            ]
+        },
+        "lawfulForProcessingPersonalDataNaturalPersonOption": {
+            "key": "f",
+            "value": "6. De verwerking is noodzakelijk voor de behartiging van de gerechtvaardigde belangen van de verwerkingsverantwoordelijke of van een derde, behalve wanneer de belangen of de grondrechten en de fundamentele vrijheden van de betrokkene die tot bescherming van persoonsgegevens nopen, zwaarder wegen dan die belangen, met name wanneer de betrokkene een kind is."
+        },
+        "otherLegalBasisForProcessingPersonalData": {
+            "label": "Anders, namelijk:"
+        },
+        "legalBasisForProcessingCombinedData": {
+            "label": "Wat is de rechtsgrondslag voor de verwerking van de andere gegevens die u zal combineren met gegevens die in deze aanvraag worden aangevraagd? "
+        },
+        "otherLegalBasisForProcessingCombinedData": {
+            "label": "Anders, namelijk:"
+        },
+        "europeanUnionInstitution": {
+            "label": "De verwerking van de persoonsgegevens die u met dit aanvraagformulier aanvraagt, is alleen rechtmatig indien en voor zover ten minste een van de volgende voorwaarden van toepassing is (overeenkomstig artikel 5, lid 1, van de EU-verordening gegevensbescherming, Verordening (EU) 2018/1725):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. De verwerking noodzakelijk is voor de vervulling van een taak in het algemeen belang of in het kader van de uitoefening van het openbaar gezag dat aan de instelling of het orgaan van Unie is verleend"
+                },
+                {
+                    "key": "b",
+                    "value": "2. De verwerking is noodzakelijk om te voldoen aan een wettelijke verplichting die op de verwerkingsverantwoordelijke rust."
+                },
+                {
+                    "key": "c",
+                    "value": "3. De verwerking is noodzakelijk voor de uitvoering van een overeenkomst waarbij de betrokkene partij is, of om op verzoek van de betrokkene vóór de sluiting van een overeenkomst maatregelen te nemen."
+                },
+                {
+                    "key": "d",
+                    "value": "4. De betrokkene toestemming heeft gegeven voor de verwerking van zijn of haar persoonsgegevens voor een of meer specifieke doeleinden."
+                },
+                {
+                    "key": "e",
+                    "value": "5. De verwerking noodzakelijk is om de vitale belangen van de betrokkene of van een andere natuurlijke persoon te beschermen"
+                }
+            ]
+        },
+        "legalBasisForProcessingApplicationData": {
+            "label": "Wat is de rechtsgrondslag voor de verwerking van de persoonsgegevens die u met dit aanvraagformulier aanvraagt?"
+        },
+        "otherLegalBasisForProcessingApplicationData": {
+            "label": "Anders, namelijk:"
+        },
+        "legalBasisForProcessingCombinedApplicationData": {
+            "label": "Wat is de rechtsgrondslag voor de verwerking van de andere gegevens die u zal combineren met gegevens die in deze aanvraag worden aangevraagd?"
+        },
+        "otherLegalBasisForProcessingCombinedApplicationData": {
+            "label": "Anders, namelijk:"
+        },
+        "attachResearchPermitIfRequired": {
+            "label": "Als uw onderzoek een onderzoeksvergunning van uw aangesloten organisatie vereist, voeg dan de onderzoeksvergunning bij."
+        }
+    },
+    "section9": {
+        "section9h5": "Aanvullende informatie",
+        "section9Description": "Hier kunt u meer informatie geven over alle rubrieken in uw sollicitatie. Vermeld het nummer van de rubriek en de vraag waarop uw opmerking betrekking heeft.",
+        "additionalInformation": {
+            "label": "Nadere informatie of eventuele aanvullende aantekeningen",
+            "tooltip": "Hier kunt u meer informatie geven over alle rubrieken in uw sollicitatie. Vermeld het nummer van de rubriek en de vraag waarop uw opmerking betrekking heeft. Voorstel voor de technische uitvoering: Als alternatief zou er een manier kunnen zijn om de aanvrager in staat te stellen informatie te koppelen aan specifieke delen van het formulier om het werk van HDAB’s te vergemakkelijken."
+        },
+        "additionalAttachment": {
+            "label": "Een aanvullende bijlage. Voeg geen gezondheids- of persoonsgegevens bij deze aanvraag.",
+            "tooltip": "Als u een andere bijlage hebt die u relevant acht voor de verwerking van uw aanvraag en die nodig is voor het orgaan voor toegang tot gezondheidsgegevens, voeg deze dan hier bij. Beschrijf de relevantie ervan in het bovenstaande tekstveld."
+        }
+    },
+    "section10": {
+        "section10h5": "Bevestiging van informatie",
+        "section10Description": "Voordat deze aanvraag wordt behandeld, moet u als aanvrager de verwerkingskosten goedkeuren.",
+        "submitYouApplicationText": "Om uw sollicitatie in te dienen, moet u het volgende bevestigen:",
+        "acceptHealthDataBody": {
+            "label": "Ik aanvaard dat de instantie voor gezondheidsgegevens de statistieken zal samenstellen en ik zal geen toegang hebben tot de gegevens die worden gebruikt om de statistieken te vormen."
+        },
+        "awareProcessingFee": {
+            "label": "Ik ben ervan op de hoogte dat voor de behandeling van mijn aanvraag een verwerkingsvergoeding in rekening zal worden gebracht. Zij zal ook van toepassing zijn in geval van een geannuleerd verzoek of een negatief besluit."
+        },
+        "awareChargeFee": {
+            "label": "Ik ben ervan op de hoogte dat datahouders een vergoeding in rekening kunnen brengen."
+        },
+        "awareInformationCorrect": {
+            "label": "Ik bevestig dat de door mij verstrekte informatie juist is."
+        }
+    },
+    "commonFields": {
+        "aboutThisSection": "Over dit deel",
+        "yesOrNoOptions": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Ja"
+                },
+                {
+                    "key": "b",
+                    "value": "Nee"
+                }
+            ]
+        },
+        "onceOrMultipleTimes": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Eens"
+                },
+                {
+                    "key": "b",
+                    "value": "Meerdere keren"
+                }
+            ]
+        },
+        "everyWhen": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Jaarlijks"
+                },
+                {
+                    "key": "b",
+                    "value": "Een half jaar"
+                },
+                {
+                    "key": "c",
+                    "value": "Kwartaal"
+                },
+                {
+                    "key": "d",
+                    "value": "Andere"
+                }
+            ]
+        },
+        "processingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. e) de verwerking noodzakelijk is voor de vervulling van een taak van algemeen belang of in het kader van de uitoefening van het openbaar gezag dat aan de verwerkingsverantwoordelijke is verleend;"
+                },
+                {
+                    "key": "b",
+                    "value": "2. f) de verwerking is noodzakelijk voor de behartiging van de gerechtvaardigde belangen van de verwerkingsverantwoordelijke of van een derde, behalve wanneer de belangen of de grondrechten en fundamentele vrijheden van de betrokkene die de bescherming van persoonsgegevens vereisen, zwaarder wegen dan die belangen, met name wanneer de betrokkene een kind is."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Andere"
+                }
+            ]
+        },
+        "legalBasisForProcessingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. a) de verwerking is noodzakelijk voor de vervulling van een taak in het algemeen belang of in het kader van de uitoefening van het openbaar gezag dat aan de instelling of het orgaan van Unie is verleend."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Andere"
+                }
+            ]
+        }
+    }
+}

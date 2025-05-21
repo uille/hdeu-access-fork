@@ -1,0 +1,1588 @@
+{
+    "section1": {
+        "section1h5": "Odabir izvora podataka za projekt",
+        "section1Description": "Korisnici podataka trebali bi podnijeti zahtjev samo za podatke koji su primjereni, relevantni i ograničeni na ono što je nužno s obzirom na njihovu svrhu uporabe, \nu skladu s načelom smanjenja količine podataka iz Opće uredbe EU-a o zaštiti podataka 58 (članak 5. stavak 1.c). \nTijelo za pristup zdravstvenim podacima pažljivo ocjenjuje jesu li vaši zahtjevi u skladu s načelom smanjenja količine podataka iz Opće uredbe o zaštiti podataka.",
+        "section1DescriptionDR": "Zahtjev za pristup elektroničkim zdravstvenim podacima za sekundarnu uporabu u anonimiziranom statističkom formatu",
+        "applicationDatasets": {
+            "label": "Iz kojeg će se zapisa ili registra i/ili distribucije podataka preuzeti podaci?"
+        },
+        "applicationCountries": {
+            "label": "Iz koje zemlje/zemalja tražite podatke?"
+        },
+        "applicationDataHolders": {
+            "label": "Iz kojeg će se vlasnika podataka izdvojiti podaci?"
+        },
+        "applicationHDABs": {
+            "label": "Kojem tijelu/tijelima za pristup zdravstvenim podacima želite podnijeti zahtjev?"
+        },
+        "applicationDatabases": {
+            "label": "Iz koje će se baze podataka ili registra/registara izdvajati podaci?"
+        }
+    },
+    "section2": {
+        "section2h5": "Informiranje javnosti o projektu",
+        "section2Description": "Tijela za pristup zdravstvenim podacima u Europskoj uniji dužna su objaviti informacije o dozvolama, zahtjevima i zahtjevima za podatke na svojim internetskim stranicama u roku od 30 radnih dana od izdavanja dozvole za podatke ili odgovora na zahtjev za podatke. U ovom odjeljku molimo da navedete informacije o svojem projektu koje se mogu podijeliti s javnošću. Pobrinite se da to ne uključuje povjerljive informacije. Odgovorite na pitanja laika. Kao korisnik podataka morat ćete objaviti rezultate ili rezultate projekta najkasnije 18 mjeseci nakon dovršetka obrade ili primitka odgovora na zahtjev za podatke. Osim toga, morate obavijestiti tijelo za pristup zdravstvenim podacima o broju stručno recenziranih istraživačkih publikacija, dokumenata o politikama i/ili regulatornih postupaka provedenih upotrebom podataka kojima je pristupljeno putem ove aplikacije.",
+        "projectName": {
+            "label": "Naziv projekta"
+        },
+        "projectLeader": {
+            "label": "Ime voditelja projekta (organizacija, institucija, subjekt iz privatnog sektora ili fizička osoba)",
+            "tooltip": "To je osoba odgovorna za uporabu podataka."
+        },
+        "countryOfProjectLeader": {
+            "label": "Službeno sjedište (država) subjekta odgovornog za projekt"
+        },
+        "purposeForWhichDataWillBeUsed": {
+            "label": "Svrha u koju će se podaci upotrebljavati",
+            "tooltip": "Svrhe iz Uredbe o europskom prostoru za zdravstvene podatke.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. javni interes u područjima javnog zdravlja ili zdravlja na radu, kao što su aktivnosti zaštite od ozbiljnih prekograničnih prijetnji zdravlju, nadzor javnog zdravlja ili aktivnosti kojima se osigurava visoka razina kvalitete i sigurnosti zdravstvene zaštite, uključujući sigurnost pacijenata, te lijekova ili medicinskih proizvoda."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Izrada politika i regulatorne aktivnosti za potporu tijelima javnog sektora ili institucijama, tijelima, uredima i agencijama Unije, uključujući regulatorna tijela, u zdravstvenom sektoru ili sektoru skrbi u obavljanju njihovih zadaća utvrđenih u njihovim mandatima."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Statistika kako je definirana u članku 3. točki 1. Uredbe (EU) br. 223/2009, kao što su službena statistika na nacionalnoj i multinacionalnoj razini te na razini Unije, povezana sa zdravstvenim sektorom ili sektorom skrbi."
+                },
+                {
+                    "key": "d",
+                    "value": "D. Obrazovne ili nastavne djelatnosti u sektorima zdravstva ili skrbi na razini strukovnog ili visokog obrazovanja."
+                },
+                {
+                    "key": "e",
+                    "value": "e. znanstvena istraživanja povezana sa sektorima zdravstva ili skrbi koja doprinose javnom zdravlju ili procjeni zdravstvenih tehnologija ili osiguravaju visoku razinu kvalitete i sigurnosti zdravstvene zaštite, lijekova ili medicinskih proizvoda, s ciljem pružanja koristi krajnjim korisnicima, kao što su pacijenti, zdravstveni djelatnici i zdravstveni administratori, uključujući:\\ni. razvojne i inovacijske aktivnosti za proizvode ili usluge;\\nii. treniranje, testiranje i evaluaciju algoritama, među ostalim u medicinskim proizvodima, in vitro dijagnostičkim medicinskim proizvodima, UI sustavima i digitalnim zdravstvenim aplikacijama."
+                },
+                {
+                    "key": "f",
+                    "value": "f. Poboljšanje pružanja skrbi, optimizacije liječenja i pružanja zdravstvene zaštite na temelju elektroničkih zdravstvenih podataka drugih pojedinaca."
+                }
+            ]
+        },
+        "theNatureOfTheDataDoesNotLetYouProvideADescription": {
+            "label": "Priroda vašeg projekta ne omogućuje vam da dostavite opis"
+        },
+        "descriptionOfTheProject": {
+            "label": "Objasnite zašto ne možete navesti opis podataka.",
+            "tooltip": "Ovo objašnjenje razloga neće se objaviti."
+        },
+        "summaryOfTheProject": {
+            "label": "Sažetak projekta",
+            "tooltip": "Kad je riječ o laikama, navedite kratak (250 riječi ili manje) sažetak ciljeva projekta, podataka koji će se upotrebljavati, metoda i oblika rezultata koji se očekuju"
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummary": {
+            "label": "Priroda vašeg projekta ne omogućuje vam da dostavite sažetak"
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason": {
+            "label": "Objasnite zašto ne možete dostaviti sažetak svojeg projekta.",
+            "tooltip": "Ovo objašnjenje razloga neće se objaviti."
+        }
+    },
+    "section3": {
+        "section3h5": "Podaci o podnositelju zahtjeva i osobi za kontakt",
+        "section3Description": "U zahtjevu za izdavanje dozvole za podatke trebalo bi navesti ime i podatke za kontakt podnositelja zahtjeva, pravne ili fizičke osobe. Trebalo bi uključiti i informacije o osobi za kontakt koja odgovara na sve upite povezane sa zahtjevom, bez obzira na to je li riječ o istoj osobi kao i podnositelj zahtjeva ili o drugoj osobi. Ako osoba za kontakt nije ista osoba kao i podnositelj zahtjeva, trebalo bi pojasniti njezin odnos, npr. na temelju ugovora o radu.",
+        "section3DescriptionRequest": "U zahtjevu za podatke trebalo bi navesti ime i podatke za kontakt podnositelja zahtjeva, pravne ili fizičke osobe. Trebalo bi uključiti i informacije o osobi za kontakt koja odgovara na sve upite povezane sa zahtjevom, neovisno o tome je li riječ o istoj osobi kao i podnositelj zahtjeva (u slučaju fizičke osobe kao i podnositelj zahtjeva) ili drugoj osobi.\nAko osoba za kontakt nije ista osoba kao i podnositelj zahtjeva, trebalo bi pojasniti njezin odnos, npr. na temelju ugovora o radu.",
+        "applyingForDataOnBehalfOfPublicSector": {
+            "label": "Prijavljujete li se za podatke u ime tijela javnog sektora ili institucije, tijela, ureda ili agencije Europske unije?"
+        },
+        "applyingForDataForCarryingOutTasks": {
+            "label": "Prijavljujete li se za podatke za obavljanje zadaća obuhvaćenih mandatom vaše organizacije/institucije?",
+            "tooltip": "Zadaće u okviru mandata vaše organizacije/institucije znače zadaće koje se temelje na nacionalnom pravu ili pravu Europske unije."
+        },
+        "legalOrNaturalPerson": {
+            "label": "Je li podnositelj zahtjeva pravna ili fizička osoba?",
+            "tooltip": "Fizička osoba = fizička osoba, fizička osoba, pravna osoba = poduzeće, organizacija ili udruga.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Pravna osoba"
+                },
+                {
+                    "key": "b",
+                    "value": "Fizička osoba",
+                    "info": "(Ako odaberete ovu opciju, potvrđujete da se prijavljujete za podatke kao privatna osoba bez ikakve veze.)"
+                }
+            ]
+        },
+        "legalPerson": "Pravna osoba",
+        "naturalPerson": "Fizička osoba",
+        "legalPersonName": {
+            "label": "Puno ime"
+        },
+        "postalAddress": "Poštanska adresa",
+        "legalPersonAddress": {
+            "label": "Ulica i kućni broj"
+        },
+        "legalPersonZipCode": {
+            "label": "Šifra zip"
+        },
+        "legalPersonCity": {
+            "label": "Grad/mjesto"
+        },
+        "legalPersonCountry": {
+            "label": "Država"
+        },
+        "contactPersonInformation": "Podaci o osobi za kontakt",
+        "contactPersonInformationDescription": "Osoba za kontakt odnosi se na osobu koja odgovara na upite o zahtjevu. Podaci osobe za kontakt mogu se proslijediti voditelju obrade tijekom obrade zahtjeva ako su potrebne dodatne informacije za definiranje izvlačenja podataka. ",
+        "contactPersonName": {
+            "label": "Puno ime"
+        },
+        "contactPersonEmail": {
+            "label": "E-pošta:"
+        },
+        "contactPersonPhone": {
+            "label": "Telefon"
+        },
+        "contactPersonNameOfTheOrganisation": {
+            "label": "Upišite ime organizacije:"
+        },
+        "contactPersonBusinessIdentifier": {
+            "label": "Poslovni identifikacijski broj organizacije"
+        },
+        "contactPersonOperatorIdentifier": {
+            "label": "Identifikacijska oznaka gospodarskog subjekta"
+        },
+        "contactPersonJobTitle": {
+            "label": "Naziv radnog mjesta"
+        },
+        "contactPersonAffiliation": {
+            "label": "Pripadnost"
+        },
+        "contactPersonRelationship": {
+            "label": "Koji je odnos između osobe za kontakt i podnositelja zahtjeva? (Npr. zaposlenik koji podnosi zahtjev za podatke u ime svoje organizacije.)"
+        },
+        "naturalPersonName": {
+            "label": "Puno ime"
+        },
+        "naturalPersonAddress": {
+            "label": "Ulica i kućni broj"
+        },
+        "naturalPersonZipCode": {
+            "label": "Šifra zip"
+        },
+        "naturalPersonCity": {
+            "label": "Grad/mjesto"
+        },
+        "naturalPersonCountry": {
+            "label": "Država"
+        },
+        "naturalPersonEmail": {
+            "label": "E-pošta:"
+        },
+        "naturalPersonPhone": {
+            "label": "Telefon"
+        },
+        "naturalPersonJobTitle": {
+            "label": "Naziv radnog mjesta"
+        },
+        "naturalPersonAffiliation": {
+            "label": "Pripadnost"
+        }
+    },
+    "section4": {
+        "section4h5": "Pojedinosti o plaćanju",
+        "section4Description": "Pojedinosti o plaćanju osobe kojoj tijelo za pristup zdravstvenim podacima upućuje račune povezane s ovim zahtjevom i posljedičnu dozvolu za podatke, ako je izdano.",
+        "sameAsContactPerson": {
+            "label": "Isto kao i osoba za kontakt navedena u odjeljku 3.?"
+        },
+        "fullName": {
+            "label": "Puno ime"
+        },
+        "address": {
+            "label": "Adresa"
+        },
+        "email": {
+            "label": "E-pošta:"
+        },
+        "phone": {
+            "label": "Telefon"
+        },
+        "invoiceType": {
+            "label": "Vrsta računa",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Papir"
+                },
+                {
+                    "key": "b",
+                    "value": "Elektronski"
+                }
+            ]
+        },
+        "invoiceReferenceNumber": {
+            "label": "Referentni broj računa"
+        },
+        "invoiceAddress": {
+            "label": "Adresa e-računa (EDI ili IBAN)"
+        },
+        "operatorIdentifier": {
+            "label": "Identifikacijska oznaka gospodarskog subjekta"
+        },
+        "nameOfTheOrganisation": {
+            "label": "Upišite ime organizacije:"
+        },
+        "businessIdentifierOrganization": {
+            "label": "Poslovni identifikacijski broj organizacije"
+        },
+        "vatNumber": {
+            "label": "PDV broj"
+        },
+        "peppolCode": {
+            "label": "Oznaka PEPPOL (ako je primjenjivo)"
+        },
+        "isTheProjectFinanciallyCovered": {
+            "label": "Je li projekt financijski obuhvaćen?"
+        },
+        "rangeOfAmountOfFinancing": {
+            "label": "Koliki je raspon iznosa financiranja projekta za koji će se koristiti traženi podaci?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "& 10000 EUR"
+                },
+                {
+                    "key": "b",
+                    "value": "10000 – 50 000 EUR"
+                },
+                {
+                    "key": "c",
+                    "value": "50000 – 100 000 EUR"
+                },
+                {
+                    "key": "d",
+                    "value": "100000 – 500 000 EUR"
+                },
+                {
+                    "key": "e",
+                    "value": "500000 – 1 000 000 EUR"
+                },
+                {
+                    "key": "f",
+                    "value": "> 1 000 000 EUR"
+                }
+            ]
+        }
+    },
+    "section5": {
+        "section5h5": "Svrha korištenja podataka",
+        "section5Description": "Podnositelji zahtjeva trebali bi navesti svrhu za koju se podaci traže, u skladu s člankom 53. stavkom 1. ispravka Uredbe o europskom prostoru za zdravstvene podatke koji je Europski parlament odobrio 17/12. \nPodnositelji zahtjeva moraju objasniti i obrazložiti zašto su traženi podaci nužni za navedenu svrhu uporabe. Od podnositelja zahtjeva traži se i da dostave informacije o cilju projekta. Zatim, ovisno o svrsi uporabe (istraživanje ili ne), podnositelji zahtjeva moraju dostaviti sažetak plana za upotrebu podataka ili sažetak plana istraživanja te informacije o osobi odgovornoj za uporabu podataka ili istraživanje.",
+        "purposeOfUse": {
+            "label": "Svrha uporabe podataka. Tijela za pristup zdravstvenim podacima omogućuju pristup elektroničkim zdravstvenim podacima iz članka 51. samo ako je predviđena svrha obrade koju traži podnositelj zahtjeva u skladu sa sljedećim svrhama (u skladu s člankom 53. stavkom 1.) navedenima u nastavku.",
+            "tooltip": "Svrhe iz Uredbe o europskom prostoru za zdravstvene podatke.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. javni interes u područjima javnog zdravlja ili zdravlja na radu, kao što su aktivnosti zaštite od ozbiljnih prekograničnih prijetnji zdravlju, nadzor javnog zdravlja ili aktivnosti kojima se osigurava visoka razina kvalitete i sigurnosti zdravstvene zaštite, uključujući sigurnost pacijenata, te lijekova ili medicinskih proizvoda."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Izrada politika i regulatorne aktivnosti za potporu tijelima javnog sektora ili institucijama, tijelima, uredima i agencijama Unije, uključujući regulatorna tijela, u zdravstvenom sektoru ili sektoru skrbi u obavljanju njihovih zadaća utvrđenih u njihovim mandatima."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Statistika kako je definirana u članku 3. točki 1. Uredbe (EU) br. 223/2009, kao što su službena statistika na nacionalnoj i multinacionalnoj razini te na razini Unije, povezana sa zdravstvenim sektorom ili sektorom skrbi."
+                },
+                {
+                    "key": "d",
+                    "value": "D. Obrazovne ili nastavne djelatnosti u sektorima zdravstva ili skrbi na razini strukovnog ili visokog obrazovanja."
+                },
+                {
+                    "key": "e",
+                    "value": "e. znanstvena istraživanja povezana sa sektorima zdravstva ili skrbi koja doprinose javnom zdravlju ili procjeni zdravstvenih tehnologija ili osiguravaju visoku razinu kvalitete i sigurnosti zdravstvene zaštite, lijekova ili medicinskih proizvoda, s ciljem pružanja koristi krajnjim korisnicima, kao što su pacijenti, zdravstveni djelatnici i zdravstveni administratori, uključujući:\ni. razvojne i inovacijske aktivnosti za proizvode ili usluge;\nii. treniranje, testiranje i evaluaciju algoritama, među ostalim u medicinskim proizvodima, in vitro dijagnostičkim medicinskim proizvodima, sustavima umjetne inteligencije i aplikacijama za digitalno zdravstvo."
+                },
+                {
+                    "key": "f",
+                    "value": "f. Poboljšanje pružanja skrbi, optimizacije liječenja i pružanja zdravstvene zaštite na temelju elektroničkih zdravstvenih podataka drugih pojedinaca."
+                }
+            ]
+        },
+        "whyTheDataIsNeeded": {
+            "label": "Zašto su podaci za koje podnosite zahtjev potrebni za navedenu svrhu uporabe? Ovdje objasnite zašto su količina i vrsta podataka za koje se prijavljujete nužni za svrhu upotrebe podataka."
+        },
+        "whyAreTheDataRequested": {
+            "label": "Zašto su podaci koji se traže u ovom zahtjevu potrebni za navedenu svrhu uporabe?"
+        },
+        "whatIsTheAimAndTopicOfTheProject": {
+            "label": "Koji je cilj i tema vašeg projekta?"
+        },
+        "whichAreTheExpectedBenefits": {
+            "label": "Koja je očekivana korist povezana s uporabom elektroničkih zdravstvenih podataka i kako ta korist doprinosi svrhama iz točke 5.1.?"
+        },
+        "legalBasis": {
+            "label": "Navedite pravnu osnovu, na primjer relevantno zakonodavstvo, kojim se definiraju zadaće u okviru vašeg mandata i potvrđuje da se planiranom upotrebom podataka olakšava provedba tih zadaća.",
+            "tooltip": "Ovdje objasnite zašto je količina podataka za koju se prijavljujete potrebna za vašu svrhu uporabe podataka. Obrazložite i opišite kako sadržaj zatraženih statističkih podataka odgovara svrsi uporabe navedenoj u zahtjevu i ispunjava svoje zahtjeve u pogledu podataka."
+        },
+        "linkToTheSupportingLegalBasis": {
+            "label": "Navedite poveznicu na popratnu dokumentaciju kao dokaz pravne osnove"
+        },
+        "summaryOfPlanForUsingTheData": {
+            "label": "Dostavite sažetak svojeg plana za upotrebu podataka. Sažetak mora biti napisan na jednom od službenih jezika EU-a."
+        },
+        "summaryOfPlanForUsingTheDataLanguage": {
+            "label": "Odaberite jezik sažetka",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bugarski"
+                },
+                {
+                    "key": "hr",
+                    "value": "Hrvatski"
+                },
+                {
+                    "key": "cs",
+                    "value": "Češki"
+                },
+                {
+                    "key": "da",
+                    "value": "Danski"
+                },
+                {
+                    "key": "nl",
+                    "value": "Nizozemski"
+                },
+                {
+                    "key": "en",
+                    "value": "Engleski"
+                },
+                {
+                    "key": "et",
+                    "value": "Estonski"
+                },
+                {
+                    "key": "fi",
+                    "value": "Finski"
+                },
+                {
+                    "key": "fr",
+                    "value": "Francuski"
+                },
+                {
+                    "key": "de",
+                    "value": "Njemački"
+                },
+                {
+                    "key": "el",
+                    "value": "Grčki"
+                },
+                {
+                    "key": "hu",
+                    "value": "Mađarski"
+                },
+                {
+                    "key": "ga",
+                    "value": "Irski"
+                },
+                {
+                    "key": "it",
+                    "value": "Talijanski"
+                },
+                {
+                    "key": "lv",
+                    "value": "Latvijski"
+                },
+                {
+                    "key": "lt",
+                    "value": "Litavski"
+                },
+                {
+                    "key": "mt",
+                    "value": "Malteški"
+                },
+                {
+                    "key": "pl",
+                    "value": "Poljski"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugalski"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumunjski"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovački"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slovenski"
+                },
+                {
+                    "key": "es",
+                    "value": "Španjolski"
+                },
+                {
+                    "key": "sv",
+                    "value": "Švedski"
+                }
+            ]
+        },
+        "summaryOfResearchPlan": {
+            "label": "Dostavite sažetak svojeg plana istraživanja. Sažetak mora biti napisan na jednom od službenih jezika EU-a."
+        },
+        "summaryOfResearchPlanLanguage": {
+            "label": "Odaberite jezik sažetka",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bugarski"
+                },
+                {
+                    "key": "hr",
+                    "value": "Hrvatski"
+                },
+                {
+                    "key": "cs",
+                    "value": "Češki"
+                },
+                {
+                    "key": "da",
+                    "value": "Danski"
+                },
+                {
+                    "key": "nl",
+                    "value": "Nizozemski"
+                },
+                {
+                    "key": "en",
+                    "value": "Engleski"
+                },
+                {
+                    "key": "et",
+                    "value": "Estonski"
+                },
+                {
+                    "key": "fi",
+                    "value": "Finski"
+                },
+                {
+                    "key": "fr",
+                    "value": "Francuski"
+                },
+                {
+                    "key": "de",
+                    "value": "Njemački"
+                },
+                {
+                    "key": "el",
+                    "value": "Grčki"
+                },
+                {
+                    "key": "hu",
+                    "value": "Mađarski"
+                },
+                {
+                    "key": "ga",
+                    "value": "Irski"
+                },
+                {
+                    "key": "it",
+                    "value": "Talijanski"
+                },
+                {
+                    "key": "lv",
+                    "value": "Latvijski"
+                },
+                {
+                    "key": "lt",
+                    "value": "Litavski"
+                },
+                {
+                    "key": "mt",
+                    "value": "Malteški"
+                },
+                {
+                    "key": "pl",
+                    "value": "Poljski"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugalski"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumunjski"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovački"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slovenski"
+                },
+                {
+                    "key": "es",
+                    "value": "Španjolski"
+                },
+                {
+                    "key": "sv",
+                    "value": "Švedski"
+                }
+            ]
+        },
+        "personResponsibleLabel": "Osoba odgovorna za uporabu podataka",
+        "personResponsibleName": {
+            "label": "Puno ime"
+        },
+        "personResponsibleJobTitle": {
+            "label": "Naziv radnog mjesta"
+        },
+        "personResponsibleAffiliation": {
+            "label": "Pripadnost"
+        },
+        "personResearchSameAsContactPerson": {
+            "label": "Isto kao i osoba za kontakt navedena u odjeljku 3. (Podaci o podnositelju zahtjeva i osobi za kontakt)?"
+        },
+        "personResponsibleForResearchLabel": "Osoba odgovorna za istraživanje",
+        "personResponsibleSameAsContactPerson": {
+            "label": "Isto kao i osoba za kontakt navedena u odjeljku 3. (Podaci o podnositelju zahtjeva i osobi za kontakt)?"
+        },
+        "personResearchName": {
+            "label": "Puno ime"
+        },
+        "personResearchJobTitle": {
+            "label": "Naziv radnog mjesta"
+        },
+        "personResearchAffiliation": {
+            "label": "Pripadnost"
+        },
+        "formatOfTheElectronicHealthData": {
+            "label": "Odaberite format elektroničkih zdravstvenih podataka koji će se staviti na raspolaganje:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Anonimizirano"
+                },
+                {
+                    "key": "b",
+                    "value": "Pseudonimizirana"
+                }
+            ]
+        },
+        "inOrderToApplyPseudonymisedData": "Svjestan sam da za podnošenje zahtjeva za pseudonimizirane podatke moram:",
+        "inOrderToApplyPseudonymisedDataA": {
+            "label": "a) Objasnite kako ću postupati u skladu s člankom 6. stavkom 1. Opće uredbe o zaštiti podataka (ili člankom 5. stavkom 1. Uredbe EU-a o zaštiti podataka ako institucija, tijelo, ured ili agencija EU-a podnosi zahtjev za podatke)"
+        },
+        "inOrderToApplyPseudonymisedDataB": {
+            "label": "b) procijeniti etičke aspekte obrade podataka, ako je primjenjivo i u skladu s nacionalnim pravom ili primjenjivim zakonima."
+        },
+        "whyNeedForPseudonymisation": {
+            "label": "Zašto su vam potrebni pseudonimizirani podaci za svoj projekt?"
+        }
+    },
+    "section6": {
+        "section6h5": "Opis potrebnih podataka",
+        "section6Description": "U ovom odjeljku morate navesti opis traženog skupa podataka i jasno navesti na koje se skupove podataka odnosi aplikacija. Trebali biste se prijaviti samo za podatke koji su primjereni, relevantni i ograničeni na ono što je nužno za vašu svrhu uporabe, u skladu s načelom smanjenja količine podataka iz Opće uredbe EU-a o zaštiti podataka (članak 5. stavak 1.c). Tijelo za pristup zdravstvenim podacima pažljivo ocjenjuje jesu li vaši zahtjevi u skladu s načelom smanjenja količine podataka iz Opće uredbe o zaštiti podataka.",
+        "descriptionSection6_1": "Definiranje kriterija ekstrakcije za kohortu:",
+        "descriptionOfTheDataNeeded": "Opis potrebnih podataka:",
+        "applicationHDABsForSelectedCountry": "Kojem tijelu za pristup zdravstvenim podacima želite podnijeti zahtjev?",
+        "applicationDatasetsPerCountry": "Odgovarajuće evidencije i raspodjele skupa podataka",
+        "informationProviderSameAsContactPerson": {
+            "label": "Isto kao i osoba za kontakt navedena u odjeljku 3.?"
+        },
+        "hdabContacts": {
+            "label": "Ako ste bili u kontaktu s osobom iz tijela za pristup zdravstvenim podacima u pogledu podataka koje tražite, ovdje navedite imena i adrese e-pošte te osobe"
+        },
+        "howWillTheDataFromDifferentSourcesBeLinked": {
+            "label": "Kako će se povezati podaci za jednu osobu iz različitih izvora? Npr. na temelju osobne identifikacijske oznake. Ako se primjenjuje neka druga metoda povezivanja, opišite je ovdje"
+        },
+        "indicateTheSizeOfTheStudyCohort": {
+            "label": "Navesti veličinu kohorte"
+        },
+        "indicateTheSizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Veličina kohorte (Radio gumbi)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Riječ je o procjeni veličine kohorte."
+                },
+                {
+                    "key": "b",
+                    "value": "To je točna veličina kohorte."
+                }
+            ]
+        },
+        "howIsTheStudyCohortFormed": {
+            "label": "Kako se formira kohorta?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Kohorta će se formirati na temelju kriterija navedenih u nastavku."
+                },
+                {
+                    "key": "b",
+                    "value": "Kohorta je već osnovana."
+                },
+                {
+                    "key": "c",
+                    "value": "Kohorta će se sastojati od sljedeće dvije skupine: nova kohorta sastavljena na temelju kriterija navedenih u nastavku i skupina koja je već nastala."
+                },
+                {
+                    "key": "d",
+                    "value": "Kohorta će biti cijela populacija zemlje/zemalja navedena na početku ovog obrasca."
+                }
+            ]
+        },
+        "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants": {
+            "label": "Ako želite upotrijebiti kohortu na temelju vlastite prethodne ankete, je li kohorta formirana na temelju informiranog pristanka sudionika u studiji? Npr. kohorta izrađena na temelju anketne studije ili kliničke studije s kojom će se povezati podaci koji se temelje na registru u skladu s Uredbom o europskom prostoru za zdravstvene podatke."
+        },
+        "doesTheInformedConsentCoverTheRequestedRegistryExtractions": {
+            "label": "Obuhvaća li informirani pristanak tražene podatke iz registra?"
+        },
+        "consentAndInformationLetterAttachment": {
+            "label": "Priložite suglasnost i pisanu obavijest koje ste poslali ispitanicima studije. Nemojte priložiti ispunjene obrasce jer sadržavaju osobne podatke."
+        },
+        "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
+            "label": "Potvrđujem da je dozvola za podatke izdana za ovaj istraživački projekt"
+        },
+        "ifTheGroupHasBeenFormedBasedOnPreviousIssued": {
+            "label": "Ako je kohorta osnovana na temelju prethodno izdane dozvole, ovdje navedite sljedeće informacije:"
+        },
+        "previouslyIssuedPermitIssuer1": {
+            "label": "Izdavatelj odluke o odobrenju"
+        },
+        "previouslyIssuedPermitDate1": {
+            "label": "Datum"
+        },
+        "validityPeriod1": "Razdoblje valjanosti",
+        "previouslyIssuedPermitValidityPeriodFrom1": {
+            "label": "Od"
+        },
+        "previouslyIssuedPermitValidityPeriodTo1": {
+            "label": "Do"
+        },
+        "previouslyIssuedPermitNumber1": {
+            "label": "Broj dopuštenja"
+        },
+        "permitDecisionAttachment": {
+            "label": "Priložiti odluku o dozvoli koja obuhvaća izvlačenje podataka iz kohortne skupine u ovom odjeljku."
+        },
+        "howTheStudyCohortWasObtained": {
+            "label": "Opišite kako je kohorta dobivena i razloge za nedostatak dozvole/privole za podatke."
+        },
+        "providedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Jeste li odgovarajućim ispitanicima pružili informacije o uporabi podataka? Npr. razmijenjene su informacije o upotrebi podataka na internetskim stranicama projekta.",
+            "tooltip": "Za dodatne informacije vidjeti članke 13. i 14. Opće uredbe o zaštiti podataka: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
+            "tooltipForm": "Za dodatne informacije vidjeti članke 13. i 14. Opće uredbe o zaštiti podataka <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">-a"
+        },
+        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Kako?"
+        },
+        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Zašto ne?"
+        },
+        "whoWillDeliverTheInformationOnTheStudy": {
+            "label": "Tko će tijelu za pristup zdravstvenim podacima dostaviti informacije o kohorti? Ta će osoba dobiti upute o tome kako dostaviti podatke putem zajedničkog portala europskog prostora za zdravstvene podatke."
+        },
+        "informationProviderName": {
+            "label": "Puno ime"
+        },
+        "informationProviderEmail": {
+            "label": "E-pošta"
+        },
+        "informationProviderPhone": {
+            "label": "Telefonski broj"
+        },
+        "whyNeedDataOfaWholePopulation": {
+            "label": "Obrazložite zašto su vam potrebni podaci o cijeloj populaciji/cijelim populacijama?",
+            "tooltip": "Osigurajte dovoljno jasno definiranje formiranja kohorte i razgraničite veličinu kohorte u skladu s predviđenom namjenom. Obratiti posebnu pozornost na koju se kohortu upisuje kohorta te na kriterije uključivanja i isključenja za kohortu. Na primjer, zemljopisna definicija može značiti mjesto boravišta, mjesto rođenja, mjesto rada ili mjesto u kojem se koriste usluge."
+        },
+        "sizeOfTheStudyCohort": {
+            "label": "Navesti veličinu kohorte"
+        },
+        "sizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Veličina kohorte (Radio gumbi)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Riječ je o procjeni veličine kohorte."
+                },
+                {
+                    "key": "b",
+                    "value": "To je točna veličina kohorte."
+                }
+            ]
+        },
+        "whyNeedStudyCohortOfThisSize": {
+            "label": "Zašto vam je za projekt potrebna kohorta te veličine?"
+        },
+        "ethicalReview": "Etičko preispitivanje – tekst dostavlja odjel za politiku",
+        "ethicalReviewDescription": "Etička provjera",
+        "ethicalReviewInput": {
+            "label": "Etička provjera",
+            "tooltip": "Tekst dostavlja odjel za politiku."
+        },
+        "ethicalReviewAttachment": {
+            "label": "Etička provjera"
+        },
+        "dataHolders": "Iz kojeg će se vlasnika podataka izdvojiti podaci?",
+        "whichDatabasesDataExtracted": "Iz kojih će se baza podataka/registara/registara izdvajati podaci?",
+        "whichDatasetDataExtracted": "Iz kojeg će se zapisa/registara podataka izdvojiti podaci?",
+        "variablesToBeUsedInDataExtractionAttachment": {
+            "label": "Ako su informacije dostupne, priložite popis varijabli koje treba koristiti pri izvlačenju podataka. Upotrebljavati točne pojmove koje su u katalogu metapodataka naveli odgovarajući vlasnici podataka."
+        },
+        "timePeriodOfDataExtraction": {
+            "label": "Za koje će se razdoblje (razdoblja) preuzeti zapisi skupova podataka?"
+        },
+        "extractionMethod": {
+            "label": "Metoda ekstrakcije:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "slučajni uzorak"
+                },
+                {
+                    "key": "b",
+                    "value": "sve osobe koje ispunjavaju kriterije"
+                },
+                {
+                    "key": "c",
+                    "value": "drugi uzorak"
+                }
+            ]
+        },
+        "samplingMethod": {
+            "label": "Opišite metodu uzorkovanja"
+        },
+        "sampleSize": {
+            "label": "Veličina uzorka.",
+            "tooltip": "Odgovori mogu biti na primjer: 100000 osoba ili 50 % osoba koje ispunjavaju kriterije."
+        },
+        "inclusionCriteria": {
+            "label": "Opišite kriterije uključivanja za ekstrakciju kohorte ",
+            "tooltip": "Ne zaboravite ovdje pojasniti sve kriterije uključivanja koji mogu biti dvosmisleni. Na primjer, ako želite uključiti ispitanike određene dobi, objasnite na temelju koje varijable treba izračunati dob i u kojem trenutku."
+        },
+        "potentialExclusionCriteria": {
+            "label": "Opišite moguće kriterije za isključivanje za ekstrakciju kohorte"
+        },
+        "tabulationPlanArray": {
+            "label": "Tablični planski niz",
+            "tooltip": "Osim toga, za svaku tablicu zapisati sljedeće informacije: 1999/74 registar koji treba upotrebljavati 1999/74 moguća kohorta 1999/74 informacije o zahtijevanim varijablama (ako su dostupne) П formiranje varijabli ako im se ne može izravno pristupiti iz baze podataka, 1999/74 željeni smjer agregiranja postotaka 1999/74 redoslijed prema kojem se tablice generiraju kada se prethodno generirane tablice upotrebljavaju za izradu drugih tablica П ne može im izravno pristupiti željeni smjer agregiranja postotaka П redoslijeda u kojem se tablice generiraju kad se za izradu drugih tablica upotrebljavaju svi drugi relevantni faktori povezani s izradom zahtijevanih tablica."
+        },
+        "tabulationRegisteredToBeUsed": {
+            "label": "Registar koji će se upotrebljavati"
+        },
+        "tabulationPossibleStudyCohort": {
+            "label": "Moguća kohorta"
+        },
+        "tabulationInformationOfRequiredVariables": {
+            "label": "Informacije o potrebnim varijablama (ako su dostupne)"
+        },
+        "tabulationFormationVariables": {
+            "label": "Oblikovanje varijabli ako im se ne može izravno pristupiti iz baze podataka"
+        },
+        "tabulationDesiredDirection": {
+            "label": "Željeni smjer agregiranja postotaka"
+        },
+        "tabulationOrderInWhichTable": {
+            "label": "Redoslijed prema kojem se tablice generiraju kada se prethodno generirane tablice upotrebljavaju za izradu drugih tablica"
+        },
+        "tabulationAnyOtherRelevant": {
+            "label": "Svi drugi relevantni čimbenici povezani s izradom zahtijevanih tablica "
+        },
+        "tabulationPlanButton": "Dodaj tablični plan",
+        "tabulationPlan": {
+            "label": "Tablični plan",
+            "tooltip": "Za svaku statistiku koju zatražite priložite primjer tablice u Excelu (ili jednakovrijednoj tablici)."
+        },
+        "extractionDescriptionAndCompilation": {
+            "label": "Opis ekstrakcije i kompilacija statističkih podataka",
+            "tooltip": "Tijelo za pristup zdravstvenim podacima podatke koje zatražite pruža samo u anonimiziranom statističkom obliku ako je vaš zahtjev za podatke prihvaćen. Zbog anonimnosti korisnik podataka nema pristup elektroničkim zdravstvenim podacima koji se upotrebljavaju za davanje tog odgovora. Sve informacije koje zatražite moraju se svesti na opću razinu kako bi se izbjegao broj malih stanica s velikim potencijalom ponovne identifikacije."
+        },
+        "dataExtraction": "Vrijeme i redoslijed izvlačenja podataka za kohortu",
+        "dataExtractionTimes": "Vrijeme i redoslijed izvlačenja podataka za kohortu",
+        "howOftenDoesTheDataNeedToBeExtracted": {
+            "label": "Koliko često treba izdvajati podatke?"
+        },
+        "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
+            "label": "Koliko često treba izdvajati podatke?"
+        },
+        "needForDataExtractionEvery": {
+            "label": "Podatke je potrebno izdvojiti svakim",
+            "tooltip": "Ako želite da se podaci izvlače više puta tijekom određenog razdoblja, u nekim se slučajevima definicije i metoda prikupljanja podataka mogu promijeniti tijekom razdoblja preispitivanja. Imajte na umu da je maksimalna učestalost ekstrakcije podataka svaka tri mjeseca"
+        },
+        "needForDataExtractionEveryOther": {
+            "label": "Navedite drugo"
+        },
+        "needForDataExtractionEveryDescriptionDR": {
+            "label": "Navedite više informacija o razdobljima/vremenima izvlačenja podataka",
+            "tooltip": "Ako želite da se podaci izvlače više puta tijekom određenog razdoblja, u nekim se slučajevima definicije i metoda prikupljanja podataka mogu promijeniti tijekom razdoblja preispitivanja."
+        },
+        "needForDataExtractionEveryDescription": {
+            "label": "Navedite više informacija o razdobljima/vremenima ekstrakcije u kohortnoj skupini",
+            "tooltip": "Ako želite da se podaci izvlače više puta tijekom određenog razdoblja, u nekim se slučajevima definicije i metoda prikupljanja podataka mogu promijeniti tijekom razdoblja preispitivanja."
+        },
+        "whatIsTheFrequencyOfUpdates": {
+            "label": "Koliko često treba ažurirati podatke?"
+        },
+        "orderForDataExtraction": {
+            "label": "Ako utječe na rezultate ekstrakcije podataka, kojim će se redoslijedom ekstrahirati podaci iz kohortnih skupina? Dostavite numerirani popis faza vađenja. Primjerice: 1. Vlasnik podataka A; 2. Vlasnik podataka B; 3. Vlasnik podataka C"
+        },
+        "definingExtractionCriteria": "Definiranje kriterija ekstrakcije za kontrole:",
+        "willControlsBeExtracted": {
+            "label": "Hoće li se kontrole preuzeti za kohortu?"
+        },
+        "hasTheGroupRelativesFormed2": {
+            "label": "Je li kontrolna skupina osnovana na temelju prethodno izdane dozvole?"
+        },
+        "willSameDataBeExtractedForControls": {
+            "label": "Hoće li se za kontrole izdvojiti isti podaci kao za kohortu?"
+        },
+        "regionForControlsDataExtraction": {
+            "label": "Ako ne tražite podatke za kontrole iz cijele zemlje, iz koje regije i/ili gradova i/ili općina/općina tražite podatke?"
+        },
+        "fromWhichDataHolderLabel": "Iz kojih će se vlasnika podataka izdvojiti podaci za kontrole?",
+        "fromWhichDatabaseLabel": "Iz kojih će se baza podataka/registara/registara izdvajati podaci za kontrole?",
+        "fromWhichDatasetLabel": "Iz kojeg će se zapisa/registara podataka za kontrole izdvojiti podaci za kontrole?",
+        "variablesForDataExtraction": {
+            "label": "Ako su informacije dostupne, navedite varijable koje treba upotrijebiti u izvlačenju podataka. Upotrebljavati točne pojmove koje su u katalogu metapodataka naveli odgovarajući vlasnici podataka."
+        },
+        "timePeriodForDataExtraction": {
+            "label": "Za koje će se razdoblje (razdoblja) preuzeti zapisi iz skupa podataka?"
+        },
+        "extractionCriteriaForControls": {
+            "label": "Navesti kriterije ekstrakcije za kontrole, npr. uparivanje kriterija"
+        },
+        "sizeOfControlGroup": {
+            "label": "Veličina kontrolne skupine"
+        },
+        "sizeOfControlGroupEstimationOrExact": {
+            "label": "Veličina kontrolne skupine (Radio Buttons)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Riječ je o procjeni veličine skupine kontrola."
+                },
+                {
+                    "key": "b",
+                    "value": "To je točna veličina skupine kontrola."
+                }
+            ]
+        },
+        "controlsPerPersonInStudyCohort": {
+            "label": "Koliko se kontrola izdvaja po osobi koja pripada skupini?"
+        },
+        "inclusionCriteriaForControls": {
+            "label": "Opišite kriterije uključivanja za ekstrakciju kontrola"
+        },
+        "exclusionCriteriaForControls": {
+            "label": "Opišite moguće kriterije isključenja za ekstrakciju kontrola"
+        },
+        "ifTheGroupHasBeenFormed": "Ako je skupina kontrola osnovana na temelju prethodno izdane dozvole, ovdje navedite sljedeće informacije:",
+        "previouslyIssuedPermitIssuer2": {
+            "label": "Izdavatelj odluke o odobrenju"
+        },
+        "previouslyIssuedPermitDate2": {
+            "label": "Datum"
+        },
+        "validityPeriod2": "Razdoblje valjanosti",
+        "previouslyIssuedPermitValidityPeriodFrom2": {
+            "label": "Od"
+        },
+        "previouslyIssuedPermitValidityPeriodTo2": {
+            "label": "Do"
+        },
+        "previouslyIssuedPermitNumber2": {
+            "label": "Broj dopuštenja"
+        },
+        "dataExtractionAndOrderForControls": " Vrijeme izvlačenja podataka i redoslijed kontrola",
+        "willDataForControlsBeExtractedSimultaneously": {
+            "label": "Hoće li se podaci za kontrole izdvajati istodobno i istim redoslijedom kao i podaci za kohortu?"
+        },
+        "hasTheGroupRelativesFormed3": {
+            "label": "Je li skupina rođaka osnovana na temelju prethodno izdane dozvole?"
+        },
+        "ifTheGroupOfRelativesHasBeenFormed": {
+            "label": "Ako je skupina rođaka osnovana na temelju prethodno izdane dozvole, ovdje navedite sljedeće informacije:"
+        },
+        "previouslyIssuedPermitIssuer3": {
+            "label": "Izdavatelj odluke o odobrenju"
+        },
+        "previouslyIssuedPermitDate3": {
+            "label": "Datum"
+        },
+        "validityPeriod3": "Razdoblje valjanosti",
+        "previouslyIssuedPermitValidityPeriodFrom3": {
+            "label": "Od"
+        },
+        "previouslyIssuedPermitValidityPeriodTo3": {
+            "label": "Do"
+        },
+        "previouslyIssuedPermitNumber3": {
+            "label": "Broj dopuštenja"
+        },
+        "dataExtractionFrequency": {
+            "label": "Koliko često treba izdvajati podatke?"
+        },
+        "dataExtractionFrequencyMultipleTimesInformation": {
+            "label": "U slučaju opetovanog izdvajanja, navedite informacije o svakom postupku ekstrakcije podataka zasebno u uputama za redoslijed."
+        },
+        "dataNeedsToBeExtractedEvery": {
+            "label": "Podatke je potrebno izdvojiti svakim",
+            "tooltip": "Ako želite da se podaci izvlače više puta tijekom određenog razdoblja, u nekim se slučajevima definicije i metoda prikupljanja podataka mogu promijeniti tijekom razdoblja preispitivanja. Imajte na umu da je maksimalna učestalost ekstrakcije podataka svaka tri mjeseca"
+        },
+        "specifyOther": {
+            "label": "Navedite drugo"
+        },
+        "moreInfoOnExtractionPeriods": {
+            "label": "Navedite više informacija o razdobljima/vremenima izvlačenja podataka"
+        },
+        "orderOfControlsDataExtraction": {
+            "label": "Ako utječe na rezultate izvlačenja podataka, kojim će se redoslijedom preuzeti podaci o kontrolama? Dostavite numerirani popis faza vađenja. Primjerice: 1. Vlasnik podataka A; 2. Vlasnik podataka B; 3. Vlasnik podataka C"
+        },
+        "definingTheExtractionCriteria": "Definiranje kriterija ekstrakcije za rodbinu:",
+        "willRelativesBeExtracted": {
+            "label": "Hoće li se rodbina izvaditi za kohortu?"
+        },
+        "willSameDataBeExtractedForRelatives": {
+            "label": "Hoće li se za rodbinu izdvojiti isti podaci kao za kohortu?"
+        },
+        "whichDataHoldersForRelatives": "Iz kojeg će se vlasnika podataka izdvojiti podaci za rodbinu?",
+        "whichDatabaseForRelatives": "Iz koje će se baze podataka/registara/registara izdvajati podaci za rodbinu?",
+        "whichDatasetsForRelatives": "Iz kojeg će se skupa podataka/registara izdvajati podaci za rodbinu?",
+        "variablesForDataExtractionRelatives": {
+            "label": "Ako su informacije dostupne, navedite varijable koje će se upotrebljavati u ekstrakciji podataka. Upotrebljavati točne pojmove koje su u katalogu metapodataka naveli odgovarajući vlasnici podataka."
+        },
+        "timePeriodForDataExtractionRelatives": {
+            "label": "Za koje će se razdoblje (razdoblja) preuzeti zapisi iz skupa podataka?"
+        },
+        "relationshipToStudyCohort": {
+            "label": "Definirati odnos rođaka s osobom koja pripada skupini (npr. djedovi i bake, biološki roditelji, majka)"
+        },
+        "sizeOfRelativesGroup": {
+            "label": "Veličina skupine rođaka"
+        },
+        "sizeOfRelativesGroupEstimateOrExact": {
+            "label": "Veličina skupine rođaka (Radio tipke)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Riječ je o procjeni veličine skupine rođaka."
+                },
+                {
+                    "key": "b",
+                    "value": "To je točna veličina skupine rođaka."
+                }
+            ]
+        },
+        "willDataForRelativesBeExtractedSimultaneously": {
+            "label": "Hoće li se podaci za rodbinu izdvojiti istodobno i istim redoslijedom kao i podaci za kohortu?"
+        },
+        "dataExtractionFrequencyRelatives": {
+            "label": "Koliko često treba izdvajati podatke?"
+        },
+        "dataNeedsToBeExtractedEveryRelatives": {
+            "label": "Podatke je potrebno izdvojiti svakim",
+            "tooltip": "Ako želite da se podaci izvlače više puta tijekom određenog razdoblja, u nekim se slučajevima definicije i metoda prikupljanja podataka mogu promijeniti tijekom razdoblja preispitivanja. Imajte na umu da je maksimalna učestalost ekstrakcije podataka svaka tri mjeseca"
+        },
+        "dataExtractionFrequencyMultipleTimesInformationRelatives": {
+            "label": "U slučaju opetovanog izdvajanja, navedite informacije o svakom postupku ekstrakcije podataka zasebno u uputama za redoslijed."
+        },
+        "needForDataExtractionEveryOptions": {
+            "label": "Podatke je potrebno izdvojiti svakim",
+            "tooltip": "Ako želite da se podaci izvlače više puta tijekom određenog razdoblja, u nekim se slučajevima definicije i metoda prikupljanja podataka mogu promijeniti tijekom razdoblja preispitivanja. Imajte na umu da je maksimalna učestalost ekstrakcije podataka svaka tri mjeseca"
+        },
+        "specifyOtherRelatives": {
+            "label": "Navedite drugo"
+        },
+        "moreInfoOnExtractionPeriodsRelatives": {
+            "label": "Navedite više informacija o razdobljima/vremenima izvlačenja podataka"
+        },
+        "orderOfRelativesDataExtraction": {
+            "label": "Ako utječe na rezultate izvlačenja podataka, kojim će se redoslijedom izdvojiti podaci o rodbini? Dostavite numerirani popis faza vađenja. Primjerice: 1. Vlasnik podataka A; 2. Vlasnik podataka B; 3. Vlasnik podataka C"
+        }
+    },
+    "section7": {
+        "section7h5": "Ostali podaci koje treba kombinirati",
+        "section7Description": "Drugi osobni podaci, kao što su podaci koje već posjedujete ili podaci dobiveni iz drugih izvora, mogu se kombinirati s drugom dozvolom s podacima za koje ste podnijeli zahtjev. Navedite informacije za sve dodatne podatke koji će se kombinirati s podacima koje je odobrilo tijelo za pristup zdravstvenim podacima. Ako kasnije želite kombinirati druge osobne podatke s podacima koje je odobrilo tijelo za pristup zdravstvenim podacima, morate podnijeti zahtjev za izmjenu istom tijelu za pristup zdravstvenim podacima. Ako imate neku drugu kohortu za koju biste željeli da se tijelo za pristup zdravstvenim podacima kombinira s podacima za koje podnosite zahtjev, dobit ćete upute o tome kako sigurno dostaviti podatke nakon izdavanja dozvole.",
+        "addDataPermit": "Dodaj dozvolu za podatke",
+        "addInfo": "Dodaj informacije",
+        "removeDataPermit": "Uklanjanje dozvole za podatke",
+        "willDataBeCombinedWithDataObtained": {
+            "label": "Hoće li se podaci za koje podnosite zahtjev kombinirati s podacima koje ste već prikupili ili podacima za koje će se podnijeti zahtjev iz drugih izvora?"
+        },
+        "listOtherDataToBeCompined": "Navedite ostale podatke koje treba kombinirati i izvore tih podataka:",
+        "combinedCountries": {
+            "label": "Države"
+        },
+        "combinedDataHolders": {
+            "label": "Vlasnici podataka"
+        },
+        "combinedDatabaseRegistries": {
+            "label": "Baze podataka/registari"
+        },
+        "combinedDatasetsRegistries": {
+            "label": "Skupovi podataka/registari"
+        },
+        "provideInformationList": {
+            "label": "Pružanje informacija o podacima koje treba kombinirati i planiranoj metodi kombiniranja",
+            "tooltip": "Navedite informacije o sljedećem, u mjeri u kojoj je to primjenjivo: skup podataka, broj datoteka, format datoteka, veličina datoteka, posebne napomene (postoje li izravni/neizravni identifikatori, podaci trebaju biti pseudonimizirani itd.)"
+        },
+        "dataset": {
+            "label": "Skup podataka"
+        },
+        "numberOfFiles": {
+            "label": "Broj datoteka"
+        },
+        "formatOfFiles": {
+            "label": "Format datoteka"
+        },
+        "sizeOfFiles": {
+            "label": "Veličina datoteka"
+        },
+        "notes": {
+            "label": "Bilješke"
+        },
+        "listAnyOtherDataPermit": "Ovdje navedite sve druge dozvole za podatke izdane za isti projekt. Dozvole moraju biti valjane u trenutku obrade podataka:",
+        "otherPermits": {
+            "label": "Ostale dozvole: Izdavatelj dozvole, datum izdavanja, datum isteka, identifikacijski podaci"
+        },
+        "permitIssuer": {
+            "label": "Izdavatelj dozvole"
+        },
+        "permitStartDateOfIssue": {
+            "label": "Datum odluke"
+        },
+        "permitEndDateOfIssue": {
+            "label": "Datum isteka"
+        },
+        "permitIdentificationInformation": {
+            "label": "Informacije o identifikaciji dozvole"
+        },
+        "attachmentOfPermitDocuments": {
+            "label": "Ako evidencija skupova podataka uključuje dozvole koje su izdale druge stranke ili je prikupljena uz suglasnost, ovdje priložite dokumente o dozvoli."
+        },
+        "otherPermitApplications": {
+            "label": "Imate li druge neriješene zahtjeve za dozvolu?"
+        },
+        "listTheOtherData": "Navedite ostale podatke koje treba kombinirati i izvore tih podataka:",
+        "applicationIssuer": {
+            "label": "Izdavatelja"
+        },
+        "dateOfSubmittingTheApplication": {
+            "label": "Datum podnošenja zahtjeva"
+        },
+        "identificationCode": {
+            "label": "Identifikacijska oznaka dozvole"
+        }
+    },
+    "section8": {
+        "section8h5": "Obrada podataka, zaštita podataka i zaštitne mjere za sprečavanje neovlaštene uporabe podataka",
+        "section8Description": "U skladu s člankom 73. stavkom 1. Prijedloga uredbe o europskom prostoru za zdravstvene podatke tijela za pristup zdravstvenim podacima omogućuju pristup elektroničkim zdravstvenim podacima samo u sigurnom okruženju za obradu.",
+        "addPerson": "Dodaj osobu",
+        "removePerson": "Udaljite osobu",
+        "technicalRequirementsForEnvironment": {
+            "label": "Ovdje navedite sve tehničke zahtjeve koje imate za sigurno okruženje za obradu."
+        },
+        "nameWebsiteAddressForEnvironment": {
+            "label": "Ako već znate koje okruženje za obradu želite upotrebljavati, koje je njegovo ime i tko ga pruža? Ovdje navedite naziv i pružatelja sigurnog okruženja za obradu."
+        },
+        "healthDataAccessBody": "Tijelo za pristup zdravstvenim podacima dostavit će podatke nakon obrade vašeg zahtjeva ako vam se izda dozvola za podatke. Tijelo za pristup zdravstvenim podacima zadržat će ključ pseudonimizacije te pojmove i dokumentaciju za ekstrakciju koji se upotrebljavaju za generiranje podataka. Dozvola za podatke izdaje se samo na razdoblje koje je potrebno za ispunjavanje traženih svrha. Dozvola se može izdati na razdoblje od najviše 10 godina. To se trajanje može jednom produljiti na zahtjev korisnika podataka na temelju argumenata i dokumenata kojima se opravdava produljenje (prijedlog uredbe o europskom prostoru za zdravstvene podatke, članak 68. stavak 12.). Prema potrebi, razdoblje uporabe može se produljiti podnošenjem zahtjeva za izmjenu dozvole za podatke.",
+        "whenDataNeeded": {
+            "label": "Kada su vam potrebni podaci?",
+            "tooltip": "Općenito, tijelo za pristup zdravstvenim podacima zatražit će od vlasnika podataka izdvajanje podataka čim vaš zahtjev bude obrađen. Ako podatke želite primiti kasnije, navedite ih ovdje.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Što je prije moguće nakon obrade ovog zahtjeva"
+                },
+                {
+                    "key": "b",
+                    "value": "Kasnije, kada?"
+                }
+            ]
+        },
+        "ifLaterWhen": {
+            "label": "Kasnije, kada?"
+        },
+        "informationWhichDataCanAccess": {
+            "label": "Navedite informacije o razdoblju tijekom kojeg se podacima može pristupiti."
+        },
+        "frequencyOfAccessOrDataUpdates": {
+            "label": "Koja je učestalost tog pristupa ili učestalost ažuriranja podataka?"
+        },
+        "estimatedStartAndEnd": {
+            "label": "Koji su predviđeni datumi početka i završetka razdoblja tijekom kojeg su elektronički zdravstveni podaci potrebni za obradu?",
+            "tooltip": "To razdoblje može trajati pet godina. Uz dodatnu dozvolu izvorna dozvola može se produljiti za dodatnih pet godina."
+        },
+        "estimatedStartDatesForDataProcessing": {
+            "label": "Od"
+        },
+        "estimatedEndDatesForDataProcessing": {
+            "label": "Do"
+        },
+        "ifStoreNeeded": "Ako trebate pohraniti podatke nakon obrade, ovdje navedite razdoblje neaktivne pohrane podataka.",
+        "startPeriodOfInactiveDataStorage": {
+            "label": "Od"
+        },
+        "endPeriodOfInactiveDataStorage": {
+            "label": "Do"
+        },
+        "willTheDataBeTransferred": {
+            "label": "Hoće li se podaci prenositi izvan EU-a ili EGP-a?",
+            "tooltip": "Europski odbor za zaštitu podataka (EDPB) utvrdio je tri kumulativna kriterija na temelju kojih se postupak obrade kvalificira kao prijenos: 1) voditelj obrade ili izvršitelj obrade („izvoznik”) podliježe Općoj uredbi o zaštiti podataka za predmetnu obradu. 2) Izvoznik otkriva osobne podatke prijenosom ili na drugi način stavlja osobne podatke, podložno toj obradi, na raspolaganje drugom voditelju obrade, zajedničkom voditelju obrade ili izvršitelju obrade („uvoznik”). 3) Uvoznik se nalazi u trećoj zemlji, neovisno o tome podliježe li taj uvoznik Općoj uredbi o zaštiti podataka za predmetnu obradu u skladu s člankom 3. ili je međunarodna organizacija. Više informacija: https://www.edpb.europa.eu/system/files/2023-02/edpb_guidelines_05-2021_interplay_between_the_application_of_art3-chapter_v_of_the_gdpr_v2_en_0.pdf"
+        },
+        "whichCountriesDataBeProcessed": {
+            "label": "U kojoj će se zemlji/zemljama izvan EU-a/EGP-a podaci obrađivati?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Dijagnostiku"
+                },
+                {
+                    "key": "b",
+                    "value": "Epidemiologija"
+                },
+                {
+                    "key": "c",
+                    "value": "Liječenje pacijenata"
+                },
+                {
+                    "key": "d",
+                    "value": "Sigurnošću pacijenata"
+                },
+                {
+                    "key": "e",
+                    "value": "Prevencija i liječenje"
+                },
+                {
+                    "key": "f",
+                    "value": "Politika javnog zdravlja"
+                },
+                {
+                    "key": "g",
+                    "value": "Organizacija zdravstvenih ustanova"
+                },
+                {
+                    "key": "h",
+                    "value": "Razumijevanje bolesti"
+                },
+                {
+                    "key": "i",
+                    "value": "Drugo"
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEU": {
+            "label": "Zašto će se podaci prenositi izvan EU-a ili EGP-a?"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47": {
+            "label": "Članak 47.: Prijenosi na temelju odluke o primjerenosti"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47Options": {
+            "label": "Zašto će se podaci prenositi izvan EU-a u skladu s opcijama iz članka 47.?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. prijenos osobnih podataka trećoj zemlji ili međunarodnoj organizaciji može se izvršiti ako je Komisija u skladu s člankom 45. stavkom 3. Uredbe (EU) 2016/679 ili člankom 36. stavkom 3. Direktive (EU) 2016/680 odlučila da treća zemlja, područje ili jedan ili više određenih sektora unutar te treće zemlje ili međunarodna organizacija o kojoj je riječ osigurava odgovarajuću razinu zaštite i ako se osobni podaci prenose isključivo kako bi se omogućilo izvršavanje zadaća u nadležnosti voditelja obrade."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Institucije i tijela Unije obavješćuju Komisiju i Europskog nadzornika za zaštitu podataka o slučajevima u kojima smatraju da treća zemlja, područje ili jedan ili više određenih sektora unutar treće zemlje ili međunarodna organizacija o kojoj je riječ ne osigurava odgovarajuću razinu zaštite u smislu stavka 1."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Institucije i tijela Unije poduzimaju potrebne mjere za usklađivanje s odlukama koje donosi Komisija ako utvrdi, u skladu s člankom 45. stavkom 3. ili 5. Uredbe (EU) 2016/679 ili člankom 36. stavkom 3. ili 5. Direktive (EU) 2016/680, da treća zemlja, područje ili jedan ili više određenih sektora unutar treće zemlje ili međunarodna organizacija osigurava ili više ne osigurava odgovarajuću razinu zaštite."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48": {
+            "label": "Članak 48.: Prijenosi uz odgovarajuće zaštitne mjere"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48bOptions": {
+            "label": "Zašto će se podaci prenositi izvan EU-a u skladu s opcijama iz članka 48.b?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "I. pravno obvezujuća i izvršiva isprava među tijelima javne vlasti ili javnim tijelima"
+                },
+                {
+                    "key": "b",
+                    "value": "II. Standardne klauzule o zaštiti podataka koje donosi Komisija u skladu s postupkom ispitivanja iz članka 96. stavka 2."
+                },
+                {
+                    "key": "c",
+                    "value": "III. Standardne klauzule o zaštiti podataka koje donosi Europski nadzornik za zaštitu podataka i koje Komisija odobrava u skladu s postupkom ispitivanja iz članka 96. stavka 2.; L 295/78 Službeni list Europske unije 21.11.2018."
+                },
+                {
+                    "key": "d",
+                    "value": "IV. Ako izvršitelj obrade nije institucija ili tijelo Unije, obvezujuća korporativna pravila, kodekse ponašanja i mehanizme certificiranja u skladu s člankom 46. stavkom 2. točkama (b), (e) i (f) Uredbe (EU) 2016/679."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48a": {
+            "label": "a. U nedostatku odluke u skladu s člankom 45. stavkom 3. Uredbe (EU) 2016/679 ili člankom 36. stavkom 3. Direktive (EU) 2016/680, voditelj obrade ili izvršitelj obrade može prenijeti osobne podatke trećoj zemlji ili međunarodnoj organizaciji samo ako je voditelj obrade ili izvršitelj obrade predvidio odgovarajuće zaštitne mjere i pod uvjetom da su ispitanicima na raspolaganju provediva prava i učinkoviti pravni lijekovi. "
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48b": {
+            "label": "b. Odgovarajuće zaštitne mjere iz stavka 1., bez potrebe za posebnim odobrenjem Europskog nadzornika za zaštitu podataka, mogu predvidjeti:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48c": {
+            "label": "C. Podložno odobrenju Europskog nadzornika za zaštitu podataka, odgovarajuće zaštitne mjere iz stavka 1. mogu se predvidjeti posebno:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48cOpt": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Ugovorne klauzule između voditelja obrade ili obrađivača i voditelja obrade, izvršitelja obrade ili primatelja osobnih podataka u trećoj zemlji ili međunarodnoj organizaciji."
+                },
+                {
+                    "key": "b",
+                    "value": "Odredbe koje treba unijeti u administrativne dogovore između tijela javne vlasti ili javnih tijela i koja sadrže provediva i djelotvorna prava ispitanika."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48d": {
+            "label": "D. Odobrenja Europskog nadzornika za zaštitu podataka na temelju članka 9. stavka 7. Uredbe (EZ) br. 45/2001 ostaju valjana dok ih Europski nadzornik za zaštitu podataka, prema potrebi, ne izmijeni, zamijeni ili stavi izvan snage."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48e": {
+            "label": "e. Institucije i tijela Unije obavješćuju Europskog nadzornika za zaštitu podataka o kategorijama slučajeva u kojima se primjenjuje ovaj članak."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle49": {
+            "label": "Članak 49.: Prijenosi ili objave koji nisu odobreni pravom Unije"
+        },
+        "legalBasisForTransferringTheDataOutsideEU": {
+            "label": "Koja je pravna osnova za prijenos podataka izvan EU-a ili EGP-a?",
+            "tooltip": "Više informacija u poglavlju 5. Opće uredbe o zaštiti podataka: <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679#d1e4227-1-1</a>",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Zemlja/područje/međunarodna organizacija prijenosa osigurava odgovarajuću razinu zaštite u skladu s odlukom Europske komisije (članak 35. Opće uredbe o zaštiti podataka)"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Voditelj obrade ili izvršitelj obrade osigurao je odgovarajuće zaštitne mjere te su ispitanicima dostupni provediva prava i učinkoviti pravni lijekovi (članak 46. Opće uredbe o zaštiti podataka)."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Druga izvanredna pravna osnova (u nedostatku odgovarajućih zaštitnih mjera u skladu s člankom 46.)"
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUOtherOptions": {
+            "label": "3. Druga izvanredna pravna osnova (u nedostatku odgovarajućih zaštitnih mjera u skladu s člankom 46.)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Ispitanik je izričito pristao na predloženi prijenos nakon što je obaviješten o mogućim rizicima takvih prijenosa za ispitanika zbog nepostojanja odluke o primjerenosti i odgovarajućih zaštitnih mjera."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Prijenos je nužan za izvršavanje ugovora između ispitanika i voditelja obrade ili za provedbu predugovornih mjera poduzetih na zahtjev ispitanika."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Prijenos je nužan za sklapanje ili izvršenje ugovora sklopljenog u interesu ispitanika između voditelja obrade i druge fizičke ili pravne osobe."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Prijenos je nužan zbog važnih razloga od javnog interesa."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Prijenos je nužan za uspostavu, ostvarivanje ili obranu pravnih zahtjeva."
+                },
+                {
+                    "key": "f",
+                    "value": "6. Prijenos je potreban kako bi se zaštitili vitalni interesi ispitanika ili drugih osoba ako ispitanik fizički ili pravno nije sposoban dati privolu."
+                },
+                {
+                    "key": "g",
+                    "value": "7. Prijenos se obavlja iz registra koji je u skladu s pravom Unije ili države članice namijenjen pružanju informacija javnosti i koji je otvoren javnosti općenito ili bilo kojoj osobi koja može dokazati legitiman interes, ali samo u mjeri u kojoj su u konkretnom slučaju ispunjeni uvjeti za savjetovanje utvrđeni pravom Unije ili države članice."
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUc1": {
+            "label": "1. Ispitanik je izričito pristao na predloženi prijenos nakon što je obaviješten o mogućim rizicima takvih prijenosa za ispitanika zbog nepostojanja odluke o primjerenosti i odgovarajućih zaštitnih mjera. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc2": {
+            "label": "2. Prijenos je nužan za izvršavanje ugovora između ispitanika i voditelja obrade ili za provedbu predugovornih mjera poduzetih na zahtjev ispitanika. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc3": {
+            "label": "3. Prijenos je nužan za sklapanje ili izvršenje ugovora sklopljenog u interesu ispitanika između voditelja obrade i druge fizičke ili pravne osobe."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc4": {
+            "label": "4. Prijenos je nužan zbog važnih razloga od javnog interesa."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc5": {
+            "label": "5. Prijenos je nužan za uspostavu, ostvarivanje ili obranu pravnih zahtjeva."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc6": {
+            "label": "6. Prijenos je potreban kako bi se zaštitili vitalni interesi ispitanika ili drugih osoba ako ispitanik fizički ili pravno nije sposoban dati privolu."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc7": {
+            "label": "7. Prijenos se obavlja iz registra koji je u skladu s pravom Unije ili države članice namijenjen pružanju informacija javnosti i koji je otvoren javnosti općenito ili bilo kojoj osobi koja može dokazati legitiman interes, ali samo u mjeri u kojoj su u konkretnom slučaju ispunjeni uvjeti za savjetovanje utvrđeni pravom Unije ili države članice."
+        },
+        "safeguardsAreProvidedByReferringGDCP": {
+            "label": "Te zaštitne mjere osiguravaju:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Pravno obvezujuća i izvršiva isprava među tijelima javne vlasti ili javnim tijelima"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Obvezujuća korporativna pravila u skladu s člankom 47."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Standardne klauzule o zaštiti podataka koje donosi Komisija u skladu s postupkom ispitivanja iz članka 93. stavka 2."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Standardne klauzule o zaštiti podataka koje donosi nadzorno tijelo i odobrava Komisija u skladu s postupkom ispitivanja iz članka 93. stavka 2."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Odobreni kodeks ponašanja u skladu s člankom 40. zajedno s obvezujućim i provedivim obvezama voditelja obrade ili izvršitelja obrade u trećoj zemlji u pogledu primjene odgovarajućih zaštitnih mjera, među ostalim u pogledu prava ispitanika"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Odobreni mehanizam certificiranja u skladu s člankom 42. zajedno s obvezujućim i provedivim obvezama voditelja obrade ili izvršitelja obrade u trećoj zemlji u pogledu primjene odgovarajućih zaštitnih mjera, među ostalim u pogledu prava ispitanika"
+                }
+            ]
+        },
+        "whichOrganizationWillBeTheControllerOfData": {
+            "label": "Koja će organizacija ili pojedinac biti voditelj obrade podataka koji će se sastaviti na temelju ovog zahtjeva?",
+            "tooltip": "Voditelj obrade podataka određuje svrhe i načine obrade osobnih podataka. Drugim riječima, voditelj obrade odlučuje kako i zašto je postupak obrade podataka. Voditelj obrade podataka može biti pravna osoba, na primjer poduzeće, MSP, javno tijelo, agencija ili drugo tijelo. Više informacija: https://edpb.europa.eu/sme-data-protection-guide/data-controller-data-processor_en"
+        },
+        "complyWithDataMinimisationPrinciple": {
+            "label": "Kako poštujete načelo smanjenja količine podataka (Opća uredba EU-a o zaštiti podataka) pri obradi podataka?",
+            "tooltip": "Članak 5. stavak 1. točka (c) Opće uredbe o zaštiti podataka: „Osobni podaci moraju biti primjereni, relevantni i ograničeni na ono što je nužno u odnosu na svrhe u koje se obrađuju („smanjenje količine podataka”)” "
+        },
+        "complyWithDataMinimisationPrincipleNotEUMember": {
+            "label": "Kako poštujete načelo smanjenja količine podataka (Uredba EU-a o zaštiti podataka) pri obradi podataka? ",
+            "tooltip": "Članak 4. stavak 1.c Uredbe EU-a o zaštiti podataka „Osobni podaci moraju biti primjereni, relevantni i ograničeni na ono što je nužno u odnosu na svrhe u koje se obrađuju („smanjenje količine podataka”)”"
+        },
+        "protectionAndSecurityStatements": {
+            "label": "Kako biste nastavili s podnošenjem zahtjeva, morate potvrditi sljedeće izjave (izjave o zaštiti podataka i sigurnosti):"
+        },
+        "protectionAndSecurityStatementsA": {
+            "label": "1. Potvrđujem da, ako mi tijelo za pristup zdravstvenim podacima odobri podatke za koje podnosim zahtjev, upotrijebit ću ih samo u svrhe navedene u ovom obrascu zahtjeva."
+        },
+        "protectionAndSecurityStatementsB": {
+            "label": "2. Razumijem da je umnožavanje podataka iz sigurnog okruženja za obradu zabranjeno."
+        },
+        "protectionAndSecurityStatementsC": {
+            "label": "3. Razumijem da je zabranjeno snimanje svih snimaka zaslona ili fotografija na zaslonu uređaja jednom u sigurnom okruženju za obradu."
+        },
+        "protectionAndSecurityStatementsD": {
+            "label": "4. Imam dovoljno sigurnosnih mjera (kao što je vatrozid) za zaštitu različitih mreža s kojima su povezani uređaji koji se upotrebljavaju za pristup sigurnom okruženju za obradu."
+        },
+        "protectionAndSecurityStatementsE": {
+            "label": "5. Razumijem da su pokušaji ponovne identifikacije zabranjeni i da tijelo za pristup zdravstvenim podacima može izreći sankcije u skladu s člankom 43. Uredbe o europskim zdravstvenim podacima."
+        },
+        "onlyThePeopleMentioned": "Samo će osobe navedene u dozvoli za podatke dobiti pristup obradi podataka u sigurnom okruženju za obradu.",
+        "sameAsContactPerson": {
+            "label": "Isto kao i osoba za kontakt navedena u odjeljku 3.?"
+        },
+        "listTheFullNames": {
+            "label": "Navedite puna imena, opredjeljenja i adrese e-pošte svih osoba koje će obrađivati podatke."
+        },
+        "fullName": {
+            "label": "Puno ime"
+        },
+        "affiliation": {
+            "label": "Pripadnost"
+        },
+        "emailAddress": {
+            "label": "Adresa e-pošte"
+        },
+        "lawfulnessOfProcessing": "Zakonitost obrade:",
+        "legalBasisForProcessingPersonalData": {
+            "label": "Koja je pravna osnova za obradu osobnih podataka za koje podnosite zahtjev u ovom obrascu zahtjeva?"
+        },
+        "lawfulForProcessingPersonalData": {
+            "label": "Obrada osobnih podataka za koje podnosite zahtjev s ovim obrascem zahtjeva zakonita je samo ako i u mjeri u kojoj se primjenjuje barem jedno od sljedećeg (u skladu s člankom 6. stavkom 1. Opće uredbe EU-a o zaštiti podataka, Uredba (EU) 2016/679):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Osoba čiji se podaci obrađuju dala je privolu za obradu svojih osobnih podataka u jednu ili više posebnih svrha"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Obrada je nužna za izvršavanje ugovora u kojem je ispitanik stranka ili kako bi se poduzele radnje na zahtjev ispitanika prije sklapanja ugovora."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Obrada je nužna radi poštovanja pravnih obveza voditelja obrade."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Obrada je nužna kako bi se zaštitili vitalni interesi ispitanika ili druge fizičke osobe."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Obrada je nužna za izvršavanje zadaće od javnog interesa ili pri izvršavanju službene ovlasti dodijeljene voditelju obrade."
+                },
+                {
+                    "key": "f",
+                    "value": "6. Obrada je nužna za potrebe legitimnih interesa voditelja obrade ili treće strane, osim kada su od tih interesa jači interesi ili temeljna prava i slobode ispitanika koji zahtijevaju zaštitu osobnih podataka, osobito ako je ispitanik dijete."
+                }
+            ]
+        },
+        "lawfulForProcessingPersonalDataNaturalPersonOption": {
+            "key": "f",
+            "value": "6. Obrada je nužna za potrebe legitimnih interesa voditelja obrade ili treće strane, osim kada su od tih interesa jači interesi ili temeljna prava i slobode ispitanika koji zahtijevaju zaštitu osobnih podataka, osobito ako je ispitanik dijete."
+        },
+        "otherLegalBasisForProcessingPersonalData": {
+            "label": "Druga, koja?"
+        },
+        "legalBasisForProcessingCombinedData": {
+            "label": "Koja je pravna osnova za obradu ostalih podataka koje ćete kombinirati s podacima za koje ste podnijeli zahtjev u ovom zahtjevu? "
+        },
+        "otherLegalBasisForProcessingCombinedData": {
+            "label": "Druga, koja?"
+        },
+        "europeanUnionInstitution": {
+            "label": "Obrada osobnih podataka za koje prijavljujete ovaj obrazac zahtjeva zakonita je samo ako i u mjeri u kojoj se primjenjuje barem jedno od sljedećeg (u skladu s člankom 5. stavkom 1. Uredbe (EU) 2018/1725 o zaštiti podataka):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Obrada je nužna za izvršavanje zadaće od javnog interesa ili pri izvršavanju službene ovlasti dodijeljene instituciji ili tijelu Unije"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Obrada je nužna radi poštovanja pravnih obveza voditelja obrade."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Obrada je nužna za izvršavanje ugovora kojeg je ispitanik stranka ili kako bi se poduzele radnje na zahtjev ispitanika prije sklapanja ugovora."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Ispitanik je dao privolu za obradu svojih osobnih podataka u jednu ili više posebnih svrha."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Obrada je nužna kako bi se zaštitili životno važni interesi ispitanika ili druge fizičke osobe."
+                }
+            ]
+        },
+        "legalBasisForProcessingApplicationData": {
+            "label": "Koja je pravna osnova za obradu osobnih podataka za koje podnosite zahtjev u ovom obrascu zahtjeva?"
+        },
+        "otherLegalBasisForProcessingApplicationData": {
+            "label": "Druga, koja?"
+        },
+        "legalBasisForProcessingCombinedApplicationData": {
+            "label": "Koja je pravna osnova za obradu ostalih podataka koje ćete kombinirati s podacima za koje ste podnijeli zahtjev u ovom zahtjevu?"
+        },
+        "otherLegalBasisForProcessingCombinedApplicationData": {
+            "label": "Druga, koja?"
+        },
+        "attachResearchPermitIfRequired": {
+            "label": "Ako je za vaše istraživanje potrebna istraživačka dozvola organizacije kojoj pripadate, priložite dozvolu za istraživanje."
+        }
+    },
+    "section9": {
+        "section9h5": "Dodatne informacije",
+        "section9Description": "Ovdje možete navesti dodatne informacije o bilo kojem odjeljku prijave. Navedite broj odjeljka i pitanje na koje se odnosi vaš komentar.",
+        "additionalInformation": {
+            "label": "Dodatne informacije ili dodatne napomene",
+            "tooltip": "Ovdje možete navesti dodatne informacije o bilo kojem odjeljku prijave. Navedite broj odjeljka i pitanje na koje se odnosi vaš komentar. Prijedlog za tehničku provedbu: Druga je mogućnost da se podnositelju zahtjeva omogući povezivanje informacija s određenim dijelovima obrasca kako bi se olakšao rad HDAB-ova."
+        },
+        "additionalAttachment": {
+            "label": "Dodatni prilog. Ovom zahtjevu nemojte prilagati zdravstvene ili osobne podatke.",
+            "tooltip": "Ako imate bilo koji drugi prilog koji smatrate relevantnim za obradu vašeg zahtjeva i koji je potreban tijelu za pristup zdravstvenim podacima, priložite ga ovdje. Opišite njegovu važnost u prethodno navedenom polju za unos teksta."
+        }
+    },
+    "section10": {
+        "section10h5": "Potvrda podataka",
+        "section10Description": "Prije obrade ovog zahtjeva morate kao podnositelj zahtjeva odobriti pristojbe za obradu.",
+        "submitYouApplicationText": "Za podnošenje prijave morate potvrditi sljedeće:",
+        "acceptHealthDataBody": {
+            "label": "Prihvaćam da će tijelo za zdravstvene podatke prikupiti statističke podatke i da nemam pristup podacima koji se upotrebljavaju za izradu statističkih podataka."
+        },
+        "awareProcessingFee": {
+            "label": "Svjestan/svjesna sam da će se za obradu mojeg zahtjeva naplaćivati naknada za obradu. Primjenjivat će se i u slučaju poništenog zahtjeva ili negativne odluke."
+        },
+        "awareChargeFee": {
+            "label": "Svjestan/svjesna sam da vlasnici podataka mogu naplaćivati naknadu."
+        },
+        "awareInformationCorrect": {
+            "label": "Potvrđujem da su informacije koje sam dostavio točne."
+        }
+    },
+    "commonFields": {
+        "aboutThisSection": "O ovom odjeljku",
+        "yesOrNoOptions": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Da"
+                },
+                {
+                    "key": "b",
+                    "value": "Nema"
+                }
+            ]
+        },
+        "onceOrMultipleTimes": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Jednom"
+                },
+                {
+                    "key": "b",
+                    "value": "Više puta"
+                }
+            ]
+        },
+        "everyWhen": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Svake godine"
+                },
+                {
+                    "key": "b",
+                    "value": "Pola godine"
+                },
+                {
+                    "key": "c",
+                    "value": "Četvrtinu"
+                },
+                {
+                    "key": "d",
+                    "value": "Drugo"
+                }
+            ]
+        },
+        "processingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. (e) obrada je nužna za izvršavanje zadaće od javnog interesa ili pri izvršavanju službene ovlasti dodijeljene voditelju obrade;"
+                },
+                {
+                    "key": "b",
+                    "value": "2. (f) obrada je nužna za potrebe legitimnih interesa voditelja obrade ili treće strane, osim ako su od tih interesa jači interesi ili temeljna prava i slobode ispitanika koji zahtijevaju zaštitu osobnih podataka, posebno ako je ispitanik dijete."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Drugo"
+                }
+            ]
+        },
+        "legalBasisForProcessingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. (a) obrada je nužna za izvršavanje zadaće od javnog interesa ili pri izvršavanju službene ovlasti dodijeljene instituciji ili tijelu Unije."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Drugo"
+                }
+            ]
+        }
+    }
+}

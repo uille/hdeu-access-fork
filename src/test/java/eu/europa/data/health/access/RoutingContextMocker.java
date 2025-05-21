@@ -63,12 +63,12 @@ public class RoutingContextMocker {
 
     // Mock the User object from vertx-auth-common
     User mockUser = Mockito.mock(User.class);
-    String ecasId = "1eadc727-9da3-44e9-80a0-867d291f3bf7";
+    String ecasId = "n3817490";
     // Define rules
     Mockito.when(context.user()).thenReturn(mockUser);
-    JsonObject principal = new JsonObject().put("sub", ecasId);
+    JsonObject principal = new JsonObject().put("preferred_username", ecasId);
     Mockito.when(context.user().principal()).thenReturn(principal);
-    Mockito.when(mockUser.get("sub")).thenReturn(ecasId);
+    Mockito.when(mockUser.get("preferred_username")).thenReturn(ecasId);
 
     return context;
   }

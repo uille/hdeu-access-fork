@@ -9,7 +9,7 @@
           "required": ["key", "value"],
           "properties": {
             "key": { "type": "string", "enum": ["b"] },
-            "value": { "type": "string", "enum": ["Natural person"] }
+            "value": { "type": "string" }
           }
         },
         "naturalPersonJobTitle": { "type": "string" },
@@ -45,7 +45,7 @@
           "required": ["key", "value"],
           "properties": {
             "key": { "type": "string", "enum": ["a"] },
-            "value": { "type": "string", "enum": ["Legal person"] }
+            "value": { "type": "string" }
           }
         },
         "legalPersonOrganisationName": { "type": "string" },

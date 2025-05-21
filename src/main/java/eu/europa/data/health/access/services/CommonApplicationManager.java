@@ -16,13 +16,13 @@
 package eu.europa.data.health.access.services;
 
 import static eu.europa.data.health.access.ApplicationStatus.DRAFT;
-import static eu.europa.data.health.access.Constants.APPLICATION_AUDIT_LOG;
-import static eu.europa.data.health.access.Constants.APPLICATION_CREATED;
-import static eu.europa.data.health.access.Constants.APPLICATION_DELETED;
+import static eu.europa.data.health.access.Constants.APPLICATIONID;
 import static eu.europa.data.health.access.Constants.APPLICATION_ID;
 import static eu.europa.data.health.access.Constants.APPLICATION_WITH_ID;
 import static eu.europa.data.health.access.Constants.APPLYING_FOR_DATA_FOR_CARRYING_OUT_TASKS;
 import static eu.europa.data.health.access.Constants.APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR;
+import static eu.europa.data.health.access.Constants.AUDIT_LOG_COLLECTION;
+import static eu.europa.data.health.access.Constants.BASKET_COLLECTION;
 import static eu.europa.data.health.access.Constants.CONTACT_PERSON_AFFILIATION;
 import static eu.europa.data.health.access.Constants.CONTACT_PERSON_BUSINESS_ID;
 import static eu.europa.data.health.access.Constants.CONTACT_PERSON_EMAIL;
@@ -96,7 +96,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.europa.data.health.access.ApplicationStatus;
+import eu.europa.data.health.access.AuditLogAction;
+import eu.europa.data.health.access.AuditLogActionDescription;
+import eu.europa.data.health.access.AuditLogObject;
 import eu.europa.data.health.access.Constants;
+import eu.europa.data.health.access.Context;
 import eu.europa.data.health.access.exceptions.FieldError;
 import eu.europa.data.health.access.exceptions.JsonParsingException;
 import eu.europa.data.health.access.handlers.DBHandler;
@@ -110,19 +114,19 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.mongo.MongoClientUpdateResult;
-import io.vertx.ext.web.FileUpload;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpResponse;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public abstract class CommonApplicationManager extends AbstractManager {
@@ -149,17 +153,18 @@ public abstract class CommonApplicationManager extends AbstractManager {
   private final MongoClient mongoClient;
   private final Vertx vertx;
   private final HubStoreClient hubStoreClient;
+  private final AuditLogManager auditLogManager;
 
   protected CommonApplicationManager(DBHandler dbHandler, BasketManager basketManager,
-    MongoClient mongoClient, Vertx vertx, HubStoreClient hubStoreClient) {
+    MongoClient mongoClient, Vertx vertx, HubStoreClient hubStoreClient, AuditLogManager auditLogManager) {
     super(dbHandler);
     this.dbHandler = dbHandler;
     this.basketManager = basketManager;
     this.mongoClient = mongoClient;
     this.vertx = vertx;
     this.hubStoreClient = hubStoreClient;
+    this.auditLogManager = auditLogManager;
   }
-
 
   protected void performStatusUpdate(JsonObject mongoApplication, JsonObject status,
     RoutingContext context) {
@@ -181,7 +186,7 @@ public abstract class CommonApplicationManager extends AbstractManager {
     // Set the status_history to the new status.
     status.put(STATUS_HISTORY, previousStatuses);
     status.put(DATE, Instant.now());
-    status.put(USER_ID, getUserId(context));
+    status.put(USER_ID, Context.getEcasId(context));
     mongoApplication.put(STATUS, status);
   }
 
@@ -191,43 +196,75 @@ public abstract class CommonApplicationManager extends AbstractManager {
     // Define the fields to be stored
     requestBody.put(DATE_CREATED, Instant.now());
     requestBody.put(DATE_MODIFIED, Instant.now());
-    requestBody.put(USER_ID, getUserId(context));
+    requestBody.put(USER_ID, Context.getEcasId(context));
     JsonObject status = new JsonObject();
     status.put(STATUS, DRAFT);
     status.put(DATE, Instant.now());
-    status.put(USER_ID, getUserId(context));
+    status.put(USER_ID, Context.getEcasId(context));
     requestBody.put(STATUS, status);
     requestBody.put(VERSION, 1);
     JsonArray datasets = requestBody.getJsonArray(DATASETS);
 
-    if (datasets != null) {
+    if (datasets != null && !datasets.isEmpty()) {
+
+      List<Future<Void>> futures = new ArrayList<>();
       for (Object datasetObj : datasets) {
+
         JsonObject dataset = (JsonObject) datasetObj;
         dataset.put(DATE_ADDED, Instant.now());
+
+        JsonObject publisherRetrieveQuery = new JsonObject()
+          .put("dataset_id", dataset.getString("dataset_id"))
+          .put(USER_ID, Context.getEcasId(context));
+
+        Future<Void> future = mongoClient.findOne(BASKET_COLLECTION, publisherRetrieveQuery, null)
+          .compose(result -> {
+            if (result != null) {
+              JsonObject title = new JsonObject().put("name", result.getString("publisher"));
+              dataset.put("publisher", title);
+            }
+            return Future.succeededFuture();
+          });
+        futures.add(future);
       }
+
+      // Wait for all async queries to finish before proceeding
+      Future.all(futures).onComplete(ar -> {
+        if (ar.succeeded()) {
+          super.createEntity(context, collectionName);
+
+          //Audit Log
+          String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+            DATA_ACCESS_APPLICATION_COLLECTION.equalsIgnoreCase(collectionName)
+              ? AuditLogActionDescription.DATA_ACCESS_APPLICATION_CREATED.getString()
+              : AuditLogActionDescription.DATA_REQUEST_APPLICATION_CREATED.getString(),
+            context.body().asJsonObject().getString(ID), context.body().asJsonObject().getString(TITLE));
+          auditLogManager.insertAuditLog(
+            DATA_ACCESS_APPLICATION_COLLECTION.equalsIgnoreCase(collectionName)
+              ? AuditLogObject.DATA_ACCESS_APPLICATION.getString()
+              : AuditLogObject.DATA_REQUEST_APPLICATION.getString(),
+            context.body().asJsonObject().getString(ID),
+            DATA_ACCESS_APPLICATION_COLLECTION.equalsIgnoreCase(collectionName)
+              ? AuditLogAction.DATA_ACCESS_APPLICATION_CREATED.getString()
+              : AuditLogAction.DATA_REQUEST_APPLICATION_CREATED.getString(),
+            auditLogActionDescription, true, context);
+
+          // For each dataset delete distributions from data basket
+          deleteDistributionsFromBasket(datasets, context);
+        } else {
+          setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+            ar.cause().getMessage());
+        }
+      });
     }
-    super.createEntity(context, collectionName);
-    String applicationId = context.body().asJsonObject().getString(ID);
-    auditLog(status, applicationId, APPLICATION_CREATED, context);
-    // For each dataset delete distributions from data basket
-    deleteDistributionsFromBasket(datasets, context);
   }
 
-  protected void auditLog(JsonObject status, String applicationId,
-    String action, RoutingContext context) {
-    JsonObject auditLog = new JsonObject(status.encode())
-      .put(APPLICATION_ID, applicationId)
-      .put(USER_ID, getUserId(context))
-      .put("action", action);
-    dbHandler.create(APPLICATION_AUDIT_LOG, auditLog);
-  }
-
-  protected void deleteDataAccessApplicationById(@NotNull RoutingContext context,
+  protected void deleteApplicationById(@NotNull RoutingContext context,
     String collectionName) {
     String id = context.pathParam("id");
     // First, retrieve the application
     JsonObject query = new JsonObject().put(ID, id);
-    query.put(USER_ID, getUserId(context));
+    query.put(USER_ID, Context.getEcasId(context));
     mongoClient.findOne(collectionName, query, null, ar -> {
       if (ar.succeeded()) {
         JsonObject document = ar.result();
@@ -249,13 +286,29 @@ public abstract class CommonApplicationManager extends AbstractManager {
                 throw new JsonParsingException("Error parsing JSON input", e);
               }
               for (String fileId : fileIds) {
-                hubStoreClient.deleteFile(fileId, id);
+                hubStoreClient.deleteFile(fileId, APPLICATIONID, id);
               }
             }
-            // Log the application for auditing purposes
-            auditLog(document.getJsonObject(STATUS), id, APPLICATION_DELETED, context);
-            // Delete the application
+
             super.deleteEntityById(context, collectionName);
+
+            //Audit Log
+            dbHandler.updateLinkableFields(AUDIT_LOG_COLLECTION, id);
+            String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+              DATA_ACCESS_APPLICATION_COLLECTION.equalsIgnoreCase(collectionName)
+                ? AuditLogActionDescription.DATA_ACCESS_APPLICATION_DELETED.getString()
+                : AuditLogActionDescription.DATA_REQUEST_APPLICATION_DELETED.getString(),
+              id, document.getString("title"));
+            auditLogManager.insertAuditLog(
+              DATA_ACCESS_APPLICATION_COLLECTION.equalsIgnoreCase(collectionName)
+                ? AuditLogObject.DATA_ACCESS_APPLICATION.getString()
+                : AuditLogObject.DATA_REQUEST_APPLICATION.getString(),
+              id,
+              DATA_ACCESS_APPLICATION_COLLECTION.equalsIgnoreCase(collectionName)
+                ? AuditLogAction.DATA_ACCESS_APPLICATION_DELETED.getString()
+                : AuditLogAction.DATA_REQUEST_APPLICATION_DELETED.getString(),
+              auditLogActionDescription, false, context);
+
           } else {
             setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
               DELETION_CAN_NOT_BE_EXECUTED);
@@ -325,14 +378,14 @@ public abstract class CommonApplicationManager extends AbstractManager {
       }
       basketManager.deleteDistributionsByDistributionIdList(
         new JsonObject().put(DATASET_ID, dataset.getString(DATASET_ID)).put(USER_ID,
-          getUserId(context)), distributionIdList);
+          Context.getEcasId(context)), distributionIdList);
     }
   }
 
   public void postData(@NotNull RoutingContext context, String collectionName) {
 
     String requestApplicationId = context.pathParam(APPLICATION_ID);
-    String userId = getUserId(context);
+    String userId = Context.getEcasId(context);
     JsonObject query = new JsonObject().put(ID, requestApplicationId).put(USER_ID, userId);
 
     // Search in database based on the provided application id and user Id
@@ -347,7 +400,7 @@ public abstract class CommonApplicationManager extends AbstractManager {
             .equalsIgnoreCase(mongoApplication.getJsonObject(STATUS).getString(STATUS))) {
 
             // Proceed if the application exists
-            handleFileUpload(context, requestApplicationId);
+            handleFileUpload(context, APPLICATIONID, requestApplicationId, hubStoreClient, vertx);
 
           } else {
             setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
@@ -370,7 +423,7 @@ public abstract class CommonApplicationManager extends AbstractManager {
    */
   public void getData(@NotNull RoutingContext context, String collectionName) {
     String applicationId = context.pathParam(APPLICATION_ID);
-    String userId = getUserId(context);
+    String userId = Context.getEcasId(context);
     JsonObject query = new JsonObject().put(ID, applicationId).put(USER_ID, userId);
 
     // Check if the application exists
@@ -428,30 +481,11 @@ public abstract class CommonApplicationManager extends AbstractManager {
     return null;
   }
 
-  private void handleFileUpload(RoutingContext context, String applicationId) {
-
-    String contentType = context.request().getHeader(CONTENT_TYPE);
-
-    // Get the uploaded file
-    FileUpload fileUploaded = context.fileUploads().get(0);
-    vertx.fileSystem().readFile(fileUploaded.uploadedFileName())
-      .compose(
-        fileBuffer -> hubStoreClient.uploadFile(applicationId, fileUploaded.fileName(),
-          fileBuffer, contentType))
-      .onSuccess(responseJson -> {
-        context.response().putHeader(CONTENT_TYPE, "application/json");
-        setUpContextResponse(context, HttpResponseStatus.CREATED, responseJson.encode());
-      })
-      .onFailure(
-        err -> setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
-          "Failed to upload file"));
-  }
-
   protected void getFileData(RoutingContext context, final String applicationId) {
     String fileId = context.pathParam("data_id");
 
     // Get the uploaded file
-    hubStoreClient.getFile(fileId, applicationId)
+    hubStoreClient.getFile(fileId, APPLICATIONID, applicationId)
       .onComplete(ar -> {
         if (ar.succeeded()) {
           HttpResponse<Buffer> response = ar.result();
@@ -470,7 +504,7 @@ public abstract class CommonApplicationManager extends AbstractManager {
   protected void deleteFile(RoutingContext context, String applicationId) {
     String fileId = context.pathParam("data_id");
 
-    hubStoreClient.deleteFile(fileId, applicationId)
+    hubStoreClient.deleteFile(fileId, APPLICATIONID, applicationId)
       .onComplete(ar -> {
         if (ar.succeeded()) {
           setUpMessageContextResponse(context, HttpResponseStatus.OK,
@@ -488,7 +522,7 @@ public abstract class CommonApplicationManager extends AbstractManager {
    */
   public void deleteData(@NotNull RoutingContext context, String collectionName) {
     String applicationId = context.pathParam(APPLICATION_ID);
-    String userId = getUserId(context);
+    String userId = Context.getEcasId(context);
     JsonObject query = new JsonObject().put(ID, applicationId).put(USER_ID, userId);
 
     // Search in database based on the provided application id and user Id
@@ -524,7 +558,7 @@ public abstract class CommonApplicationManager extends AbstractManager {
   protected void createOrUpdateSection(@NotNull RoutingContext context, String collectionName) {
 
     JsonObject query = new JsonObject().put(ID, context.pathParam(APPLICATION_ID));
-    query.put(USER_ID, getUserId(context));
+    query.put(USER_ID, Context.getEcasId(context));
     // Search in database based on the provided application id and user Id
     mongoClient.findOne(collectionName, query, null, ar -> {
       if (ar.succeeded()) {
@@ -565,7 +599,7 @@ public abstract class CommonApplicationManager extends AbstractManager {
 
             if(DATA_ACCESS_APPLICATION_COLLECTION.equals(collectionName)){
               update.put(FORM + sectionNumber,
-                (StringUtils.equals(sectionNumber, SECTION_6)) ? sameAsSection3Array(context.body().asJsonArray(), sectionNumber, section3)
+                (StringUtils.equals(sectionNumber, SECTION_6)) ? sameAsSection3Array(context.body().asJsonArray(), section3)
                   : sameAsSection3Object(context.body().asJsonObject(), sectionNumber, section3));
             } else if (DATA_REQUEST_APPLICATION_COLLECTION.equals(collectionName)) {
               update.put(FORM + sectionNumber,
@@ -624,7 +658,7 @@ public abstract class CommonApplicationManager extends AbstractManager {
     });
   }
 
-  private JsonArray sameAsSection3Array(JsonArray sectionFormArray, String sectionNumber, JsonObject section3) {
+   JsonArray sameAsSection3Array(JsonArray sectionFormArray, JsonObject section3) {
     if (Objects.isNull(section3)) return sectionFormArray;
 
     JsonObject legalOrNaturalPerson = section3.getJsonObject(LEGAL_OR_NATURAL_PERSON);
@@ -673,7 +707,7 @@ public abstract class CommonApplicationManager extends AbstractManager {
     return sectionForm;
   }
 
-  private void populateSection4(JsonObject sectionForm, JsonObject section3, String personType) {
+   void populateSection4(JsonObject sectionForm, JsonObject section3, String personType) {
     if ("a".equals(personType)) {
       sectionForm.put("fullName", section3.getString(LEGAL_PERSON_NAME));
       sectionForm.put("address", section3.getString(LEGAL_PERSON_ADDRESS));
@@ -690,7 +724,7 @@ public abstract class CommonApplicationManager extends AbstractManager {
     }
   }
 
-  private void populateSection5(JsonObject sectionForm, JsonObject section3, String personType) {
+   void populateSection5(JsonObject sectionForm, JsonObject section3, String personType) {
     String nameKey = "a".equals(personType) ? LEGAL_PERSON_NAME : NATURAL_PERSON_NAME;
     String jobTitleKey = "a".equals(personType) ? CONTACT_PERSON_JOB_TITLE : NATURAL_PERSON_JOB_TITLE;
     String affiliationKey = "a".equals(personType) ? CONTACT_PERSON_AFFILIATION : NATURAL_PERSON_AFFILIATION;
@@ -713,7 +747,7 @@ public abstract class CommonApplicationManager extends AbstractManager {
   }
 
 
-  private void updateSameAsSection3(JsonObject mongoForm, JsonObject updateForm, Integer sectionNumber, Boolean isAccess) {
+   void updateSameAsSection3(JsonObject mongoForm, JsonObject updateForm, Integer sectionNumber, Boolean isAccess) {
     JsonObject section3 = mongoForm.getJsonObject(SECTION_3);
 
     if (Objects.isNull(section3)) return;
@@ -727,6 +761,9 @@ public abstract class CommonApplicationManager extends AbstractManager {
         break;
       case 6:
         if (Boolean.TRUE.equals(isAccess)) updateSection6(updateForm.getJsonArray("form.section6"), section3);
+        break;
+      case 8:
+        if (Boolean.TRUE.equals(isAccess)) updateSection8(updateForm.getJsonObject("form.section8"), section3);
         break;
       default:
         break;
@@ -759,6 +796,55 @@ public abstract class CommonApplicationManager extends AbstractManager {
 
     updatePerson(section5, section3, PERSON_RESEARCH_SAME_AS_CONTACT_PERSON, PERSON_RESEARCH_NAME,
       PERSON_RESEARCH_JOB_TITLE, PERSON_RESEARCH_AFFILIATION);
+  }
+
+  private void updateSection8(JsonObject section8, JsonObject section3) {
+    if (Objects.isNull(section8)) return;
+
+    boolean sameAsContactPerson = section8.getBoolean(SAME_AS_CONTACT_PERSON, false);
+
+    if (!sameAsContactPerson) return;
+
+    JsonObject legalPerson = section3.getJsonObject(LEGAL_OR_NATURAL_PERSON);
+    if (Objects.isNull(legalPerson)) return;
+
+    if (section8.getJsonArray("peopleWhoWillBeProcessingTheData") == null) {
+      section8.put("peopleWhoWillBeProcessingTheData", new JsonArray());
+    }
+
+    boolean isNatural = "b".equals(legalPerson.getString("key"));
+
+    String fullName = isNatural
+      ? section3.getString("naturalPersonName", "")
+      : section3.getString("contactPersonName", "");
+
+    String affiliation = isNatural
+      ? section3.getString("naturalPersonAffiliation", "")
+      : section3.getString("contactPersonAffiliation", "");
+
+    String emailAddress = isNatural
+      ? section3.getString("naturalPersonEmail", "")
+      : section3.getString("contactPersonEmail", "");
+
+    // Create JsonObject for person (you can also use your PersonDTO and convert it)
+    JsonObject personJson = new JsonObject()
+      .put("fullName", fullName != null ? fullName : "")
+      .put("affiliation", affiliation != null ? affiliation : "")
+      .put("emailAddress", emailAddress != null ? emailAddress : "");
+
+    // Get or initialize the array
+    JsonArray peopleArray = section8.getJsonArray("peopleWhoWillBeProcessingTheData");
+    if (peopleArray == null) {
+      peopleArray = new JsonArray();
+      section8.put("peopleWhoWillBeProcessingTheData", peopleArray);
+    }
+
+    // Add or replace the first person
+    if (peopleArray.isEmpty()) {
+      peopleArray.add(personJson);
+    } else {
+      peopleArray.set(0, personJson);
+    }
   }
 
   private void updatePerson(JsonObject section, JsonObject section3, String key, String nameKey, String jobTitleKey, String affiliationKey) {
@@ -880,6 +966,7 @@ public abstract class CommonApplicationManager extends AbstractManager {
                 .compose(res1 -> validateNestedFileFor("permitDecisionAttachment", context)
                   .recover(err -> Future.succeededFuture()))
                 .compose(res2 -> validateNestedFileFor("ethicalReviewAttachment", context))
+                .compose(res2 -> validateNestedFileFor("variablesToBeUsedInDataExtractionAttachment", context))
                 .onComplete(end -> context.next());
               break;
             }
@@ -994,7 +1081,7 @@ public abstract class CommonApplicationManager extends AbstractManager {
 
     JsonObject attachment = object.getJsonObject(fieldName);
     String attachmentId = attachment.getString("id");
-    hubStoreClient.getFile(attachmentId, applicationId)
+    hubStoreClient.getFile(attachmentId, APPLICATIONID, applicationId)
       .compose(result -> {
         String fileName = result.getHeader("filename");
         if (!fileName.equalsIgnoreCase(attachment.getString("name"))) {
@@ -1077,7 +1164,7 @@ public abstract class CommonApplicationManager extends AbstractManager {
       JsonObject attachment = (JsonObject) obj;
       String attachmentId = attachment.getString("id");
 
-      Future<Object> future = hubStoreClient.getFile(attachmentId, applicationId)
+      Future<Object> future = hubStoreClient.getFile(attachmentId, APPLICATIONID, applicationId)
         .compose(result -> {
           String fileName = result.getHeader("filename");
           if (!fileName.equalsIgnoreCase(attachment.getString("name"))) {
@@ -1111,17 +1198,8 @@ public abstract class CommonApplicationManager extends AbstractManager {
 
   protected void cleanSection2(JsonObject mongoApplicationForm) {
     JsonObject section2 = mongoApplicationForm.getJsonObject(SECTION_2);
-
-    JsonArray theResearchFocusesOnTheFollowingObjectives = section2.getJsonArray(
-      "theResearchFocusesOnTheFollowingObjectives");
-    if (Objects.nonNull(theResearchFocusesOnTheFollowingObjectives) && notContainsKey(
-      theResearchFocusesOnTheFollowingObjectives, "i")) {
-      section2.remove("theResearchFocusesOnTheFollowingObjectivesOther");
-    }
-
-    JsonArray areaOfResearch = section2.getJsonArray("areaOfResearch");
-    if (Objects.nonNull(areaOfResearch) && notContainsKey(areaOfResearch, "aj")) {
-      section2.remove("areaOfResearchOther");
+    if(Objects.isNull(section2)){
+      return;
     }
 
     boolean isDescriptionChecked =
@@ -1131,8 +1209,6 @@ public abstract class CommonApplicationManager extends AbstractManager {
 
     if (!isDescriptionChecked) {
       section2.remove("descriptionOfTheProject");
-    }else {
-      section2.remove("descriptionOfTheDataYouWillUse");
     }
 
     boolean isSummaryChecked =
@@ -1142,7 +1218,7 @@ public abstract class CommonApplicationManager extends AbstractManager {
 
     if (!isSummaryChecked) {
       section2.remove(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY_REASON);
-    }else {
+    } else {
       section2.remove("summaryOfTheProject");
     }
 
@@ -1152,16 +1228,21 @@ public abstract class CommonApplicationManager extends AbstractManager {
 
   protected void cleanSection3(JsonObject mongoApplicationForm) {
     JsonObject section3 = mongoApplicationForm.getJsonObject(SECTION_3);
+    if(Objects.isNull(section3)){
+      return;
+    }
 
     JsonObject applyingForDataOnBehalfOfPublicSector = section3.getJsonObject(
       APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR);
-    if (!"a".equals(applyingForDataOnBehalfOfPublicSector.getString("key"))) {
+    if (Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && !"a".equals(
+      applyingForDataOnBehalfOfPublicSector.getString("key"))) {
       section3.remove(APPLYING_FOR_DATA_FOR_CARRYING_OUT_TASKS);
     }
 
     JsonObject legalPerson = section3.getJsonObject(LEGAL_OR_NATURAL_PERSON);
     //if is "a" is legal person else i b natural person
-    if (Objects.equals(legalPerson.getString("key"), "b")) {
+    if (Objects.nonNull(legalPerson) &&
+      Objects.equals(legalPerson.getString("key"), "b")) {
       section3.remove(LEGAL_PERSON_NAME);
       section3.remove(LEGAL_PERSON_ADDRESS);
       section3.remove("legalPersonZipCode");
@@ -1195,15 +1276,21 @@ public abstract class CommonApplicationManager extends AbstractManager {
   protected void cleanSection4(JsonObject mongoApplicationForm) {
     JsonObject section3 = mongoApplicationForm.getJsonObject(SECTION_3);
     JsonObject section4 = mongoApplicationForm.getJsonObject(SECTION_4);
+    if(Objects.isNull(section4)){
+      return;
+    }
 
     JsonObject invoiceType = section4.getJsonObject("invoiceType");
 
-    if (!Objects.equals(invoiceType.getString("key"), "b")) {
+    if (Objects.nonNull(invoiceType) &&
+      !Objects.equals(invoiceType.getString("key"), "b")) {
       section4.remove("invoiceAddress");
     }
 
-    JsonObject legalPerson = section3.getJsonObject(LEGAL_OR_NATURAL_PERSON);
-    if (Objects.equals(legalPerson.getString("key"), "b")) {
+    JsonObject legalPerson = Objects.nonNull(section3) ?
+      section3.getJsonObject(LEGAL_OR_NATURAL_PERSON) : null;
+    if (Objects.nonNull(legalPerson) &&
+      Objects.equals(legalPerson.getString("key"), "b")) {
       section4.remove("operatorIdentifier");
       section4.remove("nameOfTheOrganisation");
       section4.remove("businessIdentifierOrganization");
@@ -1213,7 +1300,8 @@ public abstract class CommonApplicationManager extends AbstractManager {
 
     JsonObject isTheProjectFinanciallyCovered = section4.getJsonObject(
       "isTheProjectFinanciallyCovered");
-    if (!"a".equals(isTheProjectFinanciallyCovered.getString("key"))) {
+    if (Objects.nonNull(isTheProjectFinanciallyCovered) &&
+      !"a".equals(isTheProjectFinanciallyCovered.getString("key"))) {
       section4.remove("rangeOfAmountOfFinancing");
     }
     mongoApplicationForm.put(SECTION_4, section4);
@@ -1254,7 +1342,7 @@ public abstract class CommonApplicationManager extends AbstractManager {
     JsonObject query = new JsonObject()
       .put(TITLE, title)  // Match the title
       .put(ID, new JsonObject().put("$ne", id))
-      .put(USER_ID, getUserId(context));
+      .put(USER_ID, Context.getEcasId(context));
 
     // Check if the provided title already exists as a document.
     mongoClient.findOne(database, query, null, asyncResult -> {
@@ -1294,6 +1382,25 @@ public abstract class CommonApplicationManager extends AbstractManager {
         log.info("Rollback failed for application : {} with message: {}", applicationId, ar.cause().getMessage());
       }
     });
+  }
+
+  protected Future<JsonObject> replaceApplication(JsonObject mongoApplication, String collectionName) {
+    Promise<JsonObject> promise = Promise.promise();
+    JsonObject query = new JsonObject().put(ID, mongoApplication.getValue(ID));
+    mongoApplication.put(DATE_MODIFIED, Instant.now());
+    mongoClient.findOneAndReplace(collectionName, query, mongoApplication,
+      result -> {
+        if (result.succeeded()) {
+          log.info("{} Application with id: {} was updated successfully", collectionName,
+            mongoApplication.getValue(ID));
+          promise.complete(result.result());
+        } else {
+          log.info("{} Failed to replace application with id: {}", collectionName,
+            mongoApplication.getValue(ID));
+          promise.fail(result.cause());
+        }
+      });
+    return promise.future();
   }
 
 }

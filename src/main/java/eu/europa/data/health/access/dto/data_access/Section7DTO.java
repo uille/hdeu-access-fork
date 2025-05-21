@@ -23,6 +23,7 @@ import eu.europa.data.health.access.annotations.ListOfAttachmentsValidation;
 import eu.europa.data.health.access.annotations.RequiredFieldBasedOnObjectValue;
 import eu.europa.data.health.access.dto.AttachmentDTO;
 import eu.europa.data.health.access.dto.PermitDocumentDTO;
+import eu.europa.data.health.access.dto.ProvideInformationDTO;
 import eu.europa.data.health.access.dto.SectionDTO;
 import eu.europa.data.health.access.dto.SelectObjectDTO;
 import jakarta.validation.Valid;
@@ -35,76 +36,60 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 
-  @RequiredFieldBasedOnObjectValue(
-    objectName = "willDataBeCombinedWithDataObtained",
-    baseField = "key",
-    baseFieldValue = "a",
-    mandatoryFieldType = "string",
-    mandatoryField = "combinedCountries",
-    message = "combinedCountries must be provided when willDataBeCombinedWithDataObtained is 'Yes'"
-  )
-  @RequiredFieldBasedOnObjectValue(
-    objectName = "willDataBeCombinedWithDataObtained",
-    baseField = "key",
-    baseFieldValue = "a",
-    mandatoryFieldType = "string",
-    mandatoryField = "combinedDataHolders",
-    message = "combinedDataHolders must be provided when willDataBeCombinedWithDataObtained is 'Yes'"
-  )
-  @RequiredFieldBasedOnObjectValue(
-    objectName = "willDataBeCombinedWithDataObtained",
-    baseField = "key",
-    baseFieldValue = "a",
-    mandatoryFieldType = "string",
-    mandatoryField = "combinedDatabaseRegistries",
-    message = "combinedDatabaseRegistries must be provided when willDataBeCombinedWithDataObtained is 'Yes'"
-  )
-  @RequiredFieldBasedOnObjectValue(
-    objectName = "willDataBeCombinedWithDataObtained",
-    baseField = "key",
-    baseFieldValue = "a",
-    mandatoryFieldType = "string",
-    mandatoryField = "combinedDatasetsRegistries",
-    message = "combinedDatasetsRegistries must be provided when willDataBeCombinedWithDataObtained is 'Yes'"
-  )
-  @RequiredFieldBasedOnObjectValue(
-    objectName = "willDataBeCombinedWithDataObtained",
-    baseField = "key",
-    baseFieldValue = "a",
-    mandatoryFieldType = "string",
-    mandatoryField = "providedInformationOnDataCombined",
-    message = "providedInformationOnDataCombined must be provided when willDataBeCombinedWithDataObtained is 'Yes'"
-  )
-  @RequiredFieldBasedOnObjectValue(
-    objectName = "otherPermitApplications",
-    baseField = "key",
-    baseFieldValue = "a",
-    mandatoryFieldType = "string",
-    mandatoryField = "dateOfSubmittingTheApplication",
-    message = "dateOfSubmittingTheApplication must be provided when otherPermitApplications is 'Yes'"
-  )
-  @RequiredFieldBasedOnObjectValue(
-    objectName = "otherPermitApplications",
-    baseField = "key",
-    baseFieldValue = "a",
-    mandatoryFieldType = "string",
-    mandatoryField = "applicationIssuer",
-    message = "applicationIssuer must be provided when otherPermitApplications is 'Yes'"
-  )
-  @RequiredFieldBasedOnObjectValue(
-    objectName = "otherPermitApplications",
-    baseField = "key",
-    baseFieldValue = "a",
-    mandatoryFieldType = "string",
-    mandatoryField = "identificationCode",
-    message = "identificationCode must be provided when otherPermitApplications is 'Yes'"
-  )
+@RequiredFieldBasedOnObjectValue(
+  objectName = "willDataBeCombinedWithDataObtained",
+  baseField = "key",
+  baseFieldValue = "a",
+  mandatoryFieldType = "string",
+  mandatoryField = "combinedCountries",
+  message = "combinedCountries must be provided when willDataBeCombinedWithDataObtained is 'Yes'"
+)
+@RequiredFieldBasedOnObjectValue(
+  objectName = "willDataBeCombinedWithDataObtained",
+  baseField = "key",
+  baseFieldValue = "a",
+  mandatoryFieldType = "string",
+  mandatoryField = "combinedDataHolders",
+  message = "combinedDataHolders must be provided when willDataBeCombinedWithDataObtained is 'Yes'"
+)
+@RequiredFieldBasedOnObjectValue(
+  objectName = "willDataBeCombinedWithDataObtained",
+  baseField = "key",
+  baseFieldValue = "a",
+  mandatoryFieldType = "string",
+  mandatoryField = "combinedDatabaseRegistries",
+  message = "combinedDatabaseRegistries must be provided when willDataBeCombinedWithDataObtained is 'Yes'"
+)
+@RequiredFieldBasedOnObjectValue(
+  objectName = "willDataBeCombinedWithDataObtained",
+  baseField = "key",
+  baseFieldValue = "a",
+  mandatoryFieldType = "string",
+  mandatoryField = "combinedDatasetsRegistries",
+  message = "combinedDatasetsRegistries must be provided when willDataBeCombinedWithDataObtained is 'Yes'"
+)
+@RequiredFieldBasedOnObjectValue(
+  objectName = "otherPermitApplications",
+  baseField = "key",
+  baseFieldValue = "a",
+  mandatoryFieldType = "string",
+  mandatoryField = "dateOfSubmittingTheApplication",
+  message = "dateOfSubmittingTheApplication must be provided when otherPermitApplications is 'Yes'"
+)
+@RequiredFieldBasedOnObjectValue(
+  objectName = "otherPermitApplications",
+  baseField = "key",
+  baseFieldValue = "a",
+  mandatoryFieldType = "string",
+  mandatoryField = "applicationIssuer",
+  message = "applicationIssuer must be provided when otherPermitApplications is 'Yes'"
+)
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Section7DTO extends SectionDTO {
 
   @NotNull
-  @CheckEnumValue(fieldName = "yesOrNoOptions" , sectionNumber = "commonFields")
+  @CheckEnumValue(fieldName = "yesOrNoOptions", sectionNumber = "commonFields")
   SelectObjectDTO willDataBeCombinedWithDataObtained;
   @Size(max = 500)
   String combinedCountries;
@@ -114,12 +99,11 @@ public class Section7DTO extends SectionDTO {
   String combinedDatabaseRegistries;
   @Size(max = 500)
   String combinedDatasetsRegistries;
-  @Size(max = 500)
-  String providedInformationOnDataCombined;
-  @ListOfAttachmentsValidation(allowedExtensions = { "doc", "docx", "pdf", "xls", "xlsx", "odt" }, maxSize = 5242880, fieldName = "attachmentOfPermitDocuments") // 5MB
-    List<AttachmentDTO> attachmentOfPermitDocuments;
+  @ListOfAttachmentsValidation(allowedExtensions = {"doc", "docx", "pdf", "xls", "xlsx",
+    "odt"}, maxSize = 5242880, fieldName = "attachmentOfPermitDocuments") // 5MB
+  List<AttachmentDTO> attachmentOfPermitDocuments;
   @NotNull
-  @CheckEnumValue(fieldName = "yesOrNoOptions" , sectionNumber = "commonFields")
+  @CheckEnumValue(fieldName = "yesOrNoOptions", sectionNumber = "commonFields")
   SelectObjectDTO otherPermitApplications;
   String dateOfSubmittingTheApplication;
   @Size(max = 500)
@@ -128,6 +112,12 @@ public class Section7DTO extends SectionDTO {
   @Size(max = 500)
   String identificationCode;
   @Valid
-  @ListObjectFieldsNotNull(fields = { "permitIssuer", "permitStartDateOfIssue", "permitEndDateOfIssue", "permitIdentificationInformation" }, message = "Fields in the list must not be null", isOptional=true)
+  @ListObjectFieldsNotNull(fields = {"permitIssuer", "permitStartDateOfIssue",
+    "permitEndDateOfIssue",
+    "permitIdentificationInformation"}, message = "Fields in the list must not be null", isOptional = true)
   List<PermitDocumentDTO> otherDataPermits;
+  @Valid
+  @ListObjectFieldsNotNull(fields = {"dataset", "numberOfFiles",
+    "formatOfFiles", "sizeOfFiles", "notes"}, message = "Fields in the list must not be null", isOptional = false)
+  List<ProvideInformationDTO> provideInformationList;
 }

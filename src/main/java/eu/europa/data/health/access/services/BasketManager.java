@@ -21,6 +21,7 @@ import static eu.europa.data.health.access.Constants.DISTRIBUTIONS;
 import static eu.europa.data.health.access.Constants.DISTRIBUTION_ID;
 import static eu.europa.data.health.access.Constants.USER_ID;
 
+import eu.europa.data.health.access.Context;
 import eu.europa.data.health.access.handlers.DBHandler;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Future;
@@ -67,7 +68,7 @@ public class BasketManager extends AbstractManager {
     // Retrieve the dataset id
     JsonObject datasetIdToSearch = new JsonObject().put(DATASET_ID,
       context.body().asJsonObject().getValue(DATASET_ID));
-    datasetIdToSearch.put(USER_ID, getUserId(context));
+    datasetIdToSearch.put(USER_ID, Context.getEcasId(context));
 
     // Check if the provided dataset already exists as a document in the Mongo db
     Promise<String> promise = Promise.promise();
@@ -87,6 +88,7 @@ public class BasketManager extends AbstractManager {
             setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
               "Provided distribution already exists");
           } else {
+            dataset.put("publisher", context.get("publisher"));
             // Add the new distribution
             dataset.getJsonArray(DISTRIBUTIONS).add(distributionToBeAdded);
             // Update the object in Mongo db
@@ -161,7 +163,7 @@ public class BasketManager extends AbstractManager {
 
     Promise<List<JsonObject>> promise = Promise.promise();
     FindOptions options = new FindOptions();
-    JsonObject query = new JsonObject().put(USER_ID, getUserId(context));
+    JsonObject query = new JsonObject().put(USER_ID, Context.getEcasId(context));
     mongoClient.findWithOptions(BASKET_COLLECTION, query, options, listAsyncResult -> {
       if (listAsyncResult.succeeded()) {
         JsonObject response = new JsonObject().put("distribution_count",
@@ -208,7 +210,7 @@ public class BasketManager extends AbstractManager {
     // Retrieve the dataset id
     JsonObject datasetIdToSearch = new JsonObject().put(DATASET_ID,
       context.body().asJsonObject().getValue(DATASET_ID));
-    datasetIdToSearch.put(USER_ID, getUserId(context));
+    datasetIdToSearch.put(USER_ID, Context.getEcasId(context));
 
     // Check if the provided dataset already exists as a document in the Mongo db
     Promise<String> promise = Promise.promise();
@@ -323,6 +325,8 @@ public class BasketManager extends AbstractManager {
     // Retrieve the request body
     JsonObject requestBody = context.body().asJsonObject();
 
+    requestBody.put("publisher", context.get("publisher"));
+
     // Define the fields to be stored for a Basket Dataset
     JsonObject distribution = new JsonObject().put(DISTRIBUTION_ID,
       requestBody.getString(DISTRIBUTION_ID));
@@ -330,7 +334,7 @@ public class BasketManager extends AbstractManager {
     distributions.add(distribution);
 
     requestBody.remove(DISTRIBUTION_ID);
-    requestBody.put(USER_ID, getUserId(context));
+    requestBody.put(USER_ID, Context.getEcasId(context));
     requestBody.put("date_added", Instant.now());
     requestBody.put(DISTRIBUTIONS, distributions);
   }

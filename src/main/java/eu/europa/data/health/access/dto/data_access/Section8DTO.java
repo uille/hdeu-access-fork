@@ -179,6 +179,7 @@ public class Section8DTO extends SectionDTO {
   @AssertTrue
   boolean protectionAndSecurityStatementsE;
 
+  boolean sameAsContactPerson;
   //field 22
   @Valid
   @ListObjectFieldsNotNull(fields = {"fullName", "affiliation", "emailAddress"}, isOptional = false)

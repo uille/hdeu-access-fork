@@ -28,18 +28,17 @@ import static eu.europa.data.health.access.Constants.COMPLY_WITH_DATA_MINIMISATI
 import static eu.europa.data.health.access.Constants.CONFIRM_THAT_DATA_PERMIT_HAS_BEEN_GRANTED_FOR_THE_RESEARCH_PROJECT;
 import static eu.europa.data.health.access.Constants.CONTACT_PERSON_EMAIL;
 import static eu.europa.data.health.access.Constants.CONTACT_PERSON_PHONE;
-import static eu.europa.data.health.access.Constants.COUNTRY_CODE;
-import static eu.europa.data.health.access.Constants.COUNTRY_ID;
 import static eu.europa.data.health.access.Constants.COUNTRY_OF_PROJECT_LEADER;
 import static eu.europa.data.health.access.Constants.DATA_ACCESS_APPLICATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.DATA_EXTRACTION_FREQUENCY;
 import static eu.europa.data.health.access.Constants.DATA_EXTRACTION_FREQUENCY_RELATIVES;
 import static eu.europa.data.health.access.Constants.DATA_NEEDS_TO_BE_EXTRACTED_EVERY;
 import static eu.europa.data.health.access.Constants.DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES;
-import static eu.europa.data.health.access.Constants.DETAILS_OF_HOW_THE_STUDY_HAS_BEEN_FORMED;
 import static eu.europa.data.health.access.Constants.EMAIL;
 import static eu.europa.data.health.access.Constants.FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA;
 import static eu.europa.data.health.access.Constants.FULL_NAME;
+import static eu.europa.data.health.access.Constants.HAS_THE_GROUP_RELATIVES_FORMED_2;
+import static eu.europa.data.health.access.Constants.HAS_THE_GROUP_RELATIVES_FORMED_3;
 import static eu.europa.data.health.access.Constants.HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS;
 import static eu.europa.data.health.access.Constants.HEADING_3;
 import static eu.europa.data.health.access.Constants.INCLUSION_CRITERIA;
@@ -62,7 +61,6 @@ import static eu.europa.data.health.access.Constants.NAME;
 import static eu.europa.data.health.access.Constants.NATURAL_PERSON_ADDRESS;
 import static eu.europa.data.health.access.Constants.NATURAL_PERSON_PHONE;
 import static eu.europa.data.health.access.Constants.NEED_FOR_DATA_EXTRACTION_EVERY;
-import static eu.europa.data.health.access.Constants.NUMBER;
 import static eu.europa.data.health.access.Constants.ORDER_OF_CONTROLS_DATA_EXTRACTION;
 import static eu.europa.data.health.access.Constants.ORDER_OF_RELATIVES_DATA_EXTRACTION;
 import static eu.europa.data.health.access.Constants.OTHER_PERMIT_APPLICATIONS;
@@ -71,7 +69,6 @@ import static eu.europa.data.health.access.Constants.PERSON_RESEARCH_SAME_AS_CON
 import static eu.europa.data.health.access.Constants.PERSON_RESPONSIBLE_AFFILIATION;
 import static eu.europa.data.health.access.Constants.PERSON_RESPONSIBLE_SAME_AS_CONTACT_PERSON;
 import static eu.europa.data.health.access.Constants.PHONE;
-import static eu.europa.data.health.access.Constants.POSTAL_ADDRESS_LABEL;
 import static eu.europa.data.health.access.Constants.PROTECTION_AND_SECURITY_STATEMENTS_A;
 import static eu.europa.data.health.access.Constants.PROTECTION_AND_SECURITY_STATEMENTS_B;
 import static eu.europa.data.health.access.Constants.PROTECTION_AND_SECURITY_STATEMENTS_C;
@@ -129,20 +126,22 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.WebClient;
+import org.docx4j.model.fields.FieldUpdater;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.openpackaging.parts.WordprocessingML.DocumentSettingsPart;
+import org.docx4j.toc.TocGenerator;
+import org.docx4j.wml.BooleanDefaultTrue;
+import org.docx4j.wml.CTSettings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import org.docx4j.model.fields.FieldUpdater;
-import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
-import org.docx4j.toc.TocGenerator;
-import org.docx4j.wml.BooleanDefaultTrue;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DocumentExportDataAccessManager extends DocumentExportUtility {
-
 
 
   private final TranslationManager translationManager;
@@ -227,6 +226,21 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
       FieldUpdater fieldUpdater = new FieldUpdater(document);
       fieldUpdater.update(true);
 
+      // update document settings to avoid field updates MS Word prompt
+      // 1) Get the settings part (creates one if absent)
+      DocumentSettingsPart dsp = document.getMainDocumentPart().getDocumentSettingsPart();
+      // 2) Grab or build its JAXB object
+      CTSettings settings = dsp.getJaxbElement();
+      if (settings == null) {
+        settings = new CTSettings();
+      }
+      // 3) Insert <w:updateFields w:val="false"/>
+      BooleanDefaultTrue b = new BooleanDefaultTrue();
+      b.setVal(false);
+      settings.setUpdateFields(b);
+      // 4) Write it back to document settings
+      dsp.setJaxbElement(settings);
+
       document.save(outputStream);
       if ("pdf".equalsIgnoreCase(type)) {
         ByteArrayOutputStream pdfOutputStream = new ByteArrayOutputStream();
@@ -273,6 +287,7 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
       form != null ? form.getJsonObject(SECTION_4) : null,
       form != null ? form.getJsonObject(SECTION_3) : null, aboutThisSection);
     section5Mappings(document, languageMap.getJsonObject(SECTION_5),
+      form != null ? form.getJsonObject(SECTION_2) : null,
       form != null ? form.getJsonObject(SECTION_5) : null, aboutThisSection);
     section6Mappings(document, languageMap.getJsonObject(SECTION_6),
       form != null ? form.getJsonArray(SECTION_6) : null, aboutThisSection, datasetsValues);
@@ -321,119 +336,80 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     addSectionWithHeader(document, languageMap, "section2h5", "section2Description",
       aboutThisSection);
 
-    if (Objects.nonNull(section)) {
-      addTextToNewParagraph(document, languageMap.getJsonObject("projectName").getString(LABEL),
-        true, false);
-      addTextToNewParagraphWithTable(document, section.getString("projectName"), false, false);
+    // --- PROJECT NAME ---
+    addTextToNewParagraph(document, languageMap.getJsonObject("projectName").getString(LABEL), true,
+      false);
+    addTextToNewParagraphWithTable(document, getField(section, "projectName"), false, false);
 
-      addTextToNewParagraph(document, languageMap.getJsonObject("projectLeader").getString(LABEL),
+    // --- PROJECT LEADER ---
+    addTextToNewParagraph(document, languageMap.getJsonObject("projectLeader").getString(LABEL),
+      true, false);
+    addTextToNewParagraph(document, languageMap.getJsonObject("projectLeader").getString(TOOLTIP),
+      false, true);
+    addTextToNewParagraphWithTable(document, getField(section, "projectLeader"), false, false);
+
+    // --- COUNTRY OF PROJECT LEADER ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(COUNTRY_OF_PROJECT_LEADER).getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getObjectValue(section, COUNTRY_OF_PROJECT_LEADER),
+      false, false);
+
+    // --- PURPOSE FOR WHICH DATA WILL BE USED ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(PURPOSE_FOR_WHICH_DATA_WILL_BE_USED).getString(LABEL), true, false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(PURPOSE_FOR_WHICH_DATA_WILL_BE_USED).getString(TOOLTIP), false,
+      true);
+    generatedJsonArrayValues(document, getArrayField(section, PURPOSE_FOR_WHICH_DATA_WILL_BE_USED),
+      VALUE);
+
+    // --- DESCRIPTION OF THE PROJECT ---
+    if (isChecked(section, THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION)) {
+      addTextWithCheckboxToNewParagraph(document,
+        languageMap.getJsonObject(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION)
+          .getString(LABEL),
+        true, true);
+
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("descriptionOfTheProject").getString(LABEL), true, false);
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("descriptionOfTheProject").getString(TOOLTIP), false, true);
+      addTextToNewParagraphWithTable(document, getField(section, "descriptionOfTheProject"), false,
+        false);
+    } else {
+      addTextWithCheckboxToNewParagraph(document,
+        languageMap.getJsonObject(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION)
+          .getString(LABEL),
         true, false);
-      addTextToNewParagraph(document, languageMap.getJsonObject("projectLeader").getString(TOOLTIP),
+    }
+
+    // --- SUMMARY OF THE PROJECT ---
+    if (isChecked(section, THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY)) {
+      addTextWithCheckboxToNewParagraph(document,
+        languageMap.getJsonObject(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY)
+          .getString(LABEL),
+        true, true);
+
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject(
+          THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY_REASON).getString(LABEL),
+        true, false);
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject(
+          THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY_REASON).getString(TOOLTIP),
         false, true);
-      addTextToNewParagraphWithTable(document, section.getString("projectLeader"), false, false);
-
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(COUNTRY_OF_PROJECT_LEADER).getString(LABEL), true, false);
       addTextToNewParagraphWithTable(document,
-        Objects.nonNull(section.getJsonObject(COUNTRY_OF_PROJECT_LEADER)) ?
-          section.getJsonObject(COUNTRY_OF_PROJECT_LEADER).getString(VALUE) : null, false, false);
-
+        getField(section, THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY_REASON),
+        false, false);
+    } else {
       addTextToNewParagraph(document,
-        languageMap.getJsonObject(PURPOSE_FOR_WHICH_DATA_WILL_BE_USED).getString(LABEL), true, false);
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(PURPOSE_FOR_WHICH_DATA_WILL_BE_USED).getString(TOOLTIP), false,
-        true);
-      JsonArray purposeForWhichDataWillBeUsedList = section.getJsonArray(
-        PURPOSE_FOR_WHICH_DATA_WILL_BE_USED);
-      generatedJsonArrayValues(document, purposeForWhichDataWillBeUsedList, VALUE);
-
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("theResearchFocusesOnTheFollowingObjectives").getString(LABEL),
+        languageMap.getJsonObject("summaryOfTheProject").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "summaryOfTheProject"), false,
+        false);
+      addTextWithCheckboxToNewParagraph(document,
+        languageMap.getJsonObject(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY)
+          .getString(LABEL),
         true, false);
-      JsonArray theResearchFocusesOnTheFollowingObjectives = section.getJsonArray(
-        "theResearchFocusesOnTheFollowingObjectives");
-      generatedJsonArrayValues(document, theResearchFocusesOnTheFollowingObjectives, VALUE);
-
-      if (Objects.nonNull(theResearchFocusesOnTheFollowingObjectives) && containsKey(
-        theResearchFocusesOnTheFollowingObjectives, "i")) {
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("theResearchFocusesOnTheFollowingObjectivesOther")
-            .getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document,
-          section.getString("theResearchFocusesOnTheFollowingObjectivesOther"), false,
-          false);
-      }
-
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("areaOfResearch").getString(LABEL),
-        true, false);
-      JsonArray areaOfResearch = section.getJsonArray("areaOfResearch");
-      generatedJsonArrayValues(document, areaOfResearch, VALUE);
-
-      if (Objects.nonNull(areaOfResearch) && containsKey(areaOfResearch, "aj")) {
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("areaOfResearchOther").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, section.getString("areaOfResearchOther"), false,
-          false);
-      }
-
-      boolean isDescriptionChecked =
-        section.containsKey(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION)
-          && section.getBoolean(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION, false);
-
-      if (isDescriptionChecked) {
-        addTextWithCheckboxToNewParagraph(document,
-          languageMap.getJsonObject(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION)
-            .getString(LABEL), true, true);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("descriptionOfTheProject").getString(LABEL), true, false);
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("descriptionOfTheProject").getString(TOOLTIP), false, true);
-        addTextToNewParagraphWithTable(document, section.getString("descriptionOfTheProject"), false, false);
-      } else {
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("descriptionOfTheDataYouWillUse").getString(LABEL), true,
-          false);
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("descriptionOfTheDataYouWillUse").getString(TOOLTIP), false,
-          true);
-        addTextToNewParagraphWithTable(document,
-          section.getString("descriptionOfTheDataYouWillUse"), false, false);
-
-        addTextWithCheckboxToNewParagraph(document,
-          languageMap.getJsonObject(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION)
-            .getString(LABEL), true, false);
-      }
-
-      boolean isSummaryChecked =
-        section.containsKey(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY)
-          && section.getBoolean(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY, false);
-
-      if (isSummaryChecked) {
-        addTextWithCheckboxToNewParagraph(document,
-          languageMap.getJsonObject(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY)
-            .getString(LABEL), true, true);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject(
-              THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY_REASON)
-            .getString(LABEL), true, false);
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY_REASON)
-            .getString(TOOLTIP), false, true);
-        addTextToNewParagraphWithTable(document,
-          section.getString(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY_REASON), false,
-          false);
-      } else {
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("summaryOfTheProject").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, section.getString("summaryOfTheProject"), false,
-          false);
-        addTextWithCheckboxToNewParagraph(document,
-          languageMap.getJsonObject(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY)
-            .getString(LABEL), true, false);
-      }
     }
   }
 
@@ -442,176 +418,169 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     addSectionWithHeader(document, languageMap, "section3h5", "section3Description",
       aboutThisSection);
 
-    if (Objects.nonNull(section)) {
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR).getString(LABEL),
-        true, false);
-      JsonObject applyingForDataOnBehalfOfPublicSector = section.getJsonObject(
-        APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR);
-      addTextToNewParagraphWithTable(document, Objects.nonNull(applyingForDataOnBehalfOfPublicSector)
-          ? applyingForDataOnBehalfOfPublicSector.getString(VALUE) : null,
-        false, false);
+    // --- APPLYING FOR DATA ON BEHALF OF PUBLIC SECTOR ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR).getString(LABEL),
+      true, false);
+    JsonObject applyingForDataOnBehalf = getObject(section,
+      APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR);
+    addTextToNewParagraphWithTable(document,
+      getObjectValue(section, APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR), false, false);
 
-      if (Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && "a".equals(
-        applyingForDataOnBehalfOfPublicSector.getString("key"))) {
+    if (isKey(applyingForDataOnBehalf, "a")) {
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject(APPLYING_FOR_DATA_FOR_CARRYING_OUT_TASKS).getString(LABEL), true,
+        false);
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject(APPLYING_FOR_DATA_FOR_CARRYING_OUT_TASKS).getString(TOOLTIP),
+        false, true);
+      addTextToNewParagraphWithTable(document,
+        getObjectValue(section, APPLYING_FOR_DATA_FOR_CARRYING_OUT_TASKS), false, false);
+    }
+
+    // --- LEGAL OR NATURAL PERSON ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(LEGAL_OR_NATURAL_PERSON).getString(LABEL), true, false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(LEGAL_OR_NATURAL_PERSON).getString(TOOLTIP), false, true);
+    addTextToNewParagraphWithTable(document, getObjectValue(section, LEGAL_OR_NATURAL_PERSON),
+      false, false);
+
+    JsonObject legalOrNaturalPerson = getObject(section, LEGAL_OR_NATURAL_PERSON);
+    if (legalOrNaturalPerson != null) {
+      if (isKey(legalOrNaturalPerson, "a")) {
+        // --- LEGAL PERSON ---
+        addTextToNewParagraph(document, languageMap.getString("legalPerson"), true, false);
+
         addTextToNewParagraph(document,
-          languageMap.getJsonObject(APPLYING_FOR_DATA_FOR_CARRYING_OUT_TASKS).getString(LABEL),
-          true, false);
+          languageMap.getJsonObject(LEGAL_PERSON_NAME).getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "legalPersonName"), false,
+          false);
+
+        addTextToNewParagraph(document, languageMap.getString("postalAddress"), true, false);
+
         addTextToNewParagraph(document,
-          languageMap.getJsonObject(APPLYING_FOR_DATA_FOR_CARRYING_OUT_TASKS).getString(TOOLTIP),
-          false, true);
-        JsonObject applyingForDataForCarryingOutTasks = section.getJsonObject(
-          APPLYING_FOR_DATA_FOR_CARRYING_OUT_TASKS);
-        if (Objects.nonNull(applyingForDataForCarryingOutTasks)) {
-          addTextToNewParagraphWithTable(document, applyingForDataForCarryingOutTasks.getString(VALUE),
-            false, false);
-        }
-      }
+          languageMap.getJsonObject("legalPersonAddress").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "legalPersonAddress"), false,
+          false);
 
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(LEGAL_OR_NATURAL_PERSON).getString(LABEL), true, false);
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(LEGAL_OR_NATURAL_PERSON).getString(TOOLTIP), false, true);
-      JsonObject legalPerson = section.getJsonObject(LEGAL_OR_NATURAL_PERSON);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("legalPersonZipCode").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "legalPersonZipCode"), false,
+          false);
 
-      if (Objects.nonNull(legalPerson)) {
-        //if is "a" is legal person else i b natural person
-        if (Objects.equals(legalPerson.getString("key"), "a")) {
-          addTextToNewParagraph(document, languageMap.getString("legalPerson"), false, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("legalPersonCity").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "legalPersonCity"), false,
+          false);
 
-          addTextToNewParagraph(document, languageMap.getJsonObject(LEGAL_PERSON_NAME)
-            .getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString(LEGAL_PERSON_NAME), false, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(LEGAL_PERSON_COUNTRY).getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getObjectValue(section, LEGAL_PERSON_COUNTRY),
+          false, false);
 
-          addTextToNewParagraph(document, languageMap.getString("postalAddress"), true, false);
+        addTextToNewParagraph(document, languageMap.getString("contactPersonInformation"), true,
+          false);
+        addTextToNewParagraph(document,
+          languageMap.getString("contactPersonInformationDescription"), false, true);
 
-          addTextToNewParagraph(document, languageMap.getJsonObject("legalPersonAddress")
-            .getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("legalPersonAddress"), false, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("contactPersonName").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "contactPersonName"), false,
+          false);
 
-          addTextToNewParagraph(document, languageMap.getJsonObject("legalPersonZipCode")
-            .getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("legalPersonZipCode"), false, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(CONTACT_PERSON_EMAIL).getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "contactPersonEmail"), false,
+          false);
 
-          addTextToNewParagraph(document, languageMap.getJsonObject("legalPersonCity")
-            .getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("legalPersonCity"), false, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(CONTACT_PERSON_PHONE).getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document,
+          buildPhone(getObject(section, CONTACT_PERSON_PHONE)), false, false);
 
-          addTextToNewParagraph(document, languageMap.getJsonObject(LEGAL_PERSON_COUNTRY)
-            .getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, Objects.nonNull(section.getJsonObject(
-            LEGAL_PERSON_COUNTRY)) ? section.getJsonObject(LEGAL_PERSON_COUNTRY)
-            .getString(VALUE) : null, false, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("contactPersonJobTitle").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "contactPersonJobTitle"), false,
+          false);
 
-          addTextToNewParagraph(document, languageMap.getString("contactPersonInformation"),
-            true, false);
-          addTextToNewParagraph(document,
-            languageMap.getString("contactPersonInformationDescription"),
-            false, true);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("contactPersonAffiliation").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "contactPersonAffiliation"),
+          false, false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("contactPersonName").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("contactPersonName"), false, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("contactPersonRelationship").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "contactPersonRelationship"),
+          false, false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(CONTACT_PERSON_EMAIL).getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString(CONTACT_PERSON_EMAIL), false, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("contactPersonNameOfTheOrganisation").getString(LABEL), true,
+          false);
+        addTextToNewParagraphWithTable(document, getField(section, "contactPersonOrganisationName"),
+          false, false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(CONTACT_PERSON_PHONE).getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document,
-            Objects.nonNull(section.getJsonObject(CONTACT_PERSON_PHONE)) ?
-              "+" + section.getJsonObject(CONTACT_PERSON_PHONE).getString(COUNTRY_CODE) + " " +
-                section.getJsonObject(CONTACT_PERSON_PHONE).getString(NUMBER) : null, false,
-            false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("contactPersonBusinessIdentifier").getString(LABEL), true,
+          false);
+        addTextToNewParagraphWithTable(document, getField(section, "contactPersonBusinessID"),
+          false, false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("contactPersonNameOfTheOrganisation").getString(LABEL),
-            true, false);
-          addTextToNewParagraphWithTable(document, section.getString("contactPersonOrganisationName"), false,
-            false);
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("contactPersonBusinessIdentifier").getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString("contactPersonBusinessID"), false,
-            false);
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("contactPersonOperatorIdentifier").getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString("contactPersonOperatorID"), false,
-            false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("contactPersonOperatorIdentifier").getString(LABEL), true,
+          false);
+        addTextToNewParagraphWithTable(document, getField(section, "contactPersonOperatorID"),
+          false, false);
+      } else {
+        // --- NATURAL PERSON ---
+        addTextToNewParagraph(document, languageMap.getString("naturalPerson"), false, false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("contactPersonJobTitle").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("contactPersonJobTitle"), false, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(LEGAL_PERSON_NAME).getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "naturalPersonName"), false,
+          false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("contactPersonAffiliation").getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString("contactPersonAffiliation"), false,
-            false);
+        addTextToNewParagraph(document, languageMap.getString("postalAddress"), true, false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("contactPersonRelationship").getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString("contactPersonRelationship"), false,
-            false);
-        }
-        //natural person
-        else {
-          addTextToNewParagraph(document,
-            legalPerson.getString(VALUE) + " " + getTranslateValueForKey(
-              languageMap.getJsonObject(LEGAL_OR_NATURAL_PERSON),
-              legalPerson.getString("key"), "info"), false, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(NATURAL_PERSON_ADDRESS).getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, NATURAL_PERSON_ADDRESS), false,
+          false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(LEGAL_PERSON_NAME).getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("naturalPersonName"), false, false);
-          addTextToNewParagraph(document, languageMap.getString("postalAddress"), true, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("naturalPersonZipCode").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "naturalPersonZipCode"), false,
+          false);
 
-          addTextToNewParagraph(document, languageMap.getJsonObject(NATURAL_PERSON_ADDRESS)
-            .getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString(NATURAL_PERSON_ADDRESS), false,
-            false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("naturalPersonCity").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "naturalPersonCity"), false,
+          false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("naturalPersonZipCode").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("naturalPersonZipCode"), false,
-            false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(LEGAL_PERSON_COUNTRY).getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getObjectValue(section, "naturalPersonCountry"),
+          false, false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("naturalPersonCity").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("naturalPersonCity"), false, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(CONTACT_PERSON_EMAIL).getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "naturalPersonEmail"), false,
+          false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(LEGAL_PERSON_COUNTRY).getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document,
-            Objects.nonNull(section.getJsonObject("naturalPersonCountry")) ?
-              section.getJsonObject("naturalPersonCountry").getString(VALUE) : null, false,
-            false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(CONTACT_PERSON_PHONE).getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document,
+          buildPhone(getObject(section, NATURAL_PERSON_PHONE)), false, false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(CONTACT_PERSON_EMAIL).getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("naturalPersonEmail"), false, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("naturalPersonJobTitle").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "naturalPersonJobTitle"), false,
+          false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(CONTACT_PERSON_PHONE).getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document,
-            Objects.nonNull(section.getJsonObject(NATURAL_PERSON_PHONE)) ? "+" +
-              section.getJsonObject(NATURAL_PERSON_PHONE).getString(COUNTRY_CODE) + " " +
-              section.getJsonObject(NATURAL_PERSON_PHONE).getString(NUMBER) : null, false,
-            false);
-
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("naturalPersonJobTitle").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("naturalPersonJobTitle"), false, false);
-
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("naturalPersonAffiliation").getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString("naturalPersonAffiliation"), false,
-            false);
-        }
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("naturalPersonAffiliation").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "naturalPersonAffiliation"),
+          false, false);
       }
     }
   }
@@ -621,343 +590,281 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     addSectionWithHeader(document, languageMap, "section4h5", "section4Description",
       aboutThisSection);
 
-    if (Objects.nonNull(section)) {
-      boolean isDescriptionChecked =
-        section.containsKey(SAME_AS_CONTACT_PERSON) && section.getBoolean(SAME_AS_CONTACT_PERSON,
-          false);
-      addTextWithCheckboxToNewParagraph(document,
-        languageMap.getJsonObject(SAME_AS_CONTACT_PERSON).getString(LABEL), true,
-        isDescriptionChecked);
+    boolean isDescriptionChecked = isChecked(section, SAME_AS_CONTACT_PERSON);
+    addTextWithCheckboxToNewParagraph(document,
+      languageMap.getJsonObject(SAME_AS_CONTACT_PERSON).getString(LABEL), true,
+      isDescriptionChecked);
 
-      if (isDescriptionChecked) {
-        JsonObject legalPerson = Objects.nonNull(section3) ? section3.getJsonObject(
-          LEGAL_OR_NATURAL_PERSON) : null;
-        if (Objects.nonNull(legalPerson)) {
-          if (Objects.equals(legalPerson.getString("key"), "a")) {
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject(FULL_NAME).getString(LABEL),
-              true, false);
-            addTextToNewParagraphWithTable(document, section3.getString(LEGAL_PERSON_NAME), false, false);
-            addTextToNewParagraph(document, languageMap.getString(POSTAL_ADDRESS_LABEL), true,
-              false);
+    JsonObject legalPerson = this.getObject(section3, LEGAL_OR_NATURAL_PERSON);
 
-            addTextToNewParagraph(document, languageMap.getJsonObject(ADDRESS).getString(LABEL),
-              true, false);
-            addTextToNewParagraphWithTable(document, section.getString(ADDRESS), false, false);
-
-            addTextToNewParagraph(document, languageMap.getJsonObject(PHONE).getString(LABEL),
-              true, false);
-            addTextToNewParagraphWithTable(document,
-              "+" +
-                section3.getJsonObject(CONTACT_PERSON_PHONE).getString(COUNTRY_CODE) + " " +
-                section3.getJsonObject(CONTACT_PERSON_PHONE).getString(NUMBER),
-              false, false);
-
-            addTextToNewParagraph(document, languageMap.getJsonObject(EMAIL).getString(LABEL),
-              true, false);
-            addTextToNewParagraphWithTable(document, section3.getString(CONTACT_PERSON_EMAIL), false, false);
-
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject("operatorIdentifier").getString(LABEL), true, false);
-            addTextToNewParagraphWithTable(document, section.getString("operatorIdentifier"), false, false);
-
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject("nameOfTheOrganisation").getString(LABEL), true, false);
-            addTextToNewParagraphWithTable(document, section.getString("nameOfTheOrganisation"), false,
-              false);
-
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject("businessIdentifierOrganization").getString(LABEL), true,
-              false);
-            addTextToNewParagraphWithTable(document, section.getString("businessIdentifierOrganization"),
-              false, false);
-
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject("vatNumber").getString(LABEL), true, false);
-            addTextToNewParagraphWithTable(document, section.getString("vatNumber"), false, false);
-
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject("peppolCode").getString(LABEL), true, false);
-            addTextToNewParagraphWithTable(document, section.getString("peppolCode"), false, false);
-          } else {
-            addTextToNewParagraph(document, languageMap.getJsonObject(FULL_NAME).getString(LABEL),
-              true, false);
-            addTextToNewParagraphWithTable(document, section3.getString("naturalPersonName"), false, false);
-
-            addTextToNewParagraph(document, languageMap.getString(POSTAL_ADDRESS_LABEL), true,
-              false);
-            addTextToNewParagraph(document, languageMap.getJsonObject(ADDRESS).getString(LABEL),
-              true, false);
-            addTextToNewParagraphWithTable(document, section3.getString(NATURAL_PERSON_ADDRESS), false,
-              false);
-
-            addTextToNewParagraph(document, languageMap.getJsonObject(PHONE).getString(LABEL),
-              true, false);
-            addTextToNewParagraphWithTable(document,
-              Objects.nonNull(section.getJsonObject(PHONE)) ? "+" +
-                section.getJsonObject(PHONE).getString(COUNTRY_CODE) + " " +
-                section.getJsonObject(PHONE).getString(NUMBER) : null, false, false);
-
-            addTextToNewParagraph(document, languageMap.getJsonObject(EMAIL).getString(LABEL),
-              true, false);
-            addTextToNewParagraphWithTable(document, section3.getString("naturalPersonEmail"), false, false);
-          }
-        }
-      }
-      else {
-        addTextToNewParagraph(document, languageMap.getJsonObject(FULL_NAME).getString(LABEL),
-          true, false);
-        addTextToNewParagraphWithTable(document, section.getString(FULL_NAME), false, false);
-
-        addTextToNewParagraph(document, languageMap.getString(POSTAL_ADDRESS_LABEL), true, false);
-        addTextToNewParagraph(document, languageMap.getJsonObject(ADDRESS).getString(LABEL),
-          true, false);
-        addTextToNewParagraphWithTable(document, section.getString(ADDRESS), false, false);
-
-        addTextToNewParagraph(document, languageMap.getJsonObject(PHONE).getString(LABEL), true,
-          false);
-        addTextToNewParagraphWithTable(document,
-          Objects.nonNull(section.getJsonObject(PHONE)) ? "+" +
-            section.getJsonObject(PHONE).getString(COUNTRY_CODE) + " " +
-            section.getJsonObject(PHONE).getString(NUMBER) : null, false, false);
-
-        addTextToNewParagraph(document, languageMap.getJsonObject(EMAIL).getString(LABEL), true,
-          false);
-        addTextToNewParagraphWithTable(document, section.getString(EMAIL), false, false);
-      }
-      addTextToNewParagraph(document, languageMap.getJsonObject("invoiceType").getString(LABEL),
+    if (Objects.nonNull(legalPerson) && Objects.equals(legalPerson.getString("key"), "a")) {
+      addTextToNewParagraph(document, languageMap.getJsonObject(FULL_NAME).getString(LABEL),
         true, false);
-      JsonObject invoiceType = section.getJsonObject("invoiceType");
-      addTextToNewParagraphWithTable(document, Objects.nonNull(invoiceType) ?
-        invoiceType.getString(VALUE) : null, false, false);
-
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("invoiceReferenceNumber").getString(LABEL), true, false);
-      addTextToNewParagraphWithTable(document, section.getString("invoiceReferenceNumber"), false, false);
-
-      if (Objects.nonNull(invoiceType) && Objects.equals(invoiceType.getString("key"), "b")) {
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("invoiceAddress").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, section.getString("invoiceAddress"), false, false);
-      }
-
-      JsonObject legalPerson = Objects.nonNull(section3) ? section3.getJsonObject(
-        LEGAL_OR_NATURAL_PERSON) : null;
-      if (Objects.nonNull(legalPerson)) {
-        if (Objects.equals(legalPerson.getString("key"), "a")) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("operatorIdentifier").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("operatorIdentifier"), false, false);
-
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("nameOfTheOrganisation").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("nameOfTheOrganisation"), false,
-            false);
-
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("businessIdentifierOrganization").getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString("businessIdentifierOrganization"),
-            false, false);
-
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("vatNumber").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("vatNumber"), false, false);
-
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("peppolCode").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("peppolCode"), false, false);
-        }
-      }
-
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("isTheProjectFinanciallyCovered").getString(LABEL), true,
+      addTextToNewParagraphWithTable(document, getField(section, FULL_NAME), false,
         false);
-      JsonObject financiallyCovered = section.getJsonObject("isTheProjectFinanciallyCovered");
-      if (Objects.nonNull(financiallyCovered)) {
-        addTextToNewParagraphWithTable(document, financiallyCovered.getString(VALUE), false, false);
-        JsonObject rangeOfAmountOfFinancing = section.getJsonObject("rangeOfAmountOfFinancing");
-        if ("a".equals(financiallyCovered.getString("key"))) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("rangeOfAmountOfFinancing").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document,
-            Objects.nonNull(rangeOfAmountOfFinancing) ? rangeOfAmountOfFinancing.getString(VALUE)
-              : null, false, false);
-        }
+
+      addTextToNewParagraph(document, languageMap.getJsonObject(EMAIL).getString(LABEL),
+        true, false);
+      addTextToNewParagraphWithTable(document, getField(section, EMAIL),
+        false, false);
+
+      addTextToNewParagraph(document, languageMap.getJsonObject(PHONE).getString(LABEL),
+        true, false);
+      addTextToNewParagraphWithTable(document,
+        buildPhone(getObject(section, PHONE)), false, false);
+
+      // --- ORGANIZATION INFORMATION ---
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("nameOfTheOrganisation").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "nameOfTheOrganisation"), false,
+        false);
+
+      addTextToNewParagraph(document, languageMap.getJsonObject(ADDRESS).getString(LABEL), true,
+        false);
+      addTextToNewParagraphWithTable(document, getField(section, ADDRESS), false, false);
+
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("businessIdentifierOrganization").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "businessIdentifierOrganization"),
+        false, false);
+
+      addTextToNewParagraph(document, languageMap.getJsonObject("vatNumber").getString(LABEL), true,
+        false);
+      addTextToNewParagraphWithTable(document, getField(section, "vatNumber"), false, false);
+    } else {
+      // --- CONTACT INFORMATION ---
+      addTextToNewParagraph(document, languageMap.getJsonObject(FULL_NAME).getString(LABEL), true,
+        false);
+      addTextToNewParagraphWithTable(document, getField(section, FULL_NAME), false, false);
+
+      addTextToNewParagraph(document, languageMap.getJsonObject(EMAIL).getString(LABEL), true,
+        false);
+      addTextToNewParagraphWithTable(document, getField(section, EMAIL), false, false);
+
+      addTextToNewParagraph(document, languageMap.getJsonObject(PHONE).getString(LABEL), true,
+        false);
+      addTextToNewParagraphWithTable(document, buildPhone(getObject(section, PHONE)), false, false);
+
+      addTextToNewParagraph(document, languageMap.getJsonObject(ADDRESS).getString(LABEL), true,
+        false);
+      addTextToNewParagraphWithTable(document, getField(section, ADDRESS), false, false);
+    }
+
+    // --- INVOICE INFORMATION ---
+    addTextToNewParagraph(document, languageMap.getJsonObject("invoiceType").getString(LABEL), true,
+      false);
+    JsonObject invoiceType = getObject(section, "invoiceType");
+    addTextToNewParagraphWithTable(document, getObjectValue(section, "invoiceType"), false, false);
+
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("invoiceReferenceNumber").getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "invoiceReferenceNumber"), false,
+      false);
+
+    if (isKey(invoiceType, "b")) {
+      addTextToNewParagraph(document, languageMap.getJsonObject("invoiceAddress").getString(LABEL),
+        true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "invoiceAddress"), false, false);
+    }
+
+    // --- OPERATOR IDENTIFIER (ONLY FOR LEGAL PERSONS) ---
+    if (isKey(legalPerson, "a")) {
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("operatorIdentifier").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "operatorIdentifier"), false,
+        false);
+
+      addTextToNewParagraph(document, languageMap.getJsonObject("peppolCode").getString(LABEL),
+        true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "peppolCode"), false, false);
+    }
+
+    // --- FINANCIAL COVERAGE ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("isTheProjectFinanciallyCovered").getString(LABEL), true, false);
+    String financiallyCoveredValue = getObjectValue(section, "isTheProjectFinanciallyCovered");
+    addTextToNewParagraphWithTable(document, financiallyCoveredValue, false, false);
+
+    if (financiallyCoveredValue != null) {
+      JsonObject financiallyCovered = getObject(section, "isTheProjectFinanciallyCovered");
+      if (isKey(financiallyCovered, "a")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("rangeOfAmountOfFinancing").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document,
+          getObjectValue(section, "rangeOfAmountOfFinancing"), false, false);
       }
     }
   }
 
   private void section5Mappings(WordprocessingMLPackage document, JsonObject languageMap,
-    JsonObject section, String aboutThisSection) {
+    JsonObject section2, JsonObject section, String aboutThisSection) {
     addSectionWithHeader(document, languageMap, "section5h5", "section5Description",
       aboutThisSection);
 
-    if (Objects.nonNull(section)) {
-      addTextToNewParagraph(document, languageMap.getJsonObject("purposeOfUse").getString(LABEL),
-        true, false);
+    addTextToNewParagraph(document, languageMap.getJsonObject("purposeOfUse").getString(LABEL),
+      true, false);
 
-      JsonArray purposeOfUse = section.getJsonArray("purposeOfUse");
-      generatedJsonArrayValues(document, purposeOfUse, VALUE);
+    JsonArray purposeOfUse = getArrayField(section2, "purposeForWhichDataWillBeUsed");
+    generatedJsonArrayValues(document, purposeOfUse, VALUE);
 
-      if (Objects.nonNull(purposeOfUse) && containsSelectedValueWithoutSpecificValue(purposeOfUse,
-        "e")) {
+    // --- PURPOSE OF USE ---
+    if (section2 != null) {
+      if (purposeOfUse != null && containsSelectedValueWithoutSpecificValue(purposeOfUse, "e")) {
         addTextToNewParagraph(document, languageMap.getString("personResponsibleLabel"), true,
           false);
 
-        boolean isPersonResponsibleSameAsContactPerson =
-          section.containsKey(PERSON_RESPONSIBLE_SAME_AS_CONTACT_PERSON) && section.getBoolean(
-            PERSON_RESPONSIBLE_SAME_AS_CONTACT_PERSON, false);
+        boolean isPersonResponsibleSameAsContactPerson = isChecked(section,
+          PERSON_RESPONSIBLE_SAME_AS_CONTACT_PERSON);
         addTextWithCheckboxToNewParagraph(document,
           languageMap.getJsonObject(PERSON_RESPONSIBLE_SAME_AS_CONTACT_PERSON).getString(LABEL),
           true, isPersonResponsibleSameAsContactPerson);
 
         addTextToNewParagraph(document,
           languageMap.getJsonObject("personResponsibleName").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, section.getString("personResponsibleName"), false, false);
+        addTextToNewParagraphWithTable(document, getField(section, "personResponsibleName"), false,
+          false);
 
         addTextToNewParagraph(document,
           languageMap.getJsonObject("personResponsibleJobTitle").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, section.getString("personResponsibleJobTitle"), false,
-          false);
+        addTextToNewParagraphWithTable(document, getField(section, "personResponsibleJobTitle"),
+          false, false);
 
         addTextToNewParagraph(document,
-          languageMap.getJsonObject(PERSON_RESPONSIBLE_AFFILIATION).getString(LABEL), true,
-          false);
-        addTextToNewParagraphWithTable(document, section.getString(PERSON_RESPONSIBLE_AFFILIATION), false,
-          false);
+          languageMap.getJsonObject(PERSON_RESPONSIBLE_AFFILIATION).getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, PERSON_RESPONSIBLE_AFFILIATION),
+          false, false);
       }
 
-      if (Objects.nonNull(purposeOfUse) && containsKey(purposeOfUse, "e")) {
+      if (purposeOfUse != null && containsKey(purposeOfUse, "e")) {
         addTextToNewParagraph(document, languageMap.getString("personResponsibleForResearchLabel"),
           true, false);
 
-        boolean isPersonResearchSameAsContactPerson =
-          section.containsKey(PERSON_RESEARCH_SAME_AS_CONTACT_PERSON) && section.getBoolean(
-            PERSON_RESEARCH_SAME_AS_CONTACT_PERSON, false);
+        boolean isPersonResearchSameAsContactPerson = isChecked(section,
+          PERSON_RESEARCH_SAME_AS_CONTACT_PERSON);
         addTextWithCheckboxToNewParagraph(document,
-          languageMap.getJsonObject(PERSON_RESEARCH_SAME_AS_CONTACT_PERSON).getString(LABEL), true,
-          isPersonResearchSameAsContactPerson);
+          languageMap.getJsonObject(PERSON_RESEARCH_SAME_AS_CONTACT_PERSON).getString(LABEL),
+          true, isPersonResearchSameAsContactPerson);
 
         addTextToNewParagraph(document,
           languageMap.getJsonObject("personResearchName").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, section.getString("personResearchName"), false, false);
+        addTextToNewParagraphWithTable(document, getField(section, "personResearchName"), false,
+          false);
 
         addTextToNewParagraph(document,
           languageMap.getJsonObject("personResearchJobTitle").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, section.getString("personResearchJobTitle"), false, false);
+        addTextToNewParagraphWithTable(document, getField(section, "personResearchJobTitle"), false,
+          false);
 
         addTextToNewParagraph(document,
-          languageMap.getJsonObject(PERSON_RESPONSIBLE_AFFILIATION).getString(LABEL), true,
-          false);
-        addTextToNewParagraphWithTable(document, section.getString("personResearchAffiliation"), false,
-          false);
+          languageMap.getJsonObject(PERSON_RESPONSIBLE_AFFILIATION).getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "personResearchAffiliation"),
+          false, false);
+      }
+    }
+
+    // --- PROJECT PURPOSE INFORMATION ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("whyTheDataIsNeeded").getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "whyTheDataIsNeeded"), false, false);
+
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("whatIsTheAimAndTopicOfTheProject").getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "whatIsTheAimAndTopicOfTheProject"),
+      false, false);
+
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("whichAreTheExpectedBenefits").getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "whichAreTheExpectedBenefits"),
+      false, false);
+
+    // --- CONDITIONAL BLOCK BASED ON PURPOSE OF USE ---
+    if (section2 != null) {
+      if (purposeOfUse != null && containsKey(purposeOfUse, "b")) {
+        addTextToNewParagraph(document, languageMap.getJsonObject("legalBasis").getString(LABEL),
+          true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "legalBasis"), false, false);
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("linkToTheSupportingLegalBasis").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "linkToTheSupportingLegalBasis"),
+          false, false);
       }
 
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("whyTheDataIsNeeded").getString(LABEL), true, false);
-      addTextToNewParagraphWithTable(document, section.getString("whyTheDataIsNeeded"), false, false);
-
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("whatIsTheAimAndTopicOfTheProject").getString(LABEL), true,
-        false);
-      addTextToNewParagraphWithTable(document, section.getString("whatIsTheAimAndTopicOfTheProject"), false,
-        false);
-
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("whichAreTheExpectedBenefits").getString(LABEL), true, false);
-      addTextToNewParagraphWithTable(document, section.getString("whichAreTheExpectedBenefits"), false,
-        false);
-
-      if (Objects.nonNull(purposeOfUse) && containsKey(purposeOfUse, "b")) {
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("legalBasis").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, section.getString("legalBasis"), false,
-          false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("linkToTheSupportingLegalBasis").getString(LABEL), true,
-          false);
-        addTextToNewParagraphWithTable(document, section.getString("linkToTheSupportingLegalBasis"), false,
-          false);
-      }
-
-      if (Objects.nonNull(purposeOfUse) && containsSelectedValueWithoutSpecificValue(purposeOfUse,
-        "e")) {
+      if (purposeOfUse != null && containsSelectedValueWithoutSpecificValue(purposeOfUse, "e")) {
         addTextToNewParagraph(document,
           languageMap.getJsonObject(SUMMARY_OF_PLAN_FOR_USING_THE_DATA).getString(LABEL), true,
           false);
         addTextToNewParagraph(document,
           languageMap.getJsonObject(SUMMARY_OF_PLAN_FOR_USING_THE_DATA).getString(TOOLTIP), false,
           true);
-        JsonArray summaryOfPlanForUsingTheDataDoc = section.getJsonArray(
+
+        JsonArray summaryOfPlanForUsingTheDataDoc = getArrayField(section,
           SUMMARY_OF_PLAN_FOR_USING_THE_DATA);
         generatedJsonArrayValues(document, summaryOfPlanForUsingTheDataDoc, "name");
 
         addTextToNewParagraph(document,
           languageMap.getJsonObject(SUMMARY_OF_PLAN_FOR_USING_THE_DATA_LANGUAGE).getString(LABEL),
           true, false);
-        JsonObject summaryOfPlanForUsingTheDataLanguage = section.getJsonObject(
+        JsonObject summaryOfPlanForUsingTheDataLanguage = getObject(section,
           SUMMARY_OF_PLAN_FOR_USING_THE_DATA_LANGUAGE);
-        if (Objects.nonNull(summaryOfPlanForUsingTheDataLanguage)) {
-          addTextToNewParagraphWithTable(document, summaryOfPlanForUsingTheDataLanguage.getString(VALUE),
-            false, false);
+
+        if (summaryOfPlanForUsingTheDataLanguage != null) {
+          addTextToNewParagraphWithTable(document,
+            summaryOfPlanForUsingTheDataLanguage.getString(VALUE, ""), false, false);
         }
       }
 
-      if (Objects.nonNull(purposeOfUse) && containsKey(purposeOfUse, "e")) {
+      if (purposeOfUse != null && containsKey(purposeOfUse, "e")) {
         addTextToNewParagraph(document,
           languageMap.getJsonObject(SUMMARY_OF_RESEARCH_PLAN).getString(LABEL), true, false);
         addTextToNewParagraph(document,
-          languageMap.getJsonObject(SUMMARY_OF_RESEARCH_PLAN).getString(TOOLTIP), false,
-          true);
-        JsonArray summaryOfResearchPlanDoc = section.getJsonArray(SUMMARY_OF_RESEARCH_PLAN);
+          languageMap.getJsonObject(SUMMARY_OF_RESEARCH_PLAN).getString(TOOLTIP), false, true);
+
+        JsonArray summaryOfResearchPlanDoc = getArrayField(section, SUMMARY_OF_RESEARCH_PLAN);
         generatedJsonArrayValues(document, summaryOfResearchPlanDoc, "name");
 
         addTextToNewParagraph(document,
           languageMap.getJsonObject(SUMMARY_OF_RESEARCH_PLAN_LANGUAGE).getString(LABEL), true,
           false);
-        JsonObject summaryOfResearchPlanLanguage = section.getJsonObject(
+        JsonObject summaryOfResearchPlanLanguage = getObject(section,
           SUMMARY_OF_RESEARCH_PLAN_LANGUAGE);
-        if (Objects.nonNull(summaryOfResearchPlanLanguage)) {
-          addTextToNewParagraphWithTable(document, summaryOfResearchPlanLanguage.getString(VALUE), false,
-            false);
+
+        if (summaryOfResearchPlanLanguage != null) {
+          addTextToNewParagraphWithTable(document,
+            summaryOfResearchPlanLanguage.getString(VALUE, ""), false, false);
         }
       }
+    }
 
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA).getString(LABEL), true,
-        false);
-      JsonObject formatOfTheElectronicHealthData = section.getJsonObject(
+    // --- FORMAT OF THE ELECTRONIC HEALTH DATA ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA).getString(LABEL), true,
+      false);
+    String formatOfTheElectronicHealthDataValue = getObjectValue(section,
+      FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA);
+    addTextToNewParagraphWithTable(document, formatOfTheElectronicHealthDataValue, false, false);
+
+    if (formatOfTheElectronicHealthDataValue != null) {
+      JsonObject formatOfTheElectronicHealthData = getObject(section,
         FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA);
+      if (isKey(formatOfTheElectronicHealthData, "b")) {
+        addTextToNewParagraph(document, languageMap.getString("inOrderToApplyPseudonymisedData"),
+          true, false);
 
-      if (Objects.nonNull(formatOfTheElectronicHealthData)) {
-        addTextToNewParagraphWithTable(document, formatOfTheElectronicHealthData.getString(VALUE), false,
-          false);
-        if (Objects.equals(formatOfTheElectronicHealthData.getString("key"), "b")) {
-          addTextToNewParagraph(document, languageMap.getString("inOrderToApplyPseudonymisedData"),
-            true, false);
+        boolean isPseudonymisedDataA = isChecked(section, IN_ORDER_TO_APPLY_PSEUDONYMISED_DATA_A);
+        addTextWithCheckboxToNewParagraph(document,
+          languageMap.getJsonObject(IN_ORDER_TO_APPLY_PSEUDONYMISED_DATA_A).getString(LABEL), true,
+          isPseudonymisedDataA);
 
-          boolean isInOrderToApplyPseudonymisedDataA =
-            section.containsKey(IN_ORDER_TO_APPLY_PSEUDONYMISED_DATA_A) && section.getBoolean(
-              IN_ORDER_TO_APPLY_PSEUDONYMISED_DATA_A, false);
-          addTextWithCheckboxToNewParagraph(document,
-            languageMap.getJsonObject(IN_ORDER_TO_APPLY_PSEUDONYMISED_DATA_A).getString(LABEL),
-            true, isInOrderToApplyPseudonymisedDataA);
+        boolean isPseudonymisedDataB = isChecked(section, IN_ORDER_TO_APPLY_PSEUDONYMISED_DATA_B);
+        addTextWithCheckboxToNewParagraph(document,
+          languageMap.getJsonObject(IN_ORDER_TO_APPLY_PSEUDONYMISED_DATA_B).getString(LABEL), true,
+          isPseudonymisedDataB);
 
-          boolean isInOrderToApplyPseudonymisedDataB =
-            section.containsKey(IN_ORDER_TO_APPLY_PSEUDONYMISED_DATA_B) && section.getBoolean(
-              IN_ORDER_TO_APPLY_PSEUDONYMISED_DATA_B, false);
-          addTextWithCheckboxToNewParagraph(document,
-            languageMap.getJsonObject(IN_ORDER_TO_APPLY_PSEUDONYMISED_DATA_B).getString(LABEL),
-            true, isInOrderToApplyPseudonymisedDataB);
-
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("whyNeedForPseudonymisation").getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString("whyNeedForPseudonymisation"), false,
-            false);
-        }
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("whyNeedForPseudonymisation").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "whyNeedForPseudonymisation"),
+          false, false);
       }
     }
   }
@@ -967,541 +874,533 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     addSectionWithHeader(document, languageMap, "section6h5", "section6Description",
       aboutThisSection);
 
-    if (Objects.nonNull(section6Array) && !section6Array.isEmpty()) {
-      for (int i = 0; i < section6Array.size(); i++) {
-        JsonArray catalogIds = section6Array.getJsonObject(i).getJsonArray("catalog_ids");
-        JsonArray filterDatasets = filterDatasetsByCatalogIds(datasets, catalogIds);
-        section60(document, languageMap, section6Array.getJsonObject(i), filterDatasets);
-        section61(document, languageMap, section6Array.getJsonObject(i), filterDatasets);
-        section62(document, languageMap, section6Array.getJsonObject(i), filterDatasets);
-        section63(document, languageMap, section6Array.getJsonObject(i), filterDatasets);
-      }
+    List<String> catalogIds = extractCatalogIds(datasets);
+
+    for (String catalogId : catalogIds) {
+      JsonArray singleCatalogIdArray = new JsonArray();
+      singleCatalogIdArray.add(catalogId);
+
+      JsonArray filterDatasets = filterDatasetsByCatalogIds(datasets, singleCatalogIdArray);
+
+      JsonObject section6Object = findSection6ObjectByCatalogId(section6Array, catalogId);
+
+      section60(document, languageMap, section6Object, filterDatasets);
+      section61(document, languageMap, section6Object, filterDatasets);
+      section62(document, languageMap, section6Object, filterDatasets);
+      section63(document, languageMap, section6Object, filterDatasets);
     }
   }
 
   private void section60(WordprocessingMLPackage document, JsonObject languageMap,
     JsonObject section, JsonArray datasets) {
-    if (Objects.nonNull(section)) {
-      addTextToNewParagraph(document, section.getString(COUNTRY_ID), true, false);
-      addHeaderToTheText(document,
-        languageMap.getString("descriptionOfTheDataNeeded") + " " + section.getString(COUNTRY_ID),
-        "Heading2");
-      addTextToNewParagraph(document, languageMap.getString("applicationHDABsForSelectedCountry"),
-        true, false);
-      writeDatasetsValues(document, datasets, "hdab", "name");
-      addTextToNewParagraph(document, languageMap.getString("applicationDatasetsPerCountry"), true,
-        false);
-      writeDatasetsValues(document, datasets, TITLE, "en");
-      addTextToNewParagraph(document, languageMap.getJsonObject("hdabContacts").getString(LABEL),
-        true, false);
-      addTextToNewParagraphWithTable(document, section.getString("hdabContacts"), false, false);
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("howWillTheDataFromDifferentSourcesBeLinked").getString(LABEL),
-        true, false);
-      addTextToNewParagraphWithTable(document,
-        section.getString("howWillTheDataFromDifferentSourcesBeLinked"), false, false);
-    }
+    addTextToNewParagraph(document,
+      datasets.getJsonObject(0).getJsonObject("result").getJsonObject("country")
+        .getString("label", null), true, false);
+    addHeaderToTheText(document,
+      languageMap.getString("descriptionOfTheDataNeeded") + " " + datasets.getJsonObject(0)
+        .getJsonObject("result").getJsonObject("country")
+        .getString("label", null),
+      "Heading2");
+    addTextToNewParagraph(document, languageMap.getString("applicationHDABsForSelectedCountry"),
+      true, false);
+    writeDatasetsValues(document, datasets, "hdab", "name");
+    addTextToNewParagraph(document, languageMap.getString("applicationDatasetsPerCountry"), true,
+      false);
+    writeDatasetsValues(document, datasets, TITLE, "en");
+
+    // --- HDAB CONTACTS AND DATA LINKAGE ---
+    addTextToNewParagraph(document, languageMap.getJsonObject("hdabContacts").getString(LABEL),
+      true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "hdabContacts"), false, false);
+
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("howWillTheDataFromDifferentSourcesBeLinked").getString(LABEL),
+      true, false);
+    addTextToNewParagraphWithTable(document,
+      getField(section, "howWillTheDataFromDifferentSourcesBeLinked"), false, false);
   }
 
   private void section61(WordprocessingMLPackage document, JsonObject languageMap,
     JsonObject section,
     JsonArray datasets) {
-    if (Objects.nonNull(section)) {
-      addHeaderToTheText(document,
-        languageMap.getString("descriptionSection6_1") + " " + section.getString(COUNTRY_ID),
-        HEADING_3);
+    addHeaderToTheText(document,
+      languageMap.getString("descriptionSection6_1") + " " + datasets.getJsonObject(0)
+        .getJsonObject("result").getJsonObject("country")
+        .getString("label", null),
+      HEADING_3);
 
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("howIsTheStudyCohortFormed").getString(LABEL), true, false);
-      JsonObject howIsTheStudyCohortFormed = section.getJsonObject("howIsTheStudyCohortFormed");
+    // --- STUDY COHORT FORMATION ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("howIsTheStudyCohortFormed").getString(LABEL), true, false);
+    JsonObject howStudyCohortFormed = getObject(section, "howIsTheStudyCohortFormed");
+    addTextToNewParagraphWithTable(document, getObjectValue(section, "howIsTheStudyCohortFormed"),
+      false,
+      false);
 
-
-      if (Objects.nonNull(howIsTheStudyCohortFormed)) {
-        addTextToNewParagraphWithTable(document, howIsTheStudyCohortFormed.getString(VALUE), false, false);
-
-        if ((Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b")
-          || Objects.equals(howIsTheStudyCohortFormed.getString("key"), "c"))) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(
-                DETAILS_OF_HOW_THE_STUDY_HAS_BEEN_FORMED)
-              .getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document,
-            section.getString(DETAILS_OF_HOW_THE_STUDY_HAS_BEEN_FORMED),
-            false, false);
-        }
-
-        if (Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b")) {
-          addTextToNewParagraphWithTable(document,
-            section.getString("detailsOnHowAndWhatLegalDocumentsTheStudyCohortHasBeenFormed"),
-            false, false);
-
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(
-                HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS)
-              .getString(LABEL), true, false);
-          JsonObject hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants = section.getJsonObject(
-            HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS);
-          addTextToNewParagraphWithTable(document,
-            Objects.nonNull(hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants)
-              ? hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants.getString(VALUE)
-              : null,
-            false, false);
-        }
-      }
-
-      JsonObject hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants = section.getJsonObject(
+    if (isKey(howStudyCohortFormed, "b")) {
+      addTextToNewParagraph(document, languageMap.getJsonObject(
+          HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS)
+        .getString(LABEL), true, false);
+      JsonObject formedBasedOnInfo = getObject(section,
         HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS);
-      if (Objects.nonNull(howIsTheStudyCohortFormed) && Objects.equals(
-        howIsTheStudyCohortFormed.getString("key"), "b") && (
-        Objects.nonNull(hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants)
-          && Objects.equals(
-          hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants.getString("key"),
-          "a"))) {
-        addTextToNewParagraph(document, languageMap.getJsonObject(
-              "doesTheInformedConsentCoverTheRequestedRegistryExtractions")
-            .getString(LABEL), true, false);
-        JsonObject doesTheInformedConsentCoverTheRequestedRegistryExtractions = section.getJsonObject(
-          "doesTheInformedConsentCoverTheRequestedRegistryExtractions");
-        if (Objects.nonNull(doesTheInformedConsentCoverTheRequestedRegistryExtractions)) {
-          addTextToNewParagraphWithTable(document,
-            doesTheInformedConsentCoverTheRequestedRegistryExtractions.getString(VALUE), false,
-            false);
-        }
+      addTextToNewParagraphWithTable(document,
+        (formedBasedOnInfo != null) ? formedBasedOnInfo.getString(VALUE, "") : "", false, false);
+    }
 
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject(
-              "consentAndInformationLetterAttachment")
-            .getString(LABEL), true, false);
-        JsonArray consentAndInformationLetterAttachment = section.getJsonArray(
-          "consentAndInformationLetterAttachment");
-        generatedJsonArrayValues(document, consentAndInformationLetterAttachment, "name");
+    JsonObject formedBasedOnInfo = getObject(section,
+      HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS);
 
-        boolean confirmThatDataPermitHasBeenGrantedForTheResearchProject =
-          section.containsKey(CONFIRM_THAT_DATA_PERMIT_HAS_BEEN_GRANTED_FOR_THE_RESEARCH_PROJECT)
-            && section.getBoolean(
-            CONFIRM_THAT_DATA_PERMIT_HAS_BEEN_GRANTED_FOR_THE_RESEARCH_PROJECT, false);
-        addTextWithCheckboxToNewParagraph(document,
-          languageMap.getJsonObject(
-              CONFIRM_THAT_DATA_PERMIT_HAS_BEEN_GRANTED_FOR_THE_RESEARCH_PROJECT)
-            .getString(LABEL), false,
-          confirmThatDataPermitHasBeenGrantedForTheResearchProject);
-
-        addTextToNewParagraph(document, languageMap.getJsonObject("idOfTheDataPermit")
-            .getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, section.getString("idOfTheDataPermit"),
-          false, false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject(PERMIT_DECISION_ATTACHMENT).getString(LABEL), true, false);
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject(PERMIT_DECISION_ATTACHMENT).getString(TOOLTIP), false, true);
-        JsonArray permitDecisionAttachment = section.getJsonArray(
-          PERMIT_DECISION_ATTACHMENT);
-        generatedJsonArrayValues(document, permitDecisionAttachment, "name");
-      }
-
-      if (Objects.nonNull(howIsTheStudyCohortFormed) && Objects.equals(
-        howIsTheStudyCohortFormed.getString("key"), "b") &&
-        (Objects.nonNull(hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants)
-          && Objects.equals(
-          hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants.getString("key"),
-          "b"))) {
-        addTextToNewParagraph(document, languageMap.getJsonObject("howTheStudyCohortWasObtained")
+    if (isKey(howStudyCohortFormed, "b") && isKey(formedBasedOnInfo,
+      "a")) {
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("doesTheInformedConsentCoverTheRequestedRegistryExtractions")
           .getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document,
-          section.getString("howTheStudyCohortWasObtained"), false, false);
+      JsonObject consentCovering = getObject(section,
+        "doesTheInformedConsentCoverTheRequestedRegistryExtractions");
+      if (consentCovering != null) {
+        addTextToNewParagraphWithTable(document, consentCovering.getString(VALUE, ""), false,
+          false);
       }
 
       addTextToNewParagraph(document,
-        languageMap.getJsonObject(PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS)
-          .getString(LABEL), true, false);
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS)
-          .getString(TOOLTIP), false, true);
-      JsonObject providedInformationOfTheDataUseToCorrespondingSubjects = section.getJsonObject(
-        PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS);
-
-      if (Objects.nonNull(providedInformationOfTheDataUseToCorrespondingSubjects)) {
-        addTextToNewParagraphWithTable(document,
-          providedInformationOfTheDataUseToCorrespondingSubjects.getString(VALUE), false, false);
-        if (Objects.equals(providedInformationOfTheDataUseToCorrespondingSubjects.getString("key"),
-          "a")) {addTextToNewParagraph(document,
-            languageMap.getJsonObject("howProvidedInformationOfTheDataUseToCorrespondingSubjects")
-              .getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document,
-            section.getString("howProvidedInformationOfTheDataUseToCorrespondingSubjects"), false,
-            false);
-        } else {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(
-                "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects")
-              .getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document,
-            section.getString("whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects"),
-            false, false);
-        }
-      }
-
-      if (Objects.nonNull(howIsTheStudyCohortFormed) && (
-        Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") || Objects.equals(
-          howIsTheStudyCohortFormed.getString("key"), "c"))) {
-        addTextToNewParagraph(document, languageMap.getJsonObject(
-              "whoWillDeliverTheInformationOnTheStudy")
-            .getString(LABEL), true, false);
-
-        boolean informationProviderSameAsContactPerson =
-          section.containsKey(INFORMATION_PROVIDER_SAME_AS_CONTACT_PERSON) && section.getBoolean(
-            INFORMATION_PROVIDER_SAME_AS_CONTACT_PERSON, false);
-        addTextWithCheckboxToNewParagraph(document,
-          languageMap.getJsonObject(INFORMATION_PROVIDER_SAME_AS_CONTACT_PERSON).getString(LABEL),
-          false, informationProviderSameAsContactPerson);
-
-        addTextToNewParagraph(document, languageMap.getJsonObject("informationProviderName")
-            .getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, section.getString("informationProviderName"),
-          false, false);
-
-        addTextToNewParagraph(document, languageMap.getJsonObject(
-              "informationProviderEmail").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, section.getString("informationProviderEmail"),
-          false, false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject(INFORMATION_PROVIDER_PHONE).getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document,
-          Objects.nonNull(section.getJsonObject(INFORMATION_PROVIDER_PHONE)) ?
-            "+" +
-              section.getJsonObject(INFORMATION_PROVIDER_PHONE).getString(COUNTRY_CODE) + " " +
-              section.getJsonObject(INFORMATION_PROVIDER_PHONE).getString(NUMBER) : null,
-          false, false);
-      }
-
-      if (Objects.nonNull(howIsTheStudyCohortFormed) && Objects.equals(
-        howIsTheStudyCohortFormed.getString("key"), "d")) {
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject(
-              WHY_NEED_DATA_OF_A_WHOLE_POPULATION)
-            .getString(LABEL), true, false);
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject(
-              WHY_NEED_DATA_OF_A_WHOLE_POPULATION)
-            .getString(TOOLTIP), false, true);
-        addTextToNewParagraphWithTable(document,
-          section.getString(WHY_NEED_DATA_OF_A_WHOLE_POPULATION),
-          false, false);
-      }
-
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("sizeOfTheStudyCohort").getString(LABEL), true, false);
-      addTextToNewParagraphWithTable(document, section.getString("sizeOfTheStudyCohort"), false, false);
-
-      JsonObject sizeOfTheStudyCohortEstimationOrExact = section.getJsonObject(
-        "sizeOfTheStudyCohortEstimationOrExact");
-      if (Objects.nonNull(sizeOfTheStudyCohortEstimationOrExact)) {
-        addTextToNewParagraphWithTable(document, sizeOfTheStudyCohortEstimationOrExact.getString(VALUE),
-          false, false);
-      }
-
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("whyNeedStudyCohortOfThisSize").getString(LABEL), true, false);
-      addTextToNewParagraphWithTable(document, section.getString("whyNeedStudyCohortOfThisSize"), false,
+        languageMap.getJsonObject("consentAndInformationLetterAttachment").getString(LABEL), true,
         false);
+      JsonArray consentLetterAttachment = getArrayField(section,
+        "consentAndInformationLetterAttachment");
+      generatedJsonArrayValues(document, consentLetterAttachment, "name");
+
+      boolean confirmPermitGranted = isChecked(section,
+        CONFIRM_THAT_DATA_PERMIT_HAS_BEEN_GRANTED_FOR_THE_RESEARCH_PROJECT);
+      addTextWithCheckboxToNewParagraph(document, languageMap.getJsonObject(
+          CONFIRM_THAT_DATA_PERMIT_HAS_BEEN_GRANTED_FOR_THE_RESEARCH_PROJECT).getString(LABEL), false,
+        confirmPermitGranted);
 
       addTextToNewParagraph(document,
-        languageMap.getJsonObject("regionsSeekForData").getString(LABEL), true, false);
-      addTextToNewParagraphWithTable(document, section.getString("regionsSeekForData"), false, false);
-
+        languageMap.getJsonObject("ifTheGroupHasBeenFormedBasedOnPreviousIssued").getString(LABEL),
+        true, false);
+    }
+    if (isKey(howStudyCohortFormed, "b") || isKey(howStudyCohortFormed, "c")) {
       addTextToNewParagraph(document,
-        languageMap.getJsonObject("ethicalReviewAttachment").getString(LABEL), true, false);
-      JsonArray ethicalReviewAttachment = section.getJsonArray("ethicalReviewAttachment");
-      generatedJsonArrayValues(document, ethicalReviewAttachment, "name");
-
-      addTextToNewParagraph(document, languageMap.getString("dataHolders"), true, false);
-      writeDatasetsValues(document, datasets, PUBLISHER, "name");
-      addTextToNewParagraph(document, languageMap.getString("whichDatabasesDataExtracted"), true,
-        false);
-      writeDatasetsValues(document, datasets, PROVENANCE, LABEL);
-      addTextToNewParagraph(document, languageMap.getString("whichDatasetDataExtracted"), true,
-        false);
-      writeDatasetsValues(document, datasets, TITLE, "en");
-
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("variablesToBeUsedInDataExtraction").getString(LABEL), true,
-        false);
-      addTextToNewParagraphWithTable(document, section.getString("variablesToBeUsedInDataExtraction"), false,
-        false);
-
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("timePeriodOfDataExtraction").getString(LABEL), true, false);
-      addTextToNewParagraphWithTable(document, section.getString("timePeriodOfDataExtraction"), false,
-        false);
-
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("extractionMethod").getString(LABEL), true, false);
-      JsonObject extractionMethod = section.getJsonObject("extractionMethod");
-      if (Objects.nonNull(extractionMethod)) {
-        addTextToNewParagraphWithTable(document, extractionMethod.getString(VALUE), false, false);
-        String key2 = extractionMethod.getString("key");
-
-        if (key2.equals("c")) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("samplingMethod").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("samplingMethod"), false, false);
-        }
-
-        if (key2.equals("c") || key2.equals("a")) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(SAMPLE_SIZE).getString(LABEL), true, false);
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(SAMPLE_SIZE).getString(TOOLTIP), false, true);
-          addTextToNewParagraphWithTable(document, section.getString(SAMPLE_SIZE), false, false);
-        }
-      }
-
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(INCLUSION_CRITERIA).getString(LABEL), true, false);
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(INCLUSION_CRITERIA).getString(TOOLTIP), false, true);
-      addTextToNewParagraphWithTable(document, section.getString(INCLUSION_CRITERIA), false, false);
-
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("potentialExclusionCriteria").getString(LABEL), true, false);
-      addTextToNewParagraphWithTable(document, section.getString("potentialExclusionCriteria"), false,
-        false);
-
-      addTextToNewParagraph(document, languageMap.getString("dataExtraction"), true, false);
-
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("howOftenDoesTheDataNeedToBeExtracted").getString(LABEL), true,
-        false);
-      JsonObject howOftenDoesTheDataNeedToBeExtracted = section.getJsonObject(
-        "howOftenDoesTheDataNeedToBeExtracted");
-
-      if (Objects.nonNull(howOftenDoesTheDataNeedToBeExtracted)) {
-        addTextToNewParagraphWithTable(document, howOftenDoesTheDataNeedToBeExtracted.getString(VALUE),
-          false, false);
-        if (Objects.equals(howOftenDoesTheDataNeedToBeExtracted.getString("key"), "b")) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(NEED_FOR_DATA_EXTRACTION_EVERY).getString(LABEL), true,
-            false);
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(NEED_FOR_DATA_EXTRACTION_EVERY).getString(TOOLTIP), false,
-            true);
-          JsonObject needForDataExtractionEvery = section.getJsonObject(
-            NEED_FOR_DATA_EXTRACTION_EVERY);
-
-          if (Objects.nonNull(needForDataExtractionEvery)) {
-            addTextToNewParagraphWithTable(document, needForDataExtractionEvery.getString(VALUE), false,
-              false);
-            if (Objects.equals(needForDataExtractionEvery.getString("key"), "d")) {
-              addTextToNewParagraph(document,
-                languageMap.getJsonObject("needForDataExtractionEveryOther").getString(LABEL),
-                true, false);
-              addTextToNewParagraphWithTable(document, section.getString("needForDataExtractionEveryOther"),
-                false, false);
-            }
-          }
-        }
-      }
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("needForDataExtractionEveryDescription").getString(LABEL), true,
-        false);
-      addTextToNewParagraphWithTable(document, section.getString("needForDataExtractionEveryDescription"),
+        languageMap.getJsonObject("previouslyIssuedPermitIssuer1").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitIssuer1"),
         false, false);
 
       addTextToNewParagraph(document,
-        languageMap.getJsonObject("orderForDataExtraction").getString(LABEL), true, false);
-      addTextToNewParagraphWithTable(document, section.getString("orderForDataExtraction"), false, false);
+        languageMap.getJsonObject("previouslyIssuedPermitDate1").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitDate1"),
+        false, false);
+
+      addTextToNewParagraph(document, languageMap.getString("validityPeriod1"), true, false);
+
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodFrom1").getString(LABEL),
+        true, false);
+      addTextToNewParagraphWithTable(document,
+        getField(section, "previouslyIssuedPermitValidityPeriodFrom1"), false, false);
+
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodTo1").getString(LABEL), true,
+        false);
+      addTextToNewParagraphWithTable(document,
+        getField(section, "previouslyIssuedPermitValidityPeriodTo1"), false, false);
+
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("previouslyIssuedPermitNumber1").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitNumber1"),
+        false, false);
     }
+
+    if (isKey(howStudyCohortFormed, "b") && isKey(formedBasedOnInfo,
+      "a")) {
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject(PERMIT_DECISION_ATTACHMENT).getString(LABEL), true, false);
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject(PERMIT_DECISION_ATTACHMENT).getString(TOOLTIP), false, true);
+      JsonArray permitDecisionAttachment = getArrayField(section, PERMIT_DECISION_ATTACHMENT);
+      generatedJsonArrayValues(document, permitDecisionAttachment, "name");
+    }
+
+    if (isKey(howStudyCohortFormed, "b") && formedBasedOnInfo != null && isKey(formedBasedOnInfo,
+      "b")) {
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("howTheStudyCohortWasObtained").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "howTheStudyCohortWasObtained"),
+        false, false);
+    }
+
+    // --- INFORMATION PROVIDED TO SUBJECTS ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS)
+        .getString(LABEL), true, false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS)
+        .getString(TOOLTIP), false, true);
+    addTextToNewParagraphWithTable(document, getObjectValue(section,
+        PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS), false,
+      false);
+
+    JsonObject infoProvidedSubjects = getObject(section,
+      PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS);
+
+    if (infoProvidedSubjects != null) {
+      if (isKey(infoProvidedSubjects, "a")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("howProvidedInformationOfTheDataUseToCorrespondingSubjects")
+            .getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document,
+          getField(section, "howProvidedInformationOfTheDataUseToCorrespondingSubjects"), false,
+          false);
+      } else {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects")
+            .getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document,
+          getField(section, "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects"), false,
+          false);
+      }
+    }
+
+    // --- INFORMATION PROVIDER DETAILS ---
+    if ((isKey(howStudyCohortFormed, "b") || isKey(howStudyCohortFormed, "c"))) {
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("whoWillDeliverTheInformationOnTheStudy").getString(LABEL), true,
+        false);
+
+      boolean sameAsContactProvider = isChecked(section,
+        INFORMATION_PROVIDER_SAME_AS_CONTACT_PERSON);
+      addTextWithCheckboxToNewParagraph(document,
+        languageMap.getJsonObject(INFORMATION_PROVIDER_SAME_AS_CONTACT_PERSON).getString(LABEL),
+        false, sameAsContactProvider);
+
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("informationProviderName").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "informationProviderName"), false,
+        false);
+
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("informationProviderEmail").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "informationProviderEmail"), false,
+        false);
+
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject(INFORMATION_PROVIDER_PHONE).getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document,
+        buildPhone(getObject(section, INFORMATION_PROVIDER_PHONE)), false, false);
+    }
+
+    // --- NEED OF WHOLE POPULATION ---
+    if (isKey(howStudyCohortFormed, "d")) {
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject(WHY_NEED_DATA_OF_A_WHOLE_POPULATION).getString(LABEL), true,
+        false);
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject(WHY_NEED_DATA_OF_A_WHOLE_POPULATION).getString(TOOLTIP), false,
+        true);
+      addTextToNewParagraphWithTable(document,
+        getField(section, WHY_NEED_DATA_OF_A_WHOLE_POPULATION), false, false);
+    }
+
+    // --- STUDY COHORT SIZE ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("sizeOfTheStudyCohort").getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "sizeOfTheStudyCohort"), false,
+      false);
+
+    JsonObject cohortSizeEstimation = getObject(section, "sizeOfTheStudyCohortEstimationOrExact");
+    if (cohortSizeEstimation != null) {
+      addTextToNewParagraphWithTable(document, cohortSizeEstimation.getString(VALUE, ""), false,
+        false);
+    }
+
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("whyNeedStudyCohortOfThisSize").getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "whyNeedStudyCohortOfThisSize"),
+      false, false);
+
+    // --- ETHICAL REVIEW ATTACHMENT ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("ethicalReviewAttachment").getString(LABEL), true, false);
+    JsonArray ethicalReviewAttachment = getArrayField(section, "ethicalReviewAttachment");
+    generatedJsonArrayValues(document, ethicalReviewAttachment, "name");
+
+    addTextToNewParagraph(document, languageMap.getString("dataHolders"), true, false);
+    writeDatasetsValues(document, datasets, PUBLISHER, "name");
+    addTextToNewParagraph(document, languageMap.getString("whichDatabasesDataExtracted"), true,
+      false);
+    writeDatasetsValues(document, datasets, PROVENANCE, LABEL);
+    addTextToNewParagraph(document, languageMap.getString("whichDatasetDataExtracted"), true,
+      false);
+    writeDatasetsValues(document, datasets, TITLE, "en");
+
+    // --- DATA EXTRACTION DETAILS ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("variablesToBeUsedInDataExtractionAttachment").getString(LABEL),
+      true, false);
+    JsonArray variablesExtractionAttachment = getArrayField(section,
+      "variablesToBeUsedInDataExtractionAttachment");
+    generatedJsonArrayValues(document, variablesExtractionAttachment, "name");
+
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("timePeriodOfDataExtraction").getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "timePeriodOfDataExtraction"), false,
+      false);
+
+    addTextToNewParagraph(document, languageMap.getJsonObject("extractionMethod").getString(LABEL),
+      true, false);
+    JsonObject extractionMethod = getObject(section, "extractionMethod");
+
+    if (extractionMethod != null) {
+      addTextToNewParagraphWithTable(document, extractionMethod.getString(VALUE, ""), false, false);
+      String extractionKey = extractionMethod.getString("key", "");
+
+      if ("c".equals(extractionKey)) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("samplingMethod").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "samplingMethod"), false, false);
+      }
+
+      if ("c".equals(extractionKey) || "a".equals(extractionKey)) {
+        addTextToNewParagraph(document, languageMap.getJsonObject(SAMPLE_SIZE).getString(LABEL),
+          true, false);
+        addTextToNewParagraph(document, languageMap.getJsonObject(SAMPLE_SIZE).getString(TOOLTIP),
+          false, true);
+        addTextToNewParagraphWithTable(document, getField(section, SAMPLE_SIZE), false, false);
+      }
+    }
+
+    addTextToNewParagraph(document, languageMap.getJsonObject(INCLUSION_CRITERIA).getString(LABEL),
+      true, false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(INCLUSION_CRITERIA).getString(TOOLTIP), false, true);
+    addTextToNewParagraphWithTable(document, getField(section, INCLUSION_CRITERIA), false, false);
+
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("potentialExclusionCriteria").getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "potentialExclusionCriteria"), false,
+      false);
+
+    addTextToNewParagraph(document, languageMap.getString("dataExtraction"), true, false);
+
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("howOftenDoesTheDataNeedToBeExtracted").getString(LABEL), true,
+      false);
+    JsonObject howOftenExtracted = getObject(section, "howOftenDoesTheDataNeedToBeExtracted");
+    addTextToNewParagraphWithTable(document,
+      getObjectValue(section, "howOftenDoesTheDataNeedToBeExtracted"), false,
+      false);
+
+    if (isKey(howOftenExtracted, "b")) {
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject(NEED_FOR_DATA_EXTRACTION_EVERY).getString(LABEL), true, false);
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject(NEED_FOR_DATA_EXTRACTION_EVERY).getString(TOOLTIP), false,
+        true);
+
+      JsonObject needExtractionEvery = getObject(section, NEED_FOR_DATA_EXTRACTION_EVERY);
+      if (needExtractionEvery != null) {
+        addTextToNewParagraphWithTable(document, needExtractionEvery.getString(VALUE, ""), false,
+          false);
+
+        if (isKey(needExtractionEvery, "d")) {
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject("needForDataExtractionEveryOther").getString(LABEL), true,
+            false);
+          addTextToNewParagraphWithTable(document,
+            getField(section, "needForDataExtractionEveryOther"), false, false);
+        }
+      }
+    }
+
+    // --- NEED FOR DATA EXTRACTION EVERY DESCRIPTION ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("needForDataExtractionEveryDescription").getString(LABEL), true,
+      false);
+    addTextToNewParagraphWithTable(document,
+      getField(section, "needForDataExtractionEveryDescription"), false, false);
+
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("orderForDataExtraction").getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "orderForDataExtraction"), false,
+      false);
   }
 
   private void section62(WordprocessingMLPackage document, JsonObject languageMap,
     JsonObject section,
     JsonArray datasets) {
-    if (Objects.nonNull(section)) {
-      addHeaderToTheText(document,
-        languageMap.getString("definingExtractionCriteria") + " " + section.getString(COUNTRY_ID),
-        HEADING_3);
+    addHeaderToTheText(document,
+      languageMap.getString("definingExtractionCriteria") + " " + datasets.getJsonObject(0)
+        .getJsonObject("result").getJsonObject("country")
+        .getString("label", null),
+      HEADING_3);
 
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(WILL_CONTROLS_BE_EXTRACTED).getString(LABEL), true, false);
-      addTextToNewParagraphWithTable(document,
-        Objects.nonNull(section.getJsonObject(WILL_CONTROLS_BE_EXTRACTED)) ? section.getJsonObject(
-          WILL_CONTROLS_BE_EXTRACTED).getString(VALUE) : null, false, false);
+    // --- CONTROLS EXTRACTION DETAILS ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(WILL_CONTROLS_BE_EXTRACTED).getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getObjectValue(section, WILL_CONTROLS_BE_EXTRACTED),
+      false, false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(HAS_THE_GROUP_RELATIVES_FORMED_2).getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document,
+      getObjectValue(section, HAS_THE_GROUP_RELATIVES_FORMED_2), false,
+      false);
 
-      if (Objects.nonNull(section.getJsonObject(WILL_CONTROLS_BE_EXTRACTED))
-        && Objects.equals(section.getJsonObject(WILL_CONTROLS_BE_EXTRACTED).getString("key"),
-        "a")) {
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject(WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS).getString(LABEL),
-          true, false);
-        addTextToNewParagraphWithTable(document, Objects.nonNull(section.getJsonObject(
-            WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS)) ?
-            section.getJsonObject(WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS).getString(VALUE) : null,
-          false, false);
-        if (Objects.nonNull(section.getJsonObject(WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS))
-          && Objects.equals(
-          section.getJsonObject(WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS).getString("key"),
-          "b")) {
-
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("regionForControlsDataExtraction").getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString("regionForControlsDataExtraction"),
-            false, false);
-
-          addTextToNewParagraph(document,
-            languageMap.getString("fromWhichDataHolderLabel"), true, false);
-          writeDatasetsValues(document, datasets, PUBLISHER, "name");
-          addTextToNewParagraph(document,
-            languageMap.getString("fromWhichDatabaseLabel"), true, false);
-          writeDatasetsValues(document, datasets, PROVENANCE, LABEL);
-          addTextToNewParagraph(document,
-            languageMap.getString("fromWhichDatasetLabel"), true, false);
-          writeDatasetsValues(document, datasets, TITLE, "en");
-
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("variablesForDataExtraction").getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString("variablesForDataExtraction"), false,
-            false);
-
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("timePeriodForDataExtraction").getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString("timePeriodForDataExtraction"), false,
-            false);
-
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("extractionCriteriaForControls").getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString("extractionCriteriaForControls"), false,
-            false);
-        }
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("sizeOfControlGroup").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, section.getString("sizeOfControlGroup"), false, false);
-
-        addTextToNewParagraphWithTable(document, Objects.nonNull(section.getJsonObject(
-            "sizeOfControlGroupEstimationOrExact")) ?
-            section.getJsonObject("sizeOfControlGroupEstimationOrExact").getString(VALUE) : null,
-          false, false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("controlsPerPersonInStudyCohort").getString(LABEL), true,
-          false);
-        addTextToNewParagraphWithTable(document, section.getString("controlsPerPersonInStudyCohort"), false,
-          false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("inclusionCriteriaForControls").getString(LABEL), true,
-          false);
-        addTextToNewParagraphWithTable(document, section.getString("inclusionCriteriaForControls"), false,
-          false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("exclusionCriteriaForControls").getString(LABEL), true,
-          false);
-        addTextToNewParagraphWithTable(document, section.getString("exclusionCriteriaForControls"), false,
-          false);
-
+    JsonObject hasGroupRelativesFormed = getObject(section, HAS_THE_GROUP_RELATIVES_FORMED_2);
+    if (hasGroupRelativesFormed != null) {
+      if (isKey(hasGroupRelativesFormed, "a")) {
         addTextToNewParagraph(document, languageMap.getString("ifTheGroupHasBeenFormed"), true,
           false);
 
         addTextToNewParagraph(document,
-          languageMap.getJsonObject("previouslyIssuedPermitIssuer").getString(LABEL), true,
-          false);
-        addTextToNewParagraphWithTable(document, section.getString("previouslyIssuedPermitIssuer"), false,
-          false);
+          languageMap.getJsonObject("previouslyIssuedPermitIssuer2").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitIssuer2"),
+          false, false);
 
         addTextToNewParagraph(document,
-          languageMap.getJsonObject("previouslyIssuedPermitDate").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, section.getString("previouslyIssuedPermitDate"), false,
-          false);
+          languageMap.getJsonObject("previouslyIssuedPermitDate2").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitDate2"),
+          false, false);
 
-        addTextToNewParagraph(document, languageMap.getString("validityPeriod"), true, false);
+        addTextToNewParagraph(document, languageMap.getString("validityPeriod2"), true, false);
 
         addTextToNewParagraph(document,
-          languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodFrom").getString(LABEL),
+          languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodFrom2").getString(LABEL),
           true, false);
         addTextToNewParagraphWithTable(document,
-          section.getString("previouslyIssuedPermitValidityPeriodFrom"),
+          getField(section, "previouslyIssuedPermitValidityPeriodFrom2"), false, false);
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodTo2").getString(LABEL),
+          true, false);
+        addTextToNewParagraphWithTable(document,
+          getField(section, "previouslyIssuedPermitValidityPeriodTo2"), false, false);
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("previouslyIssuedPermitNumber2").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitNumber2"),
+          false, false);
+      }
+    }
+
+    JsonObject willControlsExtracted = getObject(section, WILL_CONTROLS_BE_EXTRACTED);
+    if (isKey(willControlsExtracted, "a")) {
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject(WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS).getString(LABEL), true,
+        false);
+      addTextToNewParagraphWithTable(document,
+        getObjectValue(section, WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS), false, false);
+
+      JsonObject willSameDataExtracted = getObject(section,
+        WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS);
+      if (isKey(willSameDataExtracted, "b")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("regionForControlsDataExtraction").getString(LABEL), true,
+          false);
+        addTextToNewParagraphWithTable(document,
+          getField(section, "regionForControlsDataExtraction"), false, false);
+
+        addTextToNewParagraph(document, languageMap.getString("fromWhichDataHolderLabel"), true,
+          false);
+        writeDatasetsValues(document, datasets, PUBLISHER, "name");
+
+        addTextToNewParagraph(document, languageMap.getString("fromWhichDatabaseLabel"), true,
+          false);
+        writeDatasetsValues(document, datasets, PROVENANCE, LABEL);
+
+        addTextToNewParagraph(document, languageMap.getString("fromWhichDatasetLabel"), true,
+          false);
+        writeDatasetsValues(document, datasets, TITLE, "en");
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("variablesForDataExtraction").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "variablesForDataExtraction"),
           false, false);
 
         addTextToNewParagraph(document,
-          languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodTo").getString(LABEL),
-          true, false);
-        addTextToNewParagraphWithTable(document, section.getString("previouslyIssuedPermitValidityPeriodTo"),
+          languageMap.getJsonObject("timePeriodForDataExtraction").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "timePeriodForDataExtraction"),
           false, false);
 
         addTextToNewParagraph(document,
-          languageMap.getJsonObject("previouslyIssuedPermitNumber").getString(LABEL), true,
-          false);
-        addTextToNewParagraphWithTable(document, section.getString("previouslyIssuedPermitNumber"), false,
-          false);
+          languageMap.getJsonObject("extractionCriteriaForControls").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "extractionCriteriaForControls"),
+          false, false);
+      }
 
-        addTextToNewParagraph(document, languageMap.getString("dataExtractionAndOrderForControls"),
-          true, false);
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("sizeOfControlGroup").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "sizeOfControlGroup"), false,
+        false);
 
+      addTextToNewParagraphWithTable(document,
+        getObjectValue(section, "sizeOfControlGroupEstimationOrExact"), false, false);
+
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("controlsPerPersonInStudyCohort").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "controlsPerPersonInStudyCohort"),
+        false, false);
+
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("exclusionCriteriaForControls").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "exclusionCriteriaForControls"),
+        false, false);
+
+      addTextToNewParagraph(document, languageMap.getString("dataExtractionAndOrderForControls"),
+        true, false);
+
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject(WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY)
+          .getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document,
+        getObjectValue(section, WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY), false, false);
+
+      JsonObject willDataExtractedSimultaneously = getObject(section,
+        WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY);
+
+      if (isKey(willDataExtractedSimultaneously, "b")) {
         addTextToNewParagraph(document,
-          languageMap.getJsonObject(WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY)
-            .getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, Objects.nonNull(section.getJsonObject(
-          WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY)) ?
-          section.getJsonObject(WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY).getString(VALUE)
-          : null, false, false);
+          languageMap.getJsonObject(DATA_EXTRACTION_FREQUENCY).getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getObjectValue(section, DATA_EXTRACTION_FREQUENCY),
+          false, false);
 
-        if (Objects.nonNull(section
-          .getJsonObject(WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY)) && Objects.equals(
-            section.getJsonObject(WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY)
-              .getString("key"), "b")) {
+        JsonObject extractionFrequency = getObject(section, DATA_EXTRACTION_FREQUENCY);
+        if (isKey(extractionFrequency, "b")) {
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject("dataExtractionFrequencyMultipleTimesInformation")
+              .getString(LABEL), true, false);
+          addTextToNewParagraphWithTable(document,
+            getField(section, "dataExtractionFrequencyMultipleTimesInformation"), false, false);
 
           addTextToNewParagraph(document,
-            languageMap.getJsonObject(DATA_EXTRACTION_FREQUENCY).getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document,
-            Objects.nonNull(section.getJsonObject(DATA_EXTRACTION_FREQUENCY)) ?
-              section.getJsonObject(DATA_EXTRACTION_FREQUENCY).getString(VALUE) : null, false,
+            languageMap.getJsonObject(DATA_NEEDS_TO_BE_EXTRACTED_EVERY).getString(LABEL), true,
             false);
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject(DATA_NEEDS_TO_BE_EXTRACTED_EVERY).getString(TOOLTIP), false,
+            true);
 
-          if (Objects.nonNull(section.getJsonObject(
-            DATA_EXTRACTION_FREQUENCY)) && Objects.equals(section.getJsonObject(
-            DATA_EXTRACTION_FREQUENCY).getString("key"), "b")) {
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject("dataExtractionFrequencyMultipleTimesInformation")
-                .getString(LABEL), true, false);
-            addTextToNewParagraphWithTable(document,
-              section.getString("dataExtractionFrequencyMultipleTimesInformation"), false, false);
+          JsonObject dataNeedsExtractedEvery = getObject(section, DATA_NEEDS_TO_BE_EXTRACTED_EVERY);
+          if (dataNeedsExtractedEvery != null) {
+            addTextToNewParagraphWithTable(document, dataNeedsExtractedEvery.getString(VALUE, ""),
+              false, false);
 
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject(DATA_NEEDS_TO_BE_EXTRACTED_EVERY)
-                .getString(LABEL), true, false);
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject(DATA_NEEDS_TO_BE_EXTRACTED_EVERY)
-                .getString(TOOLTIP), false, true);
-            JsonObject dataNeedsToBeExtractedEvery = section.getJsonObject(
-              DATA_NEEDS_TO_BE_EXTRACTED_EVERY);
-            if (Objects.nonNull(dataNeedsToBeExtractedEvery)) {
-              addTextToNewParagraphWithTable(document, dataNeedsToBeExtractedEvery.getString(VALUE), false,
+            if (isKey(dataNeedsExtractedEvery, "d")) {
+              addTextToNewParagraph(document,
+                languageMap.getJsonObject("specifyOther").getString(LABEL), true, false);
+              addTextToNewParagraphWithTable(document, getField(section, "specifyOther"), false,
                 false);
-              if (Objects.equals(dataNeedsToBeExtractedEvery.getString("key"), "d")) {
-                addTextToNewParagraph(document,
-                  languageMap.getJsonObject("specifyOther").getString(LABEL), true, false);
-                addTextToNewParagraphWithTable(document, section.getString("specifyOther"), false, false);
-              }
             }
           }
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(MORE_INFO_ON_EXTRACTION_PERIODS).getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString(MORE_INFO_ON_EXTRACTION_PERIODS), false,
-            false);
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(ORDER_OF_CONTROLS_DATA_EXTRACTION).getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString(ORDER_OF_CONTROLS_DATA_EXTRACTION),
-            false, false);
         }
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(MORE_INFO_ON_EXTRACTION_PERIODS).getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, MORE_INFO_ON_EXTRACTION_PERIODS),
+          false, false);
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(ORDER_OF_CONTROLS_DATA_EXTRACTION).getString(LABEL), true,
+          false);
+        addTextToNewParagraphWithTable(document,
+          getField(section, ORDER_OF_CONTROLS_DATA_EXTRACTION), false, false);
       }
     }
   }
@@ -1509,131 +1408,170 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
   private void section63(WordprocessingMLPackage document, JsonObject languageMap,
     JsonObject section,
     JsonArray datasets) {
-    if (Objects.nonNull(section)) {
-      addHeaderToTheText(document,
-        languageMap.getString("definingTheExtractionCriteria") + " " + section.getString(
-          COUNTRY_ID), HEADING_3);
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(WILL_RELATIVES_BE_EXTRACTED).getString(LABEL), true, false);
-      JsonObject willRelativesBeExtracted = section.getJsonObject(WILL_RELATIVES_BE_EXTRACTED);
-      if (Objects.nonNull(willRelativesBeExtracted)) {
-        addTextToNewParagraphWithTable(document, willRelativesBeExtracted.getString(VALUE), false, false);
-        if (Objects.equals(section.getJsonObject(WILL_RELATIVES_BE_EXTRACTED).getString("key"),
-          "a")) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES).getString(LABEL),
+    addHeaderToTheText(document,
+      languageMap.getString("definingTheExtractionCriteria") + " " + datasets.getJsonObject(0)
+        .getJsonObject("result").getJsonObject("country")
+        .getString("label", null), HEADING_3);
+    // --- RELATIVES EXTRACTION DETAILS ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(WILL_RELATIVES_BE_EXTRACTED).getString(LABEL), true, false);
+    JsonObject willRelativesBeExtracted = getObject(section, WILL_RELATIVES_BE_EXTRACTED);
+    addTextToNewParagraphWithTable(document, getObjectValue(section, WILL_RELATIVES_BE_EXTRACTED),
+      false, false);
+
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(HAS_THE_GROUP_RELATIVES_FORMED_3).getString(LABEL), true, false);
+    JsonObject hasGroupRelativesFormed3 = getObject(section, HAS_THE_GROUP_RELATIVES_FORMED_3);
+    addTextToNewParagraphWithTable(document,
+      getObjectValue(section, HAS_THE_GROUP_RELATIVES_FORMED_3), false,
+      false);
+
+    if (hasGroupRelativesFormed3 != null) {
+      if (isKey(hasGroupRelativesFormed3, "a")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("ifTheGroupOfRelativesHasBeenFormed").getString(LABEL), true,
+          false);
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("previouslyIssuedPermitIssuer3").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitIssuer3"),
+          false, false);
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("previouslyIssuedPermitDate3").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitDate3"),
+          false, false);
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodFrom3").getString(LABEL),
+          true, false);
+        addTextToNewParagraphWithTable(document,
+          getField(section, "previouslyIssuedPermitValidityPeriodFrom3"), false, false);
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodTo3").getString(LABEL),
+          true, false);
+        addTextToNewParagraphWithTable(document,
+          getField(section, "previouslyIssuedPermitValidityPeriodTo3"), false, false);
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("previouslyIssuedPermitNumber3").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitNumber3"),
+          false, false);
+      }
+    }
+
+    if (willRelativesBeExtracted != null) {
+      addTextToNewParagraphWithTable(document, willRelativesBeExtracted.getString(VALUE, ""), false,
+        false);
+
+      if (isKey(willRelativesBeExtracted, "a")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES).getString(LABEL),
+          true, false);
+        addTextToNewParagraphWithTable(document,
+          getObjectValue(section, WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES), false, false);
+
+        JsonObject sameDataRelatives = getObject(section,
+          WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES);
+        if (isKey(sameDataRelatives, "b")) {
+          addTextToNewParagraph(document, languageMap.getString("whichDataHoldersForRelatives"),
             true, false);
-          addTextToNewParagraphWithTable(document, Objects.nonNull(section.getJsonObject(
-              WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES)) ?
-              section.getJsonObject(WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES).getString(VALUE)
-              : null, false, false);
-          if (Objects.nonNull(section.getJsonObject(WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES))
-            && Objects.equals(
-            section.getJsonObject(WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES).getString("key"),
-            "b")) {
-            addTextToNewParagraph(document, languageMap.getString("whichDataHoldersForRelatives"),
-              true, false);
-            writeDatasetsValues(document, datasets, PUBLISHER, "name");
-            addTextToNewParagraph(document, languageMap.getString("whichDatabaseForRelatives"),
-              true, false);
-            writeDatasetsValues(document, datasets, PROVENANCE, LABEL);
-            addTextToNewParagraph(document, languageMap.getString("whichDatasetsForRelatives"),
-              true, false);
-            writeDatasetsValues(document, datasets, TITLE, "en");
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject("variablesForDataExtractionRelatives").getString(LABEL),
-              true, false);
-            addTextToNewParagraphWithTable(document,
-              section.getString("variablesForDataExtractionRelatives"),
-              false, false);
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject("timePeriodForDataExtractionRelatives").getString(LABEL),
-              true, false);
-            addTextToNewParagraphWithTable(document,
-              section.getString("timePeriodForDataExtractionRelatives"),
-              false, false);
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject("relationshipToStudyCohort").getString(LABEL), true,
-              false);
-            addTextToNewParagraphWithTable(document, section.getString("relationshipToStudyCohort"), false,
-              false);
-          }
+          writeDatasetsValues(document, datasets, PUBLISHER, "name");
+
+          addTextToNewParagraph(document, languageMap.getString("whichDatabaseForRelatives"), true,
+            false);
+          writeDatasetsValues(document, datasets, PROVENANCE, LABEL);
+
+          addTextToNewParagraph(document, languageMap.getString("whichDatasetsForRelatives"), true,
+            false);
+          writeDatasetsValues(document, datasets, TITLE, "en");
 
           addTextToNewParagraph(document,
-            languageMap.getJsonObject("previouslyIssuedPermitIssuerRelatives").getString(LABEL),
+            languageMap.getJsonObject("variablesForDataExtractionRelatives").getString(LABEL), true,
+            false);
+          addTextToNewParagraphWithTable(document,
+            getField(section, "variablesForDataExtractionRelatives"), false, false);
+
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject("timePeriodForDataExtractionRelatives").getString(LABEL),
             true, false);
           addTextToNewParagraphWithTable(document,
-            section.getString("previouslyIssuedPermitIssuerRelatives"),
-            false, false);
+            getField(section, "timePeriodForDataExtractionRelatives"), false, false);
 
           addTextToNewParagraph(document,
-            languageMap.getJsonObject("sizeOfRelativesGroup").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("sizeOfRelativesGroup"), false, false);
-          addTextToNewParagraphWithTable(document, Objects.nonNull(section.getJsonObject(
-              "sizeOfRelativesGroupEstimateOrExact")) ?
-              section.getJsonObject("sizeOfRelativesGroupEstimateOrExact").getString(VALUE) : null,
+            languageMap.getJsonObject("relationshipToStudyCohort").getString(LABEL), true, false);
+          addTextToNewParagraphWithTable(document, getField(section, "relationshipToStudyCohort"),
             false, false);
+        }
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("sizeOfRelativesGroup").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "sizeOfRelativesGroup"), false,
+          false);
+
+        addTextToNewParagraphWithTable(document,
+          getObjectValue(section, "sizeOfRelativesGroupEstimateOrExact"), false, false);
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(WILL_DATA_FOR_RELATIVES_BE_EXTRACTED_SIMULTANEOUSLY)
+            .getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document,
+          getObjectValue(section, WILL_DATA_FOR_RELATIVES_BE_EXTRACTED_SIMULTANEOUSLY), false,
+          false);
+
+        JsonObject willDataSimultaneouslyRelatives = getObject(section,
+          WILL_DATA_FOR_RELATIVES_BE_EXTRACTED_SIMULTANEOUSLY);
+        if (isKey(willDataSimultaneouslyRelatives, "b")) {
           addTextToNewParagraph(document,
-            languageMap.getJsonObject(WILL_DATA_FOR_RELATIVES_BE_EXTRACTED_SIMULTANEOUSLY)
-              .getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, Objects.nonNull(section.getJsonObject(
-              WILL_DATA_FOR_RELATIVES_BE_EXTRACTED_SIMULTANEOUSLY)) ?
-              section.getJsonObject(WILL_DATA_FOR_RELATIVES_BE_EXTRACTED_SIMULTANEOUSLY)
-                .getString(VALUE) : null, false, false);
-          if (
-            Objects.nonNull(
-              section.getJsonObject(WILL_DATA_FOR_RELATIVES_BE_EXTRACTED_SIMULTANEOUSLY))
-              && Objects.equals(
-              section.getJsonObject(WILL_DATA_FOR_RELATIVES_BE_EXTRACTED_SIMULTANEOUSLY)
-                .getString("key"), "b")) {
+            languageMap.getJsonObject(DATA_EXTRACTION_FREQUENCY_RELATIVES).getString(LABEL), true,
+            false);
+          addTextToNewParagraphWithTable(document,
+            getObjectValue(section, DATA_EXTRACTION_FREQUENCY_RELATIVES), false, false);
+
+          JsonObject extractionFrequencyRelatives = getObject(section,
+            DATA_EXTRACTION_FREQUENCY_RELATIVES);
+          if (isKey(extractionFrequencyRelatives, "b")) {
             addTextToNewParagraph(document,
-              languageMap.getJsonObject(DATA_EXTRACTION_FREQUENCY_RELATIVES).getString(LABEL),
-              true, false);
-            addTextToNewParagraphWithTable(document, Objects.nonNull(section.getJsonObject(
-                DATA_EXTRACTION_FREQUENCY_RELATIVES)) ?
-                section.getJsonObject(DATA_EXTRACTION_FREQUENCY_RELATIVES).getString(VALUE) : null,
-              false, false);
-            if (Objects.nonNull(section.getJsonObject(DATA_EXTRACTION_FREQUENCY_RELATIVES))
-              && Objects.equals(
-              section.getJsonObject(DATA_EXTRACTION_FREQUENCY_RELATIVES).getString("key"), "b")) {
-              addTextToNewParagraph(document,
-                languageMap.getJsonObject("dataExtractionFrequencyMultipleTimesInformationRelatives")
-                  .getString(LABEL), true, false);
-              addTextToNewParagraphWithTable(document,
-                section.getString("dataExtractionFrequencyMultipleTimesInformationRelatives"),
+              languageMap.getJsonObject("dataExtractionFrequencyMultipleTimesInformationRelatives")
+                .getString(LABEL), true, false);
+            addTextToNewParagraphWithTable(document,
+              getField(section, "dataExtractionFrequencyMultipleTimesInformationRelatives"), false,
+              false);
+
+            addTextToNewParagraph(document,
+              languageMap.getJsonObject("needForDataExtractionEveryOptions").getString(LABEL), true,
+              false);
+            addTextToNewParagraph(document,
+              languageMap.getJsonObject("needForDataExtractionEveryOptions").getString(TOOLTIP),
+              false, true);
+
+            JsonObject needEveryRelatives = getObject(section,
+              DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES);
+            if (needEveryRelatives != null) {
+              addTextToNewParagraphWithTable(document, needEveryRelatives.getString(VALUE, ""),
                 false, false);
-              addTextToNewParagraph(document,
-                languageMap.getJsonObject("needForDataExtractionEveryOptions").getString(LABEL),
-                true, false);
-              addTextToNewParagraph(document,
-                languageMap.getJsonObject("needForDataExtractionEveryOptions").getString(TOOLTIP),
-                false, true);
-              addTextToNewParagraphWithTable(document, Objects.nonNull(section.getJsonObject(
-                  DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES)) ?
-                  section.getJsonObject(DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES).getString(VALUE)
-                  : null, false, false);
-              if (Objects.nonNull(section.getJsonObject(
-                DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES)) && Objects.equals(
-                section.getJsonObject(DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES).getString("key"),
-                "d")) {
+
+              if (isKey(needEveryRelatives, "d")) {
                 addTextToNewParagraph(document,
-                  languageMap.getJsonObject("specifyOtherRelatives").getString(LABEL), true,
-                  false);
-                addTextToNewParagraphWithTable(document, section.getString("specifyOtherRelatives"), false,
-                  false);
+                  languageMap.getJsonObject("specifyOtherRelatives").getString(LABEL), true, false);
+                addTextToNewParagraphWithTable(document, getField(section, "specifyOtherRelatives"),
+                  false, false);
               }
             }
           }
+
           addTextToNewParagraph(document,
             languageMap.getJsonObject(MORE_INFO_ON_EXTRACTION_PERIODS_RELATIVES).getString(LABEL),
             true, false);
-          addTextToNewParagraphWithTable(document, section.getString(MORE_INFO_ON_EXTRACTION_PERIODS_RELATIVES),
-            false, false);
+          addTextToNewParagraphWithTable(document,
+            getField(section, MORE_INFO_ON_EXTRACTION_PERIODS_RELATIVES), false, false);
+
           addTextToNewParagraph(document,
             languageMap.getJsonObject(ORDER_OF_RELATIVES_DATA_EXTRACTION).getString(LABEL), true,
             false);
-          addTextToNewParagraphWithTable(document, section.getString(ORDER_OF_RELATIVES_DATA_EXTRACTION),
-            false, false);
+          addTextToNewParagraphWithTable(document,
+            getField(section, ORDER_OF_RELATIVES_DATA_EXTRACTION), false, false);
         }
       }
     }
@@ -1644,103 +1582,147 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     addSectionWithHeader(document, languageMap, "section7h5", "section7Description",
       aboutThisSection);
 
-    if (Objects.nonNull(section)) {
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(WILL_DATA_BE_COMBINED_WITH_DATA_OBTAINED).getString(LABEL), true,
-        false);
+    // --- WILL DATA BE COMBINED WITH OTHER DATA ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(WILL_DATA_BE_COMBINED_WITH_DATA_OBTAINED).getString(LABEL), true,
+      false);
 
-      JsonObject willDataBeCombinedWithDataObtained = section.getJsonObject(
+    String willDataBeCombinedWithDataObtainedValue = getObjectValue(section,
+      WILL_DATA_BE_COMBINED_WITH_DATA_OBTAINED);
+    addTextToNewParagraphWithTable(document, willDataBeCombinedWithDataObtainedValue, false, false);
+
+    if (willDataBeCombinedWithDataObtainedValue != null) {
+      JsonObject willDataBeCombinedWithDataObtained = getObject(section,
         WILL_DATA_BE_COMBINED_WITH_DATA_OBTAINED);
-      if (Objects.nonNull(willDataBeCombinedWithDataObtained)) {
-        addTextToNewParagraphWithTable(document, willDataBeCombinedWithDataObtained.getString(VALUE),
+      if (isKey(willDataBeCombinedWithDataObtained, "a")) {
+        addTextToNewParagraph(document, languageMap.getString("listOtherDataToBeCompined"), true,
+          false);
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("combinedCountries").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "combinedCountries"), false,
+          false);
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("combinedDataHolders").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "combinedDataHolders"), false,
+          false);
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("combinedDatabaseRegistries").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "combinedDatabaseRegistries"),
           false, false);
-        if (Objects.equals(willDataBeCombinedWithDataObtained.getString("key"), "a")) {
-          addTextToNewParagraph(document, languageMap.getString("listOtherDataToBeCompined"), true,
-            false);
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("combinedCountries").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("combinedCountries"), false, false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("combinedDataHolders").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("combinedDataHolders"), false, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("combinedDatasetsRegistries").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "combinedDatasetsRegistries"),
+          false, false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("combinedDatabaseRegistries").getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString("combinedDatabaseRegistries"), false,
-            false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("provideInformationList").getString(LABEL), true, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("provideInformationList").getString(TOOLTIP), false, true);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("combinedDatasetsRegistries").getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString("combinedDatasetsRegistries"), false,
-            false);
+        JsonArray provideInformationList = getArrayField(section, "provideInformationList");
+        if (provideInformationList != null && !provideInformationList.isEmpty()) {
+          for (Object item : provideInformationList) {
+            if (item instanceof JsonObject provideInformation) {
+              addTextToNewParagraph(document, languageMap.getJsonObject("dataset").getString(LABEL),
+                true, false);
+              addTextToNewParagraphWithTable(document, provideInformation.getString("dataset", ""),
+                false, false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("providedInformationOnDataCombined").getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString("providedInformationOnDataCombined"),
-            false, false);
+              addTextToNewParagraph(document,
+                languageMap.getJsonObject("numberOfFiles").getString(LABEL), true, false);
+              addTextToNewParagraphWithTable(document,
+                provideInformation.getString("numberOfFiles", ""), false, false);
+
+              addTextToNewParagraph(document,
+                languageMap.getJsonObject("formatOfFiles").getString(LABEL), true, false);
+              addTextToNewParagraphWithTable(document,
+                provideInformation.getString("formatOfFiles", ""), false, false);
+
+              addTextToNewParagraph(document,
+                languageMap.getJsonObject("sizeOfFiles").getString(LABEL), true, false);
+              addTextToNewParagraphWithTable(document,
+                provideInformation.getString("sizeOfFiles", ""), false, false);
+
+              addTextToNewParagraph(document, languageMap.getJsonObject("notes").getString(LABEL),
+                true, false);
+              addTextToNewParagraphWithTable(document, provideInformation.getString("notes", ""),
+                false, false);
+            }
+          }
         }
       }
+
       addTextToNewParagraph(document, languageMap.getString("listAnyOtherDataPermit"), false,
         false);
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("otherPermits").getString(LABEL), true, false);
-      JsonArray otherDataPermits = section.getJsonArray("otherDataPermits");
-      if (Objects.nonNull(otherDataPermits) && !otherDataPermits.isEmpty()) {
+
+      addTextToNewParagraph(document, languageMap.getJsonObject("otherPermits").getString(LABEL),
+        true, false);
+      JsonArray otherDataPermits = getArrayField(section, "otherDataPermits");
+
+      if (otherDataPermits != null && !otherDataPermits.isEmpty()) {
         for (Object item : otherDataPermits) {
           if (item instanceof JsonObject otherDataPermit) {
             addTextToNewParagraph(document,
               languageMap.getJsonObject("permitIssuer").getString(LABEL), true, false);
-            addTextToNewParagraphWithTable(document, otherDataPermit.getString("permitIssuer"), false,
-              false);
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject("permitStartDateOfIssue").getString(LABEL), true,
-              false);
-            addTextToNewParagraphWithTable(document, otherDataPermit.getString("permitStartDateOfIssue"),
+            addTextToNewParagraphWithTable(document, otherDataPermit.getString("permitIssuer", ""),
               false, false);
+
+            addTextToNewParagraph(document,
+              languageMap.getJsonObject("permitStartDateOfIssue").getString(LABEL), true, false);
+            addTextToNewParagraphWithTable(document,
+              otherDataPermit.getString("permitStartDateOfIssue", ""), false, false);
+
             addTextToNewParagraph(document,
               languageMap.getJsonObject("permitEndDateOfIssue").getString(LABEL), true, false);
-            addTextToNewParagraphWithTable(document, otherDataPermit.getString("permitEndDateOfIssue"),
-              false, false);
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject("permitIdentificationInformation").getString(LABEL),
-              true, false);
             addTextToNewParagraphWithTable(document,
-              otherDataPermit.getString("permitIdentificationInformation"), false, false);
+              otherDataPermit.getString("permitEndDateOfIssue", ""), false, false);
+
+            addTextToNewParagraph(document,
+              languageMap.getJsonObject("permitIdentificationInformation").getString(LABEL), true,
+              false);
+            addTextToNewParagraphWithTable(document,
+              otherDataPermit.getString("permitIdentificationInformation", ""), false, false);
           }
         }
       }
+
       addTextToNewParagraph(document,
         languageMap.getJsonObject("attachmentOfPermitDocuments").getString(LABEL), true, false);
-      JsonArray attachmentOfPermitDocuments = section.getJsonArray("attachmentOfPermitDocuments");
+      JsonArray attachmentOfPermitDocuments = getArrayField(section, "attachmentOfPermitDocuments");
       generatedJsonArrayValues(document, attachmentOfPermitDocuments, "name");
 
       addTextToNewParagraph(document,
         languageMap.getJsonObject(OTHER_PERMIT_APPLICATIONS).getString(LABEL), true, false);
       addTextToNewParagraph(document,
         languageMap.getJsonObject(OTHER_PERMIT_APPLICATIONS).getString(TOOLTIP), false, true);
-      JsonObject otherPermitApplications = section.getJsonObject(OTHER_PERMIT_APPLICATIONS);
-      if (Objects.nonNull(otherPermitApplications)) {
-        addTextToNewParagraphWithTable(document, otherPermitApplications.getString(VALUE), false, false);
-        if (Objects.equals(otherPermitApplications.getString("key"), "a")) {
-          addTextToNewParagraph(document, languageMap.getString("listTheOtherData"), true,
-            false);
+
+      String otherPermitApplicationsValue = getObjectValue(section, OTHER_PERMIT_APPLICATIONS);
+      addTextToNewParagraphWithTable(document, otherPermitApplicationsValue, false, false);
+
+      if (otherPermitApplicationsValue != null) {
+        JsonObject otherPermitApplications = getObject(section, OTHER_PERMIT_APPLICATIONS);
+        if (isKey(otherPermitApplications, "a")) {
+          addTextToNewParagraph(document, languageMap.getString("listTheOtherData"), true, false);
+
           addTextToNewParagraph(document,
             languageMap.getJsonObject("dateOfSubmittingTheApplication").getString(LABEL), true,
             false);
-          addTextToNewParagraphWithTable(document, section.getString("dateOfSubmittingTheApplication"),
-            false, false);
+          addTextToNewParagraphWithTable(document,
+            getField(section, "dateOfSubmittingTheApplication"), false, false);
 
           addTextToNewParagraph(document,
             languageMap.getJsonObject("applicationIssuer").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("applicationIssuer"), false, false);
+          addTextToNewParagraphWithTable(document, getField(section, "applicationIssuer"), false,
+            false);
 
           addTextToNewParagraph(document,
             languageMap.getJsonObject("identificationCode").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("identificationCode"), false, false);
+          addTextToNewParagraphWithTable(document, getField(section, "identificationCode"), false,
+            false);
         }
       }
     }
@@ -1751,449 +1733,419 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     JsonObject section7, String aboutThisSection) {
     addSectionWithHeader(document, languageMap, "section8h5", "section8Description",
       aboutThisSection);
-    if (Objects.nonNull(section)) {
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("technicalRequirementsForEnvironment").getString(LABEL), true,
-        false);
-      addTextToNewParagraphWithTable(document, section.getString("technicalRequirementsForEnvironment"),
-        false, false);
+    // --- TECHNICAL ENVIRONMENT & DATA NEEDS ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("technicalRequirementsForEnvironment").getString(LABEL), true,
+      false);
+    addTextToNewParagraphWithTable(document,
+      getField(section, "technicalRequirementsForEnvironment"), false, false);
 
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("nameWebsiteAddressForEnvironment").getString(LABEL), true,
-        false);
-      addTextToNewParagraphWithTable(document, section.getString("nameWebsiteAddressForEnvironment"), false,
-        false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("nameWebsiteAddressForEnvironment").getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "nameWebsiteAddressForEnvironment"),
+      false, false);
 
-      addTextToNewParagraph(document, languageMap.getString("healthDataAccessBody"), false, false);
-      addTextToNewParagraphWithTable(document, section.getString("section8Description"), false, false);
+    addTextToNewParagraph(document, languageMap.getString("healthDataAccessBody"), false, false);
 
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(WHEN_DATA_NEEDED).getString(LABEL),
-        true, false);
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(WHEN_DATA_NEEDED).getString(TOOLTIP), false, true);
-      JsonObject whenDataNeeded = section.getJsonObject(WHEN_DATA_NEEDED);
-      if (Objects.nonNull(whenDataNeeded)) {
-        addTextToNewParagraphWithTable(document, whenDataNeeded.getString(VALUE), false, false);
-        if (Objects.equals(whenDataNeeded.getString("key"), "b")) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("ifLaterWhen").getString(LABEL),
-            true, false);
-          addTextToNewParagraphWithTable(document, section.getString("ifLaterWhen"), false, false);
-        }
+    // --- WHEN IS THE DATA NEEDED ---
+    addTextToNewParagraph(document, languageMap.getJsonObject(WHEN_DATA_NEEDED).getString(LABEL),
+      true, false);
+    addTextToNewParagraph(document, languageMap.getJsonObject(WHEN_DATA_NEEDED).getString(TOOLTIP),
+      false, true);
+
+    JsonObject whenDataNeeded = getObject(section, WHEN_DATA_NEEDED);
+    if (whenDataNeeded != null) {
+      addTextToNewParagraphWithTable(document, whenDataNeeded.getString(VALUE, ""), false, false);
+
+      if (isKey(whenDataNeeded, "b")) {
+        addTextToNewParagraph(document, languageMap.getJsonObject("ifLaterWhen").getString(LABEL),
+          true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "ifLaterWhen"), false, false);
       }
+    }
 
-      JsonObject applyingForDataOnBehalfOfPublicSector =
-        Objects.nonNull(section3) ? section3.getJsonObject(
-          APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR) : null;
-      if (Objects.nonNull(applyingForDataOnBehalfOfPublicSector)) {
-        if ("a".equals(applyingForDataOnBehalfOfPublicSector.getString("key"))) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("informationWhichDataCanAccess").getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString("informationWhichDataCanAccess"), false,
-            false);
+    // --- ADDITIONAL ACCESS OR PROCESSING INFORMATION ---
+    JsonObject applyingForDataOnBehalfOfPublicSector =
+      (section3 != null) ? getObject(section3, APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR) : null;
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("frequencyOfAccessOrDataUpdates").getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document, section.getString("frequencyOfAccessOrDataUpdates"),
-            false, false);
+    if (applyingForDataOnBehalfOfPublicSector != null) {
+      if (isKey(applyingForDataOnBehalfOfPublicSector, "a")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("informationWhichDataCanAccess").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "informationWhichDataCanAccess"),
+          false, false);
 
-        } else if ("b".equals(applyingForDataOnBehalfOfPublicSector.getString("key"))) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("estimatedStartAndEnd").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, section.getString("estimatedStartAndEnd"), false,
-            false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("frequencyOfAccessOrDataUpdates").getString(LABEL), true,
+          false);
+        addTextToNewParagraphWithTable(document,
+          getField(section, "frequencyOfAccessOrDataUpdates"), false, false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("estimatedStartDatesForDataProcessing").getString(LABEL),
-            true, false);
-          addTextToNewParagraphWithTable(document, section.getString("estimatedStartDatesForDataProcessing"),
-            false, false);
+      } else if (isKey(applyingForDataOnBehalfOfPublicSector, "b")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("estimatedStartAndEnd").getString(LABEL), true, false);
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("estimatedEndDatesForDataProcessing").getString(LABEL),
-            true, false);
-          addTextToNewParagraphWithTable(document, section.getString("estimatedEndDatesForDataProcessing"),
-            false, false);
-        }
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("estimatedStartDatesForDataProcessing").getString(LABEL), true,
+          false);
+        addTextToNewParagraphWithTable(document,
+          getField(section, "estimatedStartDatesForDataProcessing"), false, false);
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("estimatedEndDatesForDataProcessing").getString(LABEL), true,
+          false);
+        addTextToNewParagraphWithTable(document,
+          getField(section, "estimatedEndDatesForDataProcessing"), false, false);
       }
+    }
 
-      addTextToNewParagraph(document, languageMap.getString("ifStoreNeeded"), true, false);
+    // --- STORAGE AFTER USE ---
+    addTextToNewParagraph(document, languageMap.getString("ifStoreNeeded"), true, false);
 
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("startPeriodOfInactiveDataStorage").getString(LABEL), true,
-        false);
-      addTextToNewParagraphWithTable(document, section.getString("startPeriodOfInactiveDataStorage"), false,
-        false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("startPeriodOfInactiveDataStorage").getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "startPeriodOfInactiveDataStorage"),
+      false, false);
 
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("endPeriodOfInactiveDataStorage").getString(LABEL), true,
-        false);
-      addTextToNewParagraphWithTable(document, section.getString("endPeriodOfInactiveDataStorage"), false,
-        false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("endPeriodOfInactiveDataStorage").getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "endPeriodOfInactiveDataStorage"),
+      false, false);
 
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(WILL_THE_DATA_BE_TRANSFERRED).getString(LABEL), true, false);
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(WILL_THE_DATA_BE_TRANSFERRED).getString(TOOLTIP), false, true);
+    // --- DATA TRANSFER ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(WILL_THE_DATA_BE_TRANSFERRED).getString(LABEL), true, false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(WILL_THE_DATA_BE_TRANSFERRED).getString(TOOLTIP), false, true);
+    addTextToNewParagraphWithTable(document, getObjectValue(section, WILL_THE_DATA_BE_TRANSFERRED),
+      false,
+      false);
 
-      JsonObject willTheDataBeTransferred = section.getJsonObject(WILL_THE_DATA_BE_TRANSFERRED);
-      //if yes
-      if (Objects.nonNull(willTheDataBeTransferred)) {
-        addTextToNewParagraphWithTable(document, willTheDataBeTransferred.getString(VALUE), false, false);
-        if (Objects.equals(willTheDataBeTransferred.getString("key"), "a")) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("whichCountriesDataBeProcessed").getString(LABEL), true,
-            false);
-          JsonArray whichCountriesDataBeProcessed = section.getJsonArray(
-            "whichCountriesDataBeProcessed");
-          generatedJsonArrayValues(document, whichCountriesDataBeProcessed, VALUE);
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("whyWillDataBeTransferredOutsideEU").getString(LABEL), true,
-            false);
-          //article 47
-          boolean isWhyWillDataBeTransferredOutsideEUArticle47 =
-            section.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_47)
-              && section.getBoolean(
-              WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_47, false);
+    JsonObject willTheDataBeTransferred = getObject(section, WILL_THE_DATA_BE_TRANSFERRED);
+    // --- WILL THE DATA BE TRANSFERRED OUTSIDE EU ---
+    if (willTheDataBeTransferred != null) {
+      if (isKey(willTheDataBeTransferred, "a")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("whichCountriesDataBeProcessed").getString(LABEL), true, false);
+        JsonArray whichCountriesDataBeProcessed = getArrayField(section,
+          "whichCountriesDataBeProcessed");
+        generatedJsonArrayValues(document, whichCountriesDataBeProcessed, VALUE);
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("whyWillDataBeTransferredOutsideEU").getString(LABEL), true,
+          false);
+
+        boolean isArticle47 = isChecked(section,
+          WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_47);
+        addTextWithCheckboxToNewParagraph(document,
+          languageMap.getJsonObject(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_47)
+            .getString(LABEL), true, isArticle47);
+
+        if (isArticle47) {
+          JsonArray optionsArticle47 = getArrayField(section,
+            "whyWillDataBeTransferredOutsideEUArticle47Options");
+          generatedJsonArrayValues(document, optionsArticle47, VALUE);
+        }
+
+        boolean isArticle48 = isChecked(section,
+          WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48);
+        addTextWithCheckboxToNewParagraph(document,
+          languageMap.getJsonObject(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48)
+            .getString(LABEL), true, isArticle48);
+
+        if (isArticle48) {
+          boolean isArticle48a = isChecked(section,
+            WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_A);
           addTextWithCheckboxToNewParagraph(document,
-            languageMap.getJsonObject(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_47)
-              .getString(LABEL), true, isWhyWillDataBeTransferredOutsideEUArticle47);
+            languageMap.getJsonObject(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_A)
+              .getString(LABEL), true, isArticle48a);
 
-          if (isWhyWillDataBeTransferredOutsideEUArticle47) {
-            JsonArray whyWillDataBeTransferredOutsideEUArticle47Options = section.getJsonArray(
-              "whyWillDataBeTransferredOutsideEUArticle47Options");
-            generatedJsonArrayValues(document, whyWillDataBeTransferredOutsideEUArticle47Options,
-              VALUE);
-          }
-
-          //article 48
-          boolean isWhyWillDataBeTransferredOutsideEUArticle48 =
-            section.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48)
-              && section.getBoolean(
-              WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48, false);
+          boolean isArticle48b = isChecked(section,
+            WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B);
           addTextWithCheckboxToNewParagraph(document,
-            languageMap.getJsonObject(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48)
-              .getString(LABEL), true, isWhyWillDataBeTransferredOutsideEUArticle48);
+            languageMap.getJsonObject(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B)
+              .getString(LABEL), true, isArticle48b);
 
-          if (isWhyWillDataBeTransferredOutsideEUArticle48) {
-            boolean isWhyWillDataBeTransferredOutsideEUArticle48a =
-              section.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_A)
-                && section.getBoolean(
-                WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_A, false);
+          if (isArticle48b) {
+            JsonArray optionsArticle48b = getArrayField(section,
+              "whyWillDataBeTransferredOutsideEUArticle48bOptions");
+            generatedJsonArrayValues(document, optionsArticle48b, VALUE);
+
+            boolean isArticle48c = isChecked(section,
+              WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C);
             addTextWithCheckboxToNewParagraph(document,
-              languageMap.getJsonObject(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_A)
-                .getString(LABEL), true, isWhyWillDataBeTransferredOutsideEUArticle48a);
+              languageMap.getJsonObject(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C)
+                .getString(LABEL), true, isArticle48c);
 
-            boolean isWhyWillDataBeTransferredOutsideEUArticle48b =
-              section.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B)
-                && section.getBoolean(
-                WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B, false);
+            if (isArticle48c) {
+              JsonObject reason48c = getObject(section,
+                "whyWillDataBeTransferredOutsideEUArticle48cOpt");
+              addTextToNewParagraphWithTable(document,
+                (reason48c != null) ? reason48c.getString(VALUE, "") : "", false, false);
+            }
+
+            boolean isArticle48d = isChecked(section,
+              WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_D);
             addTextWithCheckboxToNewParagraph(document,
-              languageMap.getJsonObject(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B)
-                .getString(LABEL), true, isWhyWillDataBeTransferredOutsideEUArticle48b);
-            if (isWhyWillDataBeTransferredOutsideEUArticle48b) {
-              JsonArray whyWillDataBeTransferredOutsideEUArticle48bOptions = section.getJsonArray(
-                "whyWillDataBeTransferredOutsideEUArticle48bOptions");
-              generatedJsonArrayValues(document, whyWillDataBeTransferredOutsideEUArticle48bOptions,
-                VALUE);
+              languageMap.getJsonObject(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_D)
+                .getString(LABEL), true, isArticle48d);
 
-              boolean isWhyWillDataBeTransferredOutsideEUArticle48c =
-                section.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C)
-                  && section.getBoolean(
-                  WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C, false);
-              addTextWithCheckboxToNewParagraph(document,
-                languageMap.getJsonObject(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C)
-                  .getString(LABEL), true, isWhyWillDataBeTransferredOutsideEUArticle48c);
-              if (isWhyWillDataBeTransferredOutsideEUArticle48c) {
-                addTextToNewParagraphWithTable(document, Objects.nonNull(section.getJsonObject(
-                  "whyWillDataBeTransferredOutsideEUArticle48cOpt")) ?
-                  section.getJsonObject("whyWillDataBeTransferredOutsideEUArticle48cOpt")
-                    .getString(VALUE) : null, false, false);
-              }
-
-              boolean isWhyWillDataBeTransferredOutsideEUArticle48d =
-                section.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_D)
-                  && section.getBoolean(
-                  WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_D, false);
-              addTextWithCheckboxToNewParagraph(document,
-                languageMap.getJsonObject(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_D)
-                  .getString(LABEL), true, isWhyWillDataBeTransferredOutsideEUArticle48d);
-
-              boolean isWhyWillDataBeTransferredOutsideEUArticle48e =
-                section.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_E)
-                  && section.getBoolean(
-                  WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_E, false);
-              addTextWithCheckboxToNewParagraph(document,
-                languageMap.getJsonObject(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_E)
-                  .getString(LABEL), true, isWhyWillDataBeTransferredOutsideEUArticle48e);
-            }
-          }
-
-          //article 9
-          boolean isWhyWillDataBeTransferredOutsideEUArticle49 =
-            section.containsKey(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_49)
-              && section.getBoolean(
-              WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_49, false);
-          addTextWithCheckboxToNewParagraph(document,
-            languageMap.getJsonObject(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_49)
-              .getString(LABEL), true, isWhyWillDataBeTransferredOutsideEUArticle49);
-
-          JsonObject legalBasisForTransferringTheDataOutsideEU = section.getJsonObject(
-            LEGAL_BASIS_FOR_TRANSFERRING_THE_DATA_OUTSIDE_EU);
-          if (Objects.nonNull(legalBasisForTransferringTheDataOutsideEU)) {
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject(LEGAL_BASIS_FOR_TRANSFERRING_THE_DATA_OUTSIDE_EU)
-                .getString(LABEL), true, false);
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject(LEGAL_BASIS_FOR_TRANSFERRING_THE_DATA_OUTSIDE_EU)
-                .getString(TOOLTIP), false, true);
-            addTextToNewParagraphWithTable(document,
-              legalBasisForTransferringTheDataOutsideEU.getString(VALUE), false, false);
-            if (Objects.equals(legalBasisForTransferringTheDataOutsideEU.getString("key"), "c")) {
-              addTextToNewParagraph(document,
-                languageMap.getJsonObject("legalBasisForTransferringTheDataOutsideEUOtherOptions")
-                  .getString(LABEL), true, false);
-              JsonArray legalBasisForTransferringTheDataOutsideEUOtherOptions = section.getJsonArray(
-                "legalBasisForTransferringTheDataOutsideEUOtherOptions");
-              generatedJsonArrayValues(document,
-                legalBasisForTransferringTheDataOutsideEUOtherOptions, VALUE);
-            }
-            if (Objects.equals(legalBasisForTransferringTheDataOutsideEU.getString("key"), "b")) {
-              addTextToNewParagraph(document,
-                languageMap.getJsonObject("safeguardsAreProvidedByReferringGDCP")
-                  .getString(LABEL),
-                true, false);
-              JsonArray safeguardsAreProvidedByReferringGDCP = section.getJsonArray(
-                "safeguardsAreProvidedByReferringGDCP");
-              generatedJsonArrayValues(document, safeguardsAreProvidedByReferringGDCP, VALUE);
-            }
+            boolean isArticle48e = isChecked(section,
+              WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_E);
+            addTextWithCheckboxToNewParagraph(document,
+              languageMap.getJsonObject(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_E)
+                .getString(LABEL), true, isArticle48e);
           }
         }
-      }
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(WHICH_ORGANIZATION_WILL_BE_THE_CONTROLLER_OF_DATA)
-          .getString(LABEL), true, false);
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(WHICH_ORGANIZATION_WILL_BE_THE_CONTROLLER_OF_DATA)
-          .getString(TOOLTIP), false, true);
-      addTextToNewParagraphWithTable(document,
-        section.getString(WHICH_ORGANIZATION_WILL_BE_THE_CONTROLLER_OF_DATA),
-        false, false);
 
-      if (Objects.nonNull(applyingForDataOnBehalfOfPublicSector)) {
-        if ("b".equals(applyingForDataOnBehalfOfPublicSector.getString("key"))) {
+        boolean isArticle49 = isChecked(section,
+          WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_49);
+        addTextWithCheckboxToNewParagraph(document,
+          languageMap.getJsonObject(WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_49)
+            .getString(LABEL), true, isArticle49);
+
+        JsonObject legalBasisOutsideEU = getObject(section,
+          LEGAL_BASIS_FOR_TRANSFERRING_THE_DATA_OUTSIDE_EU);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(LEGAL_BASIS_FOR_TRANSFERRING_THE_DATA_OUTSIDE_EU)
+            .getString(LABEL), true, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(LEGAL_BASIS_FOR_TRANSFERRING_THE_DATA_OUTSIDE_EU)
+            .getString(TOOLTIP), false, true);
+        addTextToNewParagraphWithTable(document,  getObjectValue(section,
+            LEGAL_BASIS_FOR_TRANSFERRING_THE_DATA_OUTSIDE_EU), false,
+          false);
+
+        if (isKey(legalBasisOutsideEU, "c")) {
           addTextToNewParagraph(document,
-            languageMap.getJsonObject(COMPLY_WITH_DATA_MINIMISATION_PRINCIPLE)
+            languageMap.getJsonObject("legalBasisForTransferringTheDataOutsideEUOtherOptions")
               .getString(LABEL), true, false);
+          JsonArray otherOptions = getArrayField(section,
+            "legalBasisForTransferringTheDataOutsideEUOtherOptions");
+          generatedJsonArrayValues(document, otherOptions, VALUE);
+        }
+
+        if (isKey(legalBasisOutsideEU, "b")) {
           addTextToNewParagraph(document,
-            languageMap.getJsonObject(COMPLY_WITH_DATA_MINIMISATION_PRINCIPLE)
-              .getString(TOOLTIP), false, true);
-          addTextToNewParagraphWithTable(document,
-            section.getString(COMPLY_WITH_DATA_MINIMISATION_PRINCIPLE), false, false);
-        } else if ("a".equals(applyingForDataOnBehalfOfPublicSector.getString("key"))) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(COMPLY_WITH_DATA_MINIMISATION_PRINCIPLE_NOT_EU_MEMBER)
-              .getString(LABEL), true, false);
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(COMPLY_WITH_DATA_MINIMISATION_PRINCIPLE_NOT_EU_MEMBER)
-              .getString(TOOLTIP), false, true);
-          addTextToNewParagraphWithTable(document,
-            section.getString(COMPLY_WITH_DATA_MINIMISATION_PRINCIPLE_NOT_EU_MEMBER), false, false);
+            languageMap.getJsonObject("safeguardsAreProvidedByReferringGDCP").getString(LABEL),
+            true, false);
+          JsonArray safeguards = getArrayField(section, "safeguardsAreProvidedByReferringGDCP");
+          generatedJsonArrayValues(document, safeguards, VALUE);
         }
       }
+    }
 
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("protectionAndSecurityStatements").getString(LABEL), true,
-        false);
-      boolean protectionAndSecurityStatementsA =
-        section.containsKey(PROTECTION_AND_SECURITY_STATEMENTS_A) && section.getBoolean(
-          PROTECTION_AND_SECURITY_STATEMENTS_A, false);
-      addTextWithCheckboxToNewParagraph(document,
-        languageMap.getJsonObject(PROTECTION_AND_SECURITY_STATEMENTS_A).getString(LABEL), false,
-        protectionAndSecurityStatementsA);
-      boolean protectionAndSecurityStatementsB =
-        section.containsKey(PROTECTION_AND_SECURITY_STATEMENTS_B) && section.getBoolean(
-          PROTECTION_AND_SECURITY_STATEMENTS_B, false);
-      addTextWithCheckboxToNewParagraph(document,
-        languageMap.getJsonObject(PROTECTION_AND_SECURITY_STATEMENTS_B).getString(LABEL), false,
-        protectionAndSecurityStatementsB);
-      boolean protectionAndSecurityStatementsC =
-        section.containsKey(PROTECTION_AND_SECURITY_STATEMENTS_C) && section.getBoolean(
-          PROTECTION_AND_SECURITY_STATEMENTS_C, false);
-      addTextWithCheckboxToNewParagraph(document,
-        languageMap.getJsonObject(PROTECTION_AND_SECURITY_STATEMENTS_C).getString(LABEL), false,
-        protectionAndSecurityStatementsC);
-      boolean protectionAndSecurityStatementsD =
-        section.containsKey(PROTECTION_AND_SECURITY_STATEMENTS_D) && section.getBoolean(
-          PROTECTION_AND_SECURITY_STATEMENTS_D, false);
-      addTextWithCheckboxToNewParagraph(document,
-        languageMap.getJsonObject(PROTECTION_AND_SECURITY_STATEMENTS_D).getString(LABEL), false,
-        protectionAndSecurityStatementsD);
-      boolean protectionAndSecurityStatementsE =
-        section.containsKey(PROTECTION_AND_SECURITY_STATEMENTS_E) && section.getBoolean(
-          PROTECTION_AND_SECURITY_STATEMENTS_E, false);
-      addTextWithCheckboxToNewParagraph(document,
-        languageMap.getJsonObject(PROTECTION_AND_SECURITY_STATEMENTS_E).getString(LABEL), false,
-        protectionAndSecurityStatementsE);
+    // --- ORGANIZATION WHO CONTROLS DATA ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(WHICH_ORGANIZATION_WILL_BE_THE_CONTROLLER_OF_DATA).getString(LABEL),
+      true, false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(WHICH_ORGANIZATION_WILL_BE_THE_CONTROLLER_OF_DATA)
+        .getString(TOOLTIP), false, true);
+    addTextToNewParagraphWithTable(document,
+      getField(section, WHICH_ORGANIZATION_WILL_BE_THE_CONTROLLER_OF_DATA), false, false);
 
-      JsonArray peopleWhoWillBeProcessingTheData = section.getJsonArray(
-        "peopleWhoWillBeProcessingTheData");
-      if (Objects.nonNull(peopleWhoWillBeProcessingTheData) && !peopleWhoWillBeProcessingTheData.isEmpty()) {addTextToNewParagraph(document, languageMap.getString("onlyThePeopleMentioned"), false,
+    // --- DATA MINIMISATION PRINCIPLE BASED ON PUBLIC SECTOR APPLICATION ---
+    if (applyingForDataOnBehalfOfPublicSector != null) {
+      if (isKey(applyingForDataOnBehalfOfPublicSector, "b")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(COMPLY_WITH_DATA_MINIMISATION_PRINCIPLE).getString(LABEL), true,
           false);
         addTextToNewParagraph(document,
-          languageMap.getJsonObject("listTheFullNames").getString(LABEL), true, false);
-
-        for (Object item : peopleWhoWillBeProcessingTheData) {
-          if (item instanceof JsonObject jsonItem) {
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject(FULL_NAME).getString(LABEL),
-              true, false);
-            addTextToNewParagraphWithTable(document, jsonItem.getString(FULL_NAME), false, false);
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject("affiliation").getString(LABEL), true, false);
-            addTextToNewParagraphWithTable(document, jsonItem.getString("affiliation"), false, false);
-            addTextToNewParagraph(document,
-              languageMap.getJsonObject("emailAddress").getString(LABEL), true, false);
-            addTextToNewParagraphWithTable(document, jsonItem.getString("emailAddress"), false, false);
-          }
-        }
+          languageMap.getJsonObject(COMPLY_WITH_DATA_MINIMISATION_PRINCIPLE).getString(TOOLTIP),
+          false, true);
+        addTextToNewParagraphWithTable(document,
+          getField(section, COMPLY_WITH_DATA_MINIMISATION_PRINCIPLE), false, false);
+      } else if (isKey(applyingForDataOnBehalfOfPublicSector, "a")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(COMPLY_WITH_DATA_MINIMISATION_PRINCIPLE_NOT_EU_MEMBER)
+            .getString(LABEL), true, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(COMPLY_WITH_DATA_MINIMISATION_PRINCIPLE_NOT_EU_MEMBER)
+            .getString(TOOLTIP), false, true);
+        addTextToNewParagraphWithTable(document,
+          getField(section, COMPLY_WITH_DATA_MINIMISATION_PRINCIPLE_NOT_EU_MEMBER), false, false);
       }
+    }
 
-      if (Boolean.TRUE.equals(this.displayLawfulnessOfProcessing(section, section3, section5, section7))
-        || Boolean.TRUE.equals(displayLawfulForProcessingPersonalData(section3, section5))) {
-        addTextToNewParagraph(document, languageMap.getString("lawfulnessOfProcessing"), false,
-          false);
+    // --- PROTECTION AND SECURITY STATEMENTS ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("protectionAndSecurityStatements").getString(LABEL), true, false);
 
-        if (Boolean.TRUE.equals(displayLawfulForProcessingPersonalData(section3, section5))) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("lawfulForProcessingPersonalData").getString(LABEL), true,
+    boolean statementA = isChecked(section, PROTECTION_AND_SECURITY_STATEMENTS_A);
+    addTextWithCheckboxToNewParagraph(document,
+      languageMap.getJsonObject(PROTECTION_AND_SECURITY_STATEMENTS_A).getString(LABEL), false,
+      statementA);
+
+    boolean statementB = isChecked(section, PROTECTION_AND_SECURITY_STATEMENTS_B);
+    addTextWithCheckboxToNewParagraph(document,
+      languageMap.getJsonObject(PROTECTION_AND_SECURITY_STATEMENTS_B).getString(LABEL), false,
+      statementB);
+
+    boolean statementC = isChecked(section, PROTECTION_AND_SECURITY_STATEMENTS_C);
+    addTextWithCheckboxToNewParagraph(document,
+      languageMap.getJsonObject(PROTECTION_AND_SECURITY_STATEMENTS_C).getString(LABEL), false,
+      statementC);
+
+    boolean statementD = isChecked(section, PROTECTION_AND_SECURITY_STATEMENTS_D);
+    addTextWithCheckboxToNewParagraph(document,
+      languageMap.getJsonObject(PROTECTION_AND_SECURITY_STATEMENTS_D).getString(LABEL), false,
+      statementD);
+
+    boolean statementE = isChecked(section, PROTECTION_AND_SECURITY_STATEMENTS_E);
+    addTextWithCheckboxToNewParagraph(document,
+      languageMap.getJsonObject(PROTECTION_AND_SECURITY_STATEMENTS_E).getString(LABEL), false,
+      statementE);
+
+    // --- PEOPLE WHO WILL PROCESS THE DATA ---
+    JsonArray peopleWhoWillProcessData = getArrayField(section, "peopleWhoWillBeProcessingTheData");
+    addTextToNewParagraph(document, languageMap.getString("onlyThePeopleMentioned"), false,
+      false);
+
+    boolean isSameAsContact = isChecked(section, SAME_AS_CONTACT_PERSON);
+    addTextWithCheckboxToNewParagraph(document,
+      languageMap.getJsonObject(SAME_AS_CONTACT_PERSON).getString(LABEL), true, isSameAsContact);
+
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("listTheFullNames").getString(LABEL), true, false);
+
+    if (peopleWhoWillProcessData != null && !peopleWhoWillProcessData.isEmpty()) {
+      for (Object item : peopleWhoWillProcessData) {
+        if (item instanceof JsonObject jsonItem) {
+          addTextToNewParagraph(document, languageMap.getJsonObject(FULL_NAME).getString(LABEL),
+            true, false);
+          addTextToNewParagraphWithTable(document, jsonItem.getString(FULL_NAME, ""), false, false);
+
+          addTextToNewParagraph(document, languageMap.getJsonObject("affiliation").getString(LABEL),
+            true, false);
+          addTextToNewParagraphWithTable(document, jsonItem.getString("affiliation", ""), false,
             false);
-          JsonArray lawfulForProcessingPersonalData = section.getJsonArray(
-            "lawfulForProcessingPersonalData");
-          generatedJsonArrayValues(document, lawfulForProcessingPersonalData, VALUE);
-        }
-        if (Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && "b".equals(
-          applyingForDataOnBehalfOfPublicSector.getString("key"))) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(LEGAL_BASIS_FOR_PROCESSING_PERSONAL_DATA).getString(LABEL),
-            true, false);
-          JsonArray legalBasisForProcessingPersonalData = section.getJsonArray(
-            LEGAL_BASIS_FOR_PROCESSING_PERSONAL_DATA);
-          generatedJsonArrayValues(document, legalBasisForProcessingPersonalData, VALUE);
-        }
 
-        JsonArray legalBasisForProcessingPersonalData = section.getJsonArray(
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject("emailAddress").getString(LABEL), true, false);
+          addTextToNewParagraphWithTable(document, jsonItem.getString("emailAddress", ""), false,
+            false);
+        }
+      }
+    }
+
+    // --- LAWFULNESS OF PROCESSING ---
+    if (Boolean.TRUE.equals(displayLawfulnessOfProcessing(section, section3, section5, section7))
+      || Boolean.TRUE.equals(displayLawfulForProcessingPersonalData(section3, section5))) {
+
+      addTextToNewParagraph(document, languageMap.getString("lawfulnessOfProcessing"), false,
+        false);
+
+      if (Boolean.TRUE.equals(displayLawfulForProcessingPersonalData(section3, section5))) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("lawfulForProcessingPersonalData").getString(LABEL), true,
+          false);
+        JsonArray lawfulForProcessingPersonalData = getArrayField(section,
+          "lawfulForProcessingPersonalData");
+        generatedJsonArrayValues(document, lawfulForProcessingPersonalData, VALUE);
+      }
+
+      if (isKey(applyingForDataOnBehalfOfPublicSector, "b")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(LEGAL_BASIS_FOR_PROCESSING_PERSONAL_DATA).getString(LABEL),
+          true, false);
+        JsonArray legalBasisPersonalData = getArrayField(section,
           LEGAL_BASIS_FOR_PROCESSING_PERSONAL_DATA);
-        if (Objects.nonNull(legalBasisForProcessingPersonalData) && containsKey(
-          legalBasisForProcessingPersonalData, "c")) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("otherLegalBasisForProcessingPersonalData")
-              .getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document,
-            section.getString("otherLegalBasisForProcessingPersonalData"), false, false);
-        }
+        generatedJsonArrayValues(document, legalBasisPersonalData, VALUE);
+      }
 
-        JsonObject willDataBeCombinedWithDataObtained = section7.getJsonObject(
-          WILL_DATA_BE_COMBINED_WITH_DATA_OBTAINED);
-        if ((Objects.nonNull(willDataBeCombinedWithDataObtained) && "a".equals(
-          willDataBeCombinedWithDataObtained.getString("key")))
-          && (Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && "b".equals(
-          applyingForDataOnBehalfOfPublicSector.getString("key")))) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(LEGAL_BASIS_FOR_PROCESSING_COMBINED_DATA).getString(LABEL),
-            true, false);
-          JsonArray legalBasisForProcessingCombinedData = section.getJsonArray(
-            LEGAL_BASIS_FOR_PROCESSING_COMBINED_DATA);
-          if (Objects.nonNull(legalBasisForProcessingCombinedData)
-            && !legalBasisForProcessingCombinedData.isEmpty()) {
-            generatedJsonArrayValues(document, legalBasisForProcessingCombinedData, VALUE);
-            if (containsKey(legalBasisForProcessingCombinedData, "b")) {
-              addTextToNewParagraph(document,
-                languageMap.getJsonObject("otherLegalBasisForProcessingCombinedData")
-                  .getString(LABEL), true, false);
-              addTextToNewParagraphWithTable(document,
-                section.getString("otherLegalBasisForProcessingCombinedData"), false, false);
-            }
-          }
-        }
+      JsonArray legalBasisPersonalDataCheck = getArrayField(section,
+        LEGAL_BASIS_FOR_PROCESSING_PERSONAL_DATA);
+      if (legalBasisPersonalDataCheck != null && containsKey(legalBasisPersonalDataCheck, "c")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("otherLegalBasisForProcessingPersonalData").getString(LABEL),
+          true, false);
+        addTextToNewParagraphWithTable(document,
+          getField(section, "otherLegalBasisForProcessingPersonalData"), false, false);
+      }
 
-        if(Objects.nonNull(section5)){
-          JsonObject formatOfTheElectronicHealthData = section5.getJsonObject(
-            FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA);
-          if ((Objects.nonNull(formatOfTheElectronicHealthData) && "b".equals(
-            formatOfTheElectronicHealthData.getString("key"))) && (
-            Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && "a".equals(
-              applyingForDataOnBehalfOfPublicSector.getString("key")))) {
+      JsonObject combinedDataObtained =
+        (section7 != null) ? getObject(section7, WILL_DATA_BE_COMBINED_WITH_DATA_OBTAINED) : null;
+
+      if (isKey(combinedDataObtained, "a")
+        && isKey(applyingForDataOnBehalfOfPublicSector, "b")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(LEGAL_BASIS_FOR_PROCESSING_COMBINED_DATA).getString(LABEL),
+          true, false);
+        JsonArray legalBasisCombinedData = getArrayField(section,
+          LEGAL_BASIS_FOR_PROCESSING_COMBINED_DATA);
+        if (legalBasisCombinedData != null && !legalBasisCombinedData.isEmpty()) {
+          generatedJsonArrayValues(document, legalBasisCombinedData, VALUE);
+          if (containsKey(legalBasisCombinedData, "b")) {
             addTextToNewParagraph(document,
-              languageMap.getJsonObject("europeanUnionInstitution").getString(LABEL),
-              true, false);
-            JsonArray europeanUnionInstitution = section.getJsonArray("europeanUnionInstitution");
-            generatedJsonArrayValues(document, europeanUnionInstitution, VALUE);
-          }
-        }
-
-        if (Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && "a".equals(
-          applyingForDataOnBehalfOfPublicSector.getString("key"))) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(LEGAL_BASIS_FOR_PROCESSING_APPLICATION_DATA).getString(LABEL),
-            true, false);
-          JsonArray legalBasisForProcessingApplicationData = section.getJsonArray(
-            LEGAL_BASIS_FOR_PROCESSING_APPLICATION_DATA);
-          if (Objects.nonNull(legalBasisForProcessingApplicationData)
-            && !legalBasisForProcessingApplicationData.isEmpty()) {
-            generatedJsonArrayValues(document, legalBasisForProcessingApplicationData, VALUE);
-            if (containsKey(legalBasisForProcessingApplicationData, "b")) {
-              addTextToNewParagraph(document,
-                languageMap.getJsonObject("otherLegalBasisForProcessingApplicationData")
-                  .getString(LABEL), true, false);
-              addTextToNewParagraphWithTable(document,
-                section.getString("otherLegalBasisForProcessingApplicationData"), false, false);
-            }
-          }
-        }
-
-        if ((Objects.nonNull(willDataBeCombinedWithDataObtained) && "a".equals(
-          willDataBeCombinedWithDataObtained.getString("key"))) &&
-          (Objects.nonNull(applyingForDataOnBehalfOfPublicSector) && "a".equals(
-            applyingForDataOnBehalfOfPublicSector.getString("key")))) {
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(LEGAL_BASIS_FOR_PROCESSING_COMBINED_APPLICATION_DATA)
-              .getString(LABEL),
-            true, false);
-          JsonArray legalBasisForProcessingCombinedApplicationData = section.getJsonArray(
-            LEGAL_BASIS_FOR_PROCESSING_COMBINED_APPLICATION_DATA);
-          if (Objects.nonNull(legalBasisForProcessingCombinedApplicationData)
-            && !legalBasisForProcessingCombinedApplicationData.isEmpty()) {
-            generatedJsonArrayValues(document, legalBasisForProcessingCombinedApplicationData,
-              VALUE);
-            if (containsKey(legalBasisForProcessingCombinedApplicationData, "b")) {
-              addTextToNewParagraph(document,
-                languageMap.getJsonObject("otherLegalBasisForProcessingCombinedApplicationData")
-                  .getString(LABEL), true, false);
-              addTextToNewParagraphWithTable(document,
-                section.getString("otherLegalBasisForProcessingCombinedApplicationData"), false,
-                false);
-            }
+              languageMap.getJsonObject("otherLegalBasisForProcessingCombinedData")
+                .getString(LABEL), true, false);
+            addTextToNewParagraphWithTable(document,
+              getField(section, "otherLegalBasisForProcessingCombinedData"), false, false);
           }
         }
       }
 
-      if(Objects.nonNull(section2)) {
-        JsonArray purposeForWhichDataWillBeUsed = section2.getJsonArray(
-          PURPOSE_FOR_WHICH_DATA_WILL_BE_USED);
-        if ((Objects.nonNull(purposeForWhichDataWillBeUsed) && containsKey(
-          purposeForWhichDataWillBeUsed, "e"))) {
+      if (section5 != null) {
+        JsonObject formatData = getObject(section5, FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA);
+        if (isKey(formatData, "b")
+          && isKey(
+          applyingForDataOnBehalfOfPublicSector, "a")) {
           addTextToNewParagraph(document,
-            languageMap.getJsonObject("attachResearchPermitIfRequired")
-              .getString(LABEL),
-            true, false);
-          JsonArray attachResearchPermitIfRequiredDoc = section.getJsonArray(
-            "attachResearchPermitIfRequired");
-          generatedJsonArrayValues(document, attachResearchPermitIfRequiredDoc, NAME);
+            languageMap.getJsonObject("europeanUnionInstitution").getString(LABEL), true, false);
+          JsonArray europeanUnionInstitution = getArrayField(section, "europeanUnionInstitution");
+          generatedJsonArrayValues(document, europeanUnionInstitution, VALUE);
         }
+      }
+
+      if (isKey(applyingForDataOnBehalfOfPublicSector, "a")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(LEGAL_BASIS_FOR_PROCESSING_APPLICATION_DATA).getString(LABEL),
+          true, false);
+        JsonArray legalBasisApplicationData = getArrayField(section,
+          LEGAL_BASIS_FOR_PROCESSING_APPLICATION_DATA);
+        generatedJsonArrayValues(document, legalBasisApplicationData, VALUE);
+        if (legalBasisApplicationData != null && !legalBasisApplicationData.isEmpty()) {
+          if (containsKey(legalBasisApplicationData, "b")) {
+            addTextToNewParagraph(document,
+              languageMap.getJsonObject("otherLegalBasisForProcessingApplicationData")
+                .getString(LABEL), true, false);
+            addTextToNewParagraphWithTable(document,
+              getField(section, "otherLegalBasisForProcessingApplicationData"), false, false);
+          }
+        }
+      }
+
+      if (isKey(combinedDataObtained, "a")
+        && isKey(applyingForDataOnBehalfOfPublicSector, "a")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject(LEGAL_BASIS_FOR_PROCESSING_COMBINED_APPLICATION_DATA)
+            .getString(LABEL), true, false);
+        JsonArray legalBasisCombinedAppData = getArrayField(section,
+          LEGAL_BASIS_FOR_PROCESSING_COMBINED_APPLICATION_DATA);
+        generatedJsonArrayValues(document, legalBasisCombinedAppData, VALUE);
+        if (legalBasisCombinedAppData != null && !legalBasisCombinedAppData.isEmpty()) {
+          if (containsKey(legalBasisCombinedAppData, "b")) {
+            addTextToNewParagraph(document,
+              languageMap.getJsonObject("otherLegalBasisForProcessingCombinedApplicationData")
+                .getString(LABEL), true, false);
+            addTextToNewParagraphWithTable(document,
+              getField(section, "otherLegalBasisForProcessingCombinedApplicationData"), false,
+              false);
+          }
+        }
+      }
+    }
+
+    // --- RESEARCH PERMIT ATTACHMENT ---
+    if (section2 != null) {
+      JsonArray purposeDataUse = getArrayField(section2, PURPOSE_FOR_WHICH_DATA_WILL_BE_USED);
+      if (purposeDataUse != null && containsKey(purposeDataUse, "e")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("attachResearchPermitIfRequired").getString(LABEL), true,
+          false);
+        JsonArray attachResearchPermit = getArrayField(section, "attachResearchPermitIfRequired");
+        generatedJsonArrayValues(document, attachResearchPermit, NAME);
       }
     }
   }
@@ -2201,21 +2153,21 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
   private void section9Mappings(WordprocessingMLPackage document, JsonObject languageMap,
     JsonObject section) {
     addHeaderToTheText(document, languageMap.getString("section9h5"), "Heading1");
-    if (Objects.nonNull(section)) {
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(ADDITIONAL_INFORMATION).getString(LABEL), true, false);
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(ADDITIONAL_INFORMATION).getString(TOOLTIP), false, true);
-      addTextToNewParagraphWithTable(document, section.getString(
-          ADDITIONAL_INFORMATION), false, false);
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(ADDITIONAL_ATTACHMENT).getString(LABEL), true, false);
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject(ADDITIONAL_ATTACHMENT).getString(TOOLTIP), false, true);
-      JsonArray additionalAttachment = section.getJsonArray(
-        ADDITIONAL_ATTACHMENT);
-      generatedJsonArrayValues(document, additionalAttachment, "name");
-    }
+    // --- ADDITIONAL INFORMATION ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(ADDITIONAL_INFORMATION).getString(LABEL), true, false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(ADDITIONAL_INFORMATION).getString(TOOLTIP), false, true);
+    addTextToNewParagraphWithTable(document, getField(section, ADDITIONAL_INFORMATION), false,
+      false);
+
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(ADDITIONAL_ATTACHMENT).getString(LABEL), true, false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(ADDITIONAL_ATTACHMENT).getString(TOOLTIP), false, true);
+
+    JsonArray additionalAttachment = getArrayField(section, ADDITIONAL_ATTACHMENT);
+    generatedJsonArrayValues(document, additionalAttachment, "name");
   }
 
   private void section10Mappings(WordprocessingMLPackage document, JsonObject languageMap,
@@ -2223,26 +2175,23 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     addSectionWithHeader(document, languageMap, "section10h5", "section10Description",
       aboutThisSection);
 
-    if (Objects.nonNull(section)) {
-      addTextToNewParagraph(document, languageMap.getString("submitYouApplicationText"), false,
-        false);
-      boolean awareProcessingFee =
-        section.containsKey(AWARE_PROCESSING_FEE) && section.getBoolean(AWARE_PROCESSING_FEE,
-          false);
-      addTextWithCheckboxToNewParagraph(document,
-        languageMap.getJsonObject(AWARE_PROCESSING_FEE).getString(LABEL), false,
-        awareProcessingFee);
-      boolean awareChargeFee =
-        section.containsKey(AWARE_CHARGE_FEE) && section.getBoolean(AWARE_CHARGE_FEE, false);
-      addTextWithCheckboxToNewParagraph(document,
-        languageMap.getJsonObject(AWARE_CHARGE_FEE).getString(LABEL), false, awareChargeFee);
-      boolean awareInformationCorrect =
-        section.containsKey(AWARE_INFORMATION_CORRECT) && section.getBoolean(
-          AWARE_INFORMATION_CORRECT, false);
-      addTextWithCheckboxToNewParagraph(document,
-        languageMap.getJsonObject(AWARE_INFORMATION_CORRECT).getString(LABEL), false,
-        awareInformationCorrect);
-    }
+    // --- FINAL CONFIRMATION & AWARENESS ---
+    addTextToNewParagraph(document, languageMap.getString("submitYouApplicationText"), false,
+      false);
+
+    boolean awareProcessingFee = isChecked(section, AWARE_PROCESSING_FEE);
+    addTextWithCheckboxToNewParagraph(document,
+      languageMap.getJsonObject(AWARE_PROCESSING_FEE).getString(LABEL), false, awareProcessingFee);
+
+    boolean awareChargeFee = isChecked(section, AWARE_CHARGE_FEE);
+    addTextWithCheckboxToNewParagraph(document,
+      languageMap.getJsonObject(AWARE_CHARGE_FEE).getString(LABEL), false, awareChargeFee);
+
+    boolean awareInformationCorrect = isChecked(section, AWARE_INFORMATION_CORRECT);
+    addTextWithCheckboxToNewParagraph(document,
+      languageMap.getJsonObject(AWARE_INFORMATION_CORRECT).getString(LABEL), false,
+      awareInformationCorrect);
+
   }
 
   private Boolean displayLawfulnessOfProcessing(JsonObject section, JsonObject section3,
@@ -2270,7 +2219,7 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
       applyingForDataOnBehalfOfPublicSector = section3.getJsonObject(
         APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR);
     }
-    if(Objects.nonNull(section5)){
+    if (Objects.nonNull(section5)) {
       formatOfTheElectronicHealthData = section5.getJsonObject(
         FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA);
     }
@@ -2317,7 +2266,7 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
       legalOrNaturalPerson = section3.getJsonObject(
         LEGAL_OR_NATURAL_PERSON);
     }
-    if (Objects.nonNull(section5)){
+    if (Objects.nonNull(section5)) {
       formatOfTheElectronicHealthData = section5.getJsonObject(
         FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA);
     }
@@ -2330,4 +2279,35 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
       "b".equals(formatOfTheElectronicHealthData.getString("key"))));
   }
 
+  public void downloadDataPermitDocument(RoutingContext context) {
+
+    log.info("Will download Data Permit Document");
+
+    try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+      InputStream templateInputStream = getClass().getResourceAsStream(
+        "/templates/DataPermitTemplate_vC1.docx")) {
+
+      if (templateInputStream == null) {
+        log.error("Data Permit Template not found");
+        context.response().setStatusCode(500)
+          .end(new JsonObject().put("result_message", "Data Permit Template not found").encode());
+        return;
+      }
+
+      WordprocessingMLPackage document = WordprocessingMLPackage.load(templateInputStream);
+      document.save(outputStream);
+      context.response().putHeader("Content-Length", String.valueOf(outputStream.size()))
+        .putHeader("Content-Disposition",
+          "attachment; filename=TEHDAS2_Task6.3_Data_permit_template_vC1.docx")
+        .putHeader("Content-Type",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+        .end(Buffer.buffer(outputStream.toByteArray()));
+      log.info("Data Permit Document downloaded");
+
+    } catch (Exception e) {
+      log.error("Error was thrown during download of Data Permit Document, with error message: {}",
+        e.getMessage());
+      context.response().setStatusCode(500).end();
+    }
+  }
 }

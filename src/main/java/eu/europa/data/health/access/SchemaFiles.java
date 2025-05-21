@@ -23,10 +23,15 @@ public enum SchemaFiles {
   DATA_ACCESS_APPLICATION_UPDATE_SCHEMA_FILE("dataAccessApplicationUpdateSchema.json"),
   DATA_ACCESS_APPLICATION_CHANGE_STATUS_FILE("dataAccessApplicationChangeStatusSchema.json"),
   DATA_ACCESS_APPLICATION_CHANGE_TITLE_FILE("dataAccessApplicationChangeTitleSchema.json"),
+  AUDIT_LOG_FOR_DATASET_RECORD("auditLogForDatasetRecord.json"),
+  AUDIT_LOG_FOR_SEARCH("auditLogForSearch.json"),
   SCHEMA_FILE_PATH ("schema_validators/"),
   CLASSPATH_SCHEMA_FILE_PATH ("classpath:/schemaValidators/"),
   COUNTRIES_RDF("countries/countries-skos.rdf"),
-  USER_SCHEMA_FILE ("userSchema.json");
+  USER_SCHEMA_FILE ("userSchema.json"),
+  DISPATCHER_DECISION_SCHEMA_FILE("dispatcherDecisionSchema.json"),
+  CATALOGUE_FORM_RDF("catalogues/catalogue-form.rdf"),
+  CATALOGUE_SEARCH("catalogueForSearch.json");
 
   private final String fileName;
 

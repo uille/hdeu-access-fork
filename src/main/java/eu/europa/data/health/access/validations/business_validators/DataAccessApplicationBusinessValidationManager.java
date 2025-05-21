@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.europa.data.health.access.dto.SelectObjectDTO;
 import eu.europa.data.health.access.dto.data_access.Section4BindSection3DTO;
+import eu.europa.data.health.access.dto.data_access.Section5BindToOtherSections;
 import eu.europa.data.health.access.dto.data_access.Section8BindToOtherSections;
 import eu.europa.data.health.access.exceptions.FieldError;
 import eu.europa.data.health.access.exceptions.GeneralException;
@@ -65,7 +66,10 @@ public class DataAccessApplicationBusinessValidationManager extends AbstractSche
       section4Validation(context);
     } else if (sectionNumberFromUrl == 8) {
       section8Validation(context);
-    } else {
+    }else if (sectionNumberFromUrl == 5) {
+      section5Validation(context);
+    }
+    else {
       context.next();
     }
   }
@@ -432,6 +436,90 @@ public class DataAccessApplicationBusinessValidationManager extends AbstractSche
             } else {
               context.next();
             }
+        }
+      });
+  }
+
+  public void section5Validation(RoutingContext context){
+    JsonObject requestApplicationId = new JsonObject().put("_id", context.pathParam("application_id"));
+    String section2 = "section2";
+
+    // Search in the database based on the provided application ID
+    mongoClient.findOne(DATA_ACCESS_APPLICATION_COLLECTION, requestApplicationId, null,
+      ar -> {
+        if (ar.succeeded() && !ar.result().isEmpty()) {
+          JsonObject result = ar.result();
+
+          // Check if the section and the field exist in the result
+          if (result.containsKey("form") && (result.getJsonObject("form").containsKey(section2))) {
+            JsonObject sectionData2 = result.getJsonObject("form").getJsonObject(section2);
+            //T.01.2 section 2 field
+            List<SelectObjectDTO> section2purposeForWhichDataWillBeUsed = new ArrayList<>();
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            if (Objects.nonNull(sectionData2)) {
+              String jsonValue = sectionData2.getString("purposeForWhichDataWillBeUsed");
+              if (Objects.nonNull(jsonValue)) {
+                try {
+                  section2purposeForWhichDataWillBeUsed = objectMapper.readValue(jsonValue,
+                    new TypeReference<List<SelectObjectDTO>>() {
+                    });
+                } catch (JsonProcessingException e) {
+                  catchJsonException(context, e);
+                }
+              }
+            }
+
+            if (CollectionUtils.isNotEmpty(section2purposeForWhichDataWillBeUsed)) {
+              ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+              Validator validator = factory.getValidator();
+
+              try {
+                Section5BindToOtherSections sectionDTO =
+                  objectMapper.readValue(context.body().asString(),
+                    Section5BindToOtherSections.class);
+                sectionDTO.setSection2purposeForWhichDataWillBeUsed(section2purposeForWhichDataWillBeUsed);
+
+                // Validate SectionDTO
+                Set<ConstraintViolation<Section5BindToOtherSections>> violations = validator.validate(
+                  sectionDTO);
+
+                if (!violations.isEmpty()) {
+                  // Handle validation errors
+                  List<FieldError> errors = new ArrayList<>();
+                  var ctxErrors = context.get(ERRORS);
+                  if (Objects.nonNull(ctxErrors)) {
+                    errors.addAll(context.get(ERRORS));
+                  }
+                  for (ConstraintViolation<Section5BindToOtherSections> violation : violations) {
+                    String errorCode = violation.getConstraintDescriptor()
+                      .getAnnotation().annotationType().getSimpleName();
+                    String fieldName = violation.getPropertyPath().toString();
+                    Object maxParam = violation.getConstraintDescriptor().getAttributes()
+                      .get("max");
+                    List<String> params = new ArrayList<>();
+                    if (maxParam != null) {
+                      params.add(maxParam.toString());
+                      // Set value of field in context to null
+                      context.body().asJsonObject().put(fieldName, null);
+                    }
+                    buildCustomValidationErrors(errors, errorCode, fieldName, params,
+                      violation);
+                  }
+                  context.put(ERRORS, new GeneralException(errors).getErrors());
+                  context.next();
+                } else {
+                  context.next();
+                }
+              } catch (JsonProcessingException e) {
+                catchJsonException(context, e);
+              }
+            } else {
+              context.next();
+            }
+          } else {
+            context.next();
+          }
         }
       });
   }

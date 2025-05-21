@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "objectId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "logDateFrom": {
+      "type": "string",
+      "minLength": 1
+    },
+    "logDateTo": {
+      "type": "string",
+      "minLength": 1
+    },
+    "object": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "Dataset Record",
+          "Data Access Application",
+          "Data Request Application",
+          "User Account"
+        ]
+      }
+    },
+    "action": {
+      "type": "string",
+      "minLength": 1
+    },
+    "actionDescription": {
+      "type": "string",
+      "minLength": 1
+    },
+    "firstName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lastName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ecasId": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}

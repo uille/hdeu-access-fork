@@ -1,0 +1,1588 @@
+{
+    "section1": {
+        "section1h5": "Auswahl der Datenquellen für das Projekt",
+        "section1Description": "Datennutzer sollten nur Daten beantragen, die angemessen, relevant und auf das für ihren Verwendungszweck erforderliche Maß beschränkt sind; \ngemäß dem Grundsatz der Datenminimierung der EU-Datenschutz-Grundverordnung 58 (Artikel 5 Absatz 1 Buchstabe c). \nDie Zugangsstelle für Gesundheitsdaten bewertet sorgfältig, ob Ihre Anforderungen mit dem Grundsatz der Datenminimierung der DSGVO im Einklang stehen.",
+        "section1DescriptionDR": "Antrag auf Zugang zu elektronischen Gesundheitsdaten für die Sekundärnutzung in einem anonymisierten statistischen Format",
+        "applicationDatasets": {
+            "label": "Aus welchen Datensätzen oder Registern und/oder Verbreitung(en) werden die Daten extrahiert?"
+        },
+        "applicationCountries": {
+            "label": "Aus welchem Land/welchen Ländern suchen Sie Daten?"
+        },
+        "applicationDataHolders": {
+            "label": "Aus welchen Dateninhabern werden die Daten extrahiert?"
+        },
+        "applicationHDABs": {
+            "label": "An welche Stelle(n) für den Zugang zu Gesundheitsdaten möchten Sie den Antrag stellen?"
+        },
+        "applicationDatabases": {
+            "label": "Aus welchen Datenbanken oder Registern werden die Daten extrahiert?"
+        }
+    },
+    "section2": {
+        "section2h5": "Information der Öffentlichkeit über das Projekt",
+        "section2Description": "Die Zugangsstellen für Gesundheitsdaten in der Europäischen Union sind verpflichtet, Informationen über die Datengenehmigungen, Gesundheitsdatenanfragen und Anträge auf Zugang zu Gesundheitsdaten innerhalb von 30 Arbeitstagen nach Erteilung der Datengenehmigung oder nach Beantwortung einer Gesundheitsdatenanfrage auf ihrer Website zu veröffentlichen. In diesem Abschnitt werden Sie gebeten, Angaben zu Ihrem Projekt zu machen, das an die Öffentlichkeit weitergegeben werden kann. Stellen Sie sicher, dass dies keine vertraulichen Informationen enthält. Geben Sie Ihre Antworten für Laien. Als Datennutzer sind Sie verpflichtet, die Ergebnisse oder Ergebnisse des Projekts spätestens 18 Monate nach Abschluss der Verarbeitung oder nach Eingang der Antwort auf die Datenanfrage zu veröffentlichen. Darüber hinaus müssen Sie die Zugangsstelle für Gesundheitsdaten über die Anzahl der von Fachkollegen überprüften Forschungsveröffentlichungen, Strategiepapiere und/oder Regulierungsverfahren informieren, die mithilfe der über diese Anwendung abgerufenen Daten durchgeführt wurden.",
+        "projectName": {
+            "label": "Projekttitel"
+        },
+        "projectLeader": {
+            "label": "Name des Projektleiters (Organisation, Einrichtung, Einrichtung, Einrichtung oder natürliche Person)",
+            "tooltip": "Dies ist die für die Datennutzung verantwortliche Person."
+        },
+        "countryOfProjectLeader": {
+            "label": "Offizieller Wohnsitz (Land) der für das Projekt zuständigen Stelle"
+        },
+        "purposeForWhichDataWillBeUsed": {
+            "label": "Zweck, für den die Daten verwendet werden",
+            "tooltip": "Zwecke aus der EHDS-Verordnung.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Das öffentliche Interesse im Bereich der öffentlichen Gesundheit oder der Gesundheit am Arbeitsplatz, wie etwa bei Tätigkeiten zum Schutz vor schwerwiegenden grenzüberschreitenden Gesundheitsgefahren für die Gesundheit, der Überwachung der öffentlichen Gesundheit oder Tätigkeiten zur Sicherstellung hoher Qualitäts- und Sicherheitsstandards der Gesundheitsversorgung, einschließlich der Patientensicherheit, sowie von Arzneimitteln oder Medizinprodukten."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Politikgestaltung und Regulierungstätigkeiten zur Unterstützung von öffentlichen Stellen oder Organen, Einrichtungen und sonstigen Stellen der Union, einschließlich Regulierungsbehörden, im Gesundheitswesen oder im Pflegesektor bei der Wahrnehmung ihrer in ihren Aufträgen festgelegten Aufgaben."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Statistiken im Sinne von Artikel 3 Nummer 1 der Verordnung (EU) Nr. 223/2009, wie etwa nationale, multinationale und unionsweite amtliche Statistiken, im Bereich des Gesundheitswesen oder des Pflegesektors."
+                },
+                {
+                    "key": "d",
+                    "value": "D. Bildungs- oder Lehrtätigkeiten im Gesundheitswesen oder im Pflegesektor auf der Ebene der Berufs- oder Hochschulbildung."
+                },
+                {
+                    "key": "e",
+                    "value": "E. wissenschaftliche Forschung im Bereich des Gesundheitswesens oder des Pflegesektors, die zur öffentlichen Gesundheit oder zur Bewertung von Gesundheitstechnologien beiträgt oder ein hohes Maß an Qualität und Sicherheit der Gesundheitsversorgung, von Arzneimitteln oder Medizinprodukten sicherstellt, mit dem Ziel, Endnutzern wie Patienten, Angehörigen der Gesundheitsberufe und Gesundheitsverwaltungen zugutezukommen, einschließlich i) Entwicklungs- und Innovationstätigkeiten für Produkte oder Dienstleistungen; ii) Trainieren, Testen und Bewerten von Algorithmen, auch in Medizinprodukten, In-vitro-Diagnostika, KI-Systemen und digitalen Gesundheitsanwendungen."
+                },
+                {
+                    "key": "f",
+                    "value": "F. Die Verbesserung der Pflege, der Optimierung der Behandlung und der Gesundheitsversorgung auf der Grundlage der elektronischen Gesundheitsdaten anderer natürlicher Personen."
+                }
+            ]
+        },
+        "theNatureOfTheDataDoesNotLetYouProvideADescription": {
+            "label": "Die Art Ihres Projekts ermöglicht es Ihnen nicht, eine Beschreibung zu machen."
+        },
+        "descriptionOfTheProject": {
+            "label": "Bitte erläutern Sie, warum Sie die Daten nicht beschreiben können.",
+            "tooltip": "Diese Begründung(en) wird nicht veröffentlicht."
+        },
+        "summaryOfTheProject": {
+            "label": "Zusammenfassung des Projekts",
+            "tooltip": "Für Laien ist eine kurze Zusammenfassung (250 Wörter oder weniger) der Projektziele, der zu verwendenden Daten, der Methoden und der erwarteten Ergebnisse vorzulegen."
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummary": {
+            "label": "Die Art Ihres Projekts erlaubt es Ihnen nicht, eine Zusammenfassung zu liefern."
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason": {
+            "label": "Bitte erläutern Sie, warum Sie keine Zusammenfassung Ihres Projekts vorlegen können.",
+            "tooltip": "Diese Begründung(en) wird nicht veröffentlicht."
+        }
+    },
+    "section3": {
+        "section3h5": "Angaben zum Antragsteller und zum Ansprechpartner",
+        "section3Description": "Ein Antrag auf Datengenehmigung sollte den Namen und die Kontaktdaten des Antragstellers – einer juristischen oder einer natürlichen Person – enthalten. Angaben zu der Kontaktperson, die auf Anfragen im Zusammenhang mit dem Antrag antwortet, unabhängig davon, ob es sich um dieselbe Person wie der Antragsteller oder eine andere Person handelt, sollten ebenfalls aufgenommen werden. Handelt es sich bei der Kontaktperson nicht um dieselbe Person wie der Antragsteller, sollte deren Beziehung, z. B. auf der Grundlage eines Arbeitsvertrags, geklärt werden.",
+        "section3DescriptionRequest": "In einem Antrag auf Datenanfrage sollten der Name und die Kontaktdaten des Antragstellers, d. h. einer juristischen oder einer natürlichen Person, angegeben werden. Angaben zu der Kontaktperson, die auf Anfragen im Zusammenhang mit dem Antrag antwortet, unabhängig davon, ob es sich um dieselbe Person wie der Antragsteller (im Falle einer natürlichen Person wie der Antragsteller) oder um eine andere Person handelt, sollten ebenfalls angegeben werden.\nHandelt es sich bei der Kontaktperson nicht um dieselbe Person wie der Antragsteller, sollte deren Beziehung, z. B. auf der Grundlage eines Arbeitsvertrags, geklärt werden.",
+        "applyingForDataOnBehalfOfPublicSector": {
+            "label": "Beantragen Sie Daten im Namen einer öffentlichen Stelle oder eines Organs, einer Einrichtung oder einer sonstigen Stelle der Europäischen Union?"
+        },
+        "applyingForDataForCarryingOutTasks": {
+            "label": "Beantragen Sie Daten für die Wahrnehmung von Aufgaben, die im Mandat Ihrer Organisation/Einrichtung verankert sind?",
+            "tooltip": "Aufgaben im Rahmen des Mandats Ihrer Organisation/Einrichtung sind Aufgaben, die auf dem nationalen Recht oder dem Recht der Europäischen Union beruhen."
+        },
+        "legalOrNaturalPerson": {
+            "label": "Handelt es sich bei dem Antragsteller um eine juristische oder eine natürliche Person?",
+            "tooltip": "Natürliche Person = eine natürliche Person, eine natürliche Person, eine juristische Person = ein Unternehmen, eine Organisation oder eine Vereinigung.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Juristischen Person"
+                },
+                {
+                    "key": "b",
+                  "value": "Natürliche Person",
+                  "info": "(Wenn Sie diese Option wählen, bestätigen Sie, dass Sie Daten als Privatperson ohne Zugehörigkeit beantragen.)"
+                }
+            ]
+        },
+        "legalPerson": "Juristischen Person",
+        "naturalPerson": "Natürliche Person",
+        "legalPersonName": {
+            "label": "Vollständige Bezeichnung"
+        },
+        "postalAddress": "Postanschrift",
+        "legalPersonAddress": {
+            "label": "Straße und Hausnummer"
+        },
+        "legalPersonZipCode": {
+            "label": "Reißverschluss-Code"
+        },
+        "legalPersonCity": {
+            "label": "Stadt"
+        },
+        "legalPersonCountry": {
+            "label": "Land"
+        },
+        "contactPersonInformation": "Angaben zum Ansprechpartner",
+        "contactPersonInformationDescription": "Die Kontaktperson bezieht sich auf die Person, die Anfragen zum Antrag beantwortet. Die Kontaktdaten der Kontaktperson können während der Bearbeitung eines Antrags an den für die Verarbeitung Verantwortlichen weitergeleitet werden, wenn für die Bestimmung der Datenextraktion zusätzliche Informationen erforderlich sind. ",
+        "contactPersonName": {
+            "label": "Vollständige Bezeichnung"
+        },
+        "contactPersonEmail": {
+            "label": "Emailadresse"
+        },
+        "contactPersonPhone": {
+            "label": "Telefonieren"
+        },
+        "contactPersonNameOfTheOrganisation": {
+            "label": "Name der Stelle"
+        },
+        "contactPersonBusinessIdentifier": {
+            "label": "Unternehmenskennung der Organisation"
+        },
+        "contactPersonOperatorIdentifier": {
+            "label": "Kennung des Betreibers"
+        },
+        "contactPersonJobTitle": {
+            "label": "Stellenbezeichnung"
+        },
+        "contactPersonAffiliation": {
+            "label": "Mitgliedschaft"
+        },
+        "contactPersonRelationship": {
+            "label": "Welche Beziehung besteht zwischen der Kontaktperson und dem Antragsteller? (Z. B. ein Mitarbeiter, der Daten im Namen seiner Organisation beantragt.)"
+        },
+        "naturalPersonName": {
+            "label": "Vollständige Bezeichnung"
+        },
+        "naturalPersonAddress": {
+            "label": "Straße und Hausnummer"
+        },
+        "naturalPersonZipCode": {
+            "label": "Reißverschluss-Code"
+        },
+        "naturalPersonCity": {
+            "label": "Stadt"
+        },
+        "naturalPersonCountry": {
+            "label": "Land"
+        },
+        "naturalPersonEmail": {
+            "label": "Emailadresse"
+        },
+        "naturalPersonPhone": {
+            "label": "Telefonieren"
+        },
+        "naturalPersonJobTitle": {
+            "label": "Stellenbezeichnung"
+        },
+        "naturalPersonAffiliation": {
+            "label": "Mitgliedschaft"
+        }
+    },
+    "section4": {
+        "section4h5": "Zahlungsweise",
+        "section4Description": "Angaben zur Zahlung der Person, an die sich die Zugangsstelle für Gesundheitsdaten mit den Rechnungen im Zusammenhang mit diesem Antrag und der entsprechenden Datengenehmigung befasst, sofern sie erteilt wurde.",
+        "sameAsContactPerson": {
+            "label": "Wie in Abschnitt 3 erwähnt?"
+        },
+        "fullName": {
+            "label": "Vollständige Bezeichnung"
+        },
+        "address": {
+            "label": "Adressen"
+        },
+        "email": {
+            "label": "Emailadresse"
+        },
+        "phone": {
+            "label": "Telefonieren"
+        },
+        "invoiceType": {
+            "label": "Art der Rechnung",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Papier"
+                },
+                {
+                    "key": "b",
+                    "value": "Elektronik"
+                }
+            ]
+        },
+        "invoiceReferenceNumber": {
+            "label": "Bezugsnummer Rechnung"
+        },
+        "invoiceAddress": {
+            "label": "E-Rechnungsanschrift (EDI oder IBAN)"
+        },
+        "operatorIdentifier": {
+            "label": "Kennung des Betreibers"
+        },
+        "nameOfTheOrganisation": {
+            "label": "Name der Stelle"
+        },
+        "businessIdentifierOrganization": {
+            "label": "Unternehmenskennung der Organisation"
+        },
+        "vatNumber": {
+            "label": "Mehrwertsteuernummer,"
+        },
+        "peppolCode": {
+            "label": "PEPPOL-Code (falls zutreffend)"
+        },
+        "isTheProjectFinanciallyCovered": {
+            "label": "Ist das Projekt finanziell abgedeckt?"
+        },
+        "rangeOfAmountOfFinancing": {
+            "label": "Wie hoch ist der Finanzierungsumfang für das Projekt, für das die angeforderten Daten verwendet werden?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "& 10000 EUR"
+                },
+                {
+                    "key": "b",
+                    "value": "10000 – 50 000 EUR"
+                },
+                {
+                    "key": "c",
+                    "value": "50000 – 100 000 EUR"
+                },
+                {
+                    "key": "d",
+                    "value": "100000 – 500 000 EUR"
+                },
+                {
+                    "key": "e",
+                    "value": "500000 – 1 000 000 EUR"
+                },
+                {
+                    "key": "f",
+                    "value": "> 1 000 000 EUR"
+                }
+            ]
+        }
+    },
+    "section5": {
+        "section5h5": "Zweck der Datennutzung",
+        "section5Description": "Die Antragsteller sollten gemäß Artikel 53 Absatz 1 der vom Europäischen Parlament am 17. Dezember gebilligten Berichtigung der EHDS-Verordnung angeben, zu welchem Zweck Daten angefordert werden. \nDie Antragsteller müssen erläutern und begründen, warum die angeforderten Daten für ihren angegebenen Verwendungszweck erforderlich sind. Die Antragsteller werden ferner gebeten, Angaben zum Projektziel zu machen. Je nach Verwendungszweck (Forschung oder Nichtforschung) müssen die Antragsteller dann eine Zusammenfassung des Plans für die Verwendung der Daten oder eine Zusammenfassung des Forschungsplans sowie Informationen über die für die Datennutzung oder -forschung verantwortliche Person vorlegen.",
+        "purposeOfUse": {
+            "label": "Zweck der Datennutzung. Die Zugangsstellen für Gesundheitsdaten gewähren nur dann Zugang zu den in Artikel 51 genannten elektronischen Gesundheitsdaten, wenn die vom Antragsteller verfolgte Zweckbestimmung der Verarbeitung den nachstehend aufgeführten Zwecken (gemäß Artikel 53 Absatz 1) entspricht.",
+            "tooltip": "Zwecke aus der EHDS-Verordnung.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Das öffentliche Interesse in den Bereichen öffentliche Gesundheit oder Gesundheit am Arbeitsplatz, z. B. Tätigkeiten zum Schutz vor schwerwiegenden grenzüberschreitenden Gesundheitsgefahren, Überwachung der öffentlichen Gesundheit oder Tätigkeiten, die ein hohes Qualitäts- und Sicherheitsniveau der Gesundheitsversorgung, einschließlich der Patientensicherheit, und von Arzneimitteln oder Medizinprodukten gewährleisten."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Politikgestaltung und Regulierungstätigkeiten zur Unterstützung öffentlicher Stellen oder der Organe, Einrichtungen und sonstigen Stellen der Union, einschließlich der Regulierungsbehörden, im Gesundheits- oder Pflegesektor bei der Wahrnehmung ihrer in ihren Mandaten festgelegten Aufgaben."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Statistiken im Sinne des Artikels 3 Nummer 1 der Verordnung (EU) Nr. 223/2009, z. B. amtliche Statistiken auf nationaler, multinationaler und Unionsebene, die sich auf den Gesundheits- oder Pflegesektor beziehen."
+                },
+                {
+                    "key": "d",
+                    "value": "D. Bildungs- oder Lehrtätigkeiten im Gesundheits- oder Pflegesektor auf Berufs- oder Hochschulbildungsebene."
+                },
+                {
+                    "key": "e",
+                    "value": "wissenschaftliche Forschung im Gesundheits- oder Pflegesektor, die zur Bewertung der öffentlichen Gesundheit oder von Gesundheitstechnologien beiträgt oder ein hohes Qualitäts- und Sicherheitsniveau der Gesundheitsversorgung, von Arzneimitteln oder Medizinprodukten gewährleistet, mit dem Ziel, Endnutzern wie Patienten, Angehörigen der Gesundheitsberufe und Angehörigen der Gesundheitsberufe zu zugutekommen, einschließlich:\nI) Entwicklungs- und Innovationstätigkeiten für Produkte oder Dienstleistungen;\nII) Training, Erprobung und Bewertung von Algorithmen, auch in Medizinprodukten, In-vitro-Diagnostika, KI-Systemen und digitalen Gesundheitsanwendungen."
+                },
+                {
+                    "key": "f",
+                    "value": "F. Verbesserung der Gesundheitsversorgung, Optimierung der Behandlung und Gesundheitsversorgung auf der Grundlage der elektronischen Gesundheitsdaten anderer natürlicher Personen."
+                }
+            ]
+        },
+        "whyTheDataIsNeeded": {
+            "label": "Warum werden die Daten, für die Sie sich bewerben, für den angegebenen Verwendungszweck benötigt? Erläutern Sie hier, warum die Menge und die Art der Daten, für die Sie einen Antrag stellen, für Ihre Datennutzung erforderlich sind."
+        },
+        "whyAreTheDataRequested": {
+            "label": "Warum werden die mit diesem Antrag angeforderten Daten für den angegebenen Verwendungszweck benötigt?"
+        },
+        "whatIsTheAimAndTopicOfTheProject": {
+            "label": "Was ist das Ziel und das Thema Ihres Projekts?"
+        },
+        "whichAreTheExpectedBenefits": {
+            "label": "Welcher Nutzen ergibt sich aus der Nutzung der elektronischen Gesundheitsdaten, und wie trägt dieser Nutzen zu den unter 5.1 genannten Zwecken bei?"
+        },
+        "legalBasis": {
+            "label": "Geben Sie die Rechtsgrundlage an, z. B. die einschlägigen Rechtsvorschriften, in denen die Aufgaben festgelegt sind, die in Ihren Aufgabenbereich fallen, und bestätigt, dass die geplante Nutzung der Daten dazu dient, diese Aufgaben zu erleichtern.",
+            "tooltip": "Erläutern Sie hier, warum die Menge der Daten, die Sie beantragen, für Ihre Datennutzung erforderlich ist. Begründen und beschreiben Sie, wie der Inhalt der angeforderten Statistiken dem im Antrag angegebenen Verwendungszweck entspricht und Ihren Datenanforderungen entspricht."
+        },
+        "linkToTheSupportingLegalBasis": {
+            "label": "Geben Sie als Nachweis der Rechtsgrundlage einen Link zu den Belegen an."
+        },
+        "summaryOfPlanForUsingTheData": {
+            "label": "Fassen Sie Ihren Plan für die Nutzung der Daten zusammen. Die Zusammenfassung ist in einer der Amtssprachen der EU abzufassen."
+        },
+        "summaryOfPlanForUsingTheDataLanguage": {
+            "label": "Wählen Sie die Sprache der Zusammenfassung aus.",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgarisch"
+                },
+                {
+                    "key": "hr",
+                    "value": "Kroatisch"
+                },
+                {
+                    "key": "cs",
+                    "value": "Tschechisch"
+                },
+                {
+                    "key": "da",
+                    "value": "Dänisch"
+                },
+                {
+                    "key": "nl",
+                    "value": "Niederländisch"
+                },
+                {
+                    "key": "en",
+                    "value": "Englisch"
+                },
+                {
+                    "key": "et",
+                    "value": "Estnisch"
+                },
+                {
+                    "key": "fi",
+                    "value": "Finnisch"
+                },
+                {
+                    "key": "fr",
+                    "value": "Französisch"
+                },
+                {
+                    "key": "de",
+                    "value": "Deutsch"
+                },
+                {
+                    "key": "el",
+                    "value": "Griechisch"
+                },
+                {
+                    "key": "hu",
+                    "value": "Ungarisch"
+                },
+                {
+                    "key": "ga",
+                    "value": "Irisch"
+                },
+                {
+                    "key": "it",
+                    "value": "Italienisch"
+                },
+                {
+                    "key": "lv",
+                    "value": "Lettisch"
+                },
+                {
+                    "key": "lt",
+                    "value": "Litauisch"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltesisch"
+                },
+                {
+                    "key": "pl",
+                    "value": "Polnisch"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugiesisch"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumänisch"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slowakisch"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slowenisch"
+                },
+                {
+                    "key": "es",
+                    "value": "Spanisch"
+                },
+                {
+                    "key": "sv",
+                    "value": "Schwedisch"
+                }
+            ]
+        },
+        "summaryOfResearchPlan": {
+            "label": "Fassen Sie Ihren Forschungsplan zusammen. Die Zusammenfassung ist in einer der Amtssprachen der EU abzufassen."
+        },
+        "summaryOfResearchPlanLanguage": {
+            "label": "Wählen Sie die Sprache der Zusammenfassung aus.",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgarisch"
+                },
+                {
+                    "key": "hr",
+                    "value": "Kroatisch"
+                },
+                {
+                    "key": "cs",
+                    "value": "Tschechisch"
+                },
+                {
+                    "key": "da",
+                    "value": "Dänisch"
+                },
+                {
+                    "key": "nl",
+                    "value": "Niederländisch"
+                },
+                {
+                    "key": "en",
+                    "value": "Englisch"
+                },
+                {
+                    "key": "et",
+                    "value": "Estnisch"
+                },
+                {
+                    "key": "fi",
+                    "value": "Finnisch"
+                },
+                {
+                    "key": "fr",
+                    "value": "Französisch"
+                },
+                {
+                    "key": "de",
+                    "value": "Deutsch"
+                },
+                {
+                    "key": "el",
+                    "value": "Griechisch"
+                },
+                {
+                    "key": "hu",
+                    "value": "Ungarisch"
+                },
+                {
+                    "key": "ga",
+                    "value": "Irisch"
+                },
+                {
+                    "key": "it",
+                    "value": "Italienisch"
+                },
+                {
+                    "key": "lv",
+                    "value": "Lettisch"
+                },
+                {
+                    "key": "lt",
+                    "value": "Litauisch"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltesisch"
+                },
+                {
+                    "key": "pl",
+                    "value": "Polnisch"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugiesisch"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumänisch"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slowakisch"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slowenisch"
+                },
+                {
+                    "key": "es",
+                    "value": "Spanisch"
+                },
+                {
+                    "key": "sv",
+                    "value": "Schwedisch"
+                }
+            ]
+        },
+        "personResponsibleLabel": "Für die Datennutzung verantwortliche Person",
+        "personResponsibleName": {
+            "label": "Vollständige Bezeichnung"
+        },
+        "personResponsibleJobTitle": {
+            "label": "Stellenbezeichnung"
+        },
+        "personResponsibleAffiliation": {
+            "label": "Mitgliedschaft"
+        },
+        "personResearchSameAsContactPerson": {
+            "label": "Wie in Abschnitt 3 (Angaben zum Antragsteller und zum Ansprechpartner)?"
+        },
+        "personResponsibleForResearchLabel": "Für die Forschung zuständige Person",
+        "personResponsibleSameAsContactPerson": {
+            "label": "Wie in Abschnitt 3 (Angaben zum Antragsteller und zum Ansprechpartner)?"
+        },
+        "personResearchName": {
+            "label": "Vollständige Bezeichnung"
+        },
+        "personResearchJobTitle": {
+            "label": "Stellenbezeichnung"
+        },
+        "personResearchAffiliation": {
+            "label": "Mitgliedschaft"
+        },
+        "formatOfTheElectronicHealthData": {
+            "label": "Wählen Sie das Format der zur Verfügung zu stellenden elektronischen Gesundheitsdaten aus:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Anonymisiert"
+                },
+                {
+                    "key": "b",
+                    "value": "Pseudonymisiert"
+                }
+            ]
+        },
+        "inOrderToApplyPseudonymisedData": "Mir ist bewusst, dass ich, um pseudonymisierte Daten zu beantragen,",
+        "inOrderToApplyPseudonymisedDataA": {
+            "label": "erläutern Sie, wie ich Artikel 6 Absatz 1 der Datenschutz-Grundverordnung (oder Artikel 5 Absatz 1 der EU-Datenschutzverordnung, wenn ein Organ, eine Einrichtung oder eine sonstige Stelle der EU Daten beantragt) einhalten werde."
+        },
+        "inOrderToApplyPseudonymisedDataB": {
+            "label": "Bewertung ethischer Aspekte der Datenverarbeitung, sofern anwendbar und im Einklang mit dem nationalen Recht oder den geltenden Rechtsvorschriften."
+        },
+        "whyNeedForPseudonymisation": {
+            "label": "Warum benötigen Sie pseudonymisierte Daten für Ihr Projekt?"
+        }
+    },
+    "section6": {
+        "section6h5": "Beschreibung der erforderlichen Daten",
+        "section6Description": "In diesem Abschnitt müssen Sie eine Beschreibung des angeforderten Datensatzes vorlegen, aus der eindeutig hervorgeht, auf welche Datensätze sich der Antrag bezieht. Sie sollten gemäß dem Grundsatz der Datenminimierung der EU-Datenschutz-Grundverordnung (Artikel 5 Absatz 1 Buchstabe c) nur für Daten beantragen, die angemessen, relevant und auf das für Ihren Verwendungszweck erforderliche Maß beschränkt sind. Die Zugangsstelle für Gesundheitsdaten bewertet sorgfältig, ob Ihre Anforderungen mit dem Grundsatz der Datenminimierung der DSGVO im Einklang stehen.",
+        "descriptionSection6_1": "Festlegung der Extraktionskriterien für die Kohorte:",
+        "descriptionOfTheDataNeeded": "Beschreibung der erforderlichen Daten:",
+        "applicationHDABsForSelectedCountry": "Bei welcher Stelle für den Zugang zu Gesundheitsdaten möchten Sie den Antrag einreichen?",
+        "applicationDatasetsPerCountry": "Entsprechende Datensätze und Verteilungen",
+        "informationProviderSameAsContactPerson": {
+            "label": "Wie in Abschnitt 3 erwähnt?"
+        },
+        "hdabContacts": {
+            "label": "Wenn Sie in Bezug auf die von Ihnen gewünschten Daten mit einer Person der Zugangsstelle für Gesundheitsdaten in Kontakt gestanden haben, geben Sie hier die Namen und die E-Mail-Adressen dieser Person an."
+        },
+        "howWillTheDataFromDifferentSourcesBeLinked": {
+            "label": "Wie werden die Daten für eine Person aus verschiedenen Quellen miteinander verknüpft? Z. B. auf der Grundlage des persönlichen Identifikationscodes. Falls eine andere Verbindungsmethode verwendet wird, ist dies hier zu beschreiben."
+        },
+        "indicateTheSizeOfTheStudyCohort": {
+            "label": "Geben Sie die Größe der Kohorte an."
+        },
+        "indicateTheSizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Größe der Kohorte (Radiotasten)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Dabei handelt es sich um eine Schätzung der Größe der Kohorte."
+                },
+                {
+                    "key": "b",
+                    "value": "Dies ist die genaue Größe der Kohorte."
+                }
+            ]
+        },
+        "howIsTheStudyCohortFormed": {
+            "label": "Wie wird die Kohorte gebildet?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Die Kohorte wird auf der Grundlage der nachstehenden Kriterien gebildet."
+                },
+                {
+                    "key": "b",
+                    "value": "Die Kohorte wurde bereits gebildet."
+                },
+                {
+                    "key": "c",
+                    "value": "Die Kohorte besteht aus diesen beiden Gruppen: eine neue Kohorte auf der Grundlage der nachstehenden Kriterien und eine bereits gebildete Kohorte."
+                },
+                {
+                    "key": "d",
+                    "value": "Die Kohorte ist die gesamte Bevölkerung eines Landes/der Länder, das/die zu Beginn dieses Formulars angegeben ist/sind."
+                }
+            ]
+        },
+        "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants": {
+            "label": "Wenn Sie eine Kohorte auf der Grundlage Ihrer eigenen vorherigen Umfrage nutzen möchten, wurde die Kohorte auf der Grundlage der Einwilligung der Teilnehmer nach Aufklärung gebildet? Z. B. Kohorte, die auf der Grundlage einer Erhebungsstudie oder einer klinischen Studie gebildet wurde und mit der Registerdaten im Rahmen der EHDS-Verordnung verknüpft werden."
+        },
+        "doesTheInformedConsentCoverTheRequestedRegistryExtractions": {
+            "label": "Umfasst die Einwilligung nach Aufklärung die beantragten Registerauszüge?"
+        },
+        "consentAndInformationLetterAttachment": {
+            "label": "Fügen Sie die Zustimmung und das Informationsschreiben bei, die Sie den Probanden übermittelt haben. Bitte fügen Sie keine ausgefüllten Formulare bei, da sie personenbezogene Daten enthalten."
+        },
+        "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
+            "label": "Ich bestätige, dass die Datengenehmigung für dieses Forschungsprojekt erteilt wurde."
+        },
+        "ifTheGroupHasBeenFormedBasedOnPreviousIssued": {
+            "label": "Wurde die Kohorte auf der Grundlage einer zuvor erteilten Genehmigung gebildet, geben Sie hier die folgenden Informationen an:"
+        },
+        "previouslyIssuedPermitIssuer1": {
+            "label": "Aussteller der Genehmigungsentscheidung"
+        },
+        "previouslyIssuedPermitDate1": {
+            "label": "Datum"
+        },
+        "validityPeriod1": "Gültigkeitszeitraum,",
+        "previouslyIssuedPermitValidityPeriodFrom1": {
+            "label": "Von"
+        },
+        "previouslyIssuedPermitValidityPeriodTo1": {
+            "label": "Nach"
+        },
+        "previouslyIssuedPermitNumber1": {
+            "label": "Genehmigungsnummer"
+        },
+        "permitDecisionAttachment": {
+            "label": "Fügen Sie eine Genehmigungsentscheidung über die Extraktion der Kohortendaten in diesem Abschnitt bei."
+        },
+        "howTheStudyCohortWasObtained": {
+            "label": "Beschreiben Sie, wie die Kohorte gewonnen wurde und warum keine Datengenehmigung/Zustimmung erteilt wurde."
+        },
+        "providedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Haben Sie den entsprechenden Probanden Informationen über die Verwendung der Daten zur Verfügung gestellt? Z. B. Austausch von Informationen über die Datennutzung auf einer Projektwebsite.",
+            "tooltip": "Weitere Informationen sind den Artikeln 13 und 14 der Datenschutz-Grundverordnung zu entnehmen: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
+            "tooltipForm": "Weitere Informationen sind den Artikeln 13 und 14 der <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">-Datenschutz-Grundverordnung zu entnehmen."
+        },
+        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Wie"
+        },
+        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Warum nicht?"
+        },
+        "whoWillDeliverTheInformationOnTheStudy": {
+            "label": "Wer wird die Informationen über die Kohorte an die Zugangsstelle für Gesundheitsdaten übermitteln? Diese Person erhält über das gemeinsame EHDS-Portal Anweisungen zur Bereitstellung der Daten."
+        },
+        "informationProviderName": {
+            "label": "Vollständige Bezeichnung"
+        },
+        "informationProviderEmail": {
+            "label": "E-Mail-Adresse"
+        },
+        "informationProviderPhone": {
+            "label": "Telefonnummer"
+        },
+        "whyNeedDataOfaWholePopulation": {
+            "label": "Erläutern Sie, warum Sie Daten zu einer ganzen Population/Gesamtpopulation benötigen?",
+            "tooltip": "Stellen Sie sicher, dass die Bildung der Kohorte ausreichend klar definiert ist und die Kohortengröße entsprechend der vorgesehenen Verwendung abgegrenzt wird. Besonderes Augenmerk darauf zu legen, aus welcher Kohorte die Kohorte entnommen wird, und die Aufnahme- und Ausschlusskriterien für die Kohorte zu berücksichtigen. Eine geografische Definition kann beispielsweise den Wohnort, den Geburtsort, den Arbeitsort oder den Ort, an dem Dienstleistungen in Anspruch genommen werden, bezeichnen."
+        },
+        "sizeOfTheStudyCohort": {
+            "label": "Geben Sie die Größe der Kohorte an."
+        },
+        "sizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Größe der Kohorte (Radiotasten)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Dabei handelt es sich um eine Schätzung der Größe der Kohorte."
+                },
+                {
+                    "key": "b",
+                    "value": "Dies ist die genaue Größe der Kohorte."
+                }
+            ]
+        },
+        "whyNeedStudyCohortOfThisSize": {
+            "label": "Warum benötigen Sie eine Kohorte dieser Größe für Ihr Projekt?"
+        },
+        "ethicalReview": "Ethische Prüfung – Text wird vom Referat Politik zur Verfügung gestellt",
+        "ethicalReviewDescription": "Ethikprüfungen",
+        "ethicalReviewInput": {
+            "label": "Ethikprüfungen",
+            "tooltip": "Text ist vom Referat Politik bereitzustellen."
+        },
+        "ethicalReviewAttachment": {
+            "label": "Ethikprüfungen"
+        },
+        "dataHolders": "Aus welchen Dateninhabern werden die Daten extrahiert?",
+        "whichDatabasesDataExtracted": "Aus welcher Datenbank/welchen Datenbanken/Registern werden die Daten extrahiert?",
+        "whichDatasetDataExtracted": "Aus welchen Datensätzen/Registern werden die Daten extrahiert?",
+        "variablesToBeUsedInDataExtractionAttachment": {
+            "label": "Falls die Informationen verfügbar sind, fügen Sie die Liste der Variablen bei, die bei der Datenextraktion zu verwenden sind. Verwenden Sie die genauen Begriffe, die von dem/den jeweiligen Dateninhaber(n) im Metadatenkatalog bereitgestellt werden."
+        },
+        "timePeriodOfDataExtraction": {
+            "label": "Für welchen Zeitraum/welche Zeiträume werden die Datensätze extrahiert?"
+        },
+        "extractionMethod": {
+            "label": "Extraktionsverfahren:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Zufallsstichprobe"
+                },
+                {
+                    "key": "b",
+                    "value": "alle Personen, die die Kriterien erfüllen"
+                },
+                {
+                    "key": "c",
+                    "value": "sonstige Stichprobe"
+                }
+            ]
+        },
+        "samplingMethod": {
+            "label": "Beschreibung des Probenahmeverfahrens"
+        },
+        "sampleSize": {
+            "label": "Stichprobenumfang",
+            "tooltip": "Antworten können z. B. sein: 100000 Personen oder 50 % der Personen, die die Kriterien erfüllen."
+        },
+        "inclusionCriteria": {
+            "label": "Beschreibung der Aufnahmekriterien für die Kohortenextraktion ",
+            "tooltip": "Denken Sie daran, hier alle Aufnahmekriterien klarzustellen, die mehrdeutig sein können. Wenn Sie beispielsweise betroffene Personen eines bestimmten Alters einbeziehen möchten, erläutern Sie bitte, auf welcher Grundlage das Alter berechnet werden sollte und zu welchem Zeitpunkt."
+        },
+        "potentialExclusionCriteria": {
+            "label": "Beschreibung der potenziellen Ausschlusskriterien für die Kohortenextraktion"
+        },
+        "tabulationPlanArray": {
+            "label": "Tabellenplan-Array",
+            "tooltip": "Darüber hinaus sind die folgenden Angaben für jede Tabelle aufzuschreiben: ● zu verwendende Register ● mögliche Kohorte ● Informationen über die erforderlichen Variablen (sofern verfügbar) ● Bildung von Variablen, wenn sie nicht direkt aus der Datenbank abgerufen werden können ● die gewünschte Aggregationsrichtung der Prozentsätze ● in der Reihenfolge, in der Tabellen generiert werden, wenn zuvor erstellte Tabellen verwendet werden, um andere Tabellen zu erstellen ● alle anderen relevanten Faktoren im Zusammenhang mit der Erstellung der erforderlichen Tabelle(n)"
+        },
+        "tabulationRegisteredToBeUsed": {
+            "label": "Zu verwendendes Register"
+        },
+        "tabulationPossibleStudyCohort": {
+            "label": "Mögliche Kohorte"
+        },
+        "tabulationInformationOfRequiredVariables": {
+            "label": "Angaben zu den erforderlichen Variablen (falls verfügbar)"
+        },
+        "tabulationFormationVariables": {
+            "label": "Erstellung von Variablen, wenn sie nicht direkt aus der Datenbank abgerufen werden können"
+        },
+        "tabulationDesiredDirection": {
+            "label": "Gewünschte Aggregationsrichtung der Prozentsätze"
+        },
+        "tabulationOrderInWhichTable": {
+            "label": "Reihenfolge, in der Tabellen generiert werden, wenn zuvor erstellte Tabellen zur Erstellung anderer Tabellen verwendet werden"
+        },
+        "tabulationAnyOtherRelevant": {
+            "label": "Sonstige relevante Faktoren im Zusammenhang mit der Erstellung der erforderlichen Tabelle(n) "
+        },
+        "tabulationPlanButton": "Tabellierungsplan hinzufügen",
+        "tabulationPlan": {
+            "label": "Tabellarischer Plan",
+            "tooltip": "Fügen Sie für jede von Ihnen angeforderte Statistik ein Beispiel einer Excel-Tabelle (oder einer gleichwertigen Tabelle) bei."
+        },
+        "extractionDescriptionAndCompilation": {
+            "label": "Beschreibung der Extraktion und Erstellung von Statistiken",
+            "tooltip": "Eine Zugangsstelle für Gesundheitsdaten stellt die von Ihnen angeforderten Daten nur in einem anonymisierten statistischen Format zur Verfügung, wenn Ihr Gesundheitsdatenanfrage akzeptiert wird. Aufgrund der Anonymität hat der Datennutzer keinen Zugang zu den elektronischen Gesundheitsdaten, die für diese Antwort verwendet werden. Alle von Ihnen angeforderten Informationen müssen auf ein allgemeines Niveau gesenkt werden, um eine Zählung kleiner Zellen mit hohem Reidentifikationspotenzial zu vermeiden."
+        },
+        "dataExtraction": "Datenextraktionszeiten und Reihenfolge der Kohorte",
+        "dataExtractionTimes": "Datenextraktionszeiten und Reihenfolge der Kohorte",
+        "howOftenDoesTheDataNeedToBeExtracted": {
+            "label": "Wie oft müssen die Daten extrahiert werden?"
+        },
+        "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
+            "label": "Wie oft müssen die Daten extrahiert werden?"
+        },
+        "needForDataExtractionEvery": {
+            "label": "Die Daten müssen in jedem Fall extrahiert werden.",
+            "tooltip": "Wenn Sie wünschen, dass die Daten über einen bestimmten Zeitraum mehrfach extrahiert werden, weisen Sie darauf hin, dass sich die Definitionen und die Datenerhebungsmethode in einigen Fällen während des Überprüfungszeitraums ändern können. Es sei darauf hingewiesen, dass die maximale Häufigkeit der Datenextraktion vierteljährlich ist."
+        },
+        "needForDataExtractionEveryOther": {
+            "label": "Sonstiges angeben"
+        },
+        "needForDataExtractionEveryDescriptionDR": {
+            "label": "Machen Sie weitere Informationen zu den Extraktionszeiträumen/-zeiten.",
+            "tooltip": "Wenn Sie wünschen, dass die Daten über einen bestimmten Zeitraum mehrfach extrahiert werden, weisen Sie darauf hin, dass sich die Definitionen und die Datenerhebungsmethode in einigen Fällen während des Überprüfungszeitraums ändern können."
+        },
+        "needForDataExtractionEveryDescription": {
+            "label": "Weitere Informationen über die Kohorte-Extrahierungszeiträume/-zeiten",
+            "tooltip": "Wenn Sie wünschen, dass die Daten über einen bestimmten Zeitraum mehrfach extrahiert werden, weisen Sie darauf hin, dass sich die Definitionen und die Datenerhebungsmethode in einigen Fällen während des Überprüfungszeitraums ändern können."
+        },
+        "whatIsTheFrequencyOfUpdates": {
+            "label": "Wie häufig werden die erforderlichen Daten aktualisiert?"
+        },
+        "orderForDataExtraction": {
+            "label": "Wenn sich dies auf die Ergebnisse der Datenextraktion auswirkt, in welcher Reihenfolge werden die Kohortendaten extrahiert? Legen Sie eine nummerierte Liste der Extraktionsphasen vor. Zum Beispiel: 1. Dateninhaber A; 2. Dateninhaber B; 3. Dateninhaber C"
+        },
+        "definingExtractionCriteria": "Festlegung der Extraktionskriterien für Kontrollen:",
+        "willControlsBeExtracted": {
+            "label": "Werden die Kontrollen für die Kohorte extrahiert?"
+        },
+        "hasTheGroupRelativesFormed2": {
+            "label": "Wurde die Kontrollgruppe auf der Grundlage einer zuvor erteilten Genehmigung gebildet?"
+        },
+        "willSameDataBeExtractedForControls": {
+            "label": "Werden dieselben Daten wie für die Kohorte für Kontrollen extrahiert?"
+        },
+        "regionForControlsDataExtraction": {
+            "label": "Wenn Sie keine Daten für Kontrollen aus dem ganzen Land anfordern: Welche Region(en) und/oder Stadt/Städte und/oder Gemeinde/Gemeinden suchen Sie Daten?"
+        },
+        "fromWhichDataHolderLabel": "Aus welchen Dateninhabern werden die Kontrolldaten extrahiert?",
+        "fromWhichDatabaseLabel": "Aus welcher Datenbank/welchen Datenbanken/Registern werden die Kontrolldaten extrahiert?",
+        "fromWhichDatasetLabel": "Aus welchen Datensätzen/Registern werden die Daten für Kontrollen extrahiert?",
+        "variablesForDataExtraction": {
+            "label": "Wenn die Informationen verfügbar sind, geben Sie bitte die Variablen an, die bei der Datenextraktion zu verwenden sind. Verwenden Sie die genauen Begriffe, die von dem/den jeweiligen Dateninhaber(n) im Metadatenkatalog bereitgestellt werden."
+        },
+        "timePeriodForDataExtraction": {
+            "label": "Für welchen Zeitraum/welche Zeiträume werden die Datensätze extrahiert?"
+        },
+        "extractionCriteriaForControls": {
+            "label": "Geben Sie die Extraktionskriterien für Kontrollen an, z. B. Übereinstimmungskriterien"
+        },
+        "sizeOfControlGroup": {
+            "label": "Größe der Kontrollgruppe"
+        },
+        "sizeOfControlGroupEstimationOrExact": {
+            "label": "Größe der Kontrollgruppe (Radio Buttons)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Dabei handelt es sich um eine Schätzung der Größe der Kontrollgruppe."
+                },
+                {
+                    "key": "b",
+                    "value": "Dies ist die genaue Größe der Kontrollgruppe."
+                }
+            ]
+        },
+        "controlsPerPersonInStudyCohort": {
+            "label": "Wie viele Kontrollen werden pro Person, die der Kohorte angehört, extrahiert?"
+        },
+        "inclusionCriteriaForControls": {
+            "label": "Beschreibung der Aufnahmekriterien für die Extraktion der Kontrollen"
+        },
+        "exclusionCriteriaForControls": {
+            "label": "Beschreibung der potenziellen Ausschlusskriterien für die Extraktion von Kontrollen"
+        },
+        "ifTheGroupHasBeenFormed": "Wurde die Kontrollgruppe auf der Grundlage einer zuvor erteilten Genehmigung gebildet, geben Sie hier die folgenden Informationen an:",
+        "previouslyIssuedPermitIssuer2": {
+            "label": "Aussteller der Genehmigungsentscheidung"
+        },
+        "previouslyIssuedPermitDate2": {
+            "label": "Datum"
+        },
+        "validityPeriod2": "Gültigkeitszeitraum,",
+        "previouslyIssuedPermitValidityPeriodFrom2": {
+            "label": "Von"
+        },
+        "previouslyIssuedPermitValidityPeriodTo2": {
+            "label": "Nach"
+        },
+        "previouslyIssuedPermitNumber2": {
+            "label": "Genehmigungsnummer"
+        },
+        "dataExtractionAndOrderForControls": " Datenextraktionszeiten und Reihenfolge der Kontrollen",
+        "willDataForControlsBeExtractedSimultaneously": {
+            "label": "Werden die Kontrolldaten gleichzeitig und in derselben Reihenfolge extrahiert wie die Daten für die Kohorte?"
+        },
+        "hasTheGroupRelativesFormed3": {
+            "label": "Wurde die Gruppe von Verwandten auf der Grundlage einer zuvor erteilten Genehmigung gebildet?"
+        },
+        "ifTheGroupOfRelativesHasBeenFormed": {
+            "label": "Wurde die Gruppe von Verwandten auf der Grundlage einer zuvor erteilten Genehmigung gebildet, geben Sie hier die folgenden Informationen an:"
+        },
+        "previouslyIssuedPermitIssuer3": {
+            "label": "Aussteller der Genehmigungsentscheidung"
+        },
+        "previouslyIssuedPermitDate3": {
+            "label": "Datum"
+        },
+        "validityPeriod3": "Gültigkeitszeitraum,",
+        "previouslyIssuedPermitValidityPeriodFrom3": {
+            "label": "Von"
+        },
+        "previouslyIssuedPermitValidityPeriodTo3": {
+            "label": "Nach"
+        },
+        "previouslyIssuedPermitNumber3": {
+            "label": "Genehmigungsnummer"
+        },
+        "dataExtractionFrequency": {
+            "label": "Wie oft müssen die Daten extrahiert werden?"
+        },
+        "dataExtractionFrequencyMultipleTimesInformation": {
+            "label": "Bei wiederholter Extraktion sind Angaben zu jedem Datenextraktionsprozess getrennt in den Auftragsanweisungen zu machen."
+        },
+        "dataNeedsToBeExtractedEvery": {
+            "label": "Die Daten müssen in jedem Fall extrahiert werden.",
+            "tooltip": "Wenn Sie wünschen, dass die Daten über einen bestimmten Zeitraum mehrfach extrahiert werden, weisen Sie darauf hin, dass sich die Definitionen und die Datenerhebungsmethode in einigen Fällen während des Überprüfungszeitraums ändern können. Es sei darauf hingewiesen, dass die maximale Häufigkeit der Datenextraktion vierteljährlich ist."
+        },
+        "specifyOther": {
+            "label": "Sonstiges angeben"
+        },
+        "moreInfoOnExtractionPeriods": {
+            "label": "Machen Sie weitere Informationen zu den Extraktionszeiträumen/-zeiten."
+        },
+        "orderOfControlsDataExtraction": {
+            "label": "Wenn sich dies auf die Ergebnisse der Datenextraktion auswirkt, in welcher Reihenfolge werden die Kontrolldaten extrahiert? Legen Sie eine nummerierte Liste der Extraktionsphasen vor. Zum Beispiel: 1. Dateninhaber A; 2. Dateninhaber B; 3. Dateninhaber C"
+        },
+        "definingTheExtractionCriteria": "Festlegung der Extraktionskriterien für Verwandte:",
+        "willRelativesBeExtracted": {
+            "label": "Werden Verwandte für die Kohorte extrahiert?"
+        },
+        "willSameDataBeExtractedForRelatives": {
+            "label": "Werden für Verwandte dieselben Daten wie für die Kohorte extrahiert?"
+        },
+        "whichDataHoldersForRelatives": "Aus welchen Dateninhabern werden die Daten für Verwandte extrahiert?",
+        "whichDatabaseForRelatives": "Aus welcher Datenbank/welchen Datenbanken/Registern werden die Daten für Verwandte extrahiert?",
+        "whichDatasetsForRelatives": "Aus welchen Datensätzen/Registern werden die Daten für Verwandte extrahiert?",
+        "variablesForDataExtractionRelatives": {
+            "label": "Wenn die Informationen verfügbar sind, geben Sie bitte die Variablen an, die bei der Datenextraktion zu verwenden sind. Verwenden Sie die genauen Begriffe, die von dem/den jeweiligen Dateninhaber(n) im Metadatenkatalog bereitgestellt werden."
+        },
+        "timePeriodForDataExtractionRelatives": {
+            "label": "Für welchen Zeitraum/welche Zeiträume werden die Datensätze extrahiert?"
+        },
+        "relationshipToStudyCohort": {
+            "label": "Definition der Beziehung der Verwandten zu der zur Kohorte gehörenden Person (z. B. Großeltern, leibliche Eltern, Mutter)"
+        },
+        "sizeOfRelativesGroup": {
+            "label": "Größe der Gruppe von Verwandten"
+        },
+        "sizeOfRelativesGroupEstimateOrExact": {
+            "label": "Größe der Gruppe der Verwandten (Radiotasten)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Dabei handelt es sich um eine Schätzung der Größe der Gruppe von Verwandten."
+                },
+                {
+                    "key": "b",
+                    "value": "Dies ist die genaue Größe der Gruppe von Verwandten."
+                }
+            ]
+        },
+        "willDataForRelativesBeExtractedSimultaneously": {
+            "label": "Werden die Daten für Verwandte gleichzeitig und in derselben Reihenfolge extrahiert wie die Daten für die Kohorte?"
+        },
+        "dataExtractionFrequencyRelatives": {
+            "label": "Wie oft müssen die Daten extrahiert werden?"
+        },
+        "dataNeedsToBeExtractedEveryRelatives": {
+            "label": "Die Daten müssen in jedem Fall extrahiert werden.",
+            "tooltip": "Wenn Sie wünschen, dass die Daten über einen bestimmten Zeitraum mehrfach extrahiert werden, weisen Sie darauf hin, dass sich die Definitionen und die Datenerhebungsmethode in einigen Fällen während des Überprüfungszeitraums ändern können. Es sei darauf hingewiesen, dass die maximale Häufigkeit der Datenextraktion vierteljährlich ist."
+        },
+        "dataExtractionFrequencyMultipleTimesInformationRelatives": {
+            "label": "Bei wiederholter Extraktion sind Angaben zu jedem Datenextraktionsprozess getrennt in den Auftragsanweisungen zu machen."
+        },
+        "needForDataExtractionEveryOptions": {
+            "label": "Die Daten müssen in jedem Fall extrahiert werden.",
+            "tooltip": "Wenn Sie wünschen, dass die Daten über einen bestimmten Zeitraum mehrfach extrahiert werden, weisen Sie darauf hin, dass sich die Definitionen und die Datenerhebungsmethode in einigen Fällen während des Überprüfungszeitraums ändern können. Es sei darauf hingewiesen, dass die maximale Häufigkeit der Datenextraktion vierteljährlich ist."
+        },
+        "specifyOtherRelatives": {
+            "label": "Sonstiges angeben"
+        },
+        "moreInfoOnExtractionPeriodsRelatives": {
+            "label": "Machen Sie weitere Informationen zu den Extraktionszeiträumen/-zeiten."
+        },
+        "orderOfRelativesDataExtraction": {
+            "label": "Wenn sich dies auf die Ergebnisse der Datenextraktion auswirkt, in welcher Reihenfolge werden die Daten der Verwandten extrahiert? Legen Sie eine nummerierte Liste der Extraktionsphasen vor. Zum Beispiel: 1. Dateninhaber A; 2. Dateninhaber B; 3. Dateninhaber C"
+        }
+    },
+    "section7": {
+        "section7h5": "Sonstige zu kombinierende Daten",
+        "section7Description": "Es ist möglich, andere personenbezogene Daten, z. B. Daten, die sich bereits in Ihrem Besitz befinden, oder Daten, die von anderen Orten erlangt wurden, mit einer anderen Genehmigung zu kombinieren, mit den mit diesem Antrag beantragten Daten. Führen Sie die Informationen für alle zusätzlichen Daten auf, die mit den von der Zugangsstelle für Gesundheitsdaten genehmigten Daten kombiniert werden. Wenn Sie später andere personenbezogene Daten mit den von der Zugangsstelle für Gesundheitsdaten autorisierten Daten kombinieren möchten, müssen Sie bei derselben Zugangsstelle für Gesundheitsdaten einen Änderungsantrag stellen. Wenn Sie über eine andere Kohorte verfügen, die die Zugangsstelle für Gesundheitsdaten mit den Daten, für die Sie sich bewerben, kombinieren möchten, erhalten Sie nach Erteilung der Genehmigung Anweisungen, wie die Daten sicher bereitgestellt werden können.",
+        "addDataPermit": "Datengenehmigung hinzufügen",
+        "addInfo": "Info hinzufügen",
+        "removeDataPermit": "Datengenehmigung löschen",
+        "willDataBeCombinedWithDataObtained": {
+            "label": "Werden die Daten, für die Sie sich bewerben, mit Daten kombiniert, die Sie bereits erhalten haben, oder mit Daten, die aus anderen Quellen beantragt werden?"
+        },
+        "listOtherDataToBeCompined": "Führen Sie die anderen zu kombinierenden Daten und die Quellen dieser Daten auf:",
+        "combinedCountries": {
+            "label": "Länder"
+        },
+        "combinedDataHolders": {
+            "label": "Dateninhaber"
+        },
+        "combinedDatabaseRegistries": {
+            "label": "Datenbanken/Register"
+        },
+        "combinedDatasetsRegistries": {
+            "label": "Datensätze/Register"
+        },
+        "provideInformationList": {
+            "label": "Bereitstellung von Informationen über die zu kombinierenden Daten und die geplante Kombinationsmethode",
+            "tooltip": "Machen Sie, soweit zutreffend, Angaben zu Folgendem: Datensatz, Anzahl der Dateien, Dateiformat, Dateigröße, besondere Anmerkungen (es gibt direkte/indirekte Kennungen, Daten sollten pseudonymisiert werden usw.)"
+        },
+        "dataset": {
+            "label": "Datensatz"
+        },
+        "numberOfFiles": {
+            "label": "Anzahl der Dateien"
+        },
+        "formatOfFiles": {
+            "label": "Format der Dateien"
+        },
+        "sizeOfFiles": {
+            "label": "Größe der Dateien"
+        },
+        "notes": {
+            "label": "Notizen"
+        },
+        "listAnyOtherDataPermit": "Führen Sie hier alle sonstigen Datengenehmigungen auf, die für dasselbe Projekt erteilt wurden. Die Genehmigungen müssen zum Zeitpunkt der Datenverarbeitung gültig sein:",
+        "otherPermits": {
+            "label": "Sonstige Genehmigungen: Aussteller der Genehmigung, Ausstellungsdatum, Ablaufdatum, Angaben zur Identifizierung"
+        },
+        "permitIssuer": {
+            "label": "Aussteller der Genehmigung"
+        },
+        "permitStartDateOfIssue": {
+            "label": "Ausstellungsdatum,"
+        },
+        "permitEndDateOfIssue": {
+            "label": "Ablauf der Gültigkeitsdauer"
+        },
+        "permitIdentificationInformation": {
+            "label": "Angaben zur Identifizierung der Genehmigung"
+        },
+        "attachmentOfPermitDocuments": {
+            "label": "Wenn die Datensätze Genehmigungen betreffen, die von anderen Parteien erteilt wurden, oder wenn sie mit Zustimmung gesammelt wurden, fügen Sie die Genehmigungsunterlagen hier bei."
+        },
+        "otherPermitApplications": {
+            "label": "Haben Sie weitere anhängige Genehmigungsanträge?"
+        },
+        "listTheOtherData": "Führen Sie die anderen zu kombinierenden Daten und die Quellen dieser Daten auf:",
+        "applicationIssuer": {
+            "label": "Emittenten"
+        },
+        "dateOfSubmittingTheApplication": {
+            "label": "Datum der Antragstellung"
+        },
+        "identificationCode": {
+            "label": "Identifikationscode der Genehmigung"
+        }
+    },
+    "section8": {
+        "section8h5": "Datenverarbeitung, Datenschutz und Garantien gegen unbefugte Nutzung von Daten",
+        "section8Description": "Gemäß Artikel 73 Absatz 1 des Vorschlags für eine EHDS-Verordnung gewähren die Zugangsstellen für Gesundheitsdaten den Zugang zu elektronischen Gesundheitsdaten nur über eine sichere Verarbeitungsumgebung.",
+        "addPerson": "Person hinzufügen",
+        "removePerson": "Person entfernen",
+        "technicalRequirementsForEnvironment": {
+            "label": "Führen Sie hier alle technischen Anforderungen an die sichere Verarbeitungsumgebung auf."
+        },
+        "nameWebsiteAddressForEnvironment": {
+            "label": "Wenn Sie bereits wissen, welche Verarbeitungsumgebung Sie verwenden möchten, wie lautet ihr Name und von wem wird sie angegeben? Geben Sie hier den Namen und den Anbieter der sicheren Verarbeitungsumgebung an."
+        },
+        "healthDataAccessBody": "Die Zugangsstelle für Gesundheitsdaten stellt die Daten zur Verfügung, sobald Ihr Antrag bearbeitet wird, wenn Ihnen eine Datengenehmigung erteilt wurde. Die Zugangsstelle für Gesundheitsdaten bewahrt den Pseudonymisierungsschlüssel sowie die Extraktionsbegriffe und die Dokumentation zur Generierung der Daten auf. Die Datengenehmigung wird nur für die Dauer erteilt, die für die Erfüllung der beantragten Zwecke erforderlich ist. Die Genehmigung kann für einen Zeitraum von höchstens zehn Jahren erteilt werden. Diese Dauer kann auf Antrag des Datennutzers auf der Grundlage von Argumenten und Unterlagen, die die Verlängerung rechtfertigen, einmal verlängert werden (Vorschlag für eine EHDS-Verordnung, Artikel 68 Absatz 12). Erforderlichenfalls kann die Nutzungsdauer verlängert werden, indem eine Änderung der Datengenehmigung beantragt wird.",
+        "whenDataNeeded": {
+            "label": "Wann benötigen Sie die Daten?",
+            "tooltip": "Im Allgemeinen fordert die Zugangsstelle für Gesundheitsdaten die Datenextraktion bei den Dateninhabern an, sobald Ihr Antrag bearbeitet wurde. Wenn Sie die Daten später erhalten möchten, geben Sie dies hier an.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "So bald wie möglich nach Bearbeitung dieses Antrags"
+                },
+                {
+                    "key": "b",
+                    "value": "Später, wann?"
+                }
+            ]
+        },
+        "ifLaterWhen": {
+            "label": "Später, wann?"
+        },
+        "informationWhichDataCanAccess": {
+            "label": "Geben Sie Auskunft über den Zeitraum, für den auf die Daten zugegriffen werden kann."
+        },
+        "frequencyOfAccessOrDataUpdates": {
+            "label": "Wie häufig erfolgt dieser Zugang oder wie häufig die Datenaktualisierungen?"
+        },
+        "estimatedStartAndEnd": {
+            "label": "Welches sind Anfangs- und Enddatum des Zeitraums, in dem die elektronischen Gesundheitsdaten für die Verarbeitung benötigt werden?",
+            "tooltip": "Dieser Zeitraum kann fünf Jahre betragen. Mit einer zusätzlichen Genehmigung kann die ursprüngliche Genehmigung um weitere fünf Jahre verlängert werden."
+        },
+        "estimatedStartDatesForDataProcessing": {
+            "label": "Von"
+        },
+        "estimatedEndDatesForDataProcessing": {
+            "label": "Nach"
+        },
+        "ifStoreNeeded": "Falls Sie die Daten nach der Verarbeitung speichern müssen, geben Sie hier den Zeitraum der inaktiven Datenspeicherung an.",
+        "startPeriodOfInactiveDataStorage": {
+            "label": "Von"
+        },
+        "endPeriodOfInactiveDataStorage": {
+            "label": "Nach"
+        },
+        "willTheDataBeTransferred": {
+            "label": "Werden die Daten außerhalb der EU oder des EWR übermittelt?",
+            "tooltip": "Der Europäische Datenschutzausschuss (EDSA) hat drei kumulative Kriterien für die Einstufung eines Verarbeitungsvorgangs als Übermittlung festgelegt: 1) Ein Verantwortlicher oder Auftragsverarbeiter („Ausführer“) unterliegt in Bezug auf die betreffende Verarbeitung der DSGVO. 2) Der Ausführer gibt personenbezogene Daten vorbehaltlich dieser Verarbeitung einem anderen Verantwortlichen, gemeinsam Verantwortlichen oder Auftragsverarbeiter („Importeur“) durch Übermittlung weiter oder auf andere Weise zur Verfügung. 3) Der Einführer befindet sich in einem Drittland, unabhängig davon, ob er für die betreffende Verarbeitung gemäß Artikel 3 der DSGVO unterliegt oder nicht oder ob er eine internationale Organisation ist. Mehr Informationen: https://www.edpb.europa.eu/system/files/2023-02/edpb_guidelines_05-2021_interplay_between_the_application_of_art3-chapter_v_of_the_gdpr_v2_en_0.pdf"
+        },
+        "whichCountriesDataBeProcessed": {
+            "label": "In welchem Land/welchen Ländern außerhalb der EU/des EWR werden die Daten verarbeitet?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Diagnostik"
+                },
+                {
+                    "key": "b",
+                    "value": "Epidemiologie"
+                },
+                {
+                    "key": "c",
+                    "value": "Patientenmanagement"
+                },
+                {
+                    "key": "d",
+                    "value": "Patientensicherheit"
+                },
+                {
+                    "key": "e",
+                    "value": "Prävention und Behandlung"
+                },
+                {
+                    "key": "f",
+                    "value": "Gesundheitspolitik"
+                },
+                {
+                    "key": "g",
+                    "value": "Organisation von Gesundheitseinrichtungen"
+                },
+                {
+                    "key": "h",
+                    "value": "Verständnis von Krankheiten"
+                },
+                {
+                    "key": "i",
+                    "value": "Andere"
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEU": {
+            "label": "Warum werden die Daten außerhalb der EU oder des EWR übermittelt?"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47": {
+            "label": "Artikel 47: Übermittlungen auf der Grundlage eines Angemessenheitsbeschlusses"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47Options": {
+            "label": "Warum werden Daten im Rahmen der Optionen nach Artikel 47 außerhalb der EU übermittelt?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "eine Übermittlung personenbezogener Daten an ein Drittland oder eine internationale Organisation kann erfolgen, wenn die Kommission gemäß Artikel 45 Absatz 3 der Verordnung (EU) 2016/679 oder Artikel 36 Absatz 3 der Richtlinie (EU) 2016/680 beschlossen hat, dass das Drittland, ein Gebiet oder ein oder mehrere bestimmte Sektoren in diesem Drittland oder die betreffende internationale Organisation ein angemessenes Schutzniveau gewährleistet, und wenn die personenbezogenen Daten nur übermittelt werden, um die Wahrnehmung von Aufgaben im Zuständigkeitsbereich des Verantwortlichen zu ermöglichen."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Die Organe und Einrichtungen der Union unterrichten die Kommission und den Europäischen Datenschutzbeauftragten über Fälle, in denen ihres Erachtens ein Drittland, ein Gebiet oder ein oder mehrere bestimmte Sektoren in einem Drittland oder eine internationale Organisation kein angemessenes Schutzniveau im Sinne des Absatzes 1 gewährleistet."
+                },
+                {
+                    "key": "c",
+                    "value": "C. Die Organe und Einrichtungen der Union ergreifen die erforderlichen Maßnahmen, um Beschlüssen der Kommission nachzukommen, wenn sie gemäß Artikel 45 Absatz 3 oder 5 der Verordnung (EU) 2016/679 oder Artikel 36 Absatz 3 oder 5 der Richtlinie (EU) 2016/680 feststellt, dass ein Drittland, ein Gebiet oder ein oder mehrere bestimmte Sektoren in einem Drittland oder eine internationale Organisation ein angemessenes Schutzniveau gewährleistet oder nicht mehr gewährleistet."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48": {
+            "label": "Artikel 48: Übermittlungen vorbehaltlich geeigneter Garantien"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48bOptions": {
+            "label": "Warum werden Daten im Rahmen der Optionen nach Artikel 48b außerhalb der EU übermittelt?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "I. Ein rechtsverbindlicher und vollstreckbarer Titel zwischen Behörden oder öffentlichen Stellen"
+                },
+                {
+                    "key": "b",
+                    "value": "II. Von der Kommission nach dem Prüfverfahren gemäß Artikel 96 Absatz 2 angenommene Standarddatenschutzklauseln"
+                },
+                {
+                    "key": "c",
+                    "value": "III. Vom Europäischen Datenschutzbeauftragten angenommenen Standardschutzklauseln, die von der Kommission gemäß dem Prüfverfahren nach Artikel 96 Absatz 2 genehmigt wurden, L 295/78 – Amtsblatt der Europäischen Union 21.11.2018"
+                },
+                {
+                    "key": "d",
+                    "value": "IV. Wenn es sich bei dem Auftragsverarbeiter nicht um ein Organ oder eine Einrichtung der Union handelt, verbindliche interne Datenschutzvorschriften, Verhaltensregeln oder Zertifizierungsmechanismen gemäß Artikel 46 Absatz 2 Buchstaben b, e und f der Verordnung (EU) 2016/679."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48a": {
+            "label": "liegt kein Beschluss nach Artikel 45 Absatz 3 der Verordnung (EU) 2016/679 oder Artikel 36 Absatz 3 der Richtlinie (EU) 2016/680 vor, darf ein Verantwortlicher oder Auftragsverarbeiter personenbezogene Daten nur dann an ein Drittland oder an eine internationale Organisation übermitteln, wenn der Verantwortliche oder der Auftragsverarbeiter geeignete Garantien vorgesehen hat und sofern den betroffenen Personen durchsetzbare Rechte und wirksame Rechtsbehelfe zur Verfügung stehen. "
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48b": {
+            "label": "b. Die in Absatz 1 genannten geeigneten Garantien können ohne besondere Genehmigung des Europäischen Datenschutzbeauftragten vorgesehen werden durch"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48c": {
+            "label": "C. vorbehaltlich der Genehmigung durch den Europäischen Datenschutzbeauftragten können die in Absatz 1 genannten geeigneten Garantien insbesondere auch vorgesehen werden durch"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48cOpt": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Vertragsklauseln zwischen dem für die Verarbeitung Verantwortlichen oder dem Auftragsverarbeiter und dem für die Verarbeitung Verantwortlichen, dem Auftragsverarbeiter oder dem Empfänger der personenbezogenen Daten in dem Drittland oder der internationalen Organisation."
+                },
+                {
+                    "key": "b",
+                    "value": "Bestimmungen, die in Verwaltungsvereinbarungen zwischen Behörden oder öffentlichen Stellen aufzunehmen sind und durchsetzbare, wirksame Rechte für die betroffenen Personen enthalten."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48d": {
+            "label": "D. Genehmigungen des Europäischen Datenschutzbeauftragten auf der Grundlage von Artikel 9 Absatz 7 der Verordnung (EG) Nr. 45/2001 bleiben gültig, bis er erforderlichenfalls vom Europäischen Datenschutzbeauftragten geändert, ersetzt oder aufgehoben wird."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48e": {
+            "label": "e. Die Organe und Einrichtungen der Union unterrichten den Europäischen Datenschutzbeauftragten über die Kategorien von Fällen, in denen dieser Artikel angewandt wurde."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle49": {
+            "label": "Artikel 49: Nach dem Unionsrecht nicht zulässige Übermittlung oder Offenlegung"
+        },
+        "legalBasisForTransferringTheDataOutsideEU": {
+            "label": "Auf welcher Rechtsgrundlage werden die Daten außerhalb der EU oder des EWR übermittelt?",
+            "tooltip": "Weitere Informationen finden Sie in Kapitel 5 der Datenschutz-Grundverordnung: <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679#d1e4227-1-1</a>",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Das Land/Gebiet/die internationale Organisation der Übermittlung gewährleistet ein angemessenes Schutzniveau gemäß einem Beschluss der Europäischen Kommission (Artikel 35 DSGVO)."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Der für die Verarbeitung Verantwortliche oder der Auftragsverarbeiter angemessene Garantien vorgesehen hat und den betroffenen Personen durchsetzbare Rechte und wirksame Rechtsbehelfe zur Verfügung stehen (Artikel 46 DSGVO)."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Sonstige außergewöhnliche Rechtsgrundlage (in Ermangelung geeigneter Garantien gemäß Artikel 46)"
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUOtherOptions": {
+            "label": "3. Sonstige außergewöhnliche Rechtsgrundlage (in Ermangelung geeigneter Garantien gemäß Artikel 46)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Die betroffene Person hat ausdrücklich in die vorgeschlagene Übermittlung eingewilligt, nachdem sie über die möglichen Risiken einer solchen Übermittlung für die betroffene Person in Kenntnis gesetzt wurde, da kein Angemessenheitsbeschluss und keine geeigneten Garantien vorliegen."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Die Übermittlung ist für die Erfüllung eines Vertrags zwischen der betroffenen Person und dem für die Verarbeitung Verantwortlichen oder für die Durchführung vorvertraglicher Maßnahmen erforderlich, die auf Antrag der betroffenen Person getroffen werden."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Die Übermittlung ist für den Abschluss oder die Erfüllung eines Vertrags erforderlich, der im Interesse der betroffenen Person zwischen dem für die Verarbeitung Verantwortlichen und einer anderen natürlichen oder juristischen Person geschlossen wurde."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Die Übermittlung ist aus wichtigen Gründen des öffentlichen Interesses erforderlich."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Die Übertragung ist für die Feststellung, Ausübung oder Verteidigung von Rechtsansprüchen erforderlich."
+                },
+                {
+                    "key": "f",
+                    "value": "6. Die Übermittlung ist zum Schutz lebenswichtiger Interessen der betroffenen Person oder anderer Personen erforderlich, wenn die betroffene Person aus physischen oder rechtlichen Gründen nicht in der Lage ist, ihre Einwilligung zu geben."
+                },
+                {
+                    "key": "g",
+                    "value": "7. Die Übertragung erfolgt aus einem Register, das nach dem Unionsrecht oder dem Recht der Mitgliedstaaten der Information der Öffentlichkeit dienen soll und das entweder von der Öffentlichkeit im Allgemeinen oder von jeder Person eingesehen werden kann, die ein berechtigtes Interesse nachweisen kann, jedoch nur insoweit, als die im Unionsrecht oder im Recht der Mitgliedstaaten festgelegten Bedingungen für die Einsichtnahme im Einzelfall erfüllt sind."
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUc1": {
+            "label": "1. Die betroffene Person hat ausdrücklich in die vorgeschlagene Übermittlung eingewilligt, nachdem sie über die möglichen Risiken einer solchen Übermittlung für die betroffene Person in Kenntnis gesetzt wurde, da kein Angemessenheitsbeschluss und keine geeigneten Garantien vorliegen. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc2": {
+            "label": "2. Die Übermittlung ist für die Erfüllung eines Vertrags zwischen der betroffenen Person und dem für die Verarbeitung Verantwortlichen oder für die Durchführung vorvertraglicher Maßnahmen erforderlich, die auf Antrag der betroffenen Person getroffen werden. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc3": {
+            "label": "3. Die Übermittlung ist für den Abschluss oder die Erfüllung eines Vertrags erforderlich, der im Interesse der betroffenen Person zwischen dem für die Verarbeitung Verantwortlichen und einer anderen natürlichen oder juristischen Person geschlossen wurde."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc4": {
+            "label": "4. Die Übermittlung ist aus wichtigen Gründen des öffentlichen Interesses erforderlich."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc5": {
+            "label": "5. Die Übertragung ist für die Feststellung, Ausübung oder Verteidigung von Rechtsansprüchen erforderlich."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc6": {
+            "label": "6. Die Übermittlung ist zum Schutz lebenswichtiger Interessen der betroffenen Person oder anderer Personen erforderlich, wenn die betroffene Person aus physischen oder rechtlichen Gründen nicht in der Lage ist, ihre Einwilligung zu geben."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc7": {
+            "label": "7. Die Übertragung erfolgt aus einem Register, das nach dem Unionsrecht oder dem Recht der Mitgliedstaaten der Information der Öffentlichkeit dienen soll und das entweder von der Öffentlichkeit im Allgemeinen oder von jeder Person eingesehen werden kann, die ein berechtigtes Interesse nachweisen kann, jedoch nur insoweit, als die im Unionsrecht oder im Recht der Mitgliedstaaten festgelegten Bedingungen für die Einsichtnahme im Einzelfall erfüllt sind."
+        },
+        "safeguardsAreProvidedByReferringGDCP": {
+            "label": "Diese Garantien sind vorgesehen durch:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Ein rechtsverbindlicher und vollstreckbarer Titel zwischen Behörden oder öffentlichen Stellen"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Verbindliche unternehmensinterne Vorschriften gemäß Artikel 47"
+                },
+                {
+                    "key": "c",
+                    "value": "3. Standarddatenschutzklauseln, die von der Kommission nach dem Prüfverfahren gemäß Artikel 93 Absatz 2 festgelegt werden"
+                },
+                {
+                    "key": "d",
+                    "value": "4. Standarddatenschutzklauseln, die von einer Aufsichtsbehörde angenommen und von der Kommission nach dem Prüfverfahren gemäß Artikel 93 Absatz 2 genehmigt wurden"
+                },
+                {
+                    "key": "e",
+                    "value": "5. Einen genehmigten Verhaltenskodex gemäß Artikel 40 zusammen mit verbindlichen und durchsetzbaren Verpflichtungen des für die Verarbeitung Verantwortlichen oder des Auftragsverarbeiters im Drittland zur Anwendung geeigneter Garantien, auch in Bezug auf die Rechte betroffener Personen"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Ein genehmigtes Zertifizierungsverfahren gemäß Artikel 42 zusammen mit verbindlichen und durchsetzbaren Verpflichtungen des für die Verarbeitung Verantwortlichen oder des Auftragsverarbeiters in dem Drittland zur Anwendung geeigneter Garantien, auch in Bezug auf die Rechte betroffener Personen"
+                }
+            ]
+        },
+        "whichOrganizationWillBeTheControllerOfData": {
+            "label": "Welche Organisation(en) oder Person wird der Verantwortliche für die aufgrund dieses Antrags zu bildenden Daten sein?",
+            "tooltip": "Der für die Verarbeitung Verantwortliche legt die Zwecke und Mittel der Verarbeitung personenbezogener Daten fest. Mit anderen Worten, der für die Verarbeitung Verantwortliche entscheidet, wie und warum eine Datenverarbeitung erfolgt. Ein für die Verarbeitung Verantwortlicher kann eine juristische Person sein, z. B. ein Unternehmen, ein KMU, eine Behörde, eine Agentur oder eine sonstige Stelle. Mehr Informationen: https://edpb.europa.eu/sme-data-protection-guide/data-controller-data-processor_en"
+        },
+        "complyWithDataMinimisationPrinciple": {
+            "label": "Wie halten Sie bei der Verarbeitung der Daten den Grundsatz der Datenminimierung (EU-Datenschutz-Grundverordnung) ein?",
+            "tooltip": "Artikel 5 Absatz 1 Buchstabe c DSGVO: „Personenbezogene Daten müssen angemessen und relevant sein und auf das für die Zwecke, für die sie verarbeitet werden, erforderliche Maß beschränkt sein („Datenminimierung„)“ "
+        },
+        "complyWithDataMinimisationPrincipleNotEUMember": {
+            "label": "Wie halten Sie bei der Verarbeitung der Daten den Grundsatz der Datenminimierung (EU-Datenschutzverordnung) ein? ",
+            "tooltip": "Artikel 4 Absatz 1c der Datenschutzverordnung der EU: „personenbezogene Daten müssen angemessen und relevant sein und auf das für die Zwecke, für die sie verarbeitet werden, erforderliche Maß beschränkt sein („Datenminimierung„)“"
+        },
+        "protectionAndSecurityStatements": {
+            "label": "Um mit dieser Anwendung fortzufahren, müssen Sie die folgenden Erklärungen (Datenschutz- und sicherheitsrelevante Erklärungen) bestätigen:"
+        },
+        "protectionAndSecurityStatementsA": {
+            "label": "1. Ich bestätige, dass ich die Daten, die ich beantrage, nur für den/die in diesem Antragsformular angegebenen Zweck(e) verwenden werde, wenn die Zugangsstelle für Gesundheitsdaten mir die Daten, für die ich beantrage, zur Verfügung stellt."
+        },
+        "protectionAndSecurityStatementsB": {
+            "label": "2. Mir ist bekannt, dass es verboten ist, die Daten aus der sicheren Verarbeitungsumgebung zu kopieren."
+        },
+        "protectionAndSecurityStatementsC": {
+            "label": "3. Mir ist bekannt, dass es verboten ist, Screenshots oder Fotos des Bildschirms des Geräts zu nehmen, sobald sie sich in der sicheren Verarbeitungsumgebung befinden."
+        },
+        "protectionAndSecurityStatementsD": {
+            "label": "4. Ich verfüge über ausreichende Sicherheitsmaßnahmen (z. B. eine Firewall), um die verschiedenen Netze zu schützen, an die die für den Zugang zur sicheren Verarbeitungsumgebung verwendeten Geräte angeschlossen sind."
+        },
+        "protectionAndSecurityStatementsE": {
+            "label": "5. Mir ist bekannt, dass Reidentifikationsversuche verboten sind und dass die Zugangsstelle für Gesundheitsdaten Sanktionen gemäß Artikel 43 der Verordnung über europäische Gesundheitsdaten verhängen kann."
+        },
+        "onlyThePeopleMentioned": "Nur den in der Datengenehmigung genannten Personen wird Zugang zur Verarbeitung der Daten in der sicheren Verarbeitungsumgebung gewährt.",
+        "sameAsContactPerson": {
+            "label": "Wie in Abschnitt 3 erwähnt?"
+        },
+        "listTheFullNames": {
+            "label": "Geben Sie die vollständigen Namen, Zugehörigkeiten und E-Mail-Adressen aller Personen an, die die Daten verarbeiten werden."
+        },
+        "fullName": {
+            "label": "Vollständiger Name"
+        },
+        "affiliation": {
+            "label": "Mitgliedschaft"
+        },
+        "emailAddress": {
+            "label": "E-Mail-Adresse"
+        },
+        "lawfulnessOfProcessing": "Rechtmäßigkeit der Verarbeitung;",
+        "legalBasisForProcessingPersonalData": {
+            "label": "Auf welcher Rechtsgrundlage werden die personenbezogenen Daten verarbeitet, die Sie mit diesem Antragsformular beantragen?"
+        },
+        "lawfulForProcessingPersonalData": {
+            "label": "Die Verarbeitung der personenbezogenen Daten, die Sie mit diesem Antragsformular beantragen, ist nur rechtmäßig, wenn und soweit mindestens einer der folgenden Fälle zutrifft (gemäß Artikel 6 Absatz 1 der Datenschutz-Grundverordnung der EU, Verordnung (EU) 2016/679):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Die betroffene Person hat in die Verarbeitung ihrer personenbezogenen Daten für einen oder mehrere bestimmte Zwecke eingewilligt."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Die Verarbeitung ist für die Erfüllung eines Vertrags, dessen Vertragspartei die betroffene Person ist, oder zur Durchführung vorvertraglicher Maßnahmen erforderlich, die auf Anfrage der betroffenen Person erfolgen."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Die Verarbeitung ist zur Erfüllung einer rechtlichen Verpflichtung erforderlich, der der Verantwortliche unterliegt."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Die Verarbeitung ist erforderlich, um lebenswichtige Interessen der betroffenen Person oder einer anderen natürlichen Person zu schützen."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Die Verarbeitung ist für die Wahrnehmung einer Aufgabe erforderlich, die im öffentlichen Interesse liegt oder in Ausübung öffentlicher Gewalt erfolgt, die dem für die Verarbeitung Verantwortlichen übertragen wurde."
+                },
+                {
+                    "key": "f",
+                    "value": "6. Die Verarbeitung ist zur Wahrung der berechtigten Interessen des Verantwortlichen oder eines Dritten erforderlich, sofern nicht die Interessen oder Grundrechte und Grundfreiheiten der betroffenen Person, die den Schutz personenbezogener Daten erfordern, überwiegen, insbesondere dann, wenn es sich bei der betroffenen Person um ein Kind handelt."
+                }
+            ]
+        },
+        "lawfulForProcessingPersonalDataNaturalPersonOption": {
+            "key": "F",
+            "value": "6. Die Verarbeitung ist zur Wahrung der berechtigten Interessen des Verantwortlichen oder eines Dritten erforderlich, sofern nicht die Interessen oder Grundrechte und Grundfreiheiten der betroffenen Person, die den Schutz personenbezogener Daten erfordern, überwiegen, insbesondere dann, wenn es sich bei der betroffenen Person um ein Kind handelt."
+        },
+        "otherLegalBasisForProcessingPersonalData": {
+            "label": "Andere, welche?"
+        },
+        "legalBasisForProcessingCombinedData": {
+            "label": "Auf welcher Rechtsgrundlage werden die anderen Daten verarbeitet, die Sie mit den in diesem Antrag beantragten Daten kombinieren werden? "
+        },
+        "otherLegalBasisForProcessingCombinedData": {
+            "label": "Andere, welche?"
+        },
+        "europeanUnionInstitution": {
+            "label": "Die Verarbeitung der personenbezogenen Daten, die Sie mit diesem Antragsformular beantragen, ist nur rechtmäßig, wenn und soweit mindestens einer der folgenden Fälle zutrifft (gemäß Artikel 5 Absatz 1 der EU-Datenschutzverordnung, Verordnung (EU) 2018/1725):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Die Verarbeitung ist für die Wahrnehmung einer Aufgabe erforderlich, die im öffentlichen Interesse liegt oder in Ausübung öffentlicher Gewalt erfolgt, die dem Organ oder der Einrichtung der Union übertragen wurde,"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Die Verarbeitung ist zur Erfüllung einer rechtlichen Verpflichtung erforderlich, der der Verantwortliche unterliegt."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Die Verarbeitung ist für die Erfüllung eines Vertrags, dessen Vertragspartei die betroffene Person ist, oder zur Durchführung vorvertraglicher Maßnahmen erforderlich, die auf Anfrage der betroffenen Person erfolgen."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Die betroffene Person hat ihre Einwilligung zu der Verarbeitung der sie betreffenden personenbezogenen Daten für einen oder mehrere bestimmte Zwecke gegeben."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Die Verarbeitung ist für den Schutz lebenswichtiger Interessen der betroffenen Person oder einer anderen natürlichen Person erforderlich."
+                }
+            ]
+        },
+        "legalBasisForProcessingApplicationData": {
+            "label": "Auf welcher Rechtsgrundlage werden die personenbezogenen Daten verarbeitet, die Sie mit diesem Antragsformular beantragen?"
+        },
+        "otherLegalBasisForProcessingApplicationData": {
+            "label": "Andere, welche?"
+        },
+        "legalBasisForProcessingCombinedApplicationData": {
+            "label": "Auf welcher Rechtsgrundlage werden die anderen Daten verarbeitet, die Sie mit den in diesem Antrag beantragten Daten kombinieren werden?"
+        },
+        "otherLegalBasisForProcessingCombinedApplicationData": {
+            "label": "Andere, welche?"
+        },
+        "attachResearchPermitIfRequired": {
+            "label": "Falls für Ihre Forschung eine Forschungsgenehmigung Ihrer Mitgliedsorganisation erforderlich ist, fügen Sie die Forschungsgenehmigung bei."
+        }
+    },
+    "section9": {
+        "section9h5": "Zusätzliche Informationen",
+        "section9Description": "Hier können Sie weitere Informationen zu den Abschnitten Ihres Antrags machen. Geben Sie die Nummer des Abschnitts und die Frage an, auf die sich Ihr Kommentar bezieht.",
+        "additionalInformation": {
+            "label": "Weitere Informationen oder zusätzliche Anmerkungen",
+            "tooltip": "Hier können Sie weitere Informationen zu den Abschnitten Ihres Antrags machen. Geben Sie die Nummer des Abschnitts und die Frage an, auf die sich Ihr Kommentar bezieht. Vorschlag für die technische Durchführung: Alternativ könnte es möglich sein, dem Antragsteller die Möglichkeit zu geben, Informationen mit bestimmten Teilen des Formulars zu verknüpfen, um den HDAB-Stellen die Arbeit zu erleichtern."
+        },
+        "additionalAttachment": {
+            "label": "Eine zusätzliche Anlage. Fügen Sie diesem Antrag keine Gesundheitsdaten oder personenbezogenen Daten bei.",
+            "tooltip": "Wenn Sie über eine andere Anlage verfügen, die Sie für die Bearbeitung Ihres Antrags für relevant halten und die für die Zugangsstelle für Gesundheitsdaten erforderlich sind, fügen Sie sie hier bei. Beschreiben Sie Ihre Relevanz im obigen Textfeld."
+        }
+    },
+    "section10": {
+        "section10h5": "Bestätigung der Angaben",
+        "section10Description": "Bevor dieser Antrag bearbeitet wird, müssen Sie als Antragsteller die Bearbeitungsgebühren genehmigen.",
+        "submitYouApplicationText": "Um Ihren Antrag einreichen zu können, müssen Sie Folgendes bestätigen:",
+        "acceptHealthDataBody": {
+            "label": "Ich stimme zu, dass die Gesundheitsdatenstelle die Statistiken erstellen wird und ich keinen Zugang zu den für die Erstellung der Statistiken verwendeten Daten habe."
+        },
+        "awareProcessingFee": {
+            "label": "Mir ist bekannt, dass für die Bearbeitung meines Antrags eine Bearbeitungsgebühr erhoben wird. Sie gilt auch im Falle eines annullierten Antrags oder einer ablehnenden Entscheidung."
+        },
+        "awareChargeFee": {
+            "label": "Mir ist bewusst, dass Dateninhaber eine Gebühr erheben können."
+        },
+        "awareInformationCorrect": {
+            "label": "Ich bestätige, dass die von mir gemachten Angaben richtig sind."
+        }
+    },
+    "commonFields": {
+        "aboutThisSection": "Über diesen Abschnitt",
+        "yesOrNoOptions": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Ja"
+                },
+                {
+                    "key": "b",
+                    "value": "Nein"
+                }
+            ]
+        },
+        "onceOrMultipleTimes": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Einmal"
+                },
+                {
+                    "key": "b",
+                    "value": "Mehrfach"
+                }
+            ]
+        },
+        "everyWhen": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Jedes Jahr"
+                },
+                {
+                    "key": "b",
+                    "value": "Ein halbes Jahr"
+                },
+                {
+                    "key": "c",
+                    "value": "Viertel"
+                },
+                {
+                    "key": "d",
+                    "value": "Andere"
+                }
+            ]
+        },
+        "processingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. E) die Verarbeitung ist für die Wahrnehmung einer Aufgabe erforderlich, die im öffentlichen Interesse liegt oder in Ausübung öffentlicher Gewalt erfolgt, die dem für die Verarbeitung Verantwortlichen übertragen wurde;"
+                },
+                {
+                    "key": "b",
+                    "value": "2. die Verarbeitung ist zur Wahrung der berechtigten Interessen des für die Verarbeitung Verantwortlichen oder eines Dritten erforderlich, es sei denn, die Interessen oder Grundrechte und Grundfreiheiten der betroffenen Person, die den Schutz personenbezogener Daten erfordern, überwiegen, insbesondere wenn es sich bei der betroffenen Person um ein Kind handelt."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Andere"
+                }
+            ]
+        },
+        "legalBasisForProcessingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. a) Die Verarbeitung ist für die Wahrnehmung einer Aufgabe erforderlich, die im öffentlichen Interesse liegt oder in Ausübung öffentlicher Gewalt erfolgt, die dem Organ oder der Einrichtung der Union übertragen wurde."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Andere"
+                }
+            ]
+        }
+    }
+}

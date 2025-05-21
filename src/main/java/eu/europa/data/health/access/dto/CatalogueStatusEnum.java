@@ -13,12 +13,19 @@
  * OF ANY KIND, either express or implied. See the Licence for the specific language
  * governing permissions and limitations under the Licence.
  */
-package eu.europa.data.health.access;
+package eu.europa.data.health.access.dto;
 
-import io.vertx.junit5.VertxExtension;
-import org.junit.jupiter.api.extension.ExtendWith;
+import lombok.Getter;
 
-@ExtendWith(VertxExtension.class)
-public class TestMainVerticle {
+@Getter
+public enum CatalogueStatusEnum {
+  LIVE("live"),
+  TEST("test");
+
+  private final String value;
+
+  CatalogueStatusEnum(String value) {
+    this.value = value;
+  }
 
 }

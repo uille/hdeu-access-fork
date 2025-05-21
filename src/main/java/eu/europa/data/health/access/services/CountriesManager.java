@@ -19,6 +19,7 @@ import static eu.europa.data.health.access.Constants.COUNTRIES_ALL;
 import static eu.europa.data.health.access.Constants.COUNTRIES_EU_EEA;
 import static eu.europa.data.health.access.Constants.COUNTRIES_NO_EU;
 import static eu.europa.data.health.access.Constants.COUNTRY_AT_DEPRECATED;
+import static eu.europa.data.health.access.Constants.COUNTRY_EU;
 import static eu.europa.data.health.access.Constants.COUNTRY_SKOS_PREFLABEL_COUNTRY_NAME;
 import static eu.europa.data.health.access.Constants.FILTER_BOUND_DEPRECATED;
 import static eu.europa.data.health.access.Constants.FILTER_LANG_COUNTRY_NAME;
@@ -175,15 +176,15 @@ public class CountriesManager {
   }
 
   /**
-   * Method to get countries from a preloaded Apache Jena model and filter them by language
-   * and scope
-   * @param model the rdf mode
-   * @param lang the selected language
+   * Method to get countries from a preloaded Apache Jena model and filter them by language and
+   * scope
+   *
+   * @param model  the rdf mode
+   * @param lang   the selected language
    * @param filter the selected scope to filter by (all, noEE, euEEA)
-   * @return a json array with the results based on the provided scope:
-   *  1) all = all countries
-   *  2) noEE = non eu countries
-   *  3)euEEA = European Economic Area (EEA), eu and 3 extra countries (LIE, NOR, ISL)
+   * @return a json array with the results based on the provided scope: 1) all = all countries 2)
+   * noEE = non eu countries 3) euEEA = European Economic Area (EEA), eu and 3 extra countries (LIE,
+   * NOR, ISL) 4) euCountry = get European Union country
    */
   public JsonArray getCountriesJsonArray(Model model, String lang, String filter) {
     JsonArray countriesList = new JsonArray();
@@ -270,8 +271,24 @@ public class CountriesManager {
         Query queryEEA = QueryFactory.create(sparqlQueryEEA);
         getResults(queryEEA, model, countriesList);
         break;
+      case COUNTRY_EU:
+        sparqlQuery =
+          PREFIX_SKOS_HTTP_WWW_W_3_ORG_2004_02_SKOS_CORE +
+            PREFIX_AT_HTTP_PUBLICATIONS_EUROPA_EU_ONTOLOGY_AUTHORITY +
+            SELECT_COUNTRY_NAME_COUNTRY_WHERE +
+            COUNTRY_SKOS_PREFLABEL_COUNTRY_NAME +
+            OPTIONAL +
+            COUNTRY_AT_DEPRECATED +
+            "  } " +
+            "  FILTER (?country IN (" +
+            " <http://publications.europa.eu/resource/authority/country/EUR>)) " +
+            FILTER_LANG_COUNTRY_NAME + lang + "') " +
+            FILTER_BOUND_DEPRECATED +
+            "}";
+        break;
       default:
         log.error("Invalid filter query: {}", filter);
+        return countriesList;
     }
     Query query = QueryFactory.create(sparqlQuery);
     getResults(query, model, countriesList);
@@ -279,6 +296,64 @@ public class CountriesManager {
     return countriesList.stream()
       .sorted(Comparator.comparing(o -> ((JsonObject) o).getString("name")))
       .collect(JsonArray::new, JsonArray::add, JsonArray::addAll);
+  }
+
+  /**
+   * Find a country by the country code.
+   *
+   * @param countryCode The country code of the country to receive.
+   * @return The country with the given country code.
+   */
+  public JsonObject getCountryJsonByCountryCode(String countryCode) {
+    try (InputStream rdfFile = getResourcePath(COUNTRIES_RDF.getValue())) {
+      Model model = ModelFactory.createDefaultModel();
+      RDFDataMgr.read(model, rdfFile, Lang.RDFXML);
+
+      String sparqlQuery =
+        PREFIX_SKOS_HTTP_WWW_W_3_ORG_2004_02_SKOS_CORE +
+          PREFIX_AT_HTTP_PUBLICATIONS_EUROPA_EU_ONTOLOGY_AUTHORITY +
+          SELECT_COUNTRY_NAME_COUNTRY_WHERE +
+          // First, select the country from the concept scheme using skos:hasTopConcept
+          " <http://publications.europa.eu/resource/authority/country/0001> skos:hasTopConcept ?country . "
+          +
+          COUNTRY_SKOS_PREFLABEL_COUNTRY_NAME +
+          OPTIONAL +
+          COUNTRY_AT_DEPRECATED +
+          "  } " +
+          OPTIONAL +
+          "    ?country skos:topConceptOf ?topConcept . " +
+          "  } " +
+          FILTER_LANG_COUNTRY_NAME + "en" + "') " +
+          FILTER_BOUND_DEPRECATED +
+          // Then, filter the country by its code extracted from its URI
+          " FILTER (STRAFTER(STR(?country), 'http://publications.europa.eu/resource/authority/country/') = '"
+          + countryCode + "') " +
+          "}";
+
+      Query queryEEA = QueryFactory.create(sparqlQuery);
+      return getCountry(queryEEA, model, countryCode);
+    } catch (Exception e) {
+      log.info(e.getMessage());
+      return null;
+    }
+  }
+
+  private JsonObject getCountry(Query query, Model model, String countryCode) {
+    try (QueryExecution qExec = QueryExecutionFactory.create(query, model)) {
+      ResultSet results = qExec.execSelect();
+
+      while (results.hasNext()) {
+        QuerySolution solution = results.nextSolution();
+        String countryName = solution.getLiteral("countryName").getString();
+        String country = solution.getResource("country").getURI();
+        if (country.substring(country.lastIndexOf('/') + 1).equals(countryCode)) {
+          return new JsonObject().put("name", countryName).put("country", country);
+        }
+      }
+    } catch (Exception e) {
+      log.info(e.getMessage());
+    }
+    return null;
   }
 
   private void getResults(Query query, Model model, JsonArray countriesList) {

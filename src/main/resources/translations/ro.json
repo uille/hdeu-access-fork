@@ -1,0 +1,1588 @@
+{
+    "section1": {
+        "section1h5": "Selectarea surselor de date pentru proiect",
+        "section1Description": "Utilizatorii de date ar trebui să solicite numai date care sunt adecvate, relevante și limitate la ceea ce este necesar în raport cu scopul lor de utilizare, \nîn conformitate cu principiul reducerii la minimum a datelor din Regulamentul general al UE din 58 privind protecția datelor [articolul 5 alineatul (1c)]. \nOrganismul de acces la datele privind sănătatea evaluează cu atenție dacă cerințele dumneavoastră sunt în conformitate cu principiul reducerii la minimum a datelor prevăzut în RGPD.",
+        "section1DescriptionDR": "O cerere de acces la datele electronice privind sănătatea pentru utilizare secundară într-un format statistic anonimizat",
+        "applicationDatasets": {
+            "label": "Din ce set de date sau din ce registru (e) și/sau distribuție vor fi extrase datele?"
+        },
+        "applicationCountries": {
+            "label": "Din ce țară/țări solicitați date?"
+        },
+        "applicationDataHolders": {
+            "label": "De la ce deținător (deținători) de date vor fi extrase datele?"
+        },
+        "applicationHDABs": {
+            "label": "La ce organism/organisme de acces la datele privind sănătatea doriți să depuneți cererea?"
+        },
+        "applicationDatabases": {
+            "label": "Din ce bază (baze) de date sau registru/registre vor fi extrase datele?"
+        }
+    },
+    "section2": {
+        "section2h5": "Informarea publicului cu privire la proiect",
+        "section2Description": "Organismele de acces la datele privind sănătatea din Uniunea Europeană sunt obligate să publice informații privind autorizațiile privind datele, cererile și cererile de date pe site-ul lor web în termen de 30 zile lucrătoare de la eliberarea autorizației privind datele sau de la răspunsul la o cerere de date. În această secțiune, vi se solicită să furnizați informații cu privire la proiectul dumneavoastră, care pot fi comunicate publicului. Asigurați-vă că nu sunt incluse informații confidențiale. Trimiteți răspunsurile dumneavoastră în termeni nespecialiști. În calitate de utilizator de date, veți fi obligat să faceți publice rezultatele sau realizările proiectului în termen de cel mult 18 luni de la finalizarea prelucrării sau de la primirea răspunsului la cererea de date. În plus, trebuie să informați organismul de acces la datele privind sănătatea cu privire la numărul publicațiilor de cercetare evaluate inter pares, al documentelor de politică și/sau al procedurilor de reglementare desfășurate utilizând datele accesate prin intermediul acestei aplicații.",
+        "projectName": {
+            "label": "Denumirea proiectului"
+        },
+        "projectLeader": {
+            "label": "Numele șefului de proiect (organizație, instituție, entitate din sectorul privat sau persoană fizică)",
+            "tooltip": "Aceasta este persoana responsabilă de utilizarea datelor."
+        },
+        "countryOfProjectLeader": {
+            "label": "Domiciliul oficial (țara) al entității responsabile de proiect"
+        },
+        "purposeForWhichDataWillBeUsed": {
+            "label": "Scopul în care vor fi utilizate datele",
+            "tooltip": "Scopurile Regulamentului privind spațiul european al datelor privind sănătatea.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Interesul public în domeniul sănătății publice sau al sănătății în muncă, cum ar fi activitățile de protecție împotriva amenințărilor transfrontaliere grave la adresa sănătății, supravegherea sănătății publice sau activitățile care asigură niveluri ridicate de calitate și siguranță a asistenței medicale, inclusiv siguranța pacienților, precum și a medicamentelor sau a dispozitivelor medicale."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Activități de elaborare a politicilor și de reglementare pentru a sprijini organismele din sectorul public sau instituțiile, organele, oficiile și agențiile Uniunii, inclusiv autoritățile de reglementare, din sectorul sănătății sau al îngrijirii să își îndeplinească sarcinile definite în mandatele lor."
+                },
+                {
+                    "key": "c",
+                    "value": "C. statistici, astfel cum sunt definite la articolul 3 punctul (1) din Regulamentul (UE) nr. 223/2009, cum ar fi statisticile naționale, multinaționale și oficiale la nivelul Uniunii, referitoare la sectorul sănătății sau al îngrijirii."
+                },
+                {
+                    "key": "d",
+                    "value": "D. activități de educație sau de predare în sectorul sănătății sau al îngrijirii la nivel profesional sau superior."
+                },
+                {
+                    "key": "e",
+                    "value": "e. Cercetare științifică legată de sectorul sănătății sau al îngrijirii care contribuie la evaluarea sănătății publice sau a tehnologiilor medicale sau care asigură niveluri ridicate de calitate și siguranță a asistenței medicale, a medicamentelor sau a dispozitivelor medicale, cu scopul de a aduce beneficii utilizatorilor finali, cum ar fi pacienții, cadrele medicale și administratorii din domeniul sănătății, inclusiv: \\ n (i) activități de dezvoltare și inovare pentru produse sau servicii; \\ n (ii) formarea, testarea și evaluarea algoritmilor, inclusiv a dispozitivelor medicale, a dispozitivelor medicale pentru diagnostic in vitro, a sistemelor de IA și a aplicațiilor de sănătate digitală."
+                },
+                {
+                    "key": "f",
+                    "value": "F. îmbunătățirea furnizării de asistență medicală, a optimizării tratamentului și a furnizării de asistență medicală, pe baza datelor electronice privind sănătatea ale altor persoane fizice."
+                }
+            ]
+        },
+        "theNatureOfTheDataDoesNotLetYouProvideADescription": {
+            "label": "Natura proiectului dumneavoastră nu vă permite să furnizați o descriere"
+        },
+        "descriptionOfTheProject": {
+            "label": "Vă rugăm să explicați motivele pentru care nu puteți furniza o descriere a datelor.",
+            "tooltip": "Această explicație a motivului (motivelor) nu va (vor) fi publicată (publicate)."
+        },
+        "summaryOfTheProject": {
+            "label": "Rezumatul proiectului",
+            "tooltip": "În termeni nespecialiști, furnizați un scurt rezumat (250 de cuvinte sau mai puțin) al obiectivelor proiectului, al datelor care trebuie utilizate, al metodelor și al formei rezultatelor preconizate"
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummary": {
+            "label": "Natura proiectului dumneavoastră nu vă permite să furnizați un rezumat"
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason": {
+            "label": "Vă rugăm să explicați motivele pentru care nu puteți furniza un rezumat al proiectului dumneavoastră",
+            "tooltip": "Această explicație a motivului (motivelor) nu va (vor) fi publicată (publicate)."
+        }
+    },
+    "section3": {
+        "section3h5": "Informații privind solicitantul și persoana de contact",
+        "section3Description": "O cerere de autorizare a datelor ar trebui să menționeze numele și datele de contact ale solicitantului, fie o persoană juridică, fie o persoană fizică. De asemenea, ar trebui incluse informații privind persoana de contact care răspunde la orice solicitare de informații referitoare la cerere, indiferent dacă este vorba despre aceeași persoană cu solicitantul sau despre o altă persoană. În cazul în care persoana de contact nu este aceeași persoană cu solicitantul, relația sa, de exemplu pe baza unui contract de muncă, ar trebui clarificată.",
+        "section3DescriptionRequest": "O cerere de date ar trebui să menționeze numele și datele de contact ale solicitantului, fie că este vorba de o persoană juridică, fie de o persoană fizică. De asemenea, ar trebui incluse informații privind persoana de contact care răspunde la orice solicitare de informații referitoare la cerere, indiferent dacă este vorba despre aceeași persoană cu solicitantul (în cazul unei persoane fizice ca solicitantul) sau despre o altă persoană.\nÎn cazul în care persoana de contact nu este aceeași persoană cu solicitantul, relația sa, de exemplu pe baza unui contract de muncă, ar trebui clarificată.",
+        "applyingForDataOnBehalfOfPublicSector": {
+            "label": "Solicitați date în numele unui organism din sectorul public sau al unei instituții, al unui organ, al unui oficiu sau al unei agenții a Uniunii Europene?"
+        },
+        "applyingForDataForCarryingOutTasks": {
+            "label": "Solicitați date pentru îndeplinirea sarcinilor consacrate în mandatul organizației/instituției dumneavoastră?",
+            "tooltip": "Sarcinile din mandatul organizației/instituției dumneavoastră înseamnă sarcini bazate pe legislația națională sau a Uniunii Europene."
+        },
+        "legalOrNaturalPerson": {
+            "label": "Solicitantul este o persoană juridică sau fizică?",
+            "tooltip": "Persoană fizică = persoană fizică, persoană fizică, persoană juridică = O societate, o organizație sau o asociație.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Persoană juridică"
+                },
+                {
+                    "key": "b",
+                    "value": "Persoană fizică",
+                    "info": "(Dacă alegeți această opțiune, confirmați că solicitați date în calitate de persoană privată fără nicio afiliere.)"
+                }
+            ]
+        },
+        "legalPerson": "Persoană juridică",
+        "naturalPerson": "Persoană fizică",
+        "legalPersonName": {
+            "label": "Numele complet"
+        },
+        "postalAddress": "Adresă poștală",
+        "legalPersonAddress": {
+            "label": "Strada și numărul"
+        },
+        "legalPersonZipCode": {
+            "label": "Codul zip"
+        },
+        "legalPersonCity": {
+            "label": "Localitatea"
+        },
+        "legalPersonCountry": {
+            "label": "Țara"
+        },
+        "contactPersonInformation": "Informații privind persoana de contact",
+        "contactPersonInformationDescription": "Persoana de contact se referă la persoana care răspunde la întrebările referitoare la cerere. Datele persoanei de contact pot fi transmise operatorului în timpul prelucrării unei cereri în cazul în care sunt necesare informații suplimentare pentru definirea extragerii datelor. ",
+        "contactPersonName": {
+            "label": "Numele complet"
+        },
+        "contactPersonEmail": {
+            "label": "Email"
+        },
+        "contactPersonPhone": {
+            "label": "Telefon"
+        },
+        "contactPersonNameOfTheOrganisation": {
+            "label": "Denumirea organismului"
+        },
+        "contactPersonBusinessIdentifier": {
+            "label": "Identificatorul de activitate al organizației"
+        },
+        "contactPersonOperatorIdentifier": {
+            "label": "Numărul de identificare al operatorului"
+        },
+        "contactPersonJobTitle": {
+            "label": "Funcția"
+        },
+        "contactPersonAffiliation": {
+            "label": "Afiliere"
+        },
+        "contactPersonRelationship": {
+            "label": "Care este relația dintre persoana de contact și solicitant? (De exemplu, un angajat care solicită date în numele organizației sale.)"
+        },
+        "naturalPersonName": {
+            "label": "Numele complet"
+        },
+        "naturalPersonAddress": {
+            "label": "Strada și numărul"
+        },
+        "naturalPersonZipCode": {
+            "label": "Codul zip"
+        },
+        "naturalPersonCity": {
+            "label": "Localitatea"
+        },
+        "naturalPersonCountry": {
+            "label": "Țara"
+        },
+        "naturalPersonEmail": {
+            "label": "Email"
+        },
+        "naturalPersonPhone": {
+            "label": "Telefon"
+        },
+        "naturalPersonJobTitle": {
+            "label": "Funcția"
+        },
+        "naturalPersonAffiliation": {
+            "label": "Afiliere"
+        }
+    },
+    "section4": {
+        "section4h5": "Detaliile plății",
+        "section4Description": "Datele de plată ale persoanei căreia organismul de acces la datele privind sănătatea îi adresează facturile aferente prezentei cereri și autorizația aferentă privind datele, în cazul în care a fost acordată.",
+        "sameAsContactPerson": {
+            "label": "La fel ca persoana de contact menționată în secțiunea 3?"
+        },
+        "fullName": {
+            "label": "Numele complet"
+        },
+        "address": {
+            "label": "Adresa"
+        },
+        "email": {
+            "label": "Email"
+        },
+        "phone": {
+            "label": "Telefon"
+        },
+        "invoiceType": {
+            "label": "Tipul facturii",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Hârtie"
+                },
+                {
+                    "key": "b",
+                    "value": "Electronice"
+                }
+            ]
+        },
+        "invoiceReferenceNumber": {
+            "label": "Numărul de referință al facturii"
+        },
+        "invoiceAddress": {
+            "label": "Adresa facturii electronice (EDI sau IBAN)"
+        },
+        "operatorIdentifier": {
+            "label": "Numărul de identificare al operatorului"
+        },
+        "nameOfTheOrganisation": {
+            "label": "Denumirea organismului"
+        },
+        "businessIdentifierOrganization": {
+            "label": "Identificatorul de activitate al organizației"
+        },
+        "vatNumber": {
+            "label": "Numărul TVA"
+        },
+        "peppolCode": {
+            "label": "Codul PEPPOL (dacă este cazul)"
+        },
+        "isTheProjectFinanciallyCovered": {
+            "label": "Proiectul este acoperit din punct de vedere financiar?"
+        },
+        "rangeOfAmountOfFinancing": {
+            "label": "Care este intervalul de finanțare pentru proiect care va utiliza datele solicitate?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "&I10 000 EUR"
+                },
+                {
+                    "key": "b",
+                    "value": "10 000-50 000 EUR"
+                },
+                {
+                    "key": "c",
+                    "value": "50 000-100 000 EUR"
+                },
+                {
+                    "key": "d",
+                    "value": "100 000-500 000 EUR"
+                },
+                {
+                    "key": "e",
+                    "value": "500 000-1 000 000 EUR"
+                },
+                {
+                    "key": "f",
+                    "value": "> 1 000 000 EUR"
+                }
+            ]
+        }
+    },
+    "section5": {
+        "section5h5": "Scopul utilizării datelor",
+        "section5Description": "Solicitanții ar trebui să indice scopul pentru care sunt solicitate datele, în conformitate cu articolul 53 alineatul (1) din rectificarea Regulamentului privind spațiul european al datelor privind sănătatea aprobată de Parlamentul European la 17/12. \nSolicitanții trebuie să explice și să argumenteze de ce datele solicitate sunt necesare pentru scopul lor de utilizare indicat. De asemenea, solicitanții sunt rugați să furnizeze informații cu privire la scopul proiectului. Apoi, în funcție de scopul utilizării (cercetare sau nu), solicitanții trebuie să furnizeze un rezumat al planului de utilizare a datelor sau un rezumat al planului de cercetare, precum și informații privind persoana responsabilă de utilizarea datelor sau de cercetare.",
+        "purposeOfUse": {
+            "label": "Scopul utilizării datelor. Organismele de acces la datele privind sănătatea oferă acces la datele electronice privind sănătatea menționate la articolul 51 numai în cazul în care scopul preconizat al prelucrării urmărite de solicitant respectă următoarele scopuri [în conformitate cu articolul 53 alineatul (1)].",
+            "tooltip": "Scopurile Regulamentului privind spațiul european al datelor privind sănătatea.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Interesul public în domeniul sănătății publice sau al sănătății în muncă, cum ar fi activitățile de protecție împotriva amenințărilor transfrontaliere grave la adresa sănătății, supravegherea sănătății publice sau activitățile care asigură niveluri ridicate de calitate și siguranță a asistenței medicale, inclusiv siguranța pacienților, precum și a medicamentelor sau a dispozitivelor medicale."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Activități de elaborare a politicilor și de reglementare pentru a sprijini organismele din sectorul public sau instituțiile, organele, oficiile și agențiile Uniunii, inclusiv autoritățile de reglementare, din sectorul sănătății sau al îngrijirii să își îndeplinească sarcinile definite în mandatele lor."
+                },
+                {
+                    "key": "c",
+                    "value": "C. statistici, astfel cum sunt definite la articolul 3 punctul (1) din Regulamentul (UE) nr. 223/2009, cum ar fi statisticile naționale, multinaționale și oficiale la nivelul Uniunii, referitoare la sectorul sănătății sau al îngrijirii."
+                },
+                {
+                    "key": "d",
+                    "value": "D. activități de educație sau de predare în sectorul sănătății sau al îngrijirii la nivel profesional sau superior."
+                },
+                {
+                    "key": "e",
+                    "value": "e. Cercetare științifică legată de sectorul sănătății sau al îngrijirii care contribuie la evaluarea sănătății publice sau a tehnologiilor medicale sau care asigură niveluri ridicate de calitate și siguranță a asistenței medicale, a medicamentelor sau a dispozitivelor medicale, cu scopul de a aduce beneficii utilizatorilor finali, cum ar fi pacienții, cadrele medicale și administratorii din domeniul sănătății, inclusiv:\n(I) activități de dezvoltare și inovare pentru produse sau servicii;\n(II) formarea, testarea și evaluarea algoritmilor, inclusiv a dispozitivelor medicale, a dispozitivelor medicale pentru diagnostic in vitro, a sistemelor de IA și a aplicațiilor digitale de sănătate."
+                },
+                {
+                    "key": "f",
+                    "value": "F. îmbunătățirea furnizării de asistență medicală, a optimizării tratamentului și a furnizării de asistență medicală, pe baza datelor electronice privind sănătatea ale altor persoane fizice."
+                }
+            ]
+        },
+        "whyTheDataIsNeeded": {
+            "label": "De ce sunt necesare datele pe care le solicitați pentru scopul de utilizare indicat? Explicați aici de ce cantitatea și tipul de date pe care le solicitați sunt necesare în scopul utilizării datelor dumneavoastră"
+        },
+        "whyAreTheDataRequested": {
+            "label": "De ce sunt necesare datele solicitate împreună cu această aplicație pentru scopul de utilizare indicat?"
+        },
+        "whatIsTheAimAndTopicOfTheProject": {
+            "label": "Care este scopul și tema proiectului dumneavoastră?"
+        },
+        "whichAreTheExpectedBenefits": {
+            "label": "Care este beneficiul preconizat legat de utilizarea datelor electronice privind sănătatea și cum contribuie acest beneficiu la scopurile menționate la punctul 5.1?"
+        },
+        "legalBasis": {
+            "label": "Precizați temeiul juridic, de exemplu legislația relevantă, care definește sarcinile care intră sub incidența mandatului dumneavoastră și confirmă faptul că utilizarea planificată a datelor este menită să faciliteze aceste sarcini.",
+            "tooltip": "Explicați aici de ce cantitatea de date pentru care solicitați acest lucru este necesară în scopul utilizării datelor. Justificați și descrieți modul în care conținutul statisticilor solicitate corespunde scopului de utilizare menționat în cerere și îndeplinește cerințele dumneavoastră în materie de date."
+        },
+        "linkToTheSupportingLegalBasis": {
+            "label": "Furnizați un link către documentele justificative ca dovadă a temeiului juridic"
+        },
+        "summaryOfPlanForUsingTheData": {
+            "label": "Furnizați un rezumat al planului dumneavoastră de utilizare a datelor. Rezumatul trebuie redactat în una dintre limbile oficiale ale UE."
+        },
+        "summaryOfPlanForUsingTheDataLanguage": {
+            "label": "Selectați limba rezumatului",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgară"
+                },
+                {
+                    "key": "hr",
+                    "value": "Croată"
+                },
+                {
+                    "key": "cs",
+                    "value": "Cehă"
+                },
+                {
+                    "key": "da",
+                    "value": "Daneză"
+                },
+                {
+                    "key": "nl",
+                    "value": "Neerlandeză"
+                },
+                {
+                    "key": "en",
+                    "value": "Engleză"
+                },
+                {
+                    "key": "et",
+                    "value": "Estonă"
+                },
+                {
+                    "key": "fi",
+                    "value": "Finlandeză"
+                },
+                {
+                    "key": "fr",
+                    "value": "Franceză"
+                },
+                {
+                    "key": "de",
+                    "value": "Germană"
+                },
+                {
+                    "key": "el",
+                    "value": "Greacă"
+                },
+                {
+                    "key": "hu",
+                    "value": "Maghiară"
+                },
+                {
+                    "key": "ga",
+                    "value": "Irlandeză"
+                },
+                {
+                    "key": "it",
+                    "value": "Italiană"
+                },
+                {
+                    "key": "lv",
+                    "value": "Letonă"
+                },
+                {
+                    "key": "lt",
+                    "value": "Lituaniană"
+                },
+                {
+                    "key": "mt",
+                    "value": "Malteză"
+                },
+                {
+                    "key": "pl",
+                    "value": "Polonă"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugheză"
+                },
+                {
+                    "key": "ro",
+                    "value": "Română"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovacă"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slovenă"
+                },
+                {
+                    "key": "es",
+                    "value": "Spaniolă"
+                },
+                {
+                    "key": "sv",
+                    "value": "Suedeză"
+                }
+            ]
+        },
+        "summaryOfResearchPlan": {
+            "label": "Furnizați un rezumat al planului dumneavoastră de cercetare. Rezumatul trebuie redactat în una dintre limbile oficiale ale UE."
+        },
+        "summaryOfResearchPlanLanguage": {
+            "label": "Selectați limba rezumatului",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgară"
+                },
+                {
+                    "key": "hr",
+                    "value": "Croată"
+                },
+                {
+                    "key": "cs",
+                    "value": "Cehă"
+                },
+                {
+                    "key": "da",
+                    "value": "Daneză"
+                },
+                {
+                    "key": "nl",
+                    "value": "Neerlandeză"
+                },
+                {
+                    "key": "en",
+                    "value": "Engleză"
+                },
+                {
+                    "key": "et",
+                    "value": "Estonă"
+                },
+                {
+                    "key": "fi",
+                    "value": "Finlandeză"
+                },
+                {
+                    "key": "fr",
+                    "value": "Franceză"
+                },
+                {
+                    "key": "de",
+                    "value": "Germană"
+                },
+                {
+                    "key": "el",
+                    "value": "Greacă"
+                },
+                {
+                    "key": "hu",
+                    "value": "Maghiară"
+                },
+                {
+                    "key": "ga",
+                    "value": "Irlandeză"
+                },
+                {
+                    "key": "it",
+                    "value": "Italiană"
+                },
+                {
+                    "key": "lv",
+                    "value": "Letonă"
+                },
+                {
+                    "key": "lt",
+                    "value": "Lituaniană"
+                },
+                {
+                    "key": "mt",
+                    "value": "Malteză"
+                },
+                {
+                    "key": "pl",
+                    "value": "Polonă"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugheză"
+                },
+                {
+                    "key": "ro",
+                    "value": "Română"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovacă"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slovenă"
+                },
+                {
+                    "key": "es",
+                    "value": "Spaniolă"
+                },
+                {
+                    "key": "sv",
+                    "value": "Suedeză"
+                }
+            ]
+        },
+        "personResponsibleLabel": "Persoana responsabilă cu utilizarea datelor",
+        "personResponsibleName": {
+            "label": "Numele complet"
+        },
+        "personResponsibleJobTitle": {
+            "label": "Funcția"
+        },
+        "personResponsibleAffiliation": {
+            "label": "Afiliere"
+        },
+        "personResearchSameAsContactPerson": {
+            "label": "La fel ca persoana de contact menționată în secțiunea 3 (Informații privind solicitantul și persoana de contact)?"
+        },
+        "personResponsibleForResearchLabel": "Persoana responsabilă cu cercetarea",
+        "personResponsibleSameAsContactPerson": {
+            "label": "La fel ca persoana de contact menționată în secțiunea 3 (Informații privind solicitantul și persoana de contact)?"
+        },
+        "personResearchName": {
+            "label": "Numele complet"
+        },
+        "personResearchJobTitle": {
+            "label": "Funcția"
+        },
+        "personResearchAffiliation": {
+            "label": "Afiliere"
+        },
+        "formatOfTheElectronicHealthData": {
+            "label": "Selectați formatul datelor electronice privind sănătatea care urmează să fie puse la dispoziție:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Informație anonimizată"
+                },
+                {
+                    "key": "b",
+                    "value": "Pseudonimizată"
+                }
+            ]
+        },
+        "inOrderToApplyPseudonymisedData": "Am luat cunoștință de faptul că, pentru a solicita date pseudonimizate, trebuie:",
+        "inOrderToApplyPseudonymisedDataA": {
+            "label": "a) Explicați modul în care voi respecta articolul 6 alineatul (1) din Regulamentul general privind protecția datelor [sau articolul 5 alineatul (1) din Regulamentul UE privind protecția datelor în cazul în care o instituție, un organ, un oficiu sau o agenție a UE solicită date]"
+        },
+        "inOrderToApplyPseudonymisedDataB": {
+            "label": "b) Evaluarea aspectelor etice ale prelucrării datelor, după caz și în conformitate cu legislația națională sau cu legislația aplicabilă."
+        },
+        "whyNeedForPseudonymisation": {
+            "label": "De ce aveți nevoie de date pseudonimizate pentru proiectul dumneavoastră?"
+        }
+    },
+    "section6": {
+        "section6h5": "Descrierea datelor necesare",
+        "section6Description": "În această secțiune, trebuie să furnizați o descriere a setului de date solicitat, indicând în mod clar seturile de date la care se referă cererea. Ar trebui să solicitați numai date care sunt adecvate, relevante și limitate la ceea ce este necesar în raport cu scopul dumneavoastră de utilizare, în conformitate cu principiul reducerii la minimum a datelor din Regulamentul general al UE privind protecția datelor [articolul 5 alineatul (1c)]. Organismul de acces la datele privind sănătatea evaluează cu atenție dacă cerințele dumneavoastră sunt în conformitate cu principiul reducerii la minimum a datelor prevăzut în RGPD.",
+        "descriptionSection6_1": "Definirea criteriilor de extracție pentru cohortă:",
+        "descriptionOfTheDataNeeded": "Descrierea datelor necesare:",
+        "applicationHDABsForSelectedCountry": "La ce organism de acces la datele privind sănătatea doriți să depuneți cererea?",
+        "applicationDatasetsPerCountry": "Registrul (registrele) de seturi de date și distribuirile respective",
+        "informationProviderSameAsContactPerson": {
+            "label": "La fel ca persoana de contact menționată în secțiunea 3?"
+        },
+        "hdabContacts": {
+            "label": "Dacă ați fost în contact cu o persoană din cadrul organismului de acces la datele privind sănătatea în ceea ce privește datele pe care le solicitați, enumerați aici numele și adresele de e-mail ale acestei persoane"
+        },
+        "howWillTheDataFromDifferentSourcesBeLinked": {
+            "label": "Cum vor fi corelate datele pentru o persoană din diferite surse? De exemplu, pe baza codului personal de identificare. În cazul în care se utilizează un alt tip de metodă de corelare, descrieți acest lucru aici."
+        },
+        "indicateTheSizeOfTheStudyCohort": {
+            "label": "Indicați dimensiunea cohortului"
+        },
+        "indicateTheSizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Dimensiunea cohortei (butoane radio)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Aceasta este o estimare a dimensiunii cohortei."
+                },
+                {
+                    "key": "b",
+                    "value": "Aceasta este dimensiunea exactă a cohortei."
+                }
+            ]
+        },
+        "howIsTheStudyCohortFormed": {
+            "label": "Cum se formează cohorta?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Cohorta se va forma pe baza criteriilor prezentate mai jos."
+                },
+                {
+                    "key": "b",
+                    "value": "Cohorta a fost deja formată."
+                },
+                {
+                    "key": "c",
+                    "value": "Cohorta va consta în următoarele două: o nouă cohortă formată pe baza criteriilor prezentate mai jos și o cohortă deja formată."
+                },
+                {
+                    "key": "d",
+                    "value": "Cohorta va fi întreaga populație a uneia sau mai multor țări indicate la începutul prezentului formular."
+                }
+            ]
+        },
+        "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants": {
+            "label": "În cazul în care doriți să utilizați o cohortă pe baza propriului dumneavoastră studiu de sondaj anterior, grupul a fost format pe baza consimțământului informat al participanților la studiu? De exemplu, cohortă formată pe baza unui studiu de anchetă sau a unui studiu clinic, la care datele bazate pe registru vor fi corelate în temeiul Regulamentului privind spațiul european al datelor privind sănătatea."
+        },
+        "doesTheInformedConsentCoverTheRequestedRegistryExtractions": {
+            "label": "Consimțământul în cunoștință de cauză acoperă extragerile din registru solicitate?"
+        },
+        "consentAndInformationLetterAttachment": {
+            "label": "Anexați scrisoarea de consimțământ și de informare pe care ați trimis-o subiecților studiului. Nu atașați formularele care sunt completate deoarece includ date cu caracter personal."
+        },
+        "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
+            "label": "Confirm că autorizația privind datele a fost acordată pentru acest proiect de cercetare"
+        },
+        "ifTheGroupHasBeenFormedBasedOnPreviousIssued": {
+            "label": "În cazul în care cohorta a fost formată pe baza unui permis eliberat anterior, enumerați aici următoarele informații:"
+        },
+        "previouslyIssuedPermitIssuer1": {
+            "label": "Emitentul deciziei de autorizare"
+        },
+        "previouslyIssuedPermitDate1": {
+            "label": "Data"
+        },
+        "validityPeriod1": "Perioada de valabilitate",
+        "previouslyIssuedPermitValidityPeriodFrom1": {
+            "label": "Din"
+        },
+        "previouslyIssuedPermitValidityPeriodTo1": {
+            "label": "Către"
+        },
+        "previouslyIssuedPermitNumber1": {
+            "label": "Număr permis"
+        },
+        "permitDecisionAttachment": {
+            "label": "Anexați la această secțiune o decizie de autorizare privind extragerea datelor din cohortă."
+        },
+        "howTheStudyCohortWasObtained": {
+            "label": "Descrieți modul în care a fost obținută cohorta și motivele lipsei autorizației/consimțământului privind datele."
+        },
+        "providedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Ați furnizat informații privind utilizarea datelor subiecților corespunzători? De exemplu, schimbul de informații privind utilizarea datelor pe un site web al unui proiect.",
+            "tooltip": "Pentru informații suplimentare, a se vedea articolele 13 și 14 din Regulamentul general privind protecția datelor: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
+            "tooltipForm": "Pentru informații suplimentare, a se vedea articolele 13 și 14 din Regulamentul general privind protecția datelor <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">."
+        },
+        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "În ce mod?"
+        },
+        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "De ce?"
+        },
+        "whoWillDeliverTheInformationOnTheStudy": {
+            "label": "Cine va furniza informațiile privind cohorta organismului de acces la datele privind sănătatea? Această persoană va primi instrucțiuni cu privire la modul de transmitere a datelor prin intermediul portalului comun EHDS."
+        },
+        "informationProviderName": {
+            "label": "Numele complet"
+        },
+        "informationProviderEmail": {
+            "label": "Adresa de e-mail"
+        },
+        "informationProviderPhone": {
+            "label": "Număr de telefon"
+        },
+        "whyNeedDataOfaWholePopulation": {
+            "label": "Furnizați argumente pentru care aveți nevoie de date privind o întreagă populație/populații întregi?",
+            "tooltip": "Asigurați-vă că se definește suficient de clar formarea cohortei și se delimitează dimensiunea cohortei în funcție de utilizarea preconizată. Acordați o atenție deosebită entității din care este extrasă cohorta, precum și criteriilor de includere și excludere pentru cohortă. De exemplu, o definiție geografică poate însemna locul de reședință, locul nașterii, locul de muncă sau locul în care se utilizează serviciile."
+        },
+        "sizeOfTheStudyCohort": {
+            "label": "Indicați dimensiunea cohortului"
+        },
+        "sizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Dimensiunea cohortei (butoane radio)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Aceasta este o estimare a dimensiunii cohortei."
+                },
+                {
+                    "key": "b",
+                    "value": "Aceasta este dimensiunea exactă a cohortei."
+                }
+            ]
+        },
+        "whyNeedStudyCohortOfThisSize": {
+            "label": "De ce aveți nevoie de o cohortă de această dimensiune pentru proiectul dumneavoastră?"
+        },
+        "ethicalReview": "Evaluare etică – text care trebuie furnizat de unitatea politică",
+        "ethicalReviewDescription": "Examinare etică",
+        "ethicalReviewInput": {
+            "label": "Examinare etică",
+            "tooltip": "Text care urmează să fie furnizat de unitatea politică."
+        },
+        "ethicalReviewAttachment": {
+            "label": "Examinare etică"
+        },
+        "dataHolders": "De la ce deținător (deținători) de date vor fi extrase datele?",
+        "whichDatabasesDataExtracted": "Din ce bază (baze de date)/Registru/registre vor fi extrase datele?",
+        "whichDatasetDataExtracted": "Din ce înregistrare (înregistrări)/registru (e) al (e) setului de date vor fi extrase datele?",
+        "variablesToBeUsedInDataExtractionAttachment": {
+            "label": "În cazul în care informațiile sunt disponibile, anexați lista variabilelor care trebuie utilizate în extragerea datelor. Utilizați termenii exacți furnizați de deținătorul (deținătorii) de date respectiv (i) în catalogul de metadate."
+        },
+        "timePeriodOfDataExtraction": {
+            "label": "Pentru ce perioadă (perioade) de timp vor fi extrase înregistrările seturilor de date?"
+        },
+        "extractionMethod": {
+            "label": "Metoda de extracție:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "eșantion aleatoriu"
+                },
+                {
+                    "key": "b",
+                    "value": "toate persoanele care îndeplinesc criteriile"
+                },
+                {
+                    "key": "c",
+                    "value": "alt eșantion"
+                }
+            ]
+        },
+        "samplingMethod": {
+            "label": "Descrieți metoda de eșantionare"
+        },
+        "sampleSize": {
+            "label": "Dimensiunea eșantionului",
+            "tooltip": "Răspunsurile pot fi, de exemplu: 100000 de persoane sau 50 % dintre persoanele care îndeplinesc criteriile."
+        },
+        "inclusionCriteria": {
+            "label": "Descrieți criteriile de includere pentru extracția cohortului ",
+            "tooltip": "Nu uitați să clarificați aici orice criterii de includere care ar putea fi ambigue. De exemplu, dacă doriți să includeți persoane vizate de o anumită vârstă, clarificați în funcție de ce variabilă ar trebui calculată vârsta și în ce moment."
+        },
+        "potentialExclusionCriteria": {
+            "label": "Descrieți potențialele criterii de excludere pentru extracția cohortei"
+        },
+        "tabulationPlanArray": {
+            "label": "Set de planuri tabelare",
+            "tooltip": "În plus, se notează următoarele informații pentru fiecare tabel: ● registru care trebuie utilizat ● posibile cohorte ● informații privind variabilele necesare (dacă sunt disponibile) ● formarea variabilelor în cazul în care acestea nu pot fi accesate direct din baza de date ● direcția dorită de agregare a procentelor ● ordinea în care sunt generate tabelele atunci când tabelele generate anterior sunt utilizate pentru a crea alte tabele ● orice alt factor relevant legat de generarea tabelului (tabelelor) necesar (e)"
+        },
+        "tabulationRegisteredToBeUsed": {
+            "label": "Registrul care trebuie utilizat"
+        },
+        "tabulationPossibleStudyCohort": {
+            "label": "Cohortă posibilă"
+        },
+        "tabulationInformationOfRequiredVariables": {
+            "label": "Informații privind variabilele necesare (dacă sunt disponibile)"
+        },
+        "tabulationFormationVariables": {
+            "label": "Formarea variabilelor în cazul în care acestea nu pot fi accesate direct din baza de date"
+        },
+        "tabulationDesiredDirection": {
+            "label": "Direcția dorită de agregare a procentelor"
+        },
+        "tabulationOrderInWhichTable": {
+            "label": "Ordinea în care sunt generate tabelele atunci când tabelele generate anterior sunt utilizate pentru a crea alte tabele"
+        },
+        "tabulationAnyOtherRelevant": {
+            "label": "Orice alți factori relevanți legați de generarea tabelului (tabelelor) necesar (e) "
+        },
+        "tabulationPlanButton": "Adăugați un plan tabelar",
+        "tabulationPlan": {
+            "label": "Planul tabelar",
+            "tooltip": "Pentru fiecare statistică solicitată, anexați un exemplu de tabel Excel (sau echivalent)."
+        },
+        "extractionDescriptionAndCompilation": {
+            "label": "Descrierea extragerii și compilarea statisticilor",
+            "tooltip": "Un organism de acces la datele privind sănătatea furnizează datele pe care le solicitați numai într-un format statistic anonimizat, dacă cererea dumneavoastră de date este acceptată. Din cauza anonimatului, utilizatorul de date nu are acces la datele electronice privind sănătatea utilizate pentru a furniza acest răspuns. Toate informațiile pe care le solicitați trebuie să fie reduse la un nivel general, pentru a evita numărul mic de celule cu potențial ridicat de reidentificare."
+        },
+        "dataExtraction": "Timpii de extragere a datelor și ordinea cohortei",
+        "dataExtractionTimes": "Timpii de extragere a datelor și ordinea cohortei",
+        "howOftenDoesTheDataNeedToBeExtracted": {
+            "label": "Cât de des trebuie extrase datele?"
+        },
+        "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
+            "label": "Cât de des trebuie extrase datele?"
+        },
+        "needForDataExtractionEvery": {
+            "label": "Datele trebuie extrase din fiecare",
+            "tooltip": "Dacă doriți ca datele să fie extrase de mai multe ori într-o anumită perioadă de timp, rețineți că definițiile și metoda de colectare a datelor se pot modifica în cursul perioadei de reexaminare în unele cazuri. A se remarca faptul că frecvența maximă de extragere a datelor este trimestrială"
+        },
+        "needForDataExtractionEveryOther": {
+            "label": "Specificați altele"
+        },
+        "needForDataExtractionEveryDescriptionDR": {
+            "label": "Furnizați mai multe informații cu privire la perioadele/orele de extragere",
+            "tooltip": "Dacă doriți ca datele să fie extrase de mai multe ori într-o anumită perioadă de timp, rețineți că definițiile și metoda de colectare a datelor se pot modifica în cursul perioadei de reexaminare în unele cazuri."
+        },
+        "needForDataExtractionEveryDescription": {
+            "label": "Furnizați mai multe informații cu privire la perioadele/orele de extracție a cohortelor",
+            "tooltip": "Dacă doriți ca datele să fie extrase de mai multe ori într-o anumită perioadă de timp, rețineți că definițiile și metoda de colectare a datelor se pot modifica în cursul perioadei de reexaminare în unele cazuri."
+        },
+        "whatIsTheFrequencyOfUpdates": {
+            "label": "Care este frecvența eventualelor actualizări ale datelor care sunt necesare?"
+        },
+        "orderForDataExtraction": {
+            "label": "În cazul în care afectează rezultatele extragerii datelor, în ce ordine vor fi extrase datele din cohortă? Furnizați o listă numerotată a fazelor de extracție. Spre exemplu: 1. Deținătorul de date A; 2. Deținătorul de date B; 3. Deținătorul de date C"
+        },
+        "definingExtractionCriteria": "Definirea criteriilor de extracție pentru controale:",
+        "willControlsBeExtracted": {
+            "label": "Vor fi extrase controalele pentru cohortă?"
+        },
+        "hasTheGroupRelativesFormed2": {
+            "label": "Grupul de control a fost format pe baza unei autorizații eliberate anterior?"
+        },
+        "willSameDataBeExtractedForControls": {
+            "label": "Vor fi extrase aceleași date ca pentru cohortă pentru controale?"
+        },
+        "regionForControlsDataExtraction": {
+            "label": "Dacă nu solicitați date pentru controale din întreaga țară, din ce regiune (regiuni) și/sau oraș/orașe și/sau municipalitate/municipalitate solicitați date?"
+        },
+        "fromWhichDataHolderLabel": "De la ce deținător (deținători) de date vor fi extrase datele pentru controale?",
+        "fromWhichDatabaseLabel": "Din ce bază (baze de date)/Registru/registre vor fi extrase datele pentru controale?",
+        "fromWhichDatasetLabel": "Din ce set de date/ce registru (e) vor fi extrase datele pentru controale?",
+        "variablesForDataExtraction": {
+            "label": "În cazul în care informațiile sunt disponibile, enumerați variabilele care trebuie utilizate în extragerea datelor. Utilizați termenii exacți furnizați de deținătorul (deținătorii) de date respectiv (i) în catalogul de metadate."
+        },
+        "timePeriodForDataExtraction": {
+            "label": "Pentru ce perioadă (perioade) de timp vor fi extrase înregistrările setului de date?"
+        },
+        "extractionCriteriaForControls": {
+            "label": "Precizați criteriile de extracție pentru controale, de exemplu criteriile de corelare"
+        },
+        "sizeOfControlGroup": {
+            "label": "Dimensiunea grupului de control"
+        },
+        "sizeOfControlGroupEstimationOrExact": {
+            "label": "Dimensiunea grupului de control (butoane radio)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Aceasta este o estimare a dimensiunii grupului de controale."
+                },
+                {
+                    "key": "b",
+                    "value": "Aceasta este dimensiunea exactă a grupului de martori."
+                }
+            ]
+        },
+        "controlsPerPersonInStudyCohort": {
+            "label": "Câte controale sunt extrase pentru fiecare persoană care aparține cohortei?"
+        },
+        "inclusionCriteriaForControls": {
+            "label": "Descrieți criteriile de includere pentru extragerea controalelor"
+        },
+        "exclusionCriteriaForControls": {
+            "label": "Descrieți potențialele criterii de excludere pentru extragerea controalelor"
+        },
+        "ifTheGroupHasBeenFormed": "În cazul în care grupul de controale a fost format pe baza unei autorizații eliberate anterior, enumerați aici următoarele informații:",
+        "previouslyIssuedPermitIssuer2": {
+            "label": "Emitentul deciziei de autorizare"
+        },
+        "previouslyIssuedPermitDate2": {
+            "label": "Data"
+        },
+        "validityPeriod2": "Perioada de valabilitate",
+        "previouslyIssuedPermitValidityPeriodFrom2": {
+            "label": "Din"
+        },
+        "previouslyIssuedPermitValidityPeriodTo2": {
+            "label": "Către"
+        },
+        "previouslyIssuedPermitNumber2": {
+            "label": "Număr permis"
+        },
+        "dataExtractionAndOrderForControls": " Timpii de extragere a datelor și ordinea controalelor",
+        "willDataForControlsBeExtractedSimultaneously": {
+            "label": "Datele pentru controale vor fi extrase în același timp și în aceeași ordine ca datele pentru cohortă?"
+        },
+        "hasTheGroupRelativesFormed3": {
+            "label": "Grupul de rude a fost format pe baza unui permis eliberat anterior?"
+        },
+        "ifTheGroupOfRelativesHasBeenFormed": {
+            "label": "În cazul în care grupul de rude a fost format pe baza unui permis eliberat anterior, enumerați aici următoarele informații:"
+        },
+        "previouslyIssuedPermitIssuer3": {
+            "label": "Emitentul deciziei de autorizare"
+        },
+        "previouslyIssuedPermitDate3": {
+            "label": "Data"
+        },
+        "validityPeriod3": "Perioada de valabilitate",
+        "previouslyIssuedPermitValidityPeriodFrom3": {
+            "label": "Din"
+        },
+        "previouslyIssuedPermitValidityPeriodTo3": {
+            "label": "Către"
+        },
+        "previouslyIssuedPermitNumber3": {
+            "label": "Număr permis"
+        },
+        "dataExtractionFrequency": {
+            "label": "Cât de des trebuie extrase datele?"
+        },
+        "dataExtractionFrequencyMultipleTimesInformation": {
+            "label": "În cazul extracției recurente, furnizați informații cu privire la fiecare proces de extragere a datelor separat în instrucțiunile de comandă."
+        },
+        "dataNeedsToBeExtractedEvery": {
+            "label": "Datele trebuie extrase din fiecare",
+            "tooltip": "Dacă doriți ca datele să fie extrase de mai multe ori într-o anumită perioadă de timp, rețineți că definițiile și metoda de colectare a datelor se pot modifica în cursul perioadei de reexaminare în unele cazuri. A se remarca faptul că frecvența maximă de extragere a datelor este trimestrială"
+        },
+        "specifyOther": {
+            "label": "Specificați altele"
+        },
+        "moreInfoOnExtractionPeriods": {
+            "label": "Furnizați mai multe informații cu privire la perioadele/orele de extragere"
+        },
+        "orderOfControlsDataExtraction": {
+            "label": "În cazul în care afectează rezultatele extragerii datelor, în ce ordine vor fi extrase datele controalelor? Furnizați o listă numerotată a fazelor de extracție. Spre exemplu: 1. Deținătorul de date A; 2. Deținătorul de date B; 3. Deținătorul de date C"
+        },
+        "definingTheExtractionCriteria": "Definirea criteriilor de extragere pentru rude:",
+        "willRelativesBeExtracted": {
+            "label": "Rudele vor fi extrase pentru cohortă?"
+        },
+        "willSameDataBeExtractedForRelatives": {
+            "label": "Vor fi extrase aceleași date ca pentru cohortă pentru rude?"
+        },
+        "whichDataHoldersForRelatives": "De la ce deținător (deținători) de date vor fi extrase datele pentru rude?",
+        "whichDatabaseForRelatives": "Din ce bază (baze de date)/Registru/registre vor fi extrase datele referitoare la rude?",
+        "whichDatasetsForRelatives": "Din ce set de date/ce registru (e) vor fi extrase datele pentru rude?",
+        "variablesForDataExtractionRelatives": {
+            "label": "În cazul în care informațiile sunt disponibile, enumerați variabilele care trebuie utilizate în extragerea datelor. Utilizați termenii exacți furnizați de deținătorul (deținătorii) de date respectiv (i) în catalogul de metadate."
+        },
+        "timePeriodForDataExtractionRelatives": {
+            "label": "Pentru ce perioadă (perioade) de timp vor fi extrase înregistrările setului de date?"
+        },
+        "relationshipToStudyCohort": {
+            "label": "Definirea relației rudelor cu persoana care aparține cohortei (de exemplu, bunici, părinți biologici, mamă)"
+        },
+        "sizeOfRelativesGroup": {
+            "label": "Dimensiunea grupului de rude"
+        },
+        "sizeOfRelativesGroupEstimateOrExact": {
+            "label": "Dimensiunea grupului de rude (butoane radio)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Aceasta este o estimare a dimensiunii grupului de rude."
+                },
+                {
+                    "key": "b",
+                    "value": "Aceasta este dimensiunea exactă a grupului de rude."
+                }
+            ]
+        },
+        "willDataForRelativesBeExtractedSimultaneously": {
+            "label": "Datele privind rudele vor fi extrase în același timp și în aceeași ordine ca datele pentru cohortă?"
+        },
+        "dataExtractionFrequencyRelatives": {
+            "label": "Cât de des trebuie extrase datele?"
+        },
+        "dataNeedsToBeExtractedEveryRelatives": {
+            "label": "Datele trebuie extrase din fiecare",
+            "tooltip": "Dacă doriți ca datele să fie extrase de mai multe ori într-o anumită perioadă de timp, rețineți că definițiile și metoda de colectare a datelor se pot modifica în cursul perioadei de reexaminare în unele cazuri. A se remarca faptul că frecvența maximă de extragere a datelor este trimestrială"
+        },
+        "dataExtractionFrequencyMultipleTimesInformationRelatives": {
+            "label": "În cazul extracției recurente, furnizați informații cu privire la fiecare proces de extragere a datelor separat în instrucțiunile de comandă."
+        },
+        "needForDataExtractionEveryOptions": {
+            "label": "Datele trebuie extrase din fiecare",
+            "tooltip": "Dacă doriți ca datele să fie extrase de mai multe ori într-o anumită perioadă de timp, rețineți că definițiile și metoda de colectare a datelor se pot modifica în cursul perioadei de reexaminare în unele cazuri. A se remarca faptul că frecvența maximă de extragere a datelor este trimestrială"
+        },
+        "specifyOtherRelatives": {
+            "label": "Specificați altele"
+        },
+        "moreInfoOnExtractionPeriodsRelatives": {
+            "label": "Furnizați mai multe informații cu privire la perioadele/orele de extragere"
+        },
+        "orderOfRelativesDataExtraction": {
+            "label": "În cazul în care afectează rezultatele extragerii datelor, în ce ordine vor fi extrase datele rudelor? Furnizați o listă numerotată a fazelor de extracție. Spre exemplu: 1. Deținătorul de date A; 2. Deținătorul de date B; 3. Deținătorul de date C"
+        }
+    },
+    "section7": {
+        "section7h5": "Alte date care trebuie combinate",
+        "section7Description": "Este posibil să se combine alte date cu caracter personal, cum ar fi datele aflate deja în posesia dumneavoastră sau datele obținute din altă parte cu o altă autorizație, cu datele solicitate prin prezenta cerere. Enumerați informațiile pentru toate datele suplimentare care vor fi combinate cu datele autorizate de organismul de acces la datele privind sănătatea. Dacă doriți ulterior să combinați alte date cu caracter personal cu datele autorizate de organismul de acces la datele privind sănătatea, trebuie să depuneți o cerere de modificare la același organism de acces la datele privind sănătatea. Dacă aveți orice altă cohortă pe care ați dori ca organismul de acces la datele privind sănătatea să îl combine cu datele pentru care solicitați, veți primi instrucțiuni cu privire la modul de transmitere a datelor în condiții de siguranță după acordarea autorizației.",
+        "addDataPermit": "Adăugare autorizație privind datele",
+        "addInfo": "Adaugă informații",
+        "removeDataPermit": "Ștergerea autorizației privind datele",
+        "willDataBeCombinedWithDataObtained": {
+            "label": "Datele pe care le solicitați vor fi combinate cu datele pe care le-ați obținut deja sau cu datele care vor fi solicitate din alte surse?"
+        },
+        "listOtherDataToBeCompined": "Enumerați celelalte date care trebuie combinate și sursele acestor date:",
+        "combinedCountries": {
+            "label": "Țări"
+        },
+        "combinedDataHolders": {
+            "label": "Deținătorii de date"
+        },
+        "combinedDatabaseRegistries": {
+            "label": "Baze de date/registre"
+        },
+        "combinedDatasetsRegistries": {
+            "label": "Seturi de date/registre"
+        },
+        "provideInformationList": {
+            "label": "Furnizați informații privind datele care trebuie combinate și metoda combinării planificate",
+            "tooltip": "Furnizați informații cu privire la următoarele, în măsura în care sunt aplicabile: setul de date, numărul fișierelor, formatul fișierelor, dimensiunea fișierelor, note speciale (există identificatori direcți/indirecți, datele ar trebui pseudonimizate etc.)"
+        },
+        "dataset": {
+            "label": "Set de date"
+        },
+        "numberOfFiles": {
+            "label": "Numărul de dosare"
+        },
+        "formatOfFiles": {
+            "label": "Formatul fișierelor"
+        },
+        "sizeOfFiles": {
+            "label": "Dimensiunea fișierelor"
+        },
+        "notes": {
+            "label": "Note"
+        },
+        "listAnyOtherDataPermit": "Enumerați aici orice alte autorizații privind datele eliberate pentru același proiect. Autorizațiile trebuie să fie valabile în momentul prelucrării datelor:",
+        "otherPermits": {
+            "label": "Alte autorizații: Emitentul permisului, data emiterii, data expirării, informații de identificare"
+        },
+        "permitIssuer": {
+            "label": "Emitentul permisului"
+        },
+        "permitStartDateOfIssue": {
+            "label": "Data eliberării"
+        },
+        "permitEndDateOfIssue": {
+            "label": "Dată expirare"
+        },
+        "permitIdentificationInformation": {
+            "label": "Informații de identificare a permisului"
+        },
+        "attachmentOfPermitDocuments": {
+            "label": "În cazul în care înregistrările setului de date implică autorizații eliberate de alte părți sau au fost colectate cu consimțământul acestora, anexați aici documentele de autorizare."
+        },
+        "otherPermitApplications": {
+            "label": "Aveți alte cereri de autorizare în curs?"
+        },
+        "listTheOtherData": "Enumerați celelalte date care trebuie combinate și sursele acestor date:",
+        "applicationIssuer": {
+            "label": "Emitent"
+        },
+        "dateOfSubmittingTheApplication": {
+            "label": "Data depunerii cererii"
+        },
+        "identificationCode": {
+            "label": "Codul de identificare a permisului"
+        }
+    },
+    "section8": {
+        "section8h5": "Prelucrarea datelor, protecția datelor și garanții pentru prevenirea utilizării neautorizate a datelor",
+        "section8Description": "În conformitate cu articolul 73 alineatul (1) din propunerea de regulament privind spațiul european al datelor privind sănătatea, organismele de acces la datele privind sănătatea oferă acces la datele electronice privind sănătatea numai printr-un mediu de prelucrare securizat.",
+        "addPerson": "Adaugă persoană",
+        "removePerson": "Îndepărtează persoana",
+        "technicalRequirementsForEnvironment": {
+            "label": "Enumerați aici toate cerințele tehnice pe care le aveți pentru mediul de prelucrare securizat."
+        },
+        "nameWebsiteAddressForEnvironment": {
+            "label": "Dacă știți deja ce mediu de prelucrare doriți să utilizați, care este numele acestuia și de către cine este furnizat? Indicați aici numele și furnizorul mediului de prelucrare securizat."
+        },
+        "healthDataAccessBody": "Organismul de acces la datele privind sănătatea va furniza datele după prelucrarea cererii dumneavoastră dacă vi se acordă o autorizație privind datele. Organismul de acces la datele privind sănătatea va păstra cheia de pseudonimizare, precum și termenii și documentația de extragere utilizate pentru a genera datele. Autorizația privind datele va fi acordată numai pe durata necesară îndeplinirii scopurilor solicitate. Autorizația poate fi acordată pentru o perioadă maximă de 10 ani. Această durată poate fi prelungită o singură dată, la cererea utilizatorului de date, pe baza argumentelor și a documentelor care justifică prelungirea [propunerea de regulament privind EHDS, articolul 68 alineatul (12)]. Dacă este necesar, perioada de utilizare poate fi prelungită prin solicitarea unei modificări a autorizației privind datele.",
+        "whenDataNeeded": {
+            "label": "Când aveți nevoie de date?",
+            "tooltip": "În general, organismul de acces la datele privind sănătatea va solicita extragerea datelor de la deținătorii de date de îndată ce cererea dumneavoastră a fost prelucrată. Dacă doriți să primiți datele mai târziu, indicați aici.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Cât mai curând posibil după prelucrarea prezentei cereri"
+                },
+                {
+                    "key": "b",
+                    "value": "Mai târziu, când?"
+                }
+            ]
+        },
+        "ifLaterWhen": {
+            "label": "Mai târziu, când?"
+        },
+        "informationWhichDataCanAccess": {
+            "label": "Furnizați informații cu privire la perioada în care datele pot fi accesate."
+        },
+        "frequencyOfAccessOrDataUpdates": {
+            "label": "Care este frecvența acestui acces sau frecvența actualizărilor de date?"
+        },
+        "estimatedStartAndEnd": {
+            "label": "Care sunt datele estimate de începere și de încheiere a perioadei în care datele electronice privind sănătatea sunt necesare pentru prelucrare?",
+            "tooltip": "Această perioadă poate fi de cinci ani. Cu o autorizație suplimentară, permisul inițial poate fi prelungit cu încă cinci ani"
+        },
+        "estimatedStartDatesForDataProcessing": {
+            "label": "Din"
+        },
+        "estimatedEndDatesForDataProcessing": {
+            "label": "Către"
+        },
+        "ifStoreNeeded": "Dacă trebuie să stocați datele după prelucrare, indicați aici perioada de stocare inactivă a datelor",
+        "startPeriodOfInactiveDataStorage": {
+            "label": "Din"
+        },
+        "endPeriodOfInactiveDataStorage": {
+            "label": "Către"
+        },
+        "willTheDataBeTransferred": {
+            "label": "Datele vor fi transferate în afara UE sau a SEE?",
+            "tooltip": "Comitetul european pentru protecția datelor (CEPD) a identificat trei criterii cumulative pentru calificarea unei operațiuni de prelucrare drept transfer: 1) un operator sau o persoană împuternicită de operator („exportator”) face obiectul RGPD pentru prelucrarea respectivă. 2) exportatorul divulgă prin transmitere sau pune în alt mod datele cu caracter personal, sub rezerva acestei prelucrări, la dispoziția unui alt operator, operator asociat sau persoană împuternicită de operator („importator”). 3) importatorul se află într-o țară terță, indiferent dacă acesta face sau nu obiectul RGPD pentru prelucrarea respectivă în conformitate cu articolul 3, sau este o organizație internațională. Mai multe informații: https://www.edpb.europa.eu/system/files/2023-02/edpb_guidelines_05-2021_interplay_between_the_application_of_art3-chapter_v_of_the_gdpr_v2_en_0.pdf"
+        },
+        "whichCountriesDataBeProcessed": {
+            "label": "În ce țară/țări din afara UE/SEE vor fi prelucrate datele?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Diagnosticare"
+                },
+                {
+                    "key": "b",
+                    "value": "Epidemiologia"
+                },
+                {
+                    "key": "c",
+                    "value": "Gestionarea pacienților"
+                },
+                {
+                    "key": "d",
+                    "value": "Siguranța pacienților"
+                },
+                {
+                    "key": "e",
+                    "value": "Prevenire și tratament"
+                },
+                {
+                    "key": "f",
+                    "value": "Politica de sănătate publică"
+                },
+                {
+                    "key": "g",
+                    "value": "Organizarea unităților sanitare"
+                },
+                {
+                    "key": "h",
+                    "value": "Înțelegerea bolilor"
+                },
+                {
+                    "key": "i",
+                    "value": "Alte"
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEU": {
+            "label": "De ce vor fi transferate datele în afara UE sau a SEE?"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47": {
+            "label": "Articolul 47: Transferuri în baza unei decizii privind caracterul adecvat al nivelului de protecție"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47Options": {
+            "label": "De ce datele vor fi transferate în afara UE în temeiul opțiunilor prevăzute la articolul 47?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Un transfer de date cu caracter personal către o țară terță sau o organizație internațională poate avea loc în cazul în care Comisia a decis, în temeiul articolului 45 alineatul (3) din Regulamentul (UE) 2016/679 sau al articolului 36 alineatul (3) din Directiva (UE) 2016/680, că țara terță, un teritoriu sau unul sau mai multe sectoare specificate din țara terță respectivă sau organizația internațională în cauză asigură un nivel adecvat de protecție și în cazul în care datele cu caracter personal sunt transferate exclusiv pentru a permite îndeplinirea sarcinilor care țin de competența operatorului."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Instituțiile și organele Uniunii informează Comisia și Autoritatea Europeană pentru Protecția Datelor cu privire la cazurile în care consideră că o țară terță, un teritoriu sau unul sau mai multe sectoare specificate dintr-o țară terță sau o organizație internațională în cauză nu asigură un nivel adecvat de protecție în sensul alineatului (1)."
+                },
+                {
+                    "key": "c",
+                    "value": "c. Instituțiile și organele Uniunii iau măsurile necesare pentru a se conforma deciziilor luate de Comisie în cazul în care aceasta stabilește, în temeiul articolului 45 alineatul (3) sau (5) din Regulamentul (UE) 2016/679 sau al articolului 36 alineatul (3) sau (5) din Directiva (UE) 2016/680, că o țară terță, un teritoriu sau unul sau mai multe sectoare specificate dintr-o țară terță sau o organizație internațională asigură sau nu mai asigură un nivel de protecție adecvat."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48": {
+            "label": "Articolul 48: Transferuri sub rezerva unor garanții adecvate"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48bOptions": {
+            "label": "De ce datele vor fi transferate în afara UE în temeiul opțiunilor prevăzute la articolul 48b?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "I. Un instrument obligatoriu din punct de vedere juridic și executoriu între autoritățile sau organismele publice"
+                },
+                {
+                    "key": "b",
+                    "value": "ii. Clauze standard de protecție a datelor adoptate de Comisie în conformitate cu procedura de examinare menționată la articolul 96 alineatul (2)"
+                },
+                {
+                    "key": "c",
+                    "value": "III. Prin clauze standard de protecție a datelor adoptate de Autoritatea Europeană pentru Protecția Datelor și aprobate de Comisie în conformitate cu procedura de examinare menționată la articolul 96 alineatul (2); Jurnalul Oficial al Uniunii Europene L 295/78 RO 21.11.2018"
+                },
+                {
+                    "key": "d",
+                    "value": "IV. În cazul în care persoana împuternicită de operator nu este o instituție sau un organ al Uniunii, prin reguli corporative obligatorii, coduri de conduită sau mecanisme de certificare, în conformitate cu articolul 46 alineatul (2) literele (b), (e) și (f) din Regulamentul (UE) 2016/679."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48a": {
+            "label": "în absența unei decizii în temeiul articolului 45 alineatul (3) din Regulamentul (UE) 2016/679 sau al articolului 36 alineatul (3) din Directiva (UE) 2016/680, un operator sau o persoană împuternicită de operator poate transfera date cu caracter personal către o țară terță sau o organizație internațională numai dacă operatorul sau persoana împuternicită de operator a oferit garanții adecvate și cu condiția să existe drepturi opozabile ale persoanelor vizate și căi de atac eficiente pentru persoanele vizate. "
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48b": {
+            "label": "b. Garanțiile adecvate menționate la alineatul (1) pot fi prevăzute, fără a fi necesară o autorizație specifică din partea Autorității Europene pentru Protecția Datelor, prin:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48c": {
+            "label": "c. Sub rezerva autorizării de către Autoritatea Europeană pentru Protecția Datelor, garanțiile corespunzătoare menționate la alineatul (1) pot fi, de asemenea, prevăzute, în special, de:"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48cOpt": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Clauze contractuale între operator sau persoana împuternicită de operator și operator, persoana împuternicită de operator sau destinatarul datelor cu caracter personal din țara terță sau organizația internațională."
+                },
+                {
+                    "key": "b",
+                    "value": "Dispoziții care urmează să fie incluse în acordurile administrative dintre autoritățile sau organismele publice, care includ drepturi exercitabile și efective pentru persoanele vizate."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48d": {
+            "label": "d. Autorizațiile Autorității Europene pentru Protecția Datelor în temeiul articolului 9 alineatul (7) din Regulamentul (CE) nr. 45/2001 rămân valabile până când sunt modificate, înlocuite sau abrogate, dacă este necesar, de către Autoritatea Europeană pentru Protecția Datelor."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48e": {
+            "label": "e. Instituțiile și organele Uniunii informează Autoritatea Europeană pentru Protecția Datelor cu privire la categoriile de cazuri în care a fost aplicat prezentul articol."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle49": {
+            "label": "Articolul 49: Transferurile sau divulgările de informații neautorizate de dreptul Uniunii"
+        },
+        "legalBasisForTransferringTheDataOutsideEU": {
+            "label": "Care este temeiul juridic pentru transferul datelor în afara UE sau a SEE?",
+            "tooltip": "Pentru mai multe informații, consultați capitolul 5 din Regulamentul general privind protecția datelor: <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679#d1e4227-1-1</a>",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Țara/teritoriul/organizația internațională de transfer asigură un nivel adecvat de protecție în conformitate cu o decizie a Comisiei Europene (articolul 35 din RGPD)"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Operatorul de date sau persoana împuternicită de operator a oferit garanții adecvate și sunt disponibile drepturi opozabile ale persoanelor vizate și căi de atac eficiente pentru persoanele vizate (articolul 46 din RGPD)."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Alt temei juridic excepțional (în absența unor garanții adecvate în temeiul articolului 46)"
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUOtherOptions": {
+            "label": "3. Alt temei juridic excepțional (în absența unor garanții adecvate în temeiul articolului 46)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Persoana vizată a consimțit în mod explicit la transferul propus, după ce a fost informată cu privire la posibilele riscuri ale unor astfel de transferuri pentru persoana vizată din cauza absenței unei decizii privind caracterul adecvat al nivelului de protecție și a unor garanții adecvate"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Transferul este necesar pentru executarea unui contract între persoana vizată și operator sau pentru punerea în aplicare a măsurilor precontractuale luate la cererea persoanei vizate"
+                },
+                {
+                    "key": "c",
+                    "value": "3. Transferul este necesar pentru încheierea sau executarea unui contract încheiat în interesul persoanei vizate între operator și o altă persoană fizică sau juridică"
+                },
+                {
+                    "key": "d",
+                    "value": "4. Transferul este necesar din motive importante de interes public"
+                },
+                {
+                    "key": "e",
+                    "value": "5. Transferul este necesar pentru constatarea, exercitarea sau apărarea unui drept în justiție"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Transferul este necesar pentru a proteja interesele vitale ale persoanei vizate sau ale altor persoane, în cazul în care persoana vizată se află în incapacitate fizică sau juridică de a-și da consimțământul"
+                },
+                {
+                    "key": "g",
+                    "value": "7. Transferul se efectuează dintr-un registru care, în conformitate cu dreptul Uniunii sau cu dreptul intern, este destinat să furnizeze informații publicului și care este deschis consultării fie de către public în general, fie de către orice persoană care poate demonstra un interes legitim, dar numai în măsura în care condițiile pentru consultare prevăzute de dreptul Uniunii sau de dreptul intern sunt îndeplinite în cazul respectiv."
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUc1": {
+            "label": "1. Persoana vizată a consimțit în mod explicit la transferul propus, după ce a fost informată cu privire la posibilele riscuri ale unor astfel de transferuri pentru persoana vizată din cauza absenței unei decizii privind caracterul adecvat al nivelului de protecție și a unor garanții adecvate "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc2": {
+            "label": "2. Transferul este necesar pentru executarea unui contract între persoana vizată și operator sau pentru punerea în aplicare a măsurilor precontractuale luate la cererea persoanei vizate "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc3": {
+            "label": "3. Transferul este necesar pentru încheierea sau executarea unui contract încheiat în interesul persoanei vizate între operator și o altă persoană fizică sau juridică"
+        },
+        "legalBasisForTransferringTheDataOutsideEUc4": {
+            "label": "4. Transferul este necesar din motive importante de interes public"
+        },
+        "legalBasisForTransferringTheDataOutsideEUc5": {
+            "label": "5. Transferul este necesar pentru constatarea, exercitarea sau apărarea unui drept în justiție"
+        },
+        "legalBasisForTransferringTheDataOutsideEUc6": {
+            "label": "6. Transferul este necesar pentru a proteja interesele vitale ale persoanei vizate sau ale altor persoane, în cazul în care persoana vizată se află în incapacitate fizică sau juridică de a-și da consimțământul"
+        },
+        "legalBasisForTransferringTheDataOutsideEUc7": {
+            "label": "7. Transferul se efectuează dintr-un registru care, în conformitate cu dreptul Uniunii sau cu dreptul intern, este destinat să furnizeze informații publicului și care este deschis consultării fie de către public în general, fie de către orice persoană care poate demonstra un interes legitim, dar numai în măsura în care condițiile pentru consultare prevăzute de dreptul Uniunii sau de dreptul intern sunt îndeplinite în cazul respectiv."
+        },
+        "safeguardsAreProvidedByReferringGDCP": {
+            "label": "Aceste garanții sunt oferite de:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Un instrument obligatoriu din punct de vedere juridic și executoriu între autoritățile sau organismele publice"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Reguli corporatiste obligatorii în conformitate cu articolul 47"
+                },
+                {
+                    "key": "c",
+                    "value": "3. Clauze standard de protecție a datelor adoptate de Comisie în conformitate cu procedura de examinare menționată la articolul 93 alineatul (2)"
+                },
+                {
+                    "key": "d",
+                    "value": "4. Clauze standard de protecție a datelor adoptate de o autoritate de supraveghere și aprobate de Comisie în conformitate cu procedura de examinare menționată la articolul 93 alineatul (2)"
+                },
+                {
+                    "key": "e",
+                    "value": "5. Un cod de conduită aprobat în temeiul articolului 40, împreună cu angajamente obligatorii și executorii ale operatorului sau ale persoanei împuternicite de operator din țara terță de a aplica garanțiile adecvate, inclusiv în ceea ce privește drepturile persoanelor vizate"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Un mecanism de certificare aprobat în temeiul articolului 42, împreună cu angajamente obligatorii și executorii ale operatorului sau ale persoanei împuternicite de operator din țara terță de a aplica garanțiile adecvate, inclusiv în ceea ce privește drepturile persoanelor vizate"
+                }
+            ]
+        },
+        "whichOrganizationWillBeTheControllerOfData": {
+            "label": "Ce organizație (organizații) sau persoană fizică va (vor) fi operatorul datelor care urmează să fie constituite pe baza acestei cereri?",
+            "tooltip": "Un operator de date stabilește scopurile și mijloacele de prelucrare a datelor cu caracter personal. Cu alte cuvinte, operatorul de date decide cu privire la modul și motivul unei operațiuni de prelucrare a datelor. Un operator de date poate fi o persoană juridică, de exemplu o întreprindere, un IMM, o autoritate publică, o agenție sau un alt organism. Mai multe informații: https://edpb.europa.eu/sme-data-protection-guide/data-controller-data-processor_en"
+        },
+        "complyWithDataMinimisationPrinciple": {
+            "label": "Cum respectați principiul reducerii la minimum a datelor (Regulamentul general al UE privind protecția datelor) atunci când prelucrați datele?",
+            "tooltip": "Articolul 5 alineatul (1) litera (c) din RGPD: „Datele cu caracter personal sunt adecvate, relevante și limitate la ceea ce este necesar în raport cu scopurile în care sunt prelucrate («reducerea la minimum a datelor»)” "
+        },
+        "complyWithDataMinimisationPrincipleNotEUMember": {
+            "label": "Cum respectați principiul reducerii la minimum a datelor (Regulamentul UE privind protecția datelor) atunci când prelucrați datele? ",
+            "tooltip": "Articolul 4 alineatul (1c) din DPR UE: „Datele cu caracter personal sunt adecvate, relevante și limitate la ceea ce este necesar în raport cu scopurile în care sunt prelucrate («reducerea la minimum a datelor»)”"
+        },
+        "protectionAndSecurityStatements": {
+            "label": "Pentru a continua cu această cerere, trebuie să confirmați următoarele declarații (declarații privind protecția datelor și securitate):"
+        },
+        "protectionAndSecurityStatementsA": {
+            "label": "1. Confirm că, în cazul în care organismul de acces la datele privind sănătatea îmi acordă datele solicitate, le voi utiliza numai în scopul (scopurile) menționat (e) în prezentul formular de cerere."
+        },
+        "protectionAndSecurityStatementsB": {
+            "label": "2. Înțelegem că copierea datelor din mediul de prelucrare securizat este interzisă."
+        },
+        "protectionAndSecurityStatementsC": {
+            "label": "3. Înțeleg că este interzisă efectuarea oricăror capturi de ecran sau fotografii ale ecranului dispozitivului, odată ce acestea se află în mediul de prelucrare securizat."
+        },
+        "protectionAndSecurityStatementsD": {
+            "label": "4. Dispun de suficiente măsuri de siguranță (cum ar fi un firewall) pentru a proteja diferitele rețele la care sunt conectate dispozitivele utilizate pentru a accesa mediul de prelucrare securizat."
+        },
+        "protectionAndSecurityStatementsE": {
+            "label": "5. Înțeleg că încercările de reidentificare sunt interzise și că organismul de acces la datele privind sănătatea poate impune sancțiuni în conformitate cu articolul 43 din Regulamentul european privind datele privind sănătatea"
+        },
+        "onlyThePeopleMentioned": "Numai persoanelor menționate în autorizația privind datele li se va acorda acces pentru prelucrarea datelor în mediul de prelucrare securizat.",
+        "sameAsContactPerson": {
+            "label": "La fel ca persoana de contact menționată în secțiunea 3?"
+        },
+        "listTheFullNames": {
+            "label": "Enumerați numele complete, afilierile și adresele de e-mail ale tuturor persoanelor care vor prelucra datele."
+        },
+        "fullName": {
+            "label": "Nume complet"
+        },
+        "affiliation": {
+            "label": "Afiliere"
+        },
+        "emailAddress": {
+            "label": "Adresă email"
+        },
+        "lawfulnessOfProcessing": "Legalitatea prelucrării;",
+        "legalBasisForProcessingPersonalData": {
+            "label": "Care este temeiul juridic pentru prelucrarea datelor cu caracter personal pentru care solicitați acest formular de cerere?"
+        },
+        "lawfulForProcessingPersonalData": {
+            "label": "Prelucrarea datelor cu caracter personal pe care le solicitați împreună cu prezentul formular de cerere este legală numai dacă și în măsura în care se aplică cel puțin una dintre următoarele condiții [în conformitate cu articolul 6 alineatul (1) din Regulamentul general al UE privind protecția datelor, Regulamentul (UE) 2016/679]:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Persoana vizată și-a dat consimțământul pentru prelucrarea datelor sale cu caracter personal pentru unul sau mai multe scopuri specifice"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Prelucrarea este necesară pentru executarea unui contract la care persoana vizată este parte sau pentru a face demersuri la cererea persoanei vizate înainte de încheierea unui contract"
+                },
+                {
+                    "key": "c",
+                    "value": "3. Prelucrarea este necesară în vederea îndeplinirii unei obligații legale care îi revine operatorului"
+                },
+                {
+                    "key": "d",
+                    "value": "4. Prelucrarea este necesară pentru a proteja interesele vitale ale persoanei vizate sau ale unei alte persoane fizice"
+                },
+                {
+                    "key": "e",
+                    "value": "5. Prelucrarea este necesară pentru îndeplinirea unei sarcini care servește unui interes public sau care rezultă din exercitarea autorității publice cu care este învestit operatorul"
+                },
+                {
+                    "key": "f",
+                    "value": "6. Prelucrarea este necesară în scopul intereselor legitime urmărite de operator sau de o parte terță, cu excepția cazului în care prevalează interesele sau drepturile și libertățile fundamentale ale persoanei vizate care necesită protejarea datelor cu caracter personal, în special atunci când persoana vizată este un copil."
+                }
+            ]
+        },
+        "lawfulForProcessingPersonalDataNaturalPersonOption": {
+            "key": "f",
+            "value": "6. Prelucrarea este necesară în scopul intereselor legitime urmărite de operator sau de o parte terță, cu excepția cazului în care prevalează interesele sau drepturile și libertățile fundamentale ale persoanei vizate care necesită protejarea datelor cu caracter personal, în special atunci când persoana vizată este un copil."
+        },
+        "otherLegalBasisForProcessingPersonalData": {
+            "label": "Altele, care?"
+        },
+        "legalBasisForProcessingCombinedData": {
+            "label": "Care este temeiul juridic pentru prelucrarea celorlalte date pe care le veți combina cu datele solicitate în prezenta cerere? "
+        },
+        "otherLegalBasisForProcessingCombinedData": {
+            "label": "Altele, care?"
+        },
+        "europeanUnionInstitution": {
+            "label": "Prelucrarea datelor cu caracter personal pe care le solicitați împreună cu prezentul formular de cerere este legală numai dacă și în măsura în care se aplică cel puțin una dintre următoarele condiții [în conformitate cu articolul 5 alineatul (1) din Regulamentul UE privind protecția datelor, Regulamentul (UE) 2018/1725]:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Prelucrarea este necesară pentru îndeplinirea unei sarcini care servește unui interes public sau care rezultă din exercitarea autorității publice cu care este învestită instituția sau organismul Uniunii"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Prelucrarea este necesară pentru îndeplinirea unei obligații legale care îi revine operatorului."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Prelucrarea este necesară pentru executarea unui contract la care persoana vizată este parte sau pentru a face demersuri la cererea persoanei vizate înainte de încheierea unui contract."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Persoana vizată și-a dat consimțământul pentru prelucrarea datelor sale cu caracter personal pentru unul sau mai multe scopuri specifice."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Prelucrarea este necesară pentru a proteja interesele vitale ale persoanei vizate sau ale altei persoane fizice."
+                }
+            ]
+        },
+        "legalBasisForProcessingApplicationData": {
+            "label": "Care este temeiul juridic pentru prelucrarea datelor cu caracter personal pentru care solicitați acest formular de cerere?"
+        },
+        "otherLegalBasisForProcessingApplicationData": {
+            "label": "Altele, care?"
+        },
+        "legalBasisForProcessingCombinedApplicationData": {
+            "label": "Care este temeiul juridic pentru prelucrarea celorlalte date pe care le veți combina cu datele solicitate în prezenta cerere?"
+        },
+        "otherLegalBasisForProcessingCombinedApplicationData": {
+            "label": "Altele, care?"
+        },
+        "attachResearchPermitIfRequired": {
+            "label": "În cazul în care cercetarea dumneavoastră necesită un permis de cercetare din partea organizației dumneavoastră de afiliere, anexați permisul de cercetare"
+        }
+    },
+    "section9": {
+        "section9h5": "Informații suplimentare",
+        "section9Description": "Aici puteți furniza informații suplimentare cu privire la oricare dintre secțiunile din candidatura dumneavoastră. Indicați numărul secțiunii și întrebarea la care se referă observația dumneavoastră.",
+        "additionalInformation": {
+            "label": "Informații suplimentare sau orice alte note suplimentare",
+            "tooltip": "Aici puteți furniza informații suplimentare cu privire la oricare dintre secțiunile din candidatura dumneavoastră. Indicați numărul secțiunii și întrebarea la care se referă observația dumneavoastră. Sugestie pentru punerea în aplicare din punct de vedere tehnic: În mod alternativ, ar putea exista o modalitate de a permite solicitantului să coreleze informațiile cu anumite părți ale formularului pentru a facilita activitatea HDAB-urilor."
+        },
+        "additionalAttachment": {
+            "label": "O anexă suplimentară. Nu anexați date privind sănătatea sau date cu caracter personal la această aplicație.",
+            "tooltip": "Dacă aveți orice altă anexă pe care o considerați relevantă în ceea ce privește prelucrarea cererii dumneavoastră și necesară pentru ca organismul de acces la datele privind sănătatea să îl vadă, atașați-l aici. Descrieți relevanța sa în câmpul de text de mai sus."
+        }
+    },
+    "section10": {
+        "section10h5": "Confirmarea informațiilor",
+        "section10Description": "Înainte de prelucrarea acestei cereri, în calitate de solicitant, trebuie să aprobați taxele de prelucrare.",
+        "submitYouApplicationText": "Pentru a vă depune candidatura, trebuie să confirmați următoarele:",
+        "acceptHealthDataBody": {
+            "label": "Accept că organismul de date privind sănătatea va compila statisticile și nu voi avea acces la datele utilizate pentru a forma statisticile."
+        },
+        "awareProcessingFee": {
+            "label": "Am luat cunoștință de faptul că se va percepe o taxă de procesare pentru prelucrarea cererii mele. Aceasta se va aplica, de asemenea, în cazul unei cereri anulate sau al unei decizii negative."
+        },
+        "awareChargeFee": {
+            "label": "Am luat cunoștință de faptul că deținătorul (deținătorii) de date poate (pot) percepe o taxă."
+        },
+        "awareInformationCorrect": {
+            "label": "Confirm că informațiile pe care le-am furnizat sunt corecte."
+        }
+    },
+    "commonFields": {
+        "aboutThisSection": "Despre această secțiune",
+        "yesOrNoOptions": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Da"
+                },
+                {
+                    "key": "b",
+                    "value": "Nu"
+                }
+            ]
+        },
+        "onceOrMultipleTimes": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Odată"
+                },
+                {
+                    "key": "b",
+                    "value": "De mai multe ori"
+                }
+            ]
+        },
+        "everyWhen": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "În fiecare an"
+                },
+                {
+                    "key": "b",
+                    "value": "O jumătate de an"
+                },
+                {
+                    "key": "c",
+                    "value": "Trimestru"
+                },
+                {
+                    "key": "d",
+                    "value": "Alte"
+                }
+            ]
+        },
+        "processingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. (e) Prelucrarea este necesară pentru îndeplinirea unei sarcini care servește unui interes public sau care rezultă din exercitarea autorității publice cu care este învestit operatorul;"
+                },
+                {
+                    "key": "b",
+                    "value": "2. (f) Prelucrarea este necesară în scopul intereselor legitime urmărite de operator sau de un terț, cu excepția cazului în care prevalează interesele sau drepturile și libertățile fundamentale ale persoanei vizate, care necesită protecția datelor cu caracter personal, în special în cazul în care persoana vizată este un copil."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Alte"
+                }
+            ]
+        },
+        "legalBasisForProcessingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. (a) Prelucrarea este necesară pentru îndeplinirea unei sarcini care servește unui interes public sau care rezultă din exercitarea autorității publice cu care este învestită instituția sau organul Uniunii."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Alte"
+                }
+            ]
+        }
+    }
+}

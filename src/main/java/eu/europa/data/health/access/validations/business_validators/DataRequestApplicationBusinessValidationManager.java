@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.europa.data.health.access.dto.SelectObjectDTO;
+import eu.europa.data.health.access.dto.data_request.Section5BindToOtherSections;
 import eu.europa.data.health.access.dto.data_request.Section4BindSection3DTO;
 import eu.europa.data.health.access.dto.data_request.Section6BindToOtherSections;
 import eu.europa.data.health.access.dto.data_request.Section6CountryDTO;
@@ -62,6 +63,8 @@ public class DataRequestApplicationBusinessValidationManager extends AbstractSch
       section4Validation(context);
     } else if (sectionNumberFromUrl == 6) {
       section6Validation(context);
+    } else if (sectionNumberFromUrl == 5) {
+      section5Validation(context);
     } else {
       context.next();
     }
@@ -101,27 +104,115 @@ public class DataRequestApplicationBusinessValidationManager extends AbstractSch
 
     // Search in the database based on the provided application ID
     mongoClient.findOne(DATA_REQUEST_APPLICATION_COLLECTION, requestApplicationId, null, ar -> {
+      if (ar.succeeded() && !ar.result().isEmpty()) {
+        JsonObject result = ar.result();
+
+        // Check if the section and the field exist in the result
+        if (result.containsKey("form") && result.getJsonObject("form")
+          .containsKey(sectionNumber)) {
+          JsonObject sectionData = result.getJsonObject("form").getJsonObject(sectionNumber);
+          // Check if the field legalOrNaturalPerson exists
+          if (sectionData.containsKey(LEGAL_OR_NATURAL_PERSON)
+            && Objects.equals(sectionData.getJsonObject(LEGAL_OR_NATURAL_PERSON).getString("key"),
+            "a")) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+
+            try {
+              Section4BindSection3DTO sectionDTO = objectMapper.readValue(
+                context.body().asString(), Section4BindSection3DTO.class);
+
+              // Validate SectionDTO
+              Set<ConstraintViolation<Section4BindSection3DTO>> violations = validator.validate(
+                sectionDTO);
+
+              if (!violations.isEmpty()) {
+                // Handle validation errors
+                List<FieldError> errors = new ArrayList<>();
+                var ctxErrors = context.get(ERRORS);
+                if (Objects.nonNull(ctxErrors)) {
+                  errors.addAll(context.get(ERRORS));
+                }
+                for (ConstraintViolation<Section4BindSection3DTO> violation : violations) {
+                  String errorCode = violation.getConstraintDescriptor().getAnnotation()
+                    .annotationType().getSimpleName();
+                  String fieldName = violation.getPropertyPath().toString();
+                  Object maxParam = violation.getConstraintDescriptor().getAttributes()
+                    .get("max");
+                  List<String> params = new ArrayList<>();
+                  if (maxParam != null) {
+                    params.add(maxParam.toString());
+                    // Set value of field in context to null
+                    context.body().asJsonObject().put(fieldName, null);
+                  }
+                  buildCustomValidationErrors(errors, errorCode, fieldName, params, violation);
+
+                }
+                context.put(ERRORS, new GeneralException(errors).getErrors());
+                context.next();
+              } else {
+                context.next();
+              }
+            } catch (JsonProcessingException e) {
+              catchJsonException(context, e);
+            }
+          } else {
+            context.next();
+          }
+        } else {
+          context.next();
+        }
+      }
+
+    });
+  }
+
+  public void section5Validation(RoutingContext context) {
+    // Search in the database based on the provided application ID
+    JsonObject requestApplicationId = new JsonObject().put("_id",
+      context.pathParam("application_id"));
+    String section2 = "section2";
+
+    // Search in the database based on the provided application ID
+    mongoClient.findOne(DATA_REQUEST_APPLICATION_COLLECTION, requestApplicationId, null,
+      ar -> {
         if (ar.succeeded() && !ar.result().isEmpty()) {
           JsonObject result = ar.result();
 
           // Check if the section and the field exist in the result
-          if (result.containsKey("form") && result.getJsonObject("form")
-            .containsKey(sectionNumber)) {
-            JsonObject sectionData = result.getJsonObject("form").getJsonObject(sectionNumber);
-            // Check if the field legalOrNaturalPerson exists
-            if (sectionData.containsKey(LEGAL_OR_NATURAL_PERSON)
-              && Objects.equals(sectionData.getJsonObject(LEGAL_OR_NATURAL_PERSON).getString("key"),
-              "a")) {
-              ObjectMapper objectMapper = new ObjectMapper();
+          if (result.containsKey("form") && (result.getJsonObject("form").containsKey(section2))) {
+            JsonObject sectionData2 = result.getJsonObject("form").getJsonObject(section2);
+            //T.01.2 section 2 field
+            List<SelectObjectDTO> section2purposeForWhichDataWillBeUsed = new ArrayList<>();
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            if (Objects.nonNull(sectionData2)) {
+              String jsonValue = sectionData2.getString("purposeForWhichDataWillBeUsed");
+              if (Objects.nonNull(jsonValue)) {
+                try {
+                  section2purposeForWhichDataWillBeUsed = objectMapper.readValue(jsonValue,
+                    new TypeReference<List<SelectObjectDTO>>() {
+                    });
+                } catch (JsonProcessingException e) {
+                  catchJsonException(context, e);
+                }
+              }
+            }
+
+            if (CollectionUtils.isNotEmpty(section2purposeForWhichDataWillBeUsed)) {
               ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
               Validator validator = factory.getValidator();
 
               try {
-                Section4BindSection3DTO sectionDTO = objectMapper.readValue(
-                  context.body().asString(), Section4BindSection3DTO.class);
+                Section5BindToOtherSections sectionDTO =
+                  objectMapper.readValue(context.body().asString(),
+                    Section5BindToOtherSections.class);
+                sectionDTO.setSection2purposeForWhichDataWillBeUsed(
+                  section2purposeForWhichDataWillBeUsed);
 
                 // Validate SectionDTO
-                Set<ConstraintViolation<Section4BindSection3DTO>> violations = validator.validate(
+                Set<ConstraintViolation<Section5BindToOtherSections>> violations = validator.validate(
                   sectionDTO);
 
                 if (!violations.isEmpty()) {
@@ -131,9 +222,9 @@ public class DataRequestApplicationBusinessValidationManager extends AbstractSch
                   if (Objects.nonNull(ctxErrors)) {
                     errors.addAll(context.get(ERRORS));
                   }
-                  for (ConstraintViolation<Section4BindSection3DTO> violation : violations) {
-                    String errorCode = violation.getConstraintDescriptor().getAnnotation()
-                      .annotationType().getSimpleName();
+                  for (ConstraintViolation<Section5BindToOtherSections> violation : violations) {
+                    String errorCode = violation.getConstraintDescriptor()
+                      .getAnnotation().annotationType().getSimpleName();
                     String fieldName = violation.getPropertyPath().toString();
                     Object maxParam = violation.getConstraintDescriptor().getAttributes()
                       .get("max");
@@ -143,8 +234,8 @@ public class DataRequestApplicationBusinessValidationManager extends AbstractSch
                       // Set value of field in context to null
                       context.body().asJsonObject().put(fieldName, null);
                     }
-                    buildCustomValidationErrors(errors, errorCode, fieldName, params, violation);
-
+                    buildCustomValidationErrors(errors, errorCode, fieldName, params,
+                      violation);
                   }
                   context.put(ERRORS, new GeneralException(errors).getErrors());
                   context.next();
@@ -161,8 +252,7 @@ public class DataRequestApplicationBusinessValidationManager extends AbstractSch
             context.next();
           }
         }
-
-    });
+      });
   }
 
   public void section6Validation(RoutingContext context) {
@@ -171,83 +261,81 @@ public class DataRequestApplicationBusinessValidationManager extends AbstractSch
 
     // Search in the database based on the provided application ID
     mongoClient.findOne(DATA_REQUEST_APPLICATION_COLLECTION, requestApplicationId, null, ar -> {
-        if (ar.succeeded() && !ar.result().isEmpty()) {
-          JsonObject result = ar.result();
+      if (ar.succeeded() && !ar.result().isEmpty()) {
+        JsonObject result = ar.result();
 
-          // Check if the section and the field exist in the result
-          if (result.containsKey("form") && result.getJsonObject("form")
-            .containsKey("section5")) {
+        // Check if the section and the field exist in the result
+        if (result.containsKey("form") && result.getJsonObject("form")
+          .containsKey("section2")) {
 
-            JsonObject sectionData5 = result.getJsonObject("form").getJsonObject("section5");
+          JsonObject sectionData2 = result.getJsonObject("form").getJsonObject("section2");
 
-            // Check if the field purposeOfUse in section5 exists
-            if (Objects.nonNull(sectionData5) && sectionData5.containsKey("purposeOfUse")) {
+          // Check if the field purposeForWhichDataWillBeUsed in section2 exists
+          if (Objects.nonNull(sectionData2) && sectionData2.containsKey("purposeForWhichDataWillBeUsed")) {
 
-              ObjectMapper objectMapper = new ObjectMapper();
-              List<SelectObjectDTO> section5purposeOfUse = new ArrayList<>();
-              String jsonValue = sectionData5.getString("purposeOfUse");
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<SelectObjectDTO> section5purposeOfUse = new ArrayList<>();
+            String jsonValue = sectionData2.getString("purposeForWhichDataWillBeUsed");
 
-              if (Objects.nonNull(jsonValue)) {
-                try {
-                  section5purposeOfUse = objectMapper.readValue(jsonValue,
-                    new TypeReference<>() {
-                    });
-                } catch (JsonProcessingException e) {
-                  catchJsonException(context, e);
-                }
-              }
-
-              if (CollectionUtils.isNotEmpty(section5purposeOfUse)) {
-                ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-                Validator validator = factory.getValidator();
-
-                try {
-                  List<Section6CountryDTO> section6Countries = objectMapper.readValue(
-                    context.body().asJsonArray().toString(),
-                    new TypeReference<>() {}
-                  );
-
-                  List<SelectObjectDTO> finalSection5purposeOfUse = section5purposeOfUse;
-                  section6Countries.forEach(sectionCountry -> {
-                    Section6BindToOtherSections sectionDTO = new Section6BindToOtherSections();
-                    sectionDTO.setWhatIsTheFrequencyOfUpdates(sectionCountry.getWhatIsTheFrequencyOfUpdates());
-                    sectionDTO.setSection5purposeOfUse(finalSection5purposeOfUse);
-
-                    Set<ConstraintViolation<Section6BindToOtherSections>> violations = validator.validate(
-                      sectionDTO);
-
-                    // Validate SectionDTO
-                    if (!violations.isEmpty()) {
-                      // Handle validation errors
-                      List<FieldError> errors = new ArrayList<>();
-                      var ctxErrors = context.get(ERRORS);
-                      if (Objects.nonNull(ctxErrors)) {
-                        errors.addAll(context.get(ERRORS));
-                      }
-                      for (ConstraintViolation<Section6BindToOtherSections> violation : violations) {
-                        String errorCode = violation.getConstraintDescriptor()
-                          .getAnnotation().annotationType().getSimpleName();
-                        String fieldName = violation.getPropertyPath().toString();
-                        List<String> params = new ArrayList<>();
-                        Object maxParam = violation.getConstraintDescriptor().getAttributes()
-                          .get("max");
-                        if (maxParam != null) {
-                          params.add(maxParam.toString());
-                        }
-
-                        buildCustomValidationErrors(errors, errorCode, fieldName, params,
-                          violation, sectionCountry.getCountryId());
-                      }
-                      context.put(ERRORS, new GeneralException(errors).getErrors());
-                    }
+            if (Objects.nonNull(jsonValue)) {
+              try {
+                section5purposeOfUse = objectMapper.readValue(jsonValue,
+                  new TypeReference<>() {
                   });
-                  context.next();
-                } catch (JsonProcessingException e) {
-                  catchJsonException(context, e);
-                }
+              } catch (JsonProcessingException e) {
+                catchJsonException(context, e);
               }
-              else {
+            }
+
+            if (CollectionUtils.isNotEmpty(section5purposeOfUse)) {
+              ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+              Validator validator = factory.getValidator();
+
+              try {
+                List<Section6CountryDTO> section6Countries = objectMapper.readValue(
+                  context.body().asJsonArray().toString(),
+                  new TypeReference<>() {
+                  }
+                );
+
+                List<SelectObjectDTO> finalSection5purposeOfUse = section5purposeOfUse;
+                section6Countries.forEach(sectionCountry -> {
+                  Section6BindToOtherSections sectionDTO = new Section6BindToOtherSections();
+                  sectionDTO.setWhatIsTheFrequencyOfUpdates(
+                    sectionCountry.getWhatIsTheFrequencyOfUpdates());
+                  sectionDTO.setSection2purposeOfUse(finalSection5purposeOfUse);
+
+                  Set<ConstraintViolation<Section6BindToOtherSections>> violations = validator.validate(
+                    sectionDTO);
+
+                  // Validate SectionDTO
+                  if (!violations.isEmpty()) {
+                    // Handle validation errors
+                    List<FieldError> errors = new ArrayList<>();
+                    var ctxErrors = context.get(ERRORS);
+                    if (Objects.nonNull(ctxErrors)) {
+                      errors.addAll(context.get(ERRORS));
+                    }
+                    for (ConstraintViolation<Section6BindToOtherSections> violation : violations) {
+                      String errorCode = violation.getConstraintDescriptor()
+                        .getAnnotation().annotationType().getSimpleName();
+                      String fieldName = violation.getPropertyPath().toString();
+                      List<String> params = new ArrayList<>();
+                      Object maxParam = violation.getConstraintDescriptor().getAttributes()
+                        .get("max");
+                      if (maxParam != null) {
+                        params.add(maxParam.toString());
+                      }
+
+                      buildCustomValidationErrors(errors, errorCode, fieldName, params,
+                        violation, sectionCountry.getCountryId());
+                    }
+                    context.put(ERRORS, new GeneralException(errors).getErrors());
+                  }
+                });
                 context.next();
+              } catch (JsonProcessingException e) {
+                catchJsonException(context, e);
               }
             } else {
               context.next();
@@ -255,7 +343,10 @@ public class DataRequestApplicationBusinessValidationManager extends AbstractSch
           } else {
             context.next();
           }
+        } else {
+          context.next();
         }
+      }
     });
   }
 

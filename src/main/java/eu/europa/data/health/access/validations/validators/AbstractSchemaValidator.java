@@ -17,6 +17,7 @@ package eu.europa.data.health.access.validations.validators;
 
 import eu.europa.data.health.access.SchemaFiles;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.json.schema.Draft;
@@ -118,5 +119,9 @@ public class AbstractSchemaValidator {
   protected void setUpMessageContextResponse(RoutingContext context, HttpResponseStatus status,
     String message) {
     context.response().setStatusCode(status.code()).end(new JsonObject().put("result_message", message).encode());
+  }
+  protected void setUpMessageContextResponseWithContent(RoutingContext context, HttpResponseStatus status,
+    String message, JsonArray content) {
+    context.response().setStatusCode(status.code()).end(new JsonObject().put("result_message", message).put("errors", content).encode());
   }
 }

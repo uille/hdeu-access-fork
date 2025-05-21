@@ -22,6 +22,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.FindOptions;
 import io.vertx.ext.mongo.MongoClient;
+import io.vertx.ext.mongo.UpdateOptions;
 import io.vertx.serviceproxy.ServiceException;
 import java.util.Arrays;
 import java.util.List;
@@ -220,6 +221,38 @@ public class DBHandler {
     return promise.future();
   }
 
+  public Future<List<JsonObject>> findAuditLogs(String collectionName, Integer pageNumber, Integer pageLimit, String sortBy, String sortOrder, JsonObject queryOptions) {
+    log.debug("{} Entered findAuditLogs method", dbHandlerClassName);
+
+    Promise<List<JsonObject>> promise = Promise.promise();
+
+    //Define pagination configuration, if provided
+    FindOptions options = new FindOptions();
+    if(pageNumber != null && pageLimit != null){
+      options.setSkip((pageNumber - 1) * pageLimit).setLimit(pageLimit);
+    }
+
+    // Define sort options
+    if (sortBy != null && sortOrder != null) {
+      options.setSort(new JsonObject().put(sortBy, sortOrder.equalsIgnoreCase("asc") ? 1 : -1));
+    }
+
+
+    mongoClient.findWithOptions(collectionName, queryOptions, options, listAsyncResult -> {
+      if (listAsyncResult.succeeded()) {
+        log.debug("{} Found documents: {}", dbHandlerClassName, listAsyncResult.result());
+        promise.complete(listAsyncResult.result());
+      } else {
+        log.debug("{} Failed to find documents by catalog name: {}", dbHandlerClassName,
+          listAsyncResult.cause().toString());
+        promise.fail(listAsyncResult.cause());
+      }
+    });
+    log.debug("{} Exiting findByField method", dbHandlerClassName);
+
+    return promise.future();
+  }
+
   /**
    * Delete a Document by field for the provided collection.
    * @param collectionName the collection
@@ -299,6 +332,21 @@ public class DBHandler {
     return promise.future();
   }
 
+  public Future<Integer> countAllAuditLogs(String collectionName, JsonObject queryOptions) {
+    Promise<Integer> promise = Promise.promise();
+
+    // Use the countDocuments method to count all documents
+    mongoClient.count(collectionName, queryOptions, ar -> {
+      if (ar.succeeded()) {
+        Integer count = ar.result().intValue();
+        promise.complete(count);
+      } else {
+        promise.fail(ar.cause());
+      }
+    });
+    return promise.future();
+  }
+
   /**
    * Generic function in order to check if a document exists in a Mongo collection
    * @param query the query that will be executed in Mongo db
@@ -335,5 +383,29 @@ public class DBHandler {
       }
     }
     return statusFilter;
+  }
+
+  public Future<Object> updateLinkableFields(String collectionName, String objectId) {
+
+    log.info("{} Entered updateLinkableFields method", dbHandlerClassName);
+
+    JsonObject query = new JsonObject().put("objectId", objectId);
+    JsonObject update = new JsonObject().put("$set", new JsonObject().put("linkable", false));
+
+    Promise<Object> promise = Promise.promise();
+
+    UpdateOptions options = new UpdateOptions().setMulti(true);
+    mongoClient.updateCollectionWithOptions(collectionName, query, update, options, res -> {
+      if (res.succeeded()) {
+        log.info("{} Linkable fields updated successfully", dbHandlerClassName);
+        promise.complete();
+      } else {
+        log.error("{} Failed to update linkable fields, with error message: {}", dbHandlerClassName, res.cause().getMessage());
+        promise.fail(res.cause());
+      }
+    });
+
+    log.info("{} Exiting updateLinkableFields method", dbHandlerClassName);
+    return promise.future();
   }
 }

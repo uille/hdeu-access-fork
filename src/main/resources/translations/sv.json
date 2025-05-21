@@ -1,0 +1,1588 @@
+{
+    "section1": {
+        "section1h5": "Val av datakällor för projektet",
+        "section1Description": "Dataanvändarna bör endast ansöka om data som är adekvata, relevanta och begränsade till vad som är nödvändigt med hänsyn till deras användningsändamål. \ni enlighet med principen om uppgiftsminimering i EU:s allmänna dataskyddsförordning 58 (artikel 5.1c). \nOrganet med ansvar för tillgång till hälsodata utvärderar noggrant om dina krav är i linje med den allmänna dataskyddsförordningens princip om uppgiftsminimering.",
+        "section1DescriptionDR": "En ansökan om tillgång till e-hälsodata för sekundär användning i anonymiserat statistiskt format",
+        "applicationDatasets": {
+            "label": "Från vilka dataposter eller register och/eller distribution kommer uppgifterna att extraheras?"
+        },
+        "applicationCountries": {
+            "label": "Från vilket land/vilka länder söker du uppgifter?"
+        },
+        "applicationDataHolders": {
+            "label": "Från vilken eller vilka datainnehavare kommer uppgifterna att extraheras?"
+        },
+        "applicationHDABs": {
+            "label": "Till vilket/vilka organ med ansvar för tillgång till hälsodata vill du lämna in ansökan?"
+        },
+        "applicationDatabases": {
+            "label": "Från vilka databaser eller register kommer uppgifterna att hämtas?"
+        }
+    },
+    "section2": {
+        "section2h5": "Information till allmänheten om projektet",
+        "section2Description": "De organ som ansvarar för tillgång till hälsodata i Europeiska unionen är skyldiga att offentliggöra information om datatillstånd, begäranden och ansökningar på sin webbplats inom 30 arbetsdagar efter utfärdandet av datatillståndet eller svaret på en begäran om data. I det här avsnittet uppmanas du att lämna information om ditt projekt som kan delas med allmänheten. Se till att detta inte innehåller några konfidentiella uppgifter. Lämna dina svar på lekmannaskap. Som dataanvändare kommer du att vara skyldig att offentliggöra projektets resultat eller utdata senast 18 månader efter det att behandlingen slutförts eller svaret på begäran om data mottagits. Dessutom måste du informera organet med ansvar för tillgång till hälsodata om antalet expertgranskade forskningspublikationer, policydokument och/eller regleringsförfaranden som genomförs med hjälp av de data som nås via denna applikation.",
+        "projectName": {
+            "label": "Projektnamn"
+        },
+        "projectLeader": {
+            "label": "Projektledarens namn (organisation, institution, enhet i den privata sektorn eller en fysisk person)",
+            "tooltip": "Det är den person som ansvarar för användningen av uppgifterna."
+        },
+        "countryOfProjectLeader": {
+            "label": "Officiell hemvist (land) för den enhet som ansvarar för projektet"
+        },
+        "purposeForWhichDataWillBeUsed": {
+            "label": "Ändamål för vilket uppgifterna kommer att användas",
+            "tooltip": "Syftet med förordningen om det europeiska hälsodataområdet.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Allmänintresset i fråga om folkhälsa eller företagshälsovård, exempelvis insatser för skydd mot allvarliga gränsöverskridande hot mot hälsan, övervakning av folkhälsan eller insatser som säkerställer en hög kvalitets- och säkerhetsnivå i hälso- och sjukvården, inbegripet patientsäkerhet, och för läkemedel eller medicintekniska produkter."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Beslutsfattande och regleringsverksamhet till stöd för offentliga myndigheter eller unionens institutioner, organ och byråer, inklusive regleringsmyndigheter, inom hälso- och sjukvårdssektorn eller omsorgssektorn för att de ska kunna utföra de uppgifter som fastställs i deras uppdrag."
+                },
+                {
+                    "key": "c",
+                    "value": "c. Statistik enligt definitionen i artikel 3.1 i förordning (EG) nr 223/2009, såsom officiell statistik på nationell nivå, multinationell nivå och unionsnivå, med anknytning till hälso- och sjukvårdssektorn eller omsorgssektorn."
+                },
+                {
+                    "key": "d",
+                    "value": "d. Utbildning eller undervisning inom hälso- och sjukvårdssektorn eller omsorgssektorn i form av yrkesutbildning eller högre utbildning."
+                },
+                {
+                    "key": "e",
+                    "value": "e. Vetenskaplig forskning med anknytning till hälso- och sjukvårdssektorn eller omsorgssektorn, som bidrar till utvärdering av folkhälsan eller medicinsk teknik, eller som säkerställer en hög kvalitets- och säkerhetsnivå inom hälso- och sjukvården och för läkemedel eller medicintekniska produkter, i syfte att gynna slutanvändare, såsom patienter, hälso- och sjukvårdspersonal och hälsoadministratörer, däribland följande:\ni) Utvecklings- och innovationsverksamhet för produkter eller tjänster.\nii) Träning, testning och utvärdering av algoritmer, bland annat i medicintekniska produkter, medicintekniska produkter för in-vitro-diagnostik, AI-system och applikationer för digital hälsa."
+                },
+                {
+                    "key": "f",
+                    "value": "f. Förbättring av tillhandahållandet av vård, av behandlingsoptimering och av tillhandhållandet av hälso- och sjukvård, på grundval av andra fysiska personers elektroniska hälsodata."
+                }
+            ]
+        },
+        "theNatureOfTheDataDoesNotLetYouProvideADescription": {
+            "label": "Du kan inte lämna någon beskrivning av ditt projekt"
+        },
+        "descriptionOfTheProject": {
+            "label": "Förklara varför du inte kan ge en beskrivning av uppgifterna.",
+            "tooltip": "Denna förklaring av skälen kommer inte att offentliggöras."
+        },
+        "summaryOfTheProject": {
+            "label": "Sammanfattning av projektet",
+            "tooltip": "Ge en kort sammanfattning (250 ord eller mindre) av projektets mål, uppgifter som ska användas, metoder och vilken form av resultat som förväntas."
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummary": {
+            "label": "Du kan inte lämna någon sammanfattning av projektets karaktär"
+        },
+        "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason": {
+            "label": "Förklara varför du inte kan ge någon sammanfattning av ditt projekt",
+            "tooltip": "Denna förklaring av skälen kommer inte att offentliggöras."
+        }
+    },
+    "section3": {
+        "section3h5": "Uppgifter om sökande och kontaktperson",
+        "section3Description": "En ansökan om datatillstånd bör innehålla namn och kontaktuppgifter för den sökande, antingen en juridisk eller en fysisk person. Information om den kontaktperson som svarar på förfrågningar som rör ansökan, oavsett om det rör sig om samma person som sökanden eller en annan person, bör också ingå. Om kontaktpersonen inte är samma person som sökanden bör deras förhållande, t.ex. baserat på ett anställningsavtal, klargöras.",
+        "section3DescriptionRequest": "I en ansökan om begäran om uppgifter ska sökandens namn och kontaktuppgifter anges, antingen en juridisk eller en fysisk person. Information om den kontaktperson som svarar på förfrågningar i samband med ansökan, oavsett om det rör sig om samma person som sökanden (om det rör sig om en fysisk person som sökanden) eller en annan person, bör också ingå.\nOm kontaktpersonen inte är samma person som sökanden bör deras förhållande, t.ex. baserat på ett anställningsavtal, klargöras.",
+        "applyingForDataOnBehalfOfPublicSector": {
+            "label": "Ansöker du om data på uppdrag av en offentlig myndighet eller en EU-institution, ett EU-organ eller en EU-byrå?"
+        },
+        "applyingForDataForCarryingOutTasks": {
+            "label": "Ansöker du om uppgifter för att utföra uppgifter som ingår i din organisations/institutions mandat?",
+            "tooltip": "Med uppgifter inom ramen för din organisations/institutions mandat avses uppgifter som grundar sig på nationell lagstiftning eller EU-lagstiftning."
+        },
+        "legalOrNaturalPerson": {
+            "label": "Är sökanden en juridisk eller fysisk person?",
+            "tooltip": "Fysisk person = en fysisk person, en enskild människa, juridisk person = ett företag, en organisation eller en förening.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Juridiska personer."
+                },
+                {
+                    "key": "b",
+                    "value": "Fysisk person",
+                    "info": "(Om du väljer detta alternativ bekräftar du att du ansöker om uppgifter som privatperson utan anslutning.)"
+                }
+            ]
+        },
+        "legalPerson": "Juridiska personer.",
+        "naturalPerson": "Fysiska personer",
+        "legalPersonName": {
+            "label": "Fullständigt namn"
+        },
+        "postalAddress": "Postadress",
+        "legalPersonAddress": {
+            "label": "Gatunamn och nummer"
+        },
+        "legalPersonZipCode": {
+            "label": "Zip-kod"
+        },
+        "legalPersonCity": {
+            "label": "Stad/kommun"
+        },
+        "legalPersonCountry": {
+            "label": "Land"
+        },
+        "contactPersonInformation": "Upplysningar om kontaktpersonen",
+        "contactPersonInformationDescription": "Kontaktperson avser den person som svarar på förfrågningar om ansökan. Kontaktpersonens uppgifter kan vidarebefordras till den personuppgiftsansvarige under behandlingen av en ansökan om ytterligare information krävs för att fastställa extraheringen av uppgifter. ",
+        "contactPersonName": {
+            "label": "Fullständigt namn"
+        },
+        "contactPersonEmail": {
+            "label": "Mejla oss"
+        },
+        "contactPersonPhone": {
+            "label": "Telefon"
+        },
+        "contactPersonNameOfTheOrganisation": {
+            "label": "Organisationens namn:"
+        },
+        "contactPersonBusinessIdentifier": {
+            "label": "Organisationens företagsidentitet"
+        },
+        "contactPersonOperatorIdentifier": {
+            "label": "Verksamhetsutövarens ID"
+        },
+        "contactPersonJobTitle": {
+            "label": "Tjänstebeteckning"
+        },
+        "contactPersonAffiliation": {
+            "label": "Tillhörighet"
+        },
+        "contactPersonRelationship": {
+            "label": "Vilket förhållande finns mellan kontaktpersonen och sökanden? (T.ex. en anställd som ansöker om uppgifter för sin organisations räkning.)"
+        },
+        "naturalPersonName": {
+            "label": "Fullständigt namn"
+        },
+        "naturalPersonAddress": {
+            "label": "Gatunamn och nummer"
+        },
+        "naturalPersonZipCode": {
+            "label": "Zip-kod"
+        },
+        "naturalPersonCity": {
+            "label": "Stad/kommun"
+        },
+        "naturalPersonCountry": {
+            "label": "Land"
+        },
+        "naturalPersonEmail": {
+            "label": "Mejla oss"
+        },
+        "naturalPersonPhone": {
+            "label": "Telefon"
+        },
+        "naturalPersonJobTitle": {
+            "label": "Tjänstebeteckning"
+        },
+        "naturalPersonAffiliation": {
+            "label": "Tillhörighet"
+        }
+    },
+    "section4": {
+        "section4h5": "Betalningsuppgifter",
+        "section4Description": "Betalningsuppgifter för den person till vilken organet med ansvar för tillgång till hälsodata vänder sig till fakturorna i samband med denna ansökan och tillhörande datatillstånd, om sådana beviljas.",
+        "sameAsContactPerson": {
+            "label": "Samma som den kontaktperson som nämns i avsnitt 3?"
+        },
+        "fullName": {
+            "label": "Fullständigt namn"
+        },
+        "address": {
+            "label": "Adress"
+        },
+        "email": {
+            "label": "Mejla oss"
+        },
+        "phone": {
+            "label": "Telefon"
+        },
+        "invoiceType": {
+            "label": "Typ av faktura",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Papper"
+                },
+                {
+                    "key": "b",
+                    "value": "Elektroniska"
+                }
+            ]
+        },
+        "invoiceReferenceNumber": {
+            "label": "Fakturareferensnummer."
+        },
+        "invoiceAddress": {
+            "label": "E-fakturaadress (EDI eller IBAN)"
+        },
+        "operatorIdentifier": {
+            "label": "Verksamhetsutövarens ID"
+        },
+        "nameOfTheOrganisation": {
+            "label": "Organisationens namn:"
+        },
+        "businessIdentifierOrganization": {
+            "label": "Organisationens företagsidentitet"
+        },
+        "vatNumber": {
+            "label": "Momsregistreringsnummer"
+        },
+        "peppolCode": {
+            "label": "Peppol-kod (i förekommande fall)"
+        },
+        "isTheProjectFinanciallyCovered": {
+            "label": "Omfattas projektet ekonomiskt?"
+        },
+        "rangeOfAmountOfFinancing": {
+            "label": "Hur stort är det finansieringsbelopp för projektet som kommer att använda de begärda uppgifterna?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "10 000 EUR"
+                },
+                {
+                    "key": "b",
+                    "value": "10 000–50 000 EUR"
+                },
+                {
+                    "key": "c",
+                    "value": "50 000–100 000 EUR"
+                },
+                {
+                    "key": "d",
+                    "value": "100 000–500 000 EUR"
+                },
+                {
+                    "key": "e",
+                    "value": "500 000–1 000 000 EUR"
+                },
+                {
+                    "key": "f",
+                    "value": "> 1 000 000 EUR"
+                }
+            ]
+        }
+    },
+    "section5": {
+        "section5h5": "Syftet med dataanvändningen",
+        "section5Description": "Sökande bör ange för vilket ändamål uppgifterna begärs, i enlighet med artikel 53.1 i förordningen om det europeiska hälsodataområdet, som godkändes av Europaparlamentet den 17/12. \nDe sökande måste förklara och motivera varför de begärda uppgifterna är nödvändiga för deras angivna användningsändamål. De sökande uppmanas också att lämna information om syftet med projektet. Beroende på användningsändamål (forskning eller annan forskning) måste de sökande därefter lämna en sammanfattning av planen för användning av uppgifterna eller en sammanfattning av forskningsplanen samt information om den person som ansvarar för dataanvändningen eller forskningen.",
+        "purposeOfUse": {
+            "label": "Syftet med dataanvändningen. Organ med ansvar för tillgång till hälsodata ska endast ge tillgång till de e-hälsodata som avses i artikel 51 om det avsedda ändamålet med den behandling som sökanden eftersträvar är förenligt med följande ändamål (enligt artikel 53.1) som förtecknas nedan).",
+            "tooltip": "Syftet med förordningen om det europeiska hälsodataområdet.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. Allmänhetens intresse på områdena folkhälsa eller hälsa på arbetsplatsen, såsom verksamhet för att skydda mot allvarliga gränsöverskridande hot mot människors hälsa, övervakning av folkhälsan eller verksamhet som säkerställer en hög kvalitets- och säkerhetsnivå inom hälso- och sjukvården, inbegripet patientsäkerheten, och för läkemedel eller medicintekniska produkter."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Politiskt beslutsfattande och regleringsverksamhet för att hjälpa offentliga organ eller unionens institutioner, organ och byråer, inbegripet tillsynsmyndigheter, inom hälso- och sjukvårdssektorn att utföra sina uppgifter enligt deras mandat."
+                },
+                {
+                    "key": "c",
+                    "value": "c. Statistik enligt definitionen i artikel 3 (1) i förordning (EU) nr 223/2009, såsom officiell statistik på nationell nivå, multinationell nivå och unionsnivå som rör hälso- och sjukvårdssektorn eller omsorgssektorn."
+                },
+                {
+                    "key": "d",
+                    "value": "D. Utbildnings- eller undervisningsverksamhet inom hälso- och sjukvårdssektorn på yrkes- eller högskolenivå."
+                },
+                {
+                    "key": "e",
+                    "value": "e. Vetenskaplig forskning om hälso- och sjukvårdssektorer eller vårdsektorer som bidrar till folkhälsa eller utvärdering av medicinsk teknik, eller säkerställer höga kvalitets- och säkerhetsnivåer för hälso- och sjukvård, läkemedel eller medicintekniska produkter, i syfte att gynna slutanvändare, såsom patienter, hälso- och sjukvårdspersonal och hälso- och sjukvårdsadministratörer, inbegripet\ni) Utvecklings- och innovationsverksamhet för produkter eller tjänster.\nII) Utbildning, testning och utvärdering av algoritmer, inbegripet i medicintekniska produkter, medicintekniska produkter för in vitro-diagnostik, AI-system och digitala hälsotillämpningar."
+                },
+                {
+                    "key": "f",
+                    "value": "F. Förbättring av tillhandahållande av vård, optimering av behandling och tillhandahållande av hälso- och sjukvård, på grundval av andra fysiska personers e-hälsodata."
+                }
+            ]
+        },
+        "whyTheDataIsNeeded": {
+            "label": "Varför ansöker du om de uppgifter som behövs för det angivna ändamålet? Förklara här varför mängden och typen av uppgifter som du ansöker om är nödvändiga för dataanvändningen."
+        },
+        "whyAreTheDataRequested": {
+            "label": "Varför behövs de uppgifter som begärs i denna ansökan för det angivna ändamålet?"
+        },
+        "whatIsTheAimAndTopicOfTheProject": {
+            "label": "Vad är syftet med och ämnet för ditt projekt?"
+        },
+        "whichAreTheExpectedBenefits": {
+            "label": "Vilken är den förväntade nyttan med användningen av e-hälsodata och hur denna nytta bidrar till de ändamål som avses i punkt 5.1?"
+        },
+        "legalBasis": {
+            "label": "Ange den rättsliga grunden, till exempel relevant lagstiftning, som definierar de uppgifter som omfattas av ditt mandat och bekräftar att din planerade användning av uppgifterna är avsedd att underlätta sådana uppgifter.",
+            "tooltip": "Förklara här varför den mängd uppgifter som du ansöker om är nödvändig för att du ska kunna använda uppgifterna. Motivera och beskriva hur innehållet i den begärda statistiken motsvarar det syfte som anges i ansökan och uppfyller dina uppgiftskrav."
+        },
+        "linkToTheSupportingLegalBasis": {
+            "label": "Ange en länk till styrkande handlingar som bevis på den rättsliga grunden"
+        },
+        "summaryOfPlanForUsingTheData": {
+            "label": "Ge en sammanfattning av din plan för användning av uppgifterna. Sammanfattningen ska vara avfattad på ett av EU:s officiella språk."
+        },
+        "summaryOfPlanForUsingTheDataLanguage": {
+            "label": "Välj språk i sammanfattningen",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgariska"
+                },
+                {
+                    "key": "hr",
+                    "value": "Kroatiska"
+                },
+                {
+                    "key": "cs",
+                    "value": "Tjeckiska"
+                },
+                {
+                    "key": "da",
+                    "value": "Danska"
+                },
+                {
+                    "key": "nl",
+                    "value": "Nederländska"
+                },
+                {
+                    "key": "en",
+                    "value": "Engelska"
+                },
+                {
+                    "key": "et",
+                    "value": "Estniska"
+                },
+                {
+                    "key": "fi",
+                    "value": "Finska"
+                },
+                {
+                    "key": "fr",
+                    "value": "Franska"
+                },
+                {
+                    "key": "de",
+                    "value": "Tyska"
+                },
+                {
+                    "key": "el",
+                    "value": "Grekiska"
+                },
+                {
+                    "key": "hu",
+                    "value": "Ungerska"
+                },
+                {
+                    "key": "ga",
+                    "value": "Iriska"
+                },
+                {
+                    "key": "it",
+                    "value": "Italienska"
+                },
+                {
+                    "key": "lv",
+                    "value": "Lettiska"
+                },
+                {
+                    "key": "lt",
+                    "value": "Litauiska"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltesiska"
+                },
+                {
+                    "key": "pl",
+                    "value": "Polska"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugisiska"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumänska"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovakiska"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slovenska"
+                },
+                {
+                    "key": "es",
+                    "value": "Spanska"
+                },
+                {
+                    "key": "sv",
+                    "value": "Svenska"
+                }
+            ]
+        },
+        "summaryOfResearchPlan": {
+            "label": "Ge en sammanfattning av din forskningsplan. Sammanfattningen ska vara avfattad på ett av EU:s officiella språk."
+        },
+        "summaryOfResearchPlanLanguage": {
+            "label": "Välj språk i sammanfattningen",
+            "items": [
+                {
+                    "key": "bg",
+                    "value": "Bulgariska"
+                },
+                {
+                    "key": "hr",
+                    "value": "Kroatiska"
+                },
+                {
+                    "key": "cs",
+                    "value": "Tjeckiska"
+                },
+                {
+                    "key": "da",
+                    "value": "Danska"
+                },
+                {
+                    "key": "nl",
+                    "value": "Nederländska"
+                },
+                {
+                    "key": "en",
+                    "value": "Engelska"
+                },
+                {
+                    "key": "et",
+                    "value": "Estniska"
+                },
+                {
+                    "key": "fi",
+                    "value": "Finska"
+                },
+                {
+                    "key": "fr",
+                    "value": "Franska"
+                },
+                {
+                    "key": "de",
+                    "value": "Tyska"
+                },
+                {
+                    "key": "el",
+                    "value": "Grekiska"
+                },
+                {
+                    "key": "hu",
+                    "value": "Ungerska"
+                },
+                {
+                    "key": "ga",
+                    "value": "Iriska"
+                },
+                {
+                    "key": "it",
+                    "value": "Italienska"
+                },
+                {
+                    "key": "lv",
+                    "value": "Lettiska"
+                },
+                {
+                    "key": "lt",
+                    "value": "Litauiska"
+                },
+                {
+                    "key": "mt",
+                    "value": "Maltesiska"
+                },
+                {
+                    "key": "pl",
+                    "value": "Polska"
+                },
+                {
+                    "key": "pt",
+                    "value": "Portugisiska"
+                },
+                {
+                    "key": "ro",
+                    "value": "Rumänska"
+                },
+                {
+                    "key": "sk",
+                    "value": "Slovakiska"
+                },
+                {
+                    "key": "sl",
+                    "value": "Slovenska"
+                },
+                {
+                    "key": "es",
+                    "value": "Spanska"
+                },
+                {
+                    "key": "sv",
+                    "value": "Svenska"
+                }
+            ]
+        },
+        "personResponsibleLabel": "Person med ansvar för dataanvändning",
+        "personResponsibleName": {
+            "label": "Fullständigt namn"
+        },
+        "personResponsibleJobTitle": {
+            "label": "Tjänstebeteckning"
+        },
+        "personResponsibleAffiliation": {
+            "label": "Tillhörighet"
+        },
+        "personResearchSameAsContactPerson": {
+            "label": "Samma som den kontaktperson som nämns i avsnitt 3 (information om sökande och kontaktperson)?"
+        },
+        "personResponsibleForResearchLabel": "Person med ansvar för forskningen",
+        "personResponsibleSameAsContactPerson": {
+            "label": "Samma som den kontaktperson som nämns i avsnitt 3 (information om sökande och kontaktperson)?"
+        },
+        "personResearchName": {
+            "label": "Fullständigt namn"
+        },
+        "personResearchJobTitle": {
+            "label": "Tjänstebeteckning"
+        },
+        "personResearchAffiliation": {
+            "label": "Tillhörighet"
+        },
+        "formatOfTheElectronicHealthData": {
+            "label": "Välj formatet för de e-hälsodata som ska göras tillgängliga:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Anonymiserad"
+                },
+                {
+                    "key": "b",
+                    "value": "Pseudonymiserade"
+                }
+            ]
+        },
+        "inOrderToApplyPseudonymisedData": "Jag är medveten om att jag för att kunna ansöka om pseudonymiserade uppgifter måste",
+        "inOrderToApplyPseudonymisedDataA": {
+            "label": "a) Förklara hur jag kommer att följa artikel 6.1 i den allmänna dataskyddsförordningen (eller artikel 5.1 i EU:s dataskyddsförordning om en EU-institution, ett EU-organ eller en EU-byrå ansöker om uppgifter)."
+        },
+        "inOrderToApplyPseudonymisedDataB": {
+            "label": "b) Utvärdera etiska aspekter av behandlingen av uppgifterna, i tillämpliga fall och i enlighet med nationell lagstiftning eller tillämplig lagstiftning."
+        },
+        "whyNeedForPseudonymisation": {
+            "label": "Varför behöver du pseudonymiserade uppgifter för ditt projekt?"
+        }
+    },
+    "section6": {
+        "section6h5": "Beskrivning av de uppgifter som behövs",
+        "section6Description": "I detta avsnitt måste du tillhandahålla en beskrivning av den begärda datauppsättningen som tydligt anger vilka dataset som ansökan gäller. Du bör endast ansöka om uppgifter som är adekvata, relevanta och begränsade till vad som är nödvändigt med hänsyn till syftet med användningen, i enlighet med principen om uppgiftsminimering i EU:s allmänna dataskyddsförordning (artikel 5.1c). Organet med ansvar för tillgång till hälsodata utvärderar noggrant om dina krav är i linje med den allmänna dataskyddsförordningens princip om uppgiftsminimering.",
+        "descriptionSection6_1": "Fastställande av extraktionskriterier för kohorten:",
+        "descriptionOfTheDataNeeded": "Beskrivning av de uppgifter som behövs:",
+        "applicationHDABsForSelectedCountry": "Till vilket organ med ansvar för tillgång till hälsodata vill du lämna in ansökan?",
+        "applicationDatasetsPerCountry": "Respektive Dataset-register och datadistribution",
+        "informationProviderSameAsContactPerson": {
+            "label": "Samma som den kontaktperson som nämns i avsnitt 3?"
+        },
+        "hdabContacts": {
+            "label": "Om du har varit i kontakt med någon från organet med ansvar för tillgång till hälsodata om de data du söker, ange personens namn och e-postadresser här."
+        },
+        "howWillTheDataFromDifferentSourcesBeLinked": {
+            "label": "Hur kommer uppgifterna för en person från olika källor att kopplas samman? T.ex. baserat på personlig identifieringskod. Om någon annan länkningsmetod används, beskriv detta här."
+        },
+        "indicateTheSizeOfTheStudyCohort": {
+            "label": "Ange kohortens storlek"
+        },
+        "indicateTheSizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Kohortens storlek (radioknappar)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Detta är en uppskattning av kohortens storlek."
+                },
+                {
+                    "key": "b",
+                    "value": "Detta är kohortens exakta storlek."
+                }
+            ]
+        },
+        "howIsTheStudyCohortFormed": {
+            "label": "Hur bildas kohorten?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Kohorten kommer att bildas på grundval av de kriterier som anges nedan."
+                },
+                {
+                    "key": "b",
+                    "value": "Kohorten har redan bildats."
+                },
+                {
+                    "key": "c",
+                    "value": "Kohorten kommer att bestå av följande två delar: en ny kohort som bildats på grundval av de kriterier som anges nedan och en redan bildad kohort."
+                },
+                {
+                    "key": "d",
+                    "value": "Kohorten kommer att vara hela befolkningen i ett land/de länder som anges i början av detta formulär."
+                }
+            ]
+        },
+        "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants": {
+            "label": "Om du vill använda en kohort på grundval av din egen tidigare enkätstudie, har kohorten bildats på grundval av informerade samtycke från deltagarna i studien? T.ex. kohort som bildats på grundval av en undersökningsstudie eller en klinisk studie, till vilken registerbaserade data kommer att kopplas till enligt förordningen om det europeiska hälsodataområdet."
+        },
+        "doesTheInformedConsentCoverTheRequestedRegistryExtractions": {
+            "label": "Omfattar det informerade samtycket de begärda registerutdragen?"
+        },
+        "consentAndInformationLetterAttachment": {
+            "label": "Bifoga det samtycke och det informationsbrev som du har skickat till försökspersonerna. Bifoga inte formulär som är ifyllda eftersom de innehåller personuppgifter."
+        },
+        "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
+            "label": "Jag bekräftar att datatillståndet har beviljats för detta forskningsprojekt."
+        },
+        "ifTheGroupHasBeenFormedBasedOnPreviousIssued": {
+            "label": "Om kohorten har bildats på grundval av ett tidigare utfärdat tillstånd, ange här följande information:"
+        },
+        "previouslyIssuedPermitIssuer1": {
+            "label": "Utfärdare av tillståndsbeslutet"
+        },
+        "previouslyIssuedPermitDate1": {
+            "label": "Datum"
+        },
+        "validityPeriod1": "Giltighetsperiod",
+        "previouslyIssuedPermitValidityPeriodFrom1": {
+            "label": "Från"
+        },
+        "previouslyIssuedPermitValidityPeriodTo1": {
+            "label": "Till"
+        },
+        "previouslyIssuedPermitNumber1": {
+            "label": "Tillståndsnummer"
+        },
+        "permitDecisionAttachment": {
+            "label": "Bifoga ett tillståndsbeslut som omfattar utdrag av kohortdata i detta avsnitt."
+        },
+        "howTheStudyCohortWasObtained": {
+            "label": "Beskriv hur kohorten erhölls och skälen till att datatillstånd/samtycke saknades."
+        },
+        "providedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Har du lämnat information om användningen av uppgifterna till motsvarande försökspersoner? T.ex. dela med sig av information om användningen av data på en projektwebbplats.",
+            "tooltip": "För mer information, se artiklarna 13 och 14 i den allmänna dataskyddsförordningen: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
+            "tooltipForm": "För ytterligare information, se artiklarna 13 och 14 i <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\"> General Data Protection Regulation."
+        },
+        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Hur då?"
+        },
+        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
+            "label": "Varför inte?"
+        },
+        "whoWillDeliverTheInformationOnTheStudy": {
+            "label": "Vem kommer att lämna information om kohorten till organet med ansvar för tillgång till hälsodata? Denna person kommer att få instruktioner om hur uppgifterna ska levereras via den gemensamma portalen för det europeiska hälsodataområdet."
+        },
+        "informationProviderName": {
+            "label": "Fullständigt namn"
+        },
+        "informationProviderEmail": {
+            "label": "E-post"
+        },
+        "informationProviderPhone": {
+            "label": "Telefonnummer"
+        },
+        "whyNeedDataOfaWholePopulation": {
+            "label": "Ange varför du behöver uppgifter om en hel population/hela populationer?",
+            "tooltip": "Se till att bildandet av kohorten definieras tillräckligt tydligt och avgränsa kohortstorleken i enlighet med den avsedda användningen. Var särskilt uppmärksam på vilka register kohorten hämtas från samt kriterierna för införande och uteslutning av kohorten. En geografisk definition kan till exempel avse bosättningsort, födelseort, arbetsplats eller den plats där tjänsterna används."
+        },
+        "sizeOfTheStudyCohort": {
+            "label": "Ange kohortens storlek"
+        },
+        "sizeOfTheStudyCohortEstimationOrExact": {
+            "label": "Kohortens storlek (radioknappar)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Detta är en uppskattning av kohortens storlek."
+                },
+                {
+                    "key": "b",
+                    "value": "Detta är kohortens exakta storlek."
+                }
+            ]
+        },
+        "whyNeedStudyCohortOfThisSize": {
+            "label": "Varför behöver du en kohort av denna storlek för ditt projekt?"
+        },
+        "ethicalReview": "Etisk granskning – text som ska tillhandahållas av utredningsenheten",
+        "ethicalReviewDescription": "Etisk granskning",
+        "ethicalReviewInput": {
+            "label": "Etisk granskning",
+            "tooltip": "Texten ska tillhandahållas av policyenheten."
+        },
+        "ethicalReviewAttachment": {
+            "label": "Etisk granskning"
+        },
+        "dataHolders": "Från vilken eller vilka datainnehavare kommer uppgifterna att extraheras?",
+        "whichDatabasesDataExtracted": "Från vilka databaser/register kommer uppgifterna att hämtas?",
+        "whichDatasetDataExtracted": "Från vilka dataposter/register kommer uppgifterna att hämtas?",
+        "variablesToBeUsedInDataExtractionAttachment": {
+            "label": "Om informationen finns tillgänglig, bifoga förteckningen över de variabler som ska användas vid extraktionen av data. Använd de exakta termer som respektive datainnehavare tillhandahåller i metadatakatalogen."
+        },
+        "timePeriodOfDataExtraction": {
+            "label": "För vilken eller vilka tidsperioder kommer uppgiftsposterna att extraheras?"
+        },
+        "extractionMethod": {
+            "label": "Extraktionsmetod:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "stickprov"
+                },
+                {
+                    "key": "b",
+                    "value": "alla som uppfyller kriterierna"
+                },
+                {
+                    "key": "c",
+                    "value": "annat urval"
+                }
+            ]
+        },
+        "samplingMethod": {
+            "label": "Beskriv urvalsmetoden"
+        },
+        "sampleSize": {
+            "label": "Provstorlek",
+            "tooltip": "Svaren kan till exempel vara följande: 100000 personer eller 50 % av de personer som uppfyller kriterierna."
+        },
+        "inclusionCriteria": {
+            "label": "Beskriv inkluderingskriterierna för kohortextraktion ",
+            "tooltip": "KOM ihåg att förtydliga eventuella inkluderingskriterier som kan vara tvetydiga. Om du till exempel vill inkludera registrerade med en viss ålder, klargöra utifrån vilken variabel åldern ska beräknas och vid vilken tidpunkt."
+        },
+        "potentialExclusionCriteria": {
+            "label": "Beskriv potentiella uteslutningskriterier för kohortextraktion"
+        },
+        "tabulationPlanArray": {
+            "label": "Tabelluppställning",
+            "tooltip": "Dessutom ska följande uppgifter skrivas ned för varje tabell: ● register som ska användas ● möjlig kohort ● information om de nödvändiga variablerna (om sådana finns) ● formering av variabler om de inte kan nås direkt från databasen ● önskad riktning för aggregering av procentandelar ● ordning i vilken tabeller genereras när tidigare genererade tabeller används för att skapa andra tabeller ● alla andra relevanta faktorer som rör generering av den eller de tabeller som krävs."
+        },
+        "tabulationRegisteredToBeUsed": {
+            "label": "Register som ska användas"
+        },
+        "tabulationPossibleStudyCohort": {
+            "label": "Möjlig kohort"
+        },
+        "tabulationInformationOfRequiredVariables": {
+            "label": "Information om de variabler som krävs (i förekommande fall)"
+        },
+        "tabulationFormationVariables": {
+            "label": "Skapande av variabler där de inte kan nås direkt från databasen"
+        },
+        "tabulationDesiredDirection": {
+            "label": "Önskad riktning för aggregering av procentandelar"
+        },
+        "tabulationOrderInWhichTable": {
+            "label": "I vilken ordning tabeller genereras när tidigare genererade tabeller används för att skapa andra tabeller"
+        },
+        "tabulationAnyOtherRelevant": {
+            "label": "Alla andra relevanta faktorer i samband med generering av den eller de tabeller som krävs. "
+        },
+        "tabulationPlanButton": "Lägg till tabell",
+        "tabulationPlan": {
+            "label": "Tabelluppställning",
+            "tooltip": "Bifoga ett exempel på Excel-tabell (eller motsvarande) för varje statistik som du begär."
+        },
+        "extractionDescriptionAndCompilation": {
+            "label": "Extraktionsbeskrivning och sammanställning av statistik",
+            "tooltip": "Ett organ med ansvar för tillgång till hälsodata får endast tillhandahålla de data som du begär i anonymiserat statistiskt format, om din begäran om data godtas. På grund av anonymitet ska dataanvändaren inte ha tillgång till de e-hälsodata som används för att lämna detta svar. All information du begär måste lämnas ned till en allmän nivå för att undvika små celltal med hög potential för återidentifiering."
+        },
+        "dataExtraction": "Tidpunkt för dataextraktion och ordning för kohorten",
+        "dataExtractionTimes": "Tidpunkt för dataextraktion och ordning för kohorten",
+        "howOftenDoesTheDataNeedToBeExtracted": {
+            "label": "Hur ofta behöver uppgifterna extraheras?"
+        },
+        "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
+            "label": "Hur ofta behöver uppgifterna extraheras?"
+        },
+        "needForDataExtractionEvery": {
+            "label": "Alla uppgifter måste extraheras.",
+            "tooltip": "Om du vill att uppgifterna ska extraheras flera gånger under en viss tidsperiod, observera att definitionerna och datainsamlingsmetoden i vissa fall kan ändras under granskningsperioden. Observera att den maximala frekvensen för dataextraktion är varje kvartal."
+        },
+        "needForDataExtractionEveryOther": {
+            "label": "Ange övrigt"
+        },
+        "needForDataExtractionEveryDescriptionDR": {
+            "label": "Ge mer information om uttagsperioder/-tider",
+            "tooltip": "Om du vill att uppgifterna ska extraheras flera gånger under en viss tidsperiod, observera att definitionerna och datainsamlingsmetoden i vissa fall kan ändras under granskningsperioden."
+        },
+        "needForDataExtractionEveryDescription": {
+            "label": "Ge mer information om perioder/tider för att extrahera kohorten",
+            "tooltip": "Om du vill att uppgifterna ska extraheras flera gånger under en viss tidsperiod, observera att definitionerna och datainsamlingsmetoden i vissa fall kan ändras under granskningsperioden."
+        },
+        "whatIsTheFrequencyOfUpdates": {
+            "label": "Hur ofta behöver uppgifterna uppdateras?"
+        },
+        "orderForDataExtraction": {
+            "label": "I vilken ordning kommer kohortdata att extraheras om det påverkar resultaten av extraheringen av data? Ange en numrerad förteckning över extraktionsfaser. Till exempel: 1. Datainnehavare A, 2. Datainnehavare B, 3. Datainnehavare C"
+        },
+        "definingExtractionCriteria": "Fastställande av extraktionskriterier för kontroller:",
+        "willControlsBeExtracted": {
+            "label": "Kommer kontroller att tas ut för kohorten?"
+        },
+        "hasTheGroupRelativesFormed2": {
+            "label": "Har kontrollgruppen bildats på grundval av ett tidigare utfärdat tillstånd?"
+        },
+        "willSameDataBeExtractedForControls": {
+            "label": "Kommer samma uppgifter som för kohorten att extraheras för kontroller?"
+        },
+        "regionForControlsDataExtraction": {
+            "label": "Om du inte söker data för kontroller från hela landet, från vilken region/vilka regioner och/eller städer och/eller kommuner söker du data?"
+        },
+        "fromWhichDataHolderLabel": "Från vilka datainnehavare kommer data för kontroller att extraheras?",
+        "fromWhichDatabaseLabel": "Från vilka databaser/register kommer uppgifterna för kontroller att extraheras?",
+        "fromWhichDatasetLabel": "Från vilka dataposter/register kommer uppgifterna för kontroller att extraheras?",
+        "variablesForDataExtraction": {
+            "label": "Om informationen finns tillgänglig, ange de variabler som ska användas vid extraktionen av data. Använd de exakta termer som respektive datainnehavare tillhandahåller i metadatakatalogen."
+        },
+        "timePeriodForDataExtraction": {
+            "label": "För vilken eller vilka tidsperioder kommer uppgiftsposterna att extraheras?"
+        },
+        "extractionCriteriaForControls": {
+            "label": "Specificera extraktionskriterier för kontroller, t.ex. matchningskriterier"
+        },
+        "sizeOfControlGroup": {
+            "label": "Kontrollgruppens storlek"
+        },
+        "sizeOfControlGroupEstimationOrExact": {
+            "label": "Kontrollgruppens storlek (Radio Buttons)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Detta är en uppskattning av kontrollgruppens storlek."
+                },
+                {
+                    "key": "b",
+                    "value": "Detta är den exakta storleken på kontrollgruppen."
+                }
+            ]
+        },
+        "controlsPerPersonInStudyCohort": {
+            "label": "Hur många kontroller utvinns per person som tillhör kohorten?"
+        },
+        "inclusionCriteriaForControls": {
+            "label": "Beskriv inkluderingskriterierna för kontrollernas extraktion"
+        },
+        "exclusionCriteriaForControls": {
+            "label": "Beskriv de potentiella uteslutningskriterierna för kontrollernas extraktion."
+        },
+        "ifTheGroupHasBeenFormed": "Om kontrollgruppen har bildats på grundval av ett tidigare utfärdat tillstånd, ange här följande information:",
+        "previouslyIssuedPermitIssuer2": {
+            "label": "Utfärdare av tillståndsbeslutet"
+        },
+        "previouslyIssuedPermitDate2": {
+            "label": "Datum"
+        },
+        "validityPeriod2": "Giltighetsperiod",
+        "previouslyIssuedPermitValidityPeriodFrom2": {
+            "label": "Från"
+        },
+        "previouslyIssuedPermitValidityPeriodTo2": {
+            "label": "Till"
+        },
+        "previouslyIssuedPermitNumber2": {
+            "label": "Tillståndsnummer"
+        },
+        "dataExtractionAndOrderForControls": " Tidpunkt för dataextraktion och ordningsföljd för kontroller",
+        "willDataForControlsBeExtractedSimultaneously": {
+            "label": "Kommer uppgifterna för kontrollerna att extraheras samtidigt och i samma ordning som uppgifterna för kohorten?"
+        },
+        "hasTheGroupRelativesFormed3": {
+            "label": "Har gruppen av släktingar bildats på grundval av ett tidigare utfärdat tillstånd?"
+        },
+        "ifTheGroupOfRelativesHasBeenFormed": {
+            "label": "Om gruppen av släktingar har bildats på grundval av ett tidigare utfärdat tillstånd, ange här följande information:"
+        },
+        "previouslyIssuedPermitIssuer3": {
+            "label": "Utfärdare av tillståndsbeslutet"
+        },
+        "previouslyIssuedPermitDate3": {
+            "label": "Datum"
+        },
+        "validityPeriod3": "Giltighetsperiod",
+        "previouslyIssuedPermitValidityPeriodFrom3": {
+            "label": "Från"
+        },
+        "previouslyIssuedPermitValidityPeriodTo3": {
+            "label": "Till"
+        },
+        "previouslyIssuedPermitNumber3": {
+            "label": "Tillståndsnummer"
+        },
+        "dataExtractionFrequency": {
+            "label": "Hur ofta behöver uppgifterna extraheras?"
+        },
+        "dataExtractionFrequencyMultipleTimesInformation": {
+            "label": "Vid återkommande extraktion, lämna separat information om varje dataextraktionsprocess i orderinstruktionerna."
+        },
+        "dataNeedsToBeExtractedEvery": {
+            "label": "Alla uppgifter måste extraheras.",
+            "tooltip": "Om du vill att uppgifterna ska extraheras flera gånger under en viss tidsperiod, observera att definitionerna och datainsamlingsmetoden i vissa fall kan ändras under granskningsperioden. Observera att den maximala frekvensen för dataextraktion är varje kvartal."
+        },
+        "specifyOther": {
+            "label": "Ange övrigt"
+        },
+        "moreInfoOnExtractionPeriods": {
+            "label": "Ge mer information om uttagsperioder/-tider"
+        },
+        "orderOfControlsDataExtraction": {
+            "label": "I vilken ordning kommer kontrollernas data att extraheras om det påverkar resultaten av extraheringen av data? Ange en numrerad förteckning över extraktionsfaser. Till exempel: 1. Datainnehavare A, 2. Datainnehavare B, 3. Datainnehavare C"
+        },
+        "definingTheExtractionCriteria": "Fastställande av extraktionskriterier för släktingar:",
+        "willRelativesBeExtracted": {
+            "label": "Kommer släktingar att utplånas för kohorten?"
+        },
+        "willSameDataBeExtractedForRelatives": {
+            "label": "Kommer samma uppgifter som för kohorten att hämtas för släktingar?"
+        },
+        "whichDataHoldersForRelatives": "Från vilken eller vilka datainnehavare kommer data för släktingar att extraheras?",
+        "whichDatabaseForRelatives": "Från vilka databaser/register kommer uppgifterna om släktingar att hämtas?",
+        "whichDatasetsForRelatives": "Från vilka dataposter/register kommer uppgifterna om släktingar att hämtas?",
+        "variablesForDataExtractionRelatives": {
+            "label": "Om informationen är tillgänglig, ange de variabler som ska användas vid extraktionen av data. Använd de exakta termer som respektive datainnehavare tillhandahåller i metadatakatalogen."
+        },
+        "timePeriodForDataExtractionRelatives": {
+            "label": "För vilken eller vilka tidsperioder kommer uppgiftsposterna att extraheras?"
+        },
+        "relationshipToStudyCohort": {
+            "label": "Definiera släktingarnas förhållande till den person som tillhör kohorten (t.ex. mor- och farföräldrar, biologiska föräldrar, mor)"
+        },
+        "sizeOfRelativesGroup": {
+            "label": "Storleken på gruppen av släktingar"
+        },
+        "sizeOfRelativesGroupEstimateOrExact": {
+            "label": "Storlek på släktingar (Radioknappar)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Detta är en uppskattning av storleken på gruppen av släktingar."
+                },
+                {
+                    "key": "b",
+                    "value": "Detta är den exakta storleken på gruppen av släktingar."
+                }
+            ]
+        },
+        "willDataForRelativesBeExtractedSimultaneously": {
+            "label": "Kommer uppgifterna om släktingar att hämtas samtidigt och i samma ordning som uppgifterna för kohorten?"
+        },
+        "dataExtractionFrequencyRelatives": {
+            "label": "Hur ofta behöver uppgifterna extraheras?"
+        },
+        "dataNeedsToBeExtractedEveryRelatives": {
+            "label": "Alla uppgifter måste extraheras.",
+            "tooltip": "Om du vill att uppgifterna ska extraheras flera gånger under en viss tidsperiod, observera att definitionerna och datainsamlingsmetoden i vissa fall kan ändras under granskningsperioden. Observera att den maximala frekvensen för dataextraktion är varje kvartal."
+        },
+        "dataExtractionFrequencyMultipleTimesInformationRelatives": {
+            "label": "Vid återkommande extraktion, lämna separat information om varje dataextraktionsprocess i orderinstruktionerna."
+        },
+        "needForDataExtractionEveryOptions": {
+            "label": "Alla uppgifter måste extraheras.",
+            "tooltip": "Om du vill att uppgifterna ska extraheras flera gånger under en viss tidsperiod, observera att definitionerna och datainsamlingsmetoden i vissa fall kan ändras under granskningsperioden. Observera att den maximala frekvensen för dataextraktion är varje kvartal."
+        },
+        "specifyOtherRelatives": {
+            "label": "Ange övrigt"
+        },
+        "moreInfoOnExtractionPeriodsRelatives": {
+            "label": "Ge mer information om uttagsperioder/-tider"
+        },
+        "orderOfRelativesDataExtraction": {
+            "label": "Om det påverkar resultaten av dataextraheringen, i vilken ordning kommer släktingarnas uppgifter att extraheras? Ange en numrerad förteckning över extraktionsfaser. Till exempel: 1. Datainnehavare A, 2. Datainnehavare B, 3. Datainnehavare C"
+        }
+    },
+    "section7": {
+        "section7h5": "Övriga uppgifter som ska kombineras",
+        "section7Description": "Det är möjligt att kombinera andra personuppgifter, t.ex. uppgifter som du redan förfogar över eller uppgifter som erhållits någon annanstans med ett annat tillstånd, med de uppgifter som ansökan gäller. Ange informationen för alla ytterligare data som kommer att kombineras med de data som godkänts av organet med ansvar för tillgång till hälsodata. Om du senare vill kombinera andra personuppgifter med de data som godkänts av det organ som ansvarar för tillgång till hälsodata måste du lämna in en ansökan om ändring till samma organ med ansvar för tillgång till hälsodata. Om du har någon annan kohort som du vill att organet med ansvar för tillgång till hälsodata ska kombinera med de data du ansöker om får du instruktioner om hur du kan leverera uppgifterna på ett säkert sätt efter det att tillståndet har beviljats.",
+        "addDataPermit": "Lägg till datatillstånd",
+        "addInfo": "Lägg till information",
+        "removeDataPermit": "Ta bort datatillstånd",
+        "willDataBeCombinedWithDataObtained": {
+            "label": "Kommer de uppgifter du ansöker om att kombineras med uppgifter som du redan har samlat in eller uppgifter som kommer att sökas från andra källor?"
+        },
+        "listOtherDataToBeCompined": "Ange de övriga uppgifter som ska kombineras och källorna till dessa uppgifter:",
+        "combinedCountries": {
+            "label": "Länder"
+        },
+        "combinedDataHolders": {
+            "label": "Datainnehavare"
+        },
+        "combinedDatabaseRegistries": {
+            "label": "Databaser/register"
+        },
+        "combinedDatasetsRegistries": {
+            "label": "Datauppsättningar/register"
+        },
+        "provideInformationList": {
+            "label": "Lämna information om de uppgifter som ska kombineras och den planerade kombinationsmetoden.",
+            "tooltip": "Lämna information om följande, i den mån det är tillämpligt: datamängd, antal filer, filformat, filernas storlek, särskilda anmärkningar (finns det direkta/indirekta identifierare, uppgifter bör pseudonymiseras osv.)"
+        },
+        "dataset": {
+            "label": "Datauppsättning"
+        },
+        "numberOfFiles": {
+            "label": "Filernas nummer"
+        },
+        "formatOfFiles": {
+            "label": "Filernas format"
+        },
+        "sizeOfFiles": {
+            "label": "Filernas storlek"
+        },
+        "notes": {
+            "label": "Anteckningar"
+        },
+        "listAnyOtherDataPermit": "Ange här alla andra tillstånd som utfärdats för samma projekt. Tillstånden måste vara giltiga när uppgifterna behandlas:",
+        "otherPermits": {
+            "label": "Övriga tillstånd: Utfärdare av tillståndet, utfärdandedatum, sista giltighetsdag, identifieringsuppgifter"
+        },
+        "permitIssuer": {
+            "label": "Utfärdare av tillståndet"
+        },
+        "permitStartDateOfIssue": {
+            "label": "Datum för utfärdandet,"
+        },
+        "permitEndDateOfIssue": {
+            "label": "Utgångsdatum"
+        },
+        "permitIdentificationInformation": {
+            "label": "Uppgifter om identifiering av tillstånd"
+        },
+        "attachmentOfPermitDocuments": {
+            "label": "Om datauppsättningen omfattar tillstånd som utfärdats av andra parter eller om de har samlats in med samtycke, bifoga tillståndshandlingarna här."
+        },
+        "otherPermitApplications": {
+            "label": "Har du andra pågående tillståndsansökningar?"
+        },
+        "listTheOtherData": "Ange de övriga uppgifter som ska kombineras och källorna till dessa uppgifter:",
+        "applicationIssuer": {
+            "label": "Utfärdare"
+        },
+        "dateOfSubmittingTheApplication": {
+            "label": "Datum för inlämnande av ansökan"
+        },
+        "identificationCode": {
+            "label": "Kod för identifiering av tillstånd"
+        }
+    },
+    "section8": {
+        "section8h5": "Databehandling, dataskydd och skyddsåtgärder för att förhindra obehörig användning av uppgifter",
+        "section8Description": "Enligt artikel 73.1 i förslaget till förordning om det europeiska hälsodataområdet ska de organ som ansvarar för tillgång till hälsodata endast ge tillgång till e-hälsodata genom en säker behandlingsmiljö.",
+        "addPerson": "Lägg till person",
+        "removePerson": "Avlägsna person",
+        "technicalRequirementsForEnvironment": {
+            "label": "Ange här alla tekniska krav som du har för den säkra behandlingsmiljön."
+        },
+        "nameWebsiteAddressForEnvironment": {
+            "label": "Om du redan vet vilken behandlingsmiljö du vill använda, vad är dess namn och vem kommer den från? Ange här namn och leverantör av den säkra behandlingsmiljön."
+        },
+        "healthDataAccessBody": "Organet med ansvar för tillgång till hälsodata kommer att lämna uppgifterna när din ansökan har behandlats om du har beviljats ett datatillstånd. Det organ som ansvarar för tillgång till hälsodata kommer att lagra pseudonymiseringsnyckeln och de extraktionstermer och den dokumentation som används för att generera data. Datatillståndet kommer endast att beviljas för den tid som krävs för att uppfylla de begärda ändamålen. Tillståndet kan beviljas för en period på högst 10 år. Denna period kan förlängas en gång, på begäran av dataanvändaren, på grundval av argument och dokument som motiverar förlängningen (artikel 68.12 i förslaget till förordning om det europeiska hälsodataområdet). Vid behov får användningsperioden förlängas genom en ansökan om ändring av datatillståndet.",
+        "whenDataNeeded": {
+            "label": "När behöver du uppgifterna?",
+            "tooltip": "I allmänhet kommer organet med ansvar för tillgång till hälsodata att begära datautvinning från datainnehavarna så snart din ansökan har behandlats. Om du vill få uppgifterna senare, ange detta här.",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Så snart som möjligt efter det att denna ansökan har behandlats."
+                },
+                {
+                    "key": "b",
+                    "value": "Senare, när?"
+                }
+            ]
+        },
+        "ifLaterWhen": {
+            "label": "Senare, när?"
+        },
+        "informationWhichDataCanAccess": {
+            "label": "Lämna information om den period under vilken uppgifterna är tillgängliga."
+        },
+        "frequencyOfAccessOrDataUpdates": {
+            "label": "Hur ofta ges denna tillgång eller hur ofta uppgifterna uppdateras?"
+        },
+        "estimatedStartAndEnd": {
+            "label": "Vilka är de beräknade start- och slutdatum för den period under vilken e-hälsodata behövs för behandlingen?",
+            "tooltip": "Denna period kan vara fem år. Med ytterligare tillstånd kan det ursprungliga tillståndet förlängas med ytterligare fem år."
+        },
+        "estimatedStartDatesForDataProcessing": {
+            "label": "Från"
+        },
+        "estimatedEndDatesForDataProcessing": {
+            "label": "Till"
+        },
+        "ifStoreNeeded": "Om du behöver lagra uppgifterna efter behandlingen, ange här hur länge uppgifterna är inaktiva.",
+        "startPeriodOfInactiveDataStorage": {
+            "label": "Från"
+        },
+        "endPeriodOfInactiveDataStorage": {
+            "label": "Till"
+        },
+        "willTheDataBeTransferred": {
+            "label": "Kommer uppgifterna att överföras utanför EU eller EES?",
+            "tooltip": "Europeiska dataskyddsstyrelsen (EDPB) har identifierat tre kumulativa kriterier för att kvalificera en behandling som en överföring: 1) en personuppgiftsansvarig eller ett personuppgiftsbiträde (”exportör”) omfattas av dataskyddsförordningen för den aktuella behandlingen. 2) exportören genom överföring eller på annat sätt gör personuppgifter, som är föremål för denna behandling, tillgängliga för en annan personuppgiftsansvarig, gemensamt personuppgiftsansvarig eller personuppgiftsbiträde (nedan kallad importör). 3) importören befinner sig i ett tredjeland, oavsett om importören omfattas av dataskyddsförordningen för en viss behandling i enlighet med artikel 3 eller inte, eller är en internationell organisation. För mer information: https://www.edpb.europa.eu/system/files/2023-02/edpb_guidelines_05-2021_interplay_between_the_application_of_art3-chapter_v_of_the_gdpr_v2_en_0.pdf"
+        },
+        "whichCountriesDataBeProcessed": {
+            "label": "I vilket land/vilka länder utanför EU/EES kommer uppgifterna att behandlas?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Diagnostik"
+                },
+                {
+                    "key": "b",
+                    "value": "Epidemiologi"
+                },
+                {
+                    "key": "c",
+                    "value": "Patienthantering"
+                },
+                {
+                    "key": "d",
+                    "value": "Patientsäkerhet"
+                },
+                {
+                    "key": "e",
+                    "value": "Förebyggande och behandling"
+                },
+                {
+                    "key": "f",
+                    "value": "Folkhälsopolitik"
+                },
+                {
+                    "key": "g",
+                    "value": "Organisation av vårdinrättningar"
+                },
+                {
+                    "key": "h",
+                    "value": "Förstå sjukdomar"
+                },
+                {
+                    "key": "i",
+                    "value": "Övrig"
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEU": {
+            "label": "Varför kommer uppgifterna att överföras utanför EU eller EES?"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47": {
+            "label": "Artikel 47: Överföring på grundval av ett beslut om adekvat skyddsnivå"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle47Options": {
+            "label": "Varför kommer uppgifter att överföras utanför EU enligt alternativen i artikel 47?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "a. En överföring av personuppgifter till ett tredjeland eller en internationell organisation får äga rum om kommissionen i enlighet med artikel 45.3 i förordning (EU) 2016/679 eller artikel 36.3 i direktiv (EU) 2016/680 har beslutat att tredjelandet, ett territorium eller en eller flera specificerade sektorer inom det tredjelandet eller den internationella organisationen i fråga säkerställer en adekvat skyddsnivå och om personuppgifterna överförs enbart för att göra det möjligt att utföra uppgifter som omfattas av den personuppgiftsansvariges behörighet."
+                },
+                {
+                    "key": "b",
+                    "value": "b. Unionens institutioner och organ ska underrätta kommissionen och Europeiska datatillsynsmannen om de anser att ett tredjeland, ett territorium eller en eller flera specificerade sektorer i ett tredjeland eller en internationell organisation i fråga inte säkerställer en adekvat skyddsnivå i den mening som avses i punkt 1."
+                },
+                {
+                    "key": "c",
+                    "value": "c. Unionens institutioner och organ ska vidta de åtgärder som är nödvändiga för att följa beslut som fattas av kommissionen om den i enlighet med artikel 45.3 eller (5) i förordning (EU) 2016/679 eller artikel 36.3 eller (5) i direktiv (EU) 2016/680 fastställer att ett tredjeland, ett territorium eller en eller flera specificerade sektorer i ett tredjeland eller en internationell organisation säkerställer eller inte längre säkerställer en adekvat skyddsnivå."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48": {
+            "label": "Artikel 48: Överföringar som omfattas av lämpliga skyddsåtgärder"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48bOptions": {
+            "label": "Varför kommer uppgifter att överföras utanför EU enligt alternativen i artikel 48b?",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "i. En rättsligt bindande och verkställbar handling mellan offentliga myndigheter eller organ"
+                },
+                {
+                    "key": "b",
+                    "value": "II. Standardiserade uppgiftsskyddsklausuler som antagits av kommissionen i enlighet med det granskningsförfarande som avses i artikel 96.2"
+                },
+                {
+                    "key": "c",
+                    "value": "III. Standardiserade dataskyddsbestämmelser som antas av Europeiska datatillsynsmannen och godkänts av kommissionen enligt det granskningsförfarande som avses i artikel 96.2, Se SV versionen av Europeiska unionens officiella tidning L 295/78 av den 21.11.2018."
+                },
+                {
+                    "key": "d",
+                    "value": "IV. I de fall där personuppgiftsbiträdet inte är en unionsinstitution eller ett unionsorgan, bindande företagsbestämmelser, uppförandekoder eller certifieringsmekanismer enligt artikel 46.2 b, e och f i förordning (EU) 2016/679."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48a": {
+            "label": "a. I avsaknad av ett beslut enligt artikel 45.3 i förordning (EU) 2016/679 eller artikel 36.3 i direktiv (EU) 2016/680 får en personuppgiftsansvarig eller ett personuppgiftsbiträde överföra personuppgifter till ett tredjeland eller en internationell organisation endast om den personuppgiftsansvarige eller personuppgiftsbiträdet har vidtagit lämpliga skyddsåtgärder och på villkor att verkställbara registrerades rättigheter och effektiva rättsmedel för de registrerade finns tillgängliga. "
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48b": {
+            "label": "b. De lämpliga skyddsåtgärder som avses i punkt 1 får, utan att det krävs något särskilt tillstånd från Europeiska datatillsynsmannen, föreskrivas av"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48c": {
+            "label": "c. Med Europeiska datatillsynsmannens tillstånd får de lämpliga skyddsåtgärder som avses i punkt 1 också föreskrivas särskilt genom"
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48cOpt": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Avtalsklausuler mellan den personuppgiftsansvarige eller personuppgiftsbiträdet och den registeransvarige, personuppgiftsbiträdet eller mottagaren av personuppgifterna i tredjelandet eller den internationella organisationen."
+                },
+                {
+                    "key": "b",
+                    "value": "Bestämmelser som ska införas i administrativa överenskommelser mellan offentliga myndigheter eller organ vilka inbegriper lagstadgade och faktiska rättigheter för registrerade."
+                }
+            ]
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48d": {
+            "label": "D. Tillstånd från Europeiska datatillsynsmannen på grundval av artikel 9.7 i förordning (EG) nr 45/2001 ska fortsätta att gälla tills de vid behov ändras, ersätts eller upphävs av Europeiska datatillsynsmannen."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle48e": {
+            "label": "e. Unionens institutioner och organ ska informera Europeiska datatillsynsmannen om de kategorier av fall där denna artikel har tillämpats."
+        },
+        "whyWillDataBeTransferredOutsideEUArticle49": {
+            "label": "Artikel 49: Överföringar och utlämnanden som inte är tillåtna enligt unionsrätten"
+        },
+        "legalBasisForTransferringTheDataOutsideEU": {
+            "label": "Vilken är den rättsliga grunden för överföring av uppgifter utanför EU eller EES?",
+            "tooltip": "Mer information finns i kapitel 5 i den allmänna dataskyddsförordningen: <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679#d1e4227-1-1</a>",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Landet/territoriet/den internationella organisationen för överföring säkerställer en adekvat skyddsnivå enligt ett beslut av Europeiska kommissionen (artikel 35 i den allmänna dataskyddsförordningen)."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Den personuppgiftsansvarige eller personuppgiftsbiträdet har vidtagit lämpliga skyddsåtgärder och det finns verkställbara rättigheter för registrerade och effektiva rättsmedel för de registrerade (artikel 46 i den allmänna dataskyddsförordningen)."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Annan exceptionell rättslig grund (i avsaknad av lämpliga skyddsåtgärder enligt artikel 46)"
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUOtherOptions": {
+            "label": "3. Annan exceptionell rättslig grund (i avsaknad av lämpliga skyddsåtgärder enligt artikel 46)",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Den registrerade har uttryckligen samtyckt till den föreslagna överföringen, efter att ha informerats om de eventuella riskerna med sådana överföringar för den registrerade på grund av avsaknaden av ett beslut om adekvat skyddsnivå och lämpliga skyddsåtgärder."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Överföringen är nödvändig för att fullgöra ett avtal mellan den registrerade och den registeransvarige eller för att genomföra åtgärder som vidtas innan avtalet ingås på den registrerades begäran."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Överföringen är nödvändig för att ingå eller fullgöra ett avtal som ingåtts i den registrerades intresse mellan den registeransvarige och en annan fysisk eller juridisk person."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Överföringen är nödvändig av viktiga skäl av allmänt intresse."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Överföringen är nödvändig för att fastställa, göra gällande eller försvara rättsliga anspråk."
+                },
+                {
+                    "key": "f",
+                    "value": "6. Överföringen är nödvändig för att skydda intressen som är av grundläggande betydelse för den registrerade eller för andra personer, om den registrerade är fysiskt eller rättsligt förhindrad att ge sitt samtycke."
+                },
+                {
+                    "key": "g",
+                    "value": "7. Överföringen görs från ett register som enligt unionsrätten eller medlemsstaternas nationella rätt är avsett att tillhandahålla information till allmänheten och som är tillgängligt antingen för allmänheten eller för varje person som kan påvisa ett berättigat intresse, men endast i den utsträckning som de villkor för samråd som fastställs i unionsrätten eller medlemsstaternas lagstiftning är uppfyllda i det enskilda fallet."
+                }
+            ]
+        },
+        "legalBasisForTransferringTheDataOutsideEUc1": {
+            "label": "1. Den registrerade har uttryckligen samtyckt till den föreslagna överföringen, efter att ha informerats om de eventuella riskerna med sådana överföringar för den registrerade på grund av avsaknaden av ett beslut om adekvat skyddsnivå och lämpliga skyddsåtgärder. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc2": {
+            "label": "2. Överföringen är nödvändig för att fullgöra ett avtal mellan den registrerade och den registeransvarige eller för att genomföra åtgärder som vidtas innan avtalet ingås på den registrerades begäran. "
+        },
+        "legalBasisForTransferringTheDataOutsideEUc3": {
+            "label": "3. Överföringen är nödvändig för att ingå eller fullgöra ett avtal som ingåtts i den registrerades intresse mellan den registeransvarige och en annan fysisk eller juridisk person."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc4": {
+            "label": "4. Överföringen är nödvändig av viktiga skäl av allmänt intresse."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc5": {
+            "label": "5. Överföringen är nödvändig för att fastställa, göra gällande eller försvara rättsliga anspråk."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc6": {
+            "label": "6. Överföringen är nödvändig för att skydda intressen som är av grundläggande betydelse för den registrerade eller för andra personer, om den registrerade är fysiskt eller rättsligt förhindrad att ge sitt samtycke."
+        },
+        "legalBasisForTransferringTheDataOutsideEUc7": {
+            "label": "7. Överföringen görs från ett register som enligt unionsrätten eller medlemsstaternas nationella rätt är avsett att tillhandahålla information till allmänheten och som är tillgängligt antingen för allmänheten eller för varje person som kan påvisa ett berättigat intresse, men endast i den utsträckning som de villkor för samråd som fastställs i unionsrätten eller medlemsstaternas lagstiftning är uppfyllda i det enskilda fallet."
+        },
+        "safeguardsAreProvidedByReferringGDCP": {
+            "label": "Dessa skyddsåtgärder tillhandahålls genom följande:",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. En rättsligt bindande och verkställbar handling mellan offentliga myndigheter eller organ"
+                },
+                {
+                    "key": "b",
+                    "value": "2. Bindande företagsregler i enlighet med artikel 47"
+                },
+                {
+                    "key": "c",
+                    "value": "3. Standardiserade uppgiftsskyddsklausuler som antagits av kommissionen i enlighet med det granskningsförfarande som avses i artikel 93.2"
+                },
+                {
+                    "key": "d",
+                    "value": "4. Standardiserade dataskyddsbestämmelser som antagits av en tillsynsmyndighet och godkänts av kommissionen i enlighet med det granskningsförfarande som avses i artikel 93.2"
+                },
+                {
+                    "key": "e",
+                    "value": "5. En godkänd uppförandekod i enlighet med artikel 40 tillsammans med bindande och verkställbara åtaganden för den personuppgiftsansvarige eller personuppgiftsbiträdet i tredjelandet att tillämpa lämpliga skyddsåtgärder, inbegripet när det gäller registrerades rättigheter"
+                },
+                {
+                    "key": "f",
+                    "value": "6. En godkänd certifieringsmekanism i enlighet med artikel 42 tillsammans med bindande och verkställbara åtaganden för den personuppgiftsansvarige eller personuppgiftsbiträdet i tredjelandet att tillämpa lämpliga skyddsåtgärder, inbegripet när det gäller registrerades rättigheter."
+                }
+            ]
+        },
+        "whichOrganizationWillBeTheControllerOfData": {
+            "label": "Vilken organisation (er) eller person kommer att vara personuppgiftsansvarig för de uppgifter som ska skapas på grundval av denna ansökan?",
+            "tooltip": "En personuppgiftsansvarig bestämmer ändamålen och medlen för behandlingen av personuppgifter. Med andra ord bestämmer den personuppgiftsansvarige hur och varför en uppgiftsbehandling ska ske. En personuppgiftsansvarig kan vara en juridisk person, till exempel ett företag, ett litet eller medelstort företag, en offentlig myndighet, en byrå eller ett annat organ. För mer information: https://edpb.europa.eu/sme-data-protection-guide/data-controller-data-processor_en"
+        },
+        "complyWithDataMinimisationPrinciple": {
+            "label": "Hur följer du principen om uppgiftsminimering (EU:s allmänna dataskyddsförordning) när du behandlar uppgifterna?",
+            "tooltip": "Artikel 5.1 c i dataskyddsförordningen: ”Personuppgifter ska vara adekvata, relevanta och begränsade till vad som är nödvändigt för de ändamål för vilka de behandlas (uppgiftsminimering)” "
+        },
+        "complyWithDataMinimisationPrincipleNotEUMember": {
+            "label": "Hur följer du principen om uppgiftsminimering (EU:s dataskyddsförordning) när du behandlar uppgifterna? ",
+            "tooltip": "Artikel 4.1c i dataskyddsförordningen: ”Personuppgifter ska vara adekvata, relevanta och begränsade till vad som är nödvändigt för de ändamål för vilka de behandlas (uppgiftsminimering)”"
+        },
+        "protectionAndSecurityStatements": {
+            "label": "För att gå vidare med denna ansökan måste du bekräfta följande påståenden (dataskydds- och säkerhetsrelaterade förklaringar):"
+        },
+        "protectionAndSecurityStatementsA": {
+            "label": "1. Jag bekräftar att om organet med ansvar för tillgång till hälsodata beviljar mig de data jag ansöker om kommer jag att använda dem endast för de ändamål som anges i detta ansökningsformulär."
+        },
+        "protectionAndSecurityStatementsB": {
+            "label": "2. Jag förstår att det är förbjudet att kopiera uppgifterna från den säkra behandlingsmiljön."
+        },
+        "protectionAndSecurityStatementsC": {
+            "label": "3. Jag är införstådd med att det är förbjudet att ta skärmdumpar eller foton på skärmen, när de väl befinner sig i en säker behandlingsmiljö."
+        },
+        "protectionAndSecurityStatementsD": {
+            "label": "4. Jag har tillräckliga säkerhetsåtgärder (t.ex. en brandvägg) för att skydda de olika nätverk som de anordningar som används för att komma åt den säkra behandlingsmiljön är anslutna till."
+        },
+        "protectionAndSecurityStatementsE": {
+            "label": "5. Jag förstår att försök till återidentifiering är förbjudna och att organet med ansvar för tillgång till hälsodata kan ålägga sanktioner i enlighet med artikel 43 i den europeiska hälsodataförordningen."
+        },
+        "onlyThePeopleMentioned": "Endast de personer som nämns i datatillståndet kommer att få tillgång till behandlingen av uppgifterna i den säkra behandlingsmiljön.",
+        "sameAsContactPerson": {
+            "label": "Samma som den kontaktperson som nämns i avsnitt 3?"
+        },
+        "listTheFullNames": {
+            "label": "Ange fullständiga namn, ansvarsområden och e-postadresser för alla personer som kommer att behandla uppgifterna."
+        },
+        "fullName": {
+            "label": "Fullständigt namn"
+        },
+        "affiliation": {
+            "label": "Tillhörighet"
+        },
+        "emailAddress": {
+            "label": "E-postadress"
+        },
+        "lawfulnessOfProcessing": "Principer för när personuppgifter får behandlas",
+        "legalBasisForProcessingPersonalData": {
+            "label": "Vilken är den rättsliga grunden för behandlingen av de personuppgifter som du ansöker om med detta ansökningsformulär?"
+        },
+        "lawfulForProcessingPersonalData": {
+            "label": "Behandlingen av de personuppgifter som du ansöker om med detta ansökningsformulär är laglig endast om och i den mån minst ett av följande gäller (i enlighet med artikel 6.1 i EU:s allmänna dataskyddsförordning, förordning (EU) 2016/679):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Den registrerade har lämnat sitt samtycke till att hans eller hennes personuppgifter behandlas för ett eller flera specifika ändamål."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Behandlingen är nödvändig för att fullgöra ett avtal i vilket den registrerade är part eller för att vidta åtgärder på begäran av den registrerade innan ett sådant avtal ingås."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Behandlingen är nödvändig eftersom det är en rättslig förpliktelse för den personuppgiftsansvariga."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Behandlingen är nödvändig för att skydda intressen som är av grundläggande betydelse för den registrerade eller en annan fysisk person"
+                },
+                {
+                    "key": "e",
+                    "value": "5. Behandlingen är nödvändig för att utföra en arbetsuppgift av allmänt intresse eller som ett led i den personuppgiftsansvariges myndighetsutövning."
+                },
+                {
+                    "key": "f",
+                    "value": "6. Behandlingen är nödvändig för ändamål som rör den registeransvariges eller en tredje parts berättigade intressen. utom när sådana intressen uppvägs av den registrerades intressen eller grundläggande fri- och rättigheter, vilka kräver skydd av personuppgifter, särskilt när den registrerade är ett barn."
+                }
+            ]
+        },
+        "lawfulForProcessingPersonalDataNaturalPersonOption": {
+            "key": "f",
+            "value": "6. Behandlingen är nödvändig för ändamål som rör den registeransvariges eller en tredje parts berättigade intressen. utom när sådana intressen uppvägs av den registrerades intressen eller grundläggande fri- och rättigheter, vilka kräver skydd av personuppgifter, särskilt när den registrerade är ett barn."
+        },
+        "otherLegalBasisForProcessingPersonalData": {
+            "label": "Annat, vad?"
+        },
+        "legalBasisForProcessingCombinedData": {
+            "label": "Vilken är den rättsliga grunden för behandlingen av de andra uppgifter som du kommer att kombinera med de uppgifter som ansökan gäller? "
+        },
+        "otherLegalBasisForProcessingCombinedData": {
+            "label": "Annat, vad?"
+        },
+        "europeanUnionInstitution": {
+            "label": "Behandlingen av de personuppgifter som du ansöker om med detta ansökningsformulär är laglig endast om och i den mån minst ett av följande gäller (i enlighet med artikel 5.1 i EU:s dataskyddsförordning, förordning (EU) 2018/1725):",
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. Behandlingen är nödvändig för att utföra en uppgift av allmänt intresse eller som ett led i EU-institutionens eller EU-organets myndighetsutövning."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Behandlingen krävs för att fullgöra en rättslig förpliktelse som åvilar den registeransvarige."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Behandlingen är nödvändig för att fullgöra ett avtal i vilket den registrerade är part eller för att vidta åtgärder på begäran av den registrerade innan ett sådant avtal ingås."
+                },
+                {
+                    "key": "d",
+                    "value": "4. Den registrerade har lämnat sitt samtycke till att dennes personuppgifter behandlas för ett eller flera specifika ändamål."
+                },
+                {
+                    "key": "e",
+                    "value": "5. Behandlingen är nödvändig för att skydda intressen som är av grundläggande betydelse för den registrerade eller för en annan fysisk person."
+                }
+            ]
+        },
+        "legalBasisForProcessingApplicationData": {
+            "label": "Vilken är den rättsliga grunden för behandlingen av de personuppgifter som du ansöker om med detta ansökningsformulär?"
+        },
+        "otherLegalBasisForProcessingApplicationData": {
+            "label": "Annat, vad?"
+        },
+        "legalBasisForProcessingCombinedApplicationData": {
+            "label": "Vilken är den rättsliga grunden för behandlingen av de andra uppgifter som du kommer att kombinera med de uppgifter som ansökan gäller?"
+        },
+        "otherLegalBasisForProcessingCombinedApplicationData": {
+            "label": "Annat, vad?"
+        },
+        "attachResearchPermitIfRequired": {
+            "label": "Om din forskning kräver ett forskningstillstånd från din försäkringsorganisation, bifoga forskningstillståndet."
+        }
+    },
+    "section9": {
+        "section9h5": "Ytterligare uppgifter",
+        "section9Description": "Här kan du lämna ytterligare information om vilket som helst av avsnitten i din ansökan. Ange numret på avsnittet och den fråga som kommentaren avser.",
+        "additionalInformation": {
+            "label": "Ytterligare upplysningar eller kompletterande anmärkningar",
+            "tooltip": "Här kan du lämna ytterligare information om vilket som helst av avsnitten i din ansökan. Ange numret på avsnittet och den fråga som kommentaren avser. Förslag till tekniskt genomförande: Alternativt kan det finnas ett sätt att göra det möjligt för den sökande att koppla information till specifika delar av formuläret för att underlätta HDAB:s arbete."
+        },
+        "additionalAttachment": {
+            "label": "Ytterligare en bilaga. Bifoga inte hälso- eller personuppgifter till denna ansökan.",
+            "tooltip": "Om du har någon annan bilaga som du anser vara relevant för behandlingen av din ansökan och som är nödvändig för att organet för tillgång till hälsodata ska kunna se, bifoga den här. Beskriv dess relevans i textfältet ovan."
+        }
+    },
+    "section10": {
+        "section10h5": "Bekräftelse av uppgifter",
+        "section10Description": "Innan denna ansökan behandlas måste du som sökande godkänna handläggningsavgifter.",
+        "submitYouApplicationText": "För att lämna in din ansökan måste du bekräfta följande:",
+        "acceptHealthDataBody": {
+            "label": "Jag godtar att hälsodataorganet kommer att sammanställa statistiken och jag kommer inte att ha tillgång till de uppgifter som används för att bilda statistiken."
+        },
+        "awareProcessingFee": {
+            "label": "Jag är medveten om att en handläggningsavgift kommer att tas ut för handläggningen av min ansökan. Det kommer också att gälla vid en avbruten begäran eller ett negativt beslut."
+        },
+        "awareChargeFee": {
+            "label": "Jag är medveten om att datainnehavare kan ta ut en avgift."
+        },
+        "awareInformationCorrect": {
+            "label": "Jag bekräftar att de uppgifter jag har lämnat är korrekta."
+        }
+    },
+    "commonFields": {
+        "aboutThisSection": "Om det här avsnittet",
+        "yesOrNoOptions": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Ja"
+                },
+                {
+                    "key": "b",
+                    "value": "Nej"
+                }
+            ]
+        },
+        "onceOrMultipleTimes": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "En gång"
+                },
+                {
+                    "key": "b",
+                    "value": "Flera gånger"
+                }
+            ]
+        },
+        "everyWhen": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "Varje år"
+                },
+                {
+                    "key": "b",
+                    "value": "Ett halvår"
+                },
+                {
+                    "key": "c",
+                    "value": "Kvartal"
+                },
+                {
+                    "key": "d",
+                    "value": "Övrig"
+                }
+            ]
+        },
+        "processingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. e) Behandlingen är nödvändig för att utföra en uppgift av allmänt intresse eller som ett led i den personuppgiftsansvariges myndighetsutövning."
+                },
+                {
+                    "key": "b",
+                    "value": "2. (f) Behandlingen är nödvändig för ändamål som rör den registeransvariges eller en tredje parts berättigade intressen, utom när sådana intressen uppvägs av den registrerades intressen eller grundläggande fri- och rättigheter som kräver skydd av personuppgifter, särskilt när den registrerade är ett barn."
+                },
+                {
+                    "key": "c",
+                    "value": "3. Övrig"
+                }
+            ]
+        },
+        "legalBasisForProcessingData": {
+            "items": [
+                {
+                    "key": "a",
+                    "value": "1. (a) Behandlingen är nödvändig för att utföra en uppgift av allmänt intresse eller som ett led i unionsinstitutionens eller unionsorganets myndighetsutövning."
+                },
+                {
+                    "key": "b",
+                    "value": "2. Övrig"
+                }
+            ]
+        }
+    }
+}

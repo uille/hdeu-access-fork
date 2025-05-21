@@ -15,22 +15,28 @@
  */
 package eu.europa.data.health.access.services;
 
+import static eu.europa.data.health.access.Constants.AUDIT_LOG_COLLECTION;
+import static eu.europa.data.health.access.Constants.CONTENT_TYPE;
 import static eu.europa.data.health.access.Constants.ERRORS_PARAM;
 import static eu.europa.data.health.access.Constants.RESULT_MESSAGE_PARAM;
 import static eu.europa.data.health.access.Constants.USER_ID_PARAM;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.europa.data.health.access.Constants;
+import eu.europa.data.health.access.Context;
 import eu.europa.data.health.access.handlers.DBHandler;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.FileUpload;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.serviceproxy.ServiceException;
-import java.util.List;
-import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -83,7 +89,7 @@ public abstract class AbstractManager {
     //Define the query to find the document to update
     //on database level it is generated with name _id
     JsonObject query = new JsonObject().put("_id", id);
-    query.put(USER_ID_PARAM, getUserId(context));
+    query.put(USER_ID_PARAM, Context.getEcasId(context));
     dbHandler.update(collectionName, updateQuery, query).onSuccess(
         jsonObject -> setUpContextResponse(context, HttpResponseStatus.OK, jsonObject.encode()))
       .onFailure(cause -> setUpContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR));
@@ -94,7 +100,8 @@ public abstract class AbstractManager {
    */
   public void getEntity(@NotNull RoutingContext context, String collectionNameString,
     Integer pageNumber, Integer pageLimit, String sortBy, String sortOrder, String status) {
-    String userId = getUserId(context);
+
+    String userId = Context.getEcasId(context);
 
     final Integer effectiveLimit;
     if (pageLimit != null) {
@@ -110,7 +117,8 @@ public abstract class AbstractManager {
           dbHandler.countAllDocuments(collectionNameString, null, userId)
             .compose(pageCount ->
               dbHandler.countAllDocuments(collectionNameString, status, userId)
-                .map(pageCountFilter -> prepareGetEntityResponse(list, pageCount, pageCountFilter, pageNumber, effectiveLimit, sortBy, sortOrder, status))
+                .map(pageCountFilter -> prepareGetEntityResponse(list, pageCount, pageCountFilter,
+                  pageNumber, effectiveLimit, sortBy, sortOrder, status))
             )
             .onSuccess(response -> {
               setUpContextResponse(context, HttpResponseStatus.OK, response.encode());
@@ -130,11 +138,75 @@ public abstract class AbstractManager {
   }
 
   /**
+   * Get Audit logs
+   */
+  public void getAuditLogs(@NotNull RoutingContext context, Integer pageNumber, Integer pageLimit,
+    String sortBy, String sortOrder, JsonObject queryOptions) {
+
+    JsonArray users;
+    if(queryOptions.containsKey("users")){
+      users = queryOptions.getJsonArray("users");
+      queryOptions.remove("users");
+    } else {
+      users = null;
+    }
+
+    final Integer effectiveLimit;
+    if (pageLimit != null) {
+      effectiveLimit = Math.min(pageLimit, Constants.PAGINATION_LIMIT);
+    } else {
+      effectiveLimit = null;
+    }
+
+    dbHandler.findAuditLogs(AUDIT_LOG_COLLECTION, pageNumber, effectiveLimit, sortBy, sortOrder, queryOptions)
+      .onSuccess(list -> {
+
+        list.forEach(auditLog -> {
+          if(!"Dataset Record".equalsIgnoreCase(auditLog.getString("object"))){
+            String auditLogUserId = auditLog.getString("userId");
+            if(users != null){
+              users.forEach(userObj -> {
+                JsonObject user = (JsonObject) userObj;
+                if(auditLogUserId.equalsIgnoreCase(user.getString("ecasId"))){
+                  auditLog.put("name", user.getString("firstName") + " " + user.getString("lastName") + " (" +  user.getString("ecasId") + ")");
+                }
+              });
+            }
+          } else {
+            auditLog.put("name", "System");
+          }
+        });
+
+        if (pageNumber != null && effectiveLimit != null) {
+          dbHandler.countAllAuditLogs(AUDIT_LOG_COLLECTION, queryOptions)
+            .compose(pageCount ->
+              dbHandler.countAllAuditLogs(AUDIT_LOG_COLLECTION, queryOptions)
+                .map(pageCountFilter -> prepareGetEntityResponse(list, pageCount, pageCountFilter,
+                  pageNumber, effectiveLimit, sortBy, sortOrder, null))
+            )
+            .onSuccess(response -> {
+              setUpContextResponse(context, HttpResponseStatus.OK, response.encode());
+            })
+            .onFailure(err -> {
+              setUpContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+                new JsonObject().put("error", err.getMessage()).encode());
+            });
+        } else {
+          // No pagination involved
+          JsonObject response = prepareGetEntityResponse(list, sortBy, sortOrder, null);
+          setUpContextResponse(context, HttpResponseStatus.OK, response.encode());
+        }
+      }).onFailure(
+        cause -> setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+          cause.getMessage()));
+  }
+
+  /**
    * find by id and user id
    */
   public void findById(@NotNull RoutingContext context, String collectionName) {
     JsonObject query = new JsonObject().put("_id", context.pathParam("id"));
-    query.put(USER_ID_PARAM, getUserId(context));
+    query.put(USER_ID_PARAM, Context.getEcasId(context));
     dbHandler.findByField(collectionName, query).onSuccess(
         jsonObject -> setUpContextResponse(context, HttpResponseStatus.OK, jsonObject.encode()))
       .onFailure(cause ->
@@ -154,7 +226,7 @@ public abstract class AbstractManager {
   public void findByPathParam(@NotNull RoutingContext context, String collectionName,
     String pathParam) {
     JsonObject query = new JsonObject().put(pathParam, context.pathParam(pathParam));
-    query.put(USER_ID_PARAM, getUserId(context));
+    query.put(USER_ID_PARAM, Context.getEcasId(context));
     dbHandler.findByField(collectionName, query).onSuccess(
         jsonObject -> setUpContextResponse(context, HttpResponseStatus.OK, jsonObject.encode()))
       .onFailure(
@@ -171,7 +243,7 @@ public abstract class AbstractManager {
   public void deleteByPathParam(@NotNull RoutingContext context, String collectionName,
     String pathParam) {
     JsonObject query = new JsonObject().put(pathParam, context.pathParam(pathParam));
-    query.put(USER_ID_PARAM, getUserId(context));
+    query.put(USER_ID_PARAM, Context.getEcasId(context));
     dbHandler.deleteByField(collectionName, query).onSuccess(
         jsonObject -> setUpContextResponse(context, HttpResponseStatus.NO_CONTENT))
       .onFailure(
@@ -215,7 +287,7 @@ public abstract class AbstractManager {
    */
   public void deleteAllEntities(@NotNull RoutingContext context, String collectionName) {
     //In the future, we will pass the clientId
-    JsonObject queryDocument = new JsonObject().put(USER_ID_PARAM, getUserId(context));
+    JsonObject queryDocument = new JsonObject().put(USER_ID_PARAM, Context.getEcasId(context));
     dbHandler.deleteAll(collectionName, queryDocument)
       .onSuccess(
         event -> setUpContextResponse(context, HttpResponseStatus.NO_CONTENT))
@@ -260,10 +332,14 @@ public abstract class AbstractManager {
     return jsonObject.encodePrettily();
   }
 
-  private JsonObject prepareGetEntityResponse(List<JsonObject> data, String sortBy, String sortOrder, String status){
-    return  prepareGetEntityResponse(data, null, null, null,null, sortBy, sortOrder, status);
+  private JsonObject prepareGetEntityResponse(List<JsonObject> data, String sortBy,
+    String sortOrder, String status) {
+    return prepareGetEntityResponse(data, null, null, null, null, sortBy, sortOrder, status);
   }
-  private JsonObject prepareGetEntityResponse(List<JsonObject> data, Integer pageCount, Integer pageCountFilter, Integer pageNumber, Integer pageLimit, String sortBy, String sortOrder, String status){
+
+   public JsonObject prepareGetEntityResponse(List<JsonObject> data, Integer pageCount,
+    Integer pageCountFilter, Integer pageNumber, Integer pageLimit, String sortBy, String sortOrder,
+    String status) {
 
     JsonObject metadata = new JsonObject();
     if (pageNumber != null && pageLimit != null) {
@@ -276,8 +352,10 @@ public abstract class AbstractManager {
       metadata.put("total_pages", numberOfPages);
     }
 
-    metadata.put("sort_by", sortBy);
-    metadata.put("sort_order", sortOrder);
+    if(sortBy != null && sortOrder != null) {
+      metadata.put("sort_by", sortBy);
+      metadata.put("sort_order", sortOrder);
+    }
 
     if (StringUtils.isNotEmpty(status)) {
       metadata.put("status", status);
@@ -306,7 +384,8 @@ public abstract class AbstractManager {
           dbHandler.countAllDocuments(collectionNameString, null)
             .compose(pageCount ->
               dbHandler.countAllDocuments(collectionNameString, status)
-                .map(pageCountFilter -> prepareGetEntityResponse(list, pageCount, pageCountFilter, pageNumber, effectiveLimit, sortBy, sortOrder, status))
+                .map(pageCountFilter -> prepareGetEntityResponse(list, pageCount, pageCountFilter,
+                  pageNumber, effectiveLimit, sortBy, sortOrder, status))
             )
             .onSuccess(response -> {
               setUpContextResponse(context, HttpResponseStatus.OK, response.encode());
@@ -367,8 +446,23 @@ public abstract class AbstractManager {
     context.response().setStatusCode(status.code()).end();
   }
 
-  @NotNull
-  protected String getUserId(RoutingContext context) {
-    return context.user().principal().getString("sub");
+  public void handleFileUpload(RoutingContext context, String parentName, String parentId,
+    HubStoreClient hubStoreClient, Vertx vertx) {
+
+    String contentType = context.request().getHeader(CONTENT_TYPE);
+
+    // Get the uploaded file
+    FileUpload fileUploaded = context.fileUploads().get(0);
+    vertx.fileSystem().readFile(fileUploaded.uploadedFileName())
+      .compose(
+        fileBuffer -> hubStoreClient.uploadFile(parentName, parentId, fileUploaded.fileName(),
+          fileBuffer, contentType))
+      .onSuccess(responseJson -> {
+        context.response().putHeader(CONTENT_TYPE, "application/json");
+        setUpContextResponse(context, HttpResponseStatus.CREATED, responseJson.encode());
+      })
+      .onFailure(
+        err -> setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+          "Failed to upload file"));
   }
 }

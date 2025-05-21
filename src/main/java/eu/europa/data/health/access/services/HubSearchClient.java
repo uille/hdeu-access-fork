@@ -68,4 +68,28 @@ public class HubSearchClient {
       });
   }
 
+
+  public Future<JsonObject> getAllCatalogues() {
+
+    if(log.isInfoEnabled()){
+      log.info("Get all catalogues from hub search: url={}",
+        config.getString(Constants.HUB_SEARCH_DATA_URL));
+    }
+
+    return client.getAbs(config.getString(Constants.HUB_SEARCH_DATA_URL) + "/search")
+      .addQueryParam("filter", "catalogue")
+      .send()
+      .compose(response -> {
+        if (response.statusCode() == 200) {
+          log.info("Catalogues retrieved successfully");
+          return Future.succeededFuture(response.bodyAsJsonObject());
+        }
+        else {
+          log.error("Failed to get catalogues, status={}, body={}",
+            response.statusCode(), response.bodyAsString());
+          return Future.failedFuture("Failed to get catalogues: " + response.statusMessage());
+        }
+      });
+  }
+
 }

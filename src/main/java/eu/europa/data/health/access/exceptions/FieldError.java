@@ -16,14 +16,17 @@
 package eu.europa.data.health.access.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class FieldError {
 
     private String code;
@@ -39,5 +42,8 @@ public class FieldError {
     private String countryId;
 
     private String section6SubSection;
+
+  public FieldError(String someField, String nonRequiredCode) {
+  }
 
 }

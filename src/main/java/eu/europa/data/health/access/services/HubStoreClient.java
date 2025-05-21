@@ -15,17 +15,19 @@
  */
 package eu.europa.data.health.access.services;
 
-import static eu.europa.data.health.access.Constants.APPLICATIONID;
-import static eu.europa.data.health.access.Constants.DATA;
-
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.multipart.MultipartForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static eu.europa.data.health.access.Constants.PARAMETER_ID;
+import static eu.europa.data.health.access.Constants.PARAMETER_TYPE;
+import static eu.europa.data.health.access.Constants.DATA;
 
 
 /**
@@ -47,29 +49,31 @@ public class HubStoreClient {
   /**
    * Uploads a file to the hub store API.
    *
-   * @param applicationId the ID of the application
+   * @param parameterType the name of the parameter to use
+   * @param parameterId the ID of the parameter given
    * @param fileName the name of the file
    * @param fileBuffer the buffer containing the file data
    * @param contentType the content type of the file
    * @return a Future representing the result of the file upload, containing a JsonObject on success or a failure message on failure
    */
-  public Future<JsonObject> uploadFile(String applicationId, String fileName, Buffer fileBuffer, String contentType) {
+  public Future<JsonObject> uploadFile(String parameterType, String parameterId, String fileName, Buffer fileBuffer, String contentType) {
     MultipartForm form = MultipartForm.create()
       .binaryFileUpload("data", fileName, fileBuffer, contentType);
 
-    log.info("Uploading file to hub store: applicationId={}, fileName={}, contentType={}, url={}/data", applicationId, fileName, contentType, apiUrl);
+    log.info("Uploading file to hub store: parameterType={}, parameterId={}, fileName={}, contentType={}, url={}/data", parameterType, parameterId, fileName, contentType, apiUrl);
 
     return client.postAbs(apiUrl + "/data")
-      .addQueryParam(APPLICATIONID, applicationId)
+      .addQueryParam(PARAMETER_TYPE, parameterType)
+      .addQueryParam(PARAMETER_ID, parameterId)
       .putHeader("X-API-Key", apiToken)
       .putHeader("Content-Type", "multipart/form-data")
       .sendMultipartForm(form)
       .compose(response -> {
         if (response.statusCode() == 201) {
-          log.info("File uploaded successfully: applicationId={}, fileName={}, contentType={}", applicationId, fileName, contentType);
+          log.info("File uploaded successfully: parameterType={}, parameterId={}, fileName={}, contentType={}", parameterType, parameterType, fileName, contentType);
           return Future.succeededFuture(response.bodyAsJsonObject());
         } else {
-          log.error("Failed to upload file: applicationId={}, fileName={}, contentType={}, status={}", applicationId, fileName, contentType, response.statusCode());
+          log.error("Failed to upload file: parameterType={}, parameterId={}, fileName={}, contentType={}, status={}", parameterType, parameterType, fileName, contentType, response.statusCode());
           return Future.failedFuture("Failed to upload file: " + response.statusMessage());
         }
       });
@@ -80,12 +84,22 @@ public class HubStoreClient {
    * @param fileId the id of the file
    * @return the document payload
    */
-  public Future<HttpResponse<Buffer>> getFile(String fileId, String applicationId) {
+  public Future<HttpResponse<Buffer>> getFile(String fileId, String parameterType, String parameterId) {
 
     log.info("Downloading file from hub store: fileId={}, url={}{}{}", fileId, apiUrl, DATA, fileId);
-    return client.getAbs(apiUrl + DATA + fileId)
-      .addQueryParam(APPLICATIONID, applicationId)
-      .send()
+    HttpRequest<Buffer> request =  client.getAbs(apiUrl + DATA );
+
+    if(fileId != null){
+      request.addQueryParam("id", fileId);
+    }
+    if(parameterType != null){
+      request.addQueryParam(PARAMETER_TYPE, parameterType);
+    }
+    if(parameterId != null){
+      request.addQueryParam(PARAMETER_ID, parameterId);
+    }
+
+     return  request.send()
       .compose(response -> {
         if (response.statusCode() == 200) {
           log.info("File downloaded successfully: fileId={}", fileId);
@@ -101,11 +115,12 @@ public class HubStoreClient {
    * Delete the file by id
    * @param fileId the id of the file
    */
-  public Future<HttpResponse<Buffer>> deleteFile(String fileId, String applicationId) {
+  public Future<HttpResponse<Buffer>> deleteFile(String fileId, String parameterType, String parameterId) {
     log.info("Deleting file from hub store: fileId={}, url={}{}{}", fileId, apiUrl, DATA, fileId);
     return client.deleteAbs(apiUrl + DATA + fileId)
       .putHeader("X-API-Key", apiToken)
-      .addQueryParam(APPLICATIONID, applicationId)
+      .addQueryParam(PARAMETER_TYPE, parameterType)
+      .addQueryParam(PARAMETER_ID, parameterId)
       .send()
       .compose(response -> {
         if (response.statusCode() == 202) {
@@ -113,6 +128,30 @@ public class HubStoreClient {
           return Future.succeededFuture(response);
         } else {
           log.error("Failed to delete file: fileId={}, status={}, body={}", fileId, response.statusCode(), response.bodyAsString());
+          return Future.failedFuture("Failed to delete file: " + response.statusMessage());
+        }
+      });
+  }
+
+  /**
+   * Delete the file by parameter
+   * @param parameterType Parameter type name
+   * @param parameterId Parameter type id
+   */
+
+  public Future<HttpResponse<Buffer>> deleteFileByParameter(String parameterType, String parameterId) {
+    log.info("Deleting file from hub store: parameterType={}, parameterId{},  url={}{}",parameterType, parameterId, apiUrl, DATA);
+    return client.deleteAbs(apiUrl + DATA)
+      .putHeader("X-API-Key", apiToken)
+      .addQueryParam(PARAMETER_TYPE, parameterType)
+      .addQueryParam(PARAMETER_ID, parameterId)
+      .send()
+      .compose(response -> {
+        if (response.statusCode() == 202) {
+          log.info("File deleted successfully: parameterType={}, parameterId{}", parameterType, parameterId);
+          return Future.succeededFuture(response);
+        } else {
+          log.error("Failed to delete file: parameterType={}, parameterId{}, status={}, body={}", parameterType, parameterId, response.statusCode(), response.bodyAsString());
           return Future.failedFuture("Failed to delete file: " + response.statusMessage());
         }
       });

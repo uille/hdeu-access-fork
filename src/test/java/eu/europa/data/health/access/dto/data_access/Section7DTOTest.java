@@ -45,7 +45,7 @@ class Section7DTOTest {
 
     Set<ConstraintViolation<Section7DTO>> violations = validator.validate(section7DTO);
 
-    assertEquals(2, violations.size(), "There should be 2 validation errors for the required fields.");
+    assertEquals(3, violations.size(), "There should be 3 validation errors for the required fields.");
 
     violations.forEach(violation -> {
       assertTrue(violation.getMessage().contains("must not be null"), violation.getMessage());
@@ -60,7 +60,7 @@ class Section7DTOTest {
 
     Set<ConstraintViolation<Section7DTO>> violations = validator.validate(section7DTO);
 
-    assertEquals(3, violations.size(), "There should be one violation for 'combinedCountries' size.");
+    assertEquals(4, violations.size(), "There should be one violation for 'combinedCountries' size.");
 
   }
 
@@ -72,7 +72,7 @@ class Section7DTOTest {
 
     Set<ConstraintViolation<Section7DTO>> violations = validator.validate(section7DTO);
 
-    assertEquals(2, violations.size(), "There should be 2 violations for invalid enum value.");
+    assertEquals(3, violations.size(), "There should be 3 violations for invalid enum value.");
 
   }
 

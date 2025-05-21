@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "geoCoverageKeys": {
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "live",
+          "test"
+        ]
+      }
+    }
+  },
+  "additionalProperties": false
+}
