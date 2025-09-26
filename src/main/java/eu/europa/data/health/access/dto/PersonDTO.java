@@ -27,8 +27,6 @@ public class PersonDTO {
 
   @Size(max = 500)
   String fullName;
-  @Size(max = 500)
-  String affiliation;
   @EmailFormat
   @Size(max = 500)
   String emailAddress;

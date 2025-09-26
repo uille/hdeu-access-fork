@@ -31,9 +31,10 @@ import static eu.europa.data.health.access.Constants.NATURAL_PERSON_PHONE;
 import static eu.europa.data.health.access.Constants.NEED_FOR_DATA_EXTRACTION_EVERY;
 import static eu.europa.data.health.access.Constants.PARSING_FAILED;
 import static eu.europa.data.health.access.Constants.RESULT_MESSAGE;
-import static eu.europa.data.health.access.Constants.THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION;
 import static eu.europa.data.health.access.Constants.THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY;
 import static eu.europa.data.health.access.Constants.THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY_REASON;
+import static eu.europa.data.health.access.Constants.OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW;
+import static eu.europa.data.health.access.Constants.PROVIDED_JUSTIFICATION_EXCEPTION;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -54,12 +55,12 @@ import eu.europa.data.health.access.annotations.RequiredFieldBasedOnObjectValue;
 import eu.europa.data.health.access.annotations.RequiredFieldBasedOnTwoObjectValue;
 import eu.europa.data.health.access.annotations.RequiredFieldBasedOnValue;
 import eu.europa.data.health.access.dto.ApplicationCommonDTO;
-import eu.europa.data.health.access.dto.SectionDTO;
 import eu.europa.data.health.access.dto.TabulationPlanDTO;
-import eu.europa.data.health.access.dto.data_request.Section3DTO;
-import eu.europa.data.health.access.dto.data_request.Section6CountryDTO;
-import eu.europa.data.health.access.dto.data_request.Section6DTO;
-import eu.europa.data.health.access.dto.data_request.SectionDTODataRequestBuilderFactory;
+import eu.europa.data.health.access.dto.sections.Section3DTO;
+import eu.europa.data.health.access.dto.sections.SectionDTO;
+import eu.europa.data.health.access.dto.sections.SectionDTOBuilderFactory;
+import eu.europa.data.health.access.dto.sections.data_request.Section6CountryDTO;
+import eu.europa.data.health.access.dto.sections.data_request.Section6DTO;
 import eu.europa.data.health.access.exceptions.FieldError;
 import eu.europa.data.health.access.exceptions.GeneralException;
 import io.vertx.core.json.JsonArray;
@@ -294,15 +295,6 @@ public class DataRequestApplicationValidationManager extends AbstractSchemaValid
   }
 
   private void cleanSection2(JsonObject section2) {
-    boolean isDescriptionChecked =
-      section2.containsKey(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION)
-        && section2.getBoolean(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION,
-        false);
-
-    if (!isDescriptionChecked) {
-      section2.remove("descriptionOfTheProject");
-    }
-
     boolean isSummaryChecked =
       section2.containsKey(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY)
         && section2.getBoolean(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY,
@@ -336,9 +328,6 @@ public class DataRequestApplicationValidationManager extends AbstractSchemaValid
       section3.remove(CONTACT_PERSON_PHONE);
       section3.remove("contactPersonOrganisationName");
       section3.remove("contactPersonBusinessID");
-      section3.remove("contactPersonOperatorID");
-      section3.remove("contactPersonJobTitle");
-      section3.remove("contactPersonAffiliation");
       section3.remove("contactPersonRelationship");
     } else {
       section3.remove("naturalPersonName");
@@ -403,6 +392,12 @@ public class DataRequestApplicationValidationManager extends AbstractSchemaValid
         needForDataExtractionEvery.getString("key"), "d")))) {
         section.remove("needForDataExtractionEveryOther");
       }
+      JsonObject isOptedOutOfTheMechanismProvidedInNationalLaw = section.getJsonObject(
+        OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW);
+      if (Objects.nonNull(isOptedOutOfTheMechanismProvidedInNationalLaw) &&
+        !"a".equals(isOptedOutOfTheMechanismProvidedInNationalLaw.getString("key"))) {
+        section.remove(PROVIDED_JUSTIFICATION_EXCEPTION);
+      }
     }
   }
 
@@ -433,8 +428,8 @@ public class DataRequestApplicationValidationManager extends AbstractSchemaValid
     try {
       ObjectMapper objectMapper = new ObjectMapper();
       // Generate the sectionDTO class based on the provided Section Number
-      Class<? extends SectionDTO> sectionDTOClass = SectionDTODataRequestBuilderFactory.createSectionDTO(
-        sectionNumberFromUrl);
+      Class<? extends SectionDTO> sectionDTOClass = SectionDTOBuilderFactory.createSectionDTO(
+        sectionNumberFromUrl, DataRequestApplicationValidationManager.class);
 
       SectionDTO sectionDTO;
       if (sectionNumberFromUrl == 6) {
@@ -647,11 +642,10 @@ public class DataRequestApplicationValidationManager extends AbstractSchemaValid
       return "6.0";
     } else if (fieldName != null && (fieldName.equals("willControlsBeExtracted")
       || fieldName.equals("willSameDataBeExtractedForControls")
-      || fieldName.equals("regionForControlsDataExtraction")
       || fieldName.equals("dataHoldersForControls")
       || fieldName.equals("databasesForControls")
       || fieldName.equals("datasetsForControls")
-      || fieldName.equals("variablesForDataExtraction")
+      || fieldName.equals("variablesForDataExtractionAttachments")
       || fieldName.equals("timePeriodForDataExtraction")
       || fieldName.equals("extractionCriteriaForControls")
       || fieldName.equals("sizeOfControlGroup")
@@ -672,7 +666,7 @@ public class DataRequestApplicationValidationManager extends AbstractSchemaValid
       || fieldName.equals("dataHoldersForRelatives")
       || fieldName.equals("databasesForRelatives")
       || fieldName.equals("datasetsForRelatives")
-      || fieldName.equals("variablesForDataExtractionRelatives")
+      || fieldName.equals("variablesForDataExtractionRelativesAttachments")
       || fieldName.equals("timePeriodForDataExtractionRelatives")
       || fieldName.equals("relationshipToStudyCohort")
       || fieldName.equals("sizeOfRelativesGroup")

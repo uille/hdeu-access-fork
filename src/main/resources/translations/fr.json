@@ -17,6 +17,21 @@
         },
         "applicationDatabases": {
             "label": "De quelle (s) base (s) de données ou de quel (s) registre (s) les données seront-elles extraites?"
+        },
+        "variables": {
+            "label": "Variables"
+        },
+        "datatype": {
+            "label": "Types de données (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Description:"
+        },
+        "title": {
+            "label": "Variables"
+        },
+        "emptyTable": {
+            "label": "Aucune variable"
         }
     },
     "section2": {
@@ -102,10 +117,10 @@
                 },
                 {
                     "key": "b",
-                    "value": "Personne physique",
-                    "info": "(Si vous choisissez cette option, vous confirmez que vous demandez des données en tant que personne privée sans aucune affiliation.)"
+                    "value": "Personne physique"
                 }
-            ]
+            ],
+            "info": "(Si vous choisissez cette option, vous confirmez que vous demandez des données en tant que personne privée sans aucune affiliation.)"
         },
         "legalPerson": "Personne morale",
         "naturalPerson": "Personne physique",
@@ -141,15 +156,6 @@
         },
         "contactPersonBusinessIdentifier": {
             "label": "Numéro d’identification de l’entreprise de l’organisation"
-        },
-        "contactPersonOperatorIdentifier": {
-            "label": "ID de l’exploitant"
-        },
-        "contactPersonJobTitle": {
-            "label": "Intitulé"
-        },
-        "contactPersonAffiliation": {
-            "label": "Affiliation"
         },
         "contactPersonRelationship": {
             "label": "Quelle est la relation entre la personne de contact et le demandeur? (Par exemple, un employé présentant une demande de données pour le compte de son organisation)."
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "Finalité de l’utilisation des données",
-        "section5Description": "Les demandeurs doivent indiquer la finalité pour laquelle les données sont demandées, conformément à l’article 53, paragraphe 1, du rectificatif au règlement EHDS approuvé par le Parlement européen le 17/12. \nLes demandeurs doivent expliquer et expliquer pourquoi les données demandées sont nécessaires à la finalité indiquée de leur utilisation. Les demandeurs sont également invités à fournir des informations sur l’objectif du projet. Ensuite, en fonction de la finalité de l’utilisation (recherche ou non), les demandeurs doivent fournir un résumé du plan d’utilisation des données ou un résumé du plan de recherche, ainsi que des informations sur la personne responsable de l’utilisation des données ou de la recherche.",
+        "section5Description": "Les demandeurs doivent indiquer la finalité pour laquelle les données sont demandées, conformément à l’article 53, paragraphe 1, du règlement (UE) 2025/327 du Parlement européen et du Conseil du 11 février 2025 relatif à l’espace européen des données de santé. Les demandeurs doivent expliquer et faire valoir les raisons pour lesquelles les données demandées sont nécessaires aux fins d’utilisation indiquées. Les candidats sont également invités à fournir des informations sur l'objectif du projet. Ensuite, selon le but de l'utilisation (recherche ou non), les candidats doivent fournir un résumé du plan d'utilisation des données ou un résumé du plan de recherche, ainsi que des informations sur la personne responsable de l'utilisation des données ou de la recherche.",
         "purposeOfUse": {
             "label": "Finalité de l’utilisation des données. Les organismes responsables de l’accès aux données de santé ne donnent accès aux données de santé électroniques visées à l’article 51 que si la finalité prévue du traitement poursuivi par le demandeur respecte les finalités suivantes (conformément à l’article 53, paragraphe 1) énumérées ci-dessous.",
             "tooltip": "Objectifs du règlement relatif à l’EHDS.",
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Quel est le bénéfice escompté lié à l’utilisation des données de santé électroniques et comment cet avantage contribue à la réalisation des objectifs visés au point 5.1?"
         },
+        "describeApplicantsQualification": {
+            "label": "Décrivez les qualifications du demandeur par rapport à la (aux) finalité (s) prévue (s) de l’utilisation des données et l’expertise appropriée (y compris les qualifications professionnelles)"
+        },
         "legalBasis": {
             "label": "Précisez la base juridique, par exemple la législation pertinente, qui définit les tâches relevant de votre mandat et confirme que l’utilisation prévue des données est de faciliter ces tâches.",
             "tooltip": "Expliquez ici pourquoi la quantité de données pour laquelle vous demandez est nécessaire aux fins de l’utilisation des données. Justifiez et décrivez comment le contenu des statistiques demandées correspond à la finalité de l’utilisation indiquée dans la demande et répond à vos exigences en matière de données."
@@ -320,222 +329,16 @@
             "label": "Fournir un lien vers les pièces justificatives à titre de preuve de la base juridique"
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Fournissez un résumé de votre plan d’utilisation des données. Le résumé doit être rédigé dans l’une des langues officielles de l’UE."
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Sélectionnez la langue du résumé",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgare"
-                },
-                {
-                    "key": "hr",
-                    "value": "Croate"
-                },
-                {
-                    "key": "cs",
-                    "value": "Tchèque"
-                },
-                {
-                    "key": "da",
-                    "value": "Danois"
-                },
-                {
-                    "key": "nl",
-                    "value": "Néerlandais"
-                },
-                {
-                    "key": "en",
-                    "value": "Anglais"
-                },
-                {
-                    "key": "et",
-                    "value": "Estonien"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finnois"
-                },
-                {
-                    "key": "fr",
-                    "value": "Français"
-                },
-                {
-                    "key": "de",
-                    "value": "Allemand"
-                },
-                {
-                    "key": "el",
-                    "value": "Grec"
-                },
-                {
-                    "key": "hu",
-                    "value": "Hongrois"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irlandais"
-                },
-                {
-                    "key": "it",
-                    "value": "Italien"
-                },
-                {
-                    "key": "lv",
-                    "value": "Letton"
-                },
-                {
-                    "key": "lt",
-                    "value": "Lituanien"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltais"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polonais"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugais"
-                },
-                {
-                    "key": "ro",
-                    "value": "Roumain"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovaque"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slovène"
-                },
-                {
-                    "key": "es",
-                    "value": "Espagnol"
-                },
-                {
-                    "key": "sv",
-                    "value": "Suédois"
-                }
-            ]
+            "label": "Fournissez un résumé de votre plan d’utilisation des données. Le résumé doit être rédigé dans l’une des langues officielles de l’UE.",
+            "tooltip": "Les fichiers téléchargés sont automatiquement traduits par le système. Le demandeur est responsable de la qualité, de la lisibilité et du formatage des fichiers téléchargés."
         },
         "summaryOfResearchPlan": {
-            "label": "Fournissez un résumé de votre plan de recherche. Le résumé doit être rédigé dans l’une des langues officielles de l’UE."
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Sélectionnez la langue du résumé",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgare"
-                },
-                {
-                    "key": "hr",
-                    "value": "Croate"
-                },
-                {
-                    "key": "cs",
-                    "value": "Tchèque"
-                },
-                {
-                    "key": "da",
-                    "value": "Danois"
-                },
-                {
-                    "key": "nl",
-                    "value": "Néerlandais"
-                },
-                {
-                    "key": "en",
-                    "value": "Anglais"
-                },
-                {
-                    "key": "et",
-                    "value": "Estonien"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finnois"
-                },
-                {
-                    "key": "fr",
-                    "value": "Français"
-                },
-                {
-                    "key": "de",
-                    "value": "Allemand"
-                },
-                {
-                    "key": "el",
-                    "value": "Grec"
-                },
-                {
-                    "key": "hu",
-                    "value": "Hongrois"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irlandais"
-                },
-                {
-                    "key": "it",
-                    "value": "Italien"
-                },
-                {
-                    "key": "lv",
-                    "value": "Letton"
-                },
-                {
-                    "key": "lt",
-                    "value": "Lituanien"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltais"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polonais"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugais"
-                },
-                {
-                    "key": "ro",
-                    "value": "Roumain"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovaque"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slovène"
-                },
-                {
-                    "key": "es",
-                    "value": "Espagnol"
-                },
-                {
-                    "key": "sv",
-                    "value": "Suédois"
-                }
-            ]
+            "label": "Fournissez un résumé de votre plan de recherche. Le résumé doit être rédigé dans l’une des langues officielles de l’UE.",
+            "tooltip": "Les fichiers téléchargés sont automatiquement traduits par le système. Le demandeur est responsable de la qualité, de la lisibilité et du formatage des fichiers téléchargés."
         },
         "personResponsibleLabel": "Personne responsable de l’utilisation des données",
         "personResponsibleName": {
             "label": "Le nom complet"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Intitulé"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Affiliation"
         },
         "personResearchSameAsContactPerson": {
             "label": "Identique à la personne de contact mentionnée à la section 3 (Informations relatives à la requérante et à la personne de contact)?"
@@ -546,12 +349,6 @@
         },
         "personResearchName": {
             "label": "Le nom complet"
-        },
-        "personResearchJobTitle": {
-            "label": "Intitulé"
-        },
-        "personResearchAffiliation": {
-            "label": "Affiliation"
         },
         "formatOfTheElectronicHealthData": {
             "label": "Sélectionnez le format des données de santé électroniques à mettre à disposition:",
@@ -638,6 +435,9 @@
         },
         "consentAndInformationLetterAttachment": {
             "label": "Joignez la lettre de consentement et d’information que vous avez envoyée aux sujets d’étude. Ne joignez pas de formulaires remplis parce qu’ils contiennent des données à caractère personnel."
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "La cohorte a-t-elle été fondée sur une autorisation de traitement de données délivrée plus tôt?"
         },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Je confirme que l’autorisation de traitement de données a été accordée pour ce projet de recherche."
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "À quelle fréquence les données doivent-elles être extraites?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Avez-vous l’intention de faire usage d’une exception au droit de non-participation conformément au mécanisme prévu par le droit national de l’État membre dont vous demandez les données?",
+            "tooltip": "EHDS article 71(4) “Par dérogation au droit de refus prévu au paragraphe 1, un État membre peut prévoir, dans son droit national, un mécanisme permettant de mettre à disposition des données pour lesquelles un droit de refus a été exercé, à condition que toutes les conditions suivantes soient remplies: (voir l’article pour les conditions complètes)»"
+        },
+        "providedJustificationException": {
+            "label": "Fournir la justification de cette exception."
+        },
         "needForDataExtractionEvery": {
             "label": "Toutes les données doivent être extraites",
             "tooltip": "Si vous souhaitez que les données soient extraites plusieurs fois sur une certaine période, veuillez noter que les définitions et la méthode de collecte des données peuvent, dans certains cas, changer au cours de la période de réexamen. Il convient de noter que la fréquence maximale d’extraction des données est trimestrielle."
@@ -835,14 +642,11 @@
         "willSameDataBeExtractedForControls": {
             "label": "Les mêmes données que pour la cohorte seront-elles extraites pour les contrôles?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Si vous ne recherchez pas de données pour les contrôles dans l’ensemble du pays, auprès de quelle (s) région (s) et/ou ville (s) et/ou commune (s) ou commune (s) souhaitez-vous (s) obtenir des données?"
-        },
         "fromWhichDataHolderLabel": "De quel (s) détenteur (s) de données les données destinées aux contrôles seront-elles extraites?",
         "fromWhichDatabaseLabel": "De quelle (s) base (s)/registre (s)/Registre (s) les données destinées aux contrôles seront-elles extraites?",
         "fromWhichDatasetLabel": "À partir de quel (s) enregistrement (s) de données/registre (s) les données destinées aux contrôles seront-elles extraites?",
-        "variablesForDataExtraction": {
-            "label": "Si les informations sont disponibles, énumérez les variables à utiliser pour l’extraction des données. Utiliser les termes exacts fournis par le ou les détenteurs de données respectifs dans le catalogue de métadonnées."
+        "variablesForDataExtractionAttachments": {
+            "label": "Si les informations sont disponibles, joindre la liste des variables à utiliser pour l’extraction des données. Utiliser les termes exacts fournis par le ou les détenteurs de données respectifs dans le catalogue de métadonnées."
         },
         "timePeriodForDataExtraction": {
             "label": "Pendant quelle (s) période (s) les enregistrements de jeux de données seront-ils extraits?"
@@ -947,8 +751,8 @@
         "whichDataHoldersForRelatives": "De quel (s) détenteur (s) de données les données pour les proches seront-elles extraites?",
         "whichDatabaseForRelatives": "À partir de quelle (s) base (s) de données/registre (s)/Registre (s) les données pour les proches seront-elles extraites?",
         "whichDatasetsForRelatives": "À partir de quel (s) enregistrement (s) de données/registre (s) les données pour les proches seront-elles extraites?",
-        "variablesForDataExtractionRelatives": {
-            "label": "Si les informations sont disponibles, énumérez les variables à utiliser pour l’extraction des données. Utiliser les termes exacts fournis par le ou les détenteurs de données respectifs dans le catalogue de métadonnées."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "Si les informations sont disponibles, joindre la liste des variables à utiliser pour l’extraction des données. Utiliser les termes exacts fournis par le ou les détenteurs de données respectifs dans le catalogue de métadonnées."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "Pendant quelle (s) période (s) les enregistrements de jeux de données seront-ils extraits?"
@@ -1062,7 +866,6 @@
         "otherPermitApplications": {
             "label": "Avez-vous d’autres demandes de permis en cours?"
         },
-        "listTheOtherData": "Énumérez les autres données à combiner et les sources de ces données:",
         "applicationIssuer": {
             "label": "Émetteur"
         },
@@ -1360,6 +1163,13 @@
             "label": "Comment respectez-vous le principe de minimisation des données (règlement de l’UE sur la protection des données) lors du traitement des données? ",
             "tooltip": "Article 4, paragraphe 1 quater, du RPD UE: «Les données à caractère personnel sont adéquates, pertinentes et limitées à ce qui est nécessaire au regard des finalités pour lesquelles elles sont traitées («minimisation des données»)»."
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Avez-vous l’intention de faire usage d’une exception au droit de non-participation conformément au mécanisme prévu par le droit national de l’État membre dont vous demandez les données?",
+            "tooltip": "EHDS article 71(4) “Par dérogation au droit de refus prévu au paragraphe 1, un État membre peut prévoir, dans son droit national, un mécanisme permettant de mettre à disposition des données pour lesquelles un droit de refus a été exercé, à condition que toutes les conditions suivantes soient remplies: (voir l’article pour les conditions complètes)»"
+        },
+        "providedJustificationException": {
+            "label": "Fournir la justification de cette exception."
+        },
         "protectionAndSecurityStatements": {
             "label": "Pour procéder à cette demande, vous devez confirmer les déclarations suivantes (déclarations relatives à la protection des données et à la sécurité):"
         },
@@ -1383,13 +1193,10 @@
             "label": "Identique à la personne de contact mentionnée à la section 3?"
         },
         "listTheFullNames": {
-            "label": "Énumérez les noms complets, les affiliations et les adresses électroniques de toutes les personnes qui traiteront les données."
+            "label": "Énumérez les noms complets et adresses électroniques de toutes les personnes qui traiteront les données."
         },
         "fullName": {
             "label": "Nom, prénom"
-        },
-        "affiliation": {
-            "label": "Affiliation"
         },
         "emailAddress": {
             "label": "Adresse de courriel"
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Confirmation des informations",
-        "section10Description": "Avant de traiter cette demande, vous devez, en tant que demandeur, approuver les frais de traitement.",
+        "section10Description": "Avant de traiter cette demande, vous devez, en tant que demandeur, approuver les frais de traitement. Ajouter des informations sur les prix et l’estimation du prix maximal pour l’extraction des données, une fois disponibles.",
         "submitYouApplicationText": "Pour introduire votre candidature, vous devez confirmer ce qui suit:",
         "acceptHealthDataBody": {
             "label": "J’accepte que l’organisme chargé des données de santé établisse les statistiques et que je n’ai pas accès aux données utilisées pour former les statistiques."

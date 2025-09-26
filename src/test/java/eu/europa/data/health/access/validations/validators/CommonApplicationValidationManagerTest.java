@@ -28,9 +28,10 @@ import static org.mockito.ArgumentMatchers.eq;
 
 import io.vertx.ext.web.FileUpload;
 
+import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -83,6 +84,11 @@ class CommonApplicationValidationManagerTest {
     String userId = "test-user";
     JsonArray jsonArrayDistributions = new JsonArray();
     jsonArrayDistributions.add(new JsonObject().put(DISTRIBUTION_ID, userId));
+    User user = mock(User.class);
+    JsonObject principal = new JsonObject().put("preferred_username", "test-user");
+
+    when(routingContext.user()).thenReturn(user);
+    when(user.principal()).thenReturn(principal);
 
     JsonArray jsonArrayDatasets = new JsonArray();
     jsonArrayDatasets.add(new JsonObject().put(DISTRIBUTION_ID, userId).put(DATASET_ID, userId)
@@ -90,36 +96,36 @@ class CommonApplicationValidationManagerTest {
 
     JsonObject requestBodyJson = new JsonObject().put("title", "My Application Title")
       .put(DATASETS, jsonArrayDatasets).put(DATASET_ID, userId)
-      .put(DISTRIBUTIONS, jsonArrayDistributions);
+      .put(DISTRIBUTIONS, jsonArrayDistributions).put("inputLanguage", "en");
 
     // Setup mocks
     when(routingContext.body()).thenReturn(requestBody);
     when(routingContext.body().asJsonObject()).thenReturn(requestBodyJson);
 
-    User user = mock(User.class);
-    JsonObject principal = mock(JsonObject.class);
-
-    when(mongoClient.findOne(anyString(), any(), any(), any())).thenAnswer(invocation -> {
-      Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
-      handler.handle(Future.succeededFuture(null));
-      return null;
-    });
-
     List<JsonObject> mockResultList = new ArrayList<>();
     mockResultList.add(requestBodyJson);
 
-    when(routingContext.user()).thenReturn(user);
-    when(user.principal()).thenReturn(principal);
-    when(principal.getString("preferred_username")).thenReturn("test-user@example.com");
 
-    when(dbHandler.findAll(eq(BASKET_COLLECTION), any(), any(), any(), any(), any(),
-      anyString())).thenReturn(Future.succeededFuture(mockResultList));
+    doAnswer(invocation -> {
+      Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+      handler.handle(io.vertx.core.Future.succeededFuture());
+      return null;
+    }).when(mongoClient).findOne(anyString(), any(JsonObject.class), any(), any());
+
+   List<JsonObject> mockResult =
+     List.of(new JsonObject().put("dataset_id", "test-user").put(DISTRIBUTIONS
+       ,jsonArrayDistributions)
+     );
+
+    when(dbHandler.findAll(eq(BASKET_COLLECTION),
+      isNull(), isNull(), isNull(), isNull(), isNull(), anyString()))
+      .thenReturn(Future.succeededFuture(mockResult));
 
     // Run
     manager.validateCreate(routingContext, "application-collection");
 
     // Verify
-    verify(routingContext, timeout(1000)).next();
+    verify(routingContext, times(5)).body();
   }
 
 

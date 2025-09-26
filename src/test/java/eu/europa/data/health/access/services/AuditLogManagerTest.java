@@ -16,6 +16,7 @@
 package eu.europa.data.health.access.services;
 
 import static eu.europa.data.health.access.Constants.AUDIT_LOG_COLLECTION;
+import static eu.europa.data.health.access.Constants.DATA_ACCESS_APPLICATION_COLLECTION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -34,9 +35,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import eu.europa.data.health.access.AuditLogObject;
 import eu.europa.data.health.access.auth_client.AuthClient;
 import eu.europa.data.health.access.handlers.DBHandler;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
@@ -51,7 +54,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 
-public class AuditLogManagerTest {
+class AuditLogManagerTest {
 
   @InjectMocks
   private AuditLogManager auditLogManager;
@@ -242,7 +245,7 @@ public class AuditLogManagerTest {
       Promise<JsonArray> p = Promise.promise();
       p.complete(users);
       return p.future();
-    }).when(authClient).getAllUsers(eq(ctx));
+    }).when(authClient).getAllUsers(eq(ctx),anyBoolean());
 
     AuditLogManager spyManager = Mockito.spy(auditLogManager);
     doNothing().when(spyManager).getAuditLogs(any(), any(), any(), any(), any(), any());
@@ -291,7 +294,7 @@ public class AuditLogManagerTest {
       Promise<JsonArray> p = Promise.promise();
       p.fail("User service down");
       return p.future();
-    }).when(authClient).getAllUsers(eq(ctx));
+    }).when(authClient).getAllUsers(eq(ctx),anyBoolean());
 
     AuditLogManager spyManager = Mockito.spy(auditLogManager);
 
@@ -311,4 +314,87 @@ public class AuditLogManagerTest {
   }
 
 
+@Test
+void testInsertAuditLog_withApplicationIdShouldResolveUserId() {
+    // Setup
+    String applicationId = "test-app-id";
+    String userId = "test-user-id";
+    JsonObject applicationDoc = new JsonObject()
+        .put("userId", userId);
+
+    // Mock findById to return the application document
+    when(dbHandler.findById(DATA_ACCESS_APPLICATION_COLLECTION, applicationId))
+        .thenReturn(Future.succeededFuture(applicationDoc));
+
+    // Call method without context - this will trigger userIdFromApplicationObjectId
+    auditLogManager.insertAuditLog(
+        AuditLogObject.DATA_ACCESS_APPLICATION.toString(),
+        applicationId,
+        "TEST_ACTION",
+        "Test description",
+        true,
+        null
+    );
+
+    // Verify that create was called with correct userId
+    ArgumentCaptor<JsonObject> logCaptor = ArgumentCaptor.forClass(JsonObject.class);
+    verify(dbHandler).create(eq(AUDIT_LOG_COLLECTION), logCaptor.capture());
+
+    JsonObject capturedLog = logCaptor.getValue();
+    assertEquals(userId, capturedLog.getString("userId"));
+}
+
+@Test
+void testInsertAuditLog_withApplicationIdWhenUserLookupFails() {
+    // Setup
+    String applicationId = "test-app-id";
+
+    // Mock findById to fail
+    when(dbHandler.findById(DATA_ACCESS_APPLICATION_COLLECTION, applicationId))
+        .thenReturn(Future.failedFuture("Database error"));
+
+    // Call method without context - this will trigger userIdFromApplicationObjectId
+    auditLogManager.insertAuditLog(
+        AuditLogObject.DATA_ACCESS_APPLICATION.toString(),
+        applicationId,
+        "TEST_ACTION",
+        "Test description",
+        true,
+        null
+    );
+
+    // Verify that create was called with empty userId (best-effort policy)
+    ArgumentCaptor<JsonObject> logCaptor = ArgumentCaptor.forClass(JsonObject.class);
+    verify(dbHandler).create(eq(AUDIT_LOG_COLLECTION), logCaptor.capture());
+
+    JsonObject capturedLog = logCaptor.getValue();
+    assertEquals("", capturedLog.getString("userId"));
+}
+
+@Test
+void testInsertAuditLog_withApplicationIdWhenDocumentNotFound() {
+    // Setup
+    String applicationId = "test-app-id";
+
+    // Mock findById to return null document
+    when(dbHandler.findById(DATA_ACCESS_APPLICATION_COLLECTION, applicationId))
+        .thenReturn(Future.succeededFuture(null));
+
+    // Call method without context - this will trigger userIdFromApplicationObjectId
+    auditLogManager.insertAuditLog(
+        AuditLogObject.DATA_ACCESS_APPLICATION.toString(),
+        applicationId,
+        "TEST_ACTION",
+        "Test description",
+        true,
+        null
+    );
+
+    // Verify that create was called with empty userId
+    ArgumentCaptor<JsonObject> logCaptor = ArgumentCaptor.forClass(JsonObject.class);
+    verify(dbHandler).create(eq(AUDIT_LOG_COLLECTION), logCaptor.capture());
+
+    JsonObject capturedLog = logCaptor.getValue();
+    assertEquals("", capturedLog.getString("userId"));
+}
 }

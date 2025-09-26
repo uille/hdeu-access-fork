@@ -94,51 +94,14 @@ spec:
       # This env section allows you to set environment variables to the value of a key from a Kubernetes secret, if the AWS secret manager is enabled
       {{- if .Values.aws.enabled }}
           env:
-            - name: MONGO_DB_URI
+          {{- $rootChart := . }}
+          {{- range $envName, $secretKey := .Values.aws.envSecretsMap }}
+            - name: {{ $envName }}
               valueFrom:
                 secretKeyRef:
-                  key: mongo_uri
-                  name: {{ include "health-data-access.name" . }}-secrets
-            - name: MONGO_USER
-              valueFrom:
-                secretKeyRef:
-                  key: username
-                  name: {{ include "health-data-access.name" . }}-secrets
-            - name: MONGO_PW
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: {{ include "health-data-access.name" . }}-secrets
-            - name: PIVEAU_STORE_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  key: hub_store_data_upload_api_key
-                  name: {{ include "health-data-access.name" . }}-secrets
-            - name: HEALTH_DATA_ACCESS_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  key: health_data_access_api_key
-                  name: {{ include "health-data-access.name" . }}-secrets
-            - name: DISPATCHER_X_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  key: dispatcher_x_api_key
-                  name: {{ include "health-data-access.name" . }}-secrets
-            - name: EXPORT_DATA_ACCESS_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  key: export_data_access_api_key
-                  name: {{ include "health-data-access.name" . }}-secrets
-            - name: HUB_REPO_X_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  key: hub_repo_api_key
-                  name: {{ include "health-data-access.name" . }}-secrets
-            - name: PIVEAU_ACCESS_AUTH_CONFIG
-              valueFrom:
-                secretKeyRef:
-                  key: access_auth_config
-                  name: {{ include "health-data-access.name" . }}-secrets
+                  key: {{ $secretKey }}
+                  name: {{ include "health-data-access.name" $rootChart }}-secrets
+          {{- end }}
           # This volumeMounts section mounts the secrets to the container under the /etc/{{ include "health-data-access.name" . }}-secrets directory, if the AWS secret manager is enabled
           volumeMounts:
             - mountPath: /etc/{{ include "health-data-access.name" . }}-secrets

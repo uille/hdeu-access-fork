@@ -44,6 +44,7 @@ import org.slf4j.LoggerFactory;
  */
 public class BasketManager extends AbstractManager {
 
+  public static final String PUBLISHER = "publisher";
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   private final MongoClient mongoClient;
@@ -88,7 +89,7 @@ public class BasketManager extends AbstractManager {
             setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
               "Provided distribution already exists");
           } else {
-            dataset.put("publisher", context.get("publisher"));
+            dataset.put(PUBLISHER, context.get(PUBLISHER));
             // Add the new distribution
             dataset.getJsonArray(DISTRIBUTIONS).add(distributionToBeAdded);
             // Update the object in Mongo db
@@ -325,7 +326,7 @@ public class BasketManager extends AbstractManager {
     // Retrieve the request body
     JsonObject requestBody = context.body().asJsonObject();
 
-    requestBody.put("publisher", context.get("publisher"));
+    requestBody.put(PUBLISHER, context.get(PUBLISHER));
 
     // Define the fields to be stored for a Basket Dataset
     JsonObject distribution = new JsonObject().put(DISTRIBUTION_ID,

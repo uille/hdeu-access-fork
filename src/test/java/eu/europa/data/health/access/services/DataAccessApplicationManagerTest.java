@@ -17,7 +17,6 @@ package eu.europa.data.health.access.services;
 
 import static eu.europa.data.health.access.Constants.APPLICATION_ID;
 import static eu.europa.data.health.access.Constants.APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR;
-import static eu.europa.data.health.access.Constants.AUDIT_LOG_COLLECTION;
 import static eu.europa.data.health.access.Constants.DATA_ACCESS_APPLICATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.DATA_EXTRACTION_FREQUENCY;
 import static eu.europa.data.health.access.Constants.DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION;
@@ -67,6 +66,7 @@ import static eu.europa.data.health.access.Constants.WILL_RELATIVES_BE_EXTRACTED
 import static eu.europa.data.health.access.Constants.WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS;
 import static eu.europa.data.health.access.Constants.WILL_THE_DATA_BE_TRANSFERRED;
 import static eu.europa.data.health.access.UtilityServiceTest.getStringJsonObject;
+import static eu.europa.data.health.access.services.CommonApplicationManager.TARGET_LANGUAGES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -84,20 +84,22 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.europa.data.health.access.Sections;
-import eu.europa.data.health.access.dto.SectionDTO;
+import eu.europa.data.health.access.auth_client.AuthClient;
 import eu.europa.data.health.access.dto.SelectObjectDTO;
-import eu.europa.data.health.access.dto.data_access.Section7DTO;
+import eu.europa.data.health.access.dto.sections.SectionDTO;
+import eu.europa.data.health.access.dto.sections.data_access.Section7DTO;
 import eu.europa.data.health.access.handlers.DBHandler;
+import eu.europa.data.health.access.hub_translation_client.HubTranslationClient;
 import eu.europa.data.health.access.validations.business_validators.DataAccessApplicationBusinessValidationManager;
 import eu.europa.data.health.access.validations.validators.DataAccessApplicationValidationManager;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -113,21 +115,23 @@ import io.vertx.ext.auth.User;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.RequestBody;
 import io.vertx.ext.web.RoutingContext;
+import java.time.Duration;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.shaded.org.awaitility.Awaitility;
-
-import java.time.Duration;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @ExtendWith(MockitoExtension.class)
 class DataAccessApplicationManagerTest {
@@ -141,6 +145,10 @@ class DataAccessApplicationManagerTest {
   @Mock
   HubStoreClient hubStoreClient;
   @Mock
+  HubTranslationClient hubTranslationClient;
+  @Mock
+  HubSearchClient hubSearchClient;
+  @Mock
   Vertx vertx;
   @Mock
   AuditLogManager auditLogManager;
@@ -153,11 +161,15 @@ class DataAccessApplicationManagerTest {
   @Mock
   private HttpServerResponse response;
   @Mock
+  private AuthClient authClient;
+  @Mock
   private HttpServerRequest request;
   Logger logger = (Logger) LoggerFactory.getLogger(DataAccessApplicationManager.class);
   private static final ObjectMapper mapper = new ObjectMapper();
 
-  @InjectMocks
+  ListAppender<ILoggingEvent> listAppender;
+
+
   DataAccessApplicationManager dataAccessApplicationManager;
 
   @BeforeEach
@@ -165,14 +177,18 @@ class DataAccessApplicationManagerTest {
     dataAccessApplicationManager = new DataAccessApplicationManager(
       dbHandler, mongoClient, basketManager, hubStoreClient,
       vertx, dataAccessApplicationValidationManager, dataAccessApplicationBusinessValidationManager,
-      auditLogManager
-    );
+      auditLogManager, hubTranslationClient, hubSearchClient, false, authClient);
 
     when(routingContext.request()).thenReturn(request);
     // Mock other behaviors
     lenient().when(routingContext.request()).thenReturn(request);
     lenient().when(routingContext.response()).thenReturn(response);
     lenient().when(response.setStatusCode(anyInt())).thenReturn(response);
+
+    listAppender = new ListAppender<>();
+    listAppender.start();
+    logger.addAppender(listAppender);
+
   }
 
   private void addUserOnContext() {
@@ -276,84 +292,6 @@ class DataAccessApplicationManagerTest {
   }
 
   @Test
-  void deleteApplicationDataset_singleDatasetMatch_shouldDeleteApplicationAndLog() {
-    String datasetId = "ds1";
-    String appId = "app123";
-
-    JsonObject dataset = new JsonObject()
-      .put("dataset_id", datasetId)
-      .put("distributions", new JsonArray().add("dist1"));
-
-    JsonObject mongoApp = new JsonObject()
-      .put("_id", appId)
-      .put("title", "Test App")
-      .put("datasets", new JsonArray().add(dataset));
-
-    when(auditLogManager.extractDistributionIds(anyString())).thenReturn("dist1");
-    when(auditLogManager.prepareAuditLogActionDescription(any(), any(), any(), any(), any()))
-      .thenReturn("Audit Log Entry");
-
-    boolean result = dataAccessApplicationManager.deleteApplicationDataset(mongoApp, datasetId,
-      routingContext);
-
-    assertFalse(result);
-    verify(dbHandler).deleteById(eq(DATA_ACCESS_APPLICATION_COLLECTION), any());
-    verify(auditLogManager).insertAuditLog(any(), eq(appId), any(), eq("Audit Log Entry"),
-      eq(false), eq(routingContext));
-  }
-
-  @Test
-  void deleteApplicationDataset_multipleDatasetsMatch_shouldRemoveDatasetAndLog() {
-    String datasetId = "ds2";
-    String appId = "app456";
-
-    JsonObject dataset1 = new JsonObject()
-      .put("dataset_id", "ds1")
-      .put("catalog_id", "cat1")
-      .put("distributions", new JsonArray().add("dist1"));
-
-    JsonObject dataset2 = new JsonObject()
-      .put("dataset_id", datasetId)
-      .put("catalog_id", "cat2")
-      .put("distributions", new JsonArray().add("dist2"));
-
-    JsonArray datasets = new JsonArray().add(dataset1).add(dataset2);
-
-    JsonObject mongoApp = new JsonObject()
-      .put("_id", appId)
-      .put("title", "Test App Multiple")
-      .put("datasets", datasets);
-
-    when(auditLogManager.extractDistributionIds(anyString())).thenReturn("dist2");
-    when(auditLogManager.prepareAuditLogActionDescription(any(), any(), any(), any(), any()))
-      .thenReturn("Dataset Deleted");
-
-    boolean result = dataAccessApplicationManager.deleteApplicationDataset(mongoApp, datasetId,
-      routingContext);
-
-    assertTrue(result);
-    assertEquals(1, mongoApp.getJsonArray("datasets").size());
-    verify(auditLogManager).insertAuditLog(any(), eq(appId), any(), eq("Dataset Deleted"), eq(true),
-      eq(routingContext));
-  }
-
-  @Test
-  void deleteApplicationDataset_datasetNotFound_shouldReturnFalse() {
-    JsonObject dataset = new JsonObject()
-      .put("dataset_id", "not_target");
-
-    JsonObject mongoApp = new JsonObject()
-      .put("id", "app789")
-      .put("datasets", new JsonArray().add(dataset));
-
-    boolean result = dataAccessApplicationManager.deleteApplicationDataset(mongoApp, "missing_ds",
-      routingContext);
-
-    assertFalse(result);
-    verifyNoInteractions(dbHandler, auditLogManager);
-  }
-
-  @Test
   void testDeleteDistributions_successfulDeletion() {
     String appId = "app-123";
     when(routingContext.pathParam("application_id")).thenReturn(appId);
@@ -435,122 +373,6 @@ class DataAccessApplicationManagerTest {
       verify(response).setStatusCode(404);
       verify(response).end(contains("was not found in the database"));
     });
-  }
-
-  @Test
-  void testDeleteDistributions_mongoFailure() {
-    when(routingContext.pathParam("application_id")).thenReturn("app-error");
-    addUserOnContext();
-
-    doAnswer(inv -> {
-      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
-      handler.handle(Future.failedFuture(new RuntimeException("DB down")));
-      return null;
-    }).when(mongoClient).findOne(any(), any(), isNull(), any());
-
-    when(routingContext.response()).thenReturn(response);
-    when(response.setStatusCode(anyInt())).thenReturn(response);
-    when(response.end(anyString())).thenReturn(Future.succeededFuture());
-
-    dataAccessApplicationManager.deleteDistributions(routingContext);
-
-    Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted(() -> {
-      verify(response).setStatusCode(500);
-      verify(response).end(contains("DB down"));
-    });
-  }
-
-  @Test
-  void deleteApplicationDatasetDistribution_onlyDistributionInOnlyDataset_shouldDeleteApplication() {
-    String appId = "app123";
-    String datasetId = "ds1";
-    String distributionId = "dist1";
-
-    JsonObject distribution = new JsonObject().put("distribution_id", distributionId);
-    JsonObject dataset = new JsonObject()
-      .put("dataset_id", datasetId)
-      .put("distributions", new JsonArray().add(distribution));
-
-    JsonObject mongoApp = new JsonObject()
-      .put("_id", appId)
-      .put("title", "Test App")
-      .put("datasets", new JsonArray().add(dataset));
-
-    when(auditLogManager.prepareAuditLogActionDescription(any(), any(), any(), any(), any()))
-      .thenReturn("Audit Log Entry");
-
-    dataAccessApplicationManager.deleteApplicationDatasetDistribution(mongoApp, datasetId,
-      distributionId, routingContext);
-
-    verify(dbHandler).deleteById(eq(DATA_ACCESS_APPLICATION_COLLECTION), any());
-    verify(dbHandler).updateLinkableFields(eq(AUDIT_LOG_COLLECTION), eq(appId));
-    verify(auditLogManager).insertAuditLog(any(), eq(appId), any(), eq("Audit Log Entry"),
-      eq(false), eq(routingContext));
-  }
-
-  @Test
-  void deleteApplicationDatasetDistribution_onlyDistributionInOneDataset_shouldRemoveDataset() {
-    String appId = "app123";
-    String datasetIdToDelete = "ds1";
-    String otherDatasetId = "ds2";
-    String distributionId = "dist1";
-
-    JsonObject distribution = new JsonObject().put("distribution_id", distributionId);
-    JsonObject datasetToDelete = new JsonObject()
-      .put("dataset_id", datasetIdToDelete)
-      .put("catalog_id", "cat1")
-      .put("distributions", new JsonArray().add(distribution));
-
-    JsonObject otherDataset = new JsonObject()
-      .put("dataset_id", otherDatasetId)
-      .put("distributions", new JsonArray().add(new JsonObject().put("distribution_id", "dist2")));
-
-    JsonObject mongoApp = new JsonObject()
-      .put("_id", appId)
-      .put("title", "Test App")
-      .put("datasets", new JsonArray().add(datasetToDelete).add(otherDataset));
-
-    when(auditLogManager.prepareAuditLogActionDescription(any(), any(), any(), any(), any()))
-      .thenReturn("Audit Log Entry");
-
-    dataAccessApplicationManager.deleteApplicationDatasetDistribution(mongoApp, datasetIdToDelete,
-      distributionId, routingContext);
-
-    assertEquals(1, mongoApp.getJsonArray("datasets").size()); // dataset removed
-    verify(auditLogManager).insertAuditLog(any(), eq(appId), any(), eq("Audit Log Entry"), eq(true),
-      eq(routingContext));
-  }
-
-  @Test
-  void deleteApplicationDatasetDistribution_multipleDistributions_shouldRemoveOnlyTargetDistribution() {
-    String appId = "app123";
-    String datasetId = "ds1";
-    String distributionIdToRemove = "dist1";
-
-    JsonObject distribution1 = new JsonObject().put("distribution_id", distributionIdToRemove);
-    JsonObject distribution2 = new JsonObject().put("distribution_id", "dist2");
-
-    JsonObject dataset = new JsonObject()
-      .put("dataset_id", datasetId)
-      .put("distributions", new JsonArray().add(distribution1).add(distribution2));
-
-    JsonObject mongoApp = new JsonObject()
-      .put("_id", appId)
-      .put("title", "Test App")
-      .put("datasets", new JsonArray().add(dataset));
-
-    when(auditLogManager.prepareAuditLogActionDescription(any(), any(), any(), any(), any()))
-      .thenReturn("Audit Log Entry");
-
-    dataAccessApplicationManager.deleteApplicationDatasetDistribution(mongoApp, datasetId,
-      distributionIdToRemove, routingContext);
-
-    JsonArray updatedDistributions = mongoApp.getJsonArray("datasets").getJsonObject(0)
-      .getJsonArray("distributions");
-    assertEquals(1, updatedDistributions.size());
-    assertEquals("dist2", updatedDistributions.getJsonObject(0).getString("distribution_id"));
-    verify(auditLogManager).insertAuditLog(any(), eq(appId), any(), eq("Audit Log Entry"), eq(true),
-      eq(routingContext));
   }
 
   @Test
@@ -695,9 +517,9 @@ class DataAccessApplicationManagerTest {
     spyManager.getAllDataAccessApplications(routingContext);
 
     verify(response).setStatusCode(200);
-    verify(spyManager).getEntity(eq(routingContext), eq(DATA_ACCESS_APPLICATION_COLLECTION), eq(2),
-      eq(10),
-      eq("name"), eq("asc"), eq("PENDING"));
+    verify(spyManager).getEntity(routingContext, DATA_ACCESS_APPLICATION_COLLECTION, 2,
+      10,
+      "name", "asc", "PENDING");
   }
 
   @Test
@@ -710,19 +532,6 @@ class DataAccessApplicationManagerTest {
     }).when(spyManager).updateEntity(any(), anyString());
     spyManager.updateApplication(routingContext);
     verify(spyManager).updateEntity(routingContext, DATA_ACCESS_APPLICATION_COLLECTION);
-    verify(response).setStatusCode(200);
-  }
-
-  @Test
-  void testPatchApplication() {
-    DataAccessApplicationManager spyManager = Mockito.spy(dataAccessApplicationManager);
-    doAnswer(invocation -> {
-      RoutingContext ctx = invocation.getArgument(0);
-      ctx.response().setStatusCode(200).end("mocked");
-      return null;
-    }).when(spyManager).patchEntity(any(), anyString());
-    spyManager.patchApplication(routingContext);
-    verify(spyManager).patchEntity(routingContext, DATA_ACCESS_APPLICATION_COLLECTION);
     verify(response).setStatusCode(200);
   }
 
@@ -856,7 +665,7 @@ class DataAccessApplicationManagerTest {
 
     Future<Object> failedFuture = Future.failedFuture("Some failure");
     List<Future> futures = Collections.singletonList(failedFuture);
-    doReturn(futures).when(spyManager).updateApplicationsAsync(any());
+    doReturn(futures).when(spyManager).updateApplicationsAsync(any(), anyString());
 
     spyManager.putDistributionsApplication(routingContext);
 
@@ -868,59 +677,59 @@ class DataAccessApplicationManagerTest {
   }
 
   @Test
-  void testExtractField_objectNodeWithMatchingField() throws Exception {
-    String json = "{\"id\": \"123\", \"name\": \"Alice\"}";
-    JsonNode node = mapper.readTree(json);
-    Set<String> ids = new HashSet<>();
-    dataAccessApplicationManager.extractField(node, ids, "id");
-    assertEquals(Set.of("123"), ids);
-  }
-
-  @Test
-  void testExtractField_nestedObjectWithMatchingField() throws Exception {
-    String json = "{\"user\": {\"id\": \"abc123\"}, \"meta\": {\"id\": \"xyz456\"}}";
-    JsonNode node = mapper.readTree(json);
-    Set<String> ids = new HashSet<>();
-    dataAccessApplicationManager.extractField(node, ids, "id");
-    assertEquals(Set.of("abc123", "xyz456"), ids);
-  }
-
-  @Test
-  void testExtractField_arrayOfObjectsWithMatchingField() throws Exception {
-    String json = "[{\"id\": \"1\"}, {\"id\": \"2\"}, {\"name\": \"no-id\"}]";
-    JsonNode node = mapper.readTree(json);
-    Set<String> ids = new HashSet<>();
-    dataAccessApplicationManager.extractField(node, ids, "id");
-    assertEquals(Set.of("1", "2"), ids);
-  }
-
-  @Test
   void testExtractField_mixedTypesWithMatchingField() throws Exception {
     String json = "{ \"items\": [ {\"id\": \"a\"}, {\"id\": \"b\"} ], \"extra\": {\"id\": \"c\"} }";
     JsonNode node = mapper.readTree(json);
     Set<String> ids = new HashSet<>();
-    dataAccessApplicationManager.extractField(node, ids, "id");
+    DataAccessApplicationManager.extractField(node, ids, "id");
     assertEquals(Set.of("a", "b", "c"), ids);
   }
 
-  @Test
-  void testExtractField_fieldValueIsArray() throws Exception {
-    String json = "{ \"id\": [\"x1\", \"x2\"] }";
-    JsonNode node = mapper.readTree(json);
-    Set<String> ids = new HashSet<>();
-    dataAccessApplicationManager.extractField(node, ids, "id");
-    assertEquals(Set.of("x1", "x2"), ids);
-  }
 
   @Test
   void testExtractField_noMatchingField() throws Exception {
     String json = "{\"name\": \"No match\"}";
-    JsonNode node = mapper.readTree(json);
     Set<String> ids = new HashSet<>();
-    dataAccessApplicationManager.extractField(node, ids, "id");
+    DataAccessApplicationManager.extractField(createNode(json), ids, "id");
     assertTrue(ids.isEmpty());
   }
 
+
+  @ParameterizedTest
+  @MethodSource("provideJsonInputs")
+  void testExtractField(String json, Set<String> expectedIds) throws Exception {
+    Set<String> ids = new HashSet<>();
+    DataAccessApplicationManager.extractField(createNode(json), ids, "id");
+    assertEquals(expectedIds, ids);
+  }
+
+  private static Stream<org.junit.jupiter.params.provider.Arguments> provideJsonInputs() {
+    return Stream.of(
+      org.junit.jupiter.params.provider.Arguments.of(
+        "{\"id\": \"123\", \"name\": \"Alice\"}",
+        Set.of("123")
+      ),
+      org.junit.jupiter.params.provider.Arguments.of(
+        "{\"user\": {\"id\": \"abc123\"}, \"meta\": {\"id\": \"xyz456\"}}",
+        Set.of("abc123", "xyz456")
+      ),
+      org.junit.jupiter.params.provider.Arguments.of(
+        "[{\"id\": \"1\"}, {\"id\": \"2\"}, {\"name\": \"no-id\"}]",
+        Set.of("1", "2")
+      ),
+      org.junit.jupiter.params.provider.Arguments.of(
+        "{ \"id\": [\"x1\", \"x2\"] }",
+        Set.of("x1", "x2")
+      )
+    );
+  }
+
+
+
+  private JsonNode createNode(String json) throws JsonProcessingException {
+    return mapper.readTree(json);
+
+  }
 
   @Test
   void testPostData() {
@@ -996,10 +805,14 @@ class DataAccessApplicationManagerTest {
     when(routingContext.body()).thenReturn(mockBody);
     when(mockBody.asJsonObject()).thenReturn(bodyJson);
     addUserOnContext();
+    JsonArray usersJsonArray = new JsonArray();
+    usersJsonArray.add(new JsonObject().put("firstName", "John").put("lastName", "Doe").put("ecasid", "111"));
+    when(authClient.getAllUsers(any(), any(Boolean.class))).thenReturn(Future.succeededFuture(usersJsonArray));
 
     JsonObject mongoApp = new JsonObject()
       .put("title", "Test App")
       .put("status", new JsonObject().put("status", "DRAFT"))
+      .put("datasets", new JsonArray())
       .put("form", new JsonObject().put("section2", new JsonObject()));
 
     DataAccessApplicationManager spyManager = Mockito.spy(dataAccessApplicationManager);
@@ -1244,7 +1057,6 @@ class DataAccessApplicationManagerTest {
       .put("needForDataExtractionEveryOther", "monthly")
       .put(WILL_CONTROLS_BE_EXTRACTED, new JsonObject().put("key", "a"))
       .put(WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS, new JsonObject().put("key", "b"))
-      .put("regionForControlsDataExtraction", "region")
       .put("variablesForDataExtraction", "variables")
       .put("timePeriodForDataExtraction", "2020-2023")
       .put("extractionCriteriaForControls", "criteria")
@@ -1257,7 +1069,6 @@ class DataAccessApplicationManagerTest {
       .put("previouslyIssuedPermitIssuer3", "issuer")
       .put(WILL_RELATIVES_BE_EXTRACTED, new JsonObject().put("key", "a"))
       .put("willSameDataBeExtractedForRelatives", new JsonObject().put("key", "b"))
-      .put("variablesForDataExtractionRelatives", "variables")
       .put("timePeriodForDataExtractionRelatives", "2021-2022")
       .put("relationshipToStudyCohort", "spouse")
       .put("willDataForRelativesBeExtractedSimultaneously", new JsonObject().put("key", "b"))
@@ -1284,7 +1095,6 @@ class DataAccessApplicationManagerTest {
     assertTrue(cleanedSection.containsKey("sampleSize"));
     assertTrue(cleanedSection.containsKey("needForDataExtractionEveryOther"));
     assertTrue(cleanedSection.containsKey(SPECIFY_OTHER));
-    assertTrue(cleanedSection.containsKey("regionForControlsDataExtraction"));
     assertTrue(cleanedSection.containsKey(SPECIFY_OTHER_RELATIVES));
   }
 
@@ -1506,6 +1316,180 @@ class DataAccessApplicationManagerTest {
     assertFalse(cleanedSection8.containsKey("otherLegalBasisForProcessingApplicationData"));
     assertFalse(cleanedSection8.containsKey(LEGAL_BASIS_FOR_PROCESSING_COMBINED_APPLICATION_DATA));
     assertFalse(cleanedSection8.containsKey("otherLegalBasisForProcessingCombinedApplicationData"));
+  }
+
+
+  @Test
+  void testProcessFileTranslationCallback_translationNotCompleted() {
+    String appId = "app1";
+    String fileId = "file1";
+
+    JsonObject mongoApplication = new JsonObject()
+      .put("_id", "app1")
+      .put("title", "Test Title")
+      .put("version", "v1")
+      .put("datasets", new JsonArray());
+
+    doAnswer(inv -> {
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
+      handler.handle(Future.succeededFuture(mongoApplication));
+      return null;
+    }).when(mongoClient).findOne(any(), any(), isNull(), any());
+
+    dataAccessApplicationManager.processFileTranslationCallback(appId, fileId, new HashMap<>());
+
+    boolean found = listAppender.list.stream()
+      .anyMatch(event -> event.getFormattedMessage().contains("Translation not yet complete for application"));
+    assertTrue(found);
+
+  }
+
+
+  @Test
+  void testProcessFileTranslationCallback_translationCompletedAndSubmitted() {
+    String appId = "app1";
+    String fileId = "file1";
+    JsonObject app = new JsonObject()
+      .put("translation", new JsonObject()
+        .put(TARGET_LANGUAGES,new JsonArray().add("en"))
+        .put("status", "COMPLETED")
+        .put("form",new JsonObject()
+          .put("status", "completed")
+          .put("files",new JsonObject()
+            .put("file1", new JsonObject()
+              .put("status", "completed"))))
+
+      )
+      .put("status", new JsonObject().put("status", "SUBMITTED"))
+      .put("title", "Some Title")
+      .put("id", appId);
+
+    doAnswer(invocation -> {
+      Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+      handler.handle(Future.succeededFuture(app));
+      return null;
+    }).when(mongoClient).findOne(anyString(), any(JsonObject.class), isNull(), any());
+
+    doAnswer(invocation -> {
+      Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+      handler.handle(Future.succeededFuture(app));
+      return null;
+    }).when(mongoClient).findOneAndReplace(anyString(), any(), any(JsonObject.class), any());
+
+    when(auditLogManager.prepareAuditLogActionDescription(any(), any(), any()))
+      .thenReturn("desc");
+
+    JsonObject fileJson = new JsonObject().put("fileId", fileId).put("fileName", "fileName");
+    HashMap<String, JsonObject> hashMap = new HashMap<>();
+    hashMap.put("EN", fileJson);
+
+    // Act
+    dataAccessApplicationManager.processFileTranslationCallback(appId, fileId,hashMap
+    );
+
+    // Assert
+    boolean found = listAppender.list.stream()
+      .anyMatch(event -> event.getFormattedMessage().contains("was updated successfully"));
+    assertTrue(found);
+  }
+
+
+
+
+  @Test
+  void testProcessTranslationCallback_translationNotCompleted() {
+    String appId = "app1";
+    String fileId = "file1";
+    JsonObject app = new JsonObject()
+      .put("translation", new JsonObject()
+        .put(TARGET_LANGUAGES,new JsonArray().add("en"))
+        .put("files",new JsonObject()
+          .put("file1", new JsonObject()
+            .put("status", "completed")))
+        .put("status", "COMPLETED"))
+      .put("status", "COMPLETED")
+      .put("form",new JsonObject()
+        .put("status", "completed")
+
+
+      )
+      .put("status", new JsonObject().put("status", "SUBMITTED"))
+      .put("title", "Some Title")
+      .put("id", appId);
+
+    // Mock mongoClient.findOne to return app
+    doAnswer(invocation -> {
+      Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+      handler.handle(Future.succeededFuture(app));
+      return null;
+    }).when(mongoClient).findOne(anyString(), any(JsonObject.class), isNull(), any());
+
+    doAnswer(invocation -> {
+      Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+      handler.handle(Future.succeededFuture(app));
+      return null;
+    }).when(mongoClient).findOneAndReplace(anyString(), any(), any(JsonObject.class), any());
+
+
+    when(hubTranslationClient.buildFormTranslations(any(JsonObject.class),any(JsonObject.class),
+      any(JsonObject.class),anyString())).thenReturn(app);
+
+    JsonObject fileJson = new JsonObject().put("fileId", fileId).put("fileName", "fileName");
+    HashMap<String, JsonObject> hashMap = new HashMap<>();
+    hashMap.put("EN", fileJson);
+
+    dataAccessApplicationManager.processTranslationCallback(appId, app );
+
+    boolean found = listAppender.list.stream()
+      .anyMatch(event -> event.getFormattedMessage().contains("Translation not yet complete"));
+    assertTrue(found);
+  }
+
+  @Test
+  void testProcessTranslationCallback_translationCompletedAndSubmitted() {
+    String appId = "app1";
+    String fileId = "file1";
+    JsonObject app = new JsonObject()
+      .put("translation", new JsonObject()
+        .put(TARGET_LANGUAGES,new JsonArray().add("en"))
+        .put("files",new JsonObject()
+          .put("file1", new JsonObject()
+            .put("status", "completed")))
+        .put("status", "COMPLETED"))
+      .put("status", "COMPLETED")
+      .put("form",new JsonObject()
+        .put("status", "completed")
+
+
+      )
+      .put("status", new JsonObject().put("status", "SUBMITTED"))
+      .put("title", "Some Title")
+      .put("id", appId);
+
+    doAnswer(invocation -> {
+      Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+      handler.handle(Future.succeededFuture(app));
+      return null;
+    }).when(mongoClient).findOne(anyString(), any(JsonObject.class), isNull(), any());
+
+    doAnswer(invocation -> {
+      Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+      handler.handle(Future.succeededFuture(app));
+      return null;
+    }).when(mongoClient).findOneAndReplace(anyString(), any(), any(JsonObject.class), any());
+
+    when(hubTranslationClient.buildFormTranslations(any(JsonObject.class),any(JsonObject.class),
+      any(JsonObject.class),anyString())).thenReturn(new JsonObject().put("EN", "test"));
+
+    JsonObject fileJson = new JsonObject().put("fileId", fileId).put("fileName", "fileName");
+    HashMap<String, JsonObject> hashMap = new HashMap<>();
+    hashMap.put("EN", fileJson);
+
+    dataAccessApplicationManager.processTranslationCallback(appId, app );
+
+    boolean found = listAppender.list.stream()
+      .anyMatch(event -> event.getFormattedMessage().contains("Application updated with translations. Proceeding to dispatch."));
+    assertTrue(found);
   }
 
 }

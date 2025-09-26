@@ -20,6 +20,7 @@ import static eu.europa.data.health.access.Constants.CATALOGUE_ID;
 import static eu.europa.data.health.access.Constants.DOMIBUS_ID;
 import static eu.europa.data.health.access.Constants.STATUS;
 
+import eu.europa.data.health.access.CommonClientUtils;
 import eu.europa.data.health.access.Constants;
 import eu.europa.data.health.access.dto.CatalogueStatusEnum;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -33,16 +34,20 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
-
 public class DispatcherClient {
 
+  public static final String INPUT_LANGUAGE = "inputLanguage";
+  public static final String TITLE = "title";
   private final String url;
   private final String xApiKey;
 
@@ -94,39 +99,19 @@ public class DispatcherClient {
   public Future<String> createCatalogueMap(RoutingContext context){
     Promise<String> promise = Promise.promise();
 
-    // JSON object to send in the POST request body
-    JsonObject jsonObject = new JsonObject()
-      .put("catalogIds", new JsonArray().add(context.body().asJsonObject().getString(CATALOGUE_ID)))
-      .put("recipient", context.body().asJsonObject().getString(DOMIBUS_ID))
-      .put("isProduction", CatalogueStatusEnum.LIVE.getValue().
-        equals(context.body().asJsonObject().getJsonObject(STATUS).getString("key")));
-
-    Buffer buffer = jsonObject.toBuffer();
+    Buffer buffer = createCatalogueJsonObject(context).toBuffer();
     MultiMap headers = createHeader(buffer);
 
     vertxClient.postAbs(this.url + CATALOGUE_MAP_REQUEST)
       .putHeaders(headers).sendBuffer(buffer, ar -> {
         if (ar.succeeded()) {
           if (HttpResponseStatus.CREATED.code() == ar.result().statusCode()) {
-            log.info(DISPATCHER_CLIENT
-                + " Successfully create the map for catalogue: {} to dispatcher",
-              context.body().asJsonObject().getString(CATALOGUE_ID));
-            promise.complete(Jsoup.parse(ar.result().bodyAsString()).text());
+            logAndPromiseSuccess(promise, context, ar, DISPATCHER_CLIENT + " Successfully created the map for catalogue: {} to dispatcher");
           } else {
-            log.error(DISPATCHER_CLIENT
-                + " Dispatcher failed to create catalogue: {}, with error code: {} and message: {}",
-              context.body().asJsonObject().getString(CATALOGUE_ID),
-              extractedErrorCode(ar), extractedErrorMessage(ar));
-            promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-              .put(ERROR_DETAILS, extractedErrorMessage(ar)).encode());
+            logAndPromiseFail(promise, context, ar, DISPATCHER_CLIENT + " Dispatcher failed to create catalogue: {}, with error code: {} and message: {}");
           }
         } else {
-          log.error(DISPATCHER_CLIENT
-              + " Failed failed to create catalogue: {} to dispatcher, with error message: {}",
-            context.body().asJsonObject().getString(CATALOGUE_ID),
-            extractedErrorMessage(ar));
-          promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-            .put(ERROR_DETAILS, extractedErrorMessage(ar)).encode());
+          logAndPromiseFail(promise, context, ar, DISPATCHER_CLIENT + " Failed to create catalogue: {} to dispatcher, with error message: {}");
         }
       });
     return promise.future();
@@ -142,41 +127,50 @@ public class DispatcherClient {
     String catalogMappingMongoId = context.get("catalogMappingMongoId");
     log.info("Will try to update catalog mapping with mongo id: {}", catalogMappingMongoId);
 
-    // JSON object to send in the POST request body
-    JsonObject jsonObject = new JsonObject()
-      .put("catalogIds", new JsonArray().add(context.body().asJsonObject().getString(CATALOGUE_ID)))
-      .put("recipient", context.body().asJsonObject().getString(DOMIBUS_ID))
-      .put("isProduction", CatalogueStatusEnum.LIVE.getValue().
-        equals(context.body().asJsonObject().getJsonObject(STATUS).getString("key")));
-
-    Buffer buffer = jsonObject.toBuffer();
+    Buffer buffer = createCatalogueJsonObject(context).toBuffer();
     MultiMap headers = createHeader(buffer);
     vertxClient.putAbs(this.url + CATALOGUE_MAP_REQUEST + "/" + catalogMappingMongoId)
       .putHeaders(headers).sendBuffer(buffer, ar -> {
         if (ar.succeeded()) {
           if (HttpResponseStatus.OK.code() == ar.result().statusCode()) {
-            log.info(DISPATCHER_CLIENT
-                + " Successfully updated the map for catalogue: {} to dispatcher",
-              context.body().asJsonObject().getString(CATALOGUE_ID));
-            promise.complete(Jsoup.parse(ar.result().bodyAsString()).text());
+            logAndPromiseSuccess(promise, context, ar, DISPATCHER_CLIENT + " Successfully updated the map for catalogue: {} to dispatcher");
           } else {
-            log.error(DISPATCHER_CLIENT
-                + " Dispatcher failed to update catalogue: {}, with error code: {} and message: {}",
-              context.body().asJsonObject().getString(CATALOGUE_ID),
-              extractedErrorCode(ar), extractedErrorMessage(ar));
-            promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-              .put(ERROR_DETAILS, extractedErrorMessage(ar)).encode());
+            logAndPromiseFail(promise, context, ar, DISPATCHER_CLIENT + " Dispatcher failed to update catalogue: {}, with error code: {} and message: {}");
           }
         } else {
-          log.error(DISPATCHER_CLIENT
-              + " Failed failed to update catalogue: {} to dispatcher, with error message: {}",
-            context.body().asJsonObject().getString(CATALOGUE_ID),
-            extractedErrorMessage(ar));
-          promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-            .put(ERROR_DETAILS, extractedErrorMessage(ar)).encode());
+          logAndPromiseFail(promise, context, ar, DISPATCHER_CLIENT + " Failed failed to update catalogue: {} to dispatcher, with error message: {}");
         }
       });
     return promise.future();
+  }
+
+  private void logAndPromiseFail(Promise<String> promise, @NotNull RoutingContext context, AsyncResult<HttpResponse<Buffer>> result, String message) {
+
+    if(log.isErrorEnabled()){
+      log.error(message,
+        context.body().asJsonObject().getString(CATALOGUE_ID),
+        CommonClientUtils.extractedErrorMessage(result));
+    }
+
+    promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(result))
+      .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(result)).encode());
+  }
+  private void logAndPromiseSuccess(Promise<String> promise, @NotNull RoutingContext context, AsyncResult<HttpResponse<Buffer>> result, String message){
+
+    if(log.isInfoEnabled()){
+      log.info(message,
+        context.body().asJsonObject().getString(CATALOGUE_ID));
+    }
+
+    promise.complete(Jsoup.parse(result.result().bodyAsString()).text());
+  }
+
+  private JsonObject createCatalogueJsonObject(@NotNull RoutingContext context){
+    return new JsonObject()
+      .put("catalogIds", new JsonArray().add(context.body().asJsonObject().getString(CATALOGUE_ID)))
+      .put("recipient", context.body().asJsonObject().getString(DOMIBUS_ID))
+      .put("isProduction", CatalogueStatusEnum.LIVE.getValue().
+        equals(context.body().asJsonObject().getJsonObject(STATUS).getString("key")));
   }
 
   /**
@@ -193,15 +187,15 @@ public class DispatcherClient {
         if (ar.succeeded()) {
           if(ar.result().statusCode() == 404){
             promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-              .put(ERROR_DETAILS, extractedErrorMessage(ar)).encode());
+              .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
           } else {
             log.info(DISPATCHER_CLIENT + " Successfully got catalogue map list");
             promise.complete(Jsoup.parse(ar.result().body().toString()).text());
           }
         } else {
-          log.error(DISPATCHER_CLIENT + " Failed to get catalogue map list with error {}", extractedErrorMessage(ar));
+          log.error(DISPATCHER_CLIENT + " Failed to get catalogue map list with error {}", CommonClientUtils.extractedErrorMessage(ar));
           promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-            .put(ERROR_DETAILS, extractedErrorMessage(ar)).encode());
+            .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
         }
       });
 
@@ -212,14 +206,23 @@ public class DispatcherClient {
 
     Promise<String> promise = Promise.promise();
 
+    JsonObject application = dispatcherRecord.getJsonObject(APPLICATION);
     // JSON object to send in the POST request body
     JsonObject jsonObject = new JsonObject()
-      .put("application_id", dispatcherRecord.getJsonObject(APPLICATION).getString("_id"))
-      .put(STATUS, dispatcherRecord.getJsonObject(APPLICATION).getJsonObject(STATUS).getValue(STATUS))
-      .put("datasets", dispatcherRecord.getJsonObject(APPLICATION).getJsonArray("datasets"))
-      .put("form", dispatcherRecord.getJsonObject(APPLICATION).getJsonObject("form"))
-      .put("title", dispatcherRecord.getJsonObject(APPLICATION).getString("title"))
+      .put("application_id", application.getString("_id"))
+      .put(STATUS, application.getJsonObject(STATUS).getValue(STATUS))
+      .put("datasets", filterDatasetLanguages(application.getJsonArray("datasets"), application.getString(
+        INPUT_LANGUAGE), dispatcherRecord.getJsonArray("targetLanguages")))
+      .put("form", application.getJsonObject("form"))
+      .put(TITLE, application.getString(TITLE))
+      .put(INPUT_LANGUAGE, application.getString(INPUT_LANGUAGE))
+      .put("dateSubmitted", application.getString("date_submitted"))
       .put(Constants.APPLICATION_TYPE, dispatcherRecord.getJsonObject("configuration").getString(Constants.APPLICATION_TYPE));
+
+    JsonObject formTranslations = application.getJsonObject("form_translations");
+    if (formTranslations != null) {
+      jsonObject.put("form_translations", formTranslations);
+    }
 
     Buffer buffer = jsonObject.toBuffer();
     MultiMap headers = createHeader(buffer);
@@ -236,39 +239,54 @@ public class DispatcherClient {
             log.error(DISPATCHER_CLIENT
                 + " Dispatcher failed to process application: {}, with error code: {} and message: {}",
               dispatcherRecord.getJsonObject(APPLICATION).getString("_id"),
-              extractedErrorCode(ar), extractedErrorMessage(ar));
+              extractedErrorCode(ar), CommonClientUtils.extractedErrorMessage(ar));
             promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-              .put(ERROR_DETAILS, extractedErrorMessage(ar)).encode());
+              .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
           }
         } else {
           log.error(DISPATCHER_CLIENT
               + " Failed to sent application: {} to dispatcher, with error message: {}",
             dispatcherRecord.getJsonObject(APPLICATION).getString("_id"),
-            extractedErrorMessage(ar));
+            CommonClientUtils.extractedErrorMessage(ar));
           promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-            .put(ERROR_DETAILS, extractedErrorMessage(ar)).encode());
+            .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
         }
       });
     return promise.future();
   }
 
-  /**
-   * On errors when the dispatcher it is down we do not have a result, so we need get the error from
-   * the cause
-   */
-  private String extractedErrorMessage(AsyncResult<HttpResponse<Buffer>> ar) {
-    String errorMessage;
 
-    if (Objects.nonNull(ar.cause())) {
-      errorMessage = ar.cause().getMessage();
-    } else if (Objects.nonNull(ar.result().bodyAsString())) {
-      errorMessage = ar.result().bodyAsString();
-    } else {
-      errorMessage = ar.result().statusMessage();
+  private JsonArray filterDatasetLanguages(JsonArray datasets, String inputLanguage, JsonArray targetLanguages) {
+
+    if(StringUtils.isNotEmpty(inputLanguage)){
+      targetLanguages.add(inputLanguage);
     }
 
-    return Jsoup.parse(errorMessage).text();
+    datasets.forEach(dataset -> {
+      filterLanguages(((JsonObject)dataset).getJsonObject(TITLE), targetLanguages);
+      filterLanguages(((JsonObject)dataset).getJsonObject("provenance"), targetLanguages);
+      ((JsonObject)dataset).getJsonArray("distributions").forEach(distribution -> filterLanguages(((JsonObject)distribution).getJsonObject(
+        TITLE), targetLanguages));
+    });
+    return datasets;
   }
+
+  private void filterLanguages(JsonObject source, JsonArray targetLanguages) {
+
+    if(source != null && !source.isEmpty()){
+      // Normalize target language codes (to lowercase for case-insensitive match)
+      Set<String> allowed =
+        targetLanguages.stream()
+          .map(Object::toString)
+          .map(s -> s.toLowerCase(Locale.ROOT))
+          .collect(Collectors.toSet());
+
+      // Iterate safely and remove disallowed keys
+      // removes the key from the source
+      source.fieldNames().removeIf(key -> !allowed.contains(key.toLowerCase(Locale.ROOT)));
+    }
+  }
+
 
   private Integer extractedErrorCode(AsyncResult<HttpResponse<Buffer>> ar) {
     return Objects.nonNull(ar.result()) ? ar.result().statusCode() : 500;
@@ -295,16 +313,16 @@ public class DispatcherClient {
           } else {
             log.error(DISPATCHER_CLIENT
                 + " failed to delete applications: {}, with error code: {} and message: {}",
-              applications, extractedErrorCode(ar), extractedErrorMessage(ar));
+              applications, extractedErrorCode(ar), CommonClientUtils.extractedErrorMessage(ar));
             promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-              .put(ERROR_DETAILS, extractedErrorMessage(ar)).encode());
+              .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
           }
         } else {
           log.error(DISPATCHER_CLIENT
               + " failed to delete application: {} to dispatcher, with error message: {}",
             applications, ar.cause().getMessage());
           promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-            .put(ERROR_DETAILS, extractedErrorMessage(ar)).encode());
+            .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
         }
       });
     return promise.future();

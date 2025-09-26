@@ -39,7 +39,6 @@ class PersonDTOTest {
   void testValidPersonDTO() {
     PersonDTO person = new PersonDTO();
     person.setFullName("John Doe");
-    person.setAffiliation("Some Organization");
     person.setEmailAddress("john.doe@example.com");
 
     Set violations = validator.validate(person);
@@ -60,7 +59,6 @@ class PersonDTOTest {
   void testInvalidEmailAddress() {
     PersonDTO person = new PersonDTO();
     person.setFullName("John Doe");
-    person.setAffiliation("Some Organization");
     person.setEmailAddress("invalid-email");
 
     Set<ConstraintViolation<PersonDTO>> violations = validator.validate(person);
@@ -73,7 +71,6 @@ class PersonDTOTest {
   void testFieldSizeExceedingLimits() {
     PersonDTO person = new PersonDTO();
     person.setFullName("A".repeat(501)); // Exceeds @Size(max = 500)
-    person.setAffiliation("B".repeat(501)); // Exceeds @Size(max = 500)
     person.setEmailAddress("C".repeat(490) + "@example.com"); // Exceeds @Size(max = 500)
 
     Set<ConstraintViolation<PersonDTO>> violations = validator.validate(person);
@@ -87,13 +84,11 @@ class PersonDTOTest {
   void testJsonSerialization() throws Exception {
     PersonDTO person = new PersonDTO();
     person.setFullName("Jane Doe");
-    person.setAffiliation("Another Organization");
     person.setEmailAddress("jane.doe@example.com");
 
     String json = objectMapper.writeValueAsString(person);
 
     assertTrue(json.contains("\"fullName\":\"Jane Doe\""));
-    assertTrue(json.contains("\"affiliation\":\"Another Organization\""));
     assertTrue(json.contains("\"emailAddress\":\"jane.doe@example.com\""));
   }
 
@@ -102,7 +97,6 @@ class PersonDTOTest {
     String json = """
                 {
                   "fullName": "Jane Doe",
-                  "affiliation": "Another Organization",
                   "emailAddress": "jane.doe@example.com"
                 }
                 """;
@@ -111,7 +105,6 @@ class PersonDTOTest {
 
     assertNotNull(person);
     assertEquals("Jane Doe", person.getFullName());
-    assertEquals("Another Organization", person.getAffiliation());
     assertEquals("jane.doe@example.com", person.getEmailAddress());
   }
 
@@ -120,7 +113,6 @@ class PersonDTOTest {
     String json = """
                 {
                   "fullName": "John Doe",
-                  "affiliation": "Some Organization",
                   "emailAddress": "john.doe@example.com",
                   "unknownField": "ignored"
                 }
@@ -130,7 +122,6 @@ class PersonDTOTest {
 
     assertNotNull(person);
     assertEquals("John Doe", person.getFullName());
-    assertEquals("Some Organization", person.getAffiliation());
     assertEquals("john.doe@example.com", person.getEmailAddress());
   }
 }

@@ -17,6 +17,21 @@
         },
         "applicationDatabases": {
             "label": "Hvilke (n) database (er) eller registratur/registre vil dataene blive udtrukket?"
+        },
+        "variables": {
+            "label": "﻿Variabler﻿"
+        },
+        "datatype": {
+            "label": "Datatyper (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Beskrivelse"
+        },
+        "title": {
+            "label": "﻿Variabler﻿"
+        },
+        "emptyTable": {
+            "label": "Ingen variabler"
         }
     },
     "section2": {
@@ -102,10 +117,10 @@
                 },
                 {
                     "key": "b",
-                  "value": "Fysisk person",
-                  "info": "(Hvis du vælger denne mulighed, bekræfter du, at du ansøger om oplysninger som privatperson uden tilknytning.)"
+                    "value": "Fysisk person"
                 }
-            ]
+            ],
+            "info": "(Hvis du vælger denne mulighed, bekræfter du, at du ansøger om oplysninger som privatperson uden tilknytning.)"
         },
         "legalPerson": "Juridisk person",
         "naturalPerson": "Fysisk person",
@@ -131,7 +146,7 @@
             "label": "Fulde navn"
         },
         "contactPersonEmail": {
-            "label": "Perfab@um.dk"
+            "label": "Email"
         },
         "contactPersonPhone": {
             "label": "Telefon"
@@ -141,15 +156,6 @@
         },
         "contactPersonBusinessIdentifier": {
             "label": "Organisationens virksomheds-ID"
-        },
-        "contactPersonOperatorIdentifier": {
-            "label": "Operatør-ID"
-        },
-        "contactPersonJobTitle": {
-            "label": "Jobbetegnelse"
-        },
-        "contactPersonAffiliation": {
-            "label": "Tilhørsforhold"
         },
         "contactPersonRelationship": {
             "label": "Hvad er forholdet mellem kontaktpersonen og ansøgeren? (F.eks. en medarbejder, der ansøger om data på vegne af deres organisation)."
@@ -170,7 +176,7 @@
             "label": "Land"
         },
         "naturalPersonEmail": {
-            "label": "Perfab@um.dk"
+            "label": "Email"
         },
         "naturalPersonPhone": {
             "label": "Telefon"
@@ -195,7 +201,7 @@
             "label": "Adresse"
         },
         "email": {
-            "label": "Perfab@um.dk"
+            "label": "Email"
         },
         "phone": {
             "label": "Telefon"
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "Formålet med dataanvendelsen",
-        "section5Description": "Ansøgerne skal angive formålet med at søge oplysninger i henhold til artikel 53, stk. 1, i forordningen om det europæiske sundhedsdataområde, som Europa-Parlamentet godkendte den 17/12. \nAnsøgerne skal forklare og forklare, hvorfor de ønskede oplysninger er nødvendige for deres angivne formål. Ansøgerne anmodes også om at fremlægge oplysninger om formålet med projektet. Afhængigt af anvendelsesformålet (forskning eller ikke forskning) skal ansøgerne derefter fremlægge et resumé af planen for anvendelse af dataene eller et resumé af forskningsplanen samt oplysninger om den person, der er ansvarlig for dataanvendelsen eller forskningen.",
+        "section5Description": "Ansøgerne bør angive, til hvilket formål der anmodes om data, jf. artikel 53, stk. 1, i Europa-Parlamentets og Rådets forordning (EU) 2025/327 af 11. februar 2025 om det europæiske sundhedsdataområde. Ansøgerne skal forklare og argumentere for, hvorfor de ønskede data er nødvendige for deres angivne anvendelsesformål. Ansøgerne anmodes også om at fremlægge oplysninger om projektets formål. Afhængigt af anvendelsesformålet (forskning eller ej) skal ansøgerne derefter fremlægge et resumé af planen for anvendelse af dataene eller et resumé af forskningsplanen og oplysninger om den person, der er ansvarlig for dataanvendelsen eller forskningen.",
         "purposeOfUse": {
             "label": "Formålet med dataanvendelsen. Organer med ansvar for adgang til sundhedsdata giver kun adgang til de elektroniske sundhedsdata, der er omhandlet i artikel 51, hvis det tilsigtede formål med behandlingen, som ansøgeren forfølger, opfylder følgende formål (jf. artikel 53, stk. 1) nedenfor).",
             "tooltip": "Formål med forordningen om det europæiske sundhedsdataområde.",
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Hvad er den forventede fordel ved anvendelsen af de elektroniske sundhedsdata, og hvordan bidrager denne fordel til de formål, der er omhandlet i punkt 5.1?"
         },
+        "describeApplicantsQualification": {
+            "label": "Beskriv ansøgerens kvalifikationer i forhold til det eller de tilsigtede formål med dataanvendelsen og relevant ekspertise (herunder erhvervsmæssige kvalifikationer)"
+        },
         "legalBasis": {
             "label": "Angiv retsgrundlaget, f.eks. den relevante lovgivning, som definerer de opgaver, der falder ind under dit mandat, og bekræfter, at din planlagte anvendelse af oplysningerne er at lette sådanne opgaver.",
             "tooltip": "Forklar her, hvorfor den mængde data, du ansøger om, er nødvendig til dit dataanvendelsesformål. Begrund og beskriv, hvordan indholdet af de statistikker, der anmodes om, svarer til det formål, der er angivet i ansøgningen om adgang til sundhedsdata, og opfylder dine datakrav."
@@ -320,222 +329,16 @@
             "label": "Angiv et link til støttedokumentationen som bevis for retsgrundlaget"
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Giv et resumé af din plan for anvendelse af dataene. Resuméet skal affattes på et af de officielle EU-sprog"
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Vælg det sprog, som resuméet er affattet på",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgarsk"
-                },
-                {
-                    "key": "hr",
-                    "value": "Kroatisk"
-                },
-                {
-                    "key": "cs",
-                    "value": "Tjekkisk"
-                },
-                {
-                    "key": "da",
-                    "value": "Dansk"
-                },
-                {
-                    "key": "nl",
-                    "value": "Nederlandsk"
-                },
-                {
-                    "key": "en",
-                    "value": "Engelsk"
-                },
-                {
-                    "key": "et",
-                    "value": "Estisk"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finsk"
-                },
-                {
-                    "key": "fr",
-                    "value": "Fransk"
-                },
-                {
-                    "key": "de",
-                    "value": "Tysk"
-                },
-                {
-                    "key": "el",
-                    "value": "Græsk"
-                },
-                {
-                    "key": "hu",
-                    "value": "Ungarsk"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irsk"
-                },
-                {
-                    "key": "it",
-                    "value": "Italiensk"
-                },
-                {
-                    "key": "lv",
-                    "value": "Lettisk"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litauisk"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltesisk"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polsk"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugisisk"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumænsk"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovakisk"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slovensk"
-                },
-                {
-                    "key": "es",
-                    "value": "Spansk"
-                },
-                {
-                    "key": "sv",
-                    "value": "Svensk"
-                }
-            ]
+            "label": "Giv et resumé af din plan for anvendelse af dataene. Resuméet skal affattes på et af de officielle EU-sprog",
+            "tooltip": "Uploadede filer oversættes automatisk af systemet. Ansøgeren er ansvarlig for kvaliteten, læsbarheden og formateringen af de uploadede filer."
         },
         "summaryOfResearchPlan": {
-            "label": "Giv et resumé af din forskningsplan. Resuméet skal affattes på et af de officielle EU-sprog"
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Vælg det sprog, som resuméet er affattet på",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgarsk"
-                },
-                {
-                    "key": "hr",
-                    "value": "Kroatisk"
-                },
-                {
-                    "key": "cs",
-                    "value": "Tjekkisk"
-                },
-                {
-                    "key": "da",
-                    "value": "Dansk"
-                },
-                {
-                    "key": "nl",
-                    "value": "Nederlandsk"
-                },
-                {
-                    "key": "en",
-                    "value": "Engelsk"
-                },
-                {
-                    "key": "et",
-                    "value": "Estisk"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finsk"
-                },
-                {
-                    "key": "fr",
-                    "value": "Fransk"
-                },
-                {
-                    "key": "de",
-                    "value": "Tysk"
-                },
-                {
-                    "key": "el",
-                    "value": "Græsk"
-                },
-                {
-                    "key": "hu",
-                    "value": "Ungarsk"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irsk"
-                },
-                {
-                    "key": "it",
-                    "value": "Italiensk"
-                },
-                {
-                    "key": "lv",
-                    "value": "Lettisk"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litauisk"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltesisk"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polsk"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugisisk"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumænsk"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovakisk"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slovensk"
-                },
-                {
-                    "key": "es",
-                    "value": "Spansk"
-                },
-                {
-                    "key": "sv",
-                    "value": "Svensk"
-                }
-            ]
+            "label": "Giv et resumé af din forskningsplan. Resuméet skal affattes på et af de officielle EU-sprog",
+            "tooltip": "Uploadede filer oversættes automatisk af systemet. Ansøgeren er ansvarlig for kvaliteten, læsbarheden og formateringen af de uploadede filer."
         },
         "personResponsibleLabel": "Person med ansvar for dataanvendelse",
         "personResponsibleName": {
             "label": "Fulde navn"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Jobbetegnelse"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Tilhørsforhold"
         },
         "personResearchSameAsContactPerson": {
             "label": "Samme som den kontaktperson, der er nævnt i afsnit 3 (oplysninger om ansøger og kontaktperson)?"
@@ -546,12 +349,6 @@
         },
         "personResearchName": {
             "label": "Fulde navn"
-        },
-        "personResearchJobTitle": {
-            "label": "Jobbetegnelse"
-        },
-        "personResearchAffiliation": {
-            "label": "Tilhørsforhold"
         },
         "formatOfTheElectronicHealthData": {
             "label": "Vælg formatet for de elektroniske sundhedsdata, der skal stilles til rådighed:",
@@ -638,6 +435,9 @@
         },
         "consentAndInformationLetterAttachment": {
             "label": "Vedlæg den samtykke- og informationsskrivelse, du har sendt til forsøgspersonerne. Vedlæg ikke formularer, der er udfyldt, fordi de indeholder personoplysninger."
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "Er kohorten baseret på en tidligere udstedt datatilladelse?"
         },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Jeg bekræfter, at datatilladelsen er udstedt for dette forskningsprojekt"
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "Hvor ofte skal dataene udtrækkes?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Agter du at gøre brug af en undtagelse fra retten til at fravælge i henhold til den mekanisme, der er fastsat i den nationale lovgivning i den medlemsstat, hvis oplysninger du ansøger om?",
+            "tooltip": "Uanset den i stk. 1 fastsatte ret til fravalg kan en medlemsstat i sin nationale ret fastsætte en mekanisme til at stille data, for hvilke der er gjort brug af retten til fravalg til rådighed, forudsat at alle følgende betingelser er opfyldt: (der henvises til artiklen for fuldstændige betingelser)\""
+        },
+        "providedJustificationException": {
+            "label": "Giv en begrundelse for denne undtagelse."
+        },
         "needForDataExtractionEvery": {
             "label": "Dataene skal udtrækkes hver for sig",
             "tooltip": "Hvis du ønsker, at dataene skal udtrækkes flere gange over en vis periode, skal du bemærke, at definitionerne og dataindsamlingsmetoden i nogle tilfælde kan ændre sig i løbet af revisionsperioden. Bemærk, at den maksimale hyppighed af dataudtrækning er hvert kvartal"
@@ -835,14 +642,11 @@
         "willSameDataBeExtractedForControls": {
             "label": "Vil de samme data som for kohorten blive udtrukket til kontrol?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Hvis du ikke søger data til kontrol fra hele landet, fra hvilken eller hvilke region (er) og/eller by/byer og/eller kommune/kommuner søger du data?"
-        },
         "fromWhichDataHolderLabel": "Fra hvilke (n) dataindehaver (e) vil dataene til kontrol blive udtrukket?",
         "fromWhichDatabaseLabel": "Hvilke (n) database (er)/registratur/registre vil data til kontrol blive udtrukket?",
         "fromWhichDatasetLabel": "Fra hvilke (n) datasæt-record (er)/register (er) vil dataene til kontrol blive udtrukket?",
-        "variablesForDataExtraction": {
-            "label": "Hvis oplysningerne foreligger, angives de variabler, der skal anvendes ved ekstraktion af disse data. Anvend de nøjagtige termer, som den eller de respektive dataindehavere har angivet i metadatakataloget."
+        "variablesForDataExtractionAttachments": {
+            "label": "Hvis oplysningerne foreligger, vedlægges listen over de variabler, der skal anvendes i dataudtrækningen. Anvend de nøjagtige termer, som den eller de respektive dataindehavere har angivet i metadatakataloget."
         },
         "timePeriodForDataExtraction": {
             "label": "For hvilket eller hvilke tidsperioder vil datasætposterne blive udtrukket?"
@@ -947,8 +751,8 @@
         "whichDataHoldersForRelatives": "Fra hvilke (n) dataindehaver (e) vil dataene for slægtninge blive udtrukket?",
         "whichDatabaseForRelatives": "Hvilke (n) database (er)/registratur/registre vil oplysningerne om slægtninge blive udtrukket?",
         "whichDatasetsForRelatives": "Fra hvilke datasætposter/registre vil oplysningerne om slægtninge blive udtrukket?",
-        "variablesForDataExtractionRelatives": {
-            "label": "Hvis oplysningerne foreligger, angives de variabler, der skal anvendes i dataudtrækningen. Anvend de nøjagtige termer, som den eller de respektive dataindehavere har angivet i metadatakataloget."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "Hvis oplysningerne foreligger, vedlægges listen over de variabler, der skal anvendes i dataudtrækningen. Anvend de nøjagtige termer, som den eller de respektive dataindehavere har angivet i metadatakataloget."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "For hvilket eller hvilke tidsperioder vil datasætposterne blive udtrukket?"
@@ -1062,7 +866,6 @@
         "otherPermitApplications": {
             "label": "Har du andre ansøgninger om tilladelse, der endnu ikke er færdigbehandlet?"
         },
-        "listTheOtherData": "Angiv de øvrige data, der skal kombineres, og kilderne til disse data:",
         "applicationIssuer": {
             "label": "Udsteder"
         },
@@ -1360,6 +1163,13 @@
             "label": "Hvordan overholder du princippet om dataminimering (EU's forordning om databeskyttelse), når du behandler oplysningerne? ",
             "tooltip": "Artikel 4, stk. 1c, i EU DPR: \"Personoplysninger skal være tilstrækkelige, relevante og begrænset til, hvad der er nødvendigt i forhold til de formål, hvortil de behandles (\" dataminimering \")\""
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Agter du at gøre brug af en undtagelse fra retten til at fravælge i henhold til den mekanisme, der er fastsat i den nationale lovgivning i den medlemsstat, hvis oplysninger du ansøger om?",
+            "tooltip": "Uanset den i stk. 1 fastsatte ret til fravalg kan en medlemsstat i sin nationale ret fastsætte en mekanisme til at stille data, for hvilke der er gjort brug af retten til fravalg til rådighed, forudsat at alle følgende betingelser er opfyldt: (der henvises til artiklen for fuldstændige betingelser)\""
+        },
+        "providedJustificationException": {
+            "label": "Giv en begrundelse for denne undtagelse."
+        },
         "protectionAndSecurityStatements": {
             "label": "For at gå videre med denne ansøgning skal du bekræfte følgende udsagn (databeskyttelses- og sikkerhedsrelaterede udsagn):"
         },
@@ -1383,13 +1193,10 @@
             "label": "Samme som kontaktperson, der er nævnt i afsnit 3?"
         },
         "listTheFullNames": {
-            "label": "Angiv fulde navn, tilhørsforhold og e-mailadresser på alle de personer, der behandler oplysningerne."
+            "label": "Angiv fulde navne og e-mailadresser på alle de personer, der behandler oplysningerne."
         },
         "fullName": {
             "label": "Fulde navn"
-        },
-        "affiliation": {
-            "label": "Tilhørsforhold"
         },
         "emailAddress": {
             "label": "E-mailadresse"
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Bekræftelse af oplysninger",
-        "section10Description": "Inden denne ansøgning behandles, skal du som ansøger godkende behandlingsgebyrer.",
+        "section10Description": "Inden denne ansøgning behandles, skal du som ansøger godkende behandlingsgebyrer. At tilføje oplysninger om priserne og skønnet over maksimumspriser for dataudtræk, når de foreligger.",
         "submitYouApplicationText": "For at indsende din ansøgning skal du bekræfte følgende:",
         "acceptHealthDataBody": {
             "label": "Jeg accepterer, at sundhedsdataorganet vil udarbejde statistikkerne, og jeg vil ikke have adgang til de data, der anvendes til at udarbejde statistikkerne."

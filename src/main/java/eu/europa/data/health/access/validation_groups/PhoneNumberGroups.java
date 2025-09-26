@@ -16,6 +16,11 @@
 package eu.europa.data.health.access.validation_groups;
 
 public class PhoneNumberGroups {
+
+  private PhoneNumberGroups() {
+    // prevent instantiation
+  }
+
   public interface NotBlankValidationGroup {}
   public interface PhoneFormatValidationGroup {}
 }

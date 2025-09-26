@@ -39,8 +39,6 @@ import lombok.NoArgsConstructor;
   @ConditionalNotNullValue(field = "legalOrNaturalPerson", dependentField = "legalPersonOrganisationName", requiredValue = "a", message = "legalPersonOrganisationName field must only be provided when legalOrNaturalPerson value is: 'Legal person'")
   @ConditionalNotNullValue(field = "legalOrNaturalPerson", dependentField = "legalPersonBusinessID", requiredValue = "a", message = "legalPersonBusinessID field must only be provided when legalOrNaturalPerson value is: 'Legal person'")
   @ConditionalNotNullValue(field = "legalOrNaturalPerson", dependentField = "legalPersonOperatorID", requiredValue = "a", message = "legalPersonOperatorID field must only be provided when legalOrNaturalPerson value is: 'Legal person'")
-  @ConditionalNotNullValue(field = "legalOrNaturalPerson", dependentField = "legalPersonJobTitle", requiredValue = "a", message = "legalPersonJobTitle field must only be provided when legalOrNaturalPerson value is: 'Legal person'")
-  @ConditionalNotNullValue(field = "legalOrNaturalPerson", dependentField = "legalPersonAffiliation", requiredValue = "a", message = "legalPersonAffiliation field must only be provided when legalOrNaturalPerson value is: 'Legal person'")
   @ConditionalNotNullValue(field = "legalOrNaturalPerson", dependentField = "legalPersonAddress", requiredValue = "a", message = "legalPersonAddress field must only be provided when legalOrNaturalPerson value is: 'Legal person'")
   @ConditionalNotNullValue(field = "legalOrNaturalPerson", dependentField = "legalPersonZipCode", requiredValue = "a", message = "legalPersonZipCode field must only be provided when legalOrNaturalPerson value is: 'Legal person'")
   @ConditionalNotNullValue(field = "legalOrNaturalPerson", dependentField = "legalPersonCity", requiredValue = "a", message = "legalPersonCity field must only be provided when legalOrNaturalPerson value is: 'Legal person'")
@@ -91,12 +89,6 @@ public class UserProfileDTO {
 
   @Size(max = 250)
   String legalPersonOperatorID;
-
-  @Size(max = 500)
-  String legalPersonJobTitle;
-
-  @Size(max = 500)
-  String legalPersonAffiliation;
 
   @Size(max = 2000)
   String legalPersonAddress;

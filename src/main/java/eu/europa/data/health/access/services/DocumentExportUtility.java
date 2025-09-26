@@ -15,26 +15,44 @@
  */
 package eu.europa.data.health.access.services;
 
+import static eu.europa.data.health.access.Constants.ADDRESS;
 import static eu.europa.data.health.access.Constants.COUNTRY_CODE;
+import static eu.europa.data.health.access.Constants.EMAIL;
 import static eu.europa.data.health.access.Constants.EXPORT_DATASET_EXTERNAL_URL;
 import static eu.europa.data.health.access.Constants.EXTERNAL_DATASET_ID;
+import static eu.europa.data.health.access.Constants.FULL_NAME;
 import static eu.europa.data.health.access.Constants.LABEL;
+import static eu.europa.data.health.access.Constants.LEGAL_OR_NATURAL_PERSON;
 import static eu.europa.data.health.access.Constants.NUMBER;
-import static eu.europa.data.health.access.Constants.PROVENANCE;
+import static eu.europa.data.health.access.Constants.PHONE;
 import static eu.europa.data.health.access.Constants.RESULT;
+import static eu.europa.data.health.access.Constants.SAME_AS_CONTACT_PERSON;
+import static eu.europa.data.health.access.Constants.TITLE;
 import static eu.europa.data.health.access.Constants.VALUE;
 
+import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.client.WebClient;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import org.docx4j.model.fields.FieldUpdater;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.openpackaging.parts.WordprocessingML.DocumentSettingsPart;
+import org.docx4j.toc.TocGenerator;
+import org.docx4j.wml.BooleanDefaultTrue;
 import org.docx4j.wml.CTBorder;
+import org.docx4j.wml.CTSettings;
 import org.docx4j.wml.CTShd;
 import org.docx4j.wml.ObjectFactory;
 import org.docx4j.wml.P;
@@ -53,15 +71,22 @@ import org.docx4j.wml.TcPr;
 import org.docx4j.wml.TcPrInner.TcBorders;
 import org.docx4j.wml.Text;
 import org.docx4j.wml.Tr;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public  abstract class DocumentExportUtility {
 
   private final ObjectFactory factory = new ObjectFactory();
   private final JsonObject config;
+  private final Logger log = LoggerFactory.getLogger(getClass());
+  private final WebClient client;
+  private final TranslationManager translationManager;
 
-  protected DocumentExportUtility(JsonObject config) {
+  protected DocumentExportUtility(JsonObject config, WebClient client, TranslationManager translationManager) {
     this.config = config;
+    this.client = client;
+    this.translationManager = translationManager;
   }
 
 
@@ -133,6 +158,140 @@ public  abstract class DocumentExportUtility {
       document.getMainDocumentPart().addObject(table);
     }
   }
+
+  private void addVariablesTableWithCheckbox(WordprocessingMLPackage document,
+    JsonArray distributionsSample,
+    String lang, String datasetId, JsonObject section1, JsonObject languageMap) {
+    if (distributionsSample == null || distributionsSample.isEmpty()) {
+      return;
+    }
+
+    ObjectFactory factory = new ObjectFactory();
+
+    // Distinct variables based on the "name"
+    Map<String, JsonObject> distinctByName = new LinkedHashMap<>();
+
+    for (int j = 0; j < distributionsSample.size(); j++) {
+      JsonObject dist = distributionsSample.getJsonObject(j);
+      if (dist == null || !dist.containsKey("variables")) continue;
+
+      JsonArray vars = dist.getJsonArray("variables");
+      if (vars == null) continue;
+
+      for (int k = 0; k < vars.size(); k++) {
+        JsonObject v = vars.getJsonObject(k);
+        if (v == null) continue;
+        String name = v.getString("name", "");
+        if (!name.isEmpty() && !distinctByName.containsKey(name)) {
+          distinctByName.put(name, v);
+        }
+      }
+    }
+
+    if (distinctByName.isEmpty()) return;
+
+    // Create table
+    Tbl table = factory.createTbl();
+    setFixedTableWidth(table, document);
+
+    table.getContent().add(
+      createRow(factory,
+        Arrays.asList("", languageMap.getJsonObject("variables").getString(LABEL), languageMap.getJsonObject("datatype").getString(LABEL), languageMap.getJsonObject("description").getString(LABEL)),
+        Arrays.asList(true, true, true, true))
+    );
+
+    // data rows
+    for (JsonObject v : distinctByName.values()) {
+      String name = v.getString("name", "");
+
+      String datasetType = v.getString("datatype", "");
+
+      // description in the correct lang
+      String description = extractLocalizedDescription(v, lang);
+
+      boolean selected = isVariableSelectedInSection(section1, datasetId, name);
+      String checkbox = selected ? "\u2612" /* ☒ */ : "\u2610" /* ☐ */;
+
+      Tr row = factory.createTr();
+      row.getContent().add(createCell(factory, checkbox, false, false));
+      row.getContent().add(createCell(factory, name, false, false));
+      row.getContent().add(createCell(factory, datasetType, false, false));
+      row.getContent().add(createCell(factory, description, false, false));
+
+      table.getContent().add(row);
+    }
+
+    document.getMainDocumentPart().addObject(table);
+  }
+
+  private boolean isVariableSelectedInSection(JsonObject section1, String datasetId, String varName) {
+    if (section1 == null) return false;
+
+    JsonArray arr = section1.getJsonArray("datasetVariables");
+    if (arr == null || arr.isEmpty()) return false;
+
+    for (int i = 0; i < arr.size(); i++) {
+      JsonObject item = arr.getJsonObject(i);
+      if (item == null) continue;
+
+      String name = item.getString("name", "");
+      String dsId = item.getString("datasetId");
+
+      if (name.equals(varName) && datasetId.equals(dsId)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private Tr createRow(ObjectFactory factory, List<String> texts, List<Boolean> boldFlags) {
+    Tr tr = factory.createTr();
+    for (int i = 0; i < texts.size(); i++) {
+      String t = texts.get(i);
+      boolean isBold = (boldFlags != null && i < boldFlags.size()) ? boldFlags.get(i) : false;
+      tr.getContent().add(createCell(factory, t, isBold, false));
+    }
+    return tr;
+  }
+
+  private Tc createCell(ObjectFactory factory, String text, boolean isBold, boolean isItalic) {
+    Tc tc = factory.createTc();
+    P p = createStyledParagraph(factory, text, isBold, isItalic);
+    tc.getContent().add(p);
+    setTableCellBorders(tc);
+    return tc;
+  }
+
+  private String extractLocalizedDescription(JsonObject variable, String lang) {
+    if (variable == null) return "";
+
+    Object descAny = variable.getValue("description");
+    if (descAny == null) return "";
+
+    JsonObject desc;
+    if (descAny instanceof JsonObject) {
+      desc = (JsonObject) descAny;
+    } else if (descAny instanceof Map) {
+      desc = new JsonObject((Map<String, Object>) descAny);
+    } else {
+      return "";
+    }
+
+    String txt = desc.getString(lang);
+    if (txt != null && !txt.isEmpty()) return txt;
+
+    txt = desc.getString("en");
+    if (txt != null && !txt.isEmpty()) return txt;
+
+    for (String key : desc.fieldNames()) {
+      String v = desc.getString(key);
+      if (v != null && !v.isEmpty()) return v;
+    }
+
+    return "";
+  }
+
 
   /**
    * Sets the table width to fit the entire Word page (ignoring dynamic sizing).
@@ -272,6 +431,7 @@ public  abstract class DocumentExportUtility {
     paragraph.getContent().add(runLabel);
     document.getMainDocumentPart().addObject(paragraph);
   }
+
 
   String getTranslateValueForKey(JsonObject jsonObject, String keyToFind, String property) {
     JsonArray itemsArray = jsonObject.getJsonArray("items");
@@ -457,14 +617,39 @@ public  abstract class DocumentExportUtility {
         addTextToNewParagraphWithTable(document,
           config.getString(EXPORT_DATASET_EXTERNAL_URL) + datasets.getJsonObject(i).getString(
             EXTERNAL_DATASET_ID), false, false);
-      } else {
-        String value = Objects.equals(property1, PROVENANCE) ?
-          datasets.getJsonObject(i).getJsonObject(RESULT).getJsonArray(property1)
-            .getJsonObject(0)
-            .getString(LABEL) :
-          datasets.getJsonObject(i).getJsonObject(RESULT).getJsonObject(property1)
-            .getString(property2);
+      } else if(Objects.nonNull(datasets.getJsonObject(i).getJsonObject(RESULT).getJsonObject(property1))){
+        String value = datasets.getJsonObject(i).getJsonObject(RESULT).getJsonObject(property1)
+          .getString(property2);
+
         addTextToNewParagraphWithTable(document, value, false, false);
+      }
+    }
+  }
+
+  void writeDatasetsValuesWithVariables(WordprocessingMLPackage document,
+    JsonArray datasets, String property1, String property2, JsonObject section1, JsonObject languageMap) {
+    for (int i = 0; i < datasets.size(); i++) {
+      if (datasets.getJsonObject(i).containsKey(EXTERNAL_DATASET_ID)) {
+        addTextToNewParagraphWithTable(document,
+          config.getString(EXPORT_DATASET_EXTERNAL_URL) + datasets.getJsonObject(i).getString(
+            EXTERNAL_DATASET_ID), false, false);
+      } else if (Objects.nonNull(datasets.getJsonObject(i).getJsonObject(RESULT).getJsonObject(property1))){
+        String value = datasets.getJsonObject(i).getJsonObject(RESULT).getJsonObject(property1)
+          .getString(property2);
+
+        addTextToNewParagraphWithTable(document, value, false, false);
+
+        document.getMainDocumentPart().addParagraphOfText(languageMap.getJsonObject("variables").getString(LABEL));
+
+        // Table with the distinct variables from distributions_sample
+        String datasetId = datasets.getJsonObject(i).getJsonObject(RESULT).getString("id");
+        JsonArray distributionsSample = datasets.getJsonObject(i)
+          .getJsonObject(RESULT)
+          .getJsonArray("distributions_sample");
+
+        addVariablesTableWithCheckbox(document, distributionsSample, property2, datasetId, section1, languageMap);
+
+        document.getMainDocumentPart().addParagraphOfText("");
       }
     }
   }
@@ -545,5 +730,241 @@ public  abstract class DocumentExportUtility {
 
     return null; // no match found
   }
+
+  protected void generateTableOfContext(WordprocessingMLPackage document) {
+    try {
+      TocGenerator tocGenerator = new TocGenerator(document);
+      tocGenerator.updateToc(false, true);
+    } catch (Exception e) {
+      log.debug(e.getMessage());
+    }
+  }
+
+  protected void section4Mappings(WordprocessingMLPackage document, JsonObject languageMap,
+    JsonObject section, JsonObject section3, String aboutThisSection) {
+    addSectionWithHeader(document, languageMap, "section4h5", "section4Description",
+      aboutThisSection);
+
+    boolean isDescriptionChecked = isChecked(section, SAME_AS_CONTACT_PERSON);
+    addTextWithCheckboxToNewParagraph(document,
+      languageMap.getJsonObject(SAME_AS_CONTACT_PERSON).getString(LABEL), true,
+      isDescriptionChecked);
+
+    JsonObject legalPerson = this.getObject(section3, LEGAL_OR_NATURAL_PERSON);
+
+    if (Objects.nonNull(legalPerson) && Objects.equals(legalPerson.getString("key"), "a")) {
+      addTextToNewParagraph(document, languageMap.getJsonObject(FULL_NAME).getString(LABEL),
+        true, false);
+      addTextToNewParagraphWithTable(document, getField(section, FULL_NAME), false,
+        false);
+
+      addTextToNewParagraph(document, languageMap.getJsonObject(EMAIL).getString(LABEL),
+        true, false);
+      addTextToNewParagraphWithTable(document, getField(section, EMAIL),
+        false, false);
+
+      addTextToNewParagraph(document, languageMap.getJsonObject(PHONE).getString(LABEL),
+        true, false);
+      addTextToNewParagraphWithTable(document,
+        buildPhone(getObject(section, PHONE)), false, false);
+
+      // --- ORGANIZATION INFORMATION ---
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("nameOfTheOrganisation").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "nameOfTheOrganisation"), false,
+        false);
+
+      addTextToNewParagraph(document, languageMap.getJsonObject(ADDRESS).getString(LABEL), true,
+        false);
+      addTextToNewParagraphWithTable(document, getField(section, ADDRESS), false, false);
+
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("businessIdentifierOrganization").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "businessIdentifierOrganization"),
+        false, false);
+
+      addTextToNewParagraph(document, languageMap.getJsonObject("vatNumber").getString(LABEL), true,
+        false);
+      addTextToNewParagraphWithTable(document, getField(section, "vatNumber"), false, false);
+    } else {
+      // --- CONTACT INFORMATION ---
+      addTextToNewParagraph(document, languageMap.getJsonObject(FULL_NAME).getString(LABEL), true,
+        false);
+      addTextToNewParagraphWithTable(document, getField(section, FULL_NAME), false, false);
+
+      addTextToNewParagraph(document, languageMap.getJsonObject(EMAIL).getString(LABEL), true,
+        false);
+      addTextToNewParagraphWithTable(document, getField(section, EMAIL), false, false);
+
+      addTextToNewParagraph(document, languageMap.getJsonObject(PHONE).getString(LABEL), true,
+        false);
+      addTextToNewParagraphWithTable(document, buildPhone(getObject(section, PHONE)), false, false);
+
+      addTextToNewParagraph(document, languageMap.getJsonObject(ADDRESS).getString(LABEL), true,
+        false);
+      addTextToNewParagraphWithTable(document, getField(section, ADDRESS), false, false);
+    }
+
+    // --- INVOICE INFORMATION ---
+    addTextToNewParagraph(document, languageMap.getJsonObject("invoiceType").getString(LABEL), true,
+      false);
+    JsonObject invoiceType = getObject(section, "invoiceType");
+    addTextToNewParagraphWithTable(document, getObjectValue(section, "invoiceType"), false, false);
+
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("invoiceReferenceNumber").getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "invoiceReferenceNumber"), false,
+      false);
+
+    if (isKey(invoiceType, "b")) {
+      addTextToNewParagraph(document, languageMap.getJsonObject("invoiceAddress").getString(LABEL),
+        true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "invoiceAddress"), false, false);
+    }
+
+    // --- OPERATOR IDENTIFIER (ONLY FOR LEGAL PERSONS) ---
+    if (isKey(legalPerson, "a")) {
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("operatorIdentifier").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "operatorIdentifier"), false,
+        false);
+
+      addTextToNewParagraph(document, languageMap.getJsonObject("peppolCode").getString(LABEL),
+        true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "peppolCode"), false, false);
+    }
+
+    // --- FINANCIAL COVERAGE ---
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("isTheProjectFinanciallyCovered").getString(LABEL), true, false);
+    String financiallyCoveredValue = getObjectValue(section, "isTheProjectFinanciallyCovered");
+    addTextToNewParagraphWithTable(document, financiallyCoveredValue, false, false);
+
+    if (financiallyCoveredValue != null) {
+      JsonObject financiallyCovered = getObject(section, "isTheProjectFinanciallyCovered");
+      if (isKey(financiallyCovered, "a")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("rangeOfAmountOfFinancing").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document,
+          getObjectValue(section, "rangeOfAmountOfFinancing"), false, false);
+      }
+    }
+  }
+
+  protected void section60(WordprocessingMLPackage document, JsonObject languageMap,
+    JsonObject section, JsonArray datasets) {
+    addTextToNewParagraph(document,
+      datasets.getJsonObject(0).getJsonObject("result").getJsonObject("country")
+        .getString("label", null), true, false);
+    addHeaderToTheText(document,
+      languageMap.getString("descriptionOfTheDataNeeded") + " " + datasets.getJsonObject(0)
+        .getJsonObject("result").getJsonObject("country")
+        .getString("label", null),
+      "Heading2");
+    addTextToNewParagraph(document, languageMap.getString("applicationHDABsForSelectedCountry"),
+      true, false);
+    writeDatasetsValues(document, datasets, "hdab", "name");
+    addTextToNewParagraph(document, languageMap.getString("applicationDatasetsPerCountry"), true,
+      false);
+    writeDatasetsValues(document, datasets, TITLE, "en");
+
+    // --- HDAB CONTACTS AND DATA LINKAGE ---
+    addTextToNewParagraph(document, languageMap.getJsonObject("hdabContacts").getString(LABEL),
+      true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "hdabContacts"), false, false);
+
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("howWillTheDataFromDifferentSourcesBeLinked").getString(LABEL),
+      true, false);
+    addTextToNewParagraphWithTable(document,
+      getField(section, "howWillTheDataFromDifferentSourcesBeLinked"), false, false);
+  }
+
+  protected void getDatasetsValues(RoutingContext context, JsonArray datasets, String lg,
+    JsonObject form, String type, String filename) {
+    HubSearchClient hubSearchClient = new HubSearchClient(client, config);
+    JsonArray hubSearchDataSetValues = new JsonArray();
+    List<Future<JsonObject>> futures = new ArrayList<>();
+    //Collect all futures for the dataset retrievals
+    for (int i = 0; i < datasets.size(); i++) {
+      String datasetId = datasets.getJsonObject(i).getString("dataset_id");
+      Future<JsonObject> future = hubSearchClient.getDataset(datasetId)
+        .onSuccess(hubSearchDataSetValues::add)
+        .onFailure(cause -> log.info(cause.getMessage()));
+      futures.add(future);
+    }
+    //Wait until all dataset retrievals are completed
+    Future.all(futures).onSuccess(result -> {
+      if (result.succeeded()) {
+        export(context, lg, form, hubSearchDataSetValues, type, filename);
+      } else {
+        log.error("One or more dataset retrievals failed.");
+        context.response().setStatusCode(500).end();
+      }
+    });
+  }
+
+  private void export(RoutingContext context, String lg, JsonObject form, JsonArray datasetsValues,
+    String type, String filename) {
+    try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+      InputStream templateInputStream = getClass().getResourceAsStream(
+        "/templates/" + filename)) {
+      if (templateInputStream == null) {
+        throw new IllegalArgumentException("Template file not found!");
+      }
+      WordprocessingMLPackage document = WordprocessingMLPackage.load(templateInputStream);
+      JsonObject languageMap = translationManager.getTranslationByLanguish(lg);
+      //add values
+      addFormData(document, languageMap, form, datasetsValues);
+
+      //generate table of context
+      generateTableOfContext(document);
+
+      document.getMainDocumentPart()
+        .getDocumentSettingsPart().getJaxbElement()
+        .setUpdateFields(new BooleanDefaultTrue());
+
+      FieldUpdater fieldUpdater = new FieldUpdater(document);
+      fieldUpdater.update(true);
+
+      // update document settings to avoid field updates MS Word prompt
+      // 1) Get the settings part (creates one if absent)
+      DocumentSettingsPart dsp = document.getMainDocumentPart().getDocumentSettingsPart();
+      // 2) Grab or build its JAXB object
+      CTSettings settings = dsp.getJaxbElement();
+      if (settings == null) {
+        settings = new CTSettings();
+      }
+      // 3) Insert <w:updateFields w:val="false"/>
+      BooleanDefaultTrue b = new BooleanDefaultTrue();
+      b.setVal(false);
+      settings.setUpdateFields(b);
+      // 4) Write it back to document settings
+      dsp.setJaxbElement(settings);
+
+      document.save(outputStream);
+      if ("pdf".equalsIgnoreCase(type)) {
+        ByteArrayOutputStream pdfOutputStream = new ByteArrayOutputStream();
+        // Convert DOCX to PDF logic here
+        context.response().putHeader("Content-Disposition", "attachment; filename=Form.pdf")
+          .putHeader("Content-Type", "application/pdf")
+          .end(Buffer.buffer(pdfOutputStream.toByteArray()));
+      } else if ("docx".equalsIgnoreCase(type)) {
+        context.response().putHeader("Content-Length", String.valueOf(outputStream.size()))
+          .putHeader("Content-Disposition", "attachment; filename=DataAccessForm.docx")
+          .putHeader("Content-Type",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+          .end(Buffer.buffer(outputStream.toByteArray()));
+      } else {
+        context.response().setStatusCode(400).end("Unsupported export type. Use 'pdf' or 'docx'.");
+      }
+    } catch (Exception e) {
+      log.error(e.getMessage(), e);
+      context.response().setStatusCode(500).end();
+    }
+  }
+
+  protected abstract void addFormData(WordprocessingMLPackage document, JsonObject languageMap,
+    JsonObject form, JsonArray datasetsValues);
 
 }

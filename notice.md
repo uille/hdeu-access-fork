@@ -29,6 +29,18 @@ Licenses:
 Licenses:
 - ch.qos.logback:logback-core:1.5.13 - http://logback.qos.ch/logback
 
+## Titanium JCS
+Licenses:
+- com.apicatalog:titanium-jcs:1.0.0 - https://github.com/filip26/titanium
+
+## Titanium RDF API
+Licenses:
+- com.apicatalog:titanium-rdf-api:1.0.0 - https://github.com/filip26/titanium-rdf
+
+## Titanium RDF N-QUADS
+Licenses:
+- com.apicatalog:titanium-rdf-n-quads:1.0.0 - https://github.com/filip26/titanium-rdf-n
+
 ## ClassMate
 Licenses:
 - com.fasterxml:classmate:1.5.1 - https://github.com/FasterXML/java
@@ -63,7 +75,7 @@ Licenses:
 
 ## Caffeine cache
 Licenses:
-- com.github.ben-manes.caffeine:caffeine:3.1.8 - https://github.com/ben
+- com.github.ben-manes.caffeine:caffeine:3.2.2 - https://github.com/ben
 
 ## docker-java-api
 Licenses:
@@ -87,7 +99,7 @@ Licenses:
 
 ## Gson
 Licenses:
-- com.google.code.gson:gson:2.11.0
+- com.google.code.gson:gson:2.13.1
 
 ## error-prone annotations
 Licenses:
@@ -107,7 +119,7 @@ Licenses:
 
 ## Protocol Buffers [Core]
 Licenses:
-- com.google.protobuf:protobuf-java:4.28.2 - https://developers.google.com/protocol-buffers/protobuf
+- com.google.protobuf:protobuf-java:4.31.1 - https://developers.google.com/protocol-buffers/protobuf
 
 ## JSON.simple
 Licenses:
@@ -144,7 +156,7 @@ Licenses:
 
 ## Apache Commons BeanUtils
 Licenses:
-- commons-beanutils:commons-beanutils:1.9.4 - https://commons.apache.org/proper/commons
+- commons-beanutils:commons-beanutils:1.11.0 - https://commons.apache.org/proper/commons
 
 ## Apache Commons Codec
 Licenses:
@@ -161,59 +173,59 @@ Licenses:
 
 ## Apache Commons Logging
 Licenses:
-- commons-logging:commons-logging:1.2 - http://commons.apache.org/proper/commons
+- commons-logging:commons-logging:1.3.5 - https://commons.apache.org/proper/commons
 
 ## Netty/Buffer
 Licenses:
-- io.netty:netty-buffer:4.1.118.Final - https://netty.io/netty
+- io.netty:netty-buffer:4.1.125.Final - https://netty.io/netty
 
 ## Netty/Codec
 Licenses:
-- io.netty:netty-codec:4.1.118.Final - https://netty.io/netty
+- io.netty:netty-codec:4.1.125.Final - https://netty.io/netty
 
 ## Netty/Codec/DNS
 Licenses:
-- io.netty:netty-codec-dns:4.1.118.Final - https://netty.io/netty-codec
+- io.netty:netty-codec-dns:4.1.125.Final - https://netty.io/netty-codec
 
 ## Netty/Codec/HTTP
 Licenses:
-- io.netty:netty-codec-http:4.1.118.Final - https://netty.io/netty-codec
+- io.netty:netty-codec-http:4.1.125.Final - https://netty.io/netty-codec
 
 ## Netty/Codec/HTTP2
 Licenses:
-- io.netty:netty-codec-http2:4.1.118.Final - https://netty.io/netty-codec
+- io.netty:netty-codec-http2:4.1.125.Final - https://netty.io/netty-codec
 
 ## Netty/Codec/Socks
 Licenses:
-- io.netty:netty-codec-socks:4.1.118.Final - https://netty.io/netty-codec
+- io.netty:netty-codec-socks:4.1.125.Final - https://netty.io/netty-codec
 
 ## Netty/Common
 Licenses:
-- io.netty:netty-common:4.1.118.Final - https://netty.io/netty
+- io.netty:netty-common:4.1.125.Final - https://netty.io/netty
 
 ## Netty/Handler
 Licenses:
-- io.netty:netty-handler:4.1.118.Final - https://netty.io/netty
+- io.netty:netty-handler:4.1.125.Final - https://netty.io/netty
 
 ## Netty/Handler/Proxy
 Licenses:
-- io.netty:netty-handler-proxy:4.1.118.Final - https://netty.io/netty-handler
+- io.netty:netty-handler-proxy:4.1.125.Final - https://netty.io/netty-handler
 
 ## Netty/Resolver
 Licenses:
-- io.netty:netty-resolver:4.1.118.Final - https://netty.io/netty
+- io.netty:netty-resolver:4.1.125.Final - https://netty.io/netty
 
 ## Netty/Resolver/DNS
 Licenses:
-- io.netty:netty-resolver-dns:4.1.118.Final - https://netty.io/netty-resolver
+- io.netty:netty-resolver-dns:4.1.125.Final - https://netty.io/netty-resolver
 
 ## Netty/Transport
 Licenses:
-- io.netty:netty-transport:4.1.118.Final - https://netty.io/netty
+- io.netty:netty-transport:4.1.125.Final - https://netty.io/netty
 
 ## Netty/Transport/Native/Unix/Common
 Licenses:
-- io.netty:netty-transport-native-unix-common:4.1.118.Final - https://netty.io/netty-transport-native-unix
+- io.netty:netty-transport-native-unix-common:4.1.125.Final - https://netty.io/netty-transport-native-unix
 
 ## OpenTelemetry Java
 Licenses:
@@ -249,13 +261,13 @@ Licenses:
 Licenses:
 - io.termd:termd-core:1.1.6
 
-## vertx-auth-common
+## Vert.x Auth Common
 Licenses:
-- io.vertx:vertx-auth-common:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-ext/vertx-ext-parent/vertx-auth-parent/vertx-auth
+- io.vertx:vertx-auth-common:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-ext/vertx-ext-parent/vertx-auth-parent/vertx-auth
 
-## vertx-auth-jwt
+## Vert.x Auth JWT
 Licenses:
-- io.vertx:vertx-auth-jwt:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-ext/vertx-ext-parent/vertx-auth-parent/vertx-auth
+- io.vertx:vertx-auth-jwt:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-ext/vertx-ext-parent/vertx-auth-parent/vertx-auth
 
 ## vertx-auth-oauth2
 Licenses:
@@ -263,27 +275,27 @@ Licenses:
 
 ## Vert.x Bridge Common
 Licenses:
-- io.vertx:vertx-bridge-common:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-ext/vertx-ext-parent/vertx-bridge
+- io.vertx:vertx-bridge-common:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-ext/vertx-ext-parent/vertx-bridge
 
-## vertx-circuit-breaker
+## Vert.x Circuit Breaker
 Licenses:
-- io.vertx:vertx-circuit-breaker:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-ext/vertx-ext-parent/vertx-circuit
+- io.vertx:vertx-circuit-breaker:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-ext/vertx-ext-parent/vertx-circuit
 
-## vertx-codegen
+## Vert.x Codegen
 Licenses:
-- io.vertx:vertx-codegen:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx
+- io.vertx:vertx-codegen:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx
 
-## vertx-config
+## Vert.x Config
 Licenses:
-- io.vertx:vertx-config:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-ext/vertx-ext-parent/vertx-config-parent/vertx
+- io.vertx:vertx-config:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-ext/vertx-ext-parent/vertx-config-parent/vertx
 
 ## Vert.x Core
 Licenses:
-- io.vertx:vertx-core:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx
+- io.vertx:vertx-core:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx
 
-## vertx-health-check
+## Vert.x Health Checks
 Licenses:
-- io.vertx:vertx-health-check:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-ext/vertx-ext-parent/vertx-health
+- io.vertx:vertx-health-check:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-ext/vertx-ext-parent/vertx-health
 
 ## Vert.x JSON Schema
 Licenses:
@@ -291,31 +303,31 @@ Licenses:
 
 ## Vert.x JUnit 5 support :: Core
 Licenses:
-- io.vertx:vertx-junit5:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-ext/vertx-ext-parent/vertx
+- io.vertx:vertx-junit5:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-ext/vertx-ext-parent/vertx
 
-## vertx-lang-kotlin
+## Vert.x for Kotlin
 Licenses:
-- io.vertx:vertx-lang-kotlin:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-lang-kotlin-parent/vertx-lang
+- io.vertx:vertx-lang-kotlin:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-lang-kotlin-parent/vertx-lang
 
-## vertx-lang-kotlin-coroutines
+## Vert.x for Kotlin coroutines
 Licenses:
-- io.vertx:vertx-lang-kotlin-coroutines:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-lang-kotlin-parent/vertx-lang-kotlin
+- io.vertx:vertx-lang-kotlin-coroutines:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-lang-kotlin-parent/vertx-lang-kotlin
 
-## vertx-mail-client
+## Vert.x Mail Client
 Licenses:
-- io.vertx:vertx-mail-client:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-ext/vertx-ext-parent/vertx-mail
+- io.vertx:vertx-mail-client:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-ext/vertx-ext-parent/vertx-mail
 
-## vertx-mongo-client
+## Vert.x Mongo Client
 Licenses:
-- io.vertx:vertx-mongo-client:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-ext/vertx-ext-parent/vertx-mongo
+- io.vertx:vertx-mongo-client:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-ext/vertx-ext-parent/vertx-mongo
 
 ## Vert.x OpenTelemetry
 Licenses:
-- io.vertx:vertx-opentelemetry:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-ext/vertx-ext-parent/vertx-tracing-parent/vertx
+- io.vertx:vertx-opentelemetry:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-ext/vertx-ext-parent/vertx-tracing-parent/vertx
 
-## vertx-service-proxy
+## Vert.x Service Proxy
 Licenses:
-- io.vertx:vertx-service-proxy:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-service
+- io.vertx:vertx-service-proxy:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-service
 
 ## Vert.x Shell
 Licenses:
@@ -323,31 +335,31 @@ Licenses:
 
 ## Vert.x URI Template
 Licenses:
-- io.vertx:vertx-uri-template:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-ext/vertx-ext-parent/vertx-uri
+- io.vertx:vertx-uri-template:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-ext/vertx-ext-parent/vertx-uri
 
-## vertx-web
+## Vert.x Web
 Licenses:
-- io.vertx:vertx-web:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-ext/vertx-ext-parent/vertx-web-parent/vertx
+- io.vertx:vertx-web:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-ext/vertx-ext-parent/vertx-web-parent/vertx
 
-## vertx-web-api-contract
+## Vert.x Web API Contract
 Licenses:
-- io.vertx:vertx-web-api-contract:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-ext/vertx-ext-parent/vertx-web-parent/vertx-web-api
+- io.vertx:vertx-web-api-contract:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-ext/vertx-ext-parent/vertx-web-parent/vertx-web-api
 
-## vertx-web-client
+## Vert.x Web Client
 Licenses:
-- io.vertx:vertx-web-client:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-ext/vertx-ext-parent/vertx-web-parent/vertx-web
+- io.vertx:vertx-web-client:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-ext/vertx-ext-parent/vertx-web-parent/vertx-web
 
-## vertx-web-common
+## Vert.x Web Common
 Licenses:
-- io.vertx:vertx-web-common:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-ext/vertx-ext-parent/vertx-web-parent/vertx-web
+- io.vertx:vertx-web-common:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-ext/vertx-ext-parent/vertx-web-parent/vertx-web
 
-## vertx-web-openapi
+## Vert.x Web OpenAPI
 Licenses:
-- io.vertx:vertx-web-openapi:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-ext/vertx-ext-parent/vertx-web-parent/vertx-web
+- io.vertx:vertx-web-openapi:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-ext/vertx-ext-parent/vertx-web-parent/vertx-web
 
-## vertx-web-validation
+## Vert.x Web Validation
 Licenses:
-- io.vertx:vertx-web-validation:4.5.13 - http://nexus.sonatype.org/oss-repository-hosting.html/vertx-parent/vertx-ext/vertx-ext-parent/vertx-web-parent/vertx-web
+- io.vertx:vertx-web-validation:4.5.21 - https://github.com/vert-x3/vertx-parent/vertx-ext/vertx-ext-parent/vertx-web-parent/vertx-web
 
 ## Jakarta Activation API
 Licenses:
@@ -411,11 +423,11 @@ Licenses:
 
 ## Apache Commons CSV
 Licenses:
-- org.apache.commons:commons-csv:1.12.0 - https://commons.apache.org/proper/commons
+- org.apache.commons:commons-csv:1.14.0 - https://commons.apache.org/proper/commons
 
 ## Apache Commons Lang
 Licenses:
-- org.apache.commons:commons-lang3:3.14.0 - https://commons.apache.org/proper/commons
+- org.apache.commons:commons-lang3:3.18.0 - https://commons.apache.org/proper/commons
 
 ## Apache HttpClient
 Licenses:
@@ -431,67 +443,79 @@ Licenses:
 
 ## Apache Jena - Libraries POM
 Licenses:
-- org.apache.jena:apache-jena-libs:5.2.0 - https://jena.apache.org/apache-jena
+- org.apache.jena:apache-jena-libs:5.5.0 - https://jena.apache.org/apache-jena
 
 ## Apache Jena - ARQ
 Licenses:
-- org.apache.jena:jena-arq:5.2.0 - https://jena.apache.org/jena
+- org.apache.jena:jena-arq:5.5.0 - https://jena.apache.org/jena
 
 ## Apache Jena - Base
 Licenses:
-- org.apache.jena:jena-base:5.2.0 - https://jena.apache.org/jena
+- org.apache.jena:jena-base:5.5.0 - https://jena.apache.org/jena
 
 ## Apache Jena - Core
 Licenses:
-- org.apache.jena:jena-core:5.2.0 - https://jena.apache.org/jena
+- org.apache.jena:jena-core:5.5.0 - https://jena.apache.org/jena
 
 ## Apache Jena - DBOE Base
 Licenses:
-- org.apache.jena:jena-dboe-base:5.2.0 - https://jena.apache.org/jena-dboe
+- org.apache.jena:jena-dboe-base:5.5.0 - https://jena.apache.org/jena-dboe
 
 ## Apache Jena - DBOE Indexes
 Licenses:
-- org.apache.jena:jena-dboe-index:5.2.0 - https://jena.apache.org/jena-dboe
+- org.apache.jena:jena-dboe-index:5.5.0 - https://jena.apache.org/jena-dboe
 
 ## Apache Jena - DBOE Storage
 Licenses:
-- org.apache.jena:jena-dboe-storage:5.2.0 - https://jena.apache.org/jena-dboe
+- org.apache.jena:jena-dboe-storage:5.5.0 - https://jena.apache.org/jena-dboe
 
 ## Apache Jena - DBOE Transactional Datastructures
 Licenses:
-- org.apache.jena:jena-dboe-trans-data:5.2.0 - https://jena.apache.org/jena-dboe-trans
+- org.apache.jena:jena-dboe-trans-data:5.5.0 - https://jena.apache.org/jena-dboe-trans
 
 ## Apache Jena - DBOE Transactions
 Licenses:
-- org.apache.jena:jena-dboe-transaction:5.2.0 - https://jena.apache.org/jena-dboe
+- org.apache.jena:jena-dboe-transaction:5.5.0 - https://jena.apache.org/jena-dboe
 
 ## Apache Jena - IRI
 Licenses:
-- org.apache.jena:jena-iri:5.2.0 - https://jena.apache.org/jena
+- org.apache.jena:jena-iri:5.5.0 - https://jena.apache.org/jena
+
+## Apache Jena - IRI3986
+Licenses:
+- org.apache.jena:jena-iri3986:5.5.0 - https://jena.apache.org/jena
+
+## Apache Jena - Language tags
+Licenses:
+- org.apache.jena:jena-langtag:5.5.0 - https://jena.apache.org/jena
 
 ## Apache Jena - ONTAPI
 Licenses:
-- org.apache.jena:jena-ontapi:5.2.0 - https://jena.apache.org/jena
+- org.apache.jena:jena-ontapi:5.5.0 - https://jena.apache.org/jena
 
 ## Apache Jena - RDF Connection
 Licenses:
-- org.apache.jena:jena-rdfconnection:5.2.0 - https://jena.apache.org/jena
+- org.apache.jena:jena-rdfconnection:5.5.0 - https://jena.apache.org/jena
 
 ## Apache Jena - RDF Patch
 Licenses:
-- org.apache.jena:jena-rdfpatch:5.2.0 - https://jena.apache.org/jena
+- org.apache.jena:jena-rdfpatch:5.5.0 - https://jena.apache.org/jena
 
 ## Apache Jena - SHACL
 Licenses:
-- org.apache.jena:jena-shacl:5.2.0 - https://jena.apache.org/jena
+- org.apache.jena:jena-shacl:5.5.0 - https://jena.apache.org/jena
 
 ## Apache Jena - ShEx
 Licenses:
-- org.apache.jena:jena-shex:5.2.0 - https://jena.apache.org/jena
+- org.apache.jena:jena-shex:5.5.0 - https://jena.apache.org/jena
 
 ## Apache FontBox
 Licenses:
-- org.apache.pdfbox:fontbox:2.0.30
+- org.apache.pdfbox:fontbox:3.0.3
+
+## Apache PDFBox io
+Licenses:
+- org.apache.pdfbox:pdfbox-io:3.0.3 - https://www.apache.org/pdfbox-parent/pdfbox
 
 ## Apache Mina SSHD :: Common support utilities
 Licenses:
@@ -503,11 +527,11 @@ Licenses:
 
 ## Apache Thrift
 Licenses:
-- org.apache.thrift:libthrift:0.21.0
+- org.apache.thrift:libthrift:0.22.0
 
 ## Apache XML Graphics Commons
 Licenses:
-- org.apache.xmlgraphics:xmlgraphics-commons:2.9
+- org.apache.xmlgraphics:xmlgraphics-commons:2.11
 
 ## org.apiguardian:apiguardian-api
 Licenses:
@@ -523,19 +547,19 @@ Licenses:
 
 ## docx4j-core
 Licenses:
-- org.docx4j:docx4j-core:11.5.2 - http://www.docx4java.org/docx4j
+- org.docx4j:docx4j-core:11.5.4 - http://www.docx4java.org/docx4j
 
 ## docx4j-openxml-objects
 Licenses:
-- org.docx4j:docx4j-openxml-objects:11.5.2 - http://www.docx4java.org/docx4j-openxml
+- org.docx4j:docx4j-openxml-objects:11.5.4 - http://www.docx4java.org/docx4j-openxml
 
 ## docx4j-openxml-objects-pml
 Licenses:
-- org.docx4j:docx4j-openxml-objects-pml:11.5.2 - http://www.docx4java.org/docx4j-openxml-objects
+- org.docx4j:docx4j-openxml-objects-pml:11.5.4 - http://www.docx4java.org/docx4j-openxml-objects
 
 ## docx4j-openxml-objects-sml
 Licenses:
-- org.docx4j:docx4j-openxml-objects-sml:11.5.2 - http://www.docx4java.org/docx4j-openxml-objects
+- org.docx4j:docx4j-openxml-objects-sml:11.5.4 - http://www.docx4java.org/docx4j-openxml-objects
 
 ## xalan-interpretive
 Licenses:
@@ -694,6 +718,10 @@ Licenses:
 Licenses:
 - org.jsoup:jsoup:1.17.2
 
+## JSpecify annotations
+Licenses:
+- org.jspecify:jspecify:1.0.0
+
 ## JUnit Jupiter API
 Licenses:
 - org.junit.jupiter:junit-jupiter-api:5.9.1
@@ -704,7 +732,7 @@ Licenses:
 
 ## JUnit Jupiter Params
 Licenses:
-- org.junit.jupiter:junit-jupiter-params:5.8.2
+- org.junit.jupiter:junit-jupiter-params:5.9.1
 
 ## JUnit Platform Commons
 Licenses:

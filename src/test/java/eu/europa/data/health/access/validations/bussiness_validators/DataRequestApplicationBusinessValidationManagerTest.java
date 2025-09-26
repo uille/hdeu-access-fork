@@ -15,8 +15,24 @@
  */
 package eu.europa.data.health.access.validations.bussiness_validators;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.contains;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.isNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.timeout;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import eu.europa.data.health.access.dto.SelectObjectDTO;
-import eu.europa.data.health.access.dto.data_access.Section5BindToOtherSections;
+import eu.europa.data.health.access.dto.sections.data_access.Section5BindToOtherSections;
 import eu.europa.data.health.access.exceptions.FieldError;
 import eu.europa.data.health.access.validations.business_validators.DataAccessApplicationBusinessValidationManager;
 import eu.europa.data.health.access.validations.business_validators.DataRequestApplicationBusinessValidationManager;
@@ -29,6 +45,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.RequestBody;
 import io.vertx.ext.web.RoutingContext;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,14 +54,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
-
-import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class DataRequestApplicationBusinessValidationManagerTest {
@@ -64,6 +73,103 @@ class DataRequestApplicationBusinessValidationManagerTest {
     validationManager = new DataRequestApplicationBusinessValidationManager(mongoClient);
   }
 
+
+  @Test
+  void testSection1ValidationSucceedsWhenNoViolations_hasVars() {
+    // Valid DTO with required field
+    JsonObject legalOrNaturalPerson = new JsonObject().put("key", "a");
+    JsonObject section3 = new JsonObject().put("legalOrNaturalPerson", legalOrNaturalPerson);
+    JsonObject section4 = new JsonObject().put("vatNumber", "test")
+      .put("operatorIdentifier", "test").put("nameOfTheOrganisation", "test")
+      .put("businessIdentifierOrganization", "test");
+
+    JsonObject sectionForm = new JsonObject()
+      .put("datasetVariables", new JsonArray()
+        .add(new JsonObject()
+          .put("datasetId", "DS1")
+          .put("selected", new JsonArray().add("V1"))
+        )
+      );
+
+    RequestBody requestBody = Mockito.mock(RequestBody.class);
+    when(mockContext.body()).thenReturn(requestBody);
+    when(mockContext.body().asJsonObject()).thenReturn(sectionForm);
+
+    JsonArray jsonArrayDatasets = new JsonArray()
+        .add(new JsonObject()
+          .put("id", "DS1")
+          .put("variables", new JsonArray()
+            .add(new JsonObject().put("varId", "V1").put("name", "Age"))
+            .add(new JsonObject().put("varId", "V2").put("name", "Gender"))
+          )
+        );
+
+    JsonObject dbResult = new JsonObject()
+      .put("datasets", jsonArrayDatasets)
+      .put("sectionForm", sectionForm);
+
+    doAnswer(invocation -> {
+      Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+      AsyncResult<JsonObject> asyncResult = mock(AsyncResult.class);
+      when(asyncResult.succeeded()).thenReturn(true);
+      when(asyncResult.result()).thenReturn(dbResult);
+      handler.handle(asyncResult);
+      return null;
+    }).when(mongoClient).findOne(any(), any(), isNull(), any());
+
+     validationManager.section1Validation( mockContext);
+
+  }
+
+
+
+  @Test
+  void testSection1ValidationSucceedsWhenNoViolations() {
+    // Valid DTO with required field
+    JsonObject legalOrNaturalPerson = new JsonObject().put("key", "a");
+    JsonObject section3 = new JsonObject().put("legalOrNaturalPerson", legalOrNaturalPerson);
+    JsonObject section4 = new JsonObject().put("vatNumber", "test")
+      .put("operatorIdentifier", "test").put("nameOfTheOrganisation", "test")
+      .put("businessIdentifierOrganization", "test");
+
+    JsonObject sectionForm = new JsonObject()
+      .put("datasetVariables", new JsonArray()
+        .add(new JsonObject()
+          .put("datasetId", "DS1")
+          .put("selected", new JsonArray().add("V1"))
+        )
+      );
+
+    RequestBody requestBody = Mockito.mock(RequestBody.class);
+    when(mockContext.body()).thenReturn(requestBody);
+    when(mockContext.body().asJsonObject()).thenReturn(sectionForm);
+
+    JsonArray jsonArrayDatasets = new JsonArray()
+      .add(new JsonObject()
+        .put("id", "DS2")
+        .put("distributions_sample", new JsonArray()
+          .add(new JsonObject().put("variables", new JsonArray()
+          .add(new JsonObject().put("varId", "V1").put("name", "Age"))
+          .add(new JsonObject().put("varId", "V2").put("name", "Gender"))
+        )
+      )));
+
+    JsonObject dbResult = new JsonObject()
+      .put("datasets", jsonArrayDatasets)
+      .put("sectionForm", sectionForm);
+
+    doAnswer(invocation -> {
+      Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+      AsyncResult<JsonObject> asyncResult = mock(AsyncResult.class);
+      when(asyncResult.succeeded()).thenReturn(true);
+      when(asyncResult.result()).thenReturn(dbResult);
+      handler.handle(asyncResult);
+      return null;
+    }).when(mongoClient).findOne(any(), any(), isNull(), any());
+
+    validationManager.section1Validation( mockContext);
+
+  }
 
   @Test
   void testSection4ValidationFailsDueToConstraintViolation() {

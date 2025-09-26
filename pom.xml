@@ -33,7 +33,7 @@
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
     <exec-maven-plugin.version>3.0.0</exec-maven-plugin.version>
 
-    <vertx.version>4.5.13</vertx.version>
+    <vertx.version>4.5.21</vertx.version>
     <junit-jupiter.version>5.9.1</junit-jupiter.version>
     <query-dsl.version>5.0.0</query-dsl.version>
     <testcontainers.version>1.20.1</testcontainers.version>
@@ -51,6 +51,16 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.18.0</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-beanutils</groupId>
+        <artifactId>commons-beanutils</artifactId>
+        <version>1.11.0</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -58,7 +68,7 @@
     <dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
-      <version>1.9.4</version>
+      <version>1.11.0</version>
     </dependency>
 
     <dependency>
@@ -177,6 +187,12 @@
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <version>${junit-jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
       <version>${junit-jupiter.version}</version>
       <scope>test</scope>
@@ -195,7 +211,7 @@
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>apache-jena-libs</artifactId>
-      <version>5.2.0</version>
+      <version>5.5.0</version>
       <type>pom</type>
     </dependency>
 
@@ -263,7 +279,12 @@
     <dependency>
       <groupId>org.docx4j</groupId>
       <artifactId>docx4j-core</artifactId>
-      <version>11.5.2</version>
+      <version>11.5.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.18.0</version>
     </dependency>
     <dependency>
       <groupId>org.docx4j</groupId>

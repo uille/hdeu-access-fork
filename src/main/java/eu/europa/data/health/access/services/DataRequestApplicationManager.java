@@ -16,19 +16,12 @@
 package eu.europa.data.health.access.services;
 
 import static eu.europa.data.health.access.Constants.APPLICATION_ID;
-import static eu.europa.data.health.access.Constants.AUDIT_LOG_COLLECTION;
-import static eu.europa.data.health.access.Constants.DATASETS;
-import static eu.europa.data.health.access.Constants.DATASET_ID;
 import static eu.europa.data.health.access.Constants.DATA_REQUEST_APPLICATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.DATE_CREATED;
-import static eu.europa.data.health.access.Constants.DATE_MODIFIED;
-import static eu.europa.data.health.access.Constants.DELETION_CAN_NOT_BE_EXECUTED;
-import static eu.europa.data.health.access.Constants.DISTRIBUTIONS;
-import static eu.europa.data.health.access.Constants.DISTRIBUTION_ID;
 import static eu.europa.data.health.access.Constants.FORM;
 import static eu.europa.data.health.access.Constants.ID;
 import static eu.europa.data.health.access.Constants.NEED_FOR_DATA_EXTRACTION_EVERY;
-import static eu.europa.data.health.access.Constants.PROVIDED_APPLICATION_ID;
+import static eu.europa.data.health.access.Constants.PROVIDED_JUSTIFICATION_EXCEPTION;
 import static eu.europa.data.health.access.Constants.SECTION;
 import static eu.europa.data.health.access.Constants.SECTION_2;
 import static eu.europa.data.health.access.Constants.SECTION_3;
@@ -39,8 +32,6 @@ import static eu.europa.data.health.access.Constants.SECTION_NUMBER;
 import static eu.europa.data.health.access.Constants.STATUS;
 import static eu.europa.data.health.access.Constants.TITLE;
 import static eu.europa.data.health.access.Constants.USER_ID;
-import static eu.europa.data.health.access.Constants.VERSION;
-import static eu.europa.data.health.access.Constants.WAS_NOT_FOUND_IN_THE_DATABASE;
 
 import eu.europa.data.health.access.ApplicationStatus;
 import eu.europa.data.health.access.AuditLogAction;
@@ -48,14 +39,17 @@ import eu.europa.data.health.access.AuditLogActionDescription;
 import eu.europa.data.health.access.AuditLogObject;
 import eu.europa.data.health.access.Context;
 import eu.europa.data.health.access.Sections;
-import eu.europa.data.health.access.dto.SectionDTO;
+import eu.europa.data.health.access.TranslationStatus;
+import eu.europa.data.health.access.auth_client.AuthClient;
+import eu.europa.data.health.access.dto.sections.SectionDTO;
 import eu.europa.data.health.access.handlers.DBHandler;
+import eu.europa.data.health.access.hub_translation_client.HubTranslationClient;
+import eu.europa.data.health.access.utils.ApplicationFormUtils;
 import eu.europa.data.health.access.validations.business_validators.DataRequestApplicationBusinessValidationManager;
 import eu.europa.data.health.access.validations.validators.DataRequestApplicationValidationManager;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
-import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -66,34 +60,32 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class DataRequestApplicationManager extends CommonApplicationManager {
 
   private final MongoClient mongoClient;
-
-  private final DBHandler dbHandler;
 
   private DataRequestApplicationValidationManager dataRequestApplicationValidationManager;
 
   private DataRequestApplicationBusinessValidationManager dataRequestApplicationBusinessValidationManager;
 
   private final AuditLogManager auditLogManager;
+
+  private final boolean translate;
 
   private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -103,13 +95,17 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
   public DataRequestApplicationManager(DBHandler dbHandler, MongoClient mongoClient,
     BasketManager basketManager, HubStoreClient hubStoreClient, Vertx vertx,
     DataRequestApplicationValidationManager dataRequestApplicationValidationManager,
-    DataRequestApplicationBusinessValidationManager dataRequestApplicationBusinessValidationManager, AuditLogManager auditLogManager) {
-    super(dbHandler, basketManager, mongoClient, vertx, hubStoreClient, auditLogManager);
-    this.dbHandler = dbHandler;
+    DataRequestApplicationBusinessValidationManager dataRequestApplicationBusinessValidationManager,
+    AuditLogManager auditLogManager, HubTranslationClient hubTranslationClient,
+    HubSearchClient hubSearchClient,
+    boolean translate, AuthClient authClient) {
+    super(dbHandler, basketManager, mongoClient, vertx, hubStoreClient, auditLogManager,
+      hubTranslationClient, hubSearchClient, authClient);
     this.mongoClient = mongoClient;
     this.dataRequestApplicationValidationManager = dataRequestApplicationValidationManager;
     this.dataRequestApplicationBusinessValidationManager = dataRequestApplicationBusinessValidationManager;
     this.auditLogManager = auditLogManager;
+    this.translate = translate;
   }
 
   /**
@@ -156,13 +152,6 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
   }
 
   /**
-   * Update a Document for the Data Request Application collection
-   */
-  public void patchApplication(@NotNull RoutingContext context) {
-    super.patchEntity(context, DATA_REQUEST_APPLICATION_COLLECTION);
-  }
-
-  /**
    * Delete a Document by field ID for the Data Request Application collection.
    */
   public void deleteDataRequestApplicationById(@NotNull RoutingContext context) {
@@ -182,7 +171,7 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
     JsonArray updatedApplications = new JsonArray();
 
     // A composition of all the asynchronous operations in order to perform one by one the updates of the applications
-    CompositeFuture.all(updateApplicationsAsync(context))
+    CompositeFuture.all(updateApplicationsAsync(context, DATA_REQUEST_APPLICATION_COLLECTION))
       .onComplete(ar -> {
         if (ar.succeeded()) {
           log.info(DATA_REQUEST_APPLICATION_COLLECTION
@@ -217,228 +206,14 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
    * Delete a list of datasets for the Data Request Application collection.
    */
   public void deleteDatasets(@NotNull RoutingContext context) {
-
-    // Get the application id
-    JsonObject query = new JsonObject().put(ID, context.pathParam(APPLICATION_ID));
-    query.put(USER_ID, Context.getEcasId(context));
-    // Search in database based on the provided application id and user Id
-    mongoClient.findOne(DATA_REQUEST_APPLICATION_COLLECTION, query, null, ar -> {
-      if (ar.succeeded()) {
-        if (ar.result() != null) {
-
-          JsonObject mongoApplication = ar.result();
-
-          //Able to delete an application only if status is not SUBMITTED
-          if (!ApplicationStatus.SUBMITTED.getStatus()
-            .equalsIgnoreCase(mongoApplication.getJsonObject(STATUS).getString(STATUS))) {
-
-            JsonArray requestContent = context.body().asJsonArray();
-            AtomicBoolean applicationModified = new AtomicBoolean(false);
-            requestContent.forEach(requestDataset -> {
-              String requestDatasetId = ((JsonObject) requestDataset).getString(
-                DATASET_ID);
-              if(deleteApplicationDataset(mongoApplication, requestDatasetId, context))
-                applicationModified.set(true);
-            });
-            if(applicationModified.get()) {
-              replaceApplication(mongoApplication);
-              setUpMessageContextResponse(context, HttpResponseStatus.OK,
-                "Delete operation/s completed");
-            } else {
-              setUpMessageContextResponse(context, HttpResponseStatus.OK,
-                "No Delete operations required");
-            }
-          } else {
-            setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
-              DELETION_CAN_NOT_BE_EXECUTED);
-          }
-        } else {
-          setUpMessageContextResponse(context, HttpResponseStatus.NOT_FOUND,
-            PROVIDED_APPLICATION_ID + context.pathParam(APPLICATION_ID)
-              + WAS_NOT_FOUND_IN_THE_DATABASE);
-        }
-      } else {
-        setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
-          ar.cause().getMessage());
-      }
-    });
+    deleteDatasets(context, DATA_REQUEST_APPLICATION_COLLECTION);
   }
 
   /**
    * Delete a list of distributions for the Data Request Application collection.
    */
   public void deleteDistributions(@NotNull RoutingContext context) {
-
-    // Get the application id
-    JsonObject query = new JsonObject().put(ID, context.pathParam(APPLICATION_ID));
-    query.put(USER_ID, Context.getEcasId(context));
-    // Search in database based on the provided application id and user Id
-    mongoClient.findOne(DATA_REQUEST_APPLICATION_COLLECTION, query, null, ar -> {
-      if (ar.succeeded()) {
-        if (ar.result() != null) {
-
-          JsonObject mongoApplication = ar.result();
-
-          //Able to delete an application only if status is not SUBMITTED
-          if (!ApplicationStatus.SUBMITTED.getStatus()
-            .equalsIgnoreCase(mongoApplication.getJsonObject(STATUS).getString(STATUS))) {
-
-            JsonArray requestContent = context.body().asJsonArray();
-            requestContent.forEach(datasetDistributionCombo -> {
-              String requestDatasetId = ((JsonObject) datasetDistributionCombo).getString(
-                DATASET_ID);
-              String requestDistributionId = ((JsonObject) datasetDistributionCombo).getString(
-                DISTRIBUTION_ID);
-              deleteApplicationDatasetDistribution(mongoApplication, requestDatasetId,
-                requestDistributionId, context);
-
-            });
-            replaceApplication(mongoApplication);
-            setUpMessageContextResponse(context, HttpResponseStatus.OK,
-              "Delete operation/s completed");
-
-          } else {
-            setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
-              DELETION_CAN_NOT_BE_EXECUTED);
-          }
-        } else {
-          setUpMessageContextResponse(context, HttpResponseStatus.NOT_FOUND,
-            PROVIDED_APPLICATION_ID + context.pathParam(APPLICATION_ID)
-              + WAS_NOT_FOUND_IN_THE_DATABASE);
-        }
-      } else {
-        setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
-          ar.cause().getMessage());
-      }
-    });
-  }
-
-  boolean deleteApplicationDataset(JsonObject mongoApplication,
-    String requestDatasetId, @NotNull RoutingContext context) {
-    // Loop every dataset to check if provided dataset id is contained
-    JsonArray mongoDatasets = mongoApplication.getJsonArray(DATASETS);
-    boolean modified = false;
-
-    Iterator<Object> datasetIterator = mongoDatasets.iterator();
-    while (datasetIterator.hasNext()) {
-      Object datasetObj = datasetIterator.next();
-      if (datasetObj instanceof JsonObject mongoDataset && mongoDataset.getString(DATASET_ID)
-        .equals(requestDatasetId)) {
-
-          if (mongoDatasets.size() == 1) {
-            JsonObject deleteById = new JsonObject().put(ID,
-              mongoApplication.getValue(ID));
-            dbHandler.deleteById(DATA_REQUEST_APPLICATION_COLLECTION, deleteById);
-
-            //Audit Log
-            dbHandler.updateLinkableFields(AUDIT_LOG_COLLECTION, mongoApplication.getString(ID));
-            JsonObject datasetObjJson = (JsonObject) datasetObj;
-            JsonArray distributions = datasetObjJson.getJsonArray("distributions");
-            String distributionsString = auditLogManager.extractDistributionIds(distributions.toString());
-            String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
-              AuditLogActionDescription.DATA_REQUEST_APPLICATION_DISCARDED.getString(),
-              mongoApplication.getString(ID), mongoApplication.getString(TITLE),
-              datasetObjJson.getString(DATASET_ID), distributionsString);
-            auditLogManager.insertAuditLog(AuditLogObject.DATA_REQUEST_APPLICATION.getString(), mongoApplication.getString(ID),
-              AuditLogAction.DATA_REQUEST_APPLICATION_DISCARDED.getString(),
-              auditLogActionDescription, false, context);
-
-            return false;
-          } else {
-            datasetIterator.remove();
-            modified = true;
-
-            // If dataset removed, delete section6 too.
-            deleteSection6ByDataset(mongoApplication, mongoDataset.getString("catalog_id"));
-
-            //Audit Log
-            JsonObject datasetObjJson = (JsonObject) datasetObj;
-            JsonArray distributions = datasetObjJson.getJsonArray("distributions");
-            String distributionsString = auditLogManager.extractDistributionIds(distributions.toString());
-            String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
-              AuditLogActionDescription.DATA_REQUEST_APPLICATION_DATASET_DELETED.getString(),
-              datasetObjJson.getString(DATASET_ID), distributionsString,
-              mongoApplication.getString(ID), mongoApplication.getString(TITLE));
-            auditLogManager.insertAuditLog(AuditLogObject.DATA_REQUEST_APPLICATION.getString(), mongoApplication.getString(ID),
-              AuditLogAction.DATASET_DELETED.getString(),
-              auditLogActionDescription, true, context);
-          }
-      }
-    }
-    return modified;
-  }
-
-  void deleteApplicationDatasetDistribution(JsonObject mongoApplication,
-    String requestDatasetId, String requestDistributionId, @NotNull RoutingContext context) {
-    // Loop every dataset to check if provided dataset id is contained
-    JsonArray mongoDatasets = mongoApplication.getJsonArray(DATASETS);
-
-    Iterator<Object> datasetIterator = mongoDatasets.iterator();
-    while (datasetIterator.hasNext()) {
-      Object datasetObj = datasetIterator.next();
-      if (datasetObj instanceof JsonObject mongoDataset && mongoDataset.getString(DATASET_ID)
-        .equals(requestDatasetId)) {
-          JsonArray mongoDistributions = mongoDataset.getJsonArray(DISTRIBUTIONS);
-          Iterator<Object> distributionIterator = mongoDistributions.iterator();
-          while (distributionIterator.hasNext()) {
-            Object distributionObj = distributionIterator.next();
-            if (distributionObj instanceof JsonObject mongoDistribution
-              && mongoDistribution.getString(DISTRIBUTION_ID).equals(requestDistributionId)) {
-
-                if (mongoDistributions.size() == 1) {
-                  if (mongoDatasets.size() == 1) {
-                    JsonObject deleteById = new JsonObject().put(ID,
-                      mongoApplication.getValue(ID));
-                    dbHandler.deleteById(DATA_REQUEST_APPLICATION_COLLECTION, deleteById);
-
-                    //Audit Log
-                    dbHandler.updateLinkableFields(AUDIT_LOG_COLLECTION, mongoApplication.getString(ID));
-                    String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
-                      AuditLogActionDescription.DATA_REQUEST_APPLICATION_DISCARDED.getString(),
-                      mongoApplication.getString(ID), mongoApplication.getString(TITLE),
-                      requestDatasetId, requestDistributionId);
-                    auditLogManager.insertAuditLog(AuditLogObject.DATA_REQUEST_APPLICATION.getString(),
-                      mongoApplication.getString(ID),
-                      AuditLogAction.DATA_REQUEST_APPLICATION_DISCARDED.getString(),
-                      auditLogActionDescription, false, context);
-
-                    return;
-                  } else {
-                    datasetIterator.remove();
-                    mongoApplication.put(DATE_MODIFIED, Instant.now());
-
-                    // If  dataset removed, remove section 6 too.
-                    deleteSection6ByDataset(mongoApplication, mongoDataset.getString("catalog_id"));
-
-                    //Audit Log
-                    String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
-                      AuditLogActionDescription.DATA_REQUEST_APPLICATION_DATASET_DELETED.getString(),
-                      requestDatasetId, requestDistributionId,
-                      mongoApplication.getString(ID), mongoApplication.getString(TITLE));
-                    auditLogManager.insertAuditLog(AuditLogObject.DATA_REQUEST_APPLICATION.getString(),
-                      mongoApplication.getString(ID),
-                      AuditLogAction.DATASET_DELETED.getString(),
-                      auditLogActionDescription, true, context);
-                  }
-                } else {
-                  distributionIterator.remove();
-                  mongoApplication.put(DATE_MODIFIED, Instant.now());
-
-                  //Audit Log
-                  String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
-                    AuditLogActionDescription.DATA_REQUEST_APPLICATION_DISTRIBUTION_DELETED.getString(),
-                    requestDistributionId, requestDatasetId,
-                    mongoApplication.getString(ID), mongoApplication.getString(TITLE));
-                  auditLogManager.insertAuditLog(AuditLogObject.DATA_REQUEST_APPLICATION.getString(),
-                    mongoApplication.getString(ID), AuditLogAction.DISTRIBUTION_DELETED.getString(),
-                    auditLogActionDescription, true, context);
-                }
-
-            }
-          }
-
-      }
-    }
+    deleteDistributions(context, DATA_REQUEST_APPLICATION_COLLECTION);
   }
 
   public void createOrUpdateSection(@NotNull RoutingContext context) {
@@ -505,32 +280,104 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
                 return;
               }
 
-              super.performStatusUpdate(mongoApplication, status, context);
-              performCleanUpForm(mongoApplication);
+              createApplicantDetails(context)
+                .recover(err -> {
+                  log.error("Could not update applicant details: {}", err.getMessage());
+                  return Future.succeededFuture(new JsonObject());
+                })
+                .onSuccess(applicantDetailsResult -> {
+                  if (!applicantDetailsResult.isEmpty()) {
+                    mongoApplication.put("applicantDetails", applicantDetailsResult);
+                  }
 
-              // Replace application and return result
-              replaceApplication(mongoApplication).onSuccess(replaceResult -> {
+                  // Fetch source language
+                  String sourceLang = mongoApplication
+                    .getString("inputLanguage", "EN")
+                    .toUpperCase(Locale.ENGLISH);
 
-                // If status is submitted then we need to add the application to the dispatcher table
-                ApplicationStatus requestStatus = ApplicationStatus.fromStatus(
-                  mongoApplication.getJsonObject(STATUS).getString(STATUS));
-                if (ApplicationStatus.SUBMITTED.equals(requestStatus)) {
-                  sendApplicationForDispatch(mongoApplication, DATA_REQUEST_APPLICATION_COLLECTION);
+                  // Extract datasets as List<JsonObject>
+                  List<JsonObject> datasets = mongoApplication.getJsonArray("datasets").stream()
+                    .filter(obj -> obj instanceof JsonObject)
+                    .map(obj -> (JsonObject) obj)
+                    .toList();
 
-                  //Audit Log
-                  String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
-                    AuditLogActionDescription.DATA_REQUEST_APPLICATION_SUBMITTED.getString(),
-                    applicationId, mongoApplication.getString(TITLE));
-                  auditLogManager.insertAuditLog(AuditLogObject.DATA_REQUEST_APPLICATION.getString(),
-                    mongoApplication.getString(ID), AuditLogAction.DATA_REQUEST_APPLICATION_SUBMITTED.getString(),
-                    auditLogActionDescription, true, context);
-                }
-                setUpContextResponse(context, HttpResponseStatus.OK, replaceResult.encode());
-              }).onFailure(fail -> {
-                rollbackStatusToDraft(applicationId, DATA_REQUEST_APPLICATION_COLLECTION);
-                setUpMessageContextResponse(context,
-                  HttpResponseStatus.INTERNAL_SERVER_ERROR, fail.getMessage());
-              });
+                  // Async fetch of target languages from datasets
+                  getTargetLanguagesFromDatasets(datasets).onComplete(langResult -> {
+                    List<String> targetLanguages;
+                    boolean translationNeeded;
+
+                    if (langResult.succeeded()) {
+                      Set<String> uniqueLanguages = new HashSet<>(langResult.result());
+                      // English is included in the translation languages by default
+                      uniqueLanguages.add("EN");
+                      targetLanguages = new ArrayList<>(uniqueLanguages);
+
+                      // Remove the source language if present
+                      targetLanguages.removeIf(lang -> lang.equalsIgnoreCase(sourceLang));
+
+                      // Check if translation is needed (any language remains)
+                      translationNeeded = !targetLanguages.isEmpty();
+                    } else {
+                      translationNeeded = false;
+                      // If failed to get target languages, fallback to empty list (no translation)
+                      targetLanguages = List.of();
+                    }
+
+                    JsonObject translation = mongoApplication.getJsonObject(TRANSLATION,
+                      new JsonObject());
+                    translation.put(STATUS, translationNeeded ? TranslationStatus.PENDING
+                      : TranslationStatus.NOT_REQUIRED);
+                    translation.put("sourceLanguage", sourceLang);
+                    translation.put("targetLanguages", new JsonArray(targetLanguages));
+                    mongoApplication.put(TRANSLATION, translation);
+
+                    super.performStatusUpdate(mongoApplication, status, context);
+                    performCleanUpForm(mongoApplication);
+
+                    // Replace application and return result
+                    replaceApplication(mongoApplication).onSuccess(replaceResult -> {
+
+                      if (translate && translationNeeded) {
+                        triggerTranslationRequest(
+                          applicationId,
+                          mongoApplication.getJsonObject("form"),
+                          DATA_REQUEST_APPLICATION_COLLECTION,
+                          sourceLang,
+                          targetLanguages
+                        );
+
+                        setUpContextResponse(context, HttpResponseStatus.OK,
+                          replaceResult.encode());
+                        return;
+                      }
+
+                      // If status is submitted then we need to add the application to the dispatcher table
+                      ApplicationStatus requestStatus = ApplicationStatus.fromStatus(
+                        mongoApplication.getJsonObject(STATUS).getString(STATUS));
+                      if (ApplicationStatus.SUBMITTED.equals(requestStatus)) {
+                        sendApplicationForDispatch(mongoApplication,
+                          DATA_REQUEST_APPLICATION_COLLECTION);
+
+                        //Audit Log
+                        String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+                          AuditLogActionDescription.DATA_REQUEST_APPLICATION_SUBMITTED.toString(),
+                          applicationId, mongoApplication.getString(TITLE));
+                        auditLogManager.insertAuditLog(
+                          AuditLogObject.DATA_REQUEST_APPLICATION.toString(),
+                          mongoApplication.getString(ID),
+                          AuditLogAction.DATA_REQUEST_APPLICATION_SUBMITTED.toString(),
+                          auditLogActionDescription, true, context);
+                      }
+                      setUpContextResponse(context, HttpResponseStatus.OK, replaceResult.encode());
+                    }).onFailure(fail -> {
+                      rollbackStatusToDraft(applicationId, DATA_REQUEST_APPLICATION_COLLECTION);
+                      setUpMessageContextResponse(context,
+                        HttpResponseStatus.INTERNAL_SERVER_ERROR, fail.getMessage());
+                    });
+                  });
+
+                });
+
             } else {
               setUpMessageContextResponse(context, HttpResponseStatus.NOT_FOUND,
                 "Application not found");
@@ -603,7 +450,7 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
   }
 
   private boolean validateKeys(Map<String, Object> map) {
-    List<String> mandatorySections = Arrays.asList(SECTION_2,SECTION_3, SECTION_4, SECTION_5,
+    List<String> mandatorySections = Arrays.asList(SECTION_2, SECTION_3, SECTION_4, SECTION_5,
       SECTION_6, "section8");
 
     for (String key : mandatorySections) {
@@ -671,7 +518,6 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
 
     for (int i = 0; i < section6Array.size(); i++) {
 
-
       //SECTION 6_1
       JsonObject section = section6Array.getJsonObject(i);
 
@@ -688,7 +534,8 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
 
       JsonObject howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple = section.getJsonObject(
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple");
-      if (!Objects.equals(howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple.getString("key"), "b")) {
+      if (!Objects.equals(howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple.getString("key"),
+        "b")) {
         section.remove(NEED_FOR_DATA_EXTRACTION_EVERY);
       }
 
@@ -698,153 +545,31 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
         || !Objects.equals(needForDataExtractionEvery.getString("key"), "d")) {
         section.remove("needForDataExtractionEveryOther");
       }
+
+      JsonObject optOutOfTheMechanismProvidedInTheNationalLaw = section.getJsonObject(
+        "optOutOfTheMechanismProvidedInTheNationalLaw");
+      if (!Objects.equals(optOutOfTheMechanismProvidedInTheNationalLaw.getString("key"),
+        "a")) {
+        section.remove(PROVIDED_JUSTIFICATION_EXCEPTION);
+      }
+
     }
 
     mongoApplicationForm.put(SECTION_6, section6Array);
-  }
-
-   List<Future> updateApplicationsAsync(@NotNull RoutingContext context) {
-
-    //Retrieve all applications from the request
-    JsonArray requestApplications = context.body().asJsonObject().getJsonArray("applications");
-    //Define the array of Futures that need to be returned
-    List<Future> futures = new ArrayList<>();
-
-    // For every application in the request, invoke the asynchronous call to perform the update of the application
-    requestApplications.forEach(requestApplication -> futures.add(updateApplicationAsync(requestApplication, context)));
-
-    return futures;
-  }
-
-  private Future<JsonObject> updateApplicationAsync(Object requestApplication,
-    @NotNull RoutingContext context) {
-
-    Promise<JsonObject> promise = Promise.promise();
-
-    // A map of application <application_id, title> that will store the application that is being updated
-    JsonObject updatedApplication = new JsonObject();
-    //Retrieve the application from Mongo Database
-    Future<JsonObject> mongoApplicationFuture = findApplication(requestApplication,
-      Context.getEcasId(context));
-    //Process the result asynchronously
-    mongoApplicationFuture.onComplete(ar -> {
-      if (ar.succeeded() && ar.result() != null) {
-
-        // Get the application document from the database
-        JsonObject mongoApplication = ar.result();
-
-        //Loop for every dataset
-        JsonArray requestDatasets = context.body().asJsonObject().getJsonArray(DATASETS);
-
-        requestDatasets.forEach(requestDataset -> {
-
-          JsonArray mongoDatasets = mongoApplication.getJsonArray(DATASETS);
-          String requestDatasetIdValue = ((JsonObject) requestDataset).getString(DATASET_ID);
-          if (hasElementWithValue(mongoDatasets, DATASET_ID, requestDatasetIdValue)) {
-
-            // Get the distributions for the specific dataset
-            JsonArray mongoDistributions = getDistributions(mongoDatasets, DATASET_ID,
-              requestDatasetIdValue);
-
-            // The provided dataset exists, so we have to parse the distributions
-            JsonArray requestDistributions = ((JsonObject) requestDataset).getJsonArray(
-              DISTRIBUTIONS);
-            requestDistributions.forEach(requestDistribution -> {
-
-              String requestDistributionIdValue = ((JsonObject) requestDistribution).getString(
-                DISTRIBUTION_ID);
-              if (!hasElementWithValue(mongoDistributions, DISTRIBUTION_ID,
-                requestDistributionIdValue)) {
-                // The provided distribution does not exist, so will have to add it
-                //Prepare the distribution
-                mongoDistributions.add(requestDistribution);
-                // Update the date_added of the dataset
-                updateDatasetDateAdded(mongoDatasets, requestDatasetIdValue, DATA_REQUEST_APPLICATION_COLLECTION);
-                //Add the application id and the title to the response map
-                updatedApplication.put("_id", mongoApplication.getString("_id"));
-                updatedApplication.put(VERSION, mongoApplication.getString(VERSION));
-                updatedApplication.put(TITLE, mongoApplication.getString(TITLE));
-              } else {
-                // Distribution is found in Mongo database
-                log.info(DATA_REQUEST_APPLICATION_COLLECTION
-                    + " Distribution with id: {} was found in the Mongo database, so will not add it",
-                  requestDistributionIdValue);
-              }
-            });
-          } else {
-            // The provided dataset does not exist, so will have to add it with all of its distributions
-            // prepare Dataset to be added
-            mongoDatasets.add(prepareDataset(requestDataset, DATA_REQUEST_APPLICATION_COLLECTION));
-            //Add the application id and the title to the response map
-            updatedApplication.put("_id", mongoApplication.getString("_id"));
-            updatedApplication.put(VERSION, mongoApplication.getString(VERSION));
-            updatedApplication.put(TITLE, mongoApplication.getString(TITLE));
-          }
-
-        });
-        //Update the application to Mongo database only if changes need to be applied
-        if (!updatedApplication.isEmpty()) {
-          replaceApplication(mongoApplication);
-        }
-
-        // Delete datasets and distributions received.
-        deleteDistributionsFromBasket(requestDatasets, context);
-
-      } else {
-        log.info(DATA_REQUEST_APPLICATION_COLLECTION
-            + " Application with id: {} was not found in the Mongo database",
-          ((JsonObject) requestApplication).getString(APPLICATION_ID));
-      }
-
-      promise.complete(updatedApplication);
-    });
-
-    return promise.future();
   }
 
   Future<JsonObject> replaceApplication(JsonObject mongoApplication) {
     return replaceApplication(mongoApplication, DATA_REQUEST_APPLICATION_COLLECTION);
   }
 
-  private JsonArray getDistributions(JsonArray jsonArray, String field, String value) {
-    for (Object element : jsonArray) {
-      if (element instanceof JsonObject jsonObject) {
-        String foundValue = jsonObject.getString(field);
-        if (StringUtils.isNotEmpty(foundValue) && StringUtils.equals(value, foundValue)) {
-          return jsonObject.getJsonArray(DISTRIBUTIONS);
-        }
-      }
-    }
-    return null;
-  }
-
-  private Future<JsonObject> findApplication(Object datasetQueryDocument, String userId) {
-
-    JsonObject applicationQueryDocument = new JsonObject();
-    applicationQueryDocument.put(ID,
-      ((JsonObject) datasetQueryDocument).getString(APPLICATION_ID));
-    applicationQueryDocument.put(USER_ID, userId);
-
-    Promise<JsonObject> promise = Promise.promise();
-
-    mongoClient.findOne(DATA_REQUEST_APPLICATION_COLLECTION, applicationQueryDocument, null, ar -> {
-      if (ar.succeeded()) {
-        JsonObject application = ar.result();
-        promise.complete(application);
-      } else {
-        promise.fail(ar.cause());
-      }
-    });
-
-    return promise.future();
-  }
-
   public void postData(@NotNull RoutingContext context) {
     postData(context, DATA_REQUEST_APPLICATION_COLLECTION);
   }
+
   public void getData(@NotNull RoutingContext context) {
     getData(context, DATA_REQUEST_APPLICATION_COLLECTION);
   }
+
   public void deleteData(@NotNull RoutingContext context) {
     deleteData(context, DATA_REQUEST_APPLICATION_COLLECTION);
   }
@@ -855,6 +580,118 @@ public class DataRequestApplicationManager extends CommonApplicationManager {
 
   public void changeTitle(@NotNull RoutingContext context) {
     changeTitle(context, DATA_REQUEST_APPLICATION_COLLECTION);
+  }
+
+  public void processTranslationCallback(String applicationId, JsonObject dict) {
+    JsonObject query = new JsonObject().put(ID, applicationId);
+
+    mongoClient.findOne(DATA_REQUEST_APPLICATION_COLLECTION, query, null, res -> {
+      if (res.succeeded() && res.result() != null) {
+        JsonObject application = res.result();
+        JsonObject originalForm = application.getJsonObject("form");
+        JsonObject translatedFiles = application.getJsonObject(TRANSLATION, new JsonObject())
+          .getJsonObject("files", new JsonObject());
+        List<String> targetLangs = application.getJsonObject(TRANSLATION, new JsonObject())
+          .getJsonArray("targetLanguages", new JsonArray())
+          .stream().map(Object::toString).toList();
+
+        JsonObject translationUpdate = super.buildFormTranslationsAndSetStatus(
+          originalForm, dict, targetLangs, applicationId, translatedFiles, DATA_REQUEST_APPLICATION_COLLECTION
+        );
+        applyTranslationUpdate(application, translationUpdate);
+
+        TranslationStatus overallStatus = ApplicationFormUtils.determineOverallTranslationStatus(
+          application.getJsonObject(TRANSLATION, new JsonObject())
+        );
+        application.getJsonObject(TRANSLATION).put(STATUS, overallStatus);
+
+        if (overallStatus != TranslationStatus.COMPLETED) {
+          log.info(
+            "Translation not yet complete for application [{}], skipping dispatch (status = {})",
+            applicationId, overallStatus);
+          replaceApplication(application).onSuccess(r -> {
+          }).onFailure(err -> log.error("Failed to replace", err));
+          return;
+        }
+
+        replaceApplication(application).onSuccess(replaceResult -> {
+          log.info("Application updated with translations. Proceeding to dispatch.");
+
+          ApplicationStatus requestStatus = ApplicationStatus.fromStatus(
+            application.getJsonObject(STATUS).getString(STATUS));
+
+          if (ApplicationStatus.SUBMITTED.equals(requestStatus)) {
+            sendApplicationForDispatch(application, DATA_REQUEST_APPLICATION_COLLECTION);
+
+            String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+              AuditLogActionDescription.DATA_REQUEST_APPLICATION_SUBMITTED.toString(),
+              applicationId, application.getString(TITLE));
+            auditLogManager.insertAuditLog(AuditLogObject.DATA_REQUEST_APPLICATION.toString(),
+              application.getString(ID),
+              AuditLogAction.DATA_REQUEST_APPLICATION_SUBMITTED.toString(),
+              auditLogActionDescription, true, null);
+          }
+        }).onFailure(err -> log.error("Failed to replace application with translations", err));
+      } else {
+        log.error("Could not find application to apply translations: {}", applicationId);
+      }
+    });
+  }
+
+  public void processFileTranslationCallback(String applicationId, String originalFileId,
+    Map<String, JsonObject> uploadedFiles) {
+    JsonObject query = new JsonObject().put(ID, applicationId);
+
+    mongoClient.findOne(DATA_REQUEST_APPLICATION_COLLECTION, query, null, res -> {
+      if (res.succeeded() && res.result() != null) {
+        JsonObject application = res.result();
+
+        applyFileTranslationUpdates(application, applicationId, originalFileId, uploadedFiles);
+
+        TranslationStatus overallStatus = ApplicationFormUtils.determineOverallTranslationStatus(
+          application.getJsonObject(TRANSLATION, new JsonObject())
+        );
+        application.getJsonObject(TRANSLATION).put(STATUS, overallStatus);
+
+        if (overallStatus != TranslationStatus.COMPLETED) {
+          log.info(
+            "Translation not yet complete for application [{}], skipping dispatch (status = {})",
+            applicationId, overallStatus);
+          replaceApplication(application).onSuccess(r -> {
+          }).onFailure(err -> log.error("Failed to replace", err));
+          return;
+        }
+
+        replaceApplication(application).onSuccess(replaceResult -> {
+          log.info("Application [{}] updated with translated file references for [{}]",
+            applicationId, originalFileId);
+
+          ApplicationStatus requestStatus = ApplicationStatus.fromStatus(
+            application.getJsonObject(STATUS).getString(STATUS));
+
+          if (ApplicationStatus.SUBMITTED.equals(requestStatus)) {
+            sendApplicationForDispatch(application, DATA_REQUEST_APPLICATION_COLLECTION);
+
+            String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+              AuditLogActionDescription.DATA_REQUEST_APPLICATION_SUBMITTED.toString(),
+              applicationId, application.getString(TITLE));
+
+            auditLogManager.insertAuditLog(AuditLogObject.DATA_REQUEST_APPLICATION.toString(),
+              application.getString(ID),
+              AuditLogAction.DATA_REQUEST_APPLICATION_SUBMITTED.toString(),
+              auditLogActionDescription, true, null);
+          }
+        }).onFailure(
+          err -> log.error("Failed to replace application with file translation updates", err));
+
+      } else {
+        log.error("Could not find application [{}] to update file translations", applicationId);
+      }
+    });
+  }
+
+  public void markTranslationError(String applicationId, String errorType, String fileId) {
+    super.markTranslationError(applicationId, DATA_REQUEST_APPLICATION_COLLECTION, errorType, fileId);
   }
 
 }

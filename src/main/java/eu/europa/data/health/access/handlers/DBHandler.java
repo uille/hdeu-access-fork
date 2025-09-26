@@ -16,6 +16,7 @@
 package eu.europa.data.health.access.handlers;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
@@ -52,8 +53,9 @@ public class DBHandler {
 
   /**
    * Creates a document for the provided collection
+   *
    * @param collectionName the collection
-   * @param jsonObject the object to create
+   * @param jsonObject     the object to create
    */
   public Future<String> create(String collectionName, JsonObject jsonObject) {
     log.debug("{} Entered save method", dbHandlerClassName);
@@ -75,11 +77,11 @@ public class DBHandler {
 
   /**
    * Update Document for Specific Collection
+   *
    * @param collectionName the collection
-   * @param updateQuery the query with the fields that they will going to update
-   * @param query the id of the document to be updated and the user id (On json can you send as
-   * field with name id,
-   * we change it to _id)
+   * @param updateQuery    the query with the fields that they will going to update
+   * @param query          the id of the document to be updated and the user id (On json can you
+   *                       send as field with name id, we change it to _id)
    */
   public Future<JsonObject> update(String collectionName, JsonObject updateQuery,
     JsonObject query) {
@@ -90,14 +92,14 @@ public class DBHandler {
     updateQuery.remove("id");
     mongoClient.updateCollection(collectionName, query, new JsonObject().put("$set", updateQuery)
       , asyncResult -> {
-      if (asyncResult.succeeded()) {
-        log.info("{} Saved successfully: {}", dbHandlerClassName, asyncResult.result());
-        promise.complete(JsonObject.mapFrom(asyncResult.result()));
-      } else {
-        log.info("{} Failed to save: {}", dbHandlerClassName, asyncResult.cause().toString());
-        promise.fail(asyncResult.cause());
-      }
-    });
+        if (asyncResult.succeeded()) {
+          log.info("{} Saved successfully: {}", dbHandlerClassName, asyncResult.result());
+          promise.complete(JsonObject.mapFrom(asyncResult.result()));
+        } else {
+          log.info("{} Failed to save: {}", dbHandlerClassName, asyncResult.cause().toString());
+          promise.fail(asyncResult.cause());
+        }
+      });
     log.info("{} Exiting save method", dbHandlerClassName);
 
     return promise.future();
@@ -105,8 +107,9 @@ public class DBHandler {
 
   /**
    * Find a Document by field for the provided collection.
+   *
    * @param collectionName the collection
-   * @param jsonObject the object to retrieve
+   * @param jsonObject     the object to retrieve
    */
   public Future<JsonObject> findByField(String collectionName, JsonObject jsonObject) {
     log.debug("{} Entered findByField method", dbHandlerClassName);
@@ -115,15 +118,15 @@ public class DBHandler {
     mongoClient.findOne(collectionName, jsonObject, null, asyncResult -> {
       if (asyncResult.succeeded()) {
         if (asyncResult.result() != null) {
-          log.debug("{} JsonObject retrieved successfully", dbHandlerClassName);
-          promise.complete(asyncResult.result());
+          logAndPromiseSuccess(promise, asyncResult,
+            dbHandlerClassName + " JsonObject retrieved successfully");
         } else {
-          log.debug("{} Retrieved JsonObject is empty", dbHandlerClassName);
-          promise.fail(new ServiceException(404, HttpResponseStatus.NOT_FOUND.reasonPhrase()));
+          logAndPromiseFailWithNotFound(promise,
+            dbHandlerClassName + " Retrieved JsonObject is empty");
         }
       } else {
-        log.debug("{} Failed to retrieve JsonObject", dbHandlerClassName);
-        promise.fail(asyncResult.cause());
+        logAndPromiseFail(promise, asyncResult,
+          dbHandlerClassName + " Failed to retrieve JsonObject");
       }
     });
     log.debug("{} Exiting findByField method", dbHandlerClassName);
@@ -133,8 +136,9 @@ public class DBHandler {
 
   /**
    * Delete a Document by field for the provided collection.
+   *
    * @param collectionName the collection
-   * @param jsonObject the object to delete
+   * @param jsonObject     the object to delete
    */
   public Future<JsonObject> deleteByField(String collectionName, JsonObject jsonObject) {
     log.debug("{}", ENTERED_DELETE_BY_FIELD_MESSAGE);
@@ -143,15 +147,14 @@ public class DBHandler {
     mongoClient.findOneAndDelete(collectionName, jsonObject, asyncResult -> {
       if (asyncResult.succeeded()) {
         if (asyncResult.result() != null) {
-          log.debug("{} JsonObject deleted successfully", dbHandlerClassName);
-          promise.complete(asyncResult.result());
+          logAndPromiseSuccess(promise, asyncResult,
+            dbHandlerClassName + " JsonObject deleted successfully");
         } else {
-          log.debug("{} JsonObject does not exist", dbHandlerClassName);
-          promise.fail(new ServiceException(404, HttpResponseStatus.NOT_FOUND.reasonPhrase()));
+          logAndPromiseFailWithNotFound(promise, dbHandlerClassName + " JsonObject does not exist");
         }
       } else {
-        log.debug("{} Failed to delete JsonObject", dbHandlerClassName);
-        promise.fail(asyncResult.cause());
+        logAndPromiseFail(promise, asyncResult,
+          dbHandlerClassName + " Failed to delete JsonObject");
       }
     });
     log.debug("{}", EXIT_DELETE_BY_FIELD_MESSAGE);
@@ -159,10 +162,34 @@ public class DBHandler {
     return promise.future();
   }
 
+  private void logAndPromiseFail(Promise<JsonObject> promise, AsyncResult<JsonObject> result,
+    String message) {
+    if (log.isDebugEnabled()) {
+      log.debug(message);
+    }
+    promise.fail(result.cause());
+  }
+
+  private void logAndPromiseFailWithNotFound(Promise<JsonObject> promise, String message) {
+    if (log.isDebugEnabled()) {
+      log.debug(message);
+    }
+    promise.fail(new ServiceException(404, HttpResponseStatus.NOT_FOUND.reasonPhrase()));
+  }
+
+  private void logAndPromiseSuccess(Promise<JsonObject> promise, AsyncResult<JsonObject> result,
+    String message) {
+    if (log.isDebugEnabled()) {
+      log.debug(message);
+    }
+    promise.complete(result.result());
+  }
+
   /**
    * Find a Document by id for the provided collection.
+   *
    * @param collectionName the collection
-   * @param id the id to retrieve
+   * @param id             the id to retrieve
    */
   public Future<JsonObject> findById(String collectionName, String id) {
     log.debug("Entered findByDatabaseId method of DBHandler");
@@ -170,15 +197,18 @@ public class DBHandler {
     return findByField(collectionName, query);
   }
 
-  public Future<List<JsonObject>> findAll(String collectionName, Integer pageNumber, Integer pageLimit, String sortBy, String sortOrder, String status) {
+  public Future<List<JsonObject>> findAll(String collectionName, Integer pageNumber,
+    Integer pageLimit, String sortBy, String sortOrder, String status) {
     return findAll(collectionName, pageNumber, pageLimit, sortBy, sortOrder, status, null);
   }
 
-   /**
-    * Find all Documents for the provided collection.
-    * @param collectionName the collection
-    */
-  public Future<List<JsonObject>> findAll(String collectionName, Integer pageNumber, Integer pageLimit, String sortBy, String sortOrder, String status,
+  /**
+   * Find all Documents for the provided collection.
+   *
+   * @param collectionName the collection
+   */
+  public Future<List<JsonObject>> findAll(String collectionName, Integer pageNumber,
+    Integer pageLimit, String sortBy, String sortOrder, String status,
     String userId) {
     log.debug("{} Entered findAll method", dbHandlerClassName);
 
@@ -186,7 +216,7 @@ public class DBHandler {
 
     //Define pagination configuration, if provided
     FindOptions options = new FindOptions();
-    if(pageNumber != null && pageLimit != null){
+    if (pageNumber != null && pageLimit != null) {
       options.setSkip((pageNumber - 1) * pageLimit).setLimit(pageLimit);
     }
 
@@ -203,7 +233,7 @@ public class DBHandler {
     if (!statusFilter.isEmpty()) {
       filter.put("status.status", statusFilter);
     }
-    if(StringUtils.isNotEmpty(userId)){
+    if (StringUtils.isNotEmpty(userId)) {
       filter.put("userId", userId);
     }
     mongoClient.findWithOptions(collectionName, filter, options, listAsyncResult -> {
@@ -216,19 +246,20 @@ public class DBHandler {
         promise.fail(listAsyncResult.cause());
       }
     });
-    log.debug("{} Exiting findByField method", dbHandlerClassName);
+    log.debug("{} Exiting findAll method", dbHandlerClassName);
 
     return promise.future();
   }
 
-  public Future<List<JsonObject>> findAuditLogs(String collectionName, Integer pageNumber, Integer pageLimit, String sortBy, String sortOrder, JsonObject queryOptions) {
+  public Future<List<JsonObject>> findAuditLogs(String collectionName, Integer pageNumber,
+    Integer pageLimit, String sortBy, String sortOrder, JsonObject queryOptions) {
     log.debug("{} Entered findAuditLogs method", dbHandlerClassName);
 
     Promise<List<JsonObject>> promise = Promise.promise();
 
     //Define pagination configuration, if provided
     FindOptions options = new FindOptions();
-    if(pageNumber != null && pageLimit != null){
+    if (pageNumber != null && pageLimit != null) {
       options.setSkip((pageNumber - 1) * pageLimit).setLimit(pageLimit);
     }
 
@@ -236,7 +267,6 @@ public class DBHandler {
     if (sortBy != null && sortOrder != null) {
       options.setSort(new JsonObject().put(sortBy, sortOrder.equalsIgnoreCase("asc") ? 1 : -1));
     }
-
 
     mongoClient.findWithOptions(collectionName, queryOptions, options, listAsyncResult -> {
       if (listAsyncResult.succeeded()) {
@@ -248,13 +278,14 @@ public class DBHandler {
         promise.fail(listAsyncResult.cause());
       }
     });
-    log.debug("{} Exiting findByField method", dbHandlerClassName);
+    log.debug("{} Exiting findAuditLogs method", dbHandlerClassName);
 
     return promise.future();
   }
 
   /**
    * Delete a Document by field for the provided collection.
+   *
    * @param collectionName the collection
    */
   public Future<Integer> deleteById(String collectionName, JsonObject jsonObject) {
@@ -278,6 +309,7 @@ public class DBHandler {
 
   /**
    * Delete all Documents for the provided collection.
+   *
    * @param collectionName the collection
    */
   public Future<Integer> deleteAll(String collectionName, JsonObject jsonObject) {
@@ -305,6 +337,7 @@ public class DBHandler {
 
   /**
    * An operation to count all documents for the collection provided
+   *
    * @param collectionName the collection
    */
   public Future<Integer> countAllDocuments(String collectionName, String status, String userId) {
@@ -317,7 +350,7 @@ public class DBHandler {
     if (!statusFilter.isEmpty()) {
       filter.put("status.status", statusFilter);
     }
-    if(StringUtils.isNotEmpty(userId)){
+    if (StringUtils.isNotEmpty(userId)) {
       filter.put("userId", userId);
     }
     // Use the countDocuments method to count all documents
@@ -349,9 +382,11 @@ public class DBHandler {
 
   /**
    * Generic function in order to check if a document exists in a Mongo collection
-   * @param query the query that will be executed in Mongo db
+   *
+   * @param query      the query that will be executed in Mongo db
    * @param collection the mongo collection on which the query will be executed
-   * @return a promise with 'true' if the document with the given query is found, 'false' in any other case
+   * @return a promise with 'true' if the document with the given query is found, 'false' in any
+   * other case
    */
   public Promise<Boolean> checkDocumentExists(JsonObject query, String collection) {
     Promise<Boolean> promise = Promise.promise();
@@ -400,7 +435,8 @@ public class DBHandler {
         log.info("{} Linkable fields updated successfully", dbHandlerClassName);
         promise.complete();
       } else {
-        log.error("{} Failed to update linkable fields, with error message: {}", dbHandlerClassName, res.cause().getMessage());
+        log.error("{} Failed to update linkable fields, with error message: {}", dbHandlerClassName,
+          res.cause().getMessage());
         promise.fail(res.cause());
       }
     });

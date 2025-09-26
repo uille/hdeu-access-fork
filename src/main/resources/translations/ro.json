@@ -17,6 +17,21 @@
         },
         "applicationDatabases": {
             "label": "Din ce bază (baze) de date sau registru/registre vor fi extrase datele?"
+        },
+        "variables": {
+            "label": "Variabila"
+        },
+        "datatype": {
+            "label": "Sisteme de date (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Descriere"
+        },
+        "title": {
+            "label": "Variabila"
+        },
+        "emptyTable": {
+            "label": "Nu există variabile"
         }
     },
     "section2": {
@@ -102,10 +117,10 @@
                 },
                 {
                     "key": "b",
-                    "value": "Persoană fizică",
-                    "info": "(Dacă alegeți această opțiune, confirmați că solicitați date în calitate de persoană privată fără nicio afiliere.)"
+                    "value": "Persoană fizică"
                 }
-            ]
+            ],
+            "info": "(Dacă alegeți această opțiune, confirmați că solicitați date în calitate de persoană privată fără nicio afiliere.)"
         },
         "legalPerson": "Persoană juridică",
         "naturalPerson": "Persoană fizică",
@@ -141,15 +156,6 @@
         },
         "contactPersonBusinessIdentifier": {
             "label": "Identificatorul de activitate al organizației"
-        },
-        "contactPersonOperatorIdentifier": {
-            "label": "Numărul de identificare al operatorului"
-        },
-        "contactPersonJobTitle": {
-            "label": "Funcția"
-        },
-        "contactPersonAffiliation": {
-            "label": "Afiliere"
         },
         "contactPersonRelationship": {
             "label": "Care este relația dintre persoana de contact și solicitant? (De exemplu, un angajat care solicită date în numele organizației sale.)"
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "Scopul utilizării datelor",
-        "section5Description": "Solicitanții ar trebui să indice scopul pentru care sunt solicitate datele, în conformitate cu articolul 53 alineatul (1) din rectificarea Regulamentului privind spațiul european al datelor privind sănătatea aprobată de Parlamentul European la 17/12. \nSolicitanții trebuie să explice și să argumenteze de ce datele solicitate sunt necesare pentru scopul lor de utilizare indicat. De asemenea, solicitanții sunt rugați să furnizeze informații cu privire la scopul proiectului. Apoi, în funcție de scopul utilizării (cercetare sau nu), solicitanții trebuie să furnizeze un rezumat al planului de utilizare a datelor sau un rezumat al planului de cercetare, precum și informații privind persoana responsabilă de utilizarea datelor sau de cercetare.",
+        "section5Description": "Solicitanții ar trebui să indice scopul pentru care sunt solicitate datele, în conformitate cu articolul 53 alineatul (1) din Regulamentul (UE) 2025/327 al Parlamentului European și al Consiliului din 11 februarie 2025 privind spațiul european al datelor privind sănătatea. Solicitanții trebuie să explice și să argumenteze de ce datele solicitate sunt necesare pentru scopul lor de utilizare indicat. Solicitanților li se cere, de asemenea, să furnizeze informații cu privire la scopul proiectului. Apoi, în funcție de scopul utilizării (cercetare sau nu), solicitanții trebuie să furnizeze un rezumat al planului de utilizare a datelor sau un rezumat al planului de cercetare, precum și informații privind persoana responsabilă de utilizarea datelor sau de cercetare.",
         "purposeOfUse": {
             "label": "Scopul utilizării datelor. Organismele de acces la datele privind sănătatea oferă acces la datele electronice privind sănătatea menționate la articolul 51 numai în cazul în care scopul preconizat al prelucrării urmărite de solicitant respectă următoarele scopuri [în conformitate cu articolul 53 alineatul (1)].",
             "tooltip": "Scopurile Regulamentului privind spațiul european al datelor privind sănătatea.",
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Care este beneficiul preconizat legat de utilizarea datelor electronice privind sănătatea și cum contribuie acest beneficiu la scopurile menționate la punctul 5.1?"
         },
+        "describeApplicantsQualification": {
+            "label": "Descrieți calificările solicitantului în ceea ce privește scopul (scopurile) preconizat (e) al (e) utilizării datelor și expertiza adecvată (inclusiv calificările profesionale)"
+        },
         "legalBasis": {
             "label": "Precizați temeiul juridic, de exemplu legislația relevantă, care definește sarcinile care intră sub incidența mandatului dumneavoastră și confirmă faptul că utilizarea planificată a datelor este menită să faciliteze aceste sarcini.",
             "tooltip": "Explicați aici de ce cantitatea de date pentru care solicitați acest lucru este necesară în scopul utilizării datelor. Justificați și descrieți modul în care conținutul statisticilor solicitate corespunde scopului de utilizare menționat în cerere și îndeplinește cerințele dumneavoastră în materie de date."
@@ -320,222 +329,16 @@
             "label": "Furnizați un link către documentele justificative ca dovadă a temeiului juridic"
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Furnizați un rezumat al planului dumneavoastră de utilizare a datelor. Rezumatul trebuie redactat în una dintre limbile oficiale ale UE."
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Selectați limba rezumatului",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgară"
-                },
-                {
-                    "key": "hr",
-                    "value": "Croată"
-                },
-                {
-                    "key": "cs",
-                    "value": "Cehă"
-                },
-                {
-                    "key": "da",
-                    "value": "Daneză"
-                },
-                {
-                    "key": "nl",
-                    "value": "Neerlandeză"
-                },
-                {
-                    "key": "en",
-                    "value": "Engleză"
-                },
-                {
-                    "key": "et",
-                    "value": "Estonă"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finlandeză"
-                },
-                {
-                    "key": "fr",
-                    "value": "Franceză"
-                },
-                {
-                    "key": "de",
-                    "value": "Germană"
-                },
-                {
-                    "key": "el",
-                    "value": "Greacă"
-                },
-                {
-                    "key": "hu",
-                    "value": "Maghiară"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irlandeză"
-                },
-                {
-                    "key": "it",
-                    "value": "Italiană"
-                },
-                {
-                    "key": "lv",
-                    "value": "Letonă"
-                },
-                {
-                    "key": "lt",
-                    "value": "Lituaniană"
-                },
-                {
-                    "key": "mt",
-                    "value": "Malteză"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polonă"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugheză"
-                },
-                {
-                    "key": "ro",
-                    "value": "Română"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovacă"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slovenă"
-                },
-                {
-                    "key": "es",
-                    "value": "Spaniolă"
-                },
-                {
-                    "key": "sv",
-                    "value": "Suedeză"
-                }
-            ]
+            "label": "Furnizați un rezumat al planului dumneavoastră de utilizare a datelor. Rezumatul trebuie redactat în una dintre limbile oficiale ale UE.",
+            "tooltip": "Fișierele încărcate sunt traduse automat de sistem. Solicitantul este responsabil pentru calitatea, lizibilitatea și formatarea fișierelor încărcate."
         },
         "summaryOfResearchPlan": {
-            "label": "Furnizați un rezumat al planului dumneavoastră de cercetare. Rezumatul trebuie redactat în una dintre limbile oficiale ale UE."
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Selectați limba rezumatului",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgară"
-                },
-                {
-                    "key": "hr",
-                    "value": "Croată"
-                },
-                {
-                    "key": "cs",
-                    "value": "Cehă"
-                },
-                {
-                    "key": "da",
-                    "value": "Daneză"
-                },
-                {
-                    "key": "nl",
-                    "value": "Neerlandeză"
-                },
-                {
-                    "key": "en",
-                    "value": "Engleză"
-                },
-                {
-                    "key": "et",
-                    "value": "Estonă"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finlandeză"
-                },
-                {
-                    "key": "fr",
-                    "value": "Franceză"
-                },
-                {
-                    "key": "de",
-                    "value": "Germană"
-                },
-                {
-                    "key": "el",
-                    "value": "Greacă"
-                },
-                {
-                    "key": "hu",
-                    "value": "Maghiară"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irlandeză"
-                },
-                {
-                    "key": "it",
-                    "value": "Italiană"
-                },
-                {
-                    "key": "lv",
-                    "value": "Letonă"
-                },
-                {
-                    "key": "lt",
-                    "value": "Lituaniană"
-                },
-                {
-                    "key": "mt",
-                    "value": "Malteză"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polonă"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugheză"
-                },
-                {
-                    "key": "ro",
-                    "value": "Română"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovacă"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slovenă"
-                },
-                {
-                    "key": "es",
-                    "value": "Spaniolă"
-                },
-                {
-                    "key": "sv",
-                    "value": "Suedeză"
-                }
-            ]
+            "label": "Furnizați un rezumat al planului dumneavoastră de cercetare. Rezumatul trebuie redactat în una dintre limbile oficiale ale UE.",
+            "tooltip": "Fișierele încărcate sunt traduse automat de sistem. Solicitantul este responsabil pentru calitatea, lizibilitatea și formatarea fișierelor încărcate."
         },
         "personResponsibleLabel": "Persoana responsabilă cu utilizarea datelor",
         "personResponsibleName": {
             "label": "Numele complet"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Funcția"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Afiliere"
         },
         "personResearchSameAsContactPerson": {
             "label": "La fel ca persoana de contact menționată în secțiunea 3 (Informații privind solicitantul și persoana de contact)?"
@@ -546,12 +349,6 @@
         },
         "personResearchName": {
             "label": "Numele complet"
-        },
-        "personResearchJobTitle": {
-            "label": "Funcția"
-        },
-        "personResearchAffiliation": {
-            "label": "Afiliere"
         },
         "formatOfTheElectronicHealthData": {
             "label": "Selectați formatul datelor electronice privind sănătatea care urmează să fie puse la dispoziție:",
@@ -638,6 +435,9 @@
         },
         "consentAndInformationLetterAttachment": {
             "label": "Anexați scrisoarea de consimțământ și de informare pe care ați trimis-o subiecților studiului. Nu atașați formularele care sunt completate deoarece includ date cu caracter personal."
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "Cohorta s-a bazat pe o autorizație privind datele acordată anterior?"
         },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Confirm că autorizația privind datele a fost acordată pentru acest proiect de cercetare"
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "Cât de des trebuie extrase datele?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Intenționați să utilizați o excepție de la dreptul de neparticipare în conformitate cu mecanismul prevăzut în legislația națională a statului membru ale cărui date solicitați?",
+            "tooltip": "EHDS articolul 71(4) “Prin derogare de la dreptul de refuz prevăzut la alineatul (1), un stat membru poate prevedea în dreptul său intern un mecanism prin care să pună la dispoziție datele cu privire la care a fost exercitat dreptul de refuz, dacă sunt îndeplinite toate condițiile următoare: (a se vedea articolul pentru condiții complete)”"
+        },
+        "providedJustificationException": {
+            "label": "Furnizați justificarea acestei excepții."
+        },
         "needForDataExtractionEvery": {
             "label": "Datele trebuie extrase din fiecare",
             "tooltip": "Dacă doriți ca datele să fie extrase de mai multe ori într-o anumită perioadă de timp, rețineți că definițiile și metoda de colectare a datelor se pot modifica în cursul perioadei de reexaminare în unele cazuri. A se remarca faptul că frecvența maximă de extragere a datelor este trimestrială"
@@ -835,14 +642,11 @@
         "willSameDataBeExtractedForControls": {
             "label": "Vor fi extrase aceleași date ca pentru cohortă pentru controale?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Dacă nu solicitați date pentru controale din întreaga țară, din ce regiune (regiuni) și/sau oraș/orașe și/sau municipalitate/municipalitate solicitați date?"
-        },
         "fromWhichDataHolderLabel": "De la ce deținător (deținători) de date vor fi extrase datele pentru controale?",
         "fromWhichDatabaseLabel": "Din ce bază (baze de date)/Registru/registre vor fi extrase datele pentru controale?",
         "fromWhichDatasetLabel": "Din ce set de date/ce registru (e) vor fi extrase datele pentru controale?",
-        "variablesForDataExtraction": {
-            "label": "În cazul în care informațiile sunt disponibile, enumerați variabilele care trebuie utilizate în extragerea datelor. Utilizați termenii exacți furnizați de deținătorul (deținătorii) de date respectiv (i) în catalogul de metadate."
+        "variablesForDataExtractionAttachments": {
+            "label": "În cazul în care informațiile sunt disponibile, anexați lista variabilelor care trebuie utilizate în extragerea datelor. Utilizați termenii exacți furnizați de deținătorul (deținătorii) de date respectiv (i) în catalogul de metadate."
         },
         "timePeriodForDataExtraction": {
             "label": "Pentru ce perioadă (perioade) de timp vor fi extrase înregistrările setului de date?"
@@ -947,8 +751,8 @@
         "whichDataHoldersForRelatives": "De la ce deținător (deținători) de date vor fi extrase datele pentru rude?",
         "whichDatabaseForRelatives": "Din ce bază (baze de date)/Registru/registre vor fi extrase datele referitoare la rude?",
         "whichDatasetsForRelatives": "Din ce set de date/ce registru (e) vor fi extrase datele pentru rude?",
-        "variablesForDataExtractionRelatives": {
-            "label": "În cazul în care informațiile sunt disponibile, enumerați variabilele care trebuie utilizate în extragerea datelor. Utilizați termenii exacți furnizați de deținătorul (deținătorii) de date respectiv (i) în catalogul de metadate."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "În cazul în care informațiile sunt disponibile, anexați lista variabilelor care trebuie utilizate în extragerea datelor. Utilizați termenii exacți furnizați de deținătorul (deținătorii) de date respectiv (i) în catalogul de metadate."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "Pentru ce perioadă (perioade) de timp vor fi extrase înregistrările setului de date?"
@@ -1062,7 +866,6 @@
         "otherPermitApplications": {
             "label": "Aveți alte cereri de autorizare în curs?"
         },
-        "listTheOtherData": "Enumerați celelalte date care trebuie combinate și sursele acestor date:",
         "applicationIssuer": {
             "label": "Emitent"
         },
@@ -1360,6 +1163,13 @@
             "label": "Cum respectați principiul reducerii la minimum a datelor (Regulamentul UE privind protecția datelor) atunci când prelucrați datele? ",
             "tooltip": "Articolul 4 alineatul (1c) din DPR UE: „Datele cu caracter personal sunt adecvate, relevante și limitate la ceea ce este necesar în raport cu scopurile în care sunt prelucrate («reducerea la minimum a datelor»)”"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Intenționați să utilizați o excepție de la dreptul de neparticipare în conformitate cu mecanismul prevăzut în legislația națională a statului membru ale cărui date solicitați?",
+            "tooltip": "EHDS articolul 71(4) “Prin derogare de la dreptul de refuz prevăzut la alineatul (1), un stat membru poate prevedea în dreptul său intern un mecanism prin care să pună la dispoziție datele cu privire la care a fost exercitat dreptul de refuz, dacă sunt îndeplinite toate condițiile următoare: (a se vedea articolul pentru condiții complete)”"
+        },
+        "providedJustificationException": {
+            "label": "Furnizați justificarea acestei excepții."
+        },
         "protectionAndSecurityStatements": {
             "label": "Pentru a continua cu această cerere, trebuie să confirmați următoarele declarații (declarații privind protecția datelor și securitate):"
         },
@@ -1383,13 +1193,10 @@
             "label": "La fel ca persoana de contact menționată în secțiunea 3?"
         },
         "listTheFullNames": {
-            "label": "Enumerați numele complete, afilierile și adresele de e-mail ale tuturor persoanelor care vor prelucra datele."
+            "label": "Enumerați numele complete și adresele de e-mail ale tuturor persoanelor care vor prelucra datele."
         },
         "fullName": {
             "label": "Nume complet"
-        },
-        "affiliation": {
-            "label": "Afiliere"
         },
         "emailAddress": {
             "label": "Adresă email"
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Confirmarea informațiilor",
-        "section10Description": "Înainte de prelucrarea acestei cereri, în calitate de solicitant, trebuie să aprobați taxele de prelucrare.",
+        "section10Description": "Înainte de prelucrarea acestei cereri, în calitate de solicitant, trebuie să aprobați taxele de prelucrare. Se adaugă informații privind prețurile și estimarea maximă a prețurilor pentru extragerea datelor de îndată ce sunt disponibile.",
         "submitYouApplicationText": "Pentru a vă depune candidatura, trebuie să confirmați următoarele:",
         "acceptHealthDataBody": {
             "label": "Accept că organismul de date privind sănătatea va compila statisticile și nu voi avea acces la datele utilizate pentru a forma statisticile."

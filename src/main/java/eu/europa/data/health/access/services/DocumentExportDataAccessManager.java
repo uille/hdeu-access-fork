@@ -17,7 +17,6 @@ package eu.europa.data.health.access.services;
 
 import static eu.europa.data.health.access.Constants.ADDITIONAL_ATTACHMENT;
 import static eu.europa.data.health.access.Constants.ADDITIONAL_INFORMATION;
-import static eu.europa.data.health.access.Constants.ADDRESS;
 import static eu.europa.data.health.access.Constants.APPLYING_FOR_DATA_FOR_CARRYING_OUT_TASKS;
 import static eu.europa.data.health.access.Constants.APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR;
 import static eu.europa.data.health.access.Constants.AWARE_CHARGE_FEE;
@@ -34,7 +33,6 @@ import static eu.europa.data.health.access.Constants.DATA_EXTRACTION_FREQUENCY;
 import static eu.europa.data.health.access.Constants.DATA_EXTRACTION_FREQUENCY_RELATIVES;
 import static eu.europa.data.health.access.Constants.DATA_NEEDS_TO_BE_EXTRACTED_EVERY;
 import static eu.europa.data.health.access.Constants.DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES;
-import static eu.europa.data.health.access.Constants.EMAIL;
 import static eu.europa.data.health.access.Constants.FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA;
 import static eu.europa.data.health.access.Constants.FULL_NAME;
 import static eu.europa.data.health.access.Constants.HAS_THE_GROUP_RELATIVES_FORMED_2;
@@ -66,9 +64,7 @@ import static eu.europa.data.health.access.Constants.ORDER_OF_RELATIVES_DATA_EXT
 import static eu.europa.data.health.access.Constants.OTHER_PERMIT_APPLICATIONS;
 import static eu.europa.data.health.access.Constants.PERMIT_DECISION_ATTACHMENT;
 import static eu.europa.data.health.access.Constants.PERSON_RESEARCH_SAME_AS_CONTACT_PERSON;
-import static eu.europa.data.health.access.Constants.PERSON_RESPONSIBLE_AFFILIATION;
 import static eu.europa.data.health.access.Constants.PERSON_RESPONSIBLE_SAME_AS_CONTACT_PERSON;
-import static eu.europa.data.health.access.Constants.PHONE;
 import static eu.europa.data.health.access.Constants.PROTECTION_AND_SECURITY_STATEMENTS_A;
 import static eu.europa.data.health.access.Constants.PROTECTION_AND_SECURITY_STATEMENTS_B;
 import static eu.europa.data.health.access.Constants.PROTECTION_AND_SECURITY_STATEMENTS_C;
@@ -90,10 +86,7 @@ import static eu.europa.data.health.access.Constants.SECTION_7;
 import static eu.europa.data.health.access.Constants.SECTION_8;
 import static eu.europa.data.health.access.Constants.SECTION_9;
 import static eu.europa.data.health.access.Constants.SUMMARY_OF_PLAN_FOR_USING_THE_DATA;
-import static eu.europa.data.health.access.Constants.SUMMARY_OF_PLAN_FOR_USING_THE_DATA_LANGUAGE;
 import static eu.europa.data.health.access.Constants.SUMMARY_OF_RESEARCH_PLAN;
-import static eu.europa.data.health.access.Constants.SUMMARY_OF_RESEARCH_PLAN_LANGUAGE;
-import static eu.europa.data.health.access.Constants.THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION;
 import static eu.europa.data.health.access.Constants.THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY;
 import static eu.europa.data.health.access.Constants.THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY_REASON;
 import static eu.europa.data.health.access.Constants.TITLE;
@@ -118,56 +111,47 @@ import static eu.europa.data.health.access.Constants.WILL_RELATIVES_BE_EXTRACTED
 import static eu.europa.data.health.access.Constants.WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS;
 import static eu.europa.data.health.access.Constants.WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES;
 import static eu.europa.data.health.access.Constants.WILL_THE_DATA_BE_TRANSFERRED;
+import static eu.europa.data.health.access.Constants.OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW;
 
 import eu.europa.data.health.access.handlers.DBHandler;
-import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.WebClient;
-import org.docx4j.model.fields.FieldUpdater;
-import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
-import org.docx4j.openpackaging.parts.WordprocessingML.DocumentSettingsPart;
-import org.docx4j.toc.TocGenerator;
-import org.docx4j.wml.BooleanDefaultTrue;
-import org.docx4j.wml.CTSettings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DocumentExportDataAccessManager extends DocumentExportUtility {
 
 
-  private final TranslationManager translationManager;
   private final DBHandler dbHandler;
   private final Logger log = LoggerFactory.getLogger(getClass());
-  private final WebClient client;
-  private final JsonObject config;
 
   public DocumentExportDataAccessManager(TranslationManager translationManager, DBHandler dbHandler,
     WebClient client, JsonObject config) {
-    super(config);
-    this.translationManager = translationManager;
+    super(config, client, translationManager);
     this.dbHandler = dbHandler;
-    this.client = client;
-    this.config = config;
   }
 
   public void exportApplicationDataAccessForm(RoutingContext context) {
     String lg = context.pathParam("lg");
     String id = context.pathParam("id");
     String type = context.pathParam("type");
+    String tl = context.pathParam("tl");
 
     dbHandler.findById(DATA_ACCESS_APPLICATION_COLLECTION, id).onSuccess(jsonObject -> {
-      JsonObject form = jsonObject.getJsonObject("form");
+      JsonObject form = tl.equals(jsonObject.getString("inputLanguage"))
+        ? jsonObject.getJsonObject("form")
+        : jsonObject.getJsonObject("form_translations").getJsonObject(tl);
+
       JsonArray datasets = jsonObject.getJsonArray("datasets");
-      getDatasetsValues(context, datasets, lg, form, type);
+      getDatasetsValues(context, datasets, lg, form, type, "DataAccessForm.docx");
     }).onFailure(cause -> context.response().setStatusCode(500).end());
 
   }
@@ -176,109 +160,17 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     JsonObject jsonBody = context.body().asJsonObject();
     JsonArray datasets = jsonBody.getJsonArray("datasets");
     JsonObject form = jsonBody.getJsonObject("form");
-    getDatasetsValues(context, datasets, "en", form, "docx");
+    getDatasetsValues(context, datasets, "en", form, "docx", "DataAccessForm.docx");
   }
 
-  private void getDatasetsValues(RoutingContext context, JsonArray datasets, String lg,
-    JsonObject form, String type) {
-    HubSearchClient hubSearchClient = new HubSearchClient(client, config);
-    JsonArray hubSearchDataSetValues = new JsonArray();
-    List<Future<JsonObject>> futures = new ArrayList<>();
-    //Collect all futures for the dataset retrievals
-    for (int i = 0; i < datasets.size(); i++) {
-      String datasetId = datasets.getJsonObject(i).getString("dataset_id");
-      Future<JsonObject> future = hubSearchClient.getDataset(datasetId)
-        .onSuccess(hubSearchDataSetValues::add)
-        .onFailure(cause -> log.info(cause.getMessage()));
-      futures.add(future);
-    }
-    //Wait until all dataset retrievals are completed
-    Future.all(futures).onSuccess(result -> {
-      if (result.succeeded()) {
-        export(context, lg, form, hubSearchDataSetValues, type);
-      } else {
-        log.error("One or more dataset retrievals failed.");
-        context.response().setStatusCode(500).end();
-      }
-    });
-  }
-
-  private void export(RoutingContext context, String lg, JsonObject form, JsonArray datasetsValues,
-    String type) {
-    try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-      InputStream templateInputStream = getClass().getResourceAsStream(
-        "/templates/DataAccessForm.docx")) {
-      if (templateInputStream == null) {
-        throw new IllegalArgumentException("Template file not found!");
-      }
-      WordprocessingMLPackage document = WordprocessingMLPackage.load(templateInputStream);
-      JsonObject languageMap = translationManager.getTranslationByLanguish(lg);
-      //add values
-      addFormData(document, languageMap, form, datasetsValues);
-
-      //generate table of context
-      generateTableOfContext(document);
-
-      document.getMainDocumentPart()
-        .getDocumentSettingsPart().getJaxbElement()
-        .setUpdateFields(new BooleanDefaultTrue());
-
-      FieldUpdater fieldUpdater = new FieldUpdater(document);
-      fieldUpdater.update(true);
-
-      // update document settings to avoid field updates MS Word prompt
-      // 1) Get the settings part (creates one if absent)
-      DocumentSettingsPart dsp = document.getMainDocumentPart().getDocumentSettingsPart();
-      // 2) Grab or build its JAXB object
-      CTSettings settings = dsp.getJaxbElement();
-      if (settings == null) {
-        settings = new CTSettings();
-      }
-      // 3) Insert <w:updateFields w:val="false"/>
-      BooleanDefaultTrue b = new BooleanDefaultTrue();
-      b.setVal(false);
-      settings.setUpdateFields(b);
-      // 4) Write it back to document settings
-      dsp.setJaxbElement(settings);
-
-      document.save(outputStream);
-      if ("pdf".equalsIgnoreCase(type)) {
-        ByteArrayOutputStream pdfOutputStream = new ByteArrayOutputStream();
-        // Convert DOCX to PDF logic here
-        context.response().putHeader("Content-Disposition", "attachment; filename=Form.pdf")
-          .putHeader("Content-Type", "application/pdf")
-          .end(Buffer.buffer(pdfOutputStream.toByteArray()));
-      } else if ("docx".equalsIgnoreCase(type)) {
-        context.response().putHeader("Content-Length", String.valueOf(outputStream.size()))
-          .putHeader("Content-Disposition", "attachment; filename=DataAccessForm.docx")
-          .putHeader("Content-Type",
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-          .end(Buffer.buffer(outputStream.toByteArray()));
-      } else {
-        context.response().setStatusCode(400).end("Unsupported export type. Use 'pdf' or 'docx'.");
-      }
-    } catch (Exception e) {
-      log.error(e.getMessage(), e);
-      context.response().setStatusCode(500).end();
-    }
-  }
-
-  private void generateTableOfContext(WordprocessingMLPackage document) {
-    try {
-      TocGenerator tocGenerator = new TocGenerator(document);
-      tocGenerator.updateToc(false, true);
-    } catch (Exception e) {
-      log.debug(e.getMessage());
-    }
-  }
-
-  private void addFormData(WordprocessingMLPackage document, JsonObject languageMap,
+  @Override
+  protected void addFormData(WordprocessingMLPackage document, JsonObject languageMap,
     JsonObject form, JsonArray datasetsValues) {
     // Implement mapping logic based on document template structure
     String aboutThisSection = languageMap.getJsonObject("commonFields")
       .getString("aboutThisSection");
     section1Mappings(document, languageMap.getJsonObject(SECTION_1),
-      datasetsValues, aboutThisSection);
+      datasetsValues, aboutThisSection, form != null ? form.getJsonObject(SECTION_1) : null);
     section2Mappings(document, languageMap.getJsonObject(SECTION_2),
       form != null ? form.getJsonObject(SECTION_2) : null, aboutThisSection);
     section3Mappings(document, languageMap.getJsonObject(SECTION_3),
@@ -306,13 +198,13 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
   }
 
   private void section1Mappings(WordprocessingMLPackage document, JsonObject languageMap,
-    JsonArray datasets, String aboutThisSection) {
+    JsonArray datasets, String aboutThisSection, JsonObject section1) {
     addSectionWithHeader(document, languageMap, "section1h5", "section1Description",
       aboutThisSection);
     addTextToNewParagraph(document,
       languageMap.getJsonObject("applicationDatasets").getString(LABEL),
       true, false);
-    writeDatasetsValues(document, datasets, TITLE, "en");
+    writeDatasetsValuesWithVariables(document, datasets, TITLE, "en", section1, languageMap);
     addTextToNewParagraph(document,
       languageMap.getJsonObject("applicationCountries").getString(LABEL),
       true, false);
@@ -328,7 +220,7 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     addTextToNewParagraph(document,
       languageMap.getJsonObject("applicationDatabases").getString(LABEL),
       true, false);
-    writeDatasetsValues(document, datasets, PROVENANCE, LABEL);
+    writeDatasetsValues(document, datasets, PROVENANCE, "en");
   }
 
   private void section2Mappings(WordprocessingMLPackage document, JsonObject languageMap,
@@ -340,7 +232,6 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     addTextToNewParagraph(document, languageMap.getJsonObject("projectName").getString(LABEL), true,
       false);
     addTextToNewParagraphWithTable(document, getField(section, "projectName"), false, false);
-
     // --- PROJECT LEADER ---
     addTextToNewParagraph(document, languageMap.getJsonObject("projectLeader").getString(LABEL),
       true, false);
@@ -362,26 +253,6 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
       true);
     generatedJsonArrayValues(document, getArrayField(section, PURPOSE_FOR_WHICH_DATA_WILL_BE_USED),
       VALUE);
-
-    // --- DESCRIPTION OF THE PROJECT ---
-    if (isChecked(section, THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION)) {
-      addTextWithCheckboxToNewParagraph(document,
-        languageMap.getJsonObject(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION)
-          .getString(LABEL),
-        true, true);
-
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("descriptionOfTheProject").getString(LABEL), true, false);
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("descriptionOfTheProject").getString(TOOLTIP), false, true);
-      addTextToNewParagraphWithTable(document, getField(section, "descriptionOfTheProject"), false,
-        false);
-    } else {
-      addTextWithCheckboxToNewParagraph(document,
-        languageMap.getJsonObject(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION)
-          .getString(LABEL),
-        true, false);
-    }
 
     // --- SUMMARY OF THE PROJECT ---
     if (isChecked(section, THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY)) {
@@ -500,16 +371,6 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
           buildPhone(getObject(section, CONTACT_PERSON_PHONE)), false, false);
 
         addTextToNewParagraph(document,
-          languageMap.getJsonObject("contactPersonJobTitle").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, getField(section, "contactPersonJobTitle"), false,
-          false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("contactPersonAffiliation").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, getField(section, "contactPersonAffiliation"),
-          false, false);
-
-        addTextToNewParagraph(document,
           languageMap.getJsonObject("contactPersonRelationship").getString(LABEL), true, false);
         addTextToNewParagraphWithTable(document, getField(section, "contactPersonRelationship"),
           false, false);
@@ -524,12 +385,6 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
           languageMap.getJsonObject("contactPersonBusinessIdentifier").getString(LABEL), true,
           false);
         addTextToNewParagraphWithTable(document, getField(section, "contactPersonBusinessID"),
-          false, false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("contactPersonOperatorIdentifier").getString(LABEL), true,
-          false);
-        addTextToNewParagraphWithTable(document, getField(section, "contactPersonOperatorID"),
           false, false);
       } else {
         // --- NATURAL PERSON ---
@@ -585,117 +440,6 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     }
   }
 
-  private void section4Mappings(WordprocessingMLPackage document, JsonObject languageMap,
-    JsonObject section, JsonObject section3, String aboutThisSection) {
-    addSectionWithHeader(document, languageMap, "section4h5", "section4Description",
-      aboutThisSection);
-
-    boolean isDescriptionChecked = isChecked(section, SAME_AS_CONTACT_PERSON);
-    addTextWithCheckboxToNewParagraph(document,
-      languageMap.getJsonObject(SAME_AS_CONTACT_PERSON).getString(LABEL), true,
-      isDescriptionChecked);
-
-    JsonObject legalPerson = this.getObject(section3, LEGAL_OR_NATURAL_PERSON);
-
-    if (Objects.nonNull(legalPerson) && Objects.equals(legalPerson.getString("key"), "a")) {
-      addTextToNewParagraph(document, languageMap.getJsonObject(FULL_NAME).getString(LABEL),
-        true, false);
-      addTextToNewParagraphWithTable(document, getField(section, FULL_NAME), false,
-        false);
-
-      addTextToNewParagraph(document, languageMap.getJsonObject(EMAIL).getString(LABEL),
-        true, false);
-      addTextToNewParagraphWithTable(document, getField(section, EMAIL),
-        false, false);
-
-      addTextToNewParagraph(document, languageMap.getJsonObject(PHONE).getString(LABEL),
-        true, false);
-      addTextToNewParagraphWithTable(document,
-        buildPhone(getObject(section, PHONE)), false, false);
-
-      // --- ORGANIZATION INFORMATION ---
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("nameOfTheOrganisation").getString(LABEL), true, false);
-      addTextToNewParagraphWithTable(document, getField(section, "nameOfTheOrganisation"), false,
-        false);
-
-      addTextToNewParagraph(document, languageMap.getJsonObject(ADDRESS).getString(LABEL), true,
-        false);
-      addTextToNewParagraphWithTable(document, getField(section, ADDRESS), false, false);
-
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("businessIdentifierOrganization").getString(LABEL), true, false);
-      addTextToNewParagraphWithTable(document, getField(section, "businessIdentifierOrganization"),
-        false, false);
-
-      addTextToNewParagraph(document, languageMap.getJsonObject("vatNumber").getString(LABEL), true,
-        false);
-      addTextToNewParagraphWithTable(document, getField(section, "vatNumber"), false, false);
-    } else {
-      // --- CONTACT INFORMATION ---
-      addTextToNewParagraph(document, languageMap.getJsonObject(FULL_NAME).getString(LABEL), true,
-        false);
-      addTextToNewParagraphWithTable(document, getField(section, FULL_NAME), false, false);
-
-      addTextToNewParagraph(document, languageMap.getJsonObject(EMAIL).getString(LABEL), true,
-        false);
-      addTextToNewParagraphWithTable(document, getField(section, EMAIL), false, false);
-
-      addTextToNewParagraph(document, languageMap.getJsonObject(PHONE).getString(LABEL), true,
-        false);
-      addTextToNewParagraphWithTable(document, buildPhone(getObject(section, PHONE)), false, false);
-
-      addTextToNewParagraph(document, languageMap.getJsonObject(ADDRESS).getString(LABEL), true,
-        false);
-      addTextToNewParagraphWithTable(document, getField(section, ADDRESS), false, false);
-    }
-
-    // --- INVOICE INFORMATION ---
-    addTextToNewParagraph(document, languageMap.getJsonObject("invoiceType").getString(LABEL), true,
-      false);
-    JsonObject invoiceType = getObject(section, "invoiceType");
-    addTextToNewParagraphWithTable(document, getObjectValue(section, "invoiceType"), false, false);
-
-    addTextToNewParagraph(document,
-      languageMap.getJsonObject("invoiceReferenceNumber").getString(LABEL), true, false);
-    addTextToNewParagraphWithTable(document, getField(section, "invoiceReferenceNumber"), false,
-      false);
-
-    if (isKey(invoiceType, "b")) {
-      addTextToNewParagraph(document, languageMap.getJsonObject("invoiceAddress").getString(LABEL),
-        true, false);
-      addTextToNewParagraphWithTable(document, getField(section, "invoiceAddress"), false, false);
-    }
-
-    // --- OPERATOR IDENTIFIER (ONLY FOR LEGAL PERSONS) ---
-    if (isKey(legalPerson, "a")) {
-      addTextToNewParagraph(document,
-        languageMap.getJsonObject("operatorIdentifier").getString(LABEL), true, false);
-      addTextToNewParagraphWithTable(document, getField(section, "operatorIdentifier"), false,
-        false);
-
-      addTextToNewParagraph(document, languageMap.getJsonObject("peppolCode").getString(LABEL),
-        true, false);
-      addTextToNewParagraphWithTable(document, getField(section, "peppolCode"), false, false);
-    }
-
-    // --- FINANCIAL COVERAGE ---
-    addTextToNewParagraph(document,
-      languageMap.getJsonObject("isTheProjectFinanciallyCovered").getString(LABEL), true, false);
-    String financiallyCoveredValue = getObjectValue(section, "isTheProjectFinanciallyCovered");
-    addTextToNewParagraphWithTable(document, financiallyCoveredValue, false, false);
-
-    if (financiallyCoveredValue != null) {
-      JsonObject financiallyCovered = getObject(section, "isTheProjectFinanciallyCovered");
-      if (isKey(financiallyCovered, "a")) {
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("rangeOfAmountOfFinancing").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document,
-          getObjectValue(section, "rangeOfAmountOfFinancing"), false, false);
-      }
-    }
-  }
-
   private void section5Mappings(WordprocessingMLPackage document, JsonObject languageMap,
     JsonObject section2, JsonObject section, String aboutThisSection) {
     addSectionWithHeader(document, languageMap, "section5h5", "section5Description",
@@ -723,16 +467,6 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
           languageMap.getJsonObject("personResponsibleName").getString(LABEL), true, false);
         addTextToNewParagraphWithTable(document, getField(section, "personResponsibleName"), false,
           false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("personResponsibleJobTitle").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, getField(section, "personResponsibleJobTitle"),
-          false, false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject(PERSON_RESPONSIBLE_AFFILIATION).getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, getField(section, PERSON_RESPONSIBLE_AFFILIATION),
-          false, false);
       }
 
       if (purposeOfUse != null && containsKey(purposeOfUse, "e")) {
@@ -749,16 +483,6 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
           languageMap.getJsonObject("personResearchName").getString(LABEL), true, false);
         addTextToNewParagraphWithTable(document, getField(section, "personResearchName"), false,
           false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("personResearchJobTitle").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, getField(section, "personResearchJobTitle"), false,
-          false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject(PERSON_RESPONSIBLE_AFFILIATION).getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, getField(section, "personResearchAffiliation"),
-          false, false);
       }
     }
 
@@ -777,10 +501,17 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     addTextToNewParagraphWithTable(document, getField(section, "whichAreTheExpectedBenefits"),
       false, false);
 
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("describeApplicantsQualification").getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "describeApplicantsQualification"),
+      false, false);
+
     // --- CONDITIONAL BLOCK BASED ON PURPOSE OF USE ---
     if (section2 != null) {
       if (purposeOfUse != null && containsKey(purposeOfUse, "b")) {
         addTextToNewParagraph(document, languageMap.getJsonObject("legalBasis").getString(LABEL),
+          true, false);
+        addTextToNewParagraph(document, languageMap.getJsonObject("legalBasis").getString(TOOLTIP),
           true, false);
         addTextToNewParagraphWithTable(document, getField(section, "legalBasis"), false, false);
 
@@ -801,17 +532,6 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
         JsonArray summaryOfPlanForUsingTheDataDoc = getArrayField(section,
           SUMMARY_OF_PLAN_FOR_USING_THE_DATA);
         generatedJsonArrayValues(document, summaryOfPlanForUsingTheDataDoc, "name");
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject(SUMMARY_OF_PLAN_FOR_USING_THE_DATA_LANGUAGE).getString(LABEL),
-          true, false);
-        JsonObject summaryOfPlanForUsingTheDataLanguage = getObject(section,
-          SUMMARY_OF_PLAN_FOR_USING_THE_DATA_LANGUAGE);
-
-        if (summaryOfPlanForUsingTheDataLanguage != null) {
-          addTextToNewParagraphWithTable(document,
-            summaryOfPlanForUsingTheDataLanguage.getString(VALUE, ""), false, false);
-        }
       }
 
       if (purposeOfUse != null && containsKey(purposeOfUse, "e")) {
@@ -822,17 +542,6 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
 
         JsonArray summaryOfResearchPlanDoc = getArrayField(section, SUMMARY_OF_RESEARCH_PLAN);
         generatedJsonArrayValues(document, summaryOfResearchPlanDoc, "name");
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject(SUMMARY_OF_RESEARCH_PLAN_LANGUAGE).getString(LABEL), true,
-          false);
-        JsonObject summaryOfResearchPlanLanguage = getObject(section,
-          SUMMARY_OF_RESEARCH_PLAN_LANGUAGE);
-
-        if (summaryOfResearchPlanLanguage != null) {
-          addTextToNewParagraphWithTable(document,
-            summaryOfResearchPlanLanguage.getString(VALUE, ""), false, false);
-        }
       }
     }
 
@@ -891,35 +600,6 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     }
   }
 
-  private void section60(WordprocessingMLPackage document, JsonObject languageMap,
-    JsonObject section, JsonArray datasets) {
-    addTextToNewParagraph(document,
-      datasets.getJsonObject(0).getJsonObject("result").getJsonObject("country")
-        .getString("label", null), true, false);
-    addHeaderToTheText(document,
-      languageMap.getString("descriptionOfTheDataNeeded") + " " + datasets.getJsonObject(0)
-        .getJsonObject("result").getJsonObject("country")
-        .getString("label", null),
-      "Heading2");
-    addTextToNewParagraph(document, languageMap.getString("applicationHDABsForSelectedCountry"),
-      true, false);
-    writeDatasetsValues(document, datasets, "hdab", "name");
-    addTextToNewParagraph(document, languageMap.getString("applicationDatasetsPerCountry"), true,
-      false);
-    writeDatasetsValues(document, datasets, TITLE, "en");
-
-    // --- HDAB CONTACTS AND DATA LINKAGE ---
-    addTextToNewParagraph(document, languageMap.getJsonObject("hdabContacts").getString(LABEL),
-      true, false);
-    addTextToNewParagraphWithTable(document, getField(section, "hdabContacts"), false, false);
-
-    addTextToNewParagraph(document,
-      languageMap.getJsonObject("howWillTheDataFromDifferentSourcesBeLinked").getString(LABEL),
-      true, false);
-    addTextToNewParagraphWithTable(document,
-      getField(section, "howWillTheDataFromDifferentSourcesBeLinked"), false, false);
-  }
-
   private void section61(WordprocessingMLPackage document, JsonObject languageMap,
     JsonObject section,
     JsonArray datasets) {
@@ -937,7 +617,7 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
       false,
       false);
 
-    if (isKey(howStudyCohortFormed, "b")) {
+    if (isKey(howStudyCohortFormed, "b") || isKey(howStudyCohortFormed, "c")) {
       addTextToNewParagraph(document, languageMap.getJsonObject(
           HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS)
         .getString(LABEL), true, false);
@@ -950,7 +630,15 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     JsonObject formedBasedOnInfo = getObject(section,
       HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS);
 
-    if (isKey(howStudyCohortFormed, "b") && isKey(formedBasedOnInfo,
+    addTextToNewParagraph(document, languageMap.getJsonObject(
+        "hasTheCohortBeenBasedOnADataPermit")
+      .getString(LABEL), true, false);
+    JsonObject hasTheCohortBeenBasedOnADataPermit = getObject(section,
+      "hasTheCohortBeenBasedOnADataPermit");
+    addTextToNewParagraphWithTable(document,
+      (hasTheCohortBeenBasedOnADataPermit != null) ? hasTheCohortBeenBasedOnADataPermit.getString(VALUE, "") : "", false, false);
+
+    if ((isKey(howStudyCohortFormed, "b") || isKey(howStudyCohortFormed, "c")) && isKey(formedBasedOnInfo,
       "a")) {
       addTextToNewParagraph(document,
         languageMap.getJsonObject("doesTheInformedConsentCoverTheRequestedRegistryExtractions")
@@ -968,7 +656,9 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
       JsonArray consentLetterAttachment = getArrayField(section,
         "consentAndInformationLetterAttachment");
       generatedJsonArrayValues(document, consentLetterAttachment, "name");
-
+    }
+    if ((isKey(howStudyCohortFormed, "b") || isKey(howStudyCohortFormed, "c")) && isKey(hasTheCohortBeenBasedOnADataPermit,
+      "a")) {
       boolean confirmPermitGranted = isChecked(section,
         CONFIRM_THAT_DATA_PERMIT_HAS_BEEN_GRANTED_FOR_THE_RESEARCH_PROJECT);
       addTextWithCheckboxToNewParagraph(document, languageMap.getJsonObject(
@@ -978,8 +668,7 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
       addTextToNewParagraph(document,
         languageMap.getJsonObject("ifTheGroupHasBeenFormedBasedOnPreviousIssued").getString(LABEL),
         true, false);
-    }
-    if (isKey(howStudyCohortFormed, "b") || isKey(howStudyCohortFormed, "c")) {
+
       addTextToNewParagraph(document,
         languageMap.getJsonObject("previouslyIssuedPermitIssuer1").getString(LABEL), true, false);
       addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitIssuer1"),
@@ -1127,7 +816,7 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     writeDatasetsValues(document, datasets, PUBLISHER, "name");
     addTextToNewParagraph(document, languageMap.getString("whichDatabasesDataExtracted"), true,
       false);
-    writeDatasetsValues(document, datasets, PROVENANCE, LABEL);
+    writeDatasetsValues(document, datasets, PROVENANCE, "en");
     addTextToNewParagraph(document, languageMap.getString("whichDatasetDataExtracted"), true,
       false);
     writeDatasetsValues(document, datasets, TITLE, "en");
@@ -1215,6 +904,9 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     addTextToNewParagraph(document,
       languageMap.getJsonObject("needForDataExtractionEveryDescription").getString(LABEL), true,
       false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("needForDataExtractionEveryDescription").getString(TOOLTIP), true,
+      false);
     addTextToNewParagraphWithTable(document,
       getField(section, "needForDataExtractionEveryDescription"), false, false);
 
@@ -1238,51 +930,52 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
       languageMap.getJsonObject(WILL_CONTROLS_BE_EXTRACTED).getString(LABEL), true, false);
     addTextToNewParagraphWithTable(document, getObjectValue(section, WILL_CONTROLS_BE_EXTRACTED),
       false, false);
-    addTextToNewParagraph(document,
-      languageMap.getJsonObject(HAS_THE_GROUP_RELATIVES_FORMED_2).getString(LABEL), true, false);
-    addTextToNewParagraphWithTable(document,
-      getObjectValue(section, HAS_THE_GROUP_RELATIVES_FORMED_2), false,
-      false);
-
-    JsonObject hasGroupRelativesFormed = getObject(section, HAS_THE_GROUP_RELATIVES_FORMED_2);
-    if (hasGroupRelativesFormed != null) {
-      if (isKey(hasGroupRelativesFormed, "a")) {
-        addTextToNewParagraph(document, languageMap.getString("ifTheGroupHasBeenFormed"), true,
-          false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("previouslyIssuedPermitIssuer2").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitIssuer2"),
-          false, false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("previouslyIssuedPermitDate2").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitDate2"),
-          false, false);
-
-        addTextToNewParagraph(document, languageMap.getString("validityPeriod2"), true, false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodFrom2").getString(LABEL),
-          true, false);
-        addTextToNewParagraphWithTable(document,
-          getField(section, "previouslyIssuedPermitValidityPeriodFrom2"), false, false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodTo2").getString(LABEL),
-          true, false);
-        addTextToNewParagraphWithTable(document,
-          getField(section, "previouslyIssuedPermitValidityPeriodTo2"), false, false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("previouslyIssuedPermitNumber2").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitNumber2"),
-          false, false);
-      }
-    }
 
     JsonObject willControlsExtracted = getObject(section, WILL_CONTROLS_BE_EXTRACTED);
     if (isKey(willControlsExtracted, "a")) {
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject(HAS_THE_GROUP_RELATIVES_FORMED_2).getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document,
+        getObjectValue(section, HAS_THE_GROUP_RELATIVES_FORMED_2), false,
+        false);
+
+      JsonObject hasGroupRelativesFormed = getObject(section, HAS_THE_GROUP_RELATIVES_FORMED_2);
+      if (hasGroupRelativesFormed != null) {
+        if (isKey(hasGroupRelativesFormed, "a")) {
+          addTextToNewParagraph(document, languageMap.getString("ifTheGroupHasBeenFormed"), true,
+            false);
+
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject("previouslyIssuedPermitIssuer2").getString(LABEL), true, false);
+          addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitIssuer2"),
+            false, false);
+
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject("previouslyIssuedPermitDate2").getString(LABEL), true, false);
+          addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitDate2"),
+            false, false);
+
+          addTextToNewParagraph(document, languageMap.getString("validityPeriod2"), true, false);
+
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodFrom2").getString(LABEL),
+            true, false);
+          addTextToNewParagraphWithTable(document,
+            getField(section, "previouslyIssuedPermitValidityPeriodFrom2"), false, false);
+
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodTo2").getString(LABEL),
+            true, false);
+          addTextToNewParagraphWithTable(document,
+            getField(section, "previouslyIssuedPermitValidityPeriodTo2"), false, false);
+
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject("previouslyIssuedPermitNumber2").getString(LABEL), true, false);
+          addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitNumber2"),
+            false, false);
+        }
+      }
+
       addTextToNewParagraph(document,
         languageMap.getJsonObject(WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS).getString(LABEL), true,
         false);
@@ -1292,39 +985,33 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
       JsonObject willSameDataExtracted = getObject(section,
         WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS);
       if (isKey(willSameDataExtracted, "b")) {
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("regionForControlsDataExtraction").getString(LABEL), true,
-          false);
-        addTextToNewParagraphWithTable(document,
-          getField(section, "regionForControlsDataExtraction"), false, false);
-
         addTextToNewParagraph(document, languageMap.getString("fromWhichDataHolderLabel"), true,
           false);
         writeDatasetsValues(document, datasets, PUBLISHER, "name");
 
         addTextToNewParagraph(document, languageMap.getString("fromWhichDatabaseLabel"), true,
           false);
-        writeDatasetsValues(document, datasets, PROVENANCE, LABEL);
+        writeDatasetsValues(document, datasets, PROVENANCE, "en");
 
         addTextToNewParagraph(document, languageMap.getString("fromWhichDatasetLabel"), true,
           false);
         writeDatasetsValues(document, datasets, TITLE, "en");
 
         addTextToNewParagraph(document,
-          languageMap.getJsonObject("variablesForDataExtraction").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, getField(section, "variablesForDataExtraction"),
-          false, false);
+          languageMap.getJsonObject("variablesForDataExtractionAttachments").getString(LABEL), true, false);
+        JsonArray variablesForDataExtractionAttachments = getArrayField(section, "variablesForDataExtractionAttachments");
+        generatedJsonArrayValues(document, variablesForDataExtractionAttachments, "name");
 
         addTextToNewParagraph(document,
           languageMap.getJsonObject("timePeriodForDataExtraction").getString(LABEL), true, false);
         addTextToNewParagraphWithTable(document, getField(section, "timePeriodForDataExtraction"),
           false, false);
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("extractionCriteriaForControls").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, getField(section, "extractionCriteriaForControls"),
-          false, false);
       }
+
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("extractionCriteriaForControls").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "extractionCriteriaForControls"),
+        false, false);
 
       addTextToNewParagraph(document,
         languageMap.getJsonObject("sizeOfControlGroup").getString(LABEL), true, false);
@@ -1419,53 +1106,49 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     addTextToNewParagraphWithTable(document, getObjectValue(section, WILL_RELATIVES_BE_EXTRACTED),
       false, false);
 
-    addTextToNewParagraph(document,
-      languageMap.getJsonObject(HAS_THE_GROUP_RELATIVES_FORMED_3).getString(LABEL), true, false);
-    JsonObject hasGroupRelativesFormed3 = getObject(section, HAS_THE_GROUP_RELATIVES_FORMED_3);
-    addTextToNewParagraphWithTable(document,
-      getObjectValue(section, HAS_THE_GROUP_RELATIVES_FORMED_3), false,
-      false);
-
-    if (hasGroupRelativesFormed3 != null) {
-      if (isKey(hasGroupRelativesFormed3, "a")) {
+    if (willRelativesBeExtracted != null) {
+      if (isKey(willRelativesBeExtracted, "a")) {
         addTextToNewParagraph(document,
-          languageMap.getJsonObject("ifTheGroupOfRelativesHasBeenFormed").getString(LABEL), true,
+          languageMap.getJsonObject(HAS_THE_GROUP_RELATIVES_FORMED_3).getString(LABEL), true, false);
+        JsonObject hasGroupRelativesFormed3 = getObject(section, HAS_THE_GROUP_RELATIVES_FORMED_3);
+        addTextToNewParagraphWithTable(document,
+          getObjectValue(section, HAS_THE_GROUP_RELATIVES_FORMED_3), false,
           false);
 
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("previouslyIssuedPermitIssuer3").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitIssuer3"),
-          false, false);
+        if (hasGroupRelativesFormed3 != null) {
+          if (isKey(hasGroupRelativesFormed3, "a")) {
+            addTextToNewParagraph(document,
+              languageMap.getJsonObject("ifTheGroupOfRelativesHasBeenFormed").getString(LABEL), true,
+              false);
 
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("previouslyIssuedPermitDate3").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitDate3"),
-          false, false);
+            addTextToNewParagraph(document,
+              languageMap.getJsonObject("previouslyIssuedPermitIssuer3").getString(LABEL), true, false);
+            addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitIssuer3"),
+              false, false);
 
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodFrom3").getString(LABEL),
-          true, false);
-        addTextToNewParagraphWithTable(document,
-          getField(section, "previouslyIssuedPermitValidityPeriodFrom3"), false, false);
+            addTextToNewParagraph(document,
+              languageMap.getJsonObject("previouslyIssuedPermitDate3").getString(LABEL), true, false);
+            addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitDate3"),
+              false, false);
 
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodTo3").getString(LABEL),
-          true, false);
-        addTextToNewParagraphWithTable(document,
-          getField(section, "previouslyIssuedPermitValidityPeriodTo3"), false, false);
+            addTextToNewParagraph(document,
+              languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodFrom3").getString(LABEL),
+              true, false);
+            addTextToNewParagraphWithTable(document,
+              getField(section, "previouslyIssuedPermitValidityPeriodFrom3"), false, false);
 
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("previouslyIssuedPermitNumber3").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitNumber3"),
-          false, false);
-      }
-    }
+            addTextToNewParagraph(document,
+              languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodTo3").getString(LABEL),
+              true, false);
+            addTextToNewParagraphWithTable(document,
+              getField(section, "previouslyIssuedPermitValidityPeriodTo3"), false, false);
 
-    if (willRelativesBeExtracted != null) {
-      addTextToNewParagraphWithTable(document, willRelativesBeExtracted.getString(VALUE, ""), false,
-        false);
-
-      if (isKey(willRelativesBeExtracted, "a")) {
+            addTextToNewParagraph(document,
+              languageMap.getJsonObject("previouslyIssuedPermitNumber3").getString(LABEL), true, false);
+            addTextToNewParagraphWithTable(document, getField(section, "previouslyIssuedPermitNumber3"),
+              false, false);
+          }
+        }
         addTextToNewParagraph(document,
           languageMap.getJsonObject(WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES).getString(LABEL),
           true, false);
@@ -1481,29 +1164,29 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
 
           addTextToNewParagraph(document, languageMap.getString("whichDatabaseForRelatives"), true,
             false);
-          writeDatasetsValues(document, datasets, PROVENANCE, LABEL);
+          writeDatasetsValues(document, datasets, PROVENANCE, "en");
 
           addTextToNewParagraph(document, languageMap.getString("whichDatasetsForRelatives"), true,
             false);
           writeDatasetsValues(document, datasets, TITLE, "en");
 
+
           addTextToNewParagraph(document,
-            languageMap.getJsonObject("variablesForDataExtractionRelatives").getString(LABEL), true,
-            false);
-          addTextToNewParagraphWithTable(document,
-            getField(section, "variablesForDataExtractionRelatives"), false, false);
+            languageMap.getJsonObject("variablesForDataExtractionRelativesAttachments").getString(LABEL), true, false);
+          JsonArray variablesForDataExtractionRelativesAttachments = getArrayField(section, "variablesForDataExtractionRelativesAttachments");
+          generatedJsonArrayValues(document, variablesForDataExtractionRelativesAttachments, "name");
 
           addTextToNewParagraph(document,
             languageMap.getJsonObject("timePeriodForDataExtractionRelatives").getString(LABEL),
             true, false);
           addTextToNewParagraphWithTable(document,
             getField(section, "timePeriodForDataExtractionRelatives"), false, false);
-
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject("relationshipToStudyCohort").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, getField(section, "relationshipToStudyCohort"),
-            false, false);
         }
+
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("relationshipToStudyCohort").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "relationshipToStudyCohort"),
+          false, false);
 
         addTextToNewParagraph(document,
           languageMap.getJsonObject("sizeOfRelativesGroup").getString(LABEL), true, false);
@@ -1968,6 +1651,23 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
       }
     }
 
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW).getString(LABEL),
+      true, false);
+
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW).getString(TOOLTIP),
+      false, true);
+    addTextToNewParagraphWithTable(document, getObjectValue(section, OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW),
+      false,
+      false);
+
+    JsonObject mechanismProvidedInNationalLaw = getObject(section,OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW);
+    if (isKey(mechanismProvidedInNationalLaw, "a")) {
+      addTextToNewParagraph(document, languageMap.getJsonObject("providedJustificationException").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "providedJustificationException"), false, false);
+    }
+
     // --- PROTECTION AND SECURITY STATEMENTS ---
     addTextToNewParagraph(document,
       languageMap.getJsonObject("protectionAndSecurityStatements").getString(LABEL), true, false);
@@ -2015,11 +1715,6 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
           addTextToNewParagraph(document, languageMap.getJsonObject(FULL_NAME).getString(LABEL),
             true, false);
           addTextToNewParagraphWithTable(document, jsonItem.getString(FULL_NAME, ""), false, false);
-
-          addTextToNewParagraph(document, languageMap.getJsonObject("affiliation").getString(LABEL),
-            true, false);
-          addTextToNewParagraphWithTable(document, jsonItem.getString("affiliation", ""), false,
-            false);
 
           addTextToNewParagraph(document,
             languageMap.getJsonObject("emailAddress").getString(LABEL), true, false);
@@ -2285,7 +1980,7 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
 
     try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
       InputStream templateInputStream = getClass().getResourceAsStream(
-        "/templates/DataPermitTemplate_vC1.docx")) {
+        "/templates/DataPermitTemplate.docx")) {
 
       if (templateInputStream == null) {
         log.error("Data Permit Template not found");

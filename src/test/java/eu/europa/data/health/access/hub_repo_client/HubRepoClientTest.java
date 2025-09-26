@@ -16,6 +16,7 @@
 package eu.europa.data.health.access.hub_repo_client;
 
 import static eu.europa.data.health.access.Constants.CATALOGUE_ID;
+import static eu.europa.data.health.access.Constants.CATALOGUE_LANGUAGE;
 import static eu.europa.data.health.access.Constants.CATALOGUE_NAME;
 import static eu.europa.data.health.access.Constants.DOMIBUS_ID;
 import static eu.europa.data.health.access.Constants.PUBLISHER_HOMEPAGE_URL;
@@ -27,10 +28,8 @@ import static eu.europa.data.health.access.hub_repo_client.HubRepoClient.ERROR_D
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.eq;
@@ -39,8 +38,10 @@ import static org.mockito.Mockito.when;
 import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
 import eu.europa.data.health.access.TestAppender;
+import eu.europa.data.health.access.auth_client.AuthClient;
 import eu.europa.data.health.access.dispatcher_client.DispatcherClient;
 import eu.europa.data.health.access.handlers.DBHandler;
+import eu.europa.data.health.access.services.AuditLogManager;
 import eu.europa.data.health.access.services.CountriesManager;
 import eu.europa.data.health.access.services.HubSearchClient;
 import eu.europa.data.health.access.services.HubStoreClient;
@@ -61,6 +62,8 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
+import java.time.Duration;
+import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -73,9 +76,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.MongoDBContainer;
-
-import java.time.Duration;
-import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class HubRepoClientTest {
@@ -100,6 +100,10 @@ class HubRepoClientTest {
   private HttpResponse<Buffer> httpResponse;
   @Mock
   private HubSearchClient hubSearchClient;
+  @Mock
+  private AuditLogManager auditLogManager;
+  @Mock
+  private AuthClient authClient;
 
 
   private static @NotNull String getJsonString() {
@@ -138,7 +142,7 @@ class HubRepoClientTest {
     DBHandler dbHandler = new DBHandler(mongoClient);
     CountriesManager countriesManager = new CountriesManager();
     hubRepoClient = new HubRepoClient(dbHandler, API_URL, API_KEY, webClient, dispatcherClient,
-      hubStoreClient,hubSearchClient,countriesManager);
+      hubStoreClient,hubSearchClient,countriesManager, auditLogManager);
   }
 
   @Test
@@ -203,6 +207,7 @@ class HubRepoClientTest {
       .put("title", "test title").put("description", "description test").put("country", country)
       .put("homepageURL", "www.homepageURLtest.com").put("name", "name test")
       .put(CATALOGUE_NAME, "test catalogue")
+      .put(CATALOGUE_LANGUAGE, "en")
       .put("geographicalCoverage", new JsonObject().put("key", "keyValue"))
       .put(PUBLISHER_HOMEPAGE_URL, "www.publisherURLtest.com")
       .put(PUBLISHER_NAME, "publisher name test").put(CATALOGUE_ID, "catalogueId")
@@ -255,6 +260,7 @@ class HubRepoClientTest {
       .put("title", "test title").put("description", "description test").put("country", country)
       .put("homepageURL", "www.homepageURLtest.com").put("name", "name test")
       .put(CATALOGUE_NAME, "test catalogue")
+      .put(CATALOGUE_LANGUAGE, "en")
       .put("geographicalCoverage", new JsonObject().put("key", "keyValue"))
       .put(PUBLISHER_HOMEPAGE_URL, "www.publisherURLtest.com")
       .put(PUBLISHER_NAME, "publisher name test").put(CATALOGUE_ID, "catalogueId")
@@ -304,6 +310,7 @@ class HubRepoClientTest {
       .put("title", "test title").put("description", "description test").put("country", country)
       .put("homepageURL", "www.homepageURLtest.com").put("name", "name test")
       .put(CATALOGUE_NAME, "test catalogue")
+      .put(CATALOGUE_LANGUAGE, "en")
       .put("geographicalCoverage", new JsonObject().put("key", "keyValue"))
       .put(PUBLISHER_HOMEPAGE_URL, "www.publisherURLtest.com")
       .put(PUBLISHER_NAME, "publisher name test").put(CATALOGUE_ID, "catalogueId")
@@ -347,6 +354,7 @@ class HubRepoClientTest {
       .put("title", "test title").put("description", "description test").put("country", country)
       .put("homepageURL", "www.homepageURLtest.com").put("name", "name test")
       .put(CATALOGUE_NAME, "test catalogue")
+      .put(CATALOGUE_LANGUAGE, "en")
       .put("geographicalCoverage", new JsonObject().put("key", "keyValue"))
       .put(PUBLISHER_HOMEPAGE_URL, "www.publisherURLtest.com")
       .put(PUBLISHER_NAME, "publisher name test").put(CATALOGUE_ID, "catalogueId")
@@ -693,8 +701,7 @@ class HubRepoClientTest {
       JsonObject expectedResponse = new JsonObject().put("result", "success");
       HubRepoClient spyClient = Mockito.spy(hubRepoClient);
       doReturn(expectedResponse).when(spyClient)
-        .prepareGetEntityResponse(anyList(), anyInt(), anyInt(), anyInt(), anyInt(), anyString(),
-          anyString(), isNull());
+        .prepareGetEntityResponse(anyList(), any());
 
       when(dispatcherClient.getAllCatalogueMap()).thenReturn(
         Future.succeededFuture(getJsonString()));

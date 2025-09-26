@@ -31,6 +31,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import eu.europa.data.health.access.handlers.DBHandler;
 import io.piveau.security.PiveauAuth;
+import io.vertx.config.ConfigRetriever;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
@@ -360,6 +361,7 @@ class MainVerticleTest {
 
       MainVerticle testVerticle = new TestMainVerticle();
       testVerticle.init(vertx, vertx.getOrCreateContext());
+      testVerticle.mongoClient = Mockito.mock(MongoClient.class);
 
       Promise<Void> startPromise = Promise.promise();
       testVerticle.start(startPromise);

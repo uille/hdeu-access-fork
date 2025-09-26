@@ -43,6 +43,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class CatalogueMapper {
 
+  public static final String VALUE = "@value";
+
   public static Future<JsonObject> map(JsonObject catalogues, JsonObject catalogueMapList,
     RoutingContext context, CountriesManager countriesManager, HubSearchClient hubSearchClient) {
 
@@ -126,100 +128,14 @@ public class CatalogueMapper {
 
   public static CatalogueDTO mapToCatalogue(JsonObject jsonObject, JsonObject catalogueMapList,
     CountriesManager countriesManager, String catalogueId) {
-    CatalogueDTO dto = new CatalogueDTO();
-
-    // Extract the @graph array
-    JsonArray graph = jsonObject.getJsonArray("@graph");
-
-    for (int i = 0; i < graph.size(); i++) {
-      JsonObject item = graph.getJsonObject(i);
-
-      // Set catalogue values
-      if (item.getJsonObject("dct:title") != null) {
-        dto.setCatalogueName(item.getJsonObject("dct:title").getString("@value"));
-      }
-
-      // Set catalogue values
-      if (item.getJsonObject("dct:description") != null) {
-        dto.setDescription(item.getJsonObject("dct:description").getString("@value"));
-      }
-
-      // Set geographical coverage
-      SelectObjectDTO geographicalCoverage = mapToGeographicalCoverage(item, countriesManager);
-      if(geographicalCoverage != null){
-        dto.setGeographicalCoverage(geographicalCoverage);
-      }
-
-      // Set publisher homepage
-      if (item.getJsonObject("foaf:homepage") != null) {
-        dto.setPublisherHomepageURL(item.getJsonObject("foaf:homepage").getString("@id"));
-      }
-
-      // Set publisher name
-      if (item.getString("foaf:name") != null) {
-        dto.setPublisherName(item.getString("foaf:name"));
-      }
-
-      dto.setCreatedDate(dto.getCreatedDate() == null ? handleDates(item, "dct:issued", false) : dto.getModifiedDate());
-
-      dto.setModifiedDate(dto.getModifiedDate() == null ? handleDates(item, "dct:modified", true) : dto.getModifiedDate());
-    }
-
-    dto.setCatalogueId(catalogueId);
-    dispatcherMapToCatalogue(dto, catalogueMapList);
-
-    return dto;
+    return commonMapToCatalogue(jsonObject, catalogueMapList,
+      countriesManager, catalogueId, false);
   }
 
   public static CatalogueDTO mapToCatalogueList(JsonObject jsonObject, JsonObject catalogueMapList,
     CountriesManager countriesManager) {
-    CatalogueDTO dto = new CatalogueDTO();
-
-    // Extract the @graph array
-    JsonArray graph = jsonObject.getJsonArray("@graph");
-
-    for (int i = 0; i < graph.size(); i++) {
-      JsonObject item = graph.getJsonObject(i);
-
-      // Set catalogue values
-      if (item.getJsonObject("dct:title") != null) {
-        dto.setCatalogueName(item.getJsonObject("dct:title").getString("@value"));
-      }
-
-      // Set catalogue values
-      if (item.getJsonObject("dct:description") != null) {
-        dto.setDescription(item.getJsonObject("dct:description").getString("@value"));
-      }
-
-      // Set geographical coverage
-      SelectObjectDTO geographicalCoverage = mapToGeographicalCoverage(item, countriesManager);
-      if(geographicalCoverage != null){
-        dto.setGeographicalCoverage(geographicalCoverage);
-      }
-
-      // Set publisher homepage
-      if (item.getJsonObject("foaf:homepage") != null) {
-        dto.setPublisherHomepageURL(item.getJsonObject("foaf:homepage").getString("@id"));
-      }
-
-      // Set publisher name
-      if (item.getString("foaf:name") != null) {
-        dto.setPublisherName(item.getString("foaf:name"));
-      }
-
-      dto.setCreatedDate(dto.getCreatedDate() == null ? handleDates(item, "dct:issued", false) : dto.getModifiedDate());
-
-      dto.setModifiedDate(dto.getModifiedDate() == null ? handleDates(item, "dct:modified", true) : dto.getModifiedDate());
-    }
-
-    // Extract UUID from @id
-    if (jsonObject.getString("@id") != null) {
-      dto.setCatalogueId(extractUUIDFromURL(jsonObject.getString("@id")));
-
-      dispatcherMapToCatalogue(dto, catalogueMapList);
-    }
-
-    return dto;
+    return commonMapToCatalogue(jsonObject, catalogueMapList,
+      countriesManager, null, true);
   }
 
   public static String handleDates(JsonObject item, String fieldName, boolean findMostRecent) {
@@ -228,14 +144,14 @@ public class CatalogueMapper {
     if (field instanceof JsonObject) {
       JsonObject fieldObject = item.getJsonObject(fieldName);
       if(fieldObject != null){
-        return fieldObject.getString("@value");
+        return fieldObject.getString(VALUE);
       }
     } else if (field instanceof JsonArray) {
       JsonArray fieldArray = item.getJsonArray(fieldName);
       List<String> valueItems = new ArrayList<>();
       for (int i = 0; i < fieldArray.size(); i++) {
         JsonObject entry = fieldArray.getJsonObject(i);
-        String value = entry.getString("@value");
+        String value = entry.getString(VALUE);
         if(value != null){
           valueItems.add(value);
         }
@@ -378,6 +294,7 @@ public class CatalogueMapper {
       .put("description", dto.getDescription())
       .put("description", dto.getDescription())
       .put("geographicalCoverage", dto.getGeographicalCoverage())
+      .put("language", dto.getLanguage())
       .put("publisherHomepageURL", dto.getPublisherHomepageURL())
       .put("publisherName", dto.getPublisherName())
       .put("createdDate", dto.getCreatedDate())
@@ -526,5 +443,68 @@ public class CatalogueMapper {
       }
 
     return  atLeastOneError ? fieldWithValidation: null;
+  }
+
+  public static CatalogueDTO commonMapToCatalogue(JsonObject jsonObject, JsonObject catalogueMapList,
+    CountriesManager countriesManager, String catalogueId, boolean list) {
+    CatalogueDTO dto = new CatalogueDTO();
+
+    // Extract the @graph array
+    JsonArray graph = jsonObject.getJsonArray("@graph");
+
+    for (int i = 0; i < graph.size(); i++) {
+      JsonObject item = graph.getJsonObject(i);
+
+      // Set catalogue values
+      if (item.getJsonObject("dct:title") != null) {
+        dto.setCatalogueName(item.getJsonObject("dct:title").getString(VALUE));
+      }
+
+      // Set catalogue values
+      if (item.getJsonObject("dct:description") != null) {
+        dto.setDescription(item.getJsonObject("dct:description").getString(VALUE));
+      }
+
+      // Set geographical coverage
+      SelectObjectDTO geographicalCoverage = mapToGeographicalCoverage(item, countriesManager);
+      if(geographicalCoverage != null){
+        dto.setGeographicalCoverage(geographicalCoverage);
+      }
+
+      // Set language
+      String language = item.getJsonObject("dct:language") != null ?
+        item.getJsonObject("dct:language").getString("@id") : null;
+      if (language != null) {
+        dto.setLanguage(language.substring(language.lastIndexOf('/') + 1));
+      }
+
+      // Set publisher homepage
+      if (item.getJsonObject("foaf:homepage") != null) {
+        dto.setPublisherHomepageURL(item.getJsonObject("foaf:homepage").getString("@id"));
+      }
+
+      // Set publisher name
+      if (item.getString("foaf:name") != null) {
+        dto.setPublisherName(item.getString("foaf:name"));
+      }
+
+      dto.setCreatedDate(dto.getCreatedDate() == null ? handleDates(item, "dct:issued", false) : dto.getModifiedDate());
+
+      dto.setModifiedDate(dto.getModifiedDate() == null ? handleDates(item, "dct:modified", true) : dto.getModifiedDate());
+    }
+
+    if (list) {
+      // Extract UUID from @id
+      if (jsonObject.getString("@id") != null) {
+        dto.setCatalogueId(extractUUIDFromURL(jsonObject.getString("@id")));
+
+        dispatcherMapToCatalogue(dto, catalogueMapList);
+      }
+    } else {
+      dto.setCatalogueId(catalogueId);
+      dispatcherMapToCatalogue(dto, catalogueMapList);
+    }
+
+    return dto;
   }
 }

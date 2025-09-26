@@ -17,6 +17,21 @@
         },
         "applicationDatabases": {
             "label": "Iš kurios (-ių) duomenų bazės (-ių) ar registro (-ų) bus gaunami duomenys?"
+        },
+        "variables": {
+            "label": "Rodiklis"
+        },
+        "datatype": {
+            "label": "Duomenų tipai (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Aprašas"
+        },
+        "title": {
+            "label": "Rodiklis"
+        },
+        "emptyTable": {
+            "label": "Kintamųjų nėra"
         }
     },
     "section2": {
@@ -102,10 +117,10 @@
                 },
                 {
                     "key": "b",
-                    "value": "Fizinis asmuo",
-                    "info": "(Jei pasirinkote šį variantą, patvirtinate, kad teikiate prašymą dėl duomenų kaip privatus asmuo, neturintis jokių ryšių)."
+                    "value": "Fizinis asmuo"
                 }
-            ]
+            ],
+            "info": "(Jei pasirinkote šį variantą, patvirtinate, kad teikiate prašymą dėl duomenų kaip privatus asmuo, neturintis jokių ryšių.)"
         },
         "legalPerson": "Juridinis asmuo",
         "naturalPerson": "Fizinis asmuo",
@@ -141,15 +156,6 @@
         },
         "contactPersonBusinessIdentifier": {
             "label": "Organizacijos veiklos identifikavimo kodas"
-        },
-        "contactPersonOperatorIdentifier": {
-            "label": "Operatoriaus kodas"
-        },
-        "contactPersonJobTitle": {
-            "label": "Pareigybė"
-        },
-        "contactPersonAffiliation": {
-            "label": "Priklausymas"
         },
         "contactPersonRelationship": {
             "label": "Koks yra kontaktinio asmens ir prašytojo ryšys? (Pvz., darbuotojas, prašantis duomenų savo organizacijos vardu.)"
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "Duomenų naudojimo tikslas",
-        "section5Description": "Pareiškėjai turėtų nurodyti tikslą, kuriuo duomenų prašoma, pagal ESDE reglamento 53 straipsnio 1 dalį, klaidų ištaisymą, kurį Europos Parlamentas patvirtino gruodžio 17 d. \nPareiškėjai turi paaiškinti ir pagrįsti, kodėl prašomi duomenys yra būtini nurodytam jų naudojimo tikslui. Pareiškėjų taip pat prašoma pateikti informaciją apie projekto tikslą. Tada, priklausomai nuo naudojimo tikslo (mokslinių tyrimų ar ne mokslinių tyrimų), pareiškėjai turi pateikti duomenų naudojimo plano santrauką arba mokslinių tyrimų plano santrauką ir informaciją apie asmenį, atsakingą už duomenų naudojimą ar mokslinius tyrimus.",
+        "section5Description": "Pagal 2025 m. vasario 11 d. Europos Parlamento ir Tarybos reglamento (ES) 2025/327 dėl Europos sveikatos duomenų erdvės 53 straipsnio 1 dalį pareiškėjai turėtų nurodyti tikslą, kuriuo prašoma duomenų. Pareiškėjai turi paaiškinti ir pagrįsti, kodėl prašomi duomenys yra būtini jų nurodytam naudojimo tikslui. Pareiškėjų taip pat prašoma pateikti informaciją apie projekto tikslą. Tada, priklausomai nuo naudojimo tikslo (moksliniai tyrimai ar ne moksliniai tyrimai), pareiškėjai turi pateikti duomenų naudojimo plano santrauką arba mokslinių tyrimų plano santrauką ir informaciją apie asmenį, atsakingą už duomenų naudojimą ar mokslinius tyrimus.",
         "purposeOfUse": {
             "label": "Duomenų naudojimo tikslas. Prieigos prie sveikatos duomenų įstaigos suteikia prieigą prie 51 straipsnyje nurodytų elektroninių sveikatos duomenų tik tuo atveju, jei prašytojo siekiamas duomenų tvarkymo tikslas atitinka toliau išvardytus tikslus (kaip nurodyta 53 straipsnio 1 dalyje).",
             "tooltip": "ESDE reglamento tikslai.",
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Kokia numatoma nauda, susijusi su elektroninių sveikatos duomenų naudojimu, ir kaip ši nauda padeda siekti 5.1 punkte nurodytų tikslų?"
         },
+        "describeApplicantsQualification": {
+            "label": "Aprašykite pareiškėjo kvalifikaciją, susijusią su numatyta (-omis) duomenų naudojimo paskirtimi (-omis), ir atitinkamą kompetenciją (įskaitant profesines kvalifikacijas)"
+        },
         "legalBasis": {
             "label": "Nurodykite teisinį pagrindą, pavyzdžiui, atitinkamus teisės aktus, kuriais apibrėžiamos užduotys, patenkančios į jūsų įgaliojimų sritį, ir patvirtinate, kad jūsų planuojamas duomenų naudojimas yra skirtas tokioms užduotims palengvinti.",
             "tooltip": "Paaiškinkite, kodėl duomenų, dėl kurių teikiate paraišką, kiekis yra būtinas jūsų duomenų naudojimo tikslais. Pagrįskite ir aprašykite, kaip prašomų statistinių duomenų turinys atitinka paraiškoje nurodytą naudojimo tikslą ir jūsų duomenų reikalavimus."
@@ -320,222 +329,16 @@
             "label": "Pateikite nuorodą į patvirtinamuosius dokumentus kaip teisinio pagrindo įrodymą"
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Pateikite savo duomenų naudojimo plano santrauką. Santrauka turi būti parengta viena iš oficialiųjų ES kalbų."
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Pasirinkite santraukos kalbą",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgarų"
-                },
-                {
-                    "key": "hr",
-                    "value": "Kroatų"
-                },
-                {
-                    "key": "cs",
-                    "value": "Čekų"
-                },
-                {
-                    "key": "da",
-                    "value": "Danų"
-                },
-                {
-                    "key": "nl",
-                    "value": "Nyderlandų"
-                },
-                {
-                    "key": "en",
-                    "value": "Anglų"
-                },
-                {
-                    "key": "et",
-                    "value": "Estų"
-                },
-                {
-                    "key": "fi",
-                    "value": "Suomių"
-                },
-                {
-                    "key": "fr",
-                    "value": "Prancūzų"
-                },
-                {
-                    "key": "de",
-                    "value": "Vokiečių"
-                },
-                {
-                    "key": "el",
-                    "value": "Graikų"
-                },
-                {
-                    "key": "hu",
-                    "value": "Vengrų"
-                },
-                {
-                    "key": "ga",
-                    "value": "Airių"
-                },
-                {
-                    "key": "it",
-                    "value": "Italų"
-                },
-                {
-                    "key": "lv",
-                    "value": "Latvių"
-                },
-                {
-                    "key": "lt",
-                    "value": "Lietuvių"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltiečių"
-                },
-                {
-                    "key": "pl",
-                    "value": "Lenkų"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugalų"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumunų"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovakų"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slovėnų"
-                },
-                {
-                    "key": "es",
-                    "value": "Ispanų"
-                },
-                {
-                    "key": "sv",
-                    "value": "Švedų"
-                }
-            ]
+            "label": "Pateikite savo duomenų naudojimo plano santrauką. Santrauka turi būti parengta viena iš oficialiųjų ES kalbų.",
+            "tooltip": "Įkeltas rinkmenas sistema išverčia automatiškai. Pareiškėjas yra atsakingas už įkeltų rinkmenų kokybę, įskaitomumą ir formatavimą."
         },
         "summaryOfResearchPlan": {
-            "label": "Pateikite savo mokslinių tyrimų plano santrauką. Santrauka turi būti parengta viena iš oficialiųjų ES kalbų."
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Pasirinkite santraukos kalbą",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgarų"
-                },
-                {
-                    "key": "hr",
-                    "value": "Kroatų"
-                },
-                {
-                    "key": "cs",
-                    "value": "Čekų"
-                },
-                {
-                    "key": "da",
-                    "value": "Danų"
-                },
-                {
-                    "key": "nl",
-                    "value": "Nyderlandų"
-                },
-                {
-                    "key": "en",
-                    "value": "Anglų"
-                },
-                {
-                    "key": "et",
-                    "value": "Estų"
-                },
-                {
-                    "key": "fi",
-                    "value": "Suomių"
-                },
-                {
-                    "key": "fr",
-                    "value": "Prancūzų"
-                },
-                {
-                    "key": "de",
-                    "value": "Vokiečių"
-                },
-                {
-                    "key": "el",
-                    "value": "Graikų"
-                },
-                {
-                    "key": "hu",
-                    "value": "Vengrų"
-                },
-                {
-                    "key": "ga",
-                    "value": "Airių"
-                },
-                {
-                    "key": "it",
-                    "value": "Italų"
-                },
-                {
-                    "key": "lv",
-                    "value": "Latvių"
-                },
-                {
-                    "key": "lt",
-                    "value": "Lietuvių"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltiečių"
-                },
-                {
-                    "key": "pl",
-                    "value": "Lenkų"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugalų"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumunų"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovakų"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slovėnų"
-                },
-                {
-                    "key": "es",
-                    "value": "Ispanų"
-                },
-                {
-                    "key": "sv",
-                    "value": "Švedų"
-                }
-            ]
+            "label": "Pateikite savo mokslinių tyrimų plano santrauką. Santrauka turi būti parengta viena iš oficialiųjų ES kalbų.",
+            "tooltip": "Įkeltas rinkmenas sistema išverčia automatiškai. Pareiškėjas yra atsakingas už įkeltų rinkmenų kokybę, įskaitomumą ir formatavimą."
         },
         "personResponsibleLabel": "Už duomenų naudojimą atsakingas asmuo",
         "personResponsibleName": {
             "label": "Visas pavadinimas"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Pareigybė"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Priklausymas"
         },
         "personResearchSameAsContactPerson": {
             "label": "Tas pats kaip kontaktinis asmuo, nurodytas 3 skirsnyje (Pareiškėjo ir kontaktinio asmens informacija)?"
@@ -546,12 +349,6 @@
         },
         "personResearchName": {
             "label": "Visas pavadinimas"
-        },
-        "personResearchJobTitle": {
-            "label": "Pareigybė"
-        },
-        "personResearchAffiliation": {
-            "label": "Priklausymas"
         },
         "formatOfTheElectronicHealthData": {
             "label": "Pasirinkite teiktinų elektroninių sveikatos duomenų formatą:",
@@ -638,6 +435,9 @@
         },
         "consentAndInformationLetterAttachment": {
             "label": "Pridėkite sutikimą ir informacinį raštą, kurį išsiuntėte studijuojantiems tiriamiesiems asmenims. Nepridėkite užpildytų formų, nes jose yra asmens duomenų."
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "Ar kohorta buvo pagrįsta anksčiau išduotu duomenų leidimu?"
         },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Patvirtinu, kad duomenų leidimas suteiktas šiam mokslinių tyrimų projektui."
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "Kaip dažnai reikia gauti duomenis?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Ar ketinate pasinaudoti teisės atsisakyti dalyvauti išimtimi pagal valstybės narės, kurios duomenų prašote, nacionalinėje teisėje numatytą mechanizmą?",
+            "tooltip": "Išimties iš 1 dalyje numatytos teisės atsisakyti tvarka valstybė narė savo nacionalinėje teisėje gali nustatyti mechanizmą, pagal kurį suteikiama galimybė duomenis, kurių atžvilgiu buvo pasinaudota teise neleisti tvarkyti duomenis, padaryti prieinamus, jei tenkinamos visos šios sąlygos: (dėl visų sąlygų žr. straipsnį)“"
+        },
+        "providedJustificationException": {
+            "label": "Pagrįskite šią išimtį."
+        },
         "needForDataExtractionEvery": {
             "label": "Duomenis reikia gauti kiekvieną kartą",
             "tooltip": "Jei norite, kad duomenys būtų gaunami kelis kartus per tam tikrą laikotarpį, atkreipkite dėmesį, kad kai kuriais atvejais apibrėžtys ir duomenų rinkimo metodas peržiūros laikotarpiu gali keistis. Atkreipkite dėmesį į tai, kad didžiausias duomenų išgavimo dažnumas yra kas ketvirtį"
@@ -835,14 +642,11 @@
         "willSameDataBeExtractedForControls": {
             "label": "Ar kontrolinėms medžiagoms bus gauti tokie patys duomenys kaip ir kohortos atveju?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Jei neieškote duomenų kontrolei atlikti iš visos šalies, iš kurio (-ių) regiono (-ų) ir (arba) miesto (-ų) ir (arba) savivaldybės (-ų) duomenų ieškote?"
-        },
         "fromWhichDataHolderLabel": "Iš kurio (-ių) duomenų turėtojo (-ų) bus gaunami kontrolės duomenys?",
         "fromWhichDatabaseLabel": "Iš kurios (-ių) duomenų bazės (-ių)/registrų/registrų bus gaunami kontrolės duomenys?",
         "fromWhichDatasetLabel": "Iš kurio (-ių) duomenų rinkinio įrašo (-ų) ir (arba) registro (-ų) bus gaunami kontrolės duomenys?",
-        "variablesForDataExtraction": {
-            "label": "Jei turima informacijos, išvardykite kintamuosius, kurie turi būti naudojami išgaunant duomenis. Vartoti tikslius terminus, kuriuos metaduomenų kataloge pateikė atitinkamas (-i) duomenų turėtojas (-ai)."
+        "variablesForDataExtractionAttachments": {
+            "label": "Jei turima informacijos, pridėkite kintamųjų, kurie turi būti naudojami išgaunant duomenis, sąrašą. Vartoti tikslius terminus, kuriuos metaduomenų kataloge pateikė atitinkamas (-i) duomenų turėtojas (-ai)."
         },
         "timePeriodForDataExtraction": {
             "label": "Kuriuo (-iais) laikotarpiu (-iais) duomenų rinkinio įrašai bus išgauti?"
@@ -947,8 +751,8 @@
         "whichDataHoldersForRelatives": "Iš kurio (-ių) duomenų turėtojo (-ų) bus gauti giminaičių duomenys?",
         "whichDatabaseForRelatives": "Iš kurios (-ių) duomenų bazės (-ių)/registrų/registrų bus gaunami giminaičių duomenys?",
         "whichDatasetsForRelatives": "Iš kurio (-ių) duomenų rinkinio įrašo (-ų) ir (arba) registro (-ų) bus gauti giminaičių duomenys?",
-        "variablesForDataExtractionRelatives": {
-            "label": "Jei turima informacijos, išvardykite kintamuosius, kurie turi būti naudojami išgaunant duomenis. Vartoti tikslius terminus, kuriuos metaduomenų kataloge pateikė atitinkamas (-i) duomenų turėtojas (-ai)."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "Jei turima informacijos, pridėkite kintamųjų, kurie turi būti naudojami išgaunant duomenis, sąrašą. Vartoti tikslius terminus, kuriuos metaduomenų kataloge pateikė atitinkamas (-i) duomenų turėtojas (-ai)."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "Kuriuo (-iais) laikotarpiu (-iais) duomenų rinkinio įrašai bus išgauti?"
@@ -1062,7 +866,6 @@
         "otherPermitApplications": {
             "label": "Ar turite kitų dar neišnagrinėtų prašymų išduoti leidimą?"
         },
-        "listTheOtherData": "Išvardykite kitus duomenis, kurie turi būti sujungti, ir šių duomenų šaltinius:",
         "applicationIssuer": {
             "label": "Išdavė"
         },
@@ -1360,6 +1163,13 @@
             "label": "Kaip tvarkydami duomenis laikosite duomenų kiekio mažinimo principo (ES duomenų apsaugos reglamentas)? ",
             "tooltip": "ES duomenų apsaugos reglamento 4 straipsnio 1c dalis: „Asmens duomenys turi būti tinkami, aktualūs ir tik tokie, kurie yra būtini siekiant tikslų, kuriais jie tvarkomi (duomenų kiekio mažinimas)“"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Ar ketinate pasinaudoti teisės atsisakyti dalyvauti išimtimi pagal valstybės narės, kurios duomenų prašote, nacionalinėje teisėje numatytą mechanizmą?",
+            "tooltip": "Išimties iš 1 dalyje numatytos teisės atsisakyti tvarka valstybė narė savo nacionalinėje teisėje gali nustatyti mechanizmą, pagal kurį suteikiama galimybė duomenis, kurių atžvilgiu buvo pasinaudota teise neleisti tvarkyti duomenis, padaryti prieinamus, jei tenkinamos visos šios sąlygos: (dėl visų sąlygų žr. straipsnį)“"
+        },
+        "providedJustificationException": {
+            "label": "Pagrįskite šią išimtį."
+        },
         "protectionAndSecurityStatements": {
             "label": "Kad galėtumėte toliau nagrinėti šią paraišką, turite patvirtinti šiuos teiginius (su duomenų apsauga ir saugumu susijusius pareiškimus):"
         },
@@ -1383,13 +1193,10 @@
             "label": "Tas pats, kaip ir 3 skirsnyje nurodytas kontaktinis asmuo?"
         },
         "listTheFullNames": {
-            "label": "Išvardykite visų asmenų, kurie tvarkys duomenis, vardus, pavardes, narystę ir e. pašto adresus."
+            "label": "Išvardykite visų asmenų, kurie tvarkys duomenis, vardus, pavardes ir e. pašto adresus."
         },
         "fullName": {
             "label": "Visas pavadinimas"
-        },
-        "affiliation": {
-            "label": "Priklausymas"
         },
         "emailAddress": {
             "label": "Pašto adresas"
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Informacijos patvirtinimas",
-        "section10Description": "Prieš tvarkydami šią paraišką, jūs, kaip pareiškėjas, turite patvirtinti tvarkymo mokesčius.",
+        "section10Description": "Prieš tvarkydami šią paraišką, jūs, kaip pareiškėjas, turite patvirtinti tvarkymo mokesčius. Įtraukti informaciją apie kainas ir didžiausią numatomą duomenų rinkimo kainą, kai ji bus gauta.",
         "submitYouApplicationText": "Kad galėtumėte pateikti paraišką, turite patvirtinti:",
         "acceptHealthDataBody": {
             "label": "Sutinku, kad sveikatos duomenų įstaiga rinks statistinius duomenis ir neturėsiu prieigos prie statistiniams duomenims rengti naudojamų duomenų."

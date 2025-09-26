@@ -28,4 +28,6 @@ public class ApplicationCommonDTO extends BaseDTO {
     @NotBlank
     @Size(max = 500)
     String title;
+    @NotBlank
+    String inputLanguage;
 }

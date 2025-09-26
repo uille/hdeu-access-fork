@@ -78,6 +78,7 @@ class DocumentExportDataRequestManagerTest {
     lenient().when(routingContext.pathParam("lg")).thenReturn("en");
     lenient().when(routingContext.pathParam("id")).thenReturn("applicationId");
     lenient().when(routingContext.pathParam("type")).thenReturn("docx");
+    lenient().when(routingContext.pathParam("tl")).thenReturn("inputLanguage");
     lenient().when(routingContext.response()).thenReturn(serverResponse);
     lenient().when(serverResponse.putHeader(anyString(), anyString())).thenReturn(serverResponse);
   }
@@ -102,11 +103,9 @@ class DocumentExportDataRequestManagerTest {
 
     // Build the mock JSON response body
     JsonObject mockResponseBody = new JsonObject();
-    JsonArray mockResultsArray = new JsonArray();
     JsonObject provenance = new JsonObject()
       .put("label", "Provenance");
-    mockResultsArray.add(provenance);
-    mockResponseBody.put("provenance", mockResultsArray);
+    mockResponseBody.put("provenance", provenance);
     mockResponseBody.put("title", new JsonObject().put("en", "title datasheet"));
     mockResponseBody.put("country", new JsonObject().put("label", "GR"));
     mockResponseBody.put("publisher", new JsonObject().put("name", "publisher name"));
@@ -124,7 +123,7 @@ class DocumentExportDataRequestManagerTest {
 
     documentExportDataRequestManager.exportApplicationDataRequestForm(routingContext);
     verify(serverResponse).putHeader("Content-Type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-    verify(serverResponse).putHeader(eq("Content-Disposition"), contains("filename=DataRequestForm.docx"));
+    verify(serverResponse).putHeader(eq("Content-Disposition"), contains("attachment; filename=DataAccessForm.docx"));
     verify(dbHandler, times(1)).findById(DATA_REQUEST_APPLICATION_COLLECTION, "applicationId");
 
   }
@@ -136,7 +135,7 @@ class DocumentExportDataRequestManagerTest {
       "lg", "en",
       "id", "applicationId",
       "type", "docx"
-    );
+      );
     RoutingContext routingContext = RoutingContextMocker.mockRoutingContext(application,
       pathParams, false);
     Assertions.assertEquals("en", routingContext.pathParam("lg"));
@@ -145,11 +144,9 @@ class DocumentExportDataRequestManagerTest {
 
     // Build the mock JSON response body
     JsonObject mockResponseBody = new JsonObject();
-    JsonArray mockResultsArray = new JsonArray();
     JsonObject provenance = new JsonObject()
       .put("label", "Provenance");
-    mockResultsArray.add(provenance);
-    mockResponseBody.put("provenance", mockResultsArray);
+    mockResponseBody.put("provenance", provenance);
     mockResponseBody.put("title", new JsonObject().put("en", "title datasheet"));
     mockResponseBody.put("country", new JsonObject().put("label", "GR"));
     mockResponseBody.put("publisher", new JsonObject().put("name", "publisher name"));

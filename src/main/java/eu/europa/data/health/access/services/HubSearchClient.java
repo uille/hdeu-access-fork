@@ -92,4 +92,28 @@ public class HubSearchClient {
       });
   }
 
+  public Future<JsonObject> getCatalogue(String catalogueId) {
+    String url = config.getString(Constants.HUB_SEARCH_DATA_URL) + "/catalogues/" + catalogueId;
+
+    if (log.isInfoEnabled()) {
+      log.info("Get catalogue from hub search: catalogueId={}, url={}", catalogueId, url);
+    }
+
+    return client.getAbs(url)
+      .send()
+      .compose(response -> {
+        if (response.statusCode() == 200) {
+          log.info("Catalogue downloaded successfully: catalogueId={}", catalogueId);
+          return Future.succeededFuture(response.bodyAsJsonObject());
+        } else if (response.statusCode() == 404) {
+          log.warn("Catalogue not found: catalogueId={}", catalogueId);
+          return Future.succeededFuture(new JsonObject().put("catalogue_id", catalogueId));
+        } else {
+          log.error("Failed to get catalogue: catalogueId={}, status={}, body={}", catalogueId,
+            response.statusCode(), response.bodyAsString());
+          return Future.failedFuture("Failed to get catalogue: " + response.statusMessage());
+        }
+      });
+  }
+
 }

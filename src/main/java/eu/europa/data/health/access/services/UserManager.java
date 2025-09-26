@@ -44,6 +44,7 @@ import org.slf4j.LoggerFactory;
 
 public class UserManager extends AbstractManager {
 
+  public static final String ERROR_WHILE_DELETING_USER_FROM_KEYCLOAK = "Error while deleting user from keycloak";
   private final MongoClient mongoClient;
 
   private final DBHandler dbHandler;
@@ -115,7 +116,7 @@ public class UserManager extends AbstractManager {
 
     // Get the ecasId and userId from the context
     String userId = Context.getEcasId(context);
-    deleteUserHealthData(context, userId);
+    deleteUserHealthData(context, userId, false);
   }
 
   /**
@@ -134,11 +135,11 @@ public class UserManager extends AbstractManager {
     authClient.deleteUser(context, userId)
       .onSuccess(v -> {
         // Continue with further actions (e.g., delete user from health data)
-        deleteUserHealthData(context, username);
+        deleteUserHealthData(context, username, true);
       })
       .onFailure(
         err -> {
-          log.error("Error while deleting user from keycloak" + err);
+          log.error(ERROR_WHILE_DELETING_USER_FROM_KEYCLOAK , err);
           setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
             "Error while deleting user from keycloak: " + err.getMessage());
         });
@@ -147,7 +148,7 @@ public class UserManager extends AbstractManager {
   /**
    * Delete user info and all associated entities based on userId
    */
-  void deleteUserHealthData(@NotNull RoutingContext context, String userId) {
+  void deleteUserHealthData(@NotNull RoutingContext context, String userId, boolean admin) {
     JsonObject queryUserDocument = new JsonObject().put("_id", userId);
     // Query to find documents with the given userId
     JsonObject queryUserId = new JsonObject().put("userId", userId);
@@ -167,7 +168,7 @@ public class UserManager extends AbstractManager {
 
           if (accessApplicationResults.isEmpty() && requestApplicationResults.isEmpty()) {
             // No applications found for this user, proceed to delete the user
-            deleteUserEntity(context, queryUserDocument);
+            deleteUserEntity(context, queryUserDocument, admin);
           } else {
             //Prepare an object of 2 arrays (access/request applications) for sending them to dispatcher
             List<String> accessIds = accessApplicationResults.stream()
@@ -206,7 +207,7 @@ public class UserManager extends AbstractManager {
                         if (result.succeeded()) {
 
                           // Delete the user
-                          deleteUserEntity(context, queryUserDocument);
+                          deleteUserEntity(context, queryUserDocument, admin);
 
                         }
                       }).onFailure(cause -> setUpMessageContextResponse(context,
@@ -235,19 +236,26 @@ public class UserManager extends AbstractManager {
       });
   }
 
-  private void deleteUserEntity(@NotNull RoutingContext context, JsonObject object) {
+  private void deleteUserEntity(@NotNull RoutingContext context, JsonObject object, boolean admin) {
     dbHandler.deleteByField(USER_COLLECTION, object)
-      .onSuccess(jsonObject -> {
-
+      .onComplete(result -> {
         //Audit Log
-        String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
-          AuditLogActionDescription.USER_ACCOUNT_DELETED.getString(), jsonObject.getString(ID));
-        auditLogManager.insertAuditLog(AuditLogObject.USER_ACCOUNT.getString(),
-          AuditLogAction.USER_ACCOUNT.getString(),
-          auditLogActionDescription, context);
-
-        setUpContextResponse(context, HttpResponseStatus.NO_CONTENT);
-      }).onFailure(cause -> setUpMessageContextResponse(context, HttpResponseStatus.NOT_FOUND,
+        if(admin){
+          String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+            AuditLogActionDescription.USER_DELETED.toString(), object.getString(ID));
+          auditLogManager.insertAuditLog(AuditLogObject.USER_ROLE_MANAGEMENT.toString(),
+            AuditLogAction.USER_DELETED.toString(),
+            auditLogActionDescription, context);
+        } else {
+          String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+            AuditLogActionDescription.USER_ACCOUNT_DELETED.toString(), object.getString(ID));
+          auditLogManager.insertAuditLog(AuditLogObject.USER_ACCOUNT.toString(),
+            AuditLogAction.USER_ACCOUNT.toString(),
+            auditLogActionDescription, context);
+        }
+      })
+      .onSuccess(jsonObject -> setUpContextResponse(context, HttpResponseStatus.NO_CONTENT))
+      .onFailure(cause -> setUpMessageContextResponse(context, HttpResponseStatus.NOT_FOUND,
         "User not found"));
   }
 

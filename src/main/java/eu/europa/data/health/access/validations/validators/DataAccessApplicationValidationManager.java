@@ -50,19 +50,17 @@ import static eu.europa.data.health.access.Constants.ORDER_OF_CONTROLS_DATA_EXTR
 import static eu.europa.data.health.access.Constants.OTHER_PERMIT_APPLICATIONS;
 import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM;
 import static eu.europa.data.health.access.Constants.PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS;
-import static eu.europa.data.health.access.Constants.REGION_FOR_CONTROLS_DATA_EXTRACTION;
 import static eu.europa.data.health.access.Constants.RELATIONSHIP_TO_STUDY_COHORT;
 import static eu.europa.data.health.access.Constants.RESULT_MESSAGE;
 import static eu.europa.data.health.access.Constants.SPECIFY_OTHER;
 import static eu.europa.data.health.access.Constants.SPECIFY_OTHER_RELATIVES;
-import static eu.europa.data.health.access.Constants.THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION;
 import static eu.europa.data.health.access.Constants.THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY;
 import static eu.europa.data.health.access.Constants.THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY_REASON;
 import static eu.europa.data.health.access.Constants.THE_PARSING_OF_JSON_FAILED_WITH_ERROR;
 import static eu.europa.data.health.access.Constants.TIME_PERIOD_FOR_DATA_EXTRACTION;
 import static eu.europa.data.health.access.Constants.TIME_PERIOD_FOR_DATA_EXTRACTION_RELATIVES;
-import static eu.europa.data.health.access.Constants.VARIABLES_FOR_DATA_EXTRACTION;
-import static eu.europa.data.health.access.Constants.VARIABLES_FOR_DATA_EXTRACTION_RELATIVES;
+import static eu.europa.data.health.access.Constants.VARIABLES_FOR_DATA_EXTRACTION_ATTACHMENTS;
+import static eu.europa.data.health.access.Constants.VARIABLES_FOR_DATA_EXTRACTION_RELATIVES_ATTACHMENTS;
 import static eu.europa.data.health.access.Constants.WHEN_DATA_NEEDED;
 import static eu.europa.data.health.access.Constants.WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_47;
 import static eu.europa.data.health.access.Constants.WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48;
@@ -78,6 +76,8 @@ import static eu.europa.data.health.access.Constants.WILL_RELATIVES_BE_EXTRACTED
 import static eu.europa.data.health.access.Constants.WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS;
 import static eu.europa.data.health.access.Constants.WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES;
 import static eu.europa.data.health.access.Constants.WILL_THE_DATA_BE_TRANSFERRED;
+import static eu.europa.data.health.access.Constants.OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW;
+import static eu.europa.data.health.access.Constants.PROVIDED_JUSTIFICATION_EXCEPTION;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -102,12 +102,12 @@ import eu.europa.data.health.access.annotations.RequiredFieldBasedOnValue;
 import eu.europa.data.health.access.annotations.Section8DataBeTransferred;
 import eu.europa.data.health.access.annotations.Section8DataBeTransferredOpt48;
 import eu.europa.data.health.access.dto.ApplicationCommonDTO;
-import eu.europa.data.health.access.dto.SectionDTO;
-import eu.europa.data.health.access.dto.data_access.Section3DTO;
-import eu.europa.data.health.access.dto.data_access.Section6CountryDTO;
-import eu.europa.data.health.access.dto.data_access.Section6DTO;
-import eu.europa.data.health.access.dto.data_access.Section7DTO;
-import eu.europa.data.health.access.dto.data_access.SectionDTODataAccessBuilderFactory;
+import eu.europa.data.health.access.dto.sections.Section3DTO;
+import eu.europa.data.health.access.dto.sections.SectionDTO;
+import eu.europa.data.health.access.dto.sections.SectionDTOBuilderFactory;
+import eu.europa.data.health.access.dto.sections.data_access.Section6CountryDTO;
+import eu.europa.data.health.access.dto.sections.data_access.Section6DTO;
+import eu.europa.data.health.access.dto.sections.data_access.Section7DTO;
 import eu.europa.data.health.access.exceptions.FieldError;
 import eu.europa.data.health.access.exceptions.GeneralException;
 import io.vertx.core.json.JsonArray;
@@ -304,15 +304,6 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
   }
 
   private void cleanSection2(JsonObject section2) {
-    boolean isDescriptionChecked =
-      section2.containsKey(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION)
-        && section2.getBoolean(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION,
-        false);
-
-    if (!isDescriptionChecked) {
-      section2.remove("descriptionOfTheProject");
-    }
-
     boolean isSummaryChecked =
       section2.containsKey(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY)
         && section2.getBoolean(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY,
@@ -346,9 +337,6 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
       section3.remove(CONTACT_PERSON_PHONE);
       section3.remove("contactPersonOrganisationName");
       section3.remove("contactPersonBusinessID");
-      section3.remove("contactPersonOperatorID");
-      section3.remove("contactPersonJobTitle");
-      section3.remove("contactPersonAffiliation");
       section3.remove("contactPersonRelationship");
     } else {
       section3.remove("naturalPersonName");
@@ -397,26 +385,25 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
       JsonObject howIsTheStudyCohortFormed = section.getJsonObject("howIsTheStudyCohortFormed");
 
       if (Objects.nonNull(howIsTheStudyCohortFormed) &&
-        !Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b")) {
+        (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(howIsTheStudyCohortFormed.getString("key"), "c"))) {
         section.remove(HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS);
       }
 
       JsonObject hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants = section.getJsonObject(
         HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS);
-      if ((Objects.nonNull(howIsTheStudyCohortFormed) && !Objects.equals(
-        howIsTheStudyCohortFormed.getString("key"), "b")) || (
+      if ((Objects.nonNull(howIsTheStudyCohortFormed) && (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(howIsTheStudyCohortFormed.getString("key"), "c"))) || (
         Objects.nonNull(hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants)
           && !Objects.equals(
           hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants.getString("key"),
           "a"))) {
         section.remove("doesTheInformedConsentCoverTheRequestedRegistryExtractions");
         section.remove("consentAndInformationLetterAttachment");
-        section.remove("confirmThatDataPermitHasBeenGrantedForTheResearchProject");
-        section.remove("permitDecisionAttachment");
       }
 
       if ((Objects.nonNull(howIsTheStudyCohortFormed) && (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(
         howIsTheStudyCohortFormed.getString("key"), "c")))) {
+        section.remove("confirmThatDataPermitHasBeenGrantedForTheResearchProject");
+        section.remove("permitDecisionAttachment");
         section.remove("previouslyIssuedPermitIssuer1");
         section.remove("previouslyIssuedPermitDate1");
         section.remove("previouslyIssuedPermitValidityPeriodFrom1");
@@ -493,25 +480,21 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
 
       //SECTION 6_2
 
-      JsonObject hasTheGroupRelativesFormed2 = section.getJsonObject(
-        HAS_THE_GROUP_RELATIVES_FORMED_2);
-
-      if (Objects.nonNull(hasTheGroupRelativesFormed2) && !Objects.equals(
-        hasTheGroupRelativesFormed2.getString("key"),
-        "a")) {
+      JsonObject willControlsBeExtracted = section.getJsonObject(WILL_CONTROLS_BE_EXTRACTED);
+      if (Objects.nonNull(willControlsBeExtracted) && !Objects.equals(
+        willControlsBeExtracted.getString("key"), "a")) {
+        section.remove(HAS_THE_GROUP_RELATIVES_FORMED_2);
+        section.remove("previouslyIssuedPermitDate2");
+        section.remove("previouslyIssuedPermitValidityPeriodFrom2");
+        section.remove("previouslyIssuedPermitValidityPeriodTo2");
+        section.remove("previouslyIssuedPermitNumber2");
         section.remove("previouslyIssuedPermitIssuer2");
         section.remove("previouslyIssuedPermitDate2");
         section.remove("previouslyIssuedPermitValidityPeriodFrom2");
         section.remove("previouslyIssuedPermitValidityPeriodTo2");
         section.remove("previouslyIssuedPermitNumber2");
-      }
-
-      JsonObject willControlsBeExtracted = section.getJsonObject(WILL_CONTROLS_BE_EXTRACTED);
-      if (Objects.nonNull(willControlsBeExtracted) && !Objects.equals(
-        willControlsBeExtracted.getString("key"), "a")) {
         section.remove(WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS);
-        section.remove(REGION_FOR_CONTROLS_DATA_EXTRACTION);
-        section.remove(VARIABLES_FOR_DATA_EXTRACTION);
+        section.remove(VARIABLES_FOR_DATA_EXTRACTION_ATTACHMENTS);
         section.remove(TIME_PERIOD_FOR_DATA_EXTRACTION);
         section.remove(EXTRACTION_CRITERIA_FOR_CONTROLS);
         section.remove("sizeOfControlGroup");
@@ -526,14 +509,25 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
         section.remove(MORE_INFO_ON_EXTRACTION_PERIODS);
         section.remove(ORDER_OF_CONTROLS_DATA_EXTRACTION);
       } else {
+        JsonObject hasTheGroupRelativesFormed2 = section.getJsonObject(
+          HAS_THE_GROUP_RELATIVES_FORMED_2);
+
+        if (Objects.nonNull(hasTheGroupRelativesFormed2) && !Objects.equals(
+          hasTheGroupRelativesFormed2.getString("key"),
+          "a")) {
+          section.remove("previouslyIssuedPermitIssuer2");
+          section.remove("previouslyIssuedPermitDate2");
+          section.remove("previouslyIssuedPermitValidityPeriodFrom2");
+          section.remove("previouslyIssuedPermitValidityPeriodTo2");
+          section.remove("previouslyIssuedPermitNumber2");
+        }
+
         JsonObject willSameDataBeExtractedForControls = section.getJsonObject(
           WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS);
         if (Objects.nonNull(willSameDataBeExtractedForControls) && !Objects.equals(
           willSameDataBeExtractedForControls.getString("key"), "b")) {
-          section.remove(REGION_FOR_CONTROLS_DATA_EXTRACTION);
-          section.remove(VARIABLES_FOR_DATA_EXTRACTION);
+          section.remove(VARIABLES_FOR_DATA_EXTRACTION_ATTACHMENTS);
           section.remove(TIME_PERIOD_FOR_DATA_EXTRACTION);
-          section.remove(EXTRACTION_CRITERIA_FOR_CONTROLS);
         }
 
         JsonObject willDataForControlsBeExtractedSimultaneously =
@@ -567,27 +561,19 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
       }
 
       //SECTION 6_3
-
-      JsonObject hasTheGroupRelativesFormed3 = section.getJsonObject(
-        HAS_THE_GROUP_RELATIVES_FORMED_3);
-
-      if (Objects.nonNull(hasTheGroupRelativesFormed3) && !Objects.equals(
-        hasTheGroupRelativesFormed3.getString("key"),
-        "a")) {
-        section.remove("previouslyIssuedPermitIssuer3");
-        section.remove("previouslyIssuedPermitDate3");
-        section.remove("previouslyIssuedPermitValidityPeriodFrom3");
-        section.remove("previouslyIssuedPermitValidityPeriodTo3");
-        section.remove("previouslyIssuedPermitNumber3");
-      }
-
       JsonObject willRelativesBeExtracted = section.getJsonObject(WILL_RELATIVES_BE_EXTRACTED);
 
       if (Objects.nonNull(willRelativesBeExtracted) && !Objects.equals(
         willRelativesBeExtracted.getString("key"),
         "a")) {
+        section.remove(HAS_THE_GROUP_RELATIVES_FORMED_3);
+        section.remove("previouslyIssuedPermitIssuer3");
+        section.remove("previouslyIssuedPermitDate3");
+        section.remove("previouslyIssuedPermitValidityPeriodFrom3");
+        section.remove("previouslyIssuedPermitValidityPeriodTo3");
+        section.remove("previouslyIssuedPermitNumber3");
         section.remove(WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES);
-        section.remove(VARIABLES_FOR_DATA_EXTRACTION_RELATIVES);
+        section.remove(VARIABLES_FOR_DATA_EXTRACTION_RELATIVES_ATTACHMENTS);
         section.remove(TIME_PERIOD_FOR_DATA_EXTRACTION_RELATIVES);
         section.remove(RELATIONSHIP_TO_STUDY_COHORT);
         section.remove("sizeOfRelativesGroup");
@@ -600,14 +586,26 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
         section.remove("moreInfoOnExtractionPeriodsRelatives");
         section.remove("orderOfRelativesDataExtraction");
       } else {
+        JsonObject hasTheGroupRelativesFormed3 = section.getJsonObject(
+          HAS_THE_GROUP_RELATIVES_FORMED_3);
+
+        if (Objects.nonNull(hasTheGroupRelativesFormed3) && !Objects.equals(
+          hasTheGroupRelativesFormed3.getString("key"),
+          "a")) {
+          section.remove("previouslyIssuedPermitIssuer3");
+          section.remove("previouslyIssuedPermitDate3");
+          section.remove("previouslyIssuedPermitValidityPeriodFrom3");
+          section.remove("previouslyIssuedPermitValidityPeriodTo3");
+          section.remove("previouslyIssuedPermitNumber3");
+        }
+
         JsonObject willSameDataBeExtractedForRelatives = section.getJsonObject(
           WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES);
         if (Objects.nonNull(willSameDataBeExtractedForRelatives) && !Objects.equals(
           willSameDataBeExtractedForRelatives.getString("key"),
           "b")) {
-          section.remove(VARIABLES_FOR_DATA_EXTRACTION_RELATIVES);
+          section.remove(VARIABLES_FOR_DATA_EXTRACTION_RELATIVES_ATTACHMENTS);
           section.remove(TIME_PERIOD_FOR_DATA_EXTRACTION_RELATIVES);
-          section.remove(RELATIONSHIP_TO_STUDY_COHORT);
         }
 
         JsonObject willDataForRelativesBeExtractedSimultaneously = section.getJsonObject(
@@ -737,6 +735,12 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
         section8.remove(LEGAL_BASIS_FOR_TRANSFERRING_THE_DATA_OUTSIDE_EU_OTHER_OPTIONS);
       }
     }
+    JsonObject isOptedOutOfTheMechanismProvidedInNationalLaw = section8.getJsonObject(
+      OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW);
+    if (Objects.nonNull(isOptedOutOfTheMechanismProvidedInNationalLaw) &&
+      !"a".equals(isOptedOutOfTheMechanismProvidedInNationalLaw.getString("key"))) {
+      section8.remove(PROVIDED_JUSTIFICATION_EXCEPTION);
+    }
   }
 
 
@@ -767,8 +771,8 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
     try {
       ObjectMapper objectMapper = new ObjectMapper();
       // Generate the sectionDTO class based on the provided Section Number
-      Class<? extends SectionDTO> sectionDTOClass = SectionDTODataAccessBuilderFactory.createSectionDTO(
-        sectionNumberFromUrl);
+      Class<? extends SectionDTO> sectionDTOClass = SectionDTOBuilderFactory.createSectionDTO(
+        sectionNumberFromUrl, DataAccessApplicationValidationManager.class);
 
       SectionDTO sectionDTO;
       if (sectionNumberFromUrl == 6) {
@@ -984,6 +988,9 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
   }
 
   static String getSection6Subsection(String fieldName) {
+    if(fieldName != null && fieldName.equals("catalogIds")){
+      return null;
+    }
     if (fieldName != null && (fieldName.equals("country_id")
       || fieldName.equals("hdabContacts")
       || fieldName.equals("howWillTheDataFromDifferentSourcesBeLinked"))) {
@@ -991,11 +998,10 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
     } else if (fieldName != null && (fieldName.equals(WILL_CONTROLS_BE_EXTRACTED)
       || fieldName.equals("hasTheGroupRelativesFormed2")
       || fieldName.equals(WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS)
-      || fieldName.equals(REGION_FOR_CONTROLS_DATA_EXTRACTION)
       || fieldName.equals("dataHoldersForControls")
       || fieldName.equals("databasesForControls")
       || fieldName.equals("datasetsForControls")
-      || fieldName.equals(VARIABLES_FOR_DATA_EXTRACTION)
+      || fieldName.equals(VARIABLES_FOR_DATA_EXTRACTION_ATTACHMENTS)
       || fieldName.equals(TIME_PERIOD_FOR_DATA_EXTRACTION)
       || fieldName.equals(EXTRACTION_CRITERIA_FOR_CONTROLS)
       || fieldName.equals("sizeOfControlGroup")
@@ -1021,7 +1027,7 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
       || fieldName.equals("dataHoldersForRelatives")
       || fieldName.equals("databasesForRelatives")
       || fieldName.equals("datasetsForRelatives")
-      || fieldName.equals(VARIABLES_FOR_DATA_EXTRACTION_RELATIVES)
+      || fieldName.equals(VARIABLES_FOR_DATA_EXTRACTION_RELATIVES_ATTACHMENTS)
       || fieldName.equals(TIME_PERIOD_FOR_DATA_EXTRACTION_RELATIVES)
       || fieldName.equals(RELATIONSHIP_TO_STUDY_COHORT)
       || fieldName.equals("sizeOfRelativesGroup")

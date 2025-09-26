@@ -17,11 +17,9 @@ package eu.europa.data.health.access.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import eu.europa.data.health.access.annotations.AlphanumericFormat;
-import eu.europa.data.health.access.annotations.DateHigherOrEqual;
-import eu.europa.data.health.access.annotations.DateLowerOrEqual;
+import eu.europa.data.health.access.annotations.TranslatableField;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.apache.jena.sparql.function.library.max;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -41,5 +39,6 @@ public class ProvideInformationDTO {
   String sizeOfFiles;
 
   @Size(max = 500)
+  @TranslatableField
   String notes;
 }

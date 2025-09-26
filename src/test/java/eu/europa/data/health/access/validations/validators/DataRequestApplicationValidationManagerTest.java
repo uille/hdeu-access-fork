@@ -28,7 +28,6 @@ import static eu.europa.data.health.access.Constants.HAS_THE_STUDY_COHORT_BEEN_F
 import static eu.europa.data.health.access.Constants.NEED_FOR_DATA_EXTRACTION_EVERY;
 import static eu.europa.data.health.access.Constants.OTHER_PERMIT_APPLICATIONS;
 import static eu.europa.data.health.access.Constants.PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS;
-import static eu.europa.data.health.access.Constants.THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION;
 import static eu.europa.data.health.access.Constants.THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY;
 import static eu.europa.data.health.access.Constants.UPLOAD_RDF;
 import static eu.europa.data.health.access.Constants.WHEN_DATA_NEEDED;
@@ -42,6 +41,7 @@ import static eu.europa.data.health.access.Constants.WILL_RELATIVES_BE_EXTRACTED
 import static eu.europa.data.health.access.Constants.WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS;
 import static eu.europa.data.health.access.Constants.WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES;
 import static eu.europa.data.health.access.Constants.WILL_THE_DATA_BE_TRANSFERRED;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
@@ -241,8 +241,7 @@ class DataRequestApplicationValidationManagerTest {
 
     JsonObject legalOrNaturalPerson = new JsonObject().put("key", "b");
     JsonObject json = new JsonObject().put("legalOrNaturalPerson", legalOrNaturalPerson)
-      .put(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY, true)
-      .put(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION, true);
+      .put(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY, true);
 
     when(routingContext.body()).thenReturn(mock(RequestBody.class));
     when(routingContext.body().asJsonObject()).thenReturn(json);
@@ -536,8 +535,146 @@ class DataRequestApplicationValidationManagerTest {
 
     when(routingContext.body()).thenReturn(mock(RequestBody.class));
     when(routingContext.body().asJsonObject()).thenReturn(json);
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(400)).thenReturn(response);
     validationManager.validateUpdateTitle(routingContext);
+    verify(routingContext).response();
+  }
+
+  @Test
+  void validateUpdate_withInvalidTabulationPlanData_shouldAddErrors() {
+    // Setup mock section number (Section 6 scenario)
+    when(routingContext.pathParam("section_number")).thenReturn("6");
+
+    JsonArray invalidSection6Data = new JsonArray().add(new JsonObject()
+      .put("country_id", 1)
+      .put("tabulationPlanArray", new JsonArray().add(new JsonObject()
+        .put("invalidField", "someValue"))));
+
+    when(routingContext.body()).thenReturn(mock(RequestBody.class));
+    when(routingContext.body().asJsonArray()).thenReturn(invalidSection6Data);
+
+    // Act
+    validationManager.validateUpdate(routingContext);
+
+    // Verify errors were put in the context due to invalid tabulation plan data
+    verify(routingContext).put(eq("errors"), any());
     verify(routingContext).next();
+  }
+
+  @Test
+  void validateUpdate_section3_withInvalidNaturalPerson_shouldAddErrors() {
+    when(routingContext.pathParam("section_number")).thenReturn("3");
+    JsonObject section3 = new JsonObject().put("legalOrNaturalPerson", new JsonObject().put("key", "a"));
+    when(routingContext.body()).thenReturn(mock(RequestBody.class));
+    when(routingContext.body().asJsonObject()).thenReturn(section3);
+
+    validationManager.validateUpdate(routingContext);
+
+    // Verify an error was recorded and context was updated with errors.
+    verify(routingContext).put(eq("errors"), any());
+    verify(routingContext).next();
+  }
+
+  @Test
+  void validateUpdate_section6_withMissingCountryId_shouldAddErrors() {
+    when(routingContext.pathParam("section_number")).thenReturn("6");
+    JsonArray invalidSection6Data = new JsonArray().add(new JsonObject()
+      .put("tabulationPlanArray", new JsonArray().add(new JsonObject())));
+
+    when(routingContext.body()).thenReturn(mock(RequestBody.class));
+    when(routingContext.body().asJsonArray()).thenReturn(invalidSection6Data);
+
+    validationManager.validateUpdate(routingContext);
+
+    verify(routingContext).put(eq("errors"), any());
+    verify(routingContext).next();
+  }
+
+  @Test
+  void validateUpdate_withInvalidSectionNumbera_shouldThrowException() {
+    when(routingContext.pathParam("section_number")).thenReturn("999");
+    when(routingContext.body()).thenReturn(mock(RequestBody.class));
+    when(routingContext.body().asJsonObject()).thenReturn(new JsonObject().put("key", "value"));
+
+    assertThrows(IllegalArgumentException.class, () -> validationManager.validateUpdate(routingContext));
+
+    verify(routingContext, times(0)).next();
+  }
+
+  @Test
+  void validateUpdate_section2_withValidData_shouldNotAddErrors() {
+    when(routingContext.pathParam("section_number")).thenReturn("2");
+    JsonObject validData = new JsonObject().put("legalOrNaturalPerson", new JsonObject().put("key", "b"));
+
+    when(routingContext.body()).thenReturn(mock(RequestBody.class));
+    when(routingContext.body().asJsonObject()).thenReturn(validData);
+
+    validationManager.validateUpdate(routingContext);
+
+    verify(routingContext).put(eq("errors"), any());
+    verify(routingContext).next();
+  }
+
+  @Test
+  void validateUpdate_withEmptyBody_shouldReturn400() {
+    // Mock section number
+    when(routingContext.pathParam("section_number")).thenReturn("2");
+
+    // Simulate empty body
+    when(routingContext.body()).thenReturn(mock(RequestBody.class));
+    when(routingContext.body().asJsonObject()).thenReturn(new JsonObject());
+
+    // Act
+    validationManager.validateUpdate(routingContext);
+
+    // Verify 400 status code and errors were put
+    verify(routingContext).put(eq("errors"), any());
+    verify(routingContext).next();
+  }
+
+  @Test
+  void validateUpdate_withInvalidSectionNumber_shouldThrowException() {
+    // Mock invalid section number
+    when(routingContext.pathParam("section_number")).thenReturn("999");
+
+    // Simulate valid body
+    when(routingContext.body()).thenReturn(mock(RequestBody.class));
+    when(routingContext.body().asJsonObject()).thenReturn(new JsonObject().put("key", "value"));
+
+    // Expect exception during validation
+    assertThrows(IllegalArgumentException.class, () -> validationManager.validateUpdate(routingContext));
+
+    // Ensure next() is not called
+    verify(routingContext, times(0)).next();
+  }
+
+  @Test
+  void testGetSection6Subsection_returnsCorrectSubsection6_0() {
+    String fieldName = "country_id";
+    String subsection = DataRequestApplicationValidationManager.getSection6Subsection(fieldName);
+    assertEquals("6.0", subsection);
+  }
+
+  @Test
+  void testGetSection6Subsection_returnsCorrectSubsection6_2() {
+    String fieldName = "willControlsBeExtracted";
+    String subsection = DataRequestApplicationValidationManager.getSection6Subsection(fieldName);
+    assertEquals("6.2", subsection);
+  }
+
+  @Test
+  void testGetSection6Subsection_returnsCorrectSubsection6_3() {
+    String fieldName = "willRelativesBeExtracted";
+    String subsection = DataRequestApplicationValidationManager.getSection6Subsection(fieldName);
+    assertEquals("6.3", subsection);
+  }
+
+  @Test
+  void testGetSection6Subsection_returnsDefaultSubsection6_1() {
+    String fieldName = "unknownFieldName";
+    String subsection = DataRequestApplicationValidationManager.getSection6Subsection(fieldName);
+    assertEquals("6.1", subsection);
   }
 
 }

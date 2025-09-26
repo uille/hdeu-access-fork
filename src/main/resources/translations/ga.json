@@ -17,6 +17,21 @@
         },
         "applicationDatabases": {
             "label": "Cén bunachar/cé na bunachair sonraí nó clárlann/clárlanna as a mbainfear na sonraí?"
+        },
+        "variables": {
+            "label": "Athróga"
+        },
+        "datatype": {
+            "label": "Cineálacha sonraí (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Tuairisc"
+        },
+        "title": {
+            "label": "Athróga"
+        },
+        "emptyTable": {
+            "label": "Gan athróga ar bith"
         }
     },
     "section2": {
@@ -102,10 +117,10 @@
                 },
                 {
                     "key": "b",
-                    "value": "Duine nádúrtha",
-                    "info": "(Má roghnaíonn tú an rogha seo, deimhníonn tú go ndéanann tú iarratas ar shonraí mar dhuine príobháideach gan aon chleamhnacht.)"
+                    "value": "Duine nádúrtha"
                 }
-            ]
+            ],
+            "info": "(Má roghnaíonn tú an rogha seo, deimhníonn tú go ndéanann tú iarratas ar shonraí mar dhuine príobháideach gan aon chleamhnacht.)"
         },
         "legalPerson": "Duine dlítheanach",
         "naturalPerson": "Duine nádúrtha",
@@ -141,15 +156,6 @@
         },
         "contactPersonBusinessIdentifier": {
             "label": "Aitheantas gnó na heagraíochta"
-        },
-        "contactPersonOperatorIdentifier": {
-            "label": "Aitheantas an oibreora"
-        },
-        "contactPersonJobTitle": {
-            "label": "Teideal an phoist"
-        },
-        "contactPersonAffiliation": {
-            "label": "Cleamhnacht"
         },
         "contactPersonRelationship": {
             "label": "Cad é an gaol idir an duine teagmhála agus an t-iarratasóir? (E.g. fostaí a dhéanann iarratas ar shonraí thar ceann a n-eagraíochta.)"
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "An cuspóir atá le húsáid sonraí",
-        "section5Description": "Ba cheart d’iarratasóirí an cuspóir dá bhfuil sonraí á lorg a léiriú, i gcomhréir le hAirteagal 53(1) den cheartúchán ar Rialachán EHDS a d’fhormheas Parlaimint na hEorpa an 17/12. \nNí mór d’iarratasóirí a mhíniú agus a mhaíomh cén fáth a bhfuil gá leis na sonraí a iarradh chun na críche a shonraítear a bhaineann lena n-úsáid. Iarrtar ar iarratasóirí freisin eolas a chur ar fáil maidir le haidhm an tionscadail. Ansin, ag brath ar an gcuspóir úsáide (taighde nó gan taighde), ní mór d’iarratasóirí achoimre ar an bplean a sholáthar chun na sonraí nó achoimre ar an bplean taighde a úsáid, agus faisnéis faoin duine atá freagrach as an úsáid sonraí nó as an taighde.",
+        "section5Description": "Ba cheart d’iarratasóirí an cuspóir a bhfuil sonraí á lorg ina leith a léiriú, i gcomhréir le hAirteagal 53(1) de Rialachán (AE) 2025/327 ó Pharlaimint na hEorpa agus ón gComhairle an 11 Feabhra 2025 maidir leis an Spás Eorpach Sonraí Sláinte. Ní mór d’iarratasóirí a mhíniú agus a mhaíomh cén fáth a bhfuil gá leis na sonraí arna n-iarraidh chun na críche úsáide atá sonraithe dóibh. Iarrtar ar iarratasóirí freisin eolas a chur ar fáil maidir le haidhm an tionscadail. Ansin, ag brath ar an gcuspóir úsáide (taighde nó nach taighde), ní mór d'iarratasóirí achoimre ar an bplean a sholáthar chun na sonraí nó achoimre ar an bplean taighde a úsáid, agus faisnéis faoin duine atá freagrach as an úsáid sonraí nó as an taighde.",
         "purposeOfUse": {
             "label": "An cuspóir atá le húsáid sonraí. Ní thabharfaidh comhlachtaí rochtana sonraí sláinte rochtain ar ríomhshonraí sláinte dá dtagraítear in Airteagal 51 ach amháin i gcás ina gcomhlíonann an chríoch atá beartaithe don phróiseáil atá á déanamh ag an iarratasóir na críocha seo a leanas (de réir Airteagal 53(1)) a liostaítear thíos).",
             "tooltip": "Cuspóirí Rialachán EHDS.",
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Cén tairbhe a bhfuil coinne leis a bhaineann le húsáid na ríomhshonraí sláinte agus conas a chuireann an tairbhe sin leis na cuspóirí dá dtagraítear in 5.1?"
         },
+        "describeApplicantsQualification": {
+            "label": "Tabhair tuairisc ar cháilíochtaí an iarratasóra i ndáil leis an gcríoch nó na críocha atá beartaithe maidir le húsáid sonraí agus saineolas iomchuí (lena n-áirítear cáilíochtaí gairmiúla)"
+        },
         "legalBasis": {
             "label": "Sonraigh an bunús dlí, mar shampla an reachtaíocht ábhartha, ina sainítear na cúraimí a thagann faoi do shainordú agus lena ndeimhnítear gurb é an úsáid atá beartaithe agat a bhaint as na sonraí ná na cúraimí sin a éascú.",
             "tooltip": "Mínigh anseo cén fáth a bhfuil an méid sonraí a ndéanann tú iarratas orthu riachtanach do do chuspóir úsáide sonraí. Réasúnú agus cur síos a dhéanamh ar an gcaoi a bhfreagraíonn ábhar na staitisticí iarrtha do chuspóir na húsáide atá luaite san fheidhmchlár agus do riachtanais sonraí a chomhlíonadh."
@@ -320,222 +329,16 @@
             "label": "Tabhair nasc chuig an doiciméadacht tacaíochta mar fhianaise ar an mbunús dlí"
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Tabhair achoimre ar do phlean chun na sonraí a úsáid. Ní mór an achoimre a scríobh i gceann de theangacha oifigiúla an Aontais Eorpaigh"
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Roghnaigh teanga na hachoimre",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgáiris"
-                },
-                {
-                    "key": "hr",
-                    "value": "Cróitis"
-                },
-                {
-                    "key": "cs",
-                    "value": "Seicis"
-                },
-                {
-                    "key": "da",
-                    "value": "Danmhairgis"
-                },
-                {
-                    "key": "nl",
-                    "value": "Ollainnis"
-                },
-                {
-                    "key": "en",
-                    "value": "Béarla"
-                },
-                {
-                    "key": "et",
-                    "value": "Eastóinis"
-                },
-                {
-                    "key": "fi",
-                    "value": "Fionlainnis"
-                },
-                {
-                    "key": "fr",
-                    "value": "Fraincis"
-                },
-                {
-                    "key": "de",
-                    "value": "Gearmáinis"
-                },
-                {
-                    "key": "el",
-                    "value": "Gréigis"
-                },
-                {
-                    "key": "hu",
-                    "value": "Ungáiris"
-                },
-                {
-                    "key": "ga",
-                    "value": "Gaeilge"
-                },
-                {
-                    "key": "it",
-                    "value": "Iodáilis"
-                },
-                {
-                    "key": "lv",
-                    "value": "Laitvis"
-                },
-                {
-                    "key": "lt",
-                    "value": "Liotuáinis"
-                },
-                {
-                    "key": "mt",
-                    "value": "Máltais"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polainnis"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portaingéilis"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rómáinis"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slóvaicis"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slóivéinis"
-                },
-                {
-                    "key": "es",
-                    "value": "Spáinnis"
-                },
-                {
-                    "key": "sv",
-                    "value": "Sualainnis"
-                }
-            ]
+            "label": "Tabhair achoimre ar do phlean chun na sonraí a úsáid. Ní mór an achoimre a scríobh i gceann de theangacha oifigiúla an Aontais Eorpaigh",
+            "tooltip": "Déanann an córas na comhaid uaslódáilte a aistriú go huathoibríoch. Is é an t-iarratasóir atá freagrach as cáilíocht, inléiteacht agus formáidiú na gcomhad uaslódáilte."
         },
         "summaryOfResearchPlan": {
-            "label": "Déan achoimre ar do phlean taighde. Ní mór an achoimre a scríobh i gceann de theangacha oifigiúla an Aontais Eorpaigh"
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Roghnaigh teanga na hachoimre",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgáiris"
-                },
-                {
-                    "key": "hr",
-                    "value": "Cróitis"
-                },
-                {
-                    "key": "cs",
-                    "value": "Seicis"
-                },
-                {
-                    "key": "da",
-                    "value": "Danmhairgis"
-                },
-                {
-                    "key": "nl",
-                    "value": "Ollainnis"
-                },
-                {
-                    "key": "en",
-                    "value": "Béarla"
-                },
-                {
-                    "key": "et",
-                    "value": "Eastóinis"
-                },
-                {
-                    "key": "fi",
-                    "value": "Fionlainnis"
-                },
-                {
-                    "key": "fr",
-                    "value": "Fraincis"
-                },
-                {
-                    "key": "de",
-                    "value": "Gearmáinis"
-                },
-                {
-                    "key": "el",
-                    "value": "Gréigis"
-                },
-                {
-                    "key": "hu",
-                    "value": "Ungáiris"
-                },
-                {
-                    "key": "ga",
-                    "value": "Gaeilge"
-                },
-                {
-                    "key": "it",
-                    "value": "Iodáilis"
-                },
-                {
-                    "key": "lv",
-                    "value": "Laitvis"
-                },
-                {
-                    "key": "lt",
-                    "value": "Liotuáinis"
-                },
-                {
-                    "key": "mt",
-                    "value": "Máltais"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polainnis"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portaingéilis"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rómáinis"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slóvaicis"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slóivéinis"
-                },
-                {
-                    "key": "es",
-                    "value": "Spáinnis"
-                },
-                {
-                    "key": "sv",
-                    "value": "Sualainnis"
-                }
-            ]
+            "label": "Déan achoimre ar do phlean taighde. Ní mór an achoimre a scríobh i gceann de theangacha oifigiúla an Aontais Eorpaigh",
+            "tooltip": "Déanann an córas na comhaid uaslódáilte a aistriú go huathoibríoch. Is é an t-iarratasóir atá freagrach as cáilíocht, inléiteacht agus formáidiú na gcomhad uaslódáilte."
         },
         "personResponsibleLabel": "An duine atá freagrach as úsáid sonraí",
         "personResponsibleName": {
             "label": "Ainm iomlán"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Teideal an phoist"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Cleamhnacht"
         },
         "personResearchSameAsContactPerson": {
             "label": "Mar an gcéanna leis an teagmhálaí a luaitear i roinn 3 (Sonraí an iarratasóra agus an teagmhálaí)?"
@@ -546,12 +349,6 @@
         },
         "personResearchName": {
             "label": "Ainm iomlán"
-        },
-        "personResearchJobTitle": {
-            "label": "Teideal an phoist"
-        },
-        "personResearchAffiliation": {
-            "label": "Cleamhnacht"
         },
         "formatOfTheElectronicHealthData": {
             "label": "Roghnaigh formáid na ríomhshonraí sláinte atá le cur ar fáil:",
@@ -638,6 +435,9 @@
         },
         "consentAndInformationLetterAttachment": {
             "label": "Ceangail an toiliú agus an litir eolais a chuir tú chuig na hábhair staidéir. Ná ceangail foirmeacha a líontar isteach toisc go gcuimsíonn siad sonraí pearsanta."
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "An raibh an cohórt bunaithe ar chead sonraí a deonaíodh níos luaithe?"
         },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Dearbhaím gur deonaíodh an cead sonraí don tionscadal taighde seo"
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "Cé chomh minic is gá na sonraí a asbhaint?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "An bhfuil sé i gceist agat úsáid a bhaint as eisceacht ón gceart chun rogha an diúltaithe de réir an tsásra dá bhforáiltear i ndlí náisiúnta an Bhallstáit a bhfuil iarratas á dhéanamh agat ar a chuid sonraí?",
+            "tooltip": "EHDS article 71(4) “Mar eisceacht ar an gceart maidir le rogha gan a bheith páirteach dá bhforáiltear i mír 1, féadfaidh Ballstát foráil a dhéanamh ina dhlí náisiúnta maidir le sásra chun sonraí, ar feidhmíodh ceart maidir le rogha gan a bheith páirteach ina leith a chur ar fáil, ar choinníoll go gcomhlíontar na coinníollacha uile seo a leanas: (féach an t-airteagal le haghaidh coinníollacha iomlána)’"
+        },
+        "providedJustificationException": {
+            "label": "Tabhair an t-údar atá leis an eisceacht sin."
+        },
         "needForDataExtractionEvery": {
             "label": "Ní mór na sonraí a bhaint gach",
             "tooltip": "Más mian leat na sonraí a bhaint arís agus arís eile thar thréimhse áirithe ama, tabhair faoi deara go bhféadfadh na sainmhínithe agus an modh bailithe sonraí athrú le linn na tréimhse athbhreithnithe i gcásanna áirithe. Tabhair faoi deara gurb é uasmhinicíocht na hasbhainte sonraí gach ráithe"
@@ -835,14 +642,11 @@
         "willSameDataBeExtractedForControls": {
             "label": "An mbainfear na sonraí céanna leis an gcohórt le haghaidh rialuithe?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Mura lorgaíonn tú sonraí le haghaidh rialuithe ón tír ar fad, cén réigiún/cé na réigiúin agus/nó cén chathair/cathracha agus/nó cén bardas/bardas a lorgaíonn tú sonraí uathu?"
-        },
         "fromWhichDataHolderLabel": "Cén sealbhóir sonraí nó cé na sealbhóirí sonraí as a mbainfear na sonraí le haghaidh rialuithe?",
         "fromWhichDatabaseLabel": "Cén bunachar/cé na bunachair sonraí/clárlann/clárlanna as a mbainfear na sonraí le haghaidh rialuithe?",
         "fromWhichDatasetLabel": "Cén taifead/cé na taifid/clár/cláir tacair sonraí as a mbainfear na sonraí le haghaidh rialuithe?",
-        "variablesForDataExtraction": {
-            "label": "Má tá an fhaisnéis ar fáil, liostaigh na hathróga atá le húsáid san asbhaint sonraí. Úsáid na téarmaí beachta arna soláthar ag an sealbhóir sonraí/na sealbhóirí sonraí faoi seach sa chatalóg meiteashonraí."
+        "variablesForDataExtractionAttachments": {
+            "label": "Má tá an fhaisnéis ar fáil, cuir liosta na n-athróg atá le húsáid san asbhaint sonraí i gceangal. Úsáid na téarmaí beachta arna soláthar ag an sealbhóir sonraí/na sealbhóirí sonraí faoi seach sa chatalóg meiteashonraí."
         },
         "timePeriodForDataExtraction": {
             "label": "Cén tréimhse (cé na tréimhsí) ama ar lena linn a asbhainfear na taifid tacair sonraí?"
@@ -947,8 +751,8 @@
         "whichDataHoldersForRelatives": "Cén sealbhóir sonraí nó cé na sealbhóirí sonraí as a mbainfear na sonraí maidir le gaolta?",
         "whichDatabaseForRelatives": "Cén bunachar/cé na bunachair sonraí/clárlann/clárlanna óna mbainfear na sonraí maidir le gaolta?",
         "whichDatasetsForRelatives": "Cén taifead/cé na taifid tacair sonraí/clár/cláir óna mbainfear na sonraí maidir le gaolta?",
-        "variablesForDataExtractionRelatives": {
-            "label": "Má tá an fhaisnéis ar fáil, liostaigh na hathróga atá le húsáid san asbhaint sonraí. Úsáid na téarmaí beachta arna soláthar ag an sealbhóir sonraí/na sealbhóirí sonraí faoi seach sa chatalóg meiteashonraí."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "Má tá an fhaisnéis ar fáil, cuir liosta na n-athróg atá le húsáid san asbhaint sonraí i gceangal. Úsáid na téarmaí beachta arna soláthar ag an sealbhóir sonraí/na sealbhóirí sonraí faoi seach sa chatalóg meiteashonraí."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "Cén tréimhse (cé na tréimhsí) ama ar lena linn a asbhainfear na taifid tacair sonraí?"
@@ -1062,7 +866,6 @@
         "otherPermitApplications": {
             "label": "An bhfuil iarratais eile ar cheadanna ar feitheamh agat?"
         },
-        "listTheOtherData": "Liostaigh na sonraí eile atá le cur le chéile agus foinsí na sonraí sin:",
         "applicationIssuer": {
             "label": "Eisitheoir"
         },
@@ -1360,6 +1163,13 @@
             "label": "Conas a chomhlíonann tú prionsabal an íoslaghdaithe sonraí (Rialachán an Aontais maidir le Cosaint Sonraí) agus na sonraí á bpróiseáil agat? ",
             "tooltip": "Airteagal 4(1c) de EU DPR ‘Beidh sonraí pearsanta leordhóthanach, ábhartha agus teoranta don mhéid is gá maidir leis na críocha dá ndéantar iad a phróiseáil (‘íoslaghdú sonraí’)’"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "An bhfuil sé i gceist agat úsáid a bhaint as eisceacht ón gceart chun rogha an diúltaithe de réir an tsásra dá bhforáiltear i ndlí náisiúnta an Bhallstáit a bhfuil iarratas á dhéanamh agat ar a chuid sonraí?",
+            "tooltip": "EHDS article 71(4) “Mar eisceacht ar an gceart maidir le rogha gan a bheith páirteach dá bhforáiltear i mír 1, féadfaidh Ballstát foráil a dhéanamh ina dhlí náisiúnta maidir le sásra chun sonraí, ar feidhmíodh ceart maidir le rogha gan a bheith páirteach ina leith a chur ar fáil, ar choinníoll go gcomhlíontar na coinníollacha uile seo a leanas: (féach an t-airteagal le haghaidh coinníollacha iomlána)’"
+        },
+        "providedJustificationException": {
+            "label": "Tabhair an t-údar atá leis an eisceacht sin."
+        },
         "protectionAndSecurityStatements": {
             "label": "Chun leanúint ar aghaidh leis an iarratas seo, ní mór duit na ráitis seo a leanas a dheimhniú (ráitis cosanta sonraí agus ráitis a bhaineann le slándáil):"
         },
@@ -1383,13 +1193,10 @@
             "label": "Mar an gcéanna leis an teagmhálaí a luaitear i Roinn 3?"
         },
         "listTheFullNames": {
-            "label": "Liostaigh ainmneacha iomlána, cleamhnachtaí agus seoltaí ríomhphoist na ndaoine go léir a bheidh ag próiseáil na sonraí."
+            "label": "Liostaigh ainmneacha iomlána agus seoltaí ríomhphoist na ndaoine go léir a bheidh ag próiseáil na sonraí."
         },
         "fullName": {
             "label": "Ainm Iomlán"
-        },
-        "affiliation": {
-            "label": "Cleamhnacht"
         },
         "emailAddress": {
             "label": "Seoladh Ríomhphoist"
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Deimhniú faisnéise",
-        "section10Description": "Sula bpróiseálfar an t-iarratas seo, ní mór duit, mar an t-iarratasóir, táillí próiseála a fhormheas.",
+        "section10Description": "Sula bpróiseálfar an t-iarratas seo, ní mór duit, mar an t-iarratasóir, táillí próiseála a fhormheas. Faisnéis a chur isteach maidir leis na praghsanna agus an meastachán uasta ar phraghsanna le haghaidh asbhaint sonraí a luaithe a bheidh sí ar fáil.",
         "submitYouApplicationText": "Chun d’iarratas a chur isteach, ní mór duit an méid seo a leanas a dheimhniú:",
         "acceptHealthDataBody": {
             "label": "Glacaim leis go dtiomsóidh an comhlacht sonraí sláinte an staidreamh agus nach mbeidh aon rochtain agam ar na sonraí a úsáidtear chun an staidreamh a chruthú."

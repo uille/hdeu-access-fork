@@ -81,6 +81,7 @@ class DocumentExportDataAccessManagerTest {
     lenient().when(routingContext.pathParam("lg")).thenReturn("en");
     lenient().when(routingContext.pathParam("id")).thenReturn("applicationId");
     lenient().when(routingContext.pathParam("type")).thenReturn("docx");
+    lenient().when(routingContext.pathParam("tl")).thenReturn("inputLanguage");
     lenient().when(routingContext.response()).thenReturn(serverResponse);
     lenient().when(serverResponse.putHeader(anyString(), anyString())).thenReturn(serverResponse);
   }
@@ -114,11 +115,9 @@ class DocumentExportDataAccessManagerTest {
 
     // Build the mock JSON response body
     JsonObject mockResponseBody = new JsonObject();
-    JsonArray mockResultsArray = new JsonArray();
     JsonObject provenance = new JsonObject()
       .put("label", "Provenance");
-    mockResultsArray.add(provenance);
-    mockResponseBody.put("provenance", mockResultsArray);
+    mockResponseBody.put("provenance", provenance);
     mockResponseBody.put("title", new JsonObject().put("en", "title datasheet"));
     mockResponseBody.put("country", new JsonObject().put("label", "GR"));
     mockResponseBody.put("publisher", new JsonObject().put("name", "publisher name"));
@@ -164,11 +163,50 @@ class DocumentExportDataAccessManagerTest {
 
     // Build the mock JSON response body
     JsonObject mockResponseBody = new JsonObject();
-    JsonArray mockResultsArray = new JsonArray();
     JsonObject provenance = new JsonObject()
       .put("label", "Provenance");
-    mockResultsArray.add(provenance);
-    mockResponseBody.put("provenance", mockResultsArray);
+    mockResponseBody.put("provenance", provenance);
+    mockResponseBody.put("title", new JsonObject().put("en", "title datasheet"));
+    mockResponseBody.put("country", new JsonObject().put("label", "GR"));
+    mockResponseBody.put("publisher", new JsonObject().put("name", "publisher name"));
+    mockResponseBody.put("hdab", new JsonObject().put("name", "hdab name"));
+    mockResponseBody.put("catalog", new JsonObject()
+      .put("id", "726200a0-7940-4446-b5f8-a62e6cc00b1b"));
+
+    JsonObject mockResultsBody = new JsonObject()
+      .put("result", mockResponseBody);
+    // Mock behavior for web client call
+    when(webClient.getAbs(config.getString(Constants.HUB_SEARCH_DATA_URL) + "/datasets/"
+      + "8ddbd740-0c51-4a65-8ae8-0f03bb6fef5e")).thenReturn(httpRequest);
+    when(httpRequest.send()).thenReturn(Future.succeededFuture(httpResponse));
+    when(httpResponse.statusCode()).thenReturn(200);
+    when(httpResponse.bodyAsJsonObject()).thenReturn(mockResultsBody);
+
+    documentExportManager.externalExportApplicationForm(routingContext);
+    verify(routingContext.response()).end(any(Buffer.class));
+
+  }
+
+  @Test
+  void externalExportApplicationForm_naturalPerson() {
+    JsonObject application = new JsonObject(getStringJsonObject(
+      "full_data_application_natural_person"));
+    Map<String, String> pathParams = Map.of(
+      "lg", "en",
+      "id", "applicationId",
+      "type", "pdf"
+    );
+    RoutingContext routingContext = RoutingContextMocker.mockRoutingContext(application,
+      pathParams, false);
+    Assertions.assertEquals("en", routingContext.pathParam("lg"));
+    Assertions.assertEquals("applicationId", routingContext.pathParam("id"));
+    Assertions.assertEquals("pdf", routingContext.pathParam("type"));
+
+    // Build the mock JSON response body
+    JsonObject mockResponseBody = new JsonObject();
+    JsonObject provenance = new JsonObject()
+      .put("label", "Provenance");
+    mockResponseBody.put("provenance", provenance);
     mockResponseBody.put("title", new JsonObject().put("en", "title datasheet"));
     mockResponseBody.put("country", new JsonObject().put("label", "GR"));
     mockResponseBody.put("publisher", new JsonObject().put("name", "publisher name"));
@@ -191,6 +229,7 @@ class DocumentExportDataAccessManagerTest {
   }
 
 
+
   @Test
   void externalExportApplicationForm2() {
     JsonObject application = new JsonObject(getStringJsonObject("full_data_application_2"));
@@ -207,11 +246,9 @@ class DocumentExportDataAccessManagerTest {
 
     // Build the mock JSON response body
     JsonObject mockResponseBody = new JsonObject();
-    JsonArray mockResultsArray = new JsonArray();
     JsonObject provenance = new JsonObject()
       .put("label", "Provenance");
-    mockResultsArray.add(provenance);
-    mockResponseBody.put("provenance", mockResultsArray);
+    mockResponseBody.put("provenance", provenance);
     mockResponseBody.put("title", new JsonObject().put("en", "title datasheet"));
     mockResponseBody.put("country", new JsonObject().put("label", "GR"));
     mockResponseBody.put("publisher", new JsonObject().put("name", "publisher name"));

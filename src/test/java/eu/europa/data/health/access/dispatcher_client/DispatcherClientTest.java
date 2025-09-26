@@ -15,7 +15,9 @@
  */
 package eu.europa.data.health.access.dispatcher_client;
 
+import static eu.europa.data.health.access.Constants.STATUS;
 import static eu.europa.data.health.access.UtilityServiceTest.getStringJsonObject;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -35,19 +37,24 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.RequestBody;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-
+@ExtendWith(MockitoExtension.class)
 class DispatcherClientTest {
 
   private WebClient webClient;
@@ -57,6 +64,10 @@ class DispatcherClientTest {
   private static final String API_URL = "http://example.com";
   private static final String API_KEY = "dummy-key";
   private TestAppender testAppender;
+  @Mock
+  private HttpResponse<Buffer> httpResponse;
+  @Mock
+  RequestBody requestBody;
 
   @BeforeEach
   void setUp() {
@@ -138,8 +149,6 @@ class DispatcherClientTest {
       getStringJsonObject("full_data_application_dispatcher"));
 
     HttpResponse<Buffer> response = mock(HttpResponse.class);
-    when(response.statusCode()).thenReturn(HttpResponseStatus.BAD_REQUEST.code());
-    when(response.bodyAsString()).thenReturn("Bad Request");
 
     when(webClient.postAbs(eq(API_URL + DispatcherClient.DATA_PERMIT_CREATE_APPLICATION_REQUEST)))
       .thenReturn(httpRequest);
@@ -169,7 +178,6 @@ class DispatcherClientTest {
       Handler<AsyncResult<HttpResponse<Buffer>>> handler = invocation.getArgument(1);
       HttpResponse<Buffer> response = mock(HttpResponse.class);
       when(response.statusCode()).thenReturn(HttpResponseStatus.NO_CONTENT.code());
-      when(response.bodyAsString()).thenReturn("success");
 
       handler.handle(Future.succeededFuture(response));
       return null;
@@ -220,8 +228,6 @@ class DispatcherClientTest {
     doAnswer(invocation -> {
       Handler<AsyncResult<HttpResponse<Buffer>>> handler = invocation.getArgument(1);
       HttpResponse<Buffer> response = mock(HttpResponse.class);
-      when(response.statusCode()).thenReturn(HttpResponseStatus.BAD_REQUEST.code());
-      when(response.bodyAsString()).thenReturn("fail");
 
       handler.handle(Future.failedFuture("fail"));
       return null;
@@ -396,6 +402,157 @@ class DispatcherClientTest {
     logMessages.forEach(System.out::println);
     assertTrue(
       logMessages.stream().anyMatch(msg -> msg.contains("Failed to delete catalog mapping")));
+  }
+
+
+  @Test
+  void testGetAllCatalogueMapSuccess() {
+    // given
+    String body = "<html><body>Catalogue Map OK</body></html>";
+    when(httpResponse.statusCode()).thenReturn(200);
+    when(httpResponse.body()).thenReturn(Buffer.buffer(body));
+
+    // mock WebClient behavior
+    when(webClient.getAbs(anyString())).thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any(MultiMap.class))).thenReturn(httpRequest);
+    doAnswer(invocation -> {
+      io.vertx.core.Handler<io.vertx.core.AsyncResult<HttpResponse<Buffer>>> handler = invocation.getArgument(1);
+      handler.handle(io.vertx.core.Future.succeededFuture(httpResponse));
+      return null;
+    }).when(httpRequest).sendBuffer(any(), any());
+
+    // when
+    Future<String> result = dispatcherClient.getAllCatalogueMap();
+
+    // then
+    assertTrue(result.succeeded());
+    assertEquals("Catalogue Map OK", result.result());
+  }
+
+  @Test
+  void testGetAllCatalogueMapNotFound() {
+    // given
+    when(httpResponse.statusCode()).thenReturn(404);
+    when(httpResponse.statusMessage()).thenReturn("error");
+
+    // mock WebClient behavior
+    when(webClient.getAbs(anyString())).thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any(MultiMap.class))).thenReturn(httpRequest);
+    doAnswer(invocation -> {
+      io.vertx.core.Handler<io.vertx.core.AsyncResult<HttpResponse<Buffer>>> handler = invocation.getArgument(1);
+      handler.handle(io.vertx.core.Future.succeededFuture(httpResponse));
+      return null;
+    }).when(httpRequest).sendBuffer(any(), any());
+
+    // when
+    Future<String> result = dispatcherClient.getAllCatalogueMap();
+
+    // then
+    assertTrue(result.failed());
+    String error = result.cause().getMessage();
+    assertTrue(error.contains("errorCode"));
+    assertTrue(error.contains("errorDetails"));
+  }
+
+  @Test
+  void testGetAllCatalogueMapFailure() {
+    // given
+    when(webClient.getAbs(anyString())).thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any(MultiMap.class))).thenReturn(httpRequest);
+    doAnswer(invocation -> {
+      io.vertx.core.Handler<io.vertx.core.AsyncResult<HttpResponse<Buffer>>> handler = invocation.getArgument(1);
+      handler.handle(io.vertx.core.Future.failedFuture("connection refused"));
+      return null;
+    }).when(httpRequest).sendBuffer(any(), any());
+
+    // when
+    Future<String> result = dispatcherClient.getAllCatalogueMap();
+
+    // then
+    assertTrue(result.failed());
+    assertTrue(result.cause().getMessage().contains("errorCode"));
+  }
+
+
+  @Test
+  void testCreateCatalogueMapSuccess() {
+    // given
+    when(httpResponse.statusCode()).thenReturn(HttpResponseStatus.CREATED.code());
+    RoutingContext context = mock(RoutingContext.class);
+    when( context.body()).thenReturn(requestBody);
+    when( context.body(). asJsonObject()).thenReturn(new JsonObject().put(STATUS,
+      new JsonObject().put("key", "value")));
+
+    when(httpResponse.bodyAsString()).thenReturn("error");
+
+
+    //    context.body().asJsonObject()
+
+    // Mock WebClient behavior
+    when(webClient.postAbs(anyString())).thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any(MultiMap.class))).thenReturn(httpRequest);
+    doAnswer(invocation -> {
+      io.vertx.core.Handler<io.vertx.core.AsyncResult<HttpResponse<Buffer>>> handler = invocation.getArgument(1);
+      handler.handle(Future.succeededFuture(httpResponse));
+      return null;
+    }).when(httpRequest).sendBuffer(any(Buffer.class), any());
+
+    // when
+    Future<String> result = dispatcherClient.createCatalogueMap(context);
+
+    // then
+    assertTrue(result.succeeded());
+  }
+
+  @Test
+  void testCreateCatalogueMapFailureStatus() {
+    // given: server responds with non-CREATED status
+    when(httpResponse.statusCode()).thenReturn(400);
+    when(httpResponse.statusMessage()).thenReturn("error");
+    RoutingContext context = mock(RoutingContext.class);
+    when( context.body()).thenReturn(requestBody);
+
+    when( context.body(). asJsonObject()).thenReturn(new JsonObject().put(STATUS,
+      new JsonObject().put("key", "value")));
+
+    // Mock WebClient behavior
+    when(webClient.postAbs(anyString())).thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any(MultiMap.class))).thenReturn(httpRequest);
+    doAnswer(invocation -> {
+      io.vertx.core.Handler<io.vertx.core.AsyncResult<HttpResponse<Buffer>>> handler = invocation.getArgument(1);
+      handler.handle(Future.succeededFuture(httpResponse));
+      return null;
+    }).when(httpRequest).sendBuffer(any(Buffer.class), any());
+
+    // when
+    Future<String> result = dispatcherClient.createCatalogueMap(context);
+
+    // then
+    assertTrue(result.failed());
+  }
+
+  @Test
+  void testCreateCatalogueMapFailureClientError() {
+    // given: client error (network failure)
+    when(webClient.postAbs(anyString())).thenReturn(httpRequest);
+    when(httpRequest.putHeaders(any(MultiMap.class))).thenReturn(httpRequest);
+    doAnswer(invocation -> {
+      io.vertx.core.Handler<io.vertx.core.AsyncResult<HttpResponse<Buffer>>> handler = invocation.getArgument(1);
+      handler.handle(Future.failedFuture("connection refused"));
+      return null;
+    }).when(httpRequest).sendBuffer(any(Buffer.class), any());
+    RoutingContext context = mock(RoutingContext.class);
+    when( context.body()).thenReturn(requestBody);
+    when( context.body(). asJsonObject()).thenReturn(new JsonObject().put(STATUS,
+      new JsonObject().put("key", "value")));
+
+    // when
+    Future<String> result = dispatcherClient.createCatalogueMap(context);
+
+    // then
+    // assert
+    assertTrue(result.failed());
+    assertThat(result.cause().getMessage(), CoreMatchers.containsString("connection refused"));
   }
 
 }

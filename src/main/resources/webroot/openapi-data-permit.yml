@@ -22,6 +22,9 @@ tags:
   - name: Translation
     x-displayName: "Translations"
     description: Operations related to translations, like retrieving the translation of a specific language for a specific section of the application.
+  - name: Translation Callback
+    x-displayName: "Translation Callback"
+    description: Endpoint used to receive and handle translation results from the hub-translation service. Supports both form and file translations for applications.
   - name: User Profile
     x-displayName: "User Profile"
     description: Operations related to a user's profile, like get/create/delete a user profile.
@@ -46,6 +49,18 @@ tags:
   - name: Data Permit
     x-displayName: "Data Permit"
     description: Operations related to a Data Permit, like download a data permit file.
+  - name: Payload
+    x-displayName: "Payload"
+    description: Operations related to a Payload configuration, like create/update/get payload.
+  - name: DDA
+    x-displayName: "Dataset Description Assistant"
+    description: Dataset Description Assistant per-user payload.
+  - name: Validate Dataset
+    x-displayName: "Validate Dataset"
+    description: Validate dataset content.
+  - name: RDF
+    x-displayName: "RDF Utilities"
+    description: Utility endpoints for RDF transformations.
 
 security:
   - BearerAuth: []
@@ -243,37 +258,6 @@ paths:
       responses:
         '200':
           description: Returns the data access application form
-          content:
-            application/json:
-              schema:
-                type: object
-        '400':
-          description: Bad request
-        '500':
-          description: Internal Server Error
-    patch:
-      tags:
-        - Data Access Form
-      summary: Update a data access application
-      operationId: patchDataAccessApplication
-      security:
-        - BearerAuth: [ ]
-      parameters:
-        - name: id
-          in: path
-          description: ID of the resource to retrieve
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '201':
-          description: Data Access Form created. Returns the updated Data Access Form
           content:
             application/json:
               schema:
@@ -532,7 +516,7 @@ paths:
           required: true
           schema:
             type: integer
-            minimum: 2
+            minimum: 1
             maximum: 10
       requestBody:
         required: true
@@ -801,7 +785,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-  /data-access/application/{id}/export/{type}/{lg}:
+  /data-access/application/{id}/export/{type}/{lg}/{tl}:
     get:
       tags:
         - Data Access Form
@@ -825,6 +809,12 @@ paths:
         - name: lg
           in: path
           description: laughing of the resource to retrieve
+          required: true
+          schema:
+            type: string
+        - name: tl
+          in: path
+          description: selected translated language
           required: true
           schema:
             type: string
@@ -867,37 +857,6 @@ paths:
       responses:
         '200':
           description: Returns the data request application form
-          content:
-            application/json:
-              schema:
-                type: object
-        '400':
-          description: Bad request
-        '500':
-          description: Internal Server Error
-    patch:
-      tags:
-        - Data Request Form
-      summary: Update a data request application
-      operationId: patchDataRequestApplication
-      security:
-        - BearerAuth: [ ]
-      parameters:
-        - name: id
-          in: path
-          description: ID of the resource to retrieve
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '201':
-          description: Data Request Form created. Returns the created Data Request Form
           content:
             application/json:
               schema:
@@ -1156,7 +1115,7 @@ paths:
           required: true
           schema:
             type: integer
-            minimum: 2
+            minimum: 1
             maximum: 8
       requestBody:
         required: true
@@ -1420,7 +1379,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-  /data-request/application/{id}/export/{type}/{lg}:
+  /data-request/application/{id}/export/{type}/{lg}/{tl}:
     get:
       tags:
         - Data Request Form
@@ -1444,6 +1403,12 @@ paths:
         - name: lg
           in: path
           description: laughing of the resource to retrieve
+          required: true
+          schema:
+            type: string
+        - name: tl
+          in: path
+          description: selected translated language
           required: true
           schema:
             type: string
@@ -1566,6 +1531,33 @@ paths:
           description: Bad request
         '500':
           description: Internal Server Error
+
+  #########################
+  # Translation Callback  #
+  #########################
+
+  /translation:
+    post:
+      tags:
+        - Translation Callback
+      summary: Handle translation service callback
+      operationId: postTranslationCallback
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TranslationCallbackPayload'
+      responses:
+        '200':
+          description: Callback handled successfully
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal Server Error
+
 
   #################
   #  User Profile #
@@ -2415,6 +2407,298 @@ paths:
                 type: string
         '500':
           description: Internal Server Error
+
+  ###################
+  # Biennial Report #
+  ###################
+
+  /biennial-report/export:
+    get:
+      tags:
+        - Biennial Report
+      summary: Download biennial-report document
+      operationId: downloadBiennialReportDocument
+      security: [ ]
+      responses:
+        '200':
+          description: A .docx document with the biennial report template
+          content:
+            application/vnd.openxmlformats-officedocument.wordprocessingml.document:
+              schema:
+                type: string
+                format: binary
+          headers:
+            Content-Disposition:
+              description: Used to indicate a downloadable file attachment
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+
+
+  ################
+  # Payload      #
+  ################
+  /payload:
+    put:
+      tags:
+        - Payload
+      summary: Create a payload if name attribute doesn't exist, or update an existing one
+      operationId: putPayload
+      security:
+        - ApiKeyAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  description: The name of the payload file
+                payload:
+                  type: object
+                  description: The payload information
+              required:
+                - name
+                - payload
+              additionalProperties: false
+      responses:
+        '201':
+          description: Successfully submitted payload configuration
+        '400':
+          description: Bad request, invalid data or missing required fields
+        '500':
+          description: Internal server error
+  /payload/{name}:
+    get:
+      tags:
+        - Payload
+      summary: Get the payload configuration based on name
+      operationId: getPayload
+      security: [ ]
+      parameters:
+        - name: name
+          in: path
+          description: the payload name to retrieve
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        '200':
+          description: Returns a JSON object containing the payload
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+  ##############################
+  # DDA auth user dataset   ####
+  ##############################
+  /dda:
+    post:
+      tags: [DDA]
+      summary: Create or update the dataset description for the authenticated user
+      operationId: postDda
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DdaPayload'
+      responses:
+        '200':
+          description: Successfully submitted dataset description for the authenticated user (update)
+        '201':
+          description: Successfully submitted dataset description for the authenticated user (create)
+        '400':
+          description: Bad request, invalid data or missing required fields
+        '500':
+          description: Internal server error
+
+    get:
+      tags: [DDA]
+      summary: Get the dataset for the authenticated user
+      operationId: getDda
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: The dataset description payload for the authenticated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DdaPayload'
+        '204':
+          description: No dataset found for the authenticated user
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+
+  ####################
+  # Validate Dataset #
+  ####################
+  /validate-dataset:
+    post:
+      tags:
+        - Validate Dataset
+      summary: Validate a dataset
+      operationId: validateDataset
+      security: [ ]
+      parameters:
+        - name: accessLevel
+          in: query
+          description: The access level of the dataset to validate
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          text/turtle:
+            schema:
+              type: string
+              description: The dataset to validate in Turtle format
+      responses:
+        '200':
+          description: Successfully validated the dataset
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - date
+                  - result
+                  - reports
+                properties:
+                  date:
+                    type: string
+                    format: date-time
+                    description: ISO-8601 timestamp when the validation was performed
+                  result:
+                    type: string
+                    enum:
+                      - SUCCESS
+                      - FAILURE
+                    description: Overall outcome of the validation run
+                  overview:
+                    type: object
+                    description: Summary information about the validation profile used
+                    required:
+                      - profileID
+                    properties:
+                      profileID:
+                        type: string
+                        description: Identifier of the SHACL profile applied
+                  counters:
+                    type: object
+                    description: Counts of assertions, errors, and warnings
+                    required:
+                      - nrOfAssertions
+                      - nrOfErrors
+                      - nrOfWarnings
+                    properties:
+                      nrOfAssertions:
+                        type: integer
+                        description: Total number of SHACL assertions checked
+                      nrOfErrors:
+                        type: integer
+                        description: Number of failed assertions (errors)
+                      nrOfWarnings:
+                        type: integer
+                        description: Number of non-blocking warnings
+                  context:
+                    type: object
+                    description: Extra contextual data (if any) from the validation engine
+                    additionalProperties: true
+                  reports:
+                    type: object
+                    description: Detailed report entries grouped by severity
+                    properties:
+                      error:
+                        type: array
+                        description: Detailed error entries
+                        items:
+                          type: object
+                          required:
+                            - description
+                            - location
+                          properties:
+                            description:
+                              type: string
+                              description: Human-readable description of the error
+                            location:
+                              type: string
+                              description: Path or shape where the error occurred
+                            test:
+                              type: string
+                              description: The value that failed the test at this location
+                      warning:
+                        type: array
+                        description: Detailed warning entries
+                        items:
+                          type: object
+                          required:
+                            - description
+                            - location
+                          properties:
+                            description:
+                              type: string
+                              description: Human-readable description of the warning
+                            location:
+                              type: string
+                              description: Path or shape where the warning occurred
+                            test:
+                              type: string
+                              description: The value that triggered the warning at this location
+                  name:
+                    type: string
+                    description: Logical name of the validation routine (e.g. “SHACL Validation”)
+        '400':
+          description: Bad request, invalid data or missing required fields
+        '500':
+          description: Internal server error
+
+  #############
+  # RDF Utils #
+  #############
+  /rdf/convert/rdf-xml:
+    post:
+      tags:
+        - RDF
+      summary: Convert RDF from JSON-LD to RDF/XML
+      operationId: convertJsonLdToRdfXml
+      security: [ ]
+      requestBody:
+        required: true
+        content:
+          application/ld+json:
+            schema:
+              type: object
+              description: RDF content in JSON-LD format
+              additionalProperties: true
+      responses:
+        '200':
+          description: RDF/XML serialization of provided JSON-LD
+          content:
+            application/rdf+xml:
+              schema:
+                type: string
+        '400':
+          description: Invalid JSON-LD syntax or empty payload
+        '500':
+          description: Conversion error
+
 components:
   securitySchemes:
     BearerAuth:
@@ -2577,10 +2861,6 @@ components:
           type: string
         legalPersonOperatorID:
           type: string
-        legalPersonJobTitle:
-          type: string
-        legalPersonAffiliation:
-          type: string
         legalPersonAddress:
           type: string
         legalPersonZipCode:
@@ -2729,6 +3009,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DatasetItem'
+        inputLanguage:
+          type: string
+          description: The input language of the user
       required:
         - title
         - datasets
@@ -2876,3 +3159,78 @@ components:
           description: Title of the object
       required:
         - title
+
+    TranslationCallbackPayload:
+      type: object
+      required:
+        - id
+        - data
+        - dict
+      properties:
+        id:
+          type: string
+          description: Mongo ID of the application
+        data:
+          type: object
+          required:
+            - applicationId
+            - applicationType
+          properties:
+            applicationId:
+              type: string
+            applicationType:
+              type: string
+            documentName:
+              type: string
+            defaultLanguage:
+              type: string
+            targetLanguages:
+              type: array
+              items:
+                type: string
+        dict:
+          type: object
+          description: Translation content for each section or file
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: object
+              required:
+                - translations
+              properties:
+                value:
+                  type: string
+                  description: Original text (form-only)
+                sourceLanguage:
+                  type: string
+                  description: Source language of the content
+                targetLanguages:
+                  type: array
+                  items:
+                    type: string
+                translations:
+                  type: object
+                  additionalProperties:
+                    oneOf:
+                      - type: string
+                      - type: number
+
+    DdaPayload:
+      type: object
+      description: The dataset description assistant payload saved per authenticated user.
+      additionalProperties: false
+      required: [datasetDescriptionAssistantAccessLevel, datasetDescriptionAssistantLanguage, datasetDescriptionAssistantFormData]
+      properties:
+        datasetDescriptionAssistantAccessLevel:
+          type: string
+          nullable: true
+          description: Access level of the dataset (e.g., "public", "restricted"). May be null.
+        datasetDescriptionAssistantLanguage:
+          type: string
+          nullable: true
+          description: Language code (e.g., "en", "el"). May be null.
+        datasetDescriptionAssistantFormData:
+          type: object
+          default: {}
+          description: Arbitrary object representing the form data.
+          additionalProperties: true

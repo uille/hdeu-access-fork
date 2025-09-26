@@ -93,6 +93,11 @@ public class RequiredFieldBasedOnAndOrObjectValueValidator implements
             this.mandatoryField);
           return !Objects.isNull(mandatoryFieldObject);
         }
+        else if(mandatoryFieldType.equals("listOfAttachment")) {
+          List<AttachmentDTO> mandatoryFieldObject = (List<AttachmentDTO>) PropertyUtils.getProperty(value,
+            this.mandatoryField);
+          return CollectionUtils.isNotEmpty(mandatoryFieldObject);
+        }
         else if(mandatoryFieldType.equals("phone")) {
           PhoneNumberDTO mandatoryFieldObject = (PhoneNumberDTO) PropertyUtils.getProperty(value,
             this.mandatoryField);

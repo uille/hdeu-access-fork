@@ -44,6 +44,8 @@ public class CatalogueDTO extends RDFCatalogueDTO{
   @Valid
   SelectObjectDTO geographicalCoverage;
   @NotBlank
+  String language;
+  @NotBlank
   @Size(max = 250)
   @URLFormat
   @NotContainDoubleQuotes

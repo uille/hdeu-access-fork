@@ -62,4 +62,27 @@ class UUIDFormatValidatorTest {
     String validUppercaseUUID = "123E4567-E89B-12D3-A456-426614174000";
     assertTrue(validator.isValid(validUppercaseUUID, context));
   }
+  @Test
+  void testUUIDWithExtraCharacters() {
+    String uuidWithExtraCharacters = "123e4567-e89b-12d3-a456-426614174000extra";
+    assertFalse(validator.isValid(uuidWithExtraCharacters, context), "UUID with extra characters should be invalid");
+  }
+
+  @Test
+  void testUUIDWithMissingHyphens() {
+    String uuidWithMissingHyphens = "123e4567e89b12d3a456426614174000";
+    assertFalse(validator.isValid(uuidWithMissingHyphens, context), "UUID with missing hyphens should be invalid");
+  }
+
+  @Test
+  void testUUIDWithOnlySpaces() {
+    String uuidWithSpaces = "    ";
+    assertFalse(validator.isValid(uuidWithSpaces, context), "UUID with only spaces should be invalid");
+  }
+
+  @Test
+  void testEmptyString() {
+    String emptyString = "";
+    assertFalse(validator.isValid(emptyString, context), "Empty string should be invalid");
+  }
 }

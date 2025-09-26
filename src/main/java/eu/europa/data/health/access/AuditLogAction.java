@@ -27,23 +27,33 @@ public enum AuditLogAction {
   DATA_ACCESS_APPLICATION_SUBMITTED("Data Access application submitted"),
   DATA_ACCESS_APPLICATION_DELETED("Data Access application deleted"),
   DATA_ACCESS_APPLICATION_DISCARDED("Data Access application discarded"),
+  DATA_ACCESS_APPLICATION_TRANSLATION_FAILED("Data Access application translation failed"),
 
   DATA_REQUEST_APPLICATION_CREATED("Data Request application created"),
   DATA_REQUEST_APPLICATION_SUBMITTED("Data Request application submitted"),
   DATA_REQUEST_APPLICATION_DELETED("Data Request application deleted"),
   DATA_REQUEST_APPLICATION_DISCARDED("Data Request application discarded"),
+  DATA_REQUEST_APPLICATION_TRANSLATION_FAILED("Data Request application translation failed"),
 
   DATASET_DELETED("Dataset deleted"),
-  DISTRIBUTION_DELETED("Distribution deleted");
+  DISTRIBUTION_DELETED("Distribution deleted"),
 
-  private final String auditLogAction;
+  CATALOGUE_CREATED("New Catalogue created"),
+  CATALOGUE_EDITED("Catalogue was edited"),
+  CATALOGUE_DELETED("Catalogue was deleted"),
 
-  AuditLogAction(final String auditLogAction) {
-    this.auditLogAction = auditLogAction;
+  USER_UPDATED("User Role was updated"),
+  USER_DELETED("User was deleted");
+
+  private final String action;
+
+  AuditLogAction(final String action) {
+    this.action = action;
   }
 
-  public String getString() {
-    return auditLogAction;
+  @Override
+  public String toString() {
+    return action;
   }
 
 }

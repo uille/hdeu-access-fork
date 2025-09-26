@@ -24,7 +24,6 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.client.WebClient;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -32,6 +31,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class BasketValidationManager extends AbstractSchemaValidator {
 
+  public static final String PUBLISHER = "publisher";
   private final HubSearchClient hubSearchClient;
 
 
@@ -54,8 +54,7 @@ public class BasketValidationManager extends AbstractSchemaValidator {
     String datasetId = context.body().asJsonObject().getString(DATASET_ID);
     String distributionId = context.body().asJsonObject().getString(DISTRIBUTION_ID);
 
-    hubSearchClient.getDataset(datasetId)
-      .onComplete(result -> {
+    hubSearchClient.getDataset(datasetId).onComplete(result -> {
         if (result.succeeded()) {
           JsonObject response = result.result();
 
@@ -63,13 +62,13 @@ public class BasketValidationManager extends AbstractSchemaValidator {
 
               JsonObject resultObj = response.getJsonObject("result");
 
-              if (resultObj.containsKey("publisher")) {
-                context.put("publisher", resultObj.getJsonObject("publisher").getString("name"));
+              if (resultObj.containsKey(PUBLISHER)) {
+                context.put(PUBLISHER, resultObj.getJsonObject(PUBLISHER).getString("name"));
 
                 JsonArray distributions = resultObj.getJsonArray("distributions");
                 boolean foundDistributionId = distributions.stream()
                   .filter(distribution -> distribution instanceof JsonObject)
-                  .map(distribution -> (JsonObject) distribution)
+                  .map(JsonObject.class::cast)
                   .anyMatch(
                     distributionJson -> distributionJson.getString("id").equals(distributionId));
                 if (foundDistributionId) {

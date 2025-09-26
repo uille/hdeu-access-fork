@@ -17,6 +17,21 @@
         },
         "applicationDatabases": {
             "label": "Uit welke databank (en) of register (s) zullen de gegevens worden geëxtraheerd?"
+        },
+        "variables": {
+            "label": "Variabelen"
+        },
+        "datatype": {
+            "label": "Datatypes (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Omschrijving"
+        },
+        "title": {
+            "label": "Variabelen"
+        },
+        "emptyTable": {
+            "label": "Geen variabelen"
         }
     },
     "section2": {
@@ -102,10 +117,10 @@
                 },
                 {
                     "key": "b",
-                    "value": "Natuurlijke persoon",
-                    "info": "(Als u voor deze optie kiest, bevestigt u dat u gegevens aanvraagt als particulier zonder enige band.)"
+                    "value": "Natuurlijke persoon"
                 }
-            ]
+            ],
+            "info": "(Als u voor deze optie kiest, bevestigt u dat u gegevens aanvraagt als particulier zonder enige band.)"
         },
         "legalPerson": "Rechtspersoon,",
         "naturalPerson": "Natuurlijke persoon",
@@ -141,15 +156,6 @@
         },
         "contactPersonBusinessIdentifier": {
             "label": "Bedrijfsidentificatie van de organisatie"
-        },
-        "contactPersonOperatorIdentifier": {
-            "label": "ID exploitant"
-        },
-        "contactPersonJobTitle": {
-            "label": "Functiebenaming"
-        },
-        "contactPersonAffiliation": {
-            "label": "Aansluiting"
         },
         "contactPersonRelationship": {
             "label": "Wat is de relatie tussen de contactpersoon en de verzoeker? (Bv. een werknemer die gegevens aanvraagt namens hun organisatie.)"
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "Doel van het gegevensgebruik",
-        "section5Description": "Aanvragers moeten het doel vermelden waarvoor gegevens worden opgevraagd, overeenkomstig artikel 53, lid 1, van de rectificatie van de EHDS-verordening, die op 17/12 door het Europees Parlement is goedgekeurd. \nAanvragers moeten uitleggen en motiveren waarom de gevraagde gegevens noodzakelijk zijn voor het aangegeven gebruiksdoel. De aanvragers wordt ook verzocht informatie te verstrekken over het doel van het project. Afhankelijk van het gebruiksdoel (al dan niet onderzoek) moeten de aanvragers dan een samenvatting van het plan voor het gebruik van de gegevens of een samenvatting van het onderzoeksplan verstrekken en informatie verstrekken over de persoon die verantwoordelijk is voor het gebruik van de gegevens of het onderzoek.",
+        "section5Description": "Overeenkomstig artikel 53, lid 1, van Verordening (EU) 2025/327 van het Europees Parlement en de Raad van 11 februari 2025 betreffende de Europese ruimte voor gezondheidsgegevens moeten aanvragers aangeven voor welk doel gegevens worden gevraagd. Aanvragers moeten uitleggen en beargumenteren waarom de gevraagde gegevens noodzakelijk zijn voor het aangegeven gebruiksdoel. Aanvragers wordt ook verzocht informatie te verstrekken over het doel van het project. Vervolgens moeten aanvragers, afhankelijk van het gebruiksdoel (onderzoek of geen onderzoek), een samenvatting verstrekken van het plan voor het gebruik van de gegevens of een samenvatting van het onderzoeksplan, en informatie over de persoon die verantwoordelijk is voor het gegevensgebruik of onderzoek.",
         "purposeOfUse": {
             "label": "Doel van het gebruik van gegevens. De instanties voor toegang tot gezondheidsgegevens verlenen alleen toegang tot de in artikel 51 bedoelde elektronische gezondheidsgegevens indien het beoogde doel van de door de aanvrager nagestreefde verwerking in overeenstemming is met de volgende onderstaande doeleinden (overeenkomstig artikel 53, lid 1):",
             "tooltip": "Doeleinden van de EHDS-verordening.",
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Wat is het verwachte voordeel in verband met het gebruik van de elektronische gezondheidsgegevens en hoe draagt dit voordeel bij tot de in punt 5.1 genoemde doeleinden?"
         },
+        "describeApplicantsQualification": {
+            "label": "Beschrijf de kwalificaties van de aanvrager met betrekking tot het (de) beoogde doel (en) van het gegevensgebruik en passende deskundigheid (met inbegrip van beroepskwalificaties)"
+        },
         "legalBasis": {
             "label": "Vermeld de rechtsgrondslag, bijvoorbeeld de relevante wetgeving, waarin de taken worden omschreven die onder uw mandaat vallen en waarin wordt bevestigd dat uw geplande gebruik van de gegevens bedoeld is om dergelijke taken te vergemakkelijken.",
             "tooltip": "Leg hier uit waarom de hoeveelheid gegevens die u aanvraagt noodzakelijk is voor het gebruik van uw gegevens. Motiveer en beschrijf hoe de inhoud van de gevraagde statistieken overeenstemt met het in de aanvraag vermelde gebruiksdoel en voldoet aan uw gegevensvereisten."
@@ -320,222 +329,16 @@
             "label": "Geef een link naar de ondersteunende documentatie als bewijs van de rechtsgrondslag"
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Geef een samenvatting van uw plan voor het gebruik van de gegevens. De samenvatting moet in een van de officiële EU-talen worden opgesteld."
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Kies de taal van de samenvatting",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgaars"
-                },
-                {
-                    "key": "hr",
-                    "value": "Kroatisch"
-                },
-                {
-                    "key": "cs",
-                    "value": "Tsjechisch"
-                },
-                {
-                    "key": "da",
-                    "value": "Deens"
-                },
-                {
-                    "key": "nl",
-                    "value": "Nederlands"
-                },
-                {
-                    "key": "en",
-                    "value": "Engels"
-                },
-                {
-                    "key": "et",
-                    "value": "Ests"
-                },
-                {
-                    "key": "fi",
-                    "value": "Fins"
-                },
-                {
-                    "key": "fr",
-                    "value": "Frans"
-                },
-                {
-                    "key": "de",
-                    "value": "Duits"
-                },
-                {
-                    "key": "el",
-                    "value": "Grieks"
-                },
-                {
-                    "key": "hu",
-                    "value": "Hongaars"
-                },
-                {
-                    "key": "ga",
-                    "value": "Iers"
-                },
-                {
-                    "key": "it",
-                    "value": "Italiaans"
-                },
-                {
-                    "key": "lv",
-                    "value": "Lets"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litouws"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltees"
-                },
-                {
-                    "key": "pl",
-                    "value": "Pools"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugees"
-                },
-                {
-                    "key": "ro",
-                    "value": "Roemeens"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slowaaks"
-                },
-                {
-                    "key": "sl",
-                    "value": "Sloveens"
-                },
-                {
-                    "key": "es",
-                    "value": "Spaans"
-                },
-                {
-                    "key": "sv",
-                    "value": "Zweeds"
-                }
-            ]
+            "label": "Geef een samenvatting van uw plan voor het gebruik van de gegevens. De samenvatting moet in een van de officiële EU-talen worden opgesteld.",
+            "tooltip": "Geüploade bestanden worden automatisch door het systeem vertaald. De aanvrager is verantwoordelijk voor de kwaliteit, leesbaarheid en formattering van de geüploade bestanden."
         },
         "summaryOfResearchPlan": {
-            "label": "Geef een samenvatting van uw onderzoeksplan. De samenvatting moet in een van de officiële EU-talen worden opgesteld."
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Kies de taal van de samenvatting",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgaars"
-                },
-                {
-                    "key": "hr",
-                    "value": "Kroatisch"
-                },
-                {
-                    "key": "cs",
-                    "value": "Tsjechisch"
-                },
-                {
-                    "key": "da",
-                    "value": "Deens"
-                },
-                {
-                    "key": "nl",
-                    "value": "Nederlands"
-                },
-                {
-                    "key": "en",
-                    "value": "Engels"
-                },
-                {
-                    "key": "et",
-                    "value": "Ests"
-                },
-                {
-                    "key": "fi",
-                    "value": "Fins"
-                },
-                {
-                    "key": "fr",
-                    "value": "Frans"
-                },
-                {
-                    "key": "de",
-                    "value": "Duits"
-                },
-                {
-                    "key": "el",
-                    "value": "Grieks"
-                },
-                {
-                    "key": "hu",
-                    "value": "Hongaars"
-                },
-                {
-                    "key": "ga",
-                    "value": "Iers"
-                },
-                {
-                    "key": "it",
-                    "value": "Italiaans"
-                },
-                {
-                    "key": "lv",
-                    "value": "Lets"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litouws"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltees"
-                },
-                {
-                    "key": "pl",
-                    "value": "Pools"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugees"
-                },
-                {
-                    "key": "ro",
-                    "value": "Roemeens"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slowaaks"
-                },
-                {
-                    "key": "sl",
-                    "value": "Sloveens"
-                },
-                {
-                    "key": "es",
-                    "value": "Spaans"
-                },
-                {
-                    "key": "sv",
-                    "value": "Zweeds"
-                }
-            ]
+            "label": "Geef een samenvatting van uw onderzoeksplan. De samenvatting moet in een van de officiële EU-talen worden opgesteld.",
+            "tooltip": "Geüploade bestanden worden automatisch door het systeem vertaald. De aanvrager is verantwoordelijk voor de kwaliteit, leesbaarheid en formattering van de geüploade bestanden."
         },
         "personResponsibleLabel": "Voor het gebruik van de gegevens verantwoordelijke persoon",
         "personResponsibleName": {
             "label": "De volledige naam"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Functiebenaming"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Aansluiting"
         },
         "personResearchSameAsContactPerson": {
             "label": "Zelfde als de in punt 3 genoemde contactpersoon (informatie over de aanvrager en de contactpersoon)?"
@@ -546,12 +349,6 @@
         },
         "personResearchName": {
             "label": "De volledige naam"
-        },
-        "personResearchJobTitle": {
-            "label": "Functiebenaming"
-        },
-        "personResearchAffiliation": {
-            "label": "Aansluiting"
         },
         "formatOfTheElectronicHealthData": {
             "label": "Kies het formaat van de beschikbaar te stellen elektronische gezondheidsgegevens:",
@@ -638,6 +435,9 @@
         },
         "consentAndInformationLetterAttachment": {
             "label": "Voeg de toestemmings- en informatiebrief bij die u naar de studierichtingen hebt gestuurd. Voeg geen formulieren bij die zijn ingevuld omdat ze persoonsgegevens bevatten."
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "Is de cohort gebaseerd op een eerder verleende gegevensvergunning?"
         },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Ik bevestig dat de gegevensvergunning voor dit onderzoeksproject is verleend."
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "Hoe vaak moeten de gegevens worden geëxtraheerd?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Bent u van plan gebruik te maken van een uitzondering op het opt-outrecht overeenkomstig het mechanisme waarin het nationale recht voorziet van de lidstaat waarvan u de gegevens aanvraagt?",
+            "tooltip": "EHDS artikel 71(4) “Bij wijze van uitzondering op het in lid 1 bedoelde opt-out-recht, kan een lidstaat in zijn nationale recht voorzien in een mechanisme om gegevens beschikbaar te stellen waarvoor een opt-out-recht is uitgeoefend, mits aan al de volgende voorwaarden is voldaan: (zie artikel voor volledige voorwaarden)”"
+        },
+        "providedJustificationException": {
+            "label": "Geef een motivering voor deze uitzondering."
+        },
         "needForDataExtractionEvery": {
             "label": "De gegevens moeten elk worden geëxtraheerd",
             "tooltip": "Als u wilt dat de gegevens gedurende een bepaalde periode meerdere malen worden geëxtraheerd, moet worden opgemerkt dat de definities en de methode voor het verzamelen van gegevens in sommige gevallen tijdens de evaluatieperiode kunnen veranderen. Let op: de maximale frequentie van de gegevensextractie is elk kwartaal."
@@ -835,14 +642,11 @@
         "willSameDataBeExtractedForControls": {
             "label": "Zullen dezelfde gegevens als voor de cohort worden geëxtraheerd voor controles?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Als u geen gegevens voor controles van het hele land zoekt, uit welke regio (s) en/of stad (steden) en/of gemeente (s) zoekt u dan gegevens?"
-        },
         "fromWhichDataHolderLabel": "Uit welke gegevenshouder (s) zullen de gegevens voor controles worden geëxtraheerd?",
         "fromWhichDatabaseLabel": "Uit welke databank (en)/register/registers zullen de gegevens voor controles worden geëxtraheerd?",
         "fromWhichDatasetLabel": "Uit welk gegevensbestand (en)/register (s) zullen de gegevens voor controles worden geëxtraheerd?",
-        "variablesForDataExtraction": {
-            "label": "Indien de informatie beschikbaar is, vermeld dan de variabelen die bij de extractie van thedata moeten worden gebruikt. Gebruik de exacte termen van de respectieve gegevenshouder (s) in de metagegevenscatalogus."
+        "variablesForDataExtractionAttachments": {
+            "label": "Indien de informatie beschikbaar is, voeg dan de lijst toe van de variabelen die bij de gegevensextractie moeten worden gebruikt. Gebruik de exacte termen van de respectieve gegevenshouder (s) in de metagegevenscatalogus."
         },
         "timePeriodForDataExtraction": {
             "label": "Voor welke periode (en) zullen de gegevensbestanden worden geëxtraheerd?"
@@ -947,8 +751,8 @@
         "whichDataHoldersForRelatives": "Uit welke gegevenshouder (s) zullen de gegevens voor familieleden worden geëxtraheerd?",
         "whichDatabaseForRelatives": "Uit welke databank (en)/register/registers zullen de gegevens voor familieleden worden geëxtraheerd?",
         "whichDatasetsForRelatives": "Uit welke gegevensbestand (en)/register (s) zullen de gegevens voor familieleden worden geëxtraheerd?",
-        "variablesForDataExtractionRelatives": {
-            "label": "Indien de informatie beschikbaar is, vermeld dan de variabelen die bij de gegevensextractie moeten worden gebruikt. Gebruik de exacte termen van de respectieve gegevenshouder (s) in de metagegevenscatalogus."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "Indien de informatie beschikbaar is, voeg dan de lijst toe van de variabelen die bij de gegevensextractie moeten worden gebruikt. Gebruik de exacte termen van de respectieve gegevenshouder (s) in de metagegevenscatalogus."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "Voor welke periode (en) zullen de gegevensbestanden worden geëxtraheerd?"
@@ -1062,7 +866,6 @@
         "otherPermitApplications": {
             "label": "Heeft u nog andere vergunningsaanvragen in behandeling?"
         },
-        "listTheOtherData": "Vermeld de andere te combineren gegevens en de bronnen van deze gegevens:",
         "applicationIssuer": {
             "label": "Uitgever"
         },
@@ -1360,6 +1163,13 @@
             "label": "Hoe voldoet u bij de verwerking van de gegevens aan het beginsel van minimale gegevensverwerking (EU-verordening gegevensbescherming)? ",
             "tooltip": "Artikel 4, lid 1, onder c), van het EU-VRB: “De persoonsgegevens zijn toereikend en relevant en beperkt tot wat noodzakelijk is voor de doeleinden waarvoor zij worden verwerkt (“minimale gegevensverwerking”)”."
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Bent u van plan gebruik te maken van een uitzondering op het opt-outrecht overeenkomstig het mechanisme waarin het nationale recht voorziet van de lidstaat waarvan u de gegevens aanvraagt?",
+            "tooltip": "EHDS artikel 71(4) “Bij wijze van uitzondering op het in lid 1 bedoelde opt-out-recht, kan een lidstaat in zijn nationale recht voorzien in een mechanisme om gegevens beschikbaar te stellen waarvoor een opt-out-recht is uitgeoefend, mits aan al de volgende voorwaarden is voldaan: (zie artikel voor volledige voorwaarden)”"
+        },
+        "providedJustificationException": {
+            "label": "Geef een motivering voor deze uitzondering."
+        },
         "protectionAndSecurityStatements": {
             "label": "Om deze aanvraag in te dienen, moet u de volgende verklaringen bevestigen (verklaringen met betrekking tot gegevensbescherming en beveiliging):"
         },
@@ -1383,13 +1193,10 @@
             "label": "Zelfde als de in punt 3 genoemde contactpersoon?"
         },
         "listTheFullNames": {
-            "label": "Vermeld de volledige namen, banden en e-mailadressen van alle personen die de gegevens zullen verwerken."
+            "label": "Vermeld de volledige namen en e-mailadressen van alle personen die de gegevens zullen verwerken."
         },
         "fullName": {
             "label": "Naam (voluit)"
-        },
-        "affiliation": {
-            "label": "Aansluiting"
         },
         "emailAddress": {
             "label": "E-mailadres"
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Bevestiging van informatie",
-        "section10Description": "Voordat deze aanvraag wordt behandeld, moet u als aanvrager de verwerkingskosten goedkeuren.",
+        "section10Description": "Voordat deze aanvraag wordt behandeld, moet u als aanvrager de verwerkingskosten goedkeuren. Informatie over de prijzen en de maximumprijsraming voor gegevensextractie toe te voegen zodra deze beschikbaar is.",
         "submitYouApplicationText": "Om uw sollicitatie in te dienen, moet u het volgende bevestigen:",
         "acceptHealthDataBody": {
             "label": "Ik aanvaard dat de instantie voor gezondheidsgegevens de statistieken zal samenstellen en ik zal geen toegang hebben tot de gegevens die worden gebruikt om de statistieken te vormen."

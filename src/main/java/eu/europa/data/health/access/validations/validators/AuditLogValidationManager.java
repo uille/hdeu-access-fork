@@ -27,6 +27,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -107,83 +109,59 @@ public class AuditLogValidationManager extends AbstractSchemaValidator{
       });
   }
 
-  public void validateFilters(@NotNull RoutingContext context){
-
-    log.info("Will validate filters of Audit logs");
+  public void validateFilters(@NotNull RoutingContext context) {
+    log.info("Validating filters for Audit Logs");
 
     JsonObject searchFields = context.body().asJsonObject();
-
     JsonArray errors = new JsonArray();
 
-    String action = searchFields.getString("action");
+    // Validate string fields with max 50 characters
+    validateFieldLength("action", searchFields, MAX_ALLOWED_CHARS_50, errors);
+    validateFieldLength("actionDescription", searchFields, MAX_ALLOWED_CHARS_50, errors);
+    validateFieldLength("ecasId", searchFields, MAX_ALLOWED_CHARS_50, errors);
+    validateFieldLength("firstName", searchFields, MAX_ALLOWED_CHARS_50, errors);
+    validateFieldLength("lastName", searchFields, MAX_ALLOWED_CHARS_50, errors);
 
-    if(StringUtils.isNotEmpty(action)){
-      if(action.length() > MAX_ALLOWED_CHARS_50){
-        log.info("Adding error for action with max chars: {}", MAX_ALLOWED_CHARS_50);
-        errors.add(getSizeErrorMessage("action", MAX_ALLOWED_CHARS_50));
-      }
-    }
+    // Validate objectId with max 36 characters
+    validateFieldLength("objectId", searchFields, MAX_ALLOWED_CHARS_36, errors);
 
-    String actionDescription = searchFields.getString("actionDescription");
-    if(StringUtils.isNotEmpty(actionDescription)){
-      if(actionDescription.length() > MAX_ALLOWED_CHARS_50){
-        log.info("Adding error for actionDescription with max chars: {}", MAX_ALLOWED_CHARS_50);
-        errors.add(getSizeErrorMessage("actionDescription", MAX_ALLOWED_CHARS_50));
-      }
-    }
+    // Validate date range
+    validateDateRange(searchFields.getString("logDateFrom"), searchFields.getString("logDateTo"), errors);
 
-    String ecasId = searchFields.getString("ecasId");
-    if(StringUtils.isNotEmpty(ecasId)){
-      if(ecasId.length() > MAX_ALLOWED_CHARS_50){
-        log.info("Adding error for ecasId with max chars: {}", MAX_ALLOWED_CHARS_50);
-        errors.add(getSizeErrorMessage("ecasId", MAX_ALLOWED_CHARS_50));
-      }
-    }
-
-    String firstName = searchFields.getString("firstName");
-    if(StringUtils.isNotEmpty(firstName)){
-      if(firstName.length() > MAX_ALLOWED_CHARS_50){
-        log.info("Adding error for firstName with max chars: {}", MAX_ALLOWED_CHARS_50);
-        errors.add(getSizeErrorMessage("firstName", MAX_ALLOWED_CHARS_50));
-      }
-    }
-
-    String lastName = searchFields.getString("lastName");
-    if(StringUtils.isNotEmpty(lastName)){
-      if(lastName.length() > MAX_ALLOWED_CHARS_50){
-        log.info("Adding error for lastName with max chars: {}", MAX_ALLOWED_CHARS_50);
-        errors.add(getSizeErrorMessage("lastName", MAX_ALLOWED_CHARS_50));
-      }
-    }
-
-    String objectId = searchFields.getString("objectId");
-    if(StringUtils.isNotEmpty(objectId)){
-      if(objectId.length() > MAX_ALLOWED_CHARS_36){
-        log.info("Adding error for objectId with max chars: {}", MAX_ALLOWED_CHARS_36);
-        errors.add(getSizeErrorMessage("objectId", MAX_ALLOWED_CHARS_36));
-      }
-    }
-
-
-    String logDateFrom = searchFields.getString("logDateFrom");
-    String logDateTo = searchFields.getString("logDateTo");
-    if(StringUtils.isNotEmpty(logDateFrom) && StringUtils.isNotEmpty(logDateTo)){
-      DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-      LocalDate from = LocalDate.parse(logDateFrom, dateFormatter);
-      LocalDate to = LocalDate.parse(logDateTo, dateFormatter);
-      if(from.isAfter(to)){
-        log.info("Adding error for dates with logDateFrom: {} and logDateTo: {}", from, to);
-        errors.add(getDateErrorMessage());
-      }
-    }
-
+    // Final response
     if (errors.isEmpty()) {
-      log.info("No errors exist");
+      log.info("Filter validation passed");
       context.next();
     } else {
-      log.error("Audit Log search could not proceed due to validation errors");
+      if (log.isErrorEnabled()) {
+        log.error("Audit Log search validation failed with errors: {}", errors.encodePrettily());
+      }
       setUpMessageContextResponseWithContent(context, HttpResponseStatus.BAD_REQUEST,
         "Audit Log search could not proceed due to validation errors", errors);
+    }
+  }
+
+  private void validateFieldLength(String fieldName, JsonObject fields, int maxLength, JsonArray errors) {
+    String value = fields.getString(fieldName);
+    if (StringUtils.isNotEmpty(value) && value.length() > maxLength) {
+      log.info("Validation error: '{}' exceeds max length of {}", fieldName, maxLength);
+      errors.add(getSizeErrorMessage(fieldName, maxLength));
+    }
+  }
+
+  private void validateDateRange(String fromStr, String toStr, JsonArray errors) {
+    if (StringUtils.isNotEmpty(fromStr) && StringUtils.isNotEmpty(toStr)) {
+      try {
+        LocalDate from = LocalDate.parse(fromStr, DateTimeFormatter.ISO_LOCAL_DATE);
+        LocalDate to = LocalDate.parse(toStr, DateTimeFormatter.ISO_LOCAL_DATE);
+        if (from.isAfter(to)) {
+          log.info("Date validation error: logDateFrom {} is after logDateTo {}", from, to);
+          errors.add(getDateErrorMessage());
+        }
+      } catch (DateTimeParseException e) {
+        log.warn("Invalid date format provided: from='{}', to='{}'", fromStr, toStr);
+        errors.add(getDateErrorMessage()); // Optionally add a separate error message for format
+      }
     }
   }
 

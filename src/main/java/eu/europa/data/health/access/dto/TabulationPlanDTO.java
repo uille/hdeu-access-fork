@@ -18,6 +18,7 @@ package eu.europa.data.health.access.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.europa.data.health.access.annotations.AttachmentValidation;
+import eu.europa.data.health.access.annotations.TranslatableField;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,18 +35,25 @@ public class TabulationPlanDTO {
   Integer listIndex;
 
   @Size(max = 500)
+  @TranslatableField
   String tabulationRegisteredToBeUsed;
   @Size(max = 500)
+  @TranslatableField
   String tabulationPossibleStudyCohort;
   @Size(max = 1000)
+  @TranslatableField
   String tabulationInformationOfRequiredVariables;
   @Size(max = 1000)
+  @TranslatableField
   String tabulationFormationVariables;
   @Size(max = 1000)
+  @TranslatableField
   String tabulationDesiredDirection;
   @Size(max = 1000)
+  @TranslatableField
   String tabulationOrderInWhichTable;
   @Size(max = 1000)
+  @TranslatableField
   String tabulationAnyOtherRelevant;
   @AttachmentValidation(allowedExtensions = {"doc", "docx", "pdf", "xls", "xlsx",
     "odt"}, maxSize = 5242880) // 5MB

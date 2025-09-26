@@ -29,22 +29,32 @@ public enum AuditLogActionDescription {
   DATA_ACCESS_APPLICATION_DISCARDED("Data Access application {} : {} has been discarded by removing the last Dataset with id: {} and distribution(s): {}"),
   DATA_ACCESS_APPLICATION_DATASET_DELETED("Dataset with id: {} and distribution(s): {} for Data Access application {} : {} has been deleted"),
   DATA_ACCESS_APPLICATION_DISTRIBUTION_DELETED("Distribution with id: {} from dataset with id: {} for Data Access application {} : {} has been deleted"),
+  DATA_ACCESS_APPLICATION_TRANSLATION_FAILED("Data Access application {} : {} translation failed: {}"),
 
   DATA_REQUEST_APPLICATION_CREATED("Data Request application {} : {} has been created"),
   DATA_REQUEST_APPLICATION_SUBMITTED("Data Request application {} : {} has been submitted"),
   DATA_REQUEST_APPLICATION_DELETED("Data Request application {} : {} has been deleted"),
   DATA_REQUEST_APPLICATION_DISCARDED("Data Request application {} : {} has been discarded by removing the last Dataset with id: {} and distribution(s): {}"),
   DATA_REQUEST_APPLICATION_DATASET_DELETED("Dataset with id: {} and distribution(s): {} for Data Request application {} : {} has been deleted"),
-  DATA_REQUEST_APPLICATION_DISTRIBUTION_DELETED("Distribution with id: {} from dataset with id: {} for Data Request application {} : {} has been deleted");
+  DATA_REQUEST_APPLICATION_DISTRIBUTION_DELETED("Distribution with id: {} from dataset with id: {} for Data Request application {} : {} has been deleted"),
+  DATA_REQUEST_APPLICATION_TRANSLATION_FAILED("Data Request application {} : {} translation failed: {}"),
 
-  private final String auditLogActionDescription;
+  CATALOGUE_CREATED("Catalogue: {} : {} has been created"),
+  CATALOGUE_UPDATED("Catalogue: {} : {} has been edited"),
+  CATALOGUE_DELETED("Catalogue: {} : {} has been deleted"),
 
-  AuditLogActionDescription(final String auditLogActionDescription) {
-    this.auditLogActionDescription = auditLogActionDescription;
+  USER_UPDATED("User: {} has been updated"),
+  USER_DELETED("User: {} has been deleted");
+
+  private final String description;
+
+  AuditLogActionDescription(final String description) {
+    this.description = description;
   }
 
-  public String getString() {
-    return auditLogActionDescription;
+  @Override
+  public String toString() {
+    return description;
   }
 
 }

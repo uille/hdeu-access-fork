@@ -17,6 +17,21 @@
         },
         "applicationDatabases": {
             "label": "Aus welchen Datenbanken oder Registern werden die Daten extrahiert?"
+        },
+        "variables": {
+            "label": "Variablen"
+        },
+        "datatype": {
+            "label": "Datentypen (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Beschreibung"
+        },
+        "title": {
+            "label": "Variablen"
+        },
+        "emptyTable": {
+            "label": "Keine Variablen"
         }
     },
     "section2": {
@@ -102,10 +117,10 @@
                 },
                 {
                     "key": "b",
-                  "value": "Natürliche Person",
-                  "info": "(Wenn Sie diese Option wählen, bestätigen Sie, dass Sie Daten als Privatperson ohne Zugehörigkeit beantragen.)"
+                    "value": "Natürliche Person"
                 }
-            ]
+            ],
+            "info": "(Wenn Sie diese Option wählen, bestätigen Sie, dass Sie Daten als Privatperson ohne Zugehörigkeit beantragen.)"
         },
         "legalPerson": "Juristischen Person",
         "naturalPerson": "Natürliche Person",
@@ -134,22 +149,13 @@
             "label": "Emailadresse"
         },
         "contactPersonPhone": {
-            "label": "Telefonieren"
+            "label": "Telefonnummer"
         },
         "contactPersonNameOfTheOrganisation": {
             "label": "Name der Stelle"
         },
         "contactPersonBusinessIdentifier": {
             "label": "Unternehmenskennung der Organisation"
-        },
-        "contactPersonOperatorIdentifier": {
-            "label": "Kennung des Betreibers"
-        },
-        "contactPersonJobTitle": {
-            "label": "Stellenbezeichnung"
-        },
-        "contactPersonAffiliation": {
-            "label": "Mitgliedschaft"
         },
         "contactPersonRelationship": {
             "label": "Welche Beziehung besteht zwischen der Kontaktperson und dem Antragsteller? (Z. B. ein Mitarbeiter, der Daten im Namen seiner Organisation beantragt.)"
@@ -173,7 +179,7 @@
             "label": "Emailadresse"
         },
         "naturalPersonPhone": {
-            "label": "Telefonieren"
+            "label": "Telefonnummer"
         },
         "naturalPersonJobTitle": {
             "label": "Stellenbezeichnung"
@@ -198,7 +204,7 @@
             "label": "Emailadresse"
         },
         "phone": {
-            "label": "Telefonieren"
+            "label": "Telefonnummer"
         },
         "invoiceType": {
             "label": "Art der Rechnung",
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "Zweck der Datennutzung",
-        "section5Description": "Die Antragsteller sollten gemäß Artikel 53 Absatz 1 der vom Europäischen Parlament am 17. Dezember gebilligten Berichtigung der EHDS-Verordnung angeben, zu welchem Zweck Daten angefordert werden. \nDie Antragsteller müssen erläutern und begründen, warum die angeforderten Daten für ihren angegebenen Verwendungszweck erforderlich sind. Die Antragsteller werden ferner gebeten, Angaben zum Projektziel zu machen. Je nach Verwendungszweck (Forschung oder Nichtforschung) müssen die Antragsteller dann eine Zusammenfassung des Plans für die Verwendung der Daten oder eine Zusammenfassung des Forschungsplans sowie Informationen über die für die Datennutzung oder -forschung verantwortliche Person vorlegen.",
+        "section5Description": "Die Antragsteller sollten gemäß Artikel 53 Absatz 1 der Verordnung (EU) 2025/327 des Europäischen Parlaments und des Rates vom 11. Februar 2025 über den Europäischen Raum für Gesundheitsdaten angeben, zu welchem Zweck Daten angefordert werden. Die Antragsteller müssen erläutern und darlegen, warum die angeforderten Daten für ihren angegebenen Verwendungszweck erforderlich sind. Die Antragsteller werden außerdem gebeten, Angaben zum Ziel des Projekts zu machen. Je nach Nutzungszweck (Forschung oder nicht Forschung) müssen die Antragsteller dann eine Zusammenfassung des Plans für die Verwendung der Daten oder eine Zusammenfassung des Forschungsplans sowie Informationen über die für die Datennutzung oder Forschung verantwortliche Person vorlegen.",
         "purposeOfUse": {
             "label": "Zweck der Datennutzung. Die Zugangsstellen für Gesundheitsdaten gewähren nur dann Zugang zu den in Artikel 51 genannten elektronischen Gesundheitsdaten, wenn die vom Antragsteller verfolgte Zweckbestimmung der Verarbeitung den nachstehend aufgeführten Zwecken (gemäß Artikel 53 Absatz 1) entspricht.",
             "tooltip": "Zwecke aus der EHDS-Verordnung.",
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Welcher Nutzen ergibt sich aus der Nutzung der elektronischen Gesundheitsdaten, und wie trägt dieser Nutzen zu den unter 5.1 genannten Zwecken bei?"
         },
+        "describeApplicantsQualification": {
+            "label": "Beschreibung der Qualifikationen des Antragstellers in Bezug auf den/die vorgesehenen Zweck(e) der Datennutzung und des entsprechenden Fachwissens (einschließlich beruflicher Qualifikationen)"
+        },
         "legalBasis": {
             "label": "Geben Sie die Rechtsgrundlage an, z. B. die einschlägigen Rechtsvorschriften, in denen die Aufgaben festgelegt sind, die in Ihren Aufgabenbereich fallen, und bestätigt, dass die geplante Nutzung der Daten dazu dient, diese Aufgaben zu erleichtern.",
             "tooltip": "Erläutern Sie hier, warum die Menge der Daten, die Sie beantragen, für Ihre Datennutzung erforderlich ist. Begründen und beschreiben Sie, wie der Inhalt der angeforderten Statistiken dem im Antrag angegebenen Verwendungszweck entspricht und Ihren Datenanforderungen entspricht."
@@ -320,222 +329,16 @@
             "label": "Geben Sie als Nachweis der Rechtsgrundlage einen Link zu den Belegen an."
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Fassen Sie Ihren Plan für die Nutzung der Daten zusammen. Die Zusammenfassung ist in einer der Amtssprachen der EU abzufassen."
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Wählen Sie die Sprache der Zusammenfassung aus.",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgarisch"
-                },
-                {
-                    "key": "hr",
-                    "value": "Kroatisch"
-                },
-                {
-                    "key": "cs",
-                    "value": "Tschechisch"
-                },
-                {
-                    "key": "da",
-                    "value": "Dänisch"
-                },
-                {
-                    "key": "nl",
-                    "value": "Niederländisch"
-                },
-                {
-                    "key": "en",
-                    "value": "Englisch"
-                },
-                {
-                    "key": "et",
-                    "value": "Estnisch"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finnisch"
-                },
-                {
-                    "key": "fr",
-                    "value": "Französisch"
-                },
-                {
-                    "key": "de",
-                    "value": "Deutsch"
-                },
-                {
-                    "key": "el",
-                    "value": "Griechisch"
-                },
-                {
-                    "key": "hu",
-                    "value": "Ungarisch"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irisch"
-                },
-                {
-                    "key": "it",
-                    "value": "Italienisch"
-                },
-                {
-                    "key": "lv",
-                    "value": "Lettisch"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litauisch"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltesisch"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polnisch"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugiesisch"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumänisch"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slowakisch"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slowenisch"
-                },
-                {
-                    "key": "es",
-                    "value": "Spanisch"
-                },
-                {
-                    "key": "sv",
-                    "value": "Schwedisch"
-                }
-            ]
+            "label": "Fassen Sie Ihren Plan für die Nutzung der Daten zusammen. Die Zusammenfassung ist in einer der Amtssprachen der EU abzufassen.",
+            "tooltip": "Hochgeladene Dateien werden vom System automatisch übersetzt. Der Antragsteller ist für die Qualität, Lesbarkeit und Formatierung der hochgeladenen Dateien verantwortlich."
         },
         "summaryOfResearchPlan": {
-            "label": "Fassen Sie Ihren Forschungsplan zusammen. Die Zusammenfassung ist in einer der Amtssprachen der EU abzufassen."
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Wählen Sie die Sprache der Zusammenfassung aus.",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgarisch"
-                },
-                {
-                    "key": "hr",
-                    "value": "Kroatisch"
-                },
-                {
-                    "key": "cs",
-                    "value": "Tschechisch"
-                },
-                {
-                    "key": "da",
-                    "value": "Dänisch"
-                },
-                {
-                    "key": "nl",
-                    "value": "Niederländisch"
-                },
-                {
-                    "key": "en",
-                    "value": "Englisch"
-                },
-                {
-                    "key": "et",
-                    "value": "Estnisch"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finnisch"
-                },
-                {
-                    "key": "fr",
-                    "value": "Französisch"
-                },
-                {
-                    "key": "de",
-                    "value": "Deutsch"
-                },
-                {
-                    "key": "el",
-                    "value": "Griechisch"
-                },
-                {
-                    "key": "hu",
-                    "value": "Ungarisch"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irisch"
-                },
-                {
-                    "key": "it",
-                    "value": "Italienisch"
-                },
-                {
-                    "key": "lv",
-                    "value": "Lettisch"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litauisch"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltesisch"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polnisch"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugiesisch"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumänisch"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slowakisch"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slowenisch"
-                },
-                {
-                    "key": "es",
-                    "value": "Spanisch"
-                },
-                {
-                    "key": "sv",
-                    "value": "Schwedisch"
-                }
-            ]
+            "label": "Fassen Sie Ihren Forschungsplan zusammen. Die Zusammenfassung ist in einer der Amtssprachen der EU abzufassen.",
+            "tooltip": "Hochgeladene Dateien werden vom System automatisch übersetzt. Der Antragsteller ist für die Qualität, Lesbarkeit und Formatierung der hochgeladenen Dateien verantwortlich."
         },
         "personResponsibleLabel": "Für die Datennutzung verantwortliche Person",
         "personResponsibleName": {
             "label": "Vollständige Bezeichnung"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Stellenbezeichnung"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Mitgliedschaft"
         },
         "personResearchSameAsContactPerson": {
             "label": "Wie in Abschnitt 3 (Angaben zum Antragsteller und zum Ansprechpartner)?"
@@ -546,12 +349,6 @@
         },
         "personResearchName": {
             "label": "Vollständige Bezeichnung"
-        },
-        "personResearchJobTitle": {
-            "label": "Stellenbezeichnung"
-        },
-        "personResearchAffiliation": {
-            "label": "Mitgliedschaft"
         },
         "formatOfTheElectronicHealthData": {
             "label": "Wählen Sie das Format der zur Verfügung zu stellenden elektronischen Gesundheitsdaten aus:",
@@ -638,6 +435,9 @@
         },
         "consentAndInformationLetterAttachment": {
             "label": "Fügen Sie die Zustimmung und das Informationsschreiben bei, die Sie den Probanden übermittelt haben. Bitte fügen Sie keine ausgefüllten Formulare bei, da sie personenbezogene Daten enthalten."
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "Beruht die Kohorte auf einer früher erteilten Datengenehmigung?"
         },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Ich bestätige, dass die Datengenehmigung für dieses Forschungsprojekt erteilt wurde."
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "Wie oft müssen die Daten extrahiert werden?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Beabsichtigen Sie, eine Ausnahme vom Opt-out-Recht gemäß dem im nationalen Recht des Mitgliedstaats, dessen Daten Sie beantragen, vorgesehenen Mechanismus in Anspruch zu nehmen?",
+            "tooltip": "Abweichend vom Recht zum Widerspruch gemäß Absatz 1 kann ein Mitgliedstaat nach seinem nationalen Recht einen Mechanismus vorsehen, um Daten, für die das Recht zum Widerspruch in Anspruch genommen wurde, zur Verfügung zu stellen, sofern alle folgenden Bedingungen erfüllt sind: (siehe Artikel für die vollständigen Bedingungen)“"
+        },
+        "providedJustificationException": {
+            "label": "Bitte begründen Sie diese Ausnahme."
+        },
         "needForDataExtractionEvery": {
             "label": "Die Daten müssen in jedem Fall extrahiert werden.",
             "tooltip": "Wenn Sie wünschen, dass die Daten über einen bestimmten Zeitraum mehrfach extrahiert werden, weisen Sie darauf hin, dass sich die Definitionen und die Datenerhebungsmethode in einigen Fällen während des Überprüfungszeitraums ändern können. Es sei darauf hingewiesen, dass die maximale Häufigkeit der Datenextraktion vierteljährlich ist."
@@ -835,14 +642,11 @@
         "willSameDataBeExtractedForControls": {
             "label": "Werden dieselben Daten wie für die Kohorte für Kontrollen extrahiert?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Wenn Sie keine Daten für Kontrollen aus dem ganzen Land anfordern: Welche Region(en) und/oder Stadt/Städte und/oder Gemeinde/Gemeinden suchen Sie Daten?"
-        },
         "fromWhichDataHolderLabel": "Aus welchen Dateninhabern werden die Kontrolldaten extrahiert?",
         "fromWhichDatabaseLabel": "Aus welcher Datenbank/welchen Datenbanken/Registern werden die Kontrolldaten extrahiert?",
         "fromWhichDatasetLabel": "Aus welchen Datensätzen/Registern werden die Daten für Kontrollen extrahiert?",
-        "variablesForDataExtraction": {
-            "label": "Wenn die Informationen verfügbar sind, geben Sie bitte die Variablen an, die bei der Datenextraktion zu verwenden sind. Verwenden Sie die genauen Begriffe, die von dem/den jeweiligen Dateninhaber(n) im Metadatenkatalog bereitgestellt werden."
+        "variablesForDataExtractionAttachments": {
+            "label": "Falls die Informationen verfügbar sind, fügen Sie die Liste der Variablen bei, die bei der Datenextraktion zu verwenden sind. Verwenden Sie die genauen Begriffe, die von dem/den jeweiligen Dateninhaber(n) im Metadatenkatalog bereitgestellt werden."
         },
         "timePeriodForDataExtraction": {
             "label": "Für welchen Zeitraum/welche Zeiträume werden die Datensätze extrahiert?"
@@ -947,8 +751,8 @@
         "whichDataHoldersForRelatives": "Aus welchen Dateninhabern werden die Daten für Verwandte extrahiert?",
         "whichDatabaseForRelatives": "Aus welcher Datenbank/welchen Datenbanken/Registern werden die Daten für Verwandte extrahiert?",
         "whichDatasetsForRelatives": "Aus welchen Datensätzen/Registern werden die Daten für Verwandte extrahiert?",
-        "variablesForDataExtractionRelatives": {
-            "label": "Wenn die Informationen verfügbar sind, geben Sie bitte die Variablen an, die bei der Datenextraktion zu verwenden sind. Verwenden Sie die genauen Begriffe, die von dem/den jeweiligen Dateninhaber(n) im Metadatenkatalog bereitgestellt werden."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "Falls die Informationen verfügbar sind, fügen Sie die Liste der Variablen bei, die bei der Datenextraktion zu verwenden sind. Verwenden Sie die genauen Begriffe, die von dem/den jeweiligen Dateninhaber(n) im Metadatenkatalog bereitgestellt werden."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "Für welchen Zeitraum/welche Zeiträume werden die Datensätze extrahiert?"
@@ -1062,7 +866,6 @@
         "otherPermitApplications": {
             "label": "Haben Sie weitere anhängige Genehmigungsanträge?"
         },
-        "listTheOtherData": "Führen Sie die anderen zu kombinierenden Daten und die Quellen dieser Daten auf:",
         "applicationIssuer": {
             "label": "Emittenten"
         },
@@ -1360,6 +1163,13 @@
             "label": "Wie halten Sie bei der Verarbeitung der Daten den Grundsatz der Datenminimierung (EU-Datenschutzverordnung) ein? ",
             "tooltip": "Artikel 4 Absatz 1c der Datenschutzverordnung der EU: „personenbezogene Daten müssen angemessen und relevant sein und auf das für die Zwecke, für die sie verarbeitet werden, erforderliche Maß beschränkt sein („Datenminimierung„)“"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Beabsichtigen Sie, eine Ausnahme vom Opt-out-Recht gemäß dem im nationalen Recht des Mitgliedstaats, dessen Daten Sie beantragen, vorgesehenen Mechanismus in Anspruch zu nehmen?",
+            "tooltip": "Abweichend vom Recht zum Widerspruch gemäß Absatz 1 kann ein Mitgliedstaat nach seinem nationalen Recht einen Mechanismus vorsehen, um Daten, für die das Recht zum Widerspruch in Anspruch genommen wurde, zur Verfügung zu stellen, sofern alle folgenden Bedingungen erfüllt sind: (siehe Artikel für die vollständigen Bedingungen)“"
+        },
+        "providedJustificationException": {
+            "label": "Bitte begründen Sie diese Ausnahme."
+        },
         "protectionAndSecurityStatements": {
             "label": "Um mit dieser Anwendung fortzufahren, müssen Sie die folgenden Erklärungen (Datenschutz- und sicherheitsrelevante Erklärungen) bestätigen:"
         },
@@ -1383,13 +1193,10 @@
             "label": "Wie in Abschnitt 3 erwähnt?"
         },
         "listTheFullNames": {
-            "label": "Geben Sie die vollständigen Namen, Zugehörigkeiten und E-Mail-Adressen aller Personen an, die die Daten verarbeiten werden."
+            "label": "Geben Sie die vollständigen Namen und E-Mail-Adressen aller Personen an, die die Daten verarbeiten werden."
         },
         "fullName": {
             "label": "Vollständiger Name"
-        },
-        "affiliation": {
-            "label": "Mitgliedschaft"
         },
         "emailAddress": {
             "label": "E-Mail-Adresse"
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Bestätigung der Angaben",
-        "section10Description": "Bevor dieser Antrag bearbeitet wird, müssen Sie als Antragsteller die Bearbeitungsgebühren genehmigen.",
+        "section10Description": "Bevor dieser Antrag bearbeitet wird, müssen Sie als Antragsteller die Bearbeitungsgebühren genehmigen. Fügen Sie Informationen über die Preise und den geschätzten Höchstpreis für die Datenextraktion hinzu, sobald diese verfügbar sind.",
         "submitYouApplicationText": "Um Ihren Antrag einreichen zu können, müssen Sie Folgendes bestätigen:",
         "acceptHealthDataBody": {
             "label": "Ich stimme zu, dass die Gesundheitsdatenstelle die Statistiken erstellen wird und ich keinen Zugang zu den für die Erstellung der Statistiken verwendeten Daten habe."

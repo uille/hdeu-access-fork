@@ -72,8 +72,6 @@ class UserProfileDTOTest {
     dto.setLegalPersonOrganisationName("Organization A");
     dto.setLegalPersonBusinessID("BUS123");
     dto.setLegalPersonOperatorID("OP123");
-    dto.setLegalPersonJobTitle("CEO");
-    dto.setLegalPersonAffiliation("Affiliate B");
     dto.setLegalPersonAddress("456 Avenue, City");
     dto.setLegalPersonZipCode("54321");
     dto.setLegalPersonCity("Another City");

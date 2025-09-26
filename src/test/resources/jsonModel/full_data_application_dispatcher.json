@@ -1,233 +1,232 @@
 {
+  "targetLanguages": ["EL", "NL"],
   "application": {
-  "_id": 12,
-  "status": {
-    "status": "submitted"
-  },
-  "datasets": [
-    {
-      "dataset_id": "8ddbd740-0c51-4a65-8ae8-0f03bb6fef5e",
-      "catalog_id": "726200a0-7940-4446-b5f8-a62e6cc00b1b",
-      "distributions": [
-        {
-          "distribution_id": "c6b25d3a-f33e-4766-896d-d12db2c3e322"
-        }
-      ],
-      "date_added": "2024-09-13T13:07:56.252152200Z"
-    }
-  ],
-  "form": {
-    "section2": {
-      "sectionNumber": 2,
-      "projectName": "Fix",
-      "countryOfProjectLeader": {
-        "key": "http://publications.europa.eu/resource/authority/country/AUT",
-        "value": "Austria"
-      },
-      "purposeForWhichDataWillBeUsed": [
-        {
-          "key": "a",
-          "value": "a. Public interest in the area of public and occupational health, such as activities for protection against serious cross-border threats to health and public health surveillance or activities ensuring high levels of quality and safety of healthcare, including patient safety, and of medicinal products or medical devices"
-        }
-      ],
-      "descriptionOfTheDataYouWillUse": "Fix",
-      "summaryOfTheProject": "Fix",
-      "projectLeader": "Fix"
-    },
-    "section3": {
-      "sectionNumber": 3,
-      "applyingForDataOnBehalfOfPublicSector": {
-        "key": "b",
-        "value": "No"
-      },
-      "legalOrNaturalPerson": {
-        "key": "a",
-        "value": "Legal person"
-      },
-      "contactPersonPhone": {
-        "number": "34343434343434",
-        "countryCode": "43"
-      },
-      "contactPersonName": "Jason BOURNE",
-      "contactPersonEmail": "jason.bourne@ec.europa.eu",
-      "contactPersonProfileDataDate": "2024-09-13T11:48:13.620692600Z",
-      "legalPersonName": "Jason BOURNE",
-      "legalPersonAddress": "343",
-      "legalPersonZipCode": "343",
-      "legalPersonCity": "343",
-      "legalPersonCountry": {
-        "key": "http://publications.europa.eu/resource/authority/country/ATG",
-        "value": "Antigua and Barbuda"
-      },
-      "businessIdentifier": "334",
-      "legalOrNaturalPersonProfileDataDate": "2024-09-13T11:48:13.620692600Z",
-      "contactPersonRelationship": "Fix"
-    },
-    "section4": {
-      "sectionNumber": 4,
-      "fullName": "Jason BOURNE",
-      "email": "jason.bourne@ec.europa.eu",
-      "address": "343",
-      "phone": {
-        "number": "34343434343434",
-        "countryCode": "43"
-      },
-      "section4ProfileDataDate": "2024-09-13T11:48:13.620692600Z",
-      "invoiceType": {
-        "key": "a",
-        "value": "Paper"
-      },
-      "invoiceReferenceNumber": "Fix",
-      "operatorIdentifier": "Fix",
-      "nameOfTheOrganisation": "Fix",
-      "businessIdentifierOrganization": "Fix",
-      "vatNumber": "Fix",
-      "peppolCode": "Fix",
-      "isTheProjectFinanciallyCovered": {
-        "key": "b",
-        "value": "No"
-      }
-    },
-    "section5": {
-      "sectionNumber": 5,
-      "purposeOfUse": [
-        {
-          "key": "a",
-          "value": "a. Activities for reasons of public interest in the area of public and occupational health, such as protection against serious cross-border threats to health, public health surveillance or ensuring high levels of quality and safety of healthcare and of medicinal products or medical devices"
-        }
-      ],
-      "formatOfTheElectronicHealthData": {
-        "key": "a",
-        "value": "Anonymised"
-      },
-      "summaryOfPlanForUsingTheData": [
-        {
-          "size": 16921,
-          "name": "Form - Copy.docx",
-          "id": "66e4397e2b9aa105ff34375c"
-        }
-      ],
-      "summaryOfPlanForUsingTheDataLanguage": {
-        "key": "en",
-        "value": "English"
-      },
-      "whichAreTheExpectedBenefits": "Fix",
-      "whatIsTheAimAndTopicOfTheProject": "Fix",
-      "whyTheDataIsNeeded": "Fix",
-      "personResponsibleAffiliation": "Fix",
-      "personResponsibleJobTitle": "Fix",
-      "personResponsibleName": "Jason BOURNE",
-      "personResponsibleProfileDataDate": "2024-09-13T11:48:13.620692600Z"
-    },
-    "section6": [
+    "_id": "68b05c81a323d94a2267e87e",
+    "title": "WBJftWRDUL",
+    "datasets": [
       {
-        "sectionNumber": 6,
-        "country_id": "Belgium",
-        "catalog_ids": [
-          "726200a0-7940-4446-b5f8-a62e6cc00b1b"
-        ],
-        "hdabContacts": "Fix",
-        "howWillTheDataFromDifferentSourcesBeLinked": "Fix",
-        "howIsTheStudyCohortFormed": {
-          "key": "a",
-          "value": "The study cohort will be formed based on the criteria given below."
+        "dataset_id": "5d23d9d9-8d8b-49da-ac4b-716750b8d8db",
+        "catalog_id": "b0e2a17a-efd0-4074-a845-9b98485c418a",
+        "distributions": [
+          {
+            "distribution_id": "ab294884-b5bc-4a59-8191-4eb248324073",
+            "title": {
+              "nn": "Det kypriotiske helsedatabyrået",
+              "de": "Zyprische Agentur für Gesundheitsdaten",
+              "fi": "Kyproksen terveystietovirasto",
+              "pt": "Agência Cipriota de Dados de Saúde",
+              "bg": "Кипърска агенция за здравни данни",
+              "lt": "Kipro sveikatos duomenų agentūra",
+              "hr": "Ciparska agencija za zdravstvene podatke",
+              "lv": "Kipras Veselības datu aģentūra",
+              "fr": "Agence chypriote des données de santé",
+              "hu": "Ciprusi Egészségügyi Adatügynökség",
+              "sk": "Cyperská agentúra pre zdravotné údaje",
+              "sl": "Ciprska agencija za zdravstvene podatke",
+              "ga": "Gníomhaireacht Sonraí Sláinte na Cipire",
+              "sv": "Cyperns hälsomyndighet",
+              "mt": "L-Aġenzija Ċiprijotta tad-Data dwar is-Saħħa",
+              "el": "Κυπριακός Οργανισμός Δεδομένων Υγείας",
+              "en": "Cypriot Health Data Agency",
+              "is": "Cypriot Health Data Agency",
+              "it": "Agenzia cipriota per i dati sanitari",
+              "es": "Agencia chipriota de datos sanitarios",
+              "et": "Küprose terviseandmeamet",
+              "cs": "Kyperská agentura pro zdravotní data",
+              "nb": "Kypriotisk helsedatabyrå",
+              "pl": "Cypryjska Agencja Danych dotyczących Zdrowia",
+              "da": "Det cypriotiske sundhedsdataagentur",
+              "ro": "Agenția cipriotă de date privind sănătatea",
+              "nl": "Cypriotisch agentschap voor gezondheidsgegevens"
+        }
+            }
+          ],
+        "date_added": "2025-08-28T13:41:21.104245679Z",
+        "publisher": {
+          "name": "Sciensano",
+          "type": "Agent",
+          "email": "mailto:info@sciensano.be",
+          "homepage": "https://sciensano.be"
         },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-          "key": "a",
-          "value": "Yes"
+        "title": {
+          "nn": "[Tilpasset] Influensaliknande sjukdom Syndromisk overvåking frå primærhelsetenestedata",
+          "de": "[Angepasste] Influenza-ähnliche Syndromüberwachung aus Primärversorgungsdaten",
+          "fi": "[Mukautettu] Ensihoitotiedoista saatu influenssan kaltainen oireyhtymän seuranta",
+          "pt": "[Adaptado] Vigilância sintética de tipo Influenzia a partir de dados de cuidados primários",
+          "bg": "[Адаптиран] Аналогично синдромично наблюдение на проникването от първични данни за грижи",
+          "lt": "[Pritaikytas] Panašaus gripo sindrominis stebėjimas iš pirminės priežiūros duomenų",
+          "hr": "[Prilagođeno] Influenza-sindromski nadzor sluznosti iz podataka o primarnoj skrbi",
+          "lv": "[Pielāgots] Gripai līdzīga Ilguma sindroma novērošana no primārās aprūpes datiem",
+          "fr": "[Adapté] Surveillance syndromique d’une maladie analogue à l’influenza à partir de données sur les soins primaires",
+          "hu": "[Kiigazított szöveg] Influenzaszerű szindrómák megfigyelése az elsődleges ellátási adatokból",
+          "sk": "[Prispôsobené] Syndróm syndrómnosti podobný chrípke z údajov o primárnej starostlivosti",
+          "sl": "[Prilagojeno] Influenci podoben sindromski nadzor iz podatkov o primarni oskrbi",
+          "ga": "[Oiriúnaithe] Faireachas Siondrómach cosúil le Fliú ó Shonraí Cúraim Phríomhúil",
+          "sv": "[Anpassad] Influenza-liknande Illness Syndromic Surveillance from Primary Care Data (Influenza-liknande illhetsmätning från primärvårdsuppgifter)",
+          "mt": "[Adattat] Sorveljanza Sindromika tal-Mard simili għall-Influwenza minn Data dwar il-Kura Primarja",
+          "el": "[Προσαρμοσμένη] Συνδρομική επιτήρηση τύπου Influenza-Illness Syndromic Surveillance from Primary Care Data",
+          "en": "[Adapted] Influenza-like Illness Syndromic Surveillance from Primary Care Data",
+          "is": "[Aðlagað] Sjúkdómslíkt eftirlit með sjúkdómseinkennum úr gögnum um heilsugæslu",
+          "it": "[Adattato] Sorveglianza sindromica della sindrome dell'influenza da parte dei dati di cura primaria",
+          "es": "[Adaptado] Vigilancia síncrona de la desigualdad similar a la gripe a partir de datos de atención primaria",
+          "et": "[Kohandatud] Esmase ravi andmete põhjal saadud gripilaadne sündroomi seire",
+          "cs": "[Přizpůsobený] Syndromický přehled o chřipce na základě údajů o primární péči",
+          "nb": "[Tilpasset] Influensalignende sykdom Syndromisk overvåking fra primærhelsetjenestedata",
+          "pl": "[Dostosowany] Syndromiczny nadzór nad grypą oparty na podstawowych danych dotyczących opieki medycznej",
+          "ro": "[Adaptat] Supravegherea sindromului oboselii pe baza datelor privind asistența medicală primară",
+          "da": "[Tilpasset] Influenza-lignende syntetisk overvågning af primær pleje",
+          "nl": "[Aangepast] Influenza-achtige syndromische surveillance op basis van primaire zorggegevens"
         },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": "Fix",
-        "sizeOfTheStudyCohort": "Fix",
-        "sizeOfTheStudyCohortEstimationOrExact": {
-          "key": "a",
-          "value": "This is an estimation of the size of the study cohort."
+        "country": {
+          "resource": "http://publications.europa.eu/resource/authority/country/CYP",
+          "label": "Cyprus",
+          "country_id": "cy"
         },
-        "whyNeedStudyCohortOfThisSize": "Fix",
-        "timePeriodOfDataExtraction": "Fix",
-        "extractionMethod": {
-          "key": "a",
-          "value": "random sample"
+        "hdab": {
+          "name": "Belgian Health Data Agency",
+          "type": "Organization",
+          "email": "mailto:info@hda.fgov.be",
+          "homepage": "https://www.hda.belgium.be"
         },
-        "inclusionCriteria": "Fix",
-        "howOftenDoesTheDataNeedToBeExtracted": {
-          "key": "a",
-          "value": "Once"
+        "provenance": {
+          "nn": "Dataa for LINK-VACC-prosjektet er henta frå flere eksisterande databasar, inkludert Vaccinnet +, HealthData COVID-19-databasen (Kontakt sporing og klinikkdatabase), CoBRHA, STATBEL og AIM-databasen. Desse databasane gjev samla omfattande demografiske, kliniske og sosioøkonomiske data som er relevante for prosjektets mål.",
+          "de": "Die Daten für das LINK-vacc-Projekt stammen aus mehreren bestehenden Datenbanken, darunter Vaccinnet+, die COVID-19-Datenbank HealthData (Kontaktnachverfolgung und klinische Datenbank), CoBRHA, STATBEL und die AIM-Datenbank. Diese Datenbanken liefern zusammen umfassende demografische, klinische und sozioökonomische Daten, die für die Projektziele relevant sind.",
+          "fi": "LINK-vacc-hankkeen tiedot ovat peräisin useista olemassa olevista tietokannoista, kuten Vaccinnet+, HealthData COVID-19 -tietokanta (kontaktien jäljitys ja kliininen tietokanta), CoBRHA, STATBEL ja AIM-tietokanta. Nämä tietokannat tarjoavat yhdessä kattavia demografisia, kliinisiä ja sosioekonomisia tietoja, joilla on merkitystä hankkeen tavoitteiden kannalta.",
+          "pt": "Os dados relativos ao projeto LINK-VACC provêm de várias bases de dados existentes, incluindo a Vaccinnet +, a base de dados HealthData COVID-19 (base de dados de rastreio de contactos e clínica), o CoBRHA, o STATBEL e a base de dados AIM. Estas bases de dados fornecem coletivamente dados demográficos, clínicos e socioeconómicos abrangentes relevantes para os objetivos do projeto.",
+          "bg": "Данните за проекта LINK-VACC се получават от няколко съществуващи бази данни, включително Vaccinnet +, HealthData COVID-19 (база данни за проследяване на контактите и клинична база данни), CoBRHA, STATBEL и базата данни AIM. Тези бази данни заедно предоставят всеобхватни демографски, клинични и социално-икономически данни, които са от значение за целите на проекта.",
+          "lt": "Projekto „LINK-vacc“ duomenys gaunami iš kelių esamų duomenų bazių, įskaitant „Vaccinnet+“, HealthData COVID-19 duomenų bazę (kontaktinių duomenų ir klinikinių tyrimų duomenų bazę), CoBRHA, STATBEL ir AIM duomenų bazę. Šiose duomenų bazėse pateikiami išsamūs demografiniai, klinikiniai ir socialiniai bei ekonominiai duomenys, susiję su projekto tikslais.",
+          "lv": "Projekta LINK-vacc dati ir iegūti no vairākām esošajām datubāzēm, tostarp Vaccinnet+, HealthData COVID-19 datubāzes (kontaktu izsekošanas un klīniskās datubāzes), CoBRHA, STATBEL un AIM datubāzes. Šīs datubāzes kopā sniedz visaptverošus demogrāfiskos, klīniskos un sociālekonomiskos datus, kas attiecas uz projekta mērķiem.",
+          "hr": "Podaci za projekt LINK-vacc potječu iz nekoliko postojećih baza podataka, uključujući baze podataka Vaccinnet+, HealthData COVID-19 (Praćenje kontakata i klinička baza podataka), CoBRHA, STATBEL i AIM. Te baze podataka zajedno pružaju sveobuhvatne demografske, kliničke i društveno-gospodarske podatke relevantne za ciljeve projekta.",
+          "fr": "Les données relatives au projet LINK-VACC proviennent de plusieurs bases de données existantes, dont Vaccinnet +, HealthData COVID-19 (base de données sur le traçage des contacts et Clinic), CoBRHA, STATBEL et AIM. Ces bases de données fournissent collectivement des données démographiques, cliniques et socio-économiques complètes en rapport avec les objectifs du projet.",
+          "hu": "A LINK-vacc projekt adatai számos meglévő adatbázisból származnak, többek között a Vaccinnet±ból, a HealthData COVID-19 adatbázisból (Kapcsolatkövetési és klinikai adatbázis), a CoBRHA-ból, a STATBEL-ből és az AIM adatbázisból. Ezek az adatbázisok együttesen átfogó demográfiai, klinikai és társadalmi-gazdasági adatokat szolgáltatnak a projekt célkitűzései szempontjából",
+          "sk": "Údaje pre projekt LINK-vacc pochádzajú z viacerých existujúcich databáz vrátane databázy Vaccinnet+, databázy HealthData COVID-19 (databáza sledovania kontaktov a kliniky), CoBRHA, STATBEL a databázy AIM. Tieto databázy spoločne poskytujú komplexné demografické, klinické a sociálno-ekonomické údaje relevantné pre ciele projektu.",
+          "sl": "Podatki za projekt LINK-vacc izhajajo iz več obstoječih podatkovnih zbirk, vključno z Vaccinnet+, podatkovno zbirko HealthData COVID-19 (sledenje stikom in klinika), CoBRHA, STATBEL in podatkovno zbirko AIM. Te podatkovne zbirke skupaj zagotavljajo celovite demografske, klinične in socialno-ekonomske podatke, pomembne za cilje projekta.",
+          "ga": "Faightear na sonraí le haghaidh thionscadal LINK-vacc ó roinnt bunachar sonraí atá ann cheana, lena n-áirítear Vaccinnet+, bunachar sonraí HealthData COVID-19 (Bunachar sonraí rianaithe teagmhálaithe agus Clinic), CoBRHA, STATBEL, agus bunachar sonraí AIM. Soláthraíonn na bunachair sonraí sin i dteannta a chéile sonraí cuimsitheacha déimeagrafacha, cliniciúla agus socheacnamaíocha atá ábhartha do chuspóirí an tionscadail",
+          "sv": "Uppgifterna för LINK-VACC-projektet hämtas från flera befintliga databaser, bland annat Vaccinnet +, databasen HealthData COVID-19 (kontaktspårnings- och katlinikdatabasen), CoBRHA, STATBEL och AIM-databasen. Dessa databaser tillhandahåller tillsammans omfattande demografiska, kliniska och socioekonomiska data som är relevanta för projektets mål.",
+          "el": "Τα δεδομένα για το έργο LINK-VACC προέρχονται από διάφορες υφιστάμενες βάσεις δεδομένων, μεταξύ των οποίων το Vaccinnet +, η βάση δεδομένων HealthData COVID-19 (βάση δεδομένων ιχνηλάτησης επαφών και κλινικής), το CoBRHA, το STATBEL και η βάση δεδομένων AIM. Οι εν λόγω βάσεις δεδομένων παρέχουν συλλογικά ολοκληρωμένα δημογραφικά, κλινικά και κοινωνικοοικονομικά δεδομένα σχετικά με τους στόχους του έργου",
+          "mt": "Id-data għall-proġett LINK-VACC tinkiseb minn diversi bażijiet tad-data eżistenti, inklużi Vaccinnet +, HealthData COVID-19 bażi tad-data (Bażi tad-data tat-Traċċar tal-kuntatti u Klinika), CoBRHA, STATBEL, u l-bażi tad-data AIM. Dawn il-bażijiet tad-data kollettivament jipprovdu data demografika, klinika u soċjoekonomika komprensiva rilevanti għall-objettivi tal-proġett",
+          "en": "The data for the LINK-VACC project is sourced from several existing databases, including Vaccinnet+, HealthData COVID-19 database (Contact tracing and Clinic database), CoBRHA, STATBEL, and the AIM database. These databases collectively provide comprehensive demographic, clinical, and socio-economic data relevant to the project's objectives",
+          "is": "Gögnin fyrir LINK-VACC verkefnið eru fengin úr nokkrum fyrirliggjandi gagnagrunnum, þar á meðal Vaccinnet +, HealthData COVID-19 gagnagrunni (Hafða rakningar og klínískur gagnagrunnur), CoBRHA, STATBEL og AIM gagnagrunnnum. Þessir gagnagrunnar leggja sameiginlega fram yfirgripsmikil lýðfræðileg, klínísk og félagshagfræðileg gögn sem varða markmið verkefnisins.",
+          "it": "I dati per il progetto LINK-VACC provengono da diverse banche dati esistenti, tra cui Vaccinnet +, HealthData COVID-19 (banca dati tracciamento dei contatti e banca dati Clinic), CoBRHA, STATBEL e la banca dati AIM. Tali banche dati forniscono collettivamente dati demografici, clinici e socioeconomici completi pertinenti agli obiettivi del progetto.",
+          "es": "Los datos para el proyecto LINK-VACC proceden de varias bases de datos existentes, como Vaccinnet +, HealthData COVID-19 (base de datos de rastreo de contactos y Clinic), CoBRHA, STATBEL y la base de datos AIM. Estas bases de datos proporcionan colectivamente datos demográficos, clínicos y socioeconómicos completos pertinentes para los objetivos del proyecto.",
+          "et": "LINK-vacci projekti andmed on saadud mitmest olemasolevast andmebaasist, sealhulgas Vaccinnet+, HealthData COVID-19 andmebaas (kontaktide jälgimise ja kliiniliste andmete andmebaas), CoBRHA, STATBEL ja AIM andmebaas. Need andmebaasid sisaldavad koos põhjalikke demograafilisi, kliinilisi ja sotsiaal-majanduslikke andmeid, mis on projekti eesmärkide seisukohast asjakohased.",
+          "cs": "Údaje pro projekt LINK-vacc jsou získávány z několika stávajících databází, včetně Vaccinnet+, databáze HealthData COVID-19 (sledování kontaktů a databáze Clinic), CoBRHA, STATBEL a databáze AIM. Tyto databáze společně poskytují komplexní demografické, klinické a socioekonomické údaje relevantní pro cíle projektu.",
+          "nb": "Dataene for LINK-VACC-prosjektet er hentet fra flere eksisterende databaser, inkludert Vaccinnet+, HealthData COVID-19-databasen (Kontaktsporing og Klinikkdatabase), CoBRHA, STATBEL og AIM-databasen. Disse databasene gir samlet omfattende demografiske, kliniske og sosioøkonomiske data som er relevante for prosjektets mål.",
+          "pl": "Dane na potrzeby projektu LINK-vacc pochodzą z kilku istniejących baz danych, takich jak Vaccinnet+, baza danych HealthData COVID-19 (baza danych umożliwiających śledzenie kontaktów i baza danych klinicznych), CoBRHA, STATBEL i baza danych AIM. Te bazy danych łącznie dostarczają kompleksowych danych demograficznych, klinicznych i społeczno-gospodarczych istotnych z punktu widzenia celów projektu.",
+          "da": "Dataene for LINK-VACC-projektet stammer fra flere eksisterende databaser, herunder Vaccinnet +, HealthData COVID-19 database (kontaktopsporing og klinisk database), CoBRHA, STATBEL og AIM-databasen. Disse databaser indeholder tilsammen omfattende demografiske, kliniske og socioøkonomiske data, der er relevante for projektets mål.",
+          "ro": "Datele pentru proiectul LINK-VACC provin din mai multe baze de date existente, inclusiv Vaccinnet +, baza de date HealthData COVID-19 (baza de date privind depistarea contacților și baza de date Clinic), CoBRHA, STATBEL și baza de date AIM. Aceste baze de date furnizează în mod colectiv date demografice, clinice și socioeconomice cuprinzătoare relevante pentru obiectivele proiectului.",
+          "nl": "De gegevens voor het LINK-VACC-project zijn afkomstig uit verschillende bestaande databanken, waaronder Vaccinnet +, HealthData COVID-19 database (Contact tracing and Clinic database), CoBRHA, STATBEL en de AIM-databank. Deze databanken bieden samen uitgebreide demografische, klinische en sociaal-economische gegevens die relevant zijn voor de doelstellingen van het project."
         },
-        "needForDataExtractionEveryDescription": "Fix",
-        "willControlsBeExtracted": {
-          "key": "b",
-          "value": "No"
-        },
-        "willRelativesBeExtracted": {
-          "key": "b",
-          "value": "No"
-        },
-        "sampleSize": "Fix"
+        "distributions_sample": [
+          {
+            "dataset_id": "7b03514c-6f28-4937-8cf7-8bace91e973d",
+            "variables": [
+              {
+                "propertyUrl": "",
+                "datatype": "integer",
+                "name": "EncounterID",
+                "description": {
+                  "en": "Unique encounter identifier."
+                },
+                "titles": {
+                  "en": "Encounter ID"
+                }
+              },
+              {
+                "propertyUrl": "http://publications.europa.eu/resource/authority/country",
+                "datatype": "string",
+                "name": "CountryOfResidence",
+                "description": {
+                  "en": "The patient’s country of residence, using the EU country authority list."
+                },
+                "titles": {
+                  "en": "Country of Residence"
+                }
+              },
+              {
+                "propertyUrl": "https://terminology.health.com/glossary/CauseOfDeathIndicator",
+                "datatype": "boolean",
+                "name": "CauseOfDeathIndicator",
+                "description": {
+                  "en": "Indicates whether this encounter is related to a cause of death."
+                },
+                "titles": {
+                  "en": "Cause of Death Indicator"
+                }
+              },
+              {
+                "propertyUrl": "",
+                "datatype": "boolean",
+                "name": "Diabetes",
+                "description": {
+                  "en": "True if patient has a diabetes diagnosis."
+                },
+                "titles": {
+                  "en": "Diabetes Diagnosis"
+                }
+              },
+              {
+                "propertyUrl": "http://purl.bioontology.org/ontology/ICD10",
+                "datatype": "string",
+                "name": "DiagnosisCode",
+                "description": {
+                  "en": "Primary diagnosis (ICD-10 code)."
+                },
+                "titles": {
+                  "en": "Diagnosis Code"
+                }
+              },
+              {
+                "propertyUrl": "",
+                "datatype": "string",
+                "name": "PatientID",
+                "description": {
+                  "en": "Pseudonymized patient identifier."
+                },
+                "titles": {
+                  "en": "Patient ID"
+                }
+              },
+              {
+                "propertyUrl": "",
+                "datatype": "dateTime",
+                "name": "VisitDate",
+                "description": {
+                  "en": "Date and time of the clinical visit."
+                },
+                "titles": {
+                  "en": "Visit Date"
+                }
+              },
+              {
+                "propertyUrl": "",
+                "datatype": "decimal",
+                "name": "Temperature",
+                "description": {
+                  "en": "Body temperature in °C."
+                },
+                "titles": {
+                  "en": "Temperature (°C)"
+                }
+              }
+            ]
+          },
+          {
+            "dataset_id": "59cd47e0-835e-42ab-82af-0262e6fa8d7c"
+          }
+        ]
       }
     ],
-    "section7": {
-      "sectionNumber": 7,
-      "willDataBeCombinedWithDataObtained": {
-        "key": "b",
-        "value": "No"
-      },
-      "otherDataPermits": [
-        {
-          "permitIssuer": "Fix",
-          "permitEndDateOfIssue": "2024-09-24",
-          "permitStartDateOfIssue": "2024-09-11",
-          "permitIdentificationInformation": "Fix"
-        }
-      ],
-      "otherPermitApplications": {
-        "key": "b",
-        "value": "No"
-      }
+    "inputLanguage": "en",
+    "date_created": "2025-08-28T13:41:21.104238949Z",
+    "date_modified": "2025-08-28T13:41:21.104239799Z",
+    "userId": "a0006cpk",
+    "status": {
+      "status": "DRAFT",
+      "date": "2025-08-28T13:41:21.104241999Z",
+      "userId": "a0006cpk"
     },
-    "section8": {
-      "sectionNumber": 8,
-      "technicalRequirementsForEnvironment": "Fix",
-      "nameWebsiteAddressForEnvironment": "Fix",
-      "whenDataNeeded": {
-        "key": "a",
-        "value": "As soon as possible after this application has been processed"
-      },
-      "estimatedStartDatesForDataProcessing": "2024-09-19",
-      "estimatedEndDatesForDataProcessing": "2024-09-25",
-      "startPeriodOfInactiveDataStorage": "2024-09-24",
-      "endPeriodOfInactiveDataStorage": "2024-09-30",
-      "willTheDataBeTransferred": {
-        "key": "b",
-        "value": "No"
-      },
-      "whichOrganizationWillBeTheControllerOfData": "Fix",
-      "complyWithDataMinimisationPrinciple": "Fix",
-      "protectionAndSecurityStatementsA": true,
-      "protectionAndSecurityStatementsB": true,
-      "protectionAndSecurityStatementsC": true,
-      "protectionAndSecurityStatementsD": true,
-      "protectionAndSecurityStatementsE": true,
-      "peopleWhoWillBeProcessingTheData": [
-        {
-          "fullName": "Fix",
-          "affiliation": "FixFix",
-          "emailAddress": "Fix@gmail.com"
-        }
-      ],
-      "legalBasisForProcessingPersonalData": [
-        {
-          "key": "a",
-          "value": "1. (e) Processing is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in the controller;"
-        }
-      ]
-    },
-    "section10": {
-      "sectionNumber": 10,
-      "awareProcessingFee": true,
-      "awareChargeFee": true,
-      "awareInformationCorrect": true
-    }
-  }
+    "version": 1
   },
   "configuration": {
     "application_type": "request"

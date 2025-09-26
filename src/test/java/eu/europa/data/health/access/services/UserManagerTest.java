@@ -21,6 +21,7 @@ import static eu.europa.data.health.access.Constants.DISPATCHER_COLLECTION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.contains;
@@ -263,7 +264,7 @@ class UserManagerTest {
     doAnswer(inv -> {
       context.response().setStatusCode(204).end();
       return null;
-    }).when(userManagerSpy).deleteUserHealthData(eq(context), eq("testuser"));
+    }).when(userManagerSpy).deleteUserHealthData(any(), anyString(), anyBoolean());
 
     userManagerSpy.adminDeleteUser(context);
 

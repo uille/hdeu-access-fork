@@ -1,0 +1,1646 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:dcterms="http://purl.org/dc/terms/"
+	xmlns:owl="http://www.w3.org/2002/07/owl#"
+	xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+	xmlns:ns5="http://publications.europa.eu/ontology/euvoc#"
+	xmlns:ns6="http://www.w3.org/2008/05/skos-xl#"
+	xmlns:ns7="http://publications.europa.eu/ontology/authority/" >
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GRL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BDI">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BEN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CAF">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ZR0">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BHR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/KWT">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/OMN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/QAT">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/AFG">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/TUV">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/1A0">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/WSM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/COD">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SLB">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BEL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/DEU">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/DNK">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/FRA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GBR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GRC">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/HRV">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/HUN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ITA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/LTU">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MEX">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/NLD">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/OP_DATPRO">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/POL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/PRT">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SWE">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/AUT">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BGR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CYP">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ESP">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/IRL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MAR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MLT">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MYS">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CZE">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/EST">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/FIN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/LVA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SVK">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SVN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CHE">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/LUX">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ROU">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#ConceptScheme" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology" />
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2009-03-31</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2023-06-13</dcterms:modified>
+        <rdfs:label xml:lang="en">Countries and territories</rdfs:label>
+        <rdfs:label xml:lang="de">Länder und Gebiete</rdfs:label>
+        <rdfs:label xml:lang="cs">Země a území</rdfs:label>
+        <rdfs:label xml:lang="lt">Šalys ir teritorijos</rdfs:label>
+        <rdfs:label xml:lang="pl">Kraje i terytoria</rdfs:label>
+        <rdfs:label xml:lang="nl">Landen en gebieden</rdfs:label>
+        <rdfs:label xml:lang="mt">Pajjiżi u territorji</rdfs:label>
+        <rdfs:label xml:lang="sk">Krajiny a územia</rdfs:label>
+        <rdfs:label xml:lang="sv">Länder och territorier</rdfs:label>
+        <rdfs:label xml:lang="fr">Pays et territoires</rdfs:label>
+        <rdfs:label xml:lang="es">Países y territorios</rdfs:label>
+        <rdfs:label xml:lang="ro">Țări și teritorii</rdfs:label>
+        <rdfs:label xml:lang="bg">Страни и територии</rdfs:label>
+        <rdfs:label xml:lang="et">Riigid ja territooriumid</rdfs:label>
+        <rdfs:label xml:lang="pt">Países e territórios</rdfs:label>
+        <rdfs:label xml:lang="fi">Maat ja alueet</rdfs:label>
+        <rdfs:label xml:lang="el">Χώρες και εδάφη</rdfs:label>
+        <rdfs:label xml:lang="da">Lande og territorier</rdfs:label>
+        <rdfs:label xml:lang="hr">Zemlje i područja</rdfs:label>
+        <rdfs:label xml:lang="it">Paesi e territori</rdfs:label>
+        <rdfs:label xml:lang="sl">Države in ozemlja</rdfs:label>
+        <rdfs:label xml:lang="ga">Tíortha agus críocha</rdfs:label>
+        <rdfs:label xml:lang="lv">Valstis un teritorijas</rdfs:label>
+        <rdfs:label xml:lang="hu">Országok és területek</rdfs:label>
+        <owl:imports rdf:resource="http://publications.europa.eu/ontology/euvoc" />
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Országok és területek</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Landen en gebieden</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Pajjiżi u territorji</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Države in ozemlja</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Länder und Gebiete</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Countries and territories</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Krajiny a územia</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Țări și teritorii</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Valstis un teritorijas</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Χώρες και εδάφη</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Země a území</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Pays et territoires</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Países y territorios</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Maat ja alueet</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Lande og territorier</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Paesi e territori</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Länder och territorier</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Kraje i terytoria</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Страни и територии</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Šalys ir teritorijos</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Tíortha agus críocha</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Zemlje i područja</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Países e territórios</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Riigid ja territooriumid</rdfs:comment>
+        <owl:versionInfo>20250618-0</owl:versionInfo>
+        <skos:prefLabel xml:lang="bg">Страни и територии</skos:prefLabel>
+        <skos:prefLabel xml:lang="sv">Länder och territorier</skos:prefLabel>
+        <skos:prefLabel xml:lang="mt">Pajjiżi u territorji</skos:prefLabel>
+        <skos:prefLabel xml:lang="ro">Țări și teritorii</skos:prefLabel>
+        <skos:prefLabel xml:lang="lt">Šalys ir teritorijos</skos:prefLabel>
+        <skos:prefLabel xml:lang="lv">Valstis un teritorijas</skos:prefLabel>
+        <skos:prefLabel xml:lang="ga">Tíortha agus críocha</skos:prefLabel>
+        <skos:prefLabel xml:lang="cs">Země a území</skos:prefLabel>
+        <skos:prefLabel xml:lang="hu">Országok és területek</skos:prefLabel>
+        <skos:prefLabel xml:lang="sl">Države in ozemlja</skos:prefLabel>
+        <skos:prefLabel xml:lang="fi">Maat ja alueet</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Paesi e territori</skos:prefLabel>
+        <skos:prefLabel xml:lang="hr">Zemlje i područja</skos:prefLabel>
+        <skos:prefLabel xml:lang="da">Lande og territorier</skos:prefLabel>
+        <skos:prefLabel xml:lang="pl">Kraje i terytoria</skos:prefLabel>
+        <skos:prefLabel xml:lang="pt">Países e territórios</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Countries and territories</skos:prefLabel>
+        <skos:prefLabel xml:lang="de">Länder und Gebiete</skos:prefLabel>
+        <skos:prefLabel xml:lang="et">Riigid ja territooriumid</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Pays et territoires</skos:prefLabel>
+        <skos:prefLabel xml:lang="es">Países y territorios</skos:prefLabel>
+        <skos:prefLabel xml:lang="el">Χώρες και εδάφη</skos:prefLabel>
+        <skos:prefLabel xml:lang="nl">Landen en gebieden</skos:prefLabel>
+        <skos:prefLabel xml:lang="sk">Krajiny a územia</skos:prefLabel>
+        <dcterms:title xml:lang="en">Countries and territories</dcterms:title>
+        <ns5:startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2009-03-31</ns5:startDate>
+        <dcterms:identifier>http://publications.europa.eu/resource/authority/country</dcterms:identifier>
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/0ae9adfa947dd8ae092fe6cdc5fb5696" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/7b0a888f2e61f840364205c822c54c38" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/62b615f6434936b3ee97ba653652823f" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/d4e1243" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/b779eac5223c5df0e1585b5d0dd722e9" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/f04bc2bfe1d6e59d8ba127d14f162793" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/cbff8f71bedced0a7a0914bf8cf880f4" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/3f18e13dc208eda9aa322cf53aa1d75f" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/9fd9315f231f05cea5e1bb2620c8f975" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/0c031b472be1a29c6ff28dd410636f10" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/15bcbf90acd97d3d0c1b8a51d6ba1b9a" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/d599492ebf2691730bda6aa0754cf879" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/3dab019b793b0869dac0f3a3db3689ee" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/ff5d648134541d6c4d850e3f830cf4ad" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/2af90fed4f225c06f277407741489b0a" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/b55d4b4078fe515289f4d48079f61c41" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/b1ffbd13d342503f05c654262bd7e75c" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/acd632857d2d7b63998957d94a222e54" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/40495209c7926c3a9474ae98951cdd70" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/43fe9e57f13faa6135cd462f0be9719f" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/564534429874d1d7d14e2947cdf671a5" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/b700fa3fcee027c2e657c18c9b0f15d2" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/c817554e376cf583404e76d890879412" />
+        <ns6:prefLabel rdf:resource="http://publications.europa.eu/resource/authority/country/8df69b6d0cefcfa749aa38e55c491e4d" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/LKA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MDA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/TUN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/PAK" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MRT" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ETH" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ERI" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/DHY" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/CTE" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BUR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/PHL" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BTN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ATA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/AFI" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/TKM" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/NPL" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/USA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/PRK" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/PUS" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/VEN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/PCZ" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SLV" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/VCT" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/PER" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/NRU" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/NTZ" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/PRY" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/NHB" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/LCA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/NIC" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/GRD" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/HTI" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/CUB" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/DZA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ECU" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BOL" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/CRI" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MID" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ATG" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MMR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/JTN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/JEY" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/HVO" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/XDST" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/IMN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/VUT" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/GEL" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/GGY" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/FXX" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MLI" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/TGO" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/TCD" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MCO" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/WAK" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/VDR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/KNA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/TMP" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SRB" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/CHL" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SSD" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SCG" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SKM" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/RHO" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ZAF" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/STP" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/RUS" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SMR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/GNB" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BLR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/1A0" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/YUG" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MNG" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SOM" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/DDR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ZAR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/XKA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/XKM" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/GAB" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/HND" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/VAT" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/JPN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/GNQ" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/XXV" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MOZ" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MLT" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MYS" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/IRL" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MAR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/CYP" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ESP" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/AUT" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BGR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/LBR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MHL" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ISL" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MUS" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MDV" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/COD" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/GTM" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/KHM" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MAC" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/IND" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/WSM" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SUR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SWZ" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MDG" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MWI" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/JAM" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/KEN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/COG" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/GUY" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BRB" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/CIV" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BRA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BLZ" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BYS" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SEN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ZWE" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/IDN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/UGA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ZMB" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/TTO" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/TZA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/GEO" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/YEM" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/IRN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SLE" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/JOR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/THA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/NZL" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/AFG" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/NER" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/CPV" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SLB" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/LAO" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BHS" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/UKR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ARM" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BFA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/KAZ" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/KGZ" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/CMR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SGP" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/NAM" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BWA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/LSO" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/AND" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/AUS" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/GIN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/DJI" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/NGA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/IRQ" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/KIR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/URY" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/RWA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/TWN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BRN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BDI" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/TJK" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/GMB" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/CHN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/OMN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/QAT" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BHR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/KWT" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/DMA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SYR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/EUR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/COL" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MNE" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ZR0" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BEN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/CAF" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/XBI" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/EGY" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/TUR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ARG" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/CSK" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/XKX" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/PLW" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/HKG" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/XMAZ" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ROU" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/CHE" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/LUX" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SAU" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/KOR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SWE" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/LBN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/POL" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/PRT" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/NLD" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/OP_DATPRO" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/LTU" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MEX" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/HUN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ITA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/GRC" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/HRV" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/FRA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/GBR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/DEU" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/DNK" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ISR" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BEL" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/AZE" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/COM" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SVK" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SVN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/FIN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/LVA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/CZE" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/EST" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/UZB" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ARE" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/AGO" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/GHA" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/YMD" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/TON" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/LBY" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/PAN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/ALB" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BGD" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/FSM" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/BIH" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/PSE" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/MKD" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/TLS" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/VNM" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SUN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/PNG" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/CAN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/TUV" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/FJI" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SDN" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/SYC" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/DOM" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/LIE" />
+        <skos:hasTopConcept rdf:resource="http://publications.europa.eu/resource/authority/country/NOR" />
+        <ns7:prefLabel xml:lang="lv">Valstis un teritorijas</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="mt">Pajjiżi u territorji</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="sl">Države in ozemlja</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="lt">Šalys ir teritorijos</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="ro">Țări și teritorii</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="ga">Tíortha agus críocha</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="sk">Krajiny a územia</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="et">Riigid ja territooriumid</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="sv">Länder och territorier</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="de">Länder und Gebiete</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="fr">Pays et territoires</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="en">Countries and territories</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="es">Países y territorios</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="bg">Страни и територии</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="pt">Países e territórios</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="pl">Kraje i terytoria</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="da">Lande og territorier</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="nl">Landen en gebieden</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="hr">Zemlje i područja</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="it">Paesi e territori</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="hu">Országok és területek</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="cs">Země a území</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="el">Χώρες και εδάφη</ns7:prefLabel>
+        <ns7:prefLabel xml:lang="fi">Maat ja alueet</ns7:prefLabel>
+        <ns7:table.id>country</ns7:table.id>
+        <ns7:table.version.number>20250618-0</ns7:table.version.number>
+        <owl:versionIRI rdf:resource="http://publications.europa.eu/resource/authority/country/20250618-0" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/VNM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SEN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SYC">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ZAF">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/KOR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/LBN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SAU">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/JOR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/COM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/PAK">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/TUN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MKD">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GNQ">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/AUS">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GIN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/DZA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CYM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/TKM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/IRN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ARG">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/EGY">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/IDN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CHL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BGD">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/URY">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BMU">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MUS">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BLZ">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BRB">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CIV">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/COG">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GUY">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/JAM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/KEN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MDG">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MWI">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SUR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SWZ">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/TTO">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/TZA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/UGA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ZMB">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ZWE">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/KGZ">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MRT">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SLE">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GMB">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/LBY">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/PAN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/AND">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/LIE">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/NOR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/RUS">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SMR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/STP">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/TUR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ISL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GNB">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CHN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/NPL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/USA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ISR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/JPN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CAN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/YUG">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/IND">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MDA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/KNA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MCO">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/TCD">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/VUT">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/LAO">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MLI">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/TGO">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BRN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/COL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/PNG">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SUN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GIB">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/THA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BRA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/NZL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CPV">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/NER">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ABW">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/UZB">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MOZ">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ANT">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/TWN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GTM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BLR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BIH">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/LKA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/FSM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CSK">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BHS">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ARM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/DMA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/EUR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ALB">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BFA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/KAZ">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/UKR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SGP">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CMR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/AGO">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ARE">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GEO">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/DOM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ATG">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BOL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CRI">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CUB">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ECU">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GRD">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/HTI">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/LCA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/NIC">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/PER">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/PRY">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SLV">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/VCT">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/VEN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/DDR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SOM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/FJI">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/HKG">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/PLW">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MNG">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SRB">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MNE">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SYR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GAB">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/HND">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/LBR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/PHL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/TJK">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MDV">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MAC">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/RWA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/AZE">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/KIR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SDN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GHA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/YMD">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BWA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/LSO">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/NAM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/VAT">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/IRQ">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/NGA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/FRO">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/DJI">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/COK">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/YEM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/KHM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/TLS">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/TON">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/PSE">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SCG">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BYS">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MHL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/AFI">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/AIA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ALA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ASM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ATA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ATB">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ATF">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ATN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BES">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BLM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BTN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BUR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/BVT">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CCK">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CPT">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CTE">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CUW">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CXR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/DHY">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ERI">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ESH">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ETH">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/FLK">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/FQ0">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/FXX">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GEL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GGY">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GLP">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GUF">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/GUM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/HMD">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/HVO">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/IMN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/IOT">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/JEY">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/JTN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MAF">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MID">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MMR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MNP">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MSR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MTQ">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/MYT">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/NCL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/NFK">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/NHB">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/NIU">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/NRU">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/NTZ">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/PCI">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/PCN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/PCZ">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/PRI">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/PRK">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/PUS">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/PYF">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/REU">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/RHO">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SGS">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SHN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SJM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SKM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SPM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SSD">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/SXM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/TCA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/TKL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/TMP">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/UMI">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/VDR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/VGB">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/VIR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/WAK">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/WLF">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XSL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XLF">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XEU">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XMAZ">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XNY">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XLI">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XIC">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XNC">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XSC">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XSM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XDST">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XQP">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XKA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XKM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/ZAR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXB">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XLL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XQR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXC">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XCI">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXD">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XBA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXE">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXF">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XHS">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XPM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXG">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXH">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXI">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXJ">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXO">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XBH">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXL">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XBI">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XSG">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XPA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XIN">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XJM">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XME">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XSV">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXP">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXZ">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XAC">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XKX">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XGS">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/CRQ">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XAD">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XIH">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XMA">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XWS">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXU">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXV">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+        <skos:topConceptOf rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXR">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+    <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/country/XXS">
+        <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/country" />
+    </rdf:Description>
+</rdf:RDF>

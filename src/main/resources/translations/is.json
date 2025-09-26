@@ -17,6 +17,21 @@
         },
         "applicationDatabases": {
             "label": "Úr hvaða gagnagrunni eða skrám eða skrám verða gögnin dregin út?"
+        },
+        "variables": {
+            "label": "Breytur"
+        },
+        "datatype": {
+            "label": "Gagnagerðir (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Lýsing"
+        },
+        "title": {
+            "label": "Breytur"
+        },
+        "emptyTable": {
+            "label": "Engar breytur"
         }
     },
     "section2": {
@@ -102,10 +117,10 @@
                 },
                 {
                     "key": "b",
-                    "value": "Einstaklingur",
-                    "info": "(Ef þú velur þennan valkost staðfestir þú að þú sækir um gögn sem einstaklingur án tengsla.)"
+                    "value": "Einstaklingur"
                 }
-            ]
+            ],
+            "info": "(Ef þú velur þennan valkost staðfestir þú að þú sækir um gögn sem einstaklingur án tengsla.)"
         },
         "legalPerson": "Lögaðili",
         "naturalPerson": "Einstaklingur",
@@ -141,15 +156,6 @@
         },
         "contactPersonBusinessIdentifier": {
             "label": "Viðskiptaauðkenni fyrirtækisins/stofnunarinnar"
-        },
-        "contactPersonOperatorIdentifier": {
-            "label": "Auðkenni rekstraraðila"
-        },
-        "contactPersonJobTitle": {
-            "label": "Starfsheiti"
-        },
-        "contactPersonAffiliation": {
-            "label": "Tengsl"
         },
         "contactPersonRelationship": {
             "label": "Hver eru tengsl tengiliðarins og umsækjandans? (T.d. starfsmaður sem sækir um gögn fyrir hönd fyrirtækis síns.)"
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "Tilgangur gagnanotkunar",
-        "section5Description": "Umsækjendur skulu tilgreina í hvaða tilgangi óskað er eftir gögnum, í samræmi við 1. mgr. 53. gr. reglugerðarinnar um greiningarkerfi fyrir sprengiefni, sem Evrópuþingið samþykkti 17/12. \nUmsækjendur þurfa að útskýra og rökstyðja hvers vegna umbeðin gögn eru nauðsynleg vegna tilgreinds tilgangs þeirra. Einnig eru umsækjendur beðnir um að veita upplýsingar um markmið verkefnisins. Þá, eftir tilgangi notkunar (rannsóknir eða ekki rannsóknir), þurfa umsækjendur að leggja fram samantekt á áætluninni um að nota gögnin eða samantekt rannsóknaráætlunarinnar og upplýsingar um þann sem ber ábyrgð á gagnanotkun eða rannsóknum.",
+        "section5Description": "Umsækjendur ættu að tilgreina í hvaða tilgangi sótt er um gögn, skv. 1. mgr. 53. gr. reglugerðar Evrópuþingsins og ráðsins (ESB) 2025/327 frá 11. febrúar 2025 um evrópska heilbrigðisgagnasvæðið. Umsækjendur þurfa að útskýra og rökstyðja hvers vegna umbeðin gögn eru nauðsynleg vegna tilgreinds tilgangs þeirra. Einnig eru umsækjendur beðnir um að veita upplýsingar um markmið verkefnisins. Þá, eftir tilgangi notkunar (rannsóknir eða ekki rannsóknir), þurfa umsækjendur að leggja fram samantekt á áætluninni um að nota gögnin eða samantekt rannsóknaráætlunarinnar og upplýsingar um þann sem ber ábyrgð á gagnanotkun eða rannsóknum.",
         "purposeOfUse": {
             "label": "Tilgangur gagnanotkunar. Aðilar, sem fá aðgang að heilbrigðisgögnum, skulu aðeins veita aðgang að rafrænum heilbrigðisgögnum, sem um getur í 51. gr., ef fyrirhugaður tilgangur vinnslu umsækjandans er í samræmi við eftirfarandi markmið (sbr. 1. mgr. 53. gr.) sem tilgreindur er hér á eftir).",
             "tooltip": "Tilgangur með reglugerðinni um EHDS-reglugerðina.",
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Hver er áætlaður ávinningur í tengslum við notkun rafrænna heilbrigðisgagna og hvernig ávinningurinn stuðlar að þeim tilgangi sem um getur í lið 5.1?"
         },
+        "describeApplicantsQualification": {
+            "label": "Lýsið menntun og hæfi umsækjanda í tengslum við fyrirhugaðan tilgang gagnanotkunar og viðeigandi sérþekkingu (þ.m.t. fagleg menntun og hæfi)"
+        },
         "legalBasis": {
             "label": "Tilgreina lagagrundvöllinn, til dæmis viðeigandi löggjöf, sem skilgreinir verkefnin sem falla undir umboð þitt og staðfestir að fyrirhuguð notkun þín á gögnunum sé að auðvelda slík verkefni.",
             "tooltip": "Útskýrðu hér hvers vegna gagnamagnið sem þú sækir um er nauðsynlegt til að nota gögnin þín. Rökstyðja og lýsa því hvernig innihald umbeðinna tölfræðilegra upplýsinga samsvarar tilganginum með notkun sem fram kemur í umsókninni og uppfyllir kröfur um gögn."
@@ -320,222 +329,16 @@
             "label": "Leggja skal fram tengil á fylgiskjölin sem sönnunargögn um lagagrundvöll"
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Gefðu yfirlit yfir áætlun þína um að nota gögnin. Samantektin skal vera á einu af opinberum tungumálum ESB"
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Veldu tungumál samantektarinnar",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Búlgarska"
-                },
-                {
-                    "key": "hr",
-                    "value": "Króatíska"
-                },
-                {
-                    "key": "cs",
-                    "value": "Czech"
-                },
-                {
-                    "key": "da",
-                    "value": "Danska"
-                },
-                {
-                    "key": "nl",
-                    "value": "Hollenska"
-                },
-                {
-                    "key": "en",
-                    "value": "Enska"
-                },
-                {
-                    "key": "et",
-                    "value": "Eistneska"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finnska"
-                },
-                {
-                    "key": "fr",
-                    "value": "Franska"
-                },
-                {
-                    "key": "de",
-                    "value": "Þýska"
-                },
-                {
-                    "key": "el",
-                    "value": "Gríska"
-                },
-                {
-                    "key": "hu",
-                    "value": "Ungverska"
-                },
-                {
-                    "key": "ga",
-                    "value": "Írska"
-                },
-                {
-                    "key": "it",
-                    "value": "Ítalska"
-                },
-                {
-                    "key": "lv",
-                    "value": "Lettneska"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litháíska"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltneska"
-                },
-                {
-                    "key": "pl",
-                    "value": "Pólska"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portúgalska"
-                },
-                {
-                    "key": "ro",
-                    "value": "Romanian"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slóvakíska"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slóvenska"
-                },
-                {
-                    "key": "es",
-                    "value": "Spænska"
-                },
-                {
-                    "key": "sv",
-                    "value": "Sænska"
-                }
-            ]
+            "label": "Gefðu yfirlit yfir áætlun þína um að nota gögnin. Samantektin skal vera á einu af opinberum tungumálum ESB",
+            "tooltip": "Upphlaðnar skrár eru sjálfkrafa þýddar af kerfinu. Umsækjandi ber ábyrgð á gæðum, læsileika og sniði upphlaðinna skráa."
         },
         "summaryOfResearchPlan": {
-            "label": "Gefðu yfirlit yfir rannsóknaráætlun þína. Samantektin skal vera á einu af opinberum tungumálum ESB"
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Veldu tungumál samantektarinnar",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Búlgarska"
-                },
-                {
-                    "key": "hr",
-                    "value": "Króatíska"
-                },
-                {
-                    "key": "cs",
-                    "value": "Czech"
-                },
-                {
-                    "key": "da",
-                    "value": "Danska"
-                },
-                {
-                    "key": "nl",
-                    "value": "Hollenska"
-                },
-                {
-                    "key": "en",
-                    "value": "Enska"
-                },
-                {
-                    "key": "et",
-                    "value": "Eistneska"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finnska"
-                },
-                {
-                    "key": "fr",
-                    "value": "Franska"
-                },
-                {
-                    "key": "de",
-                    "value": "Þýska"
-                },
-                {
-                    "key": "el",
-                    "value": "Gríska"
-                },
-                {
-                    "key": "hu",
-                    "value": "Ungverska"
-                },
-                {
-                    "key": "ga",
-                    "value": "Írska"
-                },
-                {
-                    "key": "it",
-                    "value": "Ítalska"
-                },
-                {
-                    "key": "lv",
-                    "value": "Lettneska"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litháíska"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltneska"
-                },
-                {
-                    "key": "pl",
-                    "value": "Pólska"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portúgalska"
-                },
-                {
-                    "key": "ro",
-                    "value": "Romanian"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slóvakíska"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slóvenska"
-                },
-                {
-                    "key": "es",
-                    "value": "Spænska"
-                },
-                {
-                    "key": "sv",
-                    "value": "Sænska"
-                }
-            ]
+            "label": "Gefðu yfirlit yfir rannsóknaráætlun þína. Samantektin skal vera á einu af opinberum tungumálum ESB",
+            "tooltip": "Upphlaðnar skrár eru sjálfkrafa þýddar af kerfinu. Umsækjandi ber ábyrgð á gæðum, læsileika og sniði upphlaðinna skráa."
         },
         "personResponsibleLabel": "Einstaklingur sem ber ábyrgð á gagnanotkun",
         "personResponsibleName": {
             "label": "Fullt nafn"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Starfsheiti"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Tengsl"
         },
         "personResearchSameAsContactPerson": {
             "label": "Sama og tengiliður sem tilgreindur er í 3. þætti (upplýsingar umsækjanda og tengiliðar)?"
@@ -546,12 +349,6 @@
         },
         "personResearchName": {
             "label": "Fullt nafn"
-        },
-        "personResearchJobTitle": {
-            "label": "Starfsheiti"
-        },
-        "personResearchAffiliation": {
-            "label": "Tengsl"
         },
         "formatOfTheElectronicHealthData": {
             "label": "Velja snið rafrænna heilbrigðisgagna sem á að gera aðgengilegar:",
@@ -638,6 +435,9 @@
         },
         "consentAndInformationLetterAttachment": {
             "label": "Látið fylgja með samþykki og upplýsingabréfi sem þú hefur sent til þátttakenda rannsóknarinnar. Ekki láta fylgja með eyðublöð sem eru fyllt út vegna þess að þau innihalda persónuupplýsingar."
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "Hefur hópurinn verið byggður á leyfi til gagna sem veitt var fyrr?"
         },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Ég staðfesti að gagnaleyfið hefur verið veitt til þessa rannsóknarverkefnis."
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "Hversu oft þarf að draga gögnin út?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Er ætlunin að nýta sér undanþágu frá réttinum til að falla frá því fyrirkomulagi sem kveðið er á um í landslögum þess aðildarríkis sem sótt er um upplýsingar um?",
+            "tooltip": "Í 4. mgr. 71. gr. EHDS er aðildarríki heimilt að kveða á um í landslögum sínum kerfi til að veita aðgang að gögnum sem réttur til að hafna þátttöku hefur verið gerður aðgengilegur, að því tilskildu að öll eftirfarandi skilyrði séu uppfyllt: (sjá greinina fyrir fullum skilyrðum)“"
+        },
+        "providedJustificationException": {
+            "label": "Leggið fram rökstuðning fyrir þessari undantekningu."
+        },
         "needForDataExtractionEvery": {
             "label": "Gögnin þurfa að vera dregin hvert",
             "tooltip": "Ef þú vilt að gögnin séu dregin út mörgum sinnum yfir ákveðinn tíma skaltu hafa í huga að skilgreiningar og gagnasöfnunaraðferð geta breyst á endurskoðunartímabilinu í sumum tilvikum. Athugið að hámarkstíðni gagnaútdráttar er á hverjum ársfjórðungi"
@@ -835,14 +642,11 @@
         "willSameDataBeExtractedForControls": {
             "label": "Verða sömu gögn og fyrir þýðið dregin út fyrir samanburðarhópa?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Ef þú leitar ekki gagna vegna eftirlits frá öllu landinu, frá hvaða svæðum og/eða borg/borgum og/eða sveitarfélagi/sveitum ertu að leita að gögnum?"
-        },
         "fromWhichDataHolderLabel": "Frá hvaða gagnahafa verða gögn um eftirlit dregin út?",
         "fromWhichDatabaseLabel": "Úr hvaða gagnagrunni/skrám verða gögnin vegna eftirlits dregin út?",
         "fromWhichDatasetLabel": "Úr hvaða gagnasöfnum/skrám verða gögn um eftirlit dregin út?",
-        "variablesForDataExtraction": {
-            "label": "Ef upplýsingarnar liggja fyrir skal skrá breyturnar sem nota skal við útdrátt gagna. Nota skal nákvæm hugtök sem viðkomandi gagnahafi eða -aðilar láta í té í lýsigagnaskránni."
+        "variablesForDataExtractionAttachments": {
+            "label": "Ef upplýsingarnar liggja fyrir skal láta skrá yfir breyturnar, sem nota skal við gagnaútdráttinn, fylgja með. Nota skal nákvæm hugtök sem viðkomandi gagnahafi eða -aðilar láta í té í lýsigagnaskránni."
         },
         "timePeriodForDataExtraction": {
             "label": "Á hvaða tímabili eða tímabilum verða gagnapakkarnir dregnar út?"
@@ -947,8 +751,8 @@
         "whichDataHoldersForRelatives": "Frá hvaða gagnahafa verða gögn um skyldmenni dregin út?",
         "whichDatabaseForRelatives": "Úr hvaða gagnagrunni/skrám verða gögnin um skyldmenni dregin út?",
         "whichDatasetsForRelatives": "Úr hvaða gagnasöfnum/skrám verða gögn um skyldmenni dregin út?",
-        "variablesForDataExtractionRelatives": {
-            "label": "Ef upplýsingarnar liggja fyrir skal skrá breyturnar sem nota skal við gagnaútdráttinn. Nota skal nákvæm hugtök sem viðkomandi gagnahafi eða -aðilar láta í té í lýsigagnaskránni."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "Ef upplýsingarnar liggja fyrir skal láta skrá yfir breyturnar, sem nota skal við gagnaútdráttinn, fylgja með. Nota skal nákvæm hugtök sem viðkomandi gagnahafi eða -aðilar láta í té í lýsigagnaskránni."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "Á hvaða tímabili eða tímabilum verða gagnapakkarnir dregnar út?"
@@ -1062,7 +866,6 @@
         "otherPermitApplications": {
             "label": "Ertu með aðrar leyfisumsóknir í bið?"
         },
-        "listTheOtherData": "Skrá skal önnur gögn sem á að sameina og heimildir þessara gagna:",
         "applicationIssuer": {
             "label": "Útgefandi"
         },
@@ -1360,6 +1163,13 @@
             "label": "Hvernig hlítir þú meginreglunni um lágmörkun gagna (ESB-reglugerð um gagnavernd) við vinnslu gagnanna? ",
             "tooltip": "Ákvæði 1. mgr. c í 4. gr. ESB „Persónuleg gögn skulu vera fullnægjandi, viðeigandi og takmörkuð við það sem nauðsynlegt er í tengslum við tilganginn með vinnslu þeirra („lágmörkun gagna“).“"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Er ætlunin að nýta sér undanþágu frá réttinum til að falla frá því fyrirkomulagi sem kveðið er á um í landslögum þess aðildarríkis sem sótt er um upplýsingar um?",
+            "tooltip": "Í 4. mgr. 71. gr. EHDS er aðildarríki heimilt að kveða á um í landslögum sínum kerfi til að veita aðgang að gögnum sem réttur til að hafna þátttöku hefur verið gerður aðgengilegur, að því tilskildu að öll eftirfarandi skilyrði séu uppfyllt: (sjá greinina fyrir fullum skilyrðum)“"
+        },
+        "providedJustificationException": {
+            "label": "Leggið fram rökstuðning fyrir þessari undantekningu."
+        },
         "protectionAndSecurityStatements": {
             "label": "Til að halda áfram með þetta forrit þarftu að staðfesta eftirfarandi yfirlýsingar (gagnavernd og öryggistengdar yfirlýsingar):"
         },
@@ -1383,13 +1193,10 @@
             "label": "Sama og tengiliður sem tilgreindur er í 3. lið?"
         },
         "listTheFullNames": {
-            "label": "Skráið öll nöfn, tengsl og netföng allra þeirra sem munu vinna gögnin."
+            "label": "Skráðu öll nöfn og netföng allra þeirra sem munu vinna úr gögnunum."
         },
         "fullName": {
             "label": "Fullt nafn"
-        },
-        "affiliation": {
-            "label": "Tengsl"
         },
         "emailAddress": {
             "label": "Tölvupóstfang"
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Staðfesting á upplýsingum",
-        "section10Description": "Áður en umsókn er afgreidd þarf umsækjandi að samþykkja vinnslugjöld.",
+        "section10Description": "Áður en umsókn er afgreidd þarf umsækjandi að samþykkja vinnslugjöld. Að bæta við upplýsingum um verð og hámarksverð fyrir gagnavinnslu þegar þær liggja fyrir.",
         "submitYouApplicationText": "Til að senda inn umsókn þarftu að staðfesta eftirfarandi:",
         "acceptHealthDataBody": {
             "label": "Ég samþykki að heilbrigðisgagnastofnunin mun taka saman tölfræðina og ég mun ekki hafa aðgang að þeim gögnum sem notuð eru til að mynda tölfræði."

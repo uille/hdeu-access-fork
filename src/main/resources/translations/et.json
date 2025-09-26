@@ -17,6 +17,21 @@
         },
         "applicationDatabases": {
             "label": "Millisest andmebaasist või registrist/registritest tehakse andmetest väljavõtteid?"
+        },
+        "variables": {
+            "label": "Muutuja"
+        },
+        "datatype": {
+            "label": "Andmetüübid (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Kirjeldus"
+        },
+        "title": {
+            "label": "Muutuja"
+        },
+        "emptyTable": {
+            "label": "Muutujad puuduvad"
         }
     },
     "section2": {
@@ -102,10 +117,10 @@
                 },
                 {
                     "key": "b",
-                    "value": "Füüsiline isik",
-                    "info": "(Kui valite selle variandi, kinnitate, et taotlete andmeid eraisikuna ilma igasuguse kuuluvuseta.)"
+                    "value": "Füüsiline isik"
                 }
-            ]
+            ],
+            "info": "(Kui valite selle variandi, kinnitate, et taotlete andmeid eraisikuna ilma igasuguse kuuluvuseta.)"
         },
         "legalPerson": "Juriidiline isik",
         "naturalPerson": "Füüsiline isik",
@@ -141,15 +156,6 @@
         },
         "contactPersonBusinessIdentifier": {
             "label": "Organisatsiooni ettevõtte tunnuskood"
-        },
-        "contactPersonOperatorIdentifier": {
-            "label": "Käitaja tunnus"
-        },
-        "contactPersonJobTitle": {
-            "label": "Ametikoha nimetus"
-        },
-        "contactPersonAffiliation": {
-            "label": "Liitumine"
         },
         "contactPersonRelationship": {
             "label": "Milline on kontaktisiku ja taotleja vaheline suhe? (Nt töötaja, kes taotleb andmeid oma organisatsiooni nimel.)"
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "Andmete kasutamise eesmärk",
-        "section5Description": "Vastavalt ühtse Euroopa terviseandmeruumi määruse artikli 53 lõike 1 parandusele, mille Euroopa Parlament 17. detsembril heaks kiitis, peaksid taotlejad märkima, millisel eesmärgil andmeid taotletakse.\nTaotlejad peavad selgitama ja põhjendama, miks taotletud andmed on vajalikud nende märgitud kasutuseesmärgiks. Taotlejatel palutakse esitada ka teave projekti eesmärgi kohta. Seejärel peavad taotlejad olenevalt kasutuseesmärgist (teadusuuringud või mitte) esitama andmete kasutamise kava kokkuvõtte või uuringukava kokkuvõtte ning teabe andmete kasutamise või teadusuuringute eest vastutava isiku kohta.",
+        "section5Description": "Euroopa Parlamendi ja nõukogu 11. veebruari 2025. aasta määruse (EL) 2025/327 (ühtse Euroopa terviseandmeruumi kohta) artikli 53 lõike 1 kohaselt peaksid taotlejad märkima, mis eesmärgil andmeid taotletakse. Taotlejad peavad selgitama ja põhjendama, miks taotletud andmed on nende näidustatud kasutuseesmärgi jaoks vajalikud. Taotlejatel palutakse esitada ka teave projekti eesmärgi kohta. Seejärel peavad taotlejad sõltuvalt kasutuseesmärgist (teadusuuringud või mitte) esitama andmete kasutamise kava kokkuvõtte või uuringukava kokkuvõtte ning teabe andmete kasutamise või teadusuuringute eest vastutava isiku kohta.",
         "purposeOfUse": {
             "label": "Andmete kasutamise eesmärk. Terviseandmetele juurdepääsu asutused võimaldavad juurdepääsu artiklis 51 osutatud elektroonilistele terviseandmetele üksnes juhul, kui taotleja töötlemise sihtotstarve on kooskõlas järgmiste allpool loetletud eesmärkidega (vastavalt artikli 53 lõikele 1).",
             "tooltip": "Ühtse Euroopa terviseandmeruumi määruse eesmärgid.",
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Milline on elektrooniliste terviseandmete kasutamisega seotud eeldatav kasu ja kuidas see kasu aitab kaasa punktis 5.1 osutatud eesmärkide saavutamisele?"
         },
+        "describeApplicantsQualification": {
+            "label": "Kirjeldage taotleja kvalifikatsiooni seoses andmete kasutamise sihtotstarve(te) ja asjakohaste eksperditeadmistega (sh kutsekvalifikatsioonid)"
+        },
         "legalBasis": {
             "label": "Täpsustage õiguslik alus, näiteks asjakohased õigusaktid, milles määratakse kindlaks teie pädevusse kuuluvad ülesanded ja kinnitatakse, et andmete kavandatud kasutamine on vajalik selliste ülesannete täitmiseks.",
             "tooltip": "Selgitage siin, miks taotletavate andmete hulk on vajalik teie andmete kasutamise eesmärgil. Põhjendage ja kirjeldage, kuidas taotletud statistika sisu vastab taotluses märgitud kasutuseesmärgile ja teie andmenõuetele."
@@ -320,222 +329,16 @@
             "label": "Esitage õigusliku aluse tõendamiseks link täiendavatele dokumentidele."
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Esitage kokkuvõte oma kavast andmete kasutamiseks. Kokkuvõte peab olema koostatud ühes ELi ametlikus keeles."
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Valige kokkuvõtte keel",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgaaria"
-                },
-                {
-                    "key": "hr",
-                    "value": "Horvaadi"
-                },
-                {
-                    "key": "cs",
-                    "value": "Tšehhi"
-                },
-                {
-                    "key": "da",
-                    "value": "Taani"
-                },
-                {
-                    "key": "nl",
-                    "value": "Hollandi"
-                },
-                {
-                    "key": "en",
-                    "value": "Inglise"
-                },
-                {
-                    "key": "et",
-                    "value": "Eesti"
-                },
-                {
-                    "key": "fi",
-                    "value": "Soome"
-                },
-                {
-                    "key": "fr",
-                    "value": "Prantsuse"
-                },
-                {
-                    "key": "de",
-                    "value": "Saksa"
-                },
-                {
-                    "key": "el",
-                    "value": "Kreeka"
-                },
-                {
-                    "key": "hu",
-                    "value": "Ungari"
-                },
-                {
-                    "key": "ga",
-                    "value": "Iiri"
-                },
-                {
-                    "key": "it",
-                    "value": "Itaalia"
-                },
-                {
-                    "key": "lv",
-                    "value": "Läti"
-                },
-                {
-                    "key": "lt",
-                    "value": "Leedu"
-                },
-                {
-                    "key": "mt",
-                    "value": "Malta"
-                },
-                {
-                    "key": "pl",
-                    "value": "Poola"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugali"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumeenia"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovaki"
-                },
-                {
-                    "key": "sl",
-                    "value": "Sloveeni"
-                },
-                {
-                    "key": "es",
-                    "value": "Hispaania"
-                },
-                {
-                    "key": "sv",
-                    "value": "Rootsi"
-                }
-            ]
+            "label": "Esitage kokkuvõte oma kavast andmete kasutamiseks. Kokkuvõte peab olema koostatud ühes ELi ametlikus keeles.",
+            "tooltip": "Süsteem tõlgib üleslaaditud failid automaatselt. Taotleja vastutab üleslaaditud failide kvaliteedi, loetavuse ja vormingu eest."
         },
         "summaryOfResearchPlan": {
-            "label": "Esitage oma uuringukava kokkuvõte. Kokkuvõte peab olema koostatud ühes ELi ametlikus keeles."
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Valige kokkuvõtte keel",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgaaria"
-                },
-                {
-                    "key": "hr",
-                    "value": "Horvaadi"
-                },
-                {
-                    "key": "cs",
-                    "value": "Tšehhi"
-                },
-                {
-                    "key": "da",
-                    "value": "Taani"
-                },
-                {
-                    "key": "nl",
-                    "value": "Hollandi"
-                },
-                {
-                    "key": "en",
-                    "value": "Inglise"
-                },
-                {
-                    "key": "et",
-                    "value": "Eesti"
-                },
-                {
-                    "key": "fi",
-                    "value": "Soome"
-                },
-                {
-                    "key": "fr",
-                    "value": "Prantsuse"
-                },
-                {
-                    "key": "de",
-                    "value": "Saksa"
-                },
-                {
-                    "key": "el",
-                    "value": "Kreeka"
-                },
-                {
-                    "key": "hu",
-                    "value": "Ungari"
-                },
-                {
-                    "key": "ga",
-                    "value": "Iiri"
-                },
-                {
-                    "key": "it",
-                    "value": "Itaalia"
-                },
-                {
-                    "key": "lv",
-                    "value": "Läti"
-                },
-                {
-                    "key": "lt",
-                    "value": "Leedu"
-                },
-                {
-                    "key": "mt",
-                    "value": "Malta"
-                },
-                {
-                    "key": "pl",
-                    "value": "Poola"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugali"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumeenia"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovaki"
-                },
-                {
-                    "key": "sl",
-                    "value": "Sloveeni"
-                },
-                {
-                    "key": "es",
-                    "value": "Hispaania"
-                },
-                {
-                    "key": "sv",
-                    "value": "Rootsi"
-                }
-            ]
+            "label": "Esitage oma uuringukava kokkuvõte. Kokkuvõte peab olema koostatud ühes ELi ametlikus keeles.",
+            "tooltip": "Süsteem tõlgib üleslaaditud failid automaatselt. Taotleja vastutab üleslaaditud failide kvaliteedi, loetavuse ja vormingu eest."
         },
         "personResponsibleLabel": "Andmete kasutamise eest vastutav isik",
         "personResponsibleName": {
             "label": "Täisnimi"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Ametikoha nimetus"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Liitumine"
         },
         "personResearchSameAsContactPerson": {
             "label": "Sama mis punktis 3 (Taotleja ja kontaktisiku andmed) nimetatud kontaktisik?"
@@ -546,12 +349,6 @@
         },
         "personResearchName": {
             "label": "Täisnimi"
-        },
-        "personResearchJobTitle": {
-            "label": "Ametikoha nimetus"
-        },
-        "personResearchAffiliation": {
-            "label": "Liitumine"
         },
         "formatOfTheElectronicHealthData": {
             "label": "Valige kättesaadavaks tehtavate elektrooniliste terviseandmete vorming:",
@@ -638,6 +435,9 @@
         },
         "consentAndInformationLetterAttachment": {
             "label": "Lisage nõusolek ja kirjalik teave, mille olete õppeainetele saatnud. Ärge lisage täidetud vorme, sest need sisaldavad isikuandmeid."
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "Kas kohort põhineb varem väljastatud andmeloal?"
         },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Kinnitan, et selle uurimisprojekti jaoks on antud andmeluba"
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "Kui sageli tuleb andmetest väljavõtteid teha?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Kas kavatsete kasutada erandit õigusest loobuda vastavalt mehhanismile, mis on ette nähtud selle liikmesriigi õiguses, kelle andmeid Te taotlete?",
+            "tooltip": "EHDS artikkel 71(4)“Erandina lõikes 1 sätestatud loobumisõigusest võib liikmesriik oma õiguses ette näha mehhanismi, millega tehakse andmed, mille suhtes on kasutatud loobumisõigust, kättesaadavaks, kui täidetud on kõik järgmised tingimused: (vt artiklit täistingimuste kohta)“"
+        },
+        "providedJustificationException": {
+            "label": "Põhjendage seda erandit."
+        },
         "needForDataExtractionEvery": {
             "label": "Andmed tuleb teha igast järgmisest:",
             "tooltip": "Kui soovite, et andmeid tehtaks teatava ajavahemiku jooksul mitu korda, pange tähele, et määratlused ja andmekogumismeetod võivad mõnel juhul läbivaatamisperioodi jooksul muutuda. Pange tähele, et andmete väljavõtmise maksimaalne sagedus on igas kvartalis."
@@ -835,14 +642,11 @@
         "willSameDataBeExtractedForControls": {
             "label": "Kas kontrolli jaoks võetakse välja samad andmed nagu kohordi kohta?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Kui te ei küsi kontrolliks andmeid kogu riigilt, siis millisest piirkonnast (piirkondadest) ja/või linnast/linnadest ja/või omavalitsusest/omavalitsustest andmeid otsite?"
-        },
         "fromWhichDataHolderLabel": "Millise(te)lt andmevaldaja(te)lt võetakse kontrollimiseks vajalikud andmed?",
         "fromWhichDatabaseLabel": "Millistest andmebaasidest/registritest/registritest võetakse kontrollimiseks vajalikud andmed?",
         "fromWhichDatasetLabel": "Millistest andmekogumite kirje(te)st/registri(te)st võetakse kontrollimiseks vajalikud andmed?",
-        "variablesForDataExtraction": {
-            "label": "Kui teave on kättesaadav, loetlege muutujad, mida kasutatakse andmete väljavõtmisel. Kasutage vastava(te) andmevaldaja(te) poolt metaandmete kataloogis esitatud täpseid mõisteid."
+        "variablesForDataExtractionAttachments": {
+            "label": "Kui teave on kättesaadav, lisage andmete väljavõtmisel kasutatavate muutujate loetelu. Kasutage vastava(te) andmevaldaja(te) poolt metaandmete kataloogis esitatud täpseid mõisteid."
         },
         "timePeriodForDataExtraction": {
             "label": "Millise ajavahemiku (milliste ajavahemike) kohta andmestiku kirjed tehakse?"
@@ -947,8 +751,8 @@
         "whichDataHoldersForRelatives": "Millise(te)lt andmevaldaja(te)lt võetakse andmeid sugulaste kohta?",
         "whichDatabaseForRelatives": "Millistest andmebaasidest/registritest/registritest võetakse andmeid sugulaste kohta?",
         "whichDatasetsForRelatives": "Millisest andmekogumi kirje(te)st/registri(te)st tehakse sugulaste andmed?",
-        "variablesForDataExtractionRelatives": {
-            "label": "Kui teave on kättesaadav, loetlege muutujad, mida kasutatakse andmete väljavõtmisel. Kasutage vastava(te) andmevaldaja(te) poolt metaandmete kataloogis esitatud täpseid mõisteid."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "Kui teave on kättesaadav, lisage andmete väljavõtmisel kasutatavate muutujate loetelu. Kasutage vastava(te) andmevaldaja(te) poolt metaandmete kataloogis esitatud täpseid mõisteid."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "Millise ajavahemiku (milliste ajavahemike) kohta andmestiku kirjed tehakse?"
@@ -1062,7 +866,6 @@
         "otherPermitApplications": {
             "label": "Kas Teil on veel menetluses olevaid loataotlusi?"
         },
-        "listTheOtherData": "Loetlege muud kombineeritavad andmed ja nende allikad:",
         "applicationIssuer": {
             "label": "Väljaandja"
         },
@@ -1360,6 +1163,13 @@
             "label": "Kuidas järgite andmete töötlemisel võimalikult väheste andmete kogumise põhimõtet (ELi andmekaitsemäärus)? ",
             "tooltip": "ELi isikuandmete kaitse määruse artikli 4 lõike 1 punkt c: „Isikuandmed peavad olema piisavad, asjakohased ja piirduma sellega, mis on vajalik nende töötlemise eesmärgi saavutamiseks („võimalikult väheste andmete kogumine“)“."
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Kas kavatsete kasutada erandit õigusest loobuda vastavalt mehhanismile, mis on ette nähtud selle liikmesriigi õiguses, kelle andmeid Te taotlete?",
+            "tooltip": "EHDS artikkel 71(4)“Erandina lõikes 1 sätestatud loobumisõigusest võib liikmesriik oma õiguses ette näha mehhanismi, millega tehakse andmed, mille suhtes on kasutatud loobumisõigust, kättesaadavaks, kui täidetud on kõik järgmised tingimused: (vt artiklit täistingimuste kohta)“"
+        },
+        "providedJustificationException": {
+            "label": "Põhjendage seda erandit."
+        },
         "protectionAndSecurityStatements": {
             "label": "Taotluse menetlemiseks peate kinnitama järgmised avaldused (andmekaitse ja turvalisusega seotud avaldused):"
         },
@@ -1383,13 +1193,10 @@
             "label": "Sama mis 3. jaos nimetatud kontaktisik?"
         },
         "listTheFullNames": {
-            "label": "Loetlege kõigi andmeid töötlevate isikute täisnimed, liikmeskonnad ja e-posti aadressid."
+            "label": "Loetlege kõigi andmeid töötlevate isikute täielikud nimed ja e-posti aadressid."
         },
         "fullName": {
             "label": "Täisnimi"
-        },
-        "affiliation": {
-            "label": "Liitumine"
         },
         "emailAddress": {
             "label": "E-posti aadress"
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Teabe kinnitamine",
-        "section10Description": "Enne käesoleva taotluse menetlemist peate taotlejana menetlustasud heaks kiitma.",
+        "section10Description": "Enne käesoleva taotluse menetlemist peate taotlejana menetlustasud heaks kiitma. Lisada teave andmete väljavõtte hindade ja maksimaalse hinnangulise hinna kohta, kui need on kättesaadavad.",
         "submitYouApplicationText": "Avalduse esitamiseks peate kinnitama järgmist:",
         "acceptHealthDataBody": {
             "label": "Olen nõus, et terviseandmete asutus koostab statistika ja mul ei ole juurdepääsu statistika koostamiseks kasutatud andmetele."

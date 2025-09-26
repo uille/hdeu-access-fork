@@ -15,7 +15,7 @@
  */
 package eu.europa.data.health.access.annotations;
 
-import eu.europa.data.health.access.dto.data_access.Section8DTO;
+import eu.europa.data.health.access.dto.sections.data_access.Section8DTO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.util.Arrays;

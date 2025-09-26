@@ -28,10 +28,8 @@ public class UUIDFormatValidator implements ConstraintValidator<UUIDFormat, Stri
     }
 
     // Check if format is correct
-    if (!Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$").matcher(value).matches()) {
-      return false;
-    }
-
-    return true;
+    return Pattern.compile(
+        "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+      .matcher(value).matches();
   }
 }

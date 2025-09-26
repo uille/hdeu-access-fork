@@ -18,14 +18,18 @@ package eu.europa.data.health.access.services;
 import static eu.europa.data.health.access.Constants.COUNTRIES_ALL;
 import static eu.europa.data.health.access.Constants.COUNTRIES_EU_EEA;
 import static eu.europa.data.health.access.Constants.COUNTRIES_NO_EU;
+import static eu.europa.data.health.access.Constants.COUNTRY;
 import static eu.europa.data.health.access.Constants.COUNTRY_AT_DEPRECATED;
 import static eu.europa.data.health.access.Constants.COUNTRY_EU;
+import static eu.europa.data.health.access.Constants.COUNTRY_SKOS_NOTATION;
 import static eu.europa.data.health.access.Constants.COUNTRY_SKOS_PREFLABEL_COUNTRY_NAME;
 import static eu.europa.data.health.access.Constants.FILTER_BOUND_DEPRECATED;
 import static eu.europa.data.health.access.Constants.FILTER_LANG_COUNTRY_NAME;
+import static eu.europa.data.health.access.Constants.NOTATION;
 import static eu.europa.data.health.access.Constants.OPTIONAL;
 import static eu.europa.data.health.access.Constants.PREFIX_AT_HTTP_PUBLICATIONS_EUROPA_EU_ONTOLOGY_AUTHORITY;
 import static eu.europa.data.health.access.Constants.PREFIX_SKOS_HTTP_WWW_W_3_ORG_2004_02_SKOS_CORE;
+import static eu.europa.data.health.access.Constants.SELECT_COUNTRY_NAME_COUNTRY_NOTATION_WHERE;
 import static eu.europa.data.health.access.Constants.SELECT_COUNTRY_NAME_COUNTRY_WHERE;
 import static eu.europa.data.health.access.SchemaFiles.COUNTRIES_RDF;
 
@@ -195,8 +199,9 @@ public class CountriesManager {
         sparqlQuery =
           PREFIX_SKOS_HTTP_WWW_W_3_ORG_2004_02_SKOS_CORE +
             PREFIX_AT_HTTP_PUBLICATIONS_EUROPA_EU_ONTOLOGY_AUTHORITY +
-            SELECT_COUNTRY_NAME_COUNTRY_WHERE +
+            SELECT_COUNTRY_NAME_COUNTRY_NOTATION_WHERE +
             COUNTRY_SKOS_PREFLABEL_COUNTRY_NAME +
+            COUNTRY_SKOS_NOTATION +
             OPTIONAL +
             COUNTRY_AT_DEPRECATED +
             "  } " +
@@ -275,8 +280,9 @@ public class CountriesManager {
         sparqlQuery =
           PREFIX_SKOS_HTTP_WWW_W_3_ORG_2004_02_SKOS_CORE +
             PREFIX_AT_HTTP_PUBLICATIONS_EUROPA_EU_ONTOLOGY_AUTHORITY +
-            SELECT_COUNTRY_NAME_COUNTRY_WHERE +
+            SELECT_COUNTRY_NAME_COUNTRY_NOTATION_WHERE +
             COUNTRY_SKOS_PREFLABEL_COUNTRY_NAME +
+            COUNTRY_SKOS_NOTATION +
             OPTIONAL +
             COUNTRY_AT_DEPRECATED +
             "  } " +
@@ -345,9 +351,9 @@ public class CountriesManager {
       while (results.hasNext()) {
         QuerySolution solution = results.nextSolution();
         String countryName = solution.getLiteral("countryName").getString();
-        String country = solution.getResource("country").getURI();
+        String country = solution.getResource(COUNTRY).getURI();
         if (country.substring(country.lastIndexOf('/') + 1).equals(countryCode)) {
-          return new JsonObject().put("name", countryName).put("country", country);
+          return new JsonObject().put("name", countryName).put(COUNTRY, country);
         }
       }
     } catch (Exception e) {
@@ -363,8 +369,22 @@ public class CountriesManager {
       while (results.hasNext()) {
         QuerySolution solution = results.nextSolution();
         String countryName = solution.getLiteral("countryName").getString();
-        String country = solution.getResource("country").getURI();
-        countriesList.add(new JsonObject().put("name", countryName).put("country", country));
+        String country = solution.getResource(COUNTRY).getURI();
+
+        String isoCode = null;
+        if (solution.contains(NOTATION) && solution.get(NOTATION).isLiteral()) {
+          isoCode = solution.getLiteral(NOTATION).getString();
+        }
+
+        JsonObject countryJson = new JsonObject()
+          .put("name", countryName)
+          .put(COUNTRY, country);
+
+        if (isoCode != null) {
+          countryJson.put("isoCode", isoCode);
+        }
+
+        countriesList.add(countryJson);
       }
     } catch (Exception e) {
       log.info(e.getMessage());

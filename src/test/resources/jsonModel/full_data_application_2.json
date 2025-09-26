@@ -88,15 +88,9 @@
           "id":"66e4397e2b9aa105ff34375c"
         }
       ],
-      "summaryOfPlanForUsingTheDataLanguage": {
-        "key": "en",
-        "value": "English"
-      },
       "whichAreTheExpectedBenefits":"Fix",
       "whatIsTheAimAndTopicOfTheProject":"Fix",
       "whyTheDataIsNeeded":"Fix",
-      "personResponsibleAffiliation":"Fix",
-      "personResponsibleJobTitle":"Fix",
       "personResponsibleName":"Jason BOURNE",
       "personResponsibleProfileDataDate":"2024-09-13T11:48:13.620692600Z"
     },
@@ -206,7 +200,6 @@
       "peopleWhoWillBeProcessingTheData":[
         {
           "fullName":"Fix",
-          "affiliation":"FixFix",
           "emailAddress":"Fix@gmail.com"
         }
       ],

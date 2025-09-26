@@ -19,6 +19,7 @@ import static eu.europa.data.health.access.auth_client.AuthClient.filterUsersByS
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -46,6 +47,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -54,10 +56,8 @@ import org.mockito.ArgumentMatcher;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
-
 @ExtendWith(MockitoExtension.class)
-public class AuthClientTest {
+class AuthClientTest {
 
   @Mock
   RoutingContext context;
@@ -117,8 +117,9 @@ public class AuthClientTest {
 
     when(webClient.getAbs(BASE_URL + "/users")).thenReturn(request);
     when(request.putHeaders(any())).thenReturn(request);
+    when(request.addQueryParam(any(),any())).thenReturn(request);
 
-    Future<JsonArray> future = authClient.getAllUsers(context);
+    Future<JsonArray> future = authClient.getAllUsers(context,true);
 
     verify(request).send(captor.capture());
 
@@ -146,8 +147,10 @@ public class AuthClientTest {
       Handler.class);
     when(webClient.getAbs(BASE_URL + "/users")).thenReturn(request);
     when(request.putHeaders(any())).thenReturn(request);
+    when(request.addQueryParam(any(),any())).thenReturn(request);
 
-    Future<JsonArray> future = authClient.getAllUsers(context);
+
+    Future<JsonArray> future = authClient.getAllUsers(context,true);
 
     verify(request).send(captor.capture());
 
@@ -172,8 +175,9 @@ public class AuthClientTest {
       Handler.class);
     when(webClient.getAbs(BASE_URL + "/users")).thenReturn(request);
     when(request.putHeaders(any())).thenReturn(request);
+    when(request.addQueryParam(any(),any())).thenReturn(request);
 
-    Future<JsonArray> future = authClient.getAllUsers(context);
+    Future<JsonArray> future = authClient.getAllUsers(context,true);
 
     verify(request).send(captor.capture());
 
@@ -352,7 +356,7 @@ public class AuthClientTest {
   @Test
   void testCreatedTimestampInRange_shouldMatch() {
     JsonObject user = new JsonObject()
-      .put("createdTimestamp", "01/15/2023 10:00:00")
+      .put("createdTimestamp", "2023-01-15T08:07:00Z")
       .put("username", "jdoe");
 
     JsonObject criteria = new JsonObject()
@@ -366,7 +370,8 @@ public class AuthClientTest {
   @Test
   void testCreatedTimestampOutOfRange_shouldFilterOut() {
     JsonObject user = new JsonObject()
-      .put("createdTimestamp", "12/31/2022 23:59:59");
+      .put("createdTimestamp", "2022-12-31");
+
 
     JsonObject criteria = new JsonObject()
       .put("createdTimestampFrom", "2023-01-01");
@@ -378,7 +383,7 @@ public class AuthClientTest {
   @Test
   void testLastLoginInRange_shouldMatch() {
     JsonObject user = new JsonObject()
-      .put("lastLogin", "01/10/2023 09:00:00");
+      .put("lastLogin", "2023-01-01T00:00:00Z");
 
     JsonObject criteria = new JsonObject()
       .put("lastLoginFrom", "2023-01-01")

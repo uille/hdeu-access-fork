@@ -1,0 +1,556 @@
+{
+  "application_id": 12,
+  "application_type": "request",
+  "status": "SUBMITTED",
+  "datasets": [
+    {
+      "dataset_id": "8ddbd740-0c51-4a65-8ae8-0f03bb6fef5e",
+      "catalog_id": "726200a0-7940-4446-b5f8-a62e6cc00b1b",
+      "distributions": [
+        {
+          "distribution_id": "c6b25d3a-f33e-4766-896d-d12db2c3e322"
+        }
+      ],
+      "date_added": "2024-09-13T13:07:56.252152200Z"
+    }
+  ],
+  "form": {
+    "section2": {
+      "sectionNumber": 2,
+      "projectName": "Fix",
+      "countryOfProjectLeader": {
+        "key": "http://publications.europa.eu/resource/authority/country/AUT",
+        "value": "Austria"
+      },
+      "purposeForWhichDataWillBeUsed": [
+        {
+          "key": "e"
+        }
+      ],
+      "applyingForDataOnBehalfOfPublicSector": [
+        {
+          "key": "b",
+          "value": "a. Public interest in the area of public and occupational health, such as activities for protection against serious cross-border threats to health and public health surveillance or activities ensuring high levels of quality and safety of healthcare, including patient safety, and of medicinal products or medical devices"
+        }
+      ],
+      "summaryOfTheProject": "Fix",
+      "projectLeader": "Fix",
+      "theNatureOfTheProjectDoesNotLetYouProvideASummary": true,
+      "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason": "Please explain the reasons why you cannot provide a summary of your project"
+    },
+    "section3": {
+      "sectionNumber": 3,
+      "applyingForDataOnBehalfOfPublicSector": {
+        "key": "b",
+        "value": "Yes"
+      },
+      "legalOrNaturalPerson": {
+        "key": "b",
+        "value": "Natural person"
+      },
+      "contactPersonPhone": {
+        "number": "34343434343434",
+        "countryCode": "43"
+      },
+      "contactPersonName": "Jason BOURNE",
+      "contactPersonEmail": "jason.bourne@ec.europa.eu",
+      "contactPersonProfileDataDate": "2024-09-13T11:48:13.620692600Z",
+      "legalPersonName": "Jason BOURNE",
+      "legalPersonAddress": "343",
+      "legalPersonZipCode": "343",
+      "legalPersonCity": "343",
+      "legalPersonCountry": {
+        "key": "http://publications.europa.eu/resource/authority/country/ATG",
+        "value": "Antigua and Barbuda"
+      },
+      "businessIdentifier": "334",
+      "legalOrNaturalPersonProfileDataDate": "2024-09-13T11:48:13.620692600Z",
+      "contactPersonRelationship": "Fix"
+    },
+    "section4": {
+      "sectionNumber": 4,
+      "fullName": "Jason BOURNE",
+      "email": "jason.bourne@ec.europa.eu",
+      "address": "343",
+      "phone": {
+        "number": "34343434343434",
+        "countryCode": "43"
+      },
+      "section4ProfileDataDate": "2024-09-13T11:48:13.620692600Z",
+      "invoiceType": {
+        "key": "a",
+        "value": "Paper"
+      },
+      "invoiceReferenceNumber": "Fix",
+      "operatorIdentifier": "Fix",
+      "nameOfTheOrganisation": "Fix",
+      "businessIdentifierOrganization": "Fix",
+      "vatNumber": "Fix",
+      "peppolCode": "Fix",
+      "isTheProjectFinanciallyCovered": {
+        "key": "b",
+        "value": "No"
+      }
+    },
+    "section5": {
+      "sectionNumber": 5,
+      "purposeOfUse": [
+        {
+          "key": "a",
+          "value": "a. Activities for reasons of public interest in the area of public and occupational health, such as protection against serious cross-border threats to health, public health surveillance or ensuring high levels of quality and safety of healthcare and of medicinal products or medical devices"
+        }
+      ],
+      "formatOfTheElectronicHealthData": {
+        "key": "b",
+        "value": "Anonymised"
+      },
+      "summaryOfPlanForUsingTheData": [
+        {
+          "size": 16921,
+          "name": "Form - Copy.docx",
+          "id": "66e4397e2b9aa105ff34375c"
+        }
+      ],
+      "whichAreTheExpectedBenefits": "Fix",
+      "whatIsTheAimAndTopicOfTheProject": "Fix",
+      "whyTheDataIsNeeded": "Fix",
+      "personResponsibleAffiliation": "Fix",
+      "personResponsibleJobTitle": "Fix",
+      "personResponsibleName": "Jason BOURNE",
+      "personResponsibleProfileDataDate": "2024-09-13T11:48:13.620692600Z"
+    },
+    "section6": [
+      {
+        "sectionNumber": 6,
+        "country_id": "Belgium",
+        "catalog_ids": [
+          "726200a0-7940-4446-b5f8-a62e6cc00b1b"
+        ],
+        "hdabContacts": "Fix",
+        "howWillTheDataFromDifferentSourcesBeLinked": "Fix",
+        "howIsTheStudyCohortFormed": {
+          "key": "b",
+          "value": "The study cohort will be formed based on the criteria given below."
+        },
+        "providedInformationOfTheDataUseToCorrespondingSubjects": {
+          "key": "a",
+          "value": "Yes"
+        },
+        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": "Fix",
+        "sizeOfTheStudyCohort": "Fix",
+        "sizeOfTheStudyCohortEstimationOrExact": {
+          "key": "a",
+          "value": "This is an estimation of the size of the study cohort."
+        },
+        "whyNeedStudyCohortOfThisSize": "Fix",
+        "timePeriodOfDataExtraction": "Fix",
+        "extractionMethod": {
+          "key": "c",
+          "value": "random sample"
+        },
+        "inclusionCriteria": "Fix",
+        "howOftenDoesTheDataNeedToBeExtracted": {
+          "key": "b",
+          "value": "Once"
+        },
+        "needForDataExtractionEveryDescription": "Fix",
+        "willControlsBeExtracted": {
+          "key": "a",
+          "value": "No"
+        },
+        "willRelativesBeExtracted": {
+          "key": "a",
+          "value": "No"
+        },
+        "sampleSize": "Fix",
+        "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants": {
+          "key": "a",
+          "value": "No"
+        },
+        "hasTheGroupRelativesFormed2": {
+          "key": "a",
+          "value": "No"
+        },
+        "hasTheGroupRelativesFormed3": {
+          "key": "a",
+          "value": "No"
+        },
+        "willSameDataBeExtractedForRelatives": {
+          "key": "b",
+          "value": "No"
+        },
+        "needForDataExtractionEvery": {
+          "key": "d",
+          "value": "No"
+        },
+        "willDataForRelativesBeExtractedSimultaneously": {
+          "key": "b",
+          "value": "No"
+        },
+        "willSameDataBeExtractedForControls": {
+          "key": "b",
+          "value": "No"
+        },
+        "willDataForControlsBeExtractedSimultaneously": {
+          "key": "b",
+          "value": "No"
+        },
+        "dataExtractionFrequencyRelatives": {
+          "key": "b",
+          "value": "No"
+        },
+        "dataExtractionFrequency": {
+          "key": "b",
+          "value": "No"
+        },
+        "dataNeedsToBeExtractedEvery": {
+          "key": "d",
+          "value": "No"
+        },
+        "dataNeedsToBeExtractedEveryRelatives": {
+          "key": "d",
+          "value": "No"
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+          "key": "a",
+          "value": "No"
+        }
+      }
+    ],
+    "section7": {
+      "sectionNumber": 7,
+      "willDataBeCombinedWithDataObtained": {
+        "key": "a",
+        "value": "No"
+      },
+      "otherDataPermits": [
+        {
+          "permitIssuer": "Fix",
+          "permitEndDateOfIssue": "2024-09-24",
+          "permitStartDateOfIssue": "2024-09-11",
+          "permitIdentificationInformation": "Fix"
+        }
+      ],
+      "otherPermitApplications": {
+        "key": "a",
+        "value": "No"
+      },
+      "provideInformationList": [
+        {
+          "key": "b",
+          "value": "No"
+        }
+      ]
+    },
+    "section8": {
+      "sectionNumber": 8,
+      "technicalRequirementsForEnvironment": "Fix",
+      "nameWebsiteAddressForEnvironment": "Fix",
+      "whenDataNeeded": {
+        "key": "b",
+        "value": "As soon as possible after this application has been processed"
+      },
+      "legalBasisForProcessingCombinedApplicationData": [
+        {
+          "key": "b",
+          "value": "Yes"
+        }
+      ],
+      "estimatedStartDatesForDataProcessing": "2024-09-19",
+      "estimatedEndDatesForDataProcessing": "2024-09-25",
+      "startPeriodOfInactiveDataStorage": "2024-09-24",
+      "endPeriodOfInactiveDataStorage": "2024-09-30",
+      "willTheDataBeTransferred": {
+        "key": "a",
+        "value": "No"
+      },
+      "whichOrganizationWillBeTheControllerOfData": "Fix",
+      "complyWithDataMinimisationPrinciple": "Fix",
+      "protectionAndSecurityStatementsA": true,
+      "protectionAndSecurityStatementsB": true,
+      "protectionAndSecurityStatementsC": true,
+      "protectionAndSecurityStatementsD": true,
+      "protectionAndSecurityStatementsE": true,
+      "peopleWhoWillBeProcessingTheData": [
+        {
+          "fullName": "Fix",
+          "affiliation": "FixFix",
+          "emailAddress": "Fix@gmail.com"
+        }
+      ],
+      "legalBasisForProcessingPersonalData": [
+        {
+          "key": "a",
+          "value": "1. (e) Processing is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in the controller;"
+        }
+      ],
+      "whyWillDataBeTransferredOutsideEUArticle48": true,
+      "whyWillDataBeTransferredOutsideEUArticle48b": true,
+      "whyWillDataBeTransferredOutsideEUArticle48c": true,
+      "whyWillDataBeTransferredOutsideEUArticle47": true,
+
+      "legalBasisForTransferringTheDataOutsideEU": {
+        "key": "b",
+        "value": "Yes"
+      },
+      "optOutOfTheMechanismProvidedInTheNationalLaw": {
+        "key": "a",
+        "value": "Yes"
+      },
+      "legalBasisForProcessingCombinedData": [
+        {
+          "key": "b",
+          "value": "Yes"
+        }
+      ]
+    },
+    "section10": {
+      "sectionNumber": 10,
+      "awareProcessingFee": true,
+      "awareChargeFee": true,
+      "awareInformationCorrect": true
+    }
+  },
+  "form_translations": {
+    "en": {
+      "section2": {
+        "sectionNumber": 2,
+        "projectName": "Fix",
+        "countryOfProjectLeader": {
+          "key": "http://publications.europa.eu/resource/authority/country/AUT",
+          "value": "Austria"
+        },
+        "purposeForWhichDataWillBeUsed": [
+          {
+            "key": "e"
+          }
+        ],
+        "applyingForDataOnBehalfOfPublicSector": [
+          {
+            "key": "b",
+            "value": "a. Public interest in the area of public and occupational health, such as activities for protection against serious cross-border threats to health and public health surveillance or activities ensuring high levels of quality and safety of healthcare, including patient safety, and of medicinal products or medical devices"
+          }
+        ],
+        "summaryOfTheProject": "Fix",
+        "projectLeader": "Fix",
+        "theNatureOfTheProjectDoesNotLetYouProvideASummary": true,
+        "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason": "Please explain the reasons why you cannot provide a summary of your project"
+      },
+      "section3": {
+        "sectionNumber": 3,
+        "applyingForDataOnBehalfOfPublicSector": {
+          "key": "b",
+          "value": "Yes"
+        },
+        "legalOrNaturalPerson": {
+          "key": "a",
+          "value": "Natural person"
+        },
+        "contactPersonPhone": {
+          "number": "34343434343434",
+          "countryCode": "43"
+        },
+        "contactPersonName": "Jason BOURNE",
+        "contactPersonEmail": "jason.bourne@ec.europa.eu",
+        "contactPersonProfileDataDate": "2024-09-13T11:48:13.620692600Z",
+        "legalPersonName": "Jason BOURNE",
+        "legalPersonAddress": "343",
+        "legalPersonZipCode": "343",
+        "legalPersonCity": "343",
+        "legalPersonCountry": {
+          "key": "http://publications.europa.eu/resource/authority/country/ATG",
+          "value": "Antigua and Barbuda"
+        },
+        "businessIdentifier": "334",
+        "legalOrNaturalPersonProfileDataDate": "2024-09-13T11:48:13.620692600Z",
+        "contactPersonRelationship": "Fix"
+      },
+      "section4": {
+        "sectionNumber": 4,
+        "fullName": "Jason BOURNE",
+        "email": "jason.bourne@ec.europa.eu",
+        "address": "343",
+        "phone": {
+          "number": "34343434343434",
+          "countryCode": "43"
+        },
+        "section4ProfileDataDate": "2024-09-13T11:48:13.620692600Z",
+        "invoiceType": {
+          "key": "a",
+          "value": "Paper"
+        },
+        "invoiceReferenceNumber": "Fix",
+        "operatorIdentifier": "Fix",
+        "nameOfTheOrganisation": "Fix",
+        "businessIdentifierOrganization": "Fix",
+        "vatNumber": "Fix",
+        "peppolCode": "Fix",
+        "isTheProjectFinanciallyCovered": {
+          "key": "b",
+          "value": "No"
+        }
+      },
+      "section5": {
+        "sectionNumber": 5,
+        "purposeOfUse": [
+          {
+            "key": "a",
+            "value": "a. Activities for reasons of public interest in the area of public and occupational health, such as protection against serious cross-border threats to health, public health surveillance or ensuring high levels of quality and safety of healthcare and of medicinal products or medical devices"
+          }
+        ],
+        "formatOfTheElectronicHealthData": {
+          "key": "b",
+          "value": "Anonymised"
+        },
+        "summaryOfPlanForUsingTheData": [
+          {
+            "size": 16921,
+            "name": "Form - Copy.docx",
+            "id": "66e4397e2b9aa105ff34375c"
+          }
+        ],
+        "whichAreTheExpectedBenefits": "Fix",
+        "whatIsTheAimAndTopicOfTheProject": "Fix",
+        "whyTheDataIsNeeded": "Fix",
+        "personResponsibleAffiliation": "Fix",
+        "personResponsibleJobTitle": "Fix",
+        "personResponsibleName": "Jason BOURNE",
+        "personResponsibleProfileDataDate": "2024-09-13T11:48:13.620692600Z"
+      },
+      "section6": [
+        {
+          "sectionNumber": 6,
+          "country_id": "Belgium",
+          "catalog_ids": [
+            "726200a0-7940-4446-b5f8-a62e6cc00b1b"
+          ],
+          "hdabContacts": "Fix",
+          "howWillTheDataFromDifferentSourcesBeLinked": "Fix",
+          "howIsTheStudyCohortFormed": {
+            "key": "b",
+            "value": "The study cohort will be formed based on the criteria given below."
+          },
+          "providedInformationOfTheDataUseToCorrespondingSubjects": {
+            "key": "a",
+            "value": "Yes"
+          },
+          "howProvidedInformationOfTheDataUseToCorrespondingSubjects": "Fix",
+          "sizeOfTheStudyCohort": "Fix",
+          "sizeOfTheStudyCohortEstimationOrExact": {
+            "key": "a",
+            "value": "This is an estimation of the size of the study cohort."
+          },
+          "whyNeedStudyCohortOfThisSize": "Fix",
+          "timePeriodOfDataExtraction": "Fix",
+          "extractionMethod": {
+            "key": "c",
+            "value": "random sample"
+          },
+          "inclusionCriteria": "Fix",
+          "howOftenDoesTheDataNeedToBeExtracted": {
+            "key": "b",
+            "value": "Once"
+          },
+          "needForDataExtractionEveryDescription": "Fix",
+          "willControlsBeExtracted": {
+            "key": "a",
+            "value": "No"
+          },
+          "willRelativesBeExtracted": {
+            "key": "a",
+            "value": "No"
+          },
+          "willDataForRelativesBeExtractedSimultaneously": {
+            "key": "b",
+            "value": "No"
+          },
+          "needForDataExtractionEvery": {
+            "key": "d",
+            "value": "No"
+          },
+          "sampleSize": "Fix"
+        }
+      ],
+      "section7": {
+        "sectionNumber": 7,
+        "willDataBeCombinedWithDataObtained": {
+          "key": "a",
+          "value": "No"
+        },
+        "otherDataPermits": [
+          {
+            "permitIssuer": "Fix",
+            "permitEndDateOfIssue": "2024-09-24",
+            "permitStartDateOfIssue": "2024-09-11",
+            "permitIdentificationInformation": "Fix"
+          }
+        ],
+        "otherPermitApplications": {
+          "key": "a",
+          "value": "No"
+        }
+      },
+      "section8": {
+        "sectionNumber": 8,
+        "technicalRequirementsForEnvironment": "Fix",
+        "nameWebsiteAddressForEnvironment": "Fix",
+        "whenDataNeeded": {
+          "key": "b",
+          "value": "As soon as possible after this application has been processed"
+        },
+        "legalBasisForProcessingCombinedApplicationData": [
+          {
+            "key": "b",
+            "value": "Yes"
+          }
+        ],
+        "estimatedStartDatesForDataProcessing": "2024-09-19",
+        "estimatedEndDatesForDataProcessing": "2024-09-25",
+        "startPeriodOfInactiveDataStorage": "2024-09-24",
+        "endPeriodOfInactiveDataStorage": "2024-09-30",
+        "willTheDataBeTransferred": {
+          "key": "b",
+          "value": "No"
+        },
+        "whichOrganizationWillBeTheControllerOfData": "Fix",
+        "complyWithDataMinimisationPrinciple": "Fix",
+        "protectionAndSecurityStatementsA": true,
+        "protectionAndSecurityStatementsB": true,
+        "protectionAndSecurityStatementsC": true,
+        "protectionAndSecurityStatementsD": true,
+        "protectionAndSecurityStatementsE": true,
+        "peopleWhoWillBeProcessingTheData": [
+          {
+            "fullName": "Fix",
+            "affiliation": "FixFix",
+            "emailAddress": "Fix@gmail.com"
+          }
+        ],
+        "legalBasisForProcessingPersonalData": [
+          {
+            "key": "a",
+            "value": "1. (e) Processing is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in the controller;"
+          }
+        ],
+        "legalBasisForTransferringTheDataOutsideEU": {
+          "key": "b",
+          "value": "Yes"
+        }
+      },
+      "section10": {
+        "sectionNumber": 10,
+        "awareProcessingFee": true,
+        "awareChargeFee": true,
+        "awareInformationCorrect": true
+      }
+    }
+  },
+  "data_access_application_id": "66e4392c0b44a04099ca440d",
+  "recipient": "cyprus_ap",
+  "catalog_ids": [
+    "726200a0-7940-4446-b5f8-a62e6cc00b1b"
+  ],
+  "message_id": [
+    "73e4ec90-71d5-11ef-9d0d-466e005c4616@domibus.eu"
+  ]
+}

@@ -87,36 +87,31 @@ aws:
   secrets:
     provider: aws
     objects: []
+  envSecretsMap: {}
 ```
 
 - `enabled`: Enables or disables secret integration.
 - `provider`: The CSI provider (aws).
 - `objects`: A list of secrets and their keys to fetch from AWS Secrets Manager.
+- `envSecretsMap`: Maps environment variable names to the corresponding secret keys retrieved from AWS Secrets Manager.
 
 ### Example Configuration
 
-Here's an example of how to define secrets in your values.yaml file:
+Here's an example of how to define secrets in your `values.yaml` file:
 
 ```yaml
-apiVersion: secrets-store.csi.x-k8s.io/v1
-kind: SecretProviderClass
-metadata:
-  name: {{ include "health-data-access.name" . }}-spc
-spec:
-  provider: {{ .Values.secrets.provider }}
-  parameters:
-    objects: |
-      - objectName: "HEALTHDATA_MONGO_DB_SECRET"
-        objectType: "secretsmanager"
+aws:
+  enabled: true
+  secrets:
+    provider: aws
+    objects:
+      - name: HEALTHDATA_MONGO_DB_SECRET
+        objectType: secretsmanager
         jmesPath:
-          - path: username
-            objectAlias: username
-          - path: password
-            objectAlias: password
           - path: mongo_uri
             objectAlias: mongo_uri
-      - objectName: "HEALTHDATA_API_KEYS"
-        objectType: "secretsmanager"
+      - name: HEALTHDATA_API_KEYS
+        objectType: secretsmanager
         jmesPath:
           - path: hub_store_data_upload_api_key
             objectAlias: hub_store_data_upload_api_key
@@ -126,31 +121,17 @@ spec:
             objectAlias: dispatcher_x_api_key
           - path: export_data_access_api_key
             objectAlias: export_data_access_api_key
-      - objectName: "HEALTH_DATA_ACCESS_SECRETS"
-        objectType: "secretsmanager"
+          - path: hub_repo_api_key
+            objectAlias: hub_repo_api_key
+      - name: HEALTH_DATA_ACCESS_SECRETS
+        objectType: secretsmanager
         jmesPath:
           - path: access_auth_config
             objectAlias: access_auth_config
-  secretObjects:
-    - secretName:  {{ include "health-data-access.name" . }}-secrets
-      type: Opaque
-      data:
-        - objectName: username
-          key: username
-        - objectName: password
-          key: password
-        - objectName: mongo_uri
-          key: mongo_uri
-        - objectName: hub_store_data_upload_api_key
-          key: hub_store_data_upload_api_key
-        - objectName: health_data_access_api_key
-          key: health_data_access_api_key
-        - objectName: dispatcher_x_api_key
-          key: dispatcher_x_api_key
-        - objectName: access_auth_config
-          key: access_auth_config
-        - objectName: export_data_access_api_key
-          key: export_data_access_api_key
+          - path: database_username
+            objectAlias: database_username
+          - path: database_password
+            objectAlias: database_password
 ```
 
 ### SecretProviderClass Template (Auto-Generated)
@@ -169,10 +150,6 @@ spec:
       - objectName: "HEALTHDATA_MONGO_DB_SECRET"
         objectType: "secretsmanager"
         jmesPath:
-          - path: username
-            objectAlias: username
-          - path: password
-            objectAlias: password
           - path: mongo_uri
             objectAlias: mongo_uri
       - objectName: "HEALTHDATA_API_KEYS"
@@ -191,14 +168,18 @@ spec:
         jmesPath:
           - path: access_auth_config
             objectAlias: access_auth_config
+          - path: database_username
+            objectAlias: database_username
+          - path: database_password
+            objectAlias: database_password
   secretObjects:
     - secretName:  {{ include "health-data-access.name" . }}-secrets
       type: Opaque
       data:
-        - objectName: username
-          key: username
-        - objectName: password
-          key: password
+        - objectName: database_username
+          key: database_username
+        - objectName: database_password
+          key: database_password
         - objectName: mongo_uri
           key: mongo_uri
         - objectName: hub_store_data_upload_api_key
@@ -226,22 +207,24 @@ Below is a full example of mapping:
 
 | AWS Secret Name                       | AWS Key (path)                      | Kubernetes Secret Key            |
 |---------------------------------------|-------------------------------------|----------------------------------|
-| `HEALTHDATA_MONGO_DB_SECRET`          | `username`                          | `username`                       |
-|                                       | `password`                          | `password`                       |
-|                                       | `mongo_uri`                         | `mongo_uri`                      |
+| `HEALTHDATA_MONGO_DB_SECRET`          | `mongo_uri`                         | `mongo_uri`                      |
 | `HEALTHDATA_API_KEYS`                 | `hub_store_data_upload_api_key`     | `hub_store_data_upload_api_key`  |
 |                                       | `health_data_access_api_key`        | `health_data_access_api_key`     |
 |                                       | `dispatcher_x_api_key`              | `dispatcher_x_api_key`           |
 |                                       | `export_data_access_api_key`        | `export_data_access_api_key`     |
 | `HEALTH_DATA_ACCESS_SECRETS`          | `access_auth_config`                | `access_auth_config`             |
+|                                       | `database_username`                 | `database_username`              |
+|                                       | `database_password`                 | `database_password`              |
+
 
 
 ### How to Use
 
 1. Ensure that **AWS Secrets Manager** is configured with the required secrets.
 2. Set `aws.enabled: true` in `values.yaml`.
-3. Deploy the Helm chart.
-4. The application will retrieve secrets automatically via the CSI driver.
+3. Define the list of secrets in `aws.secrets.objects` and their environment variable mappings in `aws.envSecretsMap`.
+4. Deploy the Helm chart.
+5. The application will retrieve secrets automatically via the CSI driver.
 
 For more details, refer to:
 

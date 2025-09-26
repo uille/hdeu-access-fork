@@ -16,6 +16,7 @@
 package eu.europa.data.health.access.hub_repo_client;
 
 import static eu.europa.data.health.access.Constants.CATALOGUE_ID;
+import static eu.europa.data.health.access.Constants.CATALOGUE_LANGUAGE;
 import static eu.europa.data.health.access.Constants.CATALOGUE_NAME;
 import static eu.europa.data.health.access.Constants.DESCRIPTION;
 import static eu.europa.data.health.access.Constants.DISPATCHER_COLLECTION;
@@ -26,10 +27,16 @@ import static eu.europa.data.health.access.Constants.PUBLISHER_NAME;
 import static eu.europa.data.health.access.Constants.UPLOAD_RDF;
 import static eu.europa.data.health.access.SchemaFiles.CATALOGUE_FORM_RDF;
 
+import eu.europa.data.health.access.AuditLogAction;
+import eu.europa.data.health.access.AuditLogActionDescription;
+import eu.europa.data.health.access.AuditLogObject;
+import eu.europa.data.health.access.CommonClientUtils;
 import eu.europa.data.health.access.SchemaFiles;
 import eu.europa.data.health.access.dispatcher_client.DispatcherClient;
+import eu.europa.data.health.access.dto.SearchCriteriaDto;
 import eu.europa.data.health.access.handlers.DBHandler;
 import eu.europa.data.health.access.services.AbstractManager;
+import eu.europa.data.health.access.services.AuditLogManager;
 import eu.europa.data.health.access.services.CountriesManager;
 import eu.europa.data.health.access.services.HubSearchClient;
 import eu.europa.data.health.access.services.HubStoreClient;
@@ -47,10 +54,13 @@ import io.vertx.ext.web.client.WebClient;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,9 +82,10 @@ public class HubRepoClient extends AbstractManager {
   private final HubStoreClient hubStoreClient;
   private final HubSearchClient hubSearchClient;
   private final CountriesManager countriesManager;
+  private final AuditLogManager auditLogManager;
 
   public HubRepoClient(DBHandler dbHandler, String url, String xApiKey, WebClient client, DispatcherClient dispatcherClient,
-                       HubStoreClient hubStoreClient, HubSearchClient hubSearchClient, CountriesManager countriesManager) {
+                       HubStoreClient hubStoreClient, HubSearchClient hubSearchClient, CountriesManager countriesManager, AuditLogManager auditLogManager) {
     super(dbHandler);
     this.url = url;
     this.xApiKey = xApiKey;
@@ -83,6 +94,7 @@ public class HubRepoClient extends AbstractManager {
     this.hubStoreClient = hubStoreClient;
     this.hubSearchClient = hubSearchClient;
     this.countriesManager = countriesManager;
+    this.auditLogManager = auditLogManager;
   }
 
   private void addXApiKey(MultiMap headers) {
@@ -163,7 +175,11 @@ public class HubRepoClient extends AbstractManager {
     String catalogueId = context.body().asJsonObject().getString(CATALOGUE_ID);
     Promise<String> promise = Promise.promise();
 
-    processRDF(context, catalogueId).onSuccess(catalogue ->{
+    processRDF(context, catalogueId).onSuccess(result ->{
+
+      String catalogue = result.get("rdfContent");
+      String title = result.get("title");
+
       MultiMap headers = createHeader(catalogue);
 
       vertxClient.putAbs(this.url + CATALOGUE_REQUEST + "/" + catalogueId)
@@ -183,6 +199,14 @@ public class HubRepoClient extends AbstractManager {
                 } else {
                   promise.fail(actionRes.cause().getMessage());
                 }});
+
+              //Audit Log
+              String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+                AuditLogActionDescription.CATALOGUE_CREATED.toString(), catalogueId, title);
+              auditLogManager.insertAuditLog(AuditLogObject.CATALOGUE.toString(),
+                catalogueId, AuditLogAction.CATALOGUE_CREATED.toString(),
+                auditLogActionDescription, true, context);
+
             } else if (HttpResponseStatus.NO_CONTENT.code() == ar.result().statusCode()) {
               // Update action performed.
               log.info(HUB_REPO_CLIENT + " Successfully updated catalogue with id: {}", catalogueId);
@@ -206,23 +230,31 @@ public class HubRepoClient extends AbstractManager {
                     promise.fail(getRes.cause().getMessage());
                   }
                 });
+
+              //Audit Log
+              String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+                AuditLogActionDescription.CATALOGUE_UPDATED.toString(), catalogueId, title);
+              auditLogManager.insertAuditLog(AuditLogObject.CATALOGUE.toString(),
+                catalogueId, AuditLogAction.CATALOGUE_EDITED.toString(),
+                auditLogActionDescription, true, context);
+
             }
             else {
               log.error(HUB_REPO_CLIENT +
                   " Hub repo failed to put catalogue with id: {}, error code: {}, message: {}",
-                catalogueId, extractedErrorCode(ar), extractedErrorMessage(ar));
+                catalogueId, extractedErrorCode(ar), CommonClientUtils.extractedErrorMessage(ar));
               promise.fail(new JsonObject()
                 .put(ERROR_CODE, extractedErrorCode(ar))
-                .put(ERROR_DETAILS, extractedErrorMessage(ar))
+                .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar))
                 .encode());
             }
           } else {
             log.error(HUB_REPO_CLIENT +
                 " Failed to put catalogue: {} to hub repo, error message: {}",
-              catalogueId, extractedErrorMessage(ar));
+              catalogueId, CommonClientUtils.extractedErrorMessage(ar));
             promise.fail(new JsonObject()
               .put(ERROR_CODE, extractedErrorCode(ar))
-              .put(ERROR_DETAILS, extractedErrorMessage(ar))
+              .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar))
               .encode());
           }
         });
@@ -250,9 +282,9 @@ public class HubRepoClient extends AbstractManager {
         } else {
           log.error(HUB_REPO_CLIENT +
             " Failed to get catalogues from hub repo for the geographical coverage," +
-            " error message: {}", extractedErrorMessage(ar));
+            " error message: {}", CommonClientUtils.extractedErrorMessage(ar));
           promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-            .put(ERROR_DETAILS, extractedErrorMessage(ar)).encode());
+            .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
         }
       });
 
@@ -300,29 +332,30 @@ public class HubRepoClient extends AbstractManager {
                     promise.complete(new JsonObject());
                   }
 
+
                   JsonObject response =
-                    prepareGetEntityResponse(catalogueList.getJsonArray("catalogueList").getList(),
+                    prepareGetEntityResponse(catalogueList.getJsonArray("catalogueList").getList(),new SearchCriteriaDto(
                       Integer.parseInt(pageString) , catalogueList.getInteger("sizeOfCatalogueList") ,
                       Integer.parseInt(pageString) , Integer.parseInt(limitString) , sortByString,
-                      sortOrderString, null);
+                      sortOrderString, null));
                   // TODO to be removed it is for performance investigation.
                   long test3 = System.currentTimeMillis();
                   log.info((HUB_REPO_CLIENT+ "------------finished all catalogues fetch: " + (test3-startTime)));
                   promise.complete(response);
 
                 })
-                .onFailure(err -> {
-                  context.response().setStatusCode(500).end("Failed to map catalogues.");
-                });
+                .onFailure(err ->
+                  context.response().setStatusCode(500).end("Failed to map catalogues.")
+                );
 
             } else {
               promise.fail(actionRes.cause().getMessage());
             }});
         } else {
           log.error(HUB_REPO_CLIENT +
-            " Failed to get catalogues from hub repo, error message: {}", extractedErrorMessage(ar));
+            " Failed to get catalogues from hub repo, error message: {}", CommonClientUtils.extractedErrorMessage(ar));
           promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-            .put(ERROR_DETAILS, extractedErrorMessage(ar)).encode());
+            .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
         }
       });
 
@@ -348,7 +381,7 @@ public class HubRepoClient extends AbstractManager {
         if (ar.succeeded()) {
           if(ar.result().statusCode() == 404){
             promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-              .put(ERROR_DETAILS, extractedErrorMessage(ar)).encode());
+              .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
           } else {
             dispatcherClient.getAllCatalogueMap().onComplete(actionRes -> {
               if (actionRes.succeeded()) {
@@ -370,9 +403,9 @@ public class HubRepoClient extends AbstractManager {
         } else {
           log.error(HUB_REPO_CLIENT +
               " Failed to get catalogue: {} from hub repo, error message: {}",
-            catalogueId, extractedErrorMessage(ar));
+            catalogueId, CommonClientUtils.extractedErrorMessage(ar));
           promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-            .put(ERROR_DETAILS, extractedErrorMessage(ar)).encode());
+            .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
         }
       });
 
@@ -413,7 +446,7 @@ public class HubRepoClient extends AbstractManager {
             }});
         } else {
           promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-            .put(ERROR_DETAILS, extractedErrorMessage(ar)).encode());
+            .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
         }
       });
 
@@ -466,37 +499,19 @@ public class HubRepoClient extends AbstractManager {
           } else {
             log.error(HUB_REPO_CLIENT +
                 " Failed to delete catalogue: {} from hub repo, error message: {}",
-              catalogueId, extractedErrorMessage(ar));
+              catalogueId, CommonClientUtils.extractedErrorMessage(ar));
             promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-              .put(ERROR_DETAILS, extractedErrorMessage(ar)).encode());
+              .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
           }
         } else {
           log.error(HUB_REPO_CLIENT +
               "  Failed to delete catalogue: {} to hub repo, error message: {}",
-            catalogueId, extractedErrorMessage(ar));
+            catalogueId, CommonClientUtils.extractedErrorMessage(ar));
           promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-            .put(ERROR_DETAILS, extractedErrorMessage(ar)).encode());
+            .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
         }
       });
     return promise.future();
-  }
-
-  /**
-   * On errors when the hub repo it is down we do not have a result, so we need get the error from
-   * the cause
-   */
-  private String extractedErrorMessage(AsyncResult<HttpResponse<Buffer>> ar) {
-    String errorMessage;
-
-    if (Objects.nonNull(ar.cause())) {
-      errorMessage = ar.cause().getMessage();
-    } else if (Objects.nonNull(ar.result().bodyAsString())) {
-      errorMessage = ar.result().bodyAsString();
-    } else {
-      errorMessage = ar.result().statusMessage();
-    }
-
-    return Jsoup.parse(errorMessage).text();
   }
 
   private Integer extractedErrorCode(AsyncResult<HttpResponse<Buffer>> ar) {
@@ -509,8 +524,9 @@ public class HubRepoClient extends AbstractManager {
    * @param catalogueId The catalogue id
    * @return The rdf file content
    */
-  private Future<String> processRDF(RoutingContext context, String catalogueId) {
-    Promise<String> promise = Promise.promise();
+  private Future<Map<String, String>> processRDF(RoutingContext context, String catalogueId) {
+    Promise<Map<String, String>> promise = Promise.promise();
+    Map<String, String> result = new HashMap<>();
 
     // Get the value of the radio button to see which value is selected.
     JsonObject uploadRDF = context.body().asJsonObject().getJsonObject(UPLOAD_RDF);
@@ -525,7 +541,11 @@ public class HubRepoClient extends AbstractManager {
     }
 
     if(fieldNameContent != null && "a".equals(selectedValue)){
-       getCatalogueFile(catalogueId, context).onSuccess(promise::complete);
+       getCatalogueFile(catalogueId, context).onSuccess(res -> {
+         result.put("rdfContent", res);
+         result.put("title", rdfTitleExtractor(res));
+         promise.complete(result);
+       });
     } else if ("b".equals(selectedValue)) {
         try (InputStream rdfFile = getResourcePath(CATALOGUE_FORM_RDF.getValue())) {
           // Read RDF file as a string
@@ -535,14 +555,17 @@ public class HubRepoClient extends AbstractManager {
           rdfContent = rdfContent.replace("{catalogueID}", catalogueId)
             .replace("{title}", context.body().asJsonObject().getString(CATALOGUE_NAME))
             .replace("{description}", context.body().asJsonObject().getString(DESCRIPTION))
-            .replace("{lang}", "eng")
+            .replace("{lang}", context.body().asJsonObject().getString(CATALOGUE_LANGUAGE))
             .replace("{countryISO}", context.body().asJsonObject().getJsonObject("geographicalCoverage").getString("key"))
             .replace("{homepageURL}", context.body().asJsonObject().getString(PUBLISHER_HOMEPAGE_URL))
             .replace("{name}", context.body().asJsonObject().getString(PUBLISHER_NAME));
 
           // Upload the produced rdf file to hub store.
           uploadTheRDFFile(context, rdfContent, context.body().asJsonObject().getString(CATALOGUE_NAME));
-          promise.complete(rdfContent);
+
+          result.put("rdfContent", rdfContent);
+          result.put("title", context.body().asJsonObject().getString(CATALOGUE_NAME));
+          promise.complete(result);
         } catch (IOException e) {
           log.info("RDF file not found.", e);
           promise.fail("RDF file not found.");
@@ -551,6 +574,17 @@ public class HubRepoClient extends AbstractManager {
       promise.fail("RDF file not provided or not valid.");
     }
     return promise.future();
+  }
+
+  private String rdfTitleExtractor(String rdf){
+    Pattern pattern = Pattern.compile("dct:title\\s+\"([^\"]+)\"");
+    Matcher matcher = pattern.matcher(rdf);
+
+    if (matcher.find()) {
+      return matcher.group(1);
+    } else {
+      return "";
+    }
   }
 
   private Future<String> getCatalogueFile(String catalogueId, RoutingContext context) {
@@ -601,5 +635,34 @@ public class HubRepoClient extends AbstractManager {
               + response.statusMessage());
         }
       });
+  }
+
+  public Future<JsonObject> getCatalogueTitle(@NotNull RoutingContext context) {
+    MultiMap headers = createHeaderWithoutType();
+    Promise<JsonObject> promise = Promise.promise();
+    String catalogueId =  (context.pathParam(CATALOGUE_ID) == null) ?
+      context.body().asJsonObject().getString(CATALOGUE_ID):
+      context.pathParam(CATALOGUE_ID);
+
+    vertxClient.getAbs(this.url + CATALOGUE_REQUEST + "/" + catalogueId)
+      .putHeaders(headers)
+      .sendBuffer(null, ar -> {
+        if (ar.succeeded()) {
+          if(ar.result().statusCode() != 404){
+            promise.complete(ar.result().bodyAsJsonObject());
+          } else if(ar.result().statusCode() == 404){
+            promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
+              .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
+          }
+        } else {
+          log.error(HUB_REPO_CLIENT +
+              " Failed to get catalogue: {} from hub repo, error message: {}",
+            catalogueId, CommonClientUtils.extractedErrorMessage(ar));
+          promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
+            .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
+        }
+      });
+
+    return promise.future();
   }
 }

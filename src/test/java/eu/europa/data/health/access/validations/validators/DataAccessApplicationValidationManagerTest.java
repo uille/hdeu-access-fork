@@ -28,7 +28,6 @@ import static eu.europa.data.health.access.Constants.HAS_THE_STUDY_COHORT_BEEN_F
 import static eu.europa.data.health.access.Constants.NEED_FOR_DATA_EXTRACTION_EVERY;
 import static eu.europa.data.health.access.Constants.OTHER_PERMIT_APPLICATIONS;
 import static eu.europa.data.health.access.Constants.PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS;
-import static eu.europa.data.health.access.Constants.THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION;
 import static eu.europa.data.health.access.Constants.THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY;
 import static eu.europa.data.health.access.Constants.UPLOAD_RDF;
 import static eu.europa.data.health.access.Constants.WHEN_DATA_NEEDED;
@@ -242,8 +241,7 @@ class DataAccessApplicationValidationManagerTest {
 
     JsonObject legalOrNaturalPerson = new JsonObject().put("key", "b");
     JsonObject json = new JsonObject().put("legalOrNaturalPerson", legalOrNaturalPerson)
-      .put(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY, true)
-      .put(THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION, true);
+      .put(THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY, true);
 
     when(routingContext.body()).thenReturn(mock(RequestBody.class));
     when(routingContext.body().asJsonObject()).thenReturn(json);
@@ -537,8 +535,10 @@ class DataAccessApplicationValidationManagerTest {
 
     when(routingContext.body()).thenReturn(mock(RequestBody.class));
     when(routingContext.body().asJsonObject()).thenReturn(json);
+    when(routingContext.response()).thenReturn(response);
+    when(routingContext.response().setStatusCode(anyInt())).thenReturn(response);
     validationManager.validateUpdateTitle(routingContext);
-    verify(routingContext).next();
+    verify(routingContext, times(2)).response();
   }
 
 

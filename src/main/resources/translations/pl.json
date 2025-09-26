@@ -17,6 +17,21 @@
         },
         "applicationDatabases": {
             "label": "Z jakich baz danych lub rejestrów/rejestrów dane zostaną pobrane?"
+        },
+        "variables": {
+            "label": "Zmienne"
+        },
+        "datatype": {
+            "label": "Typy danych (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Opis"
+        },
+        "title": {
+            "label": "Zmienne"
+        },
+        "emptyTable": {
+            "label": "Brak zmiennych"
         }
     },
     "section2": {
@@ -102,10 +117,10 @@
                 },
                 {
                     "key": "b",
-                    "value": "Osoba fizyczna",
-                    "info": "(Jeśli wybierzesz tę opcję, potwierdzasz, że ubiegasz się o dane jako osoba prywatna bez przynależności.)"
+                    "value": "Osoba fizyczna"
                 }
-            ]
+            ],
+            "info": "(Jeśli wybierzesz tę opcję, potwierdzasz, że ubiegasz się o dane jako osoba prywatna bez przynależności.)"
         },
         "legalPerson": "Osoba prawna",
         "naturalPerson": "Osoba fizyczna:",
@@ -141,15 +156,6 @@
         },
         "contactPersonBusinessIdentifier": {
             "label": "Identyfikator przedsiębiorstwa organizacji"
-        },
-        "contactPersonOperatorIdentifier": {
-            "label": "Kod identyfikacyjny operatora"
-        },
-        "contactPersonJobTitle": {
-            "label": "Stanowisko"
-        },
-        "contactPersonAffiliation": {
-            "label": "Przynależność"
         },
         "contactPersonRelationship": {
             "label": "Jaki jest związek między osobą wyznaczoną do kontaktów a wnioskodawcą? (Np. pracownik ubiegający się o dane w imieniu swojej organizacji.)"
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "Cel wykorzystywania danych",
-        "section5Description": "Wnioskodawcy powinni wskazać cel, w jakim żądane są dane, zgodnie z art. 53 ust. 1 sprostowania rozporządzenia w sprawie europejskiej przestrzeni danych dotyczących zdrowia zatwierdzonego przez Parlament Europejski w dniu 17 grudnia. \nWnioskodawcy muszą wyjaśnić i uzasadnić, dlaczego żądane dane są niezbędne do wskazanego celu ich wykorzystania. Wnioskodawcy proszeni są również o dostarczenie informacji na temat celu projektu. Następnie, w zależności od celu wykorzystania (badania, czy nie), wnioskodawcy muszą przedstawić streszczenie planu wykorzystania danych lub streszczenie planu badań oraz informacje na temat osoby odpowiedzialnej za wykorzystanie danych lub badania.",
+        "section5Description": "Wnioskodawcy powinni wskazać cel, w jakim ubiegają się o dane, zgodnie z art. 53 ust. 1 rozporządzenia Parlamentu Europejskiego i Rady (UE) 2025/327 z dnia 11 lutego 2025 r. w sprawie europejskiej przestrzeni danych dotyczących zdrowia. Wnioskodawcy muszą wyjaśnić i uzasadnić, dlaczego żądane dane są niezbędne do wskazanego celu ich wykorzystania. Wnioskodawcy proszeni są również o przedstawienie informacji na temat celu projektu. Następnie, w zależności od celu wykorzystania (badania lub nie), wnioskodawcy muszą przedstawić streszczenie planu wykorzystania danych lub streszczenie planu badań oraz informacje o osobie odpowiedzialnej za wykorzystanie danych lub badania.",
         "purposeOfUse": {
             "label": "Cel wykorzystania danych. Organy ds. dostępu do danych dotyczących zdrowia zapewniają dostęp do elektronicznych danych dotyczących zdrowia, o których mowa w art. 51, wyłącznie w przypadku, gdy zamierzony cel przetwarzania realizowany przez wnioskodawcę jest zgodny z następującymi celami (zgodnie z art. 53 ust. 1) wymienionymi poniżej.",
             "tooltip": "Cele określone w rozporządzeniu w sprawie europejskiej przestrzeni danych dotyczących zdrowia.",
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Jakie są oczekiwane korzyści związane z wykorzystaniem elektronicznych danych dotyczących zdrowia i w jaki sposób korzyść ta przyczynia się do osiągnięcia celów, o których mowa w pkt 5.1?"
         },
+        "describeApplicantsQualification": {
+            "label": "Proszę opisać kwalifikacje wnioskodawcy w odniesieniu do zamierzonego(-ych) celu(-ów) wykorzystania danych oraz odpowiednią wiedzę fachową (w tym kwalifikacje zawodowe)"
+        },
         "legalBasis": {
             "label": "Proszę podać podstawę prawną, na przykład odpowiednie przepisy, które określają zadania wchodzące w zakres Twojego mandatu i potwierdzają, że planowane wykorzystanie danych ma ułatwić realizację takich zadań.",
             "tooltip": "W tym miejscu należy wyjaśnić, dlaczego ilość danych, o które się Państwo ubiegają, jest niezbędna do ich wykorzystania. Należy uzasadnić i opisać, w jaki sposób treść wymaganych statystyk odpowiada celowi wykorzystania określonemu we wniosku i spełnia wymogi dotyczące danych."
@@ -320,222 +329,16 @@
             "label": "Proszę podać link do dokumentacji potwierdzającej jako dowód podstawy prawnej."
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Podaj podsumowanie planu wykorzystania danych. Streszczenie musi być sporządzone w jednym z języków urzędowych UE."
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Wybierz język streszczenia",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bułgarski"
-                },
-                {
-                    "key": "hr",
-                    "value": "Chorwacki"
-                },
-                {
-                    "key": "cs",
-                    "value": "Czeski"
-                },
-                {
-                    "key": "da",
-                    "value": "Duński"
-                },
-                {
-                    "key": "nl",
-                    "value": "Niderlandzki"
-                },
-                {
-                    "key": "en",
-                    "value": "Angielski"
-                },
-                {
-                    "key": "et",
-                    "value": "Estoński"
-                },
-                {
-                    "key": "fi",
-                    "value": "Fiński"
-                },
-                {
-                    "key": "fr",
-                    "value": "Francuski"
-                },
-                {
-                    "key": "de",
-                    "value": "Niemiecki"
-                },
-                {
-                    "key": "el",
-                    "value": "Grecki"
-                },
-                {
-                    "key": "hu",
-                    "value": "Węgierski"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irlandzki"
-                },
-                {
-                    "key": "it",
-                    "value": "Włoski"
-                },
-                {
-                    "key": "lv",
-                    "value": "Łotewski"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litewski"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltański"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polski"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugalski"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumuński"
-                },
-                {
-                    "key": "sk",
-                    "value": "Słowacki"
-                },
-                {
-                    "key": "sl",
-                    "value": "Słoweński"
-                },
-                {
-                    "key": "es",
-                    "value": "Hiszpański"
-                },
-                {
-                    "key": "sv",
-                    "value": "Szwedzki"
-                }
-            ]
+            "label": "Podaj podsumowanie planu wykorzystania danych. Streszczenie musi być sporządzone w jednym z języków urzędowych UE.",
+            "tooltip": "Przesłane pliki są automatycznie tłumaczone przez system. Wnioskodawca odpowiada za jakość, czytelność i formatowanie przesłanych plików."
         },
         "summaryOfResearchPlan": {
-            "label": "Podaj streszczenie planu badań. Streszczenie musi być sporządzone w jednym z języków urzędowych UE."
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Wybierz język streszczenia",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bułgarski"
-                },
-                {
-                    "key": "hr",
-                    "value": "Chorwacki"
-                },
-                {
-                    "key": "cs",
-                    "value": "Czeski"
-                },
-                {
-                    "key": "da",
-                    "value": "Duński"
-                },
-                {
-                    "key": "nl",
-                    "value": "Niderlandzki"
-                },
-                {
-                    "key": "en",
-                    "value": "Angielski"
-                },
-                {
-                    "key": "et",
-                    "value": "Estoński"
-                },
-                {
-                    "key": "fi",
-                    "value": "Fiński"
-                },
-                {
-                    "key": "fr",
-                    "value": "Francuski"
-                },
-                {
-                    "key": "de",
-                    "value": "Niemiecki"
-                },
-                {
-                    "key": "el",
-                    "value": "Grecki"
-                },
-                {
-                    "key": "hu",
-                    "value": "Węgierski"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irlandzki"
-                },
-                {
-                    "key": "it",
-                    "value": "Włoski"
-                },
-                {
-                    "key": "lv",
-                    "value": "Łotewski"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litewski"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltański"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polski"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugalski"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumuński"
-                },
-                {
-                    "key": "sk",
-                    "value": "Słowacki"
-                },
-                {
-                    "key": "sl",
-                    "value": "Słoweński"
-                },
-                {
-                    "key": "es",
-                    "value": "Hiszpański"
-                },
-                {
-                    "key": "sv",
-                    "value": "Szwedzki"
-                }
-            ]
+            "label": "Podaj streszczenie planu badań. Streszczenie musi być sporządzone w jednym z języków urzędowych UE.",
+            "tooltip": "Przesłane pliki są automatycznie tłumaczone przez system. Wnioskodawca odpowiada za jakość, czytelność i formatowanie przesłanych plików."
         },
         "personResponsibleLabel": "Osoba odpowiedzialna za wykorzystanie danych",
         "personResponsibleName": {
             "label": "Pełna nazwa"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Stanowisko"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Przynależność"
         },
         "personResearchSameAsContactPerson": {
             "label": "Jak osoba wyznaczona do kontaktów, o której mowa w sekcji 3 (dane wnioskodawcy i osoby wyznaczonej do kontaktów)?"
@@ -546,12 +349,6 @@
         },
         "personResearchName": {
             "label": "Pełna nazwa"
-        },
-        "personResearchJobTitle": {
-            "label": "Stanowisko"
-        },
-        "personResearchAffiliation": {
-            "label": "Przynależność"
         },
         "formatOfTheElectronicHealthData": {
             "label": "Wybierz format elektronicznych danych dotyczących zdrowia, które mają zostać udostępnione:",
@@ -638,6 +435,9 @@
         },
         "consentAndInformationLetterAttachment": {
             "label": "Załącz zgodę i pismo informacyjne wysłane do uczestników badania. Nie należy załączać wypełnionych formularzy, ponieważ zawierają one dane osobowe."
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "Czy kohorta opierała się na wcześniej wydanym zezwoleniu na dostęp do danych?"
         },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Potwierdzam, że zezwolenie na dostęp do danych zostało udzielone w odniesieniu do tego projektu badawczego."
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "Jak często należy pobierać dane?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Czy zamierza Pan skorzystać z wyjątku od prawa do rezygnacji zgodnie z mechanizmem przewidzianym w prawie krajowym państwa członkowskiego, o którego dane się Państwo ubiegają?",
+            "tooltip": "W drodze wyjątku od prawa do wyłączenia danych, o którym mowa w ust. 1 państwo członkowskie może przewidzieć w swoim prawie krajowym mechanizm udostępniania danych, w odniesieniu do których skorzystano z prawa do wyłączenia danych, o którym mowa w ust. 1, o ile zostały spełnione wszystkie następujące warunki: (pełne warunki – zob. artykuł)”"
+        },
+        "providedJustificationException": {
+            "label": "Należy przedstawić uzasadnienie tego wyjątku."
+        },
         "needForDataExtractionEvery": {
             "label": "Dane należy pobrać z każdego",
             "tooltip": "Jeżeli chcesz, aby dane były pobierane wielokrotnie przez określony czas, należy pamiętać, że definicje i metoda gromadzenia danych mogą w niektórych przypadkach ulec zmianie w okresie objętym przeglądem. Należy zauważyć, że maksymalna częstotliwość pobierania danych wynosi co kwartał."
@@ -835,14 +642,11 @@
         "willSameDataBeExtractedForControls": {
             "label": "Czy do kontroli zostaną pobrane te same dane, co w przypadku kohorty?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Jeżeli nie szukają Państwo danych do kontroli w całym kraju, w jakich regionach lub miastach lub gminie/gminie szukają Państwo danych?"
-        },
         "fromWhichDataHolderLabel": "Od których posiadaczy danych zostaną pobrane dane do kontroli?",
         "fromWhichDatabaseLabel": "Z jakich baz danych/rejestrów/rejestrów zostaną pobrane dane do kontroli?",
         "fromWhichDatasetLabel": "Z jakich rekordów/rejestrów zbiorów danych zostaną pobrane dane do kontroli?",
-        "variablesForDataExtraction": {
-            "label": "Jeżeli informacje są dostępne, należy wymienić zmienne, które należy zastosować przy pobieraniu danych. Należy użyć dokładnych terminów podanych przez odpowiednich posiadaczy danych w katalogu metadanych."
+        "variablesForDataExtractionAttachments": {
+            "label": "Jeżeli informacje są dostępne, należy załączyć wykaz zmiennych, które mają być wykorzystane przy pobieraniu danych. Należy użyć dokładnych terminów podanych przez odpowiednich posiadaczy danych w katalogu metadanych."
         },
         "timePeriodForDataExtraction": {
             "label": "W jakim(-ych) okresie(-ach) zostaną pobrane rekordy zbioru danych?"
@@ -947,8 +751,8 @@
         "whichDataHoldersForRelatives": "Od których posiadaczy danych zostaną pobrane dane dotyczące krewnych?",
         "whichDatabaseForRelatives": "Z jakich baz danych/rejestrów/rejestrów zostaną pobrane dane dotyczące krewnych?",
         "whichDatasetsForRelatives": "Z jakich rekordów/rejestrów zbiorów danych zostaną pobrane dane dotyczące krewnych?",
-        "variablesForDataExtractionRelatives": {
-            "label": "Jeżeli informacje są dostępne, należy wymienić zmienne, które należy zastosować przy pobieraniu danych. Należy użyć dokładnych terminów podanych przez odpowiednich posiadaczy danych w katalogu metadanych."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "Jeżeli informacje są dostępne, należy załączyć wykaz zmiennych, które mają być wykorzystane przy pobieraniu danych. Należy użyć dokładnych terminów podanych przez odpowiednich posiadaczy danych w katalogu metadanych."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "W jakim(-ych) okresie(-ach) zostaną pobrane rekordy zbioru danych?"
@@ -1062,7 +866,6 @@
         "otherPermitApplications": {
             "label": "Czy mają Państwo inne oczekujące na rozpatrzenie wnioski o udzielenie zezwolenia?"
         },
-        "listTheOtherData": "Wykaz pozostałych danych, które mają być połączone, oraz źródeł tych danych:",
         "applicationIssuer": {
             "label": "Emitent"
         },
@@ -1360,6 +1163,13 @@
             "label": "W jaki sposób przestrzegają Państwo zasady minimalizacji danych (unijnego rozporządzenia o ochronie danych) podczas przetwarzania danych? ",
             "tooltip": "Art. 4 ust. 1 lit. c) DPR UE „Dane osobowe muszą być adekwatne, stosowne i ograniczone do tego, co jest konieczne do celów, dla których są przetwarzane („minimalizacja danych”)”."
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Czy zamierza Pan skorzystać z wyjątku od prawa do rezygnacji zgodnie z mechanizmem przewidzianym w prawie krajowym państwa członkowskiego, o którego dane się Państwo ubiegają?",
+            "tooltip": "W drodze wyjątku od prawa do wyłączenia danych, o którym mowa w ust. 1 państwo członkowskie może przewidzieć w swoim prawie krajowym mechanizm udostępniania danych, w odniesieniu do których skorzystano z prawa do wyłączenia danych, o którym mowa w ust. 1, o ile zostały spełnione wszystkie następujące warunki: (pełne warunki – zob. artykuł)”"
+        },
+        "providedJustificationException": {
+            "label": "Należy przedstawić uzasadnienie tego wyjątku."
+        },
         "protectionAndSecurityStatements": {
             "label": "Aby kontynuować rozpatrywanie wniosku, należy potwierdzić następujące oświadczenia (oświadczenia dotyczące ochrony danych i bezpieczeństwa):"
         },
@@ -1383,13 +1193,10 @@
             "label": "Tak samo jak osoba wyznaczona do kontaktów, o której mowa w sekcji 3?"
         },
         "listTheFullNames": {
-            "label": "Proszę wymienić imiona i nazwiska, przynależność i adresy e-mail wszystkich osób, które będą przetwarzać dane."
+            "label": "Proszę wymienić imiona i nazwiska oraz adresy e-mail wszystkich osób, które będą przetwarzać dane."
         },
         "fullName": {
             "label": "Pełna nazwa"
-        },
-        "affiliation": {
-            "label": "Przynależność"
         },
         "emailAddress": {
             "label": "Adres elektroniczny"
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Potwierdzenie informacji",
-        "section10Description": "Zanim wniosek zostanie rozpatrzony, wnioskodawca musi zatwierdzić opłaty za rozpatrzenie wniosku.",
+        "section10Description": "Zanim wniosek zostanie rozpatrzony, wnioskodawca musi zatwierdzić opłaty za rozpatrzenie wniosku. Dodanie informacji na temat cen i maksymalnych szacunkowych cen za ekstrakcję danych, gdy tylko będą dostępne.",
         "submitYouApplicationText": "Aby złożyć wniosek, należy potwierdzić, co następuje:",
         "acceptHealthDataBody": {
             "label": "Przyjmuję do wiadomości, że organ ds. danych dotyczących zdrowia będzie zestawiał statystyki i nie będę miał dostępu do danych wykorzystywanych do tworzenia statystyk."

@@ -17,11 +17,26 @@
         },
         "applicationDatabases": {
             "label": "Mistä tietokannoista tai rekistereistä tiedot poimitaan?"
+        },
+        "variables": {
+            "label": "Muuttujat"
+        },
+        "datatype": {
+            "label": "Datatyypit (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Kuvaus"
+        },
+        "title": {
+            "label": "Muuttujat"
+        },
+        "emptyTable": {
+            "label": "Ei muuttujia"
         }
     },
     "section2": {
-        "section2h5": "Hankkeesta tiedottaminen yleisölle",
-        "section2Description": "Euroopan unionin terveystietoihin pääsystä vastaavien elinten on julkaistava tiedot tietoluvista, -pyynnöistä ja -hakemuksista verkkosivustollaan 30 työpäivän kuluessa tietoluvan myöntämisestä tai terveystietopyyntöön vastaamisesta. Tässä osiossa sinua pyydetään antamaan hankkeestanne tietoa, joka voidaan jakaa yleisölle. Varmista, että tämä ei sisällä luottamuksellisia tietoja. Anna vastauksesi maallikkoehdoin. Terveystietojen käyttäjän on julkistettava hankkeen tulokset tai tuotokset viimeistään 18 kuukauden kuluttua siitä, kun käsittely on saatu päätökseen tai terveystietopyyntöön on saatu vastaus. Lisäksi sinun on ilmoitettava terveystietoihin pääsystä vastaavalle elimelle niiden vertaisarvioitujen tutkimusjulkaisujen, toimintapoliittisten asiakirjojen ja/tai sääntelymenettelyjen lukumäärä, jotka on toteutettu käyttämällä tämän hakemuksen kautta saatuja tietoja.",
+        "section2h5": "Hankkeen julkiset tiedot",
+        "section2Description": "Euroopan unionin terveystietoihin pääsystä vastaavien elinten on julkaistava tiedot tietoluvista, -pyynnöistä ja -hakemuksista verkkosivustollaan 30 työpäivän kuluessa tietoluvan myöntämisestä tai terveystietopyyntöön vastaamisesta. Tässä osiossa sinua pyydetään antamaan hankkeestanne tietoa, joka voidaan julkaista. Varmista, että tämä ei sisällä luottamuksellisia tietoja. Anna vastauksesi maallikkoehdoin. Terveystietojen käyttäjän on julkistettava hankkeen tulokset tai tuotokset viimeistään 18 kuukauden kuluttua siitä, kun käsittely on saatu päätökseen tai terveystietopyyntöön on saatu vastaus. Lisäksi sinun on ilmoitettava terveystietoihin pääsystä vastaavalle elimelle niiden vertaisarvioitujen tutkimusjulkaisujen, toimintapoliittisten asiakirjojen ja/tai sääntelymenettelyjen lukumäärä, jotka on toteutettu käyttämällä tämän hakemuksen kautta saatuja tietoja.",
         "projectName": {
             "label": "Projektin nimi"
         },
@@ -71,7 +86,7 @@
         },
         "summaryOfTheProject": {
             "label": "Hankkeen tiivistelmä",
-            "tooltip": "Esittäkää yleistajuisesti lyhyt (enintään 250 sanaa) yhteenveto hankkeen tavoitteista, käytettävistä tiedoista, menetelmistä ja odotettavissa olevien tulosten muodosta."
+            "tooltip": "Kirjoita vastauksesi maallikolle ymmärrettävässä muodossa."
         },
         "theNatureOfTheProjectDoesNotLetYouProvideASummary": {
             "label": "Hankkeen luonteesta ei ole mahdollista tehdä yhteenvetoa."
@@ -83,7 +98,7 @@
     },
     "section3": {
         "section3h5": "Hakijan ja yhteyshenkilön tiedot",
-        "section3Description": "Terveystietoihin pääsyä koskevassa hakemuksessa olisi mainittava hakijan, joko oikeushenkilön tai luonnollisen henkilön, nimi ja yhteystiedot. Mukaan olisi sisällytettävä myös tiedot yhteyshenkilöstä, joka vastaa kaikkiin hakemukseen liittyviin tiedusteluihin, olipa kyse samasta henkilöstä kuin hakijasta tai muusta henkilöstä. Jos yhteyshenkilö ei ole sama henkilö kuin hakija, hänen suhteensa, esimerkiksi työsopimuksen perusteella, olisi selvitettävä.",
+        "section3Description": "Terveystietoihin pääsyä koskevassa hakemuksessa on annettava hakijan, joko oikeushenkilön tai luonnollisen henkilön, nimi ja yhteystiedot. Mukaan on sisällytettävä myös tiedot yhteyshenkilöstä, joka vastaa kaikkiin hakemukseen liittyviin tiedusteluihin, olipa kyse samasta henkilöstä kuin hakijasta tai muusta henkilöstä. Jos yhteyshenkilö ei ole sama henkilö kuin hakija, hänen suhteensa, esimerkiksi työsopimuksen perusteella, tulee selventää.",
         "section3DescriptionRequest": "Tietopyyntöhakemuksessa olisi mainittava hakijan, joko oikeushenkilön tai luonnollisen henkilön, nimi ja yhteystiedot. Mukaan olisi sisällytettävä myös tiedot yhteyshenkilöstä, joka vastaa kaikkiin hakemukseen liittyviin tiedusteluihin, olipa kyseessä sama henkilö kuin hakija (jos kyseessä on luonnollinen henkilö kuin hakija) tai muu henkilö.\nJos yhteyshenkilö ei ole sama henkilö kuin hakija, hänen suhteensa, esimerkiksi työsopimuksen perusteella, olisi selvitettävä.",
         "applyingForDataOnBehalfOfPublicSector": {
             "label": "Haetko dataa julkisen sektorin elimen tai Euroopan unionin toimielimen, elimen tai laitoksen puolesta?"
@@ -94,7 +109,7 @@
         },
         "legalOrNaturalPerson": {
             "label": "Onko hakija oikeushenkilö vai luonnollinen henkilö?",
-            "tooltip": "Luonnollinen henkilö = luonnollinen henkilö, luonnollinen henkilö, oikeushenkilö = yritys, organisaatio tai yhdistys.",
+            "tooltip": "yksityishenkilö = luonnollinen henkilö, luonnollinen henkilö, oikeushenkilö = yritys, organisaatio tai yhdistys.",
             "items": [
                 {
                     "key": "a",
@@ -102,13 +117,13 @@
                 },
                 {
                     "key": "b",
-                    "value": "Luonnollinen henkilö ",
-                    "info": "(Jos valitset tämän vaihtoehdon, vahvistat, että haet tietoja yksityishenkilönä, jolla ei ole vakuutusta.)"
+                    "value": "yksityishenkilö"
                 }
-            ]
+            ],
+            "info": "(Jos valitset tämän vaihtoehdon, vahvistat, että haet tietoja yksityishenkilönä ilman yhteyttä mihinkään organisaatioon.)"
         },
         "legalPerson": "Oikeushenkilö",
-        "naturalPerson": "Luonnollinen henkilö",
+        "naturalPerson": "yksityishenkilö",
         "legalPersonName": {
             "label": "Koko nimi"
         },
@@ -142,15 +157,6 @@
         "contactPersonBusinessIdentifier": {
             "label": "Organisaation yritystunnus"
         },
-        "contactPersonOperatorIdentifier": {
-            "label": "Toiminnanharjoittajan tunniste"
-        },
-        "contactPersonJobTitle": {
-            "label": "Tehtävänimike"
-        },
-        "contactPersonAffiliation": {
-            "label": "Lähiyhtiö"
-        },
         "contactPersonRelationship": {
             "label": "Mikä on yhteyshenkilön ja hakijan välinen suhde? (Esim. työntekijä, joka hakee tietoja organisaationsa puolesta.)"
         },
@@ -183,7 +189,7 @@
         }
     },
     "section4": {
-        "section4h5": "Maksutiedot",
+        "section4h5": "Laskutustiedot",
         "section4Description": "Sen henkilön maksutiedot, jolle terveystietoihin pääsystä vastaava elin osoittaa tähän hakemukseen liittyvät laskut ja niihin liittyvän tietoluvan, jos se on myönnetty.",
         "sameAsContactPerson": {
             "label": "Sama kuin kohdassa 3 mainittu yhteyshenkilö?"
@@ -235,7 +241,7 @@
             "label": "PEPPOL-koodi (tarvittaessa)"
         },
         "isTheProjectFinanciallyCovered": {
-            "label": "Katetaanko hanke taloudellisesti?"
+            "label": "Onko hankkeella rahoitus?"
         },
         "rangeOfAmountOfFinancing": {
             "label": "Mikä on pyydettyjä tietoja käyttävän hankkeen rahoituksen suuruusluokka?",
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "Tietojen käytön tarkoitus",
-        "section5Description": "Hakijoiden on ilmoitettava tarkoitus, jota varten tietoja pyydetään, Euroopan parlamentin 17. joulukuuta hyväksymän eurooppalaista terveysdata-avaruutta koskevan asetuksen oikaisun 53 artiklan 1 kohdan mukaisesti.\nHakijoiden on selitettävä ja perusteltava, miksi pyydetyt tiedot ovat tarpeen niiden ilmoitettua käyttötarkoitusta varten. Hakijoita pyydetään myös toimittamaan tietoja hankkeen tavoitteesta. Sen jälkeen hakijoiden on käyttötarkoituksen (tutkimus tai muu kuin tutkimus) mukaan toimitettava tiivistelmä terveystietojen käyttösuunnitelmasta tai tutkimussuunnitelman käyttösuunnitelmasta sekä tiedot terveystietojen käytöstä tai tutkimuksesta vastaavasta henkilöstä.",
+        "section5Description": "Hakijoiden olisi ilmoitettava tarkoitus, jota varten tietoja haetaan, eurooppalaisesta terveysdata-avaruudesta 11 päivänä helmikuuta 2025 annetun Euroopan parlamentin ja neuvoston asetuksen (EU) 2025/327 53 artiklan 1 kohdan mukaisesti. Hakijoiden on selitettävä ja perusteltava, miksi pyydetyt tiedot ovat tarpeen niiden ilmoitettua käyttötarkoitusta varten. Hakijoita pyydetään myös toimittamaan tietoja hankkeen tavoitteesta. Sen jälkeen hakijan on käyttötarkoituksesta riippuen (tutkimus vai ei) toimitettava yhteenveto aineiston käyttösuunnitelmasta tai yhteenveto tutkimussuunnitelmasta sekä tiedot aineiston käytöstä tai tutkimuksesta vastaavasta henkilöstä.",
         "purposeOfUse": {
             "label": "Tietojen käytön tarkoitus. Terveystietoihin pääsystä vastaavat elimet saavat antaa pääsyn 51 artiklassa tarkoitettuihin sähköisiin terveystietoihin ainoastaan, jos hakijan suorittaman käsittelyn aiottu tarkoitus on jäljempänä lueteltujen tarkoitusten mukainen (53 artiklan 1 kohdan mukaisesti).",
             "tooltip": "Eurooppalaista terveysdata-avaruutta koskevan asetuksen tavoitteet.",
@@ -301,7 +307,7 @@
             ]
         },
         "whyTheDataIsNeeded": {
-            "label": "Miksi tietoja, joita haet, tarvitaan ilmoitettua käyttötarkoitusta varten? Selittäkää, miksi hakemasi datan määrä ja tyyppi ovat tarpeen tietojen käyttötarkoitusta varten."
+            "label": "Miksi tietoja, joita haet, tarvitaan ilmoitettua käyttötarkoitusta varten? Selitä, miksi hakemasi datan määrä ja tyyppi ovat tarpeen tietojen käyttötarkoitusta varten."
         },
         "whyAreTheDataRequested": {
             "label": "Miksi tällä sovelluksella pyydettyjä tietoja tarvitaan ilmoitettua käyttötarkoitusta varten?"
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Mikä on sähköisten terveystietojen käyttöön liittyvä odotettu hyöty ja miten tämä hyöty edistää 5.1 kohdassa mainittuja tarkoituksia?"
         },
+        "describeApplicantsQualification": {
+            "label": "Kuvailkaa hakijan pätevyyttä suhteessa tietojen käyttötarkoitukseen (tarkoitukseen) ja asianmukaista asiantuntemusta (myös ammattipätevyyttä)"
+        },
         "legalBasis": {
             "label": "Ilmoita oikeusperusta, esimerkiksi asiaa koskeva lainsäädäntö, jossa määritellään toimeksiantoonne kuuluvat tehtävät ja vahvistetaan, että suunnitellulla tietojen käytöllä on tarkoitus helpottaa tällaisia tehtäviä.",
             "tooltip": "Selittäkää, miksi hakemasi datan määrä on tarpeen tietojen käyttötarkoitusta varten. Perustele ja kuvailkaa, miten pyydettyjen tilastojen sisältö vastaa hakemuksessa ilmoitettua käyttötarkoitusta ja täyttää tietovaatimukset."
@@ -320,222 +329,16 @@
             "label": "Esittäkää linkki asiaa tukeviin asiakirjoihin todisteena oikeusperustasta"
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Antakaa yhteenveto tietojen käyttöä koskevasta suunnitelmasta. Tiivistelmä on laadittava jollakin EU:n virallisista kielistä."
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Valitse tiivistelmän kieli",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgaria"
-                },
-                {
-                    "key": "hr",
-                    "value": "Kroaatti"
-                },
-                {
-                    "key": "cs",
-                    "value": "Tšekki"
-                },
-                {
-                    "key": "da",
-                    "value": "Tanska"
-                },
-                {
-                    "key": "nl",
-                    "value": "Hollanti"
-                },
-                {
-                    "key": "en",
-                    "value": "Englanti"
-                },
-                {
-                    "key": "et",
-                    "value": "Viro"
-                },
-                {
-                    "key": "fi",
-                    "value": "Suomi"
-                },
-                {
-                    "key": "fr",
-                    "value": "Ranska"
-                },
-                {
-                    "key": "de",
-                    "value": "Saksa"
-                },
-                {
-                    "key": "el",
-                    "value": "Kreikka"
-                },
-                {
-                    "key": "hu",
-                    "value": "Unkari"
-                },
-                {
-                    "key": "ga",
-                    "value": "Iiri"
-                },
-                {
-                    "key": "it",
-                    "value": "Italia"
-                },
-                {
-                    "key": "lv",
-                    "value": "Latvia"
-                },
-                {
-                    "key": "lt",
-                    "value": "Liettua"
-                },
-                {
-                    "key": "mt",
-                    "value": "Malta"
-                },
-                {
-                    "key": "pl",
-                    "value": "Puola"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugali"
-                },
-                {
-                    "key": "ro",
-                    "value": "Romania"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovakki"
-                },
-                {
-                    "key": "sl",
-                    "value": "Sloveeni"
-                },
-                {
-                    "key": "es",
-                    "value": "Espanja"
-                },
-                {
-                    "key": "sv",
-                    "value": "Ruotsi"
-                }
-            ]
+            "label": "Antakaa yhteenveto tietojen käyttöä koskevasta suunnitelmasta. Tiivistelmä on laadittava jollakin EU:n virallisista kielistä.",
+            "tooltip": "Järjestelmä kääntää ladatut tiedostot automaattisesti. Hakija vastaa ladattujen tiedostojen laadusta, luettavuudesta ja muotoilusta."
         },
         "summaryOfResearchPlan": {
-            "label": "Esittäkää tiivistelmä tutkimussuunnitelmastasi. Tiivistelmä on laadittava jollakin EU:n virallisista kielistä."
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Valitse tiivistelmän kieli",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgaria"
-                },
-                {
-                    "key": "hr",
-                    "value": "Kroaatti"
-                },
-                {
-                    "key": "cs",
-                    "value": "Tšekki"
-                },
-                {
-                    "key": "da",
-                    "value": "Tanska"
-                },
-                {
-                    "key": "nl",
-                    "value": "Hollanti"
-                },
-                {
-                    "key": "en",
-                    "value": "Englanti"
-                },
-                {
-                    "key": "et",
-                    "value": "Viro"
-                },
-                {
-                    "key": "fi",
-                    "value": "Suomi"
-                },
-                {
-                    "key": "fr",
-                    "value": "Ranska"
-                },
-                {
-                    "key": "de",
-                    "value": "Saksa"
-                },
-                {
-                    "key": "el",
-                    "value": "Kreikka"
-                },
-                {
-                    "key": "hu",
-                    "value": "Unkari"
-                },
-                {
-                    "key": "ga",
-                    "value": "Iiri"
-                },
-                {
-                    "key": "it",
-                    "value": "Italia"
-                },
-                {
-                    "key": "lv",
-                    "value": "Latvia"
-                },
-                {
-                    "key": "lt",
-                    "value": "Liettua"
-                },
-                {
-                    "key": "mt",
-                    "value": "Malta"
-                },
-                {
-                    "key": "pl",
-                    "value": "Puola"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugali"
-                },
-                {
-                    "key": "ro",
-                    "value": "Romania"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovakki"
-                },
-                {
-                    "key": "sl",
-                    "value": "Sloveeni"
-                },
-                {
-                    "key": "es",
-                    "value": "Espanja"
-                },
-                {
-                    "key": "sv",
-                    "value": "Ruotsi"
-                }
-            ]
+            "label": "Esittäkää tiivistelmä tutkimussuunnitelmastasi. Tiivistelmä on laadittava jollakin EU:n virallisista kielistä.",
+            "tooltip": "Järjestelmä kääntää ladatut tiedostot automaattisesti. Hakija vastaa ladattujen tiedostojen laadusta, luettavuudesta ja muotoilusta."
         },
         "personResponsibleLabel": "Tietojen käytöstä vastaava henkilö",
         "personResponsibleName": {
             "label": "Koko nimi"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Tehtävänimike"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Lähiyhtiö"
         },
         "personResearchSameAsContactPerson": {
             "label": "Sama kuin kohdassa 3 mainittu yhteyshenkilö (hakijan ja yhteyshenkilön tiedot)?"
@@ -547,14 +350,8 @@
         "personResearchName": {
             "label": "Koko nimi"
         },
-        "personResearchJobTitle": {
-            "label": "Tehtävänimike"
-        },
-        "personResearchAffiliation": {
-            "label": "Lähiyhtiö"
-        },
         "formatOfTheElectronicHealthData": {
-            "label": "Valitse saataville asetettavien sähköisten terveystietojen muoto:",
+            "label": "Valitse haettujen sähköisten terveystietojen muoto: ",
             "items": [
                 {
                     "key": "a",
@@ -580,58 +377,58 @@
     "section6": {
         "section6h5": "Tarvittavien tietojen kuvaus",
         "section6Description": "Tässä osiossa on annettava kuvaus pyydetystä tietoaineistosta ja ilmoitettava selvästi, mitä tietoaineistoja hakemus koskee. EU:n yleisessä tietosuoja-asetuksessa (5 artiklan 1 c kohta) säädetyn tietojen minimoinnin periaatteen mukaisesti sinun pitäisi hakea vain sellaisia tietoja, jotka ovat asianmukaisia ja olennaisia ja jotka rajoittuvat käyttötarkoituksenne kannalta välttämättömään. Terveystietoihin pääsystä vastaava elin arvioi huolellisesti, ovatko vaatimukset yleisen tietosuoja-asetuksen tietojen minimoinnin periaatteen mukaisia.",
-        "descriptionSection6_1": "Kohortin uuttokriteerien määrittely:",
+        "descriptionSection6_1": "Kohdejoukon poimintakriteerien määrittely:",
         "descriptionOfTheDataNeeded": "Tarvittavien tietojen kuvaus:",
         "applicationHDABsForSelectedCountry": "Mille terveystietoihin pääsystä vastaavalle elimelle haluat toimittaa hakemuksen?",
-        "applicationDatasetsPerCountry": "Vastaava(t) tietue(t) ja jakelu",
+        "applicationDatasetsPerCountry": "Vastaava(t) tietue(et) ja jakelu",
         "informationProviderSameAsContactPerson": {
             "label": "Sama kuin kohdassa 3 mainittu yhteyshenkilö?"
         },
         "hdabContacts": {
-            "label": "Jos olet ollut yhteydessä terveystietoihin pääsystä vastaavan elimen henkilöön hakemiensa tietojen osalta, luetelkaa tämän henkilön nimet ja sähköpostiosoitteet."
+            "label": "Jos olet ollut yhteydessä terveystietoihin pääsystä vastaavan elimen työntekijöihin hakemiesi tietojen osalta, luettele näiden henkilöiden nimet ja sähköpostiosoitteet."
         },
         "howWillTheDataFromDifferentSourcesBeLinked": {
-            "label": "Miten yhden henkilön tiedot eri lähteistä yhdistetään? Esim. henkilötunnuksen perusteella. Jos käytetään jotakin muuta yhteysmenetelmää, kuvailkaa sitä tässä."
+            "label": "Miten yhden henkilön tiedot eri lähteistä yhdistetään? Esim. henkilötunnuksen perusteella. Jos käytetään jotakin muuta yhdistämistapaa, kuvaile se tässä."
         },
         "indicateTheSizeOfTheStudyCohort": {
-            "label": "Ilmoitetaan kohortin koko"
+            "label": "Ilmoita kohdejoukon koko"
         },
         "indicateTheSizeOfTheStudyCohortEstimationOrExact": {
             "label": "Kohortin koko (Radiopainikkeet)",
             "items": [
                 {
                     "key": "a",
-                    "value": "Tämä on arvio kohortin koosta."
+                    "value": "Tämä on arvio kohdejoukon koosta"
                 },
                 {
                     "key": "b",
-                    "value": "Tämä on kohortin tarkka koko."
+                    "value": "Tämä on kohdejoukon tarkka koko."
                 }
             ]
         },
         "howIsTheStudyCohortFormed": {
-            "label": "Miten kohortti muodostuu?",
+            "label": "Miten kohdejoukko muodostuu?",
             "items": [
                 {
                     "key": "a",
-                    "value": "Kohortti muodostetaan jäljempänä esitettyjen kriteerien perusteella."
+                    "value": "kohdejoukko muodostetaan jäljempänä esitettyjen kriteerien perusteella."
                 },
                 {
                     "key": "b",
-                    "value": "Kohortti on jo muodostettu."
+                    "value": "kohdejoukko on jo muodostettu."
                 },
                 {
                     "key": "c",
-                    "value": "Kohortti koostuu seuraavista kahdesta osasta: uusi kohortti, joka on muodostettu jäljempänä esitettyjen kriteerien perusteella, ja jo muodostettu kohortti."
+                    "value": "kohdejoukko koostuu seuraavista kahdesta osasta: uusi kohdejoukko, joka on muodostettu jäljempänä esitettyjen kriteerien perusteella, ja jo muodostettu kohdejoukko."
                 },
                 {
                     "key": "d",
-                    "value": "Kohortti on lomakkeen alussa ilmoitetun maan/maiden koko populaatio."
+                    "value": "kohdejoukko on lomakkeen alussa ilmoitetun maan/maiden koko populaatio."
                 }
             ]
         },
         "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants": {
-            "label": "Jos haluat käyttää omaan aiempaan tutkimukseensa perustuvaa kohorttia, onko kohortti muodostettu tutkimuksen osallistujien tietoon perustuvan suostumuksen perusteella? Esim. kyselytutkimuksen tai kliinisen tutkimuksen perusteella muodostettu kohortti, johon rekisteripohjaiset tiedot yhdistetään eurooppalaista terveysdata-avaruutta koskevan asetuksen mukaisesti."
+            "label": "Jos haluat käyttää omaan aiempaan tutkimukseensa perustuvaa kohdejoukkoa, onko kohdejoukko muodostettu tutkimuksen osallistujien tietoon perustuvan suostumuksen perusteella? Esim. kyselytutkimuksen tai kliinisen tutkimuksen perusteella muodostettu kohdejoukko, johon rekisteripohjaiset tiedot yhdistetään eurooppalaista terveysdata-avaruutta koskevan asetuksen mukaisesti."
         },
         "doesTheInformedConsentCoverTheRequestedRegistryExtractions": {
             "label": "Kattaako tietoon perustuva suostumus pyydetyt rekisteriotteet?"
@@ -639,11 +436,14 @@
         "consentAndInformationLetterAttachment": {
             "label": "Liittäkää mukaan tutkimuskohteille lähettämäsi suostumus ja ilmoitus. Älä liitä mukaan lomakkeita, jotka täytetään, koska ne sisältävät henkilötietoja."
         },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "Onko kohortti perustunut aiemmin myönnettyyn tietolupaan?"
+        },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Vahvistan, että tietolupa on myönnetty tätä tutkimushanketta varten."
         },
         "ifTheGroupHasBeenFormedBasedOnPreviousIssued": {
-            "label": "Jos kohortti on muodostettu aiemmin myönnetyn luvan perusteella, luetelkaa seuraavat tiedot:"
+            "label": "Jos kohdejoukko on muodostettu aiemmin myönnetyn luvan perusteella, luetelkaa seuraavat tiedot:"
         },
         "previouslyIssuedPermitIssuer1": {
             "label": "Lupapäätöksen antaja"
@@ -659,16 +459,16 @@
             "label": "Vastaanottaja:"
         },
         "previouslyIssuedPermitNumber1": {
-            "label": "Lisenssin numero"
+            "label": "Lupapäätöksen tunniste"
         },
         "permitDecisionAttachment": {
-            "label": "Liittäkää mukaan lupapäätös, joka kattaa kohorttitietojen poimimisen tässä jaksossa."
+            "label": "Liittäkää mukaan lupapäätös, joka kattaa kohdejoukkotietojen poimimisen tässä jaksossa."
         },
         "howTheStudyCohortWasObtained": {
-            "label": "Kuvailkaa, miten kohortti on saatu ja miksi tietolupaa tai -hyväksyntää ei ole."
+            "label": "Kuvailkaa, miten kohdejoukko on saatu ja miksi tietolupaa tai -hyväksyntää ei ole."
         },
         "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Oletko toimittanut tietoja tietojen käytöstä vastaaville tutkittaville? Esimerkiksi jakamalla tietoa datan käytöstä hankkeen verkkosivustolla.",
+            "label": "Oletko toimittanut tietoja tietojen käytöstä tutkittaville? Esimerkiksi jakamalla tietoa datan käytöstä hankkeen verkkosivustolla.",
             "tooltip": "Lisätietoja on yleisen tietosuoja-asetuksen 13 ja 14 artiklassa: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
             "tooltipForm": "Lisätietoja on <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\"> yleisen tietosuoja-asetuksen 13 ja 14 artiklassa."
         },
@@ -679,7 +479,7 @@
             "label": "Miksi ei?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
-            "label": "Kuka toimittaa kohorttia koskevat tiedot terveystietoihin pääsystä vastaavalle elimelle? Tämä henkilö saa ohjeet siitä, miten tiedot toimitetaan yhteisen eurooppalaisen terveysdata-avaruuden portaalin kautta."
+            "label": "Kuka toimittaa kohdejoukkoa koskevat tiedot terveystietoihin pääsystä vastaavalle elimelle? Tämä henkilö saa ohjeet siitä, miten tiedot toimitetaan yhteisen eurooppalaisen terveysdata-avaruuden portaalin kautta."
         },
         "informationProviderName": {
             "label": "Koko nimi"
@@ -692,26 +492,26 @@
         },
         "whyNeedDataOfaWholePopulation": {
             "label": "Perustelkaa, miksi tarvitset tietoja koko väestöstä/kokonaisista populaatioista?",
-            "tooltip": "Varmistettava, että kohortin muodostuminen määritellään riittävän selkeästi ja rajataan kohortin koko aiotun käyttötarkoituksen mukaan. Kiinnitettävä erityistä huomiota siihen, mistä kohortin rekisteristä kohortti on poimittu, sekä kohortin sisällyttämisen ja poissulkemisen perusteista. Maantieteellisellä määritelmällä voidaan esimerkiksi tarkoittaa asuinpaikkaa, syntymäpaikkaa, työskentelypaikkaa tai paikkaa, jossa palveluja käytetään."
+            "tooltip": "Varmistettava, että kohortin muodostuminen määritellään riittävän selkeästi ja rajataan kohortin koko aiotun käyttötarkoituksen mukaan. Kiinnitettävä erityistä huomiota siihen, mistä kohortin rekisteristä kohdejoukko on poimittu, sekä kohortin sisällyttämisen ja poissulkemisen perusteista. Maantieteellisellä määritelmällä voidaan esimerkiksi tarkoittaa asuinpaikkaa, syntymäpaikkaa, työskentelypaikkaa tai paikkaa, jossa palveluja käytetään."
         },
         "sizeOfTheStudyCohort": {
-            "label": "Ilmoitetaan kohortin koko"
+            "label": "Ilmoita kohdejoukon koko"
         },
         "sizeOfTheStudyCohortEstimationOrExact": {
             "label": "Kohortin koko (Radiopainikkeet)",
             "items": [
                 {
                     "key": "a",
-                    "value": "Tämä on arvio kohortin koosta."
+                    "value": "Tämä on arvio kohdejoukon koosta"
                 },
                 {
                     "key": "b",
-                    "value": "Tämä on kohortin tarkka koko."
+                    "value": "Tämä on kohdejoukon tarkka koko."
                 }
             ]
         },
         "whyNeedStudyCohortOfThisSize": {
-            "label": "Miksi hanke edellyttää tämän kokoista kohorttia?"
+            "label": "Miksi hankkessa tarvitaan tämän kokoista kohdejoukkoa?"
         },
         "ethicalReview": "Eettinen arviointi – poliittinen yksikkö toimittaa tekstin",
         "ethicalReviewDescription": "Eettinen arviointi",
@@ -726,13 +526,13 @@
         "whichDatabasesDataExtracted": "Mistä tietokannoista/rekistereistä tiedot poimitaan?",
         "whichDatasetDataExtracted": "Mistä tietueista/rekistereistä tiedot poimitaan?",
         "variablesToBeUsedInDataExtractionAttachment": {
-            "label": "Jos tiedot ovat saatavilla, liittäkää mukaan luettelo tietojen poiminnassa käytettävistä muuttujista. Käytä tarkkoja termejä, jotka asianomaiset datan haltijat ovat ilmoittaneet metatietoluettelossa."
+            "label": "Jos tiedot ovat saatavilla, liitä mukaan luettelo tietojen poiminnassa käytettävistä muuttujista. Käytä tarkkoja termejä, jotka asianomaiset datan haltijat ovat ilmoittaneet metatietoluettelossa."
         },
         "timePeriodOfDataExtraction": {
             "label": "Miltä ajanjakso(i)lta tietoaineistot poimitaan?"
         },
         "extractionMethod": {
-            "label": "Uuttamismenetelmä:",
+            "label": "Poimintatapa:",
             "items": [
                 {
                     "key": "a",
@@ -756,21 +556,21 @@
             "tooltip": "Vastauksia voivat olla esimerkiksi seuraavat: 100000 henkilöä eli 50 prosenttia arviointiperusteet täyttävistä henkilöistä."
         },
         "inclusionCriteria": {
-            "label": "Kuvailkaa kohortin louhintaan sovellettavia sisällyttämisperusteita ",
+            "label": "Kuvaile kohdejoukon poimintakriteerit",
             "tooltip": "Muista selventää tässä kaikki sisällyttämisperusteet, jotka voivat olla monitulkintaisia. Jos haluat esimerkiksi sisällyttää järjestelmään tietyn ikäisiä rekisteröityjä, selitä, minkä muuttujan perusteella ikä olisi laskettava ja milloin."
         },
         "potentialExclusionCriteria": {
-            "label": "Kuvailkaa kohortin louhinnan mahdollisia poissulkemisperusteita"
+            "label": "Kuvaile kohdejoukon poiminnan mahdolliset poissulkukriteerit"
         },
         "tabulationPlanArray": {
             "label": "Taulukkosuunnitelmaryhmä",
-            "tooltip": "Lisäksi merkitään kunkin taulukon osalta seuraavat tiedot: ● käytettävä ● mahdollinen kohortti ● tiedot vaadituista muuttujista (jos saatavilla) ● sellaisten muuttujien muodostuminen, joista niitä ei voida suoraan saada tietokannasta ● prosenttiosuuksien koontisuunta ● ● jossa taulukoita tuotetaan, kun on luotu muita taulukoita ● mitä tahansa muuta merkityksellistä tekijää, joka liittyy vaadittujen taulukoiden tuottamiseen"
+            "tooltip": "Lisäksi merkitään kunkin taulukon osalta seuraavat tiedot: ● käytettävä ● mahdollinen kohdejoukko ● tiedot vaadituista muuttujista (jos saatavilla) ● sellaisten muuttujien muodostuminen, joista niitä ei voida suoraan saada tietokannasta ● prosenttiosuuksien koontisuunta ● ● jossa taulukoita tuotetaan, kun on luotu muita taulukoita ● mitä tahansa muuta merkityksellistä tekijää, joka liittyy vaadittujen taulukoiden tuottamiseen"
         },
         "tabulationRegisteredToBeUsed": {
             "label": "Käytettävä rekisteri"
         },
         "tabulationPossibleStudyCohort": {
-            "label": "Mahdollinen kohortti"
+            "label": "Mahdollinen kohdejoukko"
         },
         "tabulationInformationOfRequiredVariables": {
             "label": "Tiedot vaadituista muuttujista (jos saatavilla)"
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "Kuinka usein tiedot on poimittava?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Aiotteko soveltaa poikkeusta opt-out-oikeuteen sen jäsenvaltion kansallisessa lainsäädännössä säädetyn mekanismin mukaisesti, jonka tietoja haet?",
+            "tooltip": "EHDS artikkeli 71(4) ”Edellä 1 kohdassa säädetystä kielto-oikeudesta poiketen, jäsenvaltiot voivat säätää kansallisessa lainsäädännössään mekanismista sellaisten tietojen asettamiseksi saataville, joiden osalta on käytetty 1 kohdassa tarkoitettua kielto-oikeutta, jos kaikki seuraavat edellytykset täyttyvät: (katso artikla täydet ehdot)”"
+        },
+        "providedJustificationException": {
+            "label": "Esittäkää perustelut tälle poikkeukselle."
+        },
         "needForDataExtractionEvery": {
             "label": "Tiedot on poimittava",
             "tooltip": "Jos haluat, että tiedot poimitaan useita kertoja tietyn ajanjakson aikana, on syytä huomata, että määritelmät ja tiedonkeruumenetelmä voivat joissakin tapauksissa muuttua uudelleentarkastelujakson aikana. Huomaa, että tietojen poiminnan enimmäistiheys on neljännesvuosittain."
@@ -816,33 +623,30 @@
             "tooltip": "Jos haluat, että tiedot poimitaan useita kertoja tietyn ajanjakson aikana, on syytä huomata, että määritelmät ja tiedonkeruumenetelmä voivat joissakin tapauksissa muuttua uudelleentarkastelujakson aikana."
         },
         "needForDataExtractionEveryDescription": {
-            "label": "Anna lisätietoja kohorttien poimintajaksoista/-ajoista",
+            "label": "Anna lisätietoja kohdejoukkoen poimintajaksoista/-ajoista",
             "tooltip": "Jos haluat, että tiedot poimitaan useita kertoja tietyn ajanjakson aikana, on syytä huomata, että määritelmät ja tiedonkeruumenetelmä voivat joissakin tapauksissa muuttua uudelleentarkastelujakson aikana."
         },
         "whatIsTheFrequencyOfUpdates": {
             "label": "Kuinka usein tietoja on päivitettävä?"
         },
         "orderForDataExtraction": {
-            "label": "Jos se vaikuttaa tietojen poiminnan tuloksiin, missä järjestyksessä kohorttitiedot poimitaan? Antakaa numeroitu luettelo uuttovaiheista. Esimerkiksi: 1. Datan haltija A; 2. Datan haltija B; 3. Datan haltija C"
+            "label": "Jos se vaikuttaa tietojen poiminnan tuloksiin, missä järjestyksessä kohdejoukon tiedot poimitaan? Antakaa numeroitu luettelo poimintavaiheista. Esimerkiksi: 1. Datan haltija A; 2. Datan haltija B; 3. Datan haltija C"
         },
-        "definingExtractionCriteria": "Kontrollien poimintakriteerien määrittely:",
+        "definingExtractionCriteria": "Verrokkien poimintakriteerien määrittely:",
         "willControlsBeExtracted": {
-            "label": "Poimitaanko kohortin valvontaa?"
+            "label": "Poimitaanko kohdejoukolle verrokeita?"
         },
         "hasTheGroupRelativesFormed2": {
-            "label": "Onko kontrolliryhmä muodostettu aiemmin myönnetyn luvan perusteella?"
+            "label": "Onko verrokit muodostettu aiemmin myönnetyn luvan nojalla?"
         },
         "willSameDataBeExtractedForControls": {
             "label": "Poimitaanko tarkastuksia varten samat tiedot kuin kohortin osalta?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Jos ette hae tietoja tarkastuksia varten koko maasta, mistä alueista ja/tai kaupungeista/kaupungeista ja/tai kunnista/kunnista haetaan tietoja?"
-        },
         "fromWhichDataHolderLabel": "Mistä datan haltijasta tai haltijoista tiedot poimitaan valvontaa varten?",
         "fromWhichDatabaseLabel": "Mistä tietokannoista/rekistereistä valvontatiedot poimitaan?",
         "fromWhichDatasetLabel": "Mistä tietueista/rekistereistä valvontatiedot poimitaan?",
-        "variablesForDataExtraction": {
-            "label": "Jos tiedot ovat saatavilla, luetelkaa tietojen poiminnassa käytettävät muuttujat. Käytä tarkkoja termejä, jotka asianomaiset datan haltijat ovat ilmoittaneet metatietoluettelossa."
+        "variablesForDataExtractionAttachments": {
+            "label": "Jos tiedot ovat saatavilla, liittäkää mukaan luettelo tietojen poiminnassa käytettävistä muuttujista. Käytä tarkkoja termejä, jotka asianomaiset datan haltijat ovat ilmoittaneet metatietoluettelossa."
         },
         "timePeriodForDataExtraction": {
             "label": "Miltä ajanjakso(i)lta tietoaineistoa poimitaan?"
@@ -851,29 +655,29 @@
             "label": "Täsmennetään kontrollien poimintakriteerit, esim. vastaavuuskriteerit."
         },
         "sizeOfControlGroup": {
-            "label": "Kontrolliryhmän koko"
+            "label": "Ilmoita verrokkijoukon koko"
         },
         "sizeOfControlGroupEstimationOrExact": {
-            "label": "Kontrolliryhmän koko (Radio-painat)",
+            "label": "Ilmoita verrokkijoukon koko (Radio-painat)",
             "items": [
                 {
                     "key": "a",
-                    "value": "Tämä on arvio kontrolliryhmän koosta."
+                    "value": "Tämä on arvio verrokkijoukon koosta."
                 },
                 {
                     "key": "b",
-                    "value": "Tämä on kontrolliryhmän tarkka koko."
+                    "value": "Tämä on verrokkijoukon tarkka koko."
                 }
             ]
         },
         "controlsPerPersonInStudyCohort": {
-            "label": "Kuinka monta kontrollia kohorttiin kuuluvaa henkilöä kohti poimitaan?"
+            "label": "Kuinka monta verrokkia kohdejoukkoon kuuluvaa henkilöä kohti poimitaan?"
         },
         "inclusionCriteriaForControls": {
             "label": "Kuvailkaa valvonnan ottoa koskevia sisällyttämisperusteita"
         },
         "exclusionCriteriaForControls": {
-            "label": "Kuvailkaa mahdollisia poissulkemisperusteita kontrolleja varten"
+            "label": "Kuvaile verrokkijoukon poiminnan mahdolliset poissulkukriteerit"
         },
         "ifTheGroupHasBeenFormed": "Jos kontrolliryhmä on muodostettu aiemmin myönnetyn luvan perusteella, luetelkaa tässä seuraavat tiedot:",
         "previouslyIssuedPermitIssuer2": {
@@ -890,14 +694,14 @@
             "label": "Vastaanottaja:"
         },
         "previouslyIssuedPermitNumber2": {
-            "label": "Lisenssin numero"
+            "label": "Lupapäätöksen tunniste"
         },
-        "dataExtractionAndOrderForControls": " Tietojen poiminta-ajat ja tarkastusten järjestys",
+        "dataExtractionAndOrderForControls": "Tietojen poiminta-ajat ja tarkastusten järjestys",
         "willDataForControlsBeExtractedSimultaneously": {
-            "label": "Poimitaanko valvontatiedot samaan aikaan ja samassa järjestyksessä kuin kohortin tiedot?"
+            "label": "Poimitaanko verrokkijoukolle aineisto samaan aikaan ja samassa järjestyksessä kuin kohdejoukon aineisto?"
         },
         "hasTheGroupRelativesFormed3": {
-            "label": "Onko sukulaisten ryhmä muodostettu aiemmin myönnetyn luvan perusteella?"
+            "label": "Onko sukulaisjoukko muodostettu aiemmin myönnetyn luvan perusteella?"
         },
         "ifTheGroupOfRelativesHasBeenFormed": {
             "label": "Jos sukulaisten ryhmä on muodostettu aiemmin myönnetyn luvan perusteella, luetelkaa tässä seuraavat tiedot:"
@@ -916,7 +720,7 @@
             "label": "Vastaanottaja:"
         },
         "previouslyIssuedPermitNumber3": {
-            "label": "Lisenssin numero"
+            "label": "Lupapäätöksen tunniste"
         },
         "dataExtractionFrequency": {
             "label": "Kuinka usein tiedot on poimittava?"
@@ -937,9 +741,9 @@
         "orderOfControlsDataExtraction": {
             "label": "Jos se vaikuttaa tietojen poiminnan tuloksiin, missä järjestyksessä tarkastusten tiedot poimitaan? Antakaa numeroitu luettelo uuttovaiheista. Esimerkiksi: 1. Datan haltija A; 2. Datan haltija B; 3. Datan haltija C"
         },
-        "definingTheExtractionCriteria": "Sukulaisia koskevien uuttokriteerien määrittely:",
+        "definingTheExtractionCriteria": "Sukulaisia koskevien poimintakriteerien määrittely:",
         "willRelativesBeExtracted": {
-            "label": "Uutetaanko kohortin sukulaisia kohorttia varten?"
+            "label": "Poimitaanko kohdejoukolle sukulaisia?"
         },
         "willSameDataBeExtractedForRelatives": {
             "label": "Poimitaanko samat tiedot kuin kohortin osalta sukulaisten osalta?"
@@ -947,14 +751,14 @@
         "whichDataHoldersForRelatives": "Mistä datan haltijasta tai haltijoista sukulaisia koskevat tiedot poimitaan?",
         "whichDatabaseForRelatives": "Mistä tietokannoista/rekistereistä/rekistereistä sukulaisia koskevat tiedot poimitaan?",
         "whichDatasetsForRelatives": "Mistä tietueista/rekistereistä sukulaisia koskevat tiedot poimitaan?",
-        "variablesForDataExtractionRelatives": {
-            "label": "Jos tiedot ovat saatavilla, luetelkaa tietojen poiminnassa käytettävät muuttujat. Käytä tarkkoja termejä, jotka asianomaiset datan haltijat ovat ilmoittaneet metatietoluettelossa."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "Jos tiedot ovat saatavilla, liittäkää mukaan luettelo tietojen poiminnassa käytettävistä muuttujista. Käytä tarkkoja termejä, jotka asianomaiset datan haltijat ovat ilmoittaneet metatietoluettelossa."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "Miltä ajanjakso(i)lta tietoaineistoa poimitaan?"
         },
         "relationshipToStudyCohort": {
-            "label": "Määritellään sukulaisten suhde kohorttiin kuuluvaan henkilöön (esim. isovanhemmat, biologiset vanhemmat, äiti)"
+            "label": "Määritellään sukulaisten suhde kohdejoukkoin kuuluvaan henkilöön (esim. isovanhemmat, biologiset vanhemmat, äiti)"
         },
         "sizeOfRelativesGroup": {
             "label": "Sukulaisten ryhmän koko"
@@ -1001,12 +805,12 @@
     },
     "section7": {
         "section7h5": "Muut koottavat tiedot",
-        "section7Description": "Muita henkilötietoja, kuten hallussanne jo olevia tietoja tai muualta saatuja tietoja, voidaan yhdistää toiseen lupaan tämän hakemuksen yhteydessä haettuihin tietoihin. Luetelkaa tiedot kaikista lisätiedoista, jotka yhdistetään terveystietoihin pääsystä vastaavan elimen valtuuttamiin tietoihin. Jos haluat myöhemmin yhdistää muita henkilötietoja terveystietoihin pääsystä vastaavan elimen hyväksymiin tietoihin, sinun on toimitettava muutoshakemus samalle terveystietoihin pääsystä vastaavalle elimelle. Jos sinulla on jokin muu kohortti, jonka haluat yhdistää terveystietoihin pääsystä vastaavan elimen hakemiin tietoihin, saat ohjeet siitä, miten tiedot toimitetaan turvallisesti luvan myöntämisen jälkeen.",
+        "section7Description": "Muita henkilötietoja, kuten hallussanne jo olevia tietoja tai muualta saatuja tietoja, voidaan yhdistää tällä hakemuksella haettuihin tietoihin. Luettele tiedot kaikista sellaisista aineistoista, jotka yhdistetään terveystietoihin pääsystä vastaavan elimen luvittamiin tietoihin. Jos haluat myöhemmin yhdistää muita henkilötietoja terveystietoihin pääsystä vastaavan elimen luvittamiin tietoihin, sinun on toimitettava muutoshakemus samalle terveystietoihin pääsystä vastaavalle elimelle. Jos sinulla on jokin muu kohdejoukko, jonka haluat yhdistää terveystietoihin pääsystä vastaavan elimen luvittamiin tietoihin, saat ohjeet siitä, miten tiedot toimitetaan turvallisesti luvan myöntämisen jälkeen.",
         "addDataPermit": "Lisää tietolupa",
         "addInfo": "Lisää tietoa",
         "removeDataPermit": "Poista tietolupa",
         "willDataBeCombinedWithDataObtained": {
-            "label": "Yhdistetäänkö hakemasi tiedot jo saatuihin tietoihin vai muista lähteistä haettuihin tietoihin?"
+            "label": "Yhdistetäänkö hakemasi tiedot jo aiemmin saamiisi aineistoihin tai muista lähteistä haettaviin tietoihin?"
         },
         "listOtherDataToBeCompined": "Luetelkaa muut yhdistettävät tiedot ja näiden tietojen lähteet:",
         "combinedCountries": {
@@ -1022,8 +826,8 @@
             "label": "Tietoaineistot/rekisterit"
         },
         "provideInformationList": {
-            "label": "Anna tiedot yhdistettävistä tiedoista ja suunnitellusta yhdistelmämenetelmästä",
-            "tooltip": "Antakaa soveltuvin osin seuraavat tiedot: tietokokonaisuus, tiedostojen numero, tiedostojen muoto, tiedostojen koko, erityishuomautukset (onko niissä suoria/välillisiä tunnisteita, tiedot olisi pseudonymisoitava jne.)"
+            "label": "Anna tiedot yhdistettävistä tiedoista ja suunnitellusta yhdistämistavasta",
+            "tooltip": "Antakaa soveltuvin osin seuraavat tiedot: tietoaineisto, tiedostojen määrä, tiedostomuoto, tiedostojen koko, erityishuomautukset (onko niissä suoria/välillisiä tunnisteita, tiedot olisi pseudonymisoitava jne.)"
         },
         "dataset": {
             "label": "Data-aineisto"
@@ -1042,7 +846,7 @@
         },
         "listAnyOtherDataPermit": "Luetelkaa kaikki muut samaa hanketta varten myönnetyt tietoluvat. Lupien on oltava voimassa, kun tietoja käsitellään:",
         "otherPermits": {
-            "label": "Muut oleskeluluvat: Luvan myöntäjä, myöntämispäivä, voimassaolon päättymispäivä, tunnistetiedot"
+            "label": "Muut luvat: Luvan myöntäjä, myöntämispäivä, voimassaolon päättymispäivä, luvan tunnistetiedot"
         },
         "permitIssuer": {
             "label": "Luvan myöntäjä"
@@ -1057,12 +861,11 @@
             "label": "Luvan tunnistetiedot"
         },
         "attachmentOfPermitDocuments": {
-            "label": "Jos tietoaineistoa koskevat tietueet sisältävät muiden osapuolten myöntämiä lupia tai ne on kerätty luvalla, liittäkää lupa-asiakirjat tähän."
+            "label": "Jos tietoaineistoa koskien on olemassa muiden osapuolten myöntämiä lupia tai ne on kerätty suostumuksella, liittäkää lupa-asiakirjat tähän."
         },
         "otherPermitApplications": {
             "label": "Onko sinulla muita vireillä olevia lupahakemuksia?"
         },
-        "listTheOtherData": "Luetelkaa muut yhdistettävät tiedot ja näiden tietojen lähteet:",
         "applicationIssuer": {
             "label": "Liikkeeseenlaskija"
         },
@@ -1075,19 +878,19 @@
     },
     "section8": {
         "section8h5": "Tietojen käsittely, tietosuoja ja suojatoimet tietojen luvattoman käytön estämiseksi",
-        "section8Description": "Eurooppalaista terveysdata-avaruutta koskevan asetusehdotuksen 73 artiklan 1 kohdan mukaan terveystietoihin pääsystä vastaavat elimet antavat pääsyn sähköisiin terveystietoihin ainoastaan suojatun käsittely-ympäristön kautta.",
+        "section8Description": "Eurooppalaista terveysdata-avaruutta koskevan asetusehdotuksen 73 artiklan 1 kohdan mukaan terveystietoihin pääsystä vastaavat elimet antavat pääsyn sähköisiin terveystietoihin ainoastaan turvatun käsittely-ympäristön kautta.",
         "addPerson": "Lisää henkilö",
         "removePerson": "Poista henkilö",
         "technicalRequirementsForEnvironment": {
-            "label": "Luetelkaa kaikki turvallista käsittely-ympäristöä koskevat tekniset vaatimukset."
+            "label": "Luetelkaa kaikki turvattua käsittely-ympäristöä koskevat tekniset vaatimukset."
         },
         "nameWebsiteAddressForEnvironment": {
-            "label": "Jos tiedät jo, mitä käsittely-ympäristöä haluat käyttää, mikä on sen nimi ja kuka sen tarjoaa? Ilmoita tässä suojatun käsittely-ympäristön nimi ja tarjoaja."
+            "label": "Jos tiedät jo, mitä käsittely-ympäristöä haluat käyttää, mikä on sen nimi ja kuka sen tarjoaa? Ilmoita tässä turvatun käsittely-ympäristön nimi ja tarjoaja."
         },
         "healthDataAccessBody": "Terveystietoihin pääsystä vastaava elin toimittaa tiedot hakemuksen käsittelyn jälkeen, jos sinulla on tietolupa. Terveystietoihin pääsystä vastaava elin säilyttää pseudonymisointiavaimen sekä datan tuottamisessa käytetyt kopiointitermit ja -asiakirjat. Tietolupa myönnetään ainoastaan sen ajan, joka on tarpeen pyydettyjen tarkoitusten täyttämiseksi. Lupa voidaan myöntää enintään kymmeneksi vuodeksi. Kestoa voidaan pidentää kerran datan käyttäjän pyynnöstä pidennyksen perustelevien perustelujen ja asiakirjojen perusteella (eurooppalaista terveysdata-avaruutta koskevan asetusehdotuksen 68 artiklan 12 kohta). Käyttöaikaa voidaan tarvittaessa pidentää hakemalla tietoluvan muuttamista.",
         "whenDataNeeded": {
             "label": "Milloin tarvitset tietoja?",
-            "tooltip": "Yleensä terveystietoihin pääsystä vastaava elin pyytää tietojen poimimista datan haltijoilta heti, kun hakemuksesi on käsitelty. Jos haluat saada tiedot myöhemmin, ilmoita ne tässä.",
+            "tooltip": "Yleensä terveystietoihin pääsystä vastaava elin pyytää tietojen poimimista datan haltijoilta heti, kun hakemuksesi on käsitelty. Jos haluat saada tiedot myöhemmin, ilmoita se tässä.",
             "items": [
                 {
                     "key": "a",
@@ -1118,7 +921,7 @@
         "estimatedEndDatesForDataProcessing": {
             "label": "Vastaanottaja:"
         },
-        "ifStoreNeeded": "Jos tietoja on tallennettava käsittelyn jälkeen, ilmoita, kuinka kauan tietoja ei ole tallennettu.",
+        "ifStoreNeeded": "Jos tietoja on säilytettävä käsittelyn jälkeen, ilmoita kuinka kauan tietoja tulee säilyttää.",
         "startPeriodOfInactiveDataStorage": {
             "label": "Alkaen"
         },
@@ -1360,6 +1163,13 @@
             "label": "Miten noudatat tietojen minimoinnin periaatetta (EU:n tietosuoja-asetus) tietojen käsittelyssä? ",
             "tooltip": "EU:n tietosuoja-asetuksen 4 artiklan 1 c kohta: ”Henkilötietojen on oltava riittäviä ja olennaisia ja rajoituttava siihen, mikä on tarpeen niiden tarkoitusten kannalta, joita varten niitä käsitellään (”tietojen minimointi”)”"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Aiotteko soveltaa poikkeusta opt-out-oikeuteen sen jäsenvaltion kansallisessa lainsäädännössä säädetyn mekanismin mukaisesti, jonka tietoja haet?",
+            "tooltip": "EHDS artikkeli 71(4) ”Edellä 1 kohdassa säädetystä kielto-oikeudesta poiketen, jäsenvaltiot voivat säätää kansallisessa lainsäädännössään mekanismista sellaisten tietojen asettamiseksi saataville, joiden osalta on käytetty 1 kohdassa tarkoitettua kielto-oikeutta, jos kaikki seuraavat edellytykset täyttyvät: (katso artikla täydet ehdot)”"
+        },
+        "providedJustificationException": {
+            "label": "Esittäkää perustelut tälle poikkeukselle."
+        },
         "protectionAndSecurityStatements": {
             "label": "Hakemuksen käsittelyä varten sinun on vahvistettava seuraavat lausumat (tietosuojaan ja turvallisuuteen liittyvät lausumat):"
         },
@@ -1367,13 +1177,13 @@
             "label": "1. Vahvistan, että jos terveystietoihin pääsystä vastaava elin myöntää minulle hakemani tiedot, käytän niitä ainoastaan tässä hakulomakkeessa ilmoitettuihin tarkoituksiin."
         },
         "protectionAndSecurityStatementsB": {
-            "label": "2. Ymmärrän, että tietojen kopiointi suojatusta käsittely-ympäristöstä on kielletty."
+            "label": "2. Ymmärrän, että tietojen kopiointi turvatusta käsittely-ympäristöstä on kiellettyä."
         },
         "protectionAndSecurityStatementsC": {
-            "label": "3. Ymmärrän, että kuvakaappausten tai valokuvien ottaminen laitteen kuvaruudusta sen jälkeen, kun ne ovat suojatussa käsittely-ympäristössä, on kielletty."
+            "label": "3. Ymmärrän, että kuvakaappausten tai valokuvien ottaminen laitteen ruudusta turvatussa käsittely-ympäristössä on kiellettyä."
         },
         "protectionAndSecurityStatementsD": {
-            "label": "4. Minulla on käytössään riittävät turvatoimenpiteet (kuten palomuuri), joilla suojataan eri verkkoja, joihin turvalliseen käsittely-ympäristöön johtavat laitteet on liitetty."
+            "label": "4. Minulla on käytössäni riittävät turvatoimenpiteet (kuten palomuuri), joilla suojataan eri verkkoja, joihin turvattuun käsittely-ympäristöön yhdistetyt laitteet on liitetty."
         },
         "protectionAndSecurityStatementsE": {
             "label": "5. Ymmärrän, että uudelleentunnistamisyritykset ovat kiellettyjä ja että terveystietoihin pääsystä vastaava elin voi määrätä seuraamuksia eurooppalaisesta terveysdata-asetuksesta annetun asetuksen 43 artiklan mukaisesti."
@@ -1383,13 +1193,10 @@
             "label": "Sama kuin kohdassa 3 mainittu yhteyshenkilö?"
         },
         "listTheFullNames": {
-            "label": "Luetelkaa kaikkien tietoja käsittelevien henkilöiden täydelliset nimet, jäsenyydet ja sähköpostiosoitteet."
+            "label": "Luetelkaa kaikkien tietoja käsittelevien henkilöiden täydelliset nimet ja sähköpostiosoitteet."
         },
         "fullName": {
             "label": "Täydellinen nimi"
-        },
-        "affiliation": {
-            "label": "Lähiyhtiö"
         },
         "emailAddress": {
             "label": "Sähköpostiosoite"
@@ -1483,10 +1290,10 @@
     },
     "section9": {
         "section9h5": "Lisätiedot",
-        "section9Description": "Tässä voit antaa lisätietoja mistä tahansa hakemuksen osiosta. Ilmoittakaa osion numero ja kysymys, johon kommenttisi liittyy.",
+        "section9Description": "Tässä voit antaa lisätietoja mistä tahansa hakemuksen osiosta. Ilmoita osion numero ja kysymys, johon kommenttisi liittyy. ",
         "additionalInformation": {
             "label": "Lisätietoja tai lisähuomautuksia",
-            "tooltip": "Tässä voit antaa lisätietoja mistä tahansa hakemuksen osiosta. Ilmoittakaa osion numero ja kysymys, johon kommenttisi liittyy. Teknistä toteutusta koskeva ehdotus: Vaihtoehtoisesti hakijalle voitaisiin antaa mahdollisuus linkittää tietoja lomakkeen tiettyihin osiin, jotta helpotettaisiin kuumavalssattujen levyvalmisteiden työntekoa."
+            "tooltip": "Tässä voit antaa lisätietoja mistä tahansa hakemuksen osiosta. Ilmoita osion numero ja kysymys, johon kommenttisi liittyy. "
         },
         "additionalAttachment": {
             "label": "Lisäliite. Älä liitä tähän sovellukseen terveys- tai henkilötietoja.",
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Tietojen vahvistaminen",
-        "section10Description": "Ennen hakemuksen käsittelyä hakijan on hyväksyttävä käsittelymaksut.",
+        "section10Description": "Ennen hakemuksen käsittelyä hakijan on hyväksyttävä käsittelymaksut. Lisätään tietoja tietojen poiminnan hinnoista ja enimmäishinta-arviosta, kun ne ovat saatavilla.",
         "submitYouApplicationText": "Hakemuksen jättäminen edellyttää seuraavien seikkojen vahvistamista:",
         "acceptHealthDataBody": {
             "label": "Hyväksyn sen, että terveystiedoista vastaava elin kokoaa tilastot, eikä minulla ole pääsyä tilastojen laatimisessa käytettyihin tietoihin."
@@ -1507,7 +1314,7 @@
             "label": "Olen tietoinen siitä, että datan haltijat voivat periä maksun."
         },
         "awareInformationCorrect": {
-            "label": "Vahvistan, että antamani tiedot ovat oikeita."
+            "label": "Vahvistan, että antamani tiedot ovat oikein."
         }
     },
     "commonFields": {

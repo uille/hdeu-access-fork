@@ -40,12 +40,14 @@ import io.vertx.ext.web.RoutingContext;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AdministrationTasksManager extends AbstractManager{
 
+  public static final String DISPATCHER_RECORD_WITH_ID = "Dispatcher record with id: ";
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   private final MongoClient mongoClient;
@@ -67,11 +69,11 @@ public class AdministrationTasksManager extends AbstractManager{
           log.error(
             DISPATCHER_COLLECTION + " Dispatcher record with id: {} not found", applicationId);
           setUpMessageContextResponse(context, HttpResponseStatus.NOT_FOUND,
-            "Dispatcher record with id: " + applicationId + " not found");
+            DISPATCHER_RECORD_WITH_ID + applicationId + " not found");
         } else {
           JsonObject configuration = result.getJsonObject("configuration");
           String status = configuration.getString("status");
-          if(StringUtils.equalsIgnoreCase(status, FAILED)){
+          if(Strings.CI.equals(status, FAILED)){
 
             String dispatcherRecordId = result.getString("_id");
 
@@ -86,7 +88,7 @@ public class AdministrationTasksManager extends AbstractManager{
                 log.info(DISPATCHER_COLLECTION
                   + " Application dispatcher record : {} resubmitted", dispatcherRecordId);
                 setUpMessageContextResponse(context, HttpResponseStatus.OK,
-                  "Dispatcher record with id: " + applicationId + " has been resubmitted");
+                  DISPATCHER_RECORD_WITH_ID + applicationId + " has been resubmitted");
               } else {
                 log.error(DISPATCHER_COLLECTION
                   + " Failed to update application dispatcher record for retry, with error message {}", res.cause().getMessage());
@@ -99,7 +101,7 @@ public class AdministrationTasksManager extends AbstractManager{
             log.info(DISPATCHER_COLLECTION
               + "Provided application {} is not in failed status", applicationId);
             setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
-              "Dispatcher record with id: " + applicationId + " must be in failed status");
+              DISPATCHER_RECORD_WITH_ID + applicationId + " must be in failed status");
           }
         }
       })
@@ -108,26 +110,14 @@ public class AdministrationTasksManager extends AbstractManager{
   }
 
   public void getAllDataAccessApplications(RoutingContext context){
-      Integer pageSize = null;
-      Integer pageLimit = null;
-      String pageString = context.request().getParam(PAGE);
-      String limitString = context.request().getParam(LIMIT);
-      String sortByString = context.request().getParam(SORT_BY);
-      String sortOrderString = context.request().getParam(SORT_ORDER);
-      String status = context.request().getParam(STATUS);
-
-      if (StringUtils.isNotEmpty(pageString) && StringUtils.isNotEmpty(limitString)) {
-        pageSize = Integer.parseInt(pageString);
-        pageLimit = Integer.parseInt(limitString);
-      }
-
-      super.getAllRecordsByAdmin(context, DATA_ACCESS_APPLICATION_COLLECTION, pageSize, pageLimit,
-        StringUtils.isNotEmpty(sortByString) ? sortByString : DATE_CREATED,
-        StringUtils.isNotEmpty(sortOrderString) ? sortOrderString : DESC,
-        status);
+    getAllDataApplications(context, DATA_ACCESS_APPLICATION_COLLECTION);
   }
 
   public void getAllDataRequestApplications(@NotNull RoutingContext context) {
+    getAllDataApplications(context, DATA_REQUEST_APPLICATION_COLLECTION);
+  }
+
+  private void getAllDataApplications(@NotNull RoutingContext context, String collection){
     Integer pageSize = null;
     Integer pageLimit = null;
     String pageString = context.request().getParam(PAGE);
@@ -141,7 +131,7 @@ public class AdministrationTasksManager extends AbstractManager{
       pageLimit = Integer.parseInt(limitString);
     }
 
-    super.getAllRecordsByAdmin(context, DATA_REQUEST_APPLICATION_COLLECTION, pageSize, pageLimit,
+    super.getAllRecordsByAdmin(context, collection, pageSize, pageLimit,
       StringUtils.isNotEmpty(sortByString) ? sortByString : DATE_CREATED,
       StringUtils.isNotEmpty(sortOrderString) ? sortOrderString : DESC,
       status);

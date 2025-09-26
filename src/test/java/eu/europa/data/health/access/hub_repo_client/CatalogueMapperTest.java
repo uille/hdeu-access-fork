@@ -232,6 +232,29 @@ class CatalogueMapperTest {
   }
 
   @Test
+  void testExistsCatalogueByDomibusIdOrCatalogueIdOrCountry_withCatalogueIdMatch() {
+      JsonObject uniqueFieldsDTO = new JsonObject().put("catalogueId", "4507af72-fb13-4cde-ad71-f7b715a44262");
+
+      JsonObject result = CatalogueMapper.existsCatalogueByDomibusIdOrCatalogueIdOrCountry(catalogue,
+              catalogueMapList, countriesManager, uniqueFieldsDTO, null);
+
+      assertNotNull(result);
+      assertEquals("4507af72-fb13-4cde-ad71-f7b715a44262", result.getString("catalogueId"));
+  }
+
+  @Test
+  void testExistsCatalogueByDomibusIdOrCatalogueIdOrCountry_noMatch() {
+      JsonObject uniqueFieldsDTO = new JsonObject().put("domibusId", "non-existing-id")
+              .put("catalogueId", "non-existing-id")
+              .put("geographicalCoverage", "non-existing-coverage");
+
+      JsonObject result = CatalogueMapper.existsCatalogueByDomibusIdOrCatalogueIdOrCountry(catalogue,
+              catalogueMapList, countriesManager, uniqueFieldsDTO, null);
+
+      assertNull(result);
+  }
+
+  @Test
   void testMapGeographicalCoverageList_success() {
     JsonObject result = CatalogueMapper.mapGeographicalCoverageList(catalogue, countriesManager);
 

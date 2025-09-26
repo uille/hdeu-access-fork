@@ -17,11 +17,26 @@
         },
         "applicationDatabases": {
             "label": "No kuras(-ām) datubāzes(-ām) vai reģistra/reģistriem dati tiks iegūti?"
+        },
+        "variables": {
+            "label": "Mainīgie lielumi"
+        },
+        "datatype": {
+            "label": "Datu tipi (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Apraksts"
+        },
+        "title": {
+            "label": "Mainīgie lielumi"
+        },
+        "emptyTable": {
+            "label": "Nav mainīgo lielumu"
         }
     },
     "section2": {
         "section2h5": "Publiska informācija par projektu",
-        "section2Description": "Veselības datu piekļuves struktūrām Eiropas Savienībā ir pienākums publicēt informāciju par datu atļaujām, pieprasījumiem un pieteikumiem savā tīmekļa vietnē 30 darbdienu laikā pēc datu atļaujas izdošanas vai atbildes uz datu pieprasījumu. Šajā sadaļā lūdzam sniegt informāciju par savu projektu, ko var kopīgot ar sabiedrību. Pārliecinieties, ka tā neietver konfidenciālu informāciju. Sniedziet savas atbildes nespeciālistam. Jums kā datu lietotājam būs pienākums publiskot projekta rezultātus vai iznākumu ne vēlāk kā 18 mēnešus pēc apstrādes pabeigšanas vai atbildes saņemšanas uz datu pieprasījumu. Turklāt jums ir jāinformē veselības datu piekļuves struktūra par zinātniski recenzētu pētījumu publikāciju, politikas dokumentu un/vai regulatīvo procedūru skaitu, kas veiktas, izmantojot datus, kuriem piekļūts, izmantojot šo lietotni.",
+        "section2Description": "Veselības datu piekļuves struktūrām Eiropas Savienībā ir pienākums publicēt informāciju par datu atļaujām, pieprasījumiem un pieteikumiem savā tīmekļa vietnē 30 darbdienu laikā pēc datu atļaujas izdošanas vai atbildes uz datu pieprasījumu. Šajā sadaļā lūdzam sniegt informāciju par savu projektu, ko var kopīgot ar sabiedrību. Pārliecinieties, ka tā neietver konfidenciālu informāciju. Sniedziet savas atbildes vienkāršā valodā, lai tās varētu saprast arī cilvēki, kuri nav profesionāli saistīti ar šo sfēru. Jums kā datu lietotājam būs pienākums publiskot projekta rezultātus vai iznākumu ne vēlāk kā 18 mēnešus pēc apstrādes pabeigšanas vai atbildes saņemšanas uz datu pieprasījumu. Turklāt jums ir jāinformē veselības datu piekļuves struktūra par zinātniski recenzētu pētījumu publikāciju, politikas dokumentu un/vai regulatīvo procedūru skaitu, kas veiktas, izmantojot datus, kuriem piekļūts, izmantojot šo lietotni.",
         "projectName": {
             "label": "Projekta nosaukums"
         },
@@ -102,10 +117,10 @@
                 },
                 {
                     "key": "b",
-                    "value": "Fiziska persona",
-                    "info": "(Ja izvēlaties šo iespēju, jūs apliecināt, ka piesakāties datiem kā privātpersona bez jebkādas piederības.)"
+                    "value": "Fiziska persona"
                 }
-            ]
+            ],
+            "info": "(Ja izvēlaties šo iespēju, jūs apliecināt, ka piesakāties datiem kā privātpersona bez jebkādas piederības.)"
         },
         "legalPerson": "Juridiska persona",
         "naturalPerson": "Fiziska persona",
@@ -141,15 +156,6 @@
         },
         "contactPersonBusinessIdentifier": {
             "label": "Organizācijas uzņēmuma identifikators"
-        },
-        "contactPersonOperatorIdentifier": {
-            "label": "Operatora ID"
-        },
-        "contactPersonJobTitle": {
-            "label": "Amata nosaukums"
-        },
-        "contactPersonAffiliation": {
-            "label": "Piederība"
         },
         "contactPersonRelationship": {
             "label": "Kādas ir kontaktpersonas un pieteikuma iesniedzēja attiecības? (Piemēram, darbinieks, kas piesakās datiem savas organizācijas vārdā.)"
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "Datu izmantošanas nolūks",
-        "section5Description": "Pieteikuma iesniedzējiem jānorāda datu pieprasīšanas nolūks saskaņā ar 53. panta 1. punktu EVDT regulas labojumā, ko Eiropas Parlaments apstiprināja 17/12. \nPieteikuma iesniedzējiem jāpaskaidro un jāpaskaidro, kāpēc pieprasītie dati ir nepieciešami norādītajam izmantošanas mērķim. Pieteikumu iesniedzēji tiek lūgti arī sniegt informāciju par projekta mērķi. Pēc tam atkarībā no izmantošanas mērķa (pētniecība vai nepētniecība) pieteikuma iesniedzējiem ir jāiesniedz datu izmantošanas plāna kopsavilkums vai pētniecības plāna kopsavilkums un informācija par personu, kas ir atbildīga par datu izmantošanu vai izpēti.",
+        "section5Description": "Pieteikuma iesniedzējiem būtu jānorāda nolūks, kādā dati tiek pieprasīti, saskaņā ar 53. panta 1. punktu Eiropas Parlamenta un Padomes Regulā (ES) 2025/327 (2025. gada 11. februāris) par Eiropas veselības datu telpu. Pieteikuma iesniedzējiem ir jāpaskaidro un jāpamato, kāpēc pieprasītie dati ir nepieciešami to norādītajam izmantošanas mērķim. Pretendentiem tiek lūgts arī sniegt informāciju par projekta mērķi. Pēc tam atkarībā no izmantošanas mērķa (pētniecība vai nepētniecība) pieteikuma iesniedzējiem ir jāsniedz datu izmantošanas plāna kopsavilkums vai pētniecības plāna kopsavilkums un informācija par personu, kas ir atbildīga par datu izmantošanu vai pētniecību.",
         "purposeOfUse": {
             "label": "Datu izmantošanas nolūks. Veselības datu piekļuves struktūras nodrošina piekļuvi 51. pantā minētajiem elektroniskajiem veselības datiem tikai tad, ja pieteikuma iesniedzēja plānotais apstrādes nolūks atbilst turpmāk norādītajiem nolūkiem (saskaņā ar 53. panta 1. punktu).",
             "tooltip": "Mērķi no EVDT regulas.",
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Kādi ir gaidāmie ieguvumi saistībā ar elektronisko veselības datu izmantošanu un kā šis ieguvums veicina 5.1. punktā minētos mērķus?"
         },
+        "describeApplicantsQualification": {
+            "label": "Aprakstiet pieteikuma iesniedzēja kvalifikāciju saistībā ar paredzēto(-ajiem) datu izmantošanas nolūku(-iem) un atbilstošas speciālās zināšanas (tostarp profesionālo kvalifikāciju)"
+        },
         "legalBasis": {
             "label": "Norādiet juridisko pamatu, piemēram, attiecīgos tiesību aktus, kuros noteikti uzdevumi, kas ietilpst jūsu pilnvarās, un apstiprināts, ka jūsu plānotā datu izmantošana atvieglo šādus uzdevumus.",
             "tooltip": "Paskaidrojiet šeit, kāpēc datu apjoms, uz kuru piesakāties, ir nepieciešams jūsu datu izmantošanas nolūkā. Pamatojiet un aprakstiet, kā pieprasītās statistikas saturs atbilst pieteikumā norādītajam izmantošanas mērķim un atbilst jūsu datu prasībām."
@@ -320,222 +329,16 @@
             "label": "Norādiet saiti uz apliecinošajiem dokumentiem, lai pierādītu juridisko pamatu."
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Sniedziet kopsavilkumu par savu datu izmantošanas plānu. Kopsavilkumam jābūt vienā no ES oficiālajām valodām."
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Izvēlieties kopsavilkuma valodu",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgāru"
-                },
-                {
-                    "key": "hr",
-                    "value": "Horvātu"
-                },
-                {
-                    "key": "cs",
-                    "value": "Čehu"
-                },
-                {
-                    "key": "da",
-                    "value": "Dāņu"
-                },
-                {
-                    "key": "nl",
-                    "value": "Nīderlandiešu"
-                },
-                {
-                    "key": "en",
-                    "value": "Angļu"
-                },
-                {
-                    "key": "et",
-                    "value": "Igauņu"
-                },
-                {
-                    "key": "fi",
-                    "value": "Somu"
-                },
-                {
-                    "key": "fr",
-                    "value": "Franču"
-                },
-                {
-                    "key": "de",
-                    "value": "Vācu"
-                },
-                {
-                    "key": "el",
-                    "value": "Grieķu"
-                },
-                {
-                    "key": "hu",
-                    "value": "Ungāru"
-                },
-                {
-                    "key": "ga",
-                    "value": "Īru"
-                },
-                {
-                    "key": "it",
-                    "value": "Itāļu"
-                },
-                {
-                    "key": "lv",
-                    "value": "Latviešu"
-                },
-                {
-                    "key": "lt",
-                    "value": "Lietuviešu"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltiešu"
-                },
-                {
-                    "key": "pl",
-                    "value": "Poļu"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugāļu"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumāņu"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovāku"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slovēņu"
-                },
-                {
-                    "key": "es",
-                    "value": "Spāņu"
-                },
-                {
-                    "key": "sv",
-                    "value": "Zviedru"
-                }
-            ]
+            "label": "Sniedziet kopsavilkumu par savu datu izmantošanas plānu. Kopsavilkumam jābūt vienā no ES oficiālajām valodām.",
+            "tooltip": "Augšupielādētās datnes sistēma automātiski tulko. Pieteikuma iesniedzējs ir atbildīgs par augšupielādēto datņu kvalitāti, salasāmību un formatēšanu."
         },
         "summaryOfResearchPlan": {
-            "label": "Sniedziet sava pētniecības plāna kopsavilkumu. Kopsavilkumam jābūt vienā no ES oficiālajām valodām."
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Izvēlieties kopsavilkuma valodu",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgāru"
-                },
-                {
-                    "key": "hr",
-                    "value": "Horvātu"
-                },
-                {
-                    "key": "cs",
-                    "value": "Čehu"
-                },
-                {
-                    "key": "da",
-                    "value": "Dāņu"
-                },
-                {
-                    "key": "nl",
-                    "value": "Nīderlandiešu"
-                },
-                {
-                    "key": "en",
-                    "value": "Angļu"
-                },
-                {
-                    "key": "et",
-                    "value": "Igauņu"
-                },
-                {
-                    "key": "fi",
-                    "value": "Somu"
-                },
-                {
-                    "key": "fr",
-                    "value": "Franču"
-                },
-                {
-                    "key": "de",
-                    "value": "Vācu"
-                },
-                {
-                    "key": "el",
-                    "value": "Grieķu"
-                },
-                {
-                    "key": "hu",
-                    "value": "Ungāru"
-                },
-                {
-                    "key": "ga",
-                    "value": "Īru"
-                },
-                {
-                    "key": "it",
-                    "value": "Itāļu"
-                },
-                {
-                    "key": "lv",
-                    "value": "Latviešu"
-                },
-                {
-                    "key": "lt",
-                    "value": "Lietuviešu"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltiešu"
-                },
-                {
-                    "key": "pl",
-                    "value": "Poļu"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugāļu"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumāņu"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovāku"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slovēņu"
-                },
-                {
-                    "key": "es",
-                    "value": "Spāņu"
-                },
-                {
-                    "key": "sv",
-                    "value": "Zviedru"
-                }
-            ]
+            "label": "Sniedziet sava pētniecības plāna kopsavilkumu. Kopsavilkumam jābūt vienā no ES oficiālajām valodām.",
+            "tooltip": "Augšupielādētās datnes sistēma automātiski tulko. Pieteikuma iesniedzējs ir atbildīgs par augšupielādēto datņu kvalitāti, salasāmību un formatēšanu."
         },
         "personResponsibleLabel": "Par datu izmantošanu atbildīgā persona",
         "personResponsibleName": {
             "label": "Pilns nosaukums"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Amata nosaukums"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Piederība"
         },
         "personResearchSameAsContactPerson": {
             "label": "Tāpat kā kontaktpersona, kas minēta 3. iedaļā (Informācija par pieteikuma iesniedzēju un kontaktpersonu)?"
@@ -547,14 +350,8 @@
         "personResearchName": {
             "label": "Pilns nosaukums"
         },
-        "personResearchJobTitle": {
-            "label": "Amata nosaukums"
-        },
-        "personResearchAffiliation": {
-            "label": "Piederība"
-        },
         "formatOfTheElectronicHealthData": {
-            "label": "Izvēlieties to elektronisko veselības datu formātu, kas jādara pieejami:",
+            "label": "Izvēlieties kādā formātā vēlaties piekļūt elektroniskajiem veselības datiem:",
             "items": [
                 {
                     "key": "a",
@@ -638,6 +435,9 @@
         },
         "consentAndInformationLetterAttachment": {
             "label": "Pievienojiet piekrišanu un informatīvo vēstuli, ko esat nosūtījis studiju subjektiem. Nepievienojiet aizpildītas veidlapas, jo tajās ir iekļauti personas dati."
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "Vai kohortas pamatā ir iepriekš piešķirta datu atļauja?"
         },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Apstiprinu, ka šim pētniecības projektam ir piešķirta datu atļauja."
@@ -726,7 +526,7 @@
         "whichDatabasesDataExtracted": "No kuras(-ām) datubāzes(-ām)/reģistriem/reģistriem dati tiks iegūti?",
         "whichDatasetDataExtracted": "No kura(-iem) datu kopas ieraksta(-iem)/reģistra(-iem) dati tiks iegūti?",
         "variablesToBeUsedInDataExtractionAttachment": {
-            "label": "Ja informācija ir pieejama, pievienojiet sarakstu ar mainīgajiem lielumiem, kas izmantojami datu izgūšanā. Izmanto precīzus terminus, ko attiecīgais(-ie) datu turētājs(-i) norādījis metadatu katalogā."
+            "label": "Ja informācija ir pieejama, pievienojiet sarakstu ar mainīgajiem lielumiem, kas izmantojami datu izgūšanā. Izmantojiet precīzus terminus, ko attiecīgais(-ie) datu turētājs(-i) norādījis metadatu katalogā."
         },
         "timePeriodOfDataExtraction": {
             "label": "Par kādu(-iem) laikposmu(-iem) datu kopu ieraksti tiks izgūti?"
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "Cik bieži dati ir jāizgūst?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Vai plānojat izmantot izņēmumu no tiesībām atteikties saskaņā ar mehānismu, kas paredzēts tās dalībvalsts tiesību aktos, kuras datiem jūs piesakāties?",
+            "tooltip": "Izņēmuma kārtā atkāpjoties no 1. punktā paredzētajām atteikuma tiesībām, dalībvalsts savos valsts tiesību aktos var paredzēt mehānismu, lai datus, attiecībā uz kuriem ir izmantotas atteikuma tiesības, darītu pieejamus, ar noteikumu, ka ir izpildīti visi šādi nosacījumi: (pilniem nosacījumiem skatīt pantu)”"
+        },
+        "providedJustificationException": {
+            "label": "Pamatojiet šo izņēmumu."
+        },
         "needForDataExtractionEvery": {
             "label": "Dati ir jāizgūst katru",
             "tooltip": "Ja vēlaties, lai datus noteiktā laikposmā izgūtu vairākas reizes, ņemiet vērā, ka dažos gadījumos definīcijas un datu vākšanas metode pārskatīšanas periodā var mainīties. Jāņem vērā, ka maksimālais datu ieguves biežums ir katru ceturksni."
@@ -835,14 +642,11 @@
         "willSameDataBeExtractedForControls": {
             "label": "Vai kontroles vajadzībām tiks iegūti tādi paši dati kā par kohortu?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Ja nelūdzat datus kontrolei no visas valsts, no kura(-iem) reģiona(-iem) un/vai pilsētas/pilsētām, un/vai pašvaldības/pašvaldībām meklējat datus?"
-        },
         "fromWhichDataHolderLabel": "No kura(-iem) datu turētājs(-i) tiks iegūts(-i) kontroles vajadzībām?",
         "fromWhichDatabaseLabel": "No kuras(-ām) datubāzes(-ām)/reģistriem/reģistriem tiks iegūti kontroles vajadzībām vajadzīgie dati?",
         "fromWhichDatasetLabel": "No kura(-iem) datu kopas ieraksts(-i)/reģistrs(-i) tiks iegūti kontroles vajadzībām?",
-        "variablesForDataExtraction": {
-            "label": "Ja informācija ir pieejama, uzskaita mainīgos lielumus, kas jāizmanto datu izgūšanā. Izmanto precīzus terminus, ko attiecīgais(-ie) datu turētājs(-i) norādījis metadatu katalogā."
+        "variablesForDataExtractionAttachments": {
+            "label": "Ja informācija ir pieejama, pievienojiet datu izgūšanai izmantojamo mainīgo lielumu sarakstu. Izmanto precīzus terminus, ko attiecīgais(-ie) datu turētājs(-i) norādījis metadatu katalogā."
         },
         "timePeriodForDataExtraction": {
             "label": "Par kādu(-iem) laikposmu(-iem) datu kopas ieraksti tiks izgūti?"
@@ -947,8 +751,8 @@
         "whichDataHoldersForRelatives": "No kāda(-iem) datu turētāja(-iem) tiks iegūti dati par radiniekiem?",
         "whichDatabaseForRelatives": "No kuras(-ām) datubāzes(-ām)/reģistriem/reģistriem tiks iegūti dati par radiniekiem?",
         "whichDatasetsForRelatives": "No kura(-iem) datu kopas ieraksta(-iem)/reģistra(-iem) tiks iegūti dati par radiniekiem?",
-        "variablesForDataExtractionRelatives": {
-            "label": "Ja informācija ir pieejama, uzskaita mainīgos lielumus, kas jāizmanto datu izgūšanā. Izmanto precīzus terminus, ko attiecīgais(-ie) datu turētājs(-i) norādījis metadatu katalogā."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "Ja informācija ir pieejama, pievienojiet datu izgūšanai izmantojamo mainīgo lielumu sarakstu. Izmanto precīzus terminus, ko attiecīgais(-ie) datu turētājs(-i) norādījis metadatu katalogā."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "Par kādu(-iem) laikposmu(-iem) datu kopas ieraksti tiks izgūti?"
@@ -1062,7 +866,6 @@
         "otherPermitApplications": {
             "label": "Vai jums ir vēl citi izskatīšanā esoši atļaujas pieteikumi?"
         },
-        "listTheOtherData": "Uzskaitiet pārējos datus, kas jāapvieno, un šo datu avotus:",
         "applicationIssuer": {
             "label": "Emitents"
         },
@@ -1360,6 +1163,13 @@
             "label": "Kā jūs, apstrādājot datus, ievērojat datu minimizēšanas principu (ES Datu aizsardzības regula)? ",
             "tooltip": "ES DPR 4. panta 1.c punkts: “Personas dati ir adekvāti, atbilstīgi un nepārsniedz to, kas ir nepieciešams nolūkiem, kādos tos apstrādā (“datu minimizēšana”)”."
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Vai plānojat izmantot izņēmumu no tiesībām atteikties saskaņā ar mehānismu, kas paredzēts tās dalībvalsts tiesību aktos, kuras datiem jūs piesakāties?",
+            "tooltip": "Izņēmuma kārtā atkāpjoties no 1. punktā paredzētajām atteikuma tiesībām, dalībvalsts savos valsts tiesību aktos var paredzēt mehānismu, lai datus, attiecībā uz kuriem ir izmantotas atteikuma tiesības, darītu pieejamus, ar noteikumu, ka ir izpildīti visi šādi nosacījumi: (pilniem nosacījumiem skatīt pantu)”"
+        },
+        "providedJustificationException": {
+            "label": "Pamatojiet šo izņēmumu."
+        },
         "protectionAndSecurityStatements": {
             "label": "Lai turpinātu šo pieteikumu, jums ir jāapstiprina šādi paziņojumi (ar datu aizsardzību un drošību saistīti paziņojumi):"
         },
@@ -1367,29 +1177,26 @@
             "label": "1. Apstiprinu, ka tad, ja veselības datu piekļuves struktūra man piešķir datus, kuriem es pieteikšos, es tos izmantošu tikai šajā pieteikuma veidlapā norādītajam(-iem) mērķim(-iem)."
         },
         "protectionAndSecurityStatementsB": {
-            "label": "2. ES saprotu, ka datu kopēšana no drošas apstrādes vides ir aizliegta."
+            "label": "2. Es saprotu, ka datu kopēšana no drošas apstrādes vides ir aizliegta."
         },
         "protectionAndSecurityStatementsC": {
-            "label": "3. ES saprotu, ka ir aizliegts veikt jebkādus ekrānuzņēmumus vai fotoattēlus no ierīces ekrāna, kad tie atrodas drošā apstrādes vidē."
+            "label": "3. Es saprotu, ka ir aizliegts veikt jebkādus ekrānuzņēmumus vai fotoattēlus no ierīces ekrāna, kad tie atrodas drošā apstrādes vidē."
         },
         "protectionAndSecurityStatementsD": {
             "label": "4. Man ir pietiekami drošības pasākumi (piemēram, ugunsmūris), lai aizsargātu dažādos tīklus, ar kuriem ir savienotas ierīces, ko izmanto, lai piekļūtu drošai apstrādes videi."
         },
         "protectionAndSecurityStatementsE": {
-            "label": "5. ES saprotu, ka atkārtotas identifikācijas mēģinājumi ir aizliegti un ka veselības datu piekļuves struktūra var piemērot sodus saskaņā ar Eiropas Veselības datu regulas 43. pantu."
+            "label": "5. Es saprotu, ka atkārtotas identifikācijas mēģinājumi ir aizliegti un ka veselības datu piekļuves struktūra var piemērot sodus saskaņā ar Eiropas Veselības datu regulas 43. pantu."
         },
         "onlyThePeopleMentioned": "Piekļuve datu apstrādei drošā apstrādes vidē tiks piešķirta tikai datu atļaujā minētajām personām.",
         "sameAsContactPerson": {
             "label": "Tāpat kā 3. iedaļā minētā kontaktpersona?"
         },
         "listTheFullNames": {
-            "label": "Uzskaitiet visu to cilvēku vārdus, uzvārdus, piederību un e-pasta adreses, kuri apstrādās datus."
+            "label": "Uzskaitiet visu to cilvēku vārdus, uzvārdus un e-pasta adreses, kuri apstrādās datus."
         },
         "fullName": {
             "label": "Pilns nosaukums"
-        },
-        "affiliation": {
-            "label": "Piederība"
         },
         "emailAddress": {
             "label": "E-pasta adrese"
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Informācijas apstiprinājums",
-        "section10Description": "Pirms šā pieteikuma apstrādes jums kā pieteikuma iesniedzējam ir jāapstiprina apstrādes maksa.",
+        "section10Description": "Pirms šā pieteikuma apstrādes jums kā pieteikuma iesniedzējam ir jāapstiprina apstrādes maksa. Pievienot informāciju par cenām un maksimālo aplēsto cenu datu ieguvei, tiklīdz tā būs pieejama.",
         "submitYouApplicationText": "Lai iesniegtu pieteikumu, jums ir jāapstiprina:",
         "acceptHealthDataBody": {
             "label": "ES piekrītu, ka veselības datu struktūra apkopos statistiku un man nebūs piekļuves datiem, kas izmantoti statistikas sagatavošanai."

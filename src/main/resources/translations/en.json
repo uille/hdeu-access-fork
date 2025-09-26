@@ -17,6 +17,21 @@
     },
     "applicationDatabases": {
       "label": "From which database(s) or registry/registries will the data be extracted?"
+    },
+    "variables": {
+      "label": "Variables"
+    },
+    "datatype":{
+      "label": "Datatypes (CSVW/XSD)"
+    },
+    "description": {
+      "label": "Description"
+    },
+    "title": {
+      "label": "Variables"
+    },
+    "emptyTable": {
+      "label": "No variables"
     }
   },
   "section2": {
@@ -102,10 +117,10 @@
         },
         {
           "key": "b",
-          "value": "Natural person",
-          "info": "(If you choose this option, you confirm that you apply for data as a private person without any affiliation.)"
+          "value": "Natural person"
         }
-      ]
+      ],
+      "info": "(If you choose this option, you confirm that you apply for data as a private person without any affiliation.)"
     },
     "legalPerson": "Legal person",
     "naturalPerson": "Natural person",
@@ -141,15 +156,6 @@
     },
     "contactPersonBusinessIdentifier": {
       "label": "Business ID of the organisation"
-    },
-    "contactPersonOperatorIdentifier": {
-      "label": "Operator ID"
-    },
-    "contactPersonJobTitle": {
-      "label": "Job title"
-    },
-    "contactPersonAffiliation": {
-      "label": "Affiliation"
     },
     "contactPersonRelationship": {
       "label": "What is the relationship between the contact person and the applicant? (E.g. an employee applying for data on behalf of their organisation.)"
@@ -269,7 +275,7 @@
   },
   "section5": {
     "section5h5": "Purpose of data use",
-    "section5Description": "Applicants should indicate the purpose for which data are sought, according to the Article 53(1) of EHDS Regulation corrigendum approved by the European Parliament on 17/12. \nApplicants need to explain and argue why the requested data are necessary for their indicated purpose of use. Applicants are also asked to provide information on the aim of the project. Then, depending on the use purpose (research or not research), applicants need to provide a summary of the plan for using the data or a summary of the research plan, and information on the person responsible for the data use or research.",
+    "section5Description": "Applicants should indicate the purpose for which data are sought, according to the Article 53(1) of Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space. Applicants need to explain and argue why the requested data are necessary for their indicated purpose of use. Applicants are also asked to provide information on the aim of the project. Then, depending on the use purpose (research or not research), applicants need to provide a summary of the plan for using the data or a summary of the research plan, and information on the person responsible for the data use or research.",
     "purposeOfUse": {
       "label": "Purpose of data use. Health data access bodies shall only provide access to electronic health data referred to in Article 51 where the intended purpose of processing pursued by the applicant complies with the following purposes (as per Article 53(1)) listed below).",
       "tooltip": "Purposes from the EHDS regulation.",
@@ -312,6 +318,9 @@
     "whichAreTheExpectedBenefits": {
       "label": "Which is the expected benefit related to the use of the electronic health data and how this benefit contributes to the purposes referred to in 5.1?"
     },
+    "describeApplicantsQualification": {
+      "label": "Describe the applicant’s qualifications in relation to the intended purpose(s) of data use and appropriate expertise (incl. professional qualifications)"
+    },
     "legalBasis": {
       "label": "Specify the legal basis, for example the relevant legislation, which defines the tasks falling within your mandate and confirms that your planned use of the data is to facilitate such tasks.",
       "tooltip": "Explain here why the amount of data that you apply for is necessary for your data use purpose. Justify and describe how the contents of the requested statistics correspond to the purpose of use stated in the application and meet your data requirements."
@@ -320,222 +329,16 @@
       "label": "Provide a link to the supporting documentation as evidence of the legal basis"
     },
     "summaryOfPlanForUsingTheData": {
-      "label": "Provide a summary of your plan for using the data. The summary must be written in one of the official EU languages"
-    },
-    "summaryOfPlanForUsingTheDataLanguage": {
-      "label": "Select the language of the summary",
-      "items": [
-        {
-          "key": "bg",
-          "value": "Bulgarian"
-        },
-        {
-          "key": "hr",
-          "value": "Croatian"
-        },
-        {
-          "key": "cs",
-          "value": "Czech"
-        },
-        {
-          "key": "da",
-          "value": "Danish"
-        },
-        {
-          "key": "nl",
-          "value": "Dutch"
-        },
-        {
-          "key": "en",
-          "value": "English"
-        },
-        {
-          "key": "et",
-          "value": "Estonian"
-        },
-        {
-          "key": "fi",
-          "value": "Finnish"
-        },
-        {
-          "key": "fr",
-          "value": "French"
-        },
-        {
-          "key": "de",
-          "value": "German"
-        },
-        {
-          "key": "el",
-          "value": "Greek"
-        },
-        {
-          "key": "hu",
-          "value": "Hungarian"
-        },
-        {
-          "key": "ga",
-          "value": "Irish"
-        },
-        {
-          "key": "it",
-          "value": "Italian"
-        },
-        {
-          "key": "lv",
-          "value": "Latvian"
-        },
-        {
-          "key": "lt",
-          "value": "Lithuanian"
-        },
-        {
-          "key": "mt",
-          "value": "Maltese"
-        },
-        {
-          "key": "pl",
-          "value": "Polish"
-        },
-        {
-          "key": "pt",
-          "value": "Portuguese"
-        },
-        {
-          "key": "ro",
-          "value": "Romanian"
-        },
-        {
-          "key": "sk",
-          "value": "Slovak"
-        },
-        {
-          "key": "sl",
-          "value": "Slovenian"
-        },
-        {
-          "key": "es",
-          "value": "Spanish"
-        },
-        {
-          "key": "sv",
-          "value": "Swedish"
-        }
-      ]
+      "label": "Provide a summary of your plan for using the data. The summary must be written in one of the official EU languages",
+      "tooltip": "Uploaded files are automatically translated by the system. The applicant is responsible for the quality, legibility, and formatting of the uploaded files."
     },
     "summaryOfResearchPlan": {
-      "label": "Provide a summary of your research plan. The summary must be written in one of the official EU languages"
-    },
-    "summaryOfResearchPlanLanguage": {
-      "label": "Select the language of the summary",
-      "items": [
-        {
-          "key": "bg",
-          "value": "Bulgarian"
-        },
-        {
-          "key": "hr",
-          "value": "Croatian"
-        },
-        {
-          "key": "cs",
-          "value": "Czech"
-        },
-        {
-          "key": "da",
-          "value": "Danish"
-        },
-        {
-          "key": "nl",
-          "value": "Dutch"
-        },
-        {
-          "key": "en",
-          "value": "English"
-        },
-        {
-          "key": "et",
-          "value": "Estonian"
-        },
-        {
-          "key": "fi",
-          "value": "Finnish"
-        },
-        {
-          "key": "fr",
-          "value": "French"
-        },
-        {
-          "key": "de",
-          "value": "German"
-        },
-        {
-          "key": "el",
-          "value": "Greek"
-        },
-        {
-          "key": "hu",
-          "value": "Hungarian"
-        },
-        {
-          "key": "ga",
-          "value": "Irish"
-        },
-        {
-          "key": "it",
-          "value": "Italian"
-        },
-        {
-          "key": "lv",
-          "value": "Latvian"
-        },
-        {
-          "key": "lt",
-          "value": "Lithuanian"
-        },
-        {
-          "key": "mt",
-          "value": "Maltese"
-        },
-        {
-          "key": "pl",
-          "value": "Polish"
-        },
-        {
-          "key": "pt",
-          "value": "Portuguese"
-        },
-        {
-          "key": "ro",
-          "value": "Romanian"
-        },
-        {
-          "key": "sk",
-          "value": "Slovak"
-        },
-        {
-          "key": "sl",
-          "value": "Slovenian"
-        },
-        {
-          "key": "es",
-          "value": "Spanish"
-        },
-        {
-          "key": "sv",
-          "value": "Swedish"
-        }
-      ]
+      "label": "Provide a summary of your research plan. The summary must be written in one of the official EU languages",
+      "tooltip": "Uploaded files are automatically translated by the system. The applicant is responsible for the quality, legibility, and formatting of the uploaded files."
     },
     "personResponsibleLabel": "Person responsible for data use",
     "personResponsibleName": {
       "label": "Full name"
-    },
-    "personResponsibleJobTitle": {
-      "label": "Job title"
-    },
-    "personResponsibleAffiliation": {
-      "label": "Affiliation"
     },
     "personResearchSameAsContactPerson": {
       "label": "Same as contact person mentioned in the section 3 (Applicant and contact person information)?"
@@ -546,12 +349,6 @@
     },
     "personResearchName": {
       "label": "Full name"
-    },
-    "personResearchJobTitle": {
-      "label": "Job title"
-    },
-    "personResearchAffiliation": {
-      "label": "Affiliation"
     },
     "formatOfTheElectronicHealthData": {
       "label": "Select the format of the electronic health data to be made available:",
@@ -638,6 +435,9 @@
     },
     "consentAndInformationLetterAttachment": {
       "label": "Attach the consent and information letter that you have sent to the study subjects. Do not attach forms that are filled in because they include personal data."
+    },
+    "hasTheCohortBeenBasedOnADataPermit": {
+      "label": "Has the cohort been based on a data permit granted earlier?"
     },
     "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
       "label": "I confirm that the data permit has been granted for this research project"
@@ -804,6 +604,13 @@
     "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
       "label": "How often does the data need to be extracted?"
     },
+    "optOutOfTheMechanismProvidedInTheNationalLaw": {
+      "label": "Do you intend to make use of an exception to the right to opt out according to the mechanism provided in the national law of the member state whose data you are applying for?",
+      "tooltip": "EHDS article 71(4) “By way of exception from the right to opt out provided for in paragraph 1, a Member State may provide in its national law for a mechanism to make data for which a right to opt out has been exercised available, provided that all the following conditions are fulfilled: (refer to the article for full conditions)”"
+    },
+    "providedJustificationException": {
+      "label": "Provide the justification for this exception."
+    },
     "needForDataExtractionEvery": {
       "label": "The data needs to be extracted every",
       "tooltip": "If you want the data to be extracted multiple times over a certain period of time, note that the definitions and the data gathering method may change during the review period in some cases. Note that the maximum frequency of data extraction is every quarter"
@@ -835,14 +642,11 @@
     "willSameDataBeExtractedForControls": {
       "label": "Will same data as for the cohort be extracted for controls?"
     },
-    "regionForControlsDataExtraction": {
-      "label": "If you do not seek data for controls from the whole country, from which region(s) and/or city/cities and/or municipality/municipalities do you seek data?"
-    },
     "fromWhichDataHolderLabel": "From which data holder(s) will the data for controls be extracted?",
     "fromWhichDatabaseLabel": "From which database(s)/registry/registries will the data for controls be extracted?",
     "fromWhichDatasetLabel": "From which dataset record(s)/register(s) will the data for controls be extracted?",
-    "variablesForDataExtraction": {
-      "label": "If the information is available, list the variables to be used in the data extraction. Use the exact terms provided by the respective data holder(s) in the metadata catalogue."
+    "variablesForDataExtractionAttachments": {
+      "label": "If the information  is available, attach the list of the variables to be used in the data extraction. Use the exact terms provided by the respective data holder(s) in the metadata catalogue."
     },
     "timePeriodForDataExtraction": {
       "label": "For which time period(s) will the dataset records be extracted?"
@@ -947,8 +751,8 @@
     "whichDataHoldersForRelatives": "From which data holder(s) will the data for relatives be extracted?",
     "whichDatabaseForRelatives": "From which database(s)/registry/registries will the data for relatives be extracted?",
     "whichDatasetsForRelatives": "From which dataset record(s)/register(s) will the data for relatives be extracted?",
-    "variablesForDataExtractionRelatives": {
-      "label": "If the information is available, list the variables to be used in the data extraction. Use the exact terms provided by the respective data holder(s) in the metadata catalogue."
+    "variablesForDataExtractionRelativesAttachments": {
+      "label": "If the information  is available, attach the list of the variables to be used in the data extraction. Use the exact terms provided by the respective data holder(s) in the metadata catalogue."
     },
     "timePeriodForDataExtractionRelatives": {
       "label": "For which time period(s) will the dataset records be extracted?"
@@ -1062,7 +866,6 @@
     "otherPermitApplications": {
       "label": "Do you have other pending permit applications?"
     },
-    "listTheOtherData": "List the other data to be combined and the sources of this data:",
     "applicationIssuer": {
       "label": "Issuer"
     },
@@ -1360,6 +1163,13 @@
       "label": "How do you comply with the principle of data minimisation (EU Data Protection Regulation) when processing the data? ",
       "tooltip": "EU DPR Article 4(1c) “Personal data shall be adequate, relevant and limited to what is necessary in relation to the purposes for which they are processed (‘data minimisation’)”"
     },
+    "optOutOfTheMechanismProvidedInTheNationalLaw": {
+      "label": "Do you intend to make use of an exception to the right to opt out according to the mechanism provided in the national law of the member state whose data you are applying for?",
+      "tooltip": "EHDS article 71(4) “By way of exception from the right to opt out provided for in paragraph 1, a Member State may provide in its national law for a mechanism to make data for which a right to opt out has been exercised available, provided that all the following conditions are fulfilled: (refer to the article for full conditions)”"
+    },
+    "providedJustificationException": {
+      "label": "Provide the justification for this exception."
+    },
     "protectionAndSecurityStatements": {
       "label": "To proceed with this application, you need to confirm the following statements (data protection and security related statements):"
     },
@@ -1383,13 +1193,10 @@
       "label": "Same as contact person mentioned in the Section 3?"
     },
     "listTheFullNames":{
-      "label": "List the full names, affiliations and e-mail addresses of all the people who will be processing the data."
+      "label": "List the full names and e-mail addresses of all the people who will be processing the data."
     },
     "fullName": {
       "label": "Full Name"
-    },
-    "affiliation": {
-      "label": "Affiliation"
     },
     "emailAddress": {
       "label": "Email Address"
@@ -1495,7 +1302,7 @@
   },
   "section10": {
     "section10h5": "Confirmation of information",
-    "section10Description": "Before this application is processed, you as the applicant must approve processing fees.",
+    "section10Description": "Before this application is processed, you as the applicant must approve processing fees. To add information on the prices and the maximum price estimate for data extraction once available.",
     "submitYouApplicationText": "To submit your application, you need to confirm the following:",
     "acceptHealthDataBody":{
       "label": "I accept that the health data body will compile the statistics and I will have no access to the data used to form the statistics."

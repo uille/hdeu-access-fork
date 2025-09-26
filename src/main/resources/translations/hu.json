@@ -17,6 +17,21 @@
         },
         "applicationDatabases": {
             "label": "Mely adatbázis(ok)ból vagy kibocsátásiegység-forgalmi jegyzékekből nyerik ki az adatokat?"
+        },
+        "variables": {
+            "label": "Változók"
+        },
+        "datatype": {
+            "label": "Adattípusok (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Leírás"
+        },
+        "title": {
+            "label": "Változók"
+        },
+        "emptyTable": {
+            "label": "Nincsenek változók"
         }
     },
     "section2": {
@@ -102,10 +117,10 @@
                 },
                 {
                     "key": "b",
-                    "value": "Természetes személy",
-                    "info": "(Ha ezt a lehetőséget választja, erősítse meg, hogy magánszemélyként, biztosítás nélkül kérelmezi az adatokat.)"
+                    "value": "Természetes személy"
                 }
-            ]
+            ],
+            "info": "(Ha ezt a lehetőséget választja, erősítse meg, hogy magánszemélyként, biztosítás nélkül kérelmezi az adatokat.)"
         },
         "legalPerson": "Jogi személy",
         "naturalPerson": "Természetes személy",
@@ -141,15 +156,6 @@
         },
         "contactPersonBusinessIdentifier": {
             "label": "A szervezet üzleti azonosítója"
-        },
-        "contactPersonOperatorIdentifier": {
-            "label": "Üzemeltető azonosítója"
-        },
-        "contactPersonJobTitle": {
-            "label": "Munkakör"
-        },
-        "contactPersonAffiliation": {
-            "label": "Hovatartozás"
         },
         "contactPersonRelationship": {
             "label": "Mi a kapcsolat a kapcsolattartó személy és a kérelmező között? (Pl. egy alkalmazott, aki a szervezete nevében adatokat kér.)"
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "Az adatfelhasználás célja",
-        "section5Description": "Az európai egészségügyi adattérről szóló rendelet 53. cikkének (1) bekezdése értelmében a kérelmezőknek fel kell tüntetniük, hogy milyen célra kérik az adatokat, az Európai Parlament által december 17-én jóváhagyott helyesbítéssel összhangban. \nA kérelmezőknek ki kell fejteniük és ki kell fejteniük, hogy a kért adatok miért szükségesek a megjelölt felhasználási cél eléréséhez. A pályázóknak tájékoztatást kell nyújtaniuk a projekt céljáról is. Ezt követően a felhasználási céltól függően (kutatás vagy nem kutatás) a kérelmezőknek be kell nyújtaniuk az adatok felhasználására vonatkozó terv összefoglalását vagy a kutatási terv összefoglalását, valamint az adatfelhasználásért vagy kutatásért felelős személyre vonatkozó információkat.",
+        "section5Description": "A kérelmezőknek az európai egészségügyi adattérről szóló, 2025. február 11-i (EU) 2025/327 európai parlamenti és tanácsi rendelet 53. cikkének (1) bekezdésével összhangban fel kell tüntetniük, hogy milyen célból kérik az adatokat. A kérelmezőknek ki kell fejteniük és indokolniuk kell, hogy a kért adatok miért szükségesek a megjelölt felhasználási céljukhoz. A pályázókat arra is felkérik, hogy adjanak tájékoztatást a projekt céljáról. Ezután a felhasználási céltól (kutatás vagy nem kutatás) függően a pályázóknak össze kell foglalniuk az adatok felhasználására vonatkozó tervet vagy a kutatási terv összefoglalását, és tájékoztatást kell adniuk az adatfelhasználásért vagy kutatásért felelős személyről.",
         "purposeOfUse": {
             "label": "Az adatfelhasználás célja. Az egészségügyi adatokhoz való hozzáférés tekintetében illetékes szervek csak akkor biztosíthatnak hozzáférést az 51. cikkben említett elektronikus egészségügyi adatokhoz, ha a kérelmező által elérni kívánt adatkezelés célja megfelel az alábbiakban felsorolt alábbi céloknak (az 53. cikk (1) bekezdése szerint).",
             "tooltip": "Az európai egészségügyi adattérről szóló rendelet céljai.",
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Milyen várható előnyökkel jár az elektronikus egészségügyi adatok felhasználása, és ez az előny hogyan járul hozzá az 5.1. pontban említett célokhoz?"
         },
+        "describeApplicantsQualification": {
+            "label": "Ismertesse a kérelmezőnek az adatfelhasználás rendeltetésével/céljaival és a megfelelő szakértelemmel kapcsolatos képesítéseit (beleértve a szakmai képesítéseket is)"
+        },
         "legalBasis": {
             "label": "Adja meg a jogalapot, például a vonatkozó jogszabályokat, amelyek meghatározzák a megbízatása körébe tartozó feladatokat, és megerősíti, hogy az adatok tervezett felhasználása az ilyen feladatok megkönnyítését szolgálja.",
             "tooltip": "Fejtse ki, hogy az Ön által igényelt adatmennyiség miért szükséges az adatfelhasználási cél eléréséhez. Indokolja meg és írja le, hogy a kért statisztikák tartalma hogyan felel meg az alkalmazásban megjelölt felhasználási célnak, és hogyan felel meg az adatszolgáltatási követelményeknek."
@@ -320,222 +329,16 @@
             "label": "A jogalap bizonyítékaként adja meg az igazoló dokumentumokra mutató linket."
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Foglalja össze az adatok felhasználására vonatkozó tervét. Az összefoglalót az EU egyik hivatalos nyelvén kell elkészíteni."
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Válassza ki az összefoglaló nyelvét",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bolgár"
-                },
-                {
-                    "key": "hr",
-                    "value": "Horvát"
-                },
-                {
-                    "key": "cs",
-                    "value": "Cseh"
-                },
-                {
-                    "key": "da",
-                    "value": "Dán"
-                },
-                {
-                    "key": "nl",
-                    "value": "Holland"
-                },
-                {
-                    "key": "en",
-                    "value": "Angol"
-                },
-                {
-                    "key": "et",
-                    "value": "Észt"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finn"
-                },
-                {
-                    "key": "fr",
-                    "value": "Francia"
-                },
-                {
-                    "key": "de",
-                    "value": "Német"
-                },
-                {
-                    "key": "el",
-                    "value": "Görög"
-                },
-                {
-                    "key": "hu",
-                    "value": "Magyar"
-                },
-                {
-                    "key": "ga",
-                    "value": "Ír"
-                },
-                {
-                    "key": "it",
-                    "value": "Olasz"
-                },
-                {
-                    "key": "lv",
-                    "value": "Lett"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litván"
-                },
-                {
-                    "key": "mt",
-                    "value": "Máltai"
-                },
-                {
-                    "key": "pl",
-                    "value": "Lengyel"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugál"
-                },
-                {
-                    "key": "ro",
-                    "value": "Román"
-                },
-                {
-                    "key": "sk",
-                    "value": "Szlovák"
-                },
-                {
-                    "key": "sl",
-                    "value": "Szlovén"
-                },
-                {
-                    "key": "es",
-                    "value": "Spanyol"
-                },
-                {
-                    "key": "sv",
-                    "value": "Svéd"
-                }
-            ]
+            "label": "Foglalja össze az adatok felhasználására vonatkozó tervét. Az összefoglalót az EU egyik hivatalos nyelvén kell elkészíteni.",
+            "tooltip": "A feltöltött fájlokat a rendszer automatikusan lefordítja. A pályázó felel a feltöltött fájlok minőségéért, olvashatóságáért és formázásáért."
         },
         "summaryOfResearchPlan": {
-            "label": "Foglalja össze kutatási tervét. Az összefoglalót az EU egyik hivatalos nyelvén kell elkészíteni."
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Válassza ki az összefoglaló nyelvét",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bolgár"
-                },
-                {
-                    "key": "hr",
-                    "value": "Horvát"
-                },
-                {
-                    "key": "cs",
-                    "value": "Cseh"
-                },
-                {
-                    "key": "da",
-                    "value": "Dán"
-                },
-                {
-                    "key": "nl",
-                    "value": "Holland"
-                },
-                {
-                    "key": "en",
-                    "value": "Angol"
-                },
-                {
-                    "key": "et",
-                    "value": "Észt"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finn"
-                },
-                {
-                    "key": "fr",
-                    "value": "Francia"
-                },
-                {
-                    "key": "de",
-                    "value": "Német"
-                },
-                {
-                    "key": "el",
-                    "value": "Görög"
-                },
-                {
-                    "key": "hu",
-                    "value": "Magyar"
-                },
-                {
-                    "key": "ga",
-                    "value": "Ír"
-                },
-                {
-                    "key": "it",
-                    "value": "Olasz"
-                },
-                {
-                    "key": "lv",
-                    "value": "Lett"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litván"
-                },
-                {
-                    "key": "mt",
-                    "value": "Máltai"
-                },
-                {
-                    "key": "pl",
-                    "value": "Lengyel"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugál"
-                },
-                {
-                    "key": "ro",
-                    "value": "Román"
-                },
-                {
-                    "key": "sk",
-                    "value": "Szlovák"
-                },
-                {
-                    "key": "sl",
-                    "value": "Szlovén"
-                },
-                {
-                    "key": "es",
-                    "value": "Spanyol"
-                },
-                {
-                    "key": "sv",
-                    "value": "Svéd"
-                }
-            ]
+            "label": "Foglalja össze kutatási tervét. Az összefoglalót az EU egyik hivatalos nyelvén kell elkészíteni.",
+            "tooltip": "A feltöltött fájlokat a rendszer automatikusan lefordítja. A pályázó felel a feltöltött fájlok minőségéért, olvashatóságáért és formázásáért."
         },
         "personResponsibleLabel": "Az adatfelhasználásért felelős személy",
         "personResponsibleName": {
             "label": "Teljes név"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Munkakör"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Hovatartozás"
         },
         "personResearchSameAsContactPerson": {
             "label": "Megegyezik a 3. szakaszban (A kérelmező és a kapcsolattartó személy adatai) említett kapcsolattartó személlyel?"
@@ -546,12 +349,6 @@
         },
         "personResearchName": {
             "label": "Teljes név"
-        },
-        "personResearchJobTitle": {
-            "label": "Munkakör"
-        },
-        "personResearchAffiliation": {
-            "label": "Hovatartozás"
         },
         "formatOfTheElectronicHealthData": {
             "label": "Válassza ki a rendelkezésre bocsátandó elektronikus egészségügyi adatok formátumát:",
@@ -638,6 +435,9 @@
         },
         "consentAndInformationLetterAttachment": {
             "label": "Csatolja a vizsgálati alanyoknak küldött hozzájárulási és tájékoztató levelet. Ne csatoljon személyes adatokat tartalmazó űrlapokat."
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "A kohort korábban kiadott adatengedélyen alapult?"
         },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Megerősítem, hogy erre a kutatási projektre kiadták az adatengedélyt."
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "Milyen gyakran kell kinyerni az adatokat?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Élni kíván-e a kívülmaradáshoz való jog alóli kivétellel annak a tagállamnak a nemzeti jogában előírt mechanizmus szerint, amelynek adatait kérelmezi?",
+            "tooltip": "Az (1) bekezdésben biztosított kifogásolási jog alól kivételt képezve, egy tagállam a nemzeti jogában rendelkezhet olyan adatok rendelkezésre bocsátására irányuló mechanizmusról, amelyekre vonatkozóan kifogásolási jogot gyakoroltak, feltéve, hogy a következő feltételek mindegyike teljesül: (a teljes feltételeket lásd a cikkben)”"
+        },
+        "providedJustificationException": {
+            "label": "Indokolja meg ezt a kivételt."
+        },
         "needForDataExtractionEvery": {
             "label": "Az adatokat minden esetben ki kell nyerni.",
             "tooltip": "Ha azt szeretné, hogy az adatokat egy bizonyos időszakon belül többször is kinyerjék, vegye figyelembe, hogy a fogalommeghatározások és az adatgyűjtési módszer bizonyos esetekben változhat a felülvizsgálati időszak alatt. Felhívjuk a figyelmet arra, hogy az adatkinyerés maximális gyakorisága negyedévente lehetséges."
@@ -835,14 +642,11 @@
         "willSameDataBeExtractedForControls": {
             "label": "Kinyerik-e az ellenőrzésekhez ugyanazokat az adatokat, mint a kohorsz esetében?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Ha nem az egész országból kér adatokat az ellenőrzéshez, mely régió(k)ból és/vagy városból/városokból és/vagy település(ek)ből/településekből kér adatokat?"
-        },
         "fromWhichDataHolderLabel": "Mely adattulajdonos(ok)tól fogják kinyerni az ellenőrzési adatokat?",
         "fromWhichDatabaseLabel": "Mely adatbázis(ok)ból/nyilvántartásokból/nyilvántartásokból nyerik ki az ellenőrzési adatokat?",
         "fromWhichDatasetLabel": "Mely adatkészlet-rekord(ok)ból/nyilvántartás(ok)ból nyerik ki az ellenőrzésekhez szükséges adatokat?",
-        "variablesForDataExtraction": {
-            "label": "Ha az információ rendelkezésre áll, sorolja fel az adatkinyeréshez használandó változókat. Használja az érintett adattulajdonos(ok) által a metaadat-katalógusban megadott pontos kifejezéseket."
+        "variablesForDataExtractionAttachments": {
+            "label": "Ha az információ rendelkezésre áll, csatolja az adatkinyerés során használandó változók listáját. Használja az érintett adattulajdonos(ok) által a metaadat-katalógusban megadott pontos kifejezéseket."
         },
         "timePeriodForDataExtraction": {
             "label": "Mely időszak(ok)ra fogják kinyerni az adatkészlet-rekordokat?"
@@ -947,8 +751,8 @@
         "whichDataHoldersForRelatives": "Mely adattulajdonos(ok)tól fogják kinyerni a rokonokra vonatkozó adatokat?",
         "whichDatabaseForRelatives": "Mely adatbázis(ok)ból/nyilvántartásokból/nyilvántartásokból nyerik ki a rokonokra vonatkozó adatokat?",
         "whichDatasetsForRelatives": "Mely adatkészlet(ek)ből/nyilvántartás(ok)ból nyerik ki a rokonokra vonatkozó adatokat?",
-        "variablesForDataExtractionRelatives": {
-            "label": "Ha az információ rendelkezésre áll, sorolja fel az adatkinyerés során használandó változókat. Használja az érintett adattulajdonos(ok) által a metaadat-katalógusban megadott pontos kifejezéseket."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "Ha az információ rendelkezésre áll, csatolja az adatkinyerés során használandó változók listáját. Használja az érintett adattulajdonos(ok) által a metaadat-katalógusban megadott pontos kifejezéseket."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "Mely időszak(ok)ra fogják kinyerni az adatkészlet-rekordokat?"
@@ -1062,7 +866,6 @@
         "otherPermitApplications": {
             "label": "Vannak-e még függőben lévő engedélykérelmei?"
         },
-        "listTheOtherData": "Sorolja fel a többi összevonandó adatot és ezen adatok forrásait:",
         "applicationIssuer": {
             "label": "Kibocsátó"
         },
@@ -1360,6 +1163,13 @@
             "label": "Hogyan felel meg az adatkezelés során az adatminimalizálás elvének (uniós adatvédelmi rendelet)? ",
             "tooltip": "Az EU DPR 4. cikkének (1c) bekezdése: „A személyes adatoknak megfelelőnek és relevánsnak kell lenniük, és az adatkezelés céljai szempontjából szükséges mértékre kell korlátozódniuk („adatminimalizálás”)”"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Élni kíván-e a kívülmaradáshoz való jog alóli kivétellel annak a tagállamnak a nemzeti jogában előírt mechanizmus szerint, amelynek adatait kérelmezi?",
+            "tooltip": "Az (1) bekezdésben biztosított kifogásolási jog alól kivételt képezve, egy tagállam a nemzeti jogában rendelkezhet olyan adatok rendelkezésre bocsátására irányuló mechanizmusról, amelyekre vonatkozóan kifogásolási jogot gyakoroltak, feltéve, hogy a következő feltételek mindegyike teljesül: (a teljes feltételeket lásd a cikkben)”"
+        },
+        "providedJustificationException": {
+            "label": "Indokolja meg ezt a kivételt."
+        },
         "protectionAndSecurityStatements": {
             "label": "A kérelem folytatásához meg kell erősítenie a következő nyilatkozatokat (adatvédelemmel és biztonsággal kapcsolatos nyilatkozatok):"
         },
@@ -1383,13 +1193,10 @@
             "label": "Megegyezik a 3. szakaszban említett kapcsolattartó személlyel?"
         },
         "listTheFullNames": {
-            "label": "Sorolja fel az adatokat feldolgozó valamennyi személy teljes nevét, hovatartozását és e-mail-címét."
+            "label": "Sorolja fel az adatokat feldolgozó valamennyi személy teljes nevét és e-mail-címét."
         },
         "fullName": {
             "label": "Teljes név"
-        },
-        "affiliation": {
-            "label": "Hovatartozás"
         },
         "emailAddress": {
             "label": "E-mail cím"
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Az információk megerősítése",
-        "section10Description": "A kérelem feldolgozása előtt Önnek mint kérelmezőnek jóvá kell hagynia a feldolgozási díjakat.",
+        "section10Description": "A kérelem feldolgozása előtt Önnek mint kérelmezőnek jóvá kell hagynia a feldolgozási díjakat. Az adatok kinyerésére vonatkozó árakra és maximális árbecslésre vonatkozó információk hozzáadása, amint rendelkezésre állnak.",
         "submitYouApplicationText": "A pályázat benyújtásához meg kell erősítenie a következőket:",
         "acceptHealthDataBody": {
             "label": "Elfogadom, hogy az egészségügyi adatokért felelős szerv összeállítja a statisztikákat, és nem férek hozzá a statisztikák összeállításához használt adatokhoz."

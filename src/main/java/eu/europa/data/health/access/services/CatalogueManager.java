@@ -16,10 +16,15 @@
 package eu.europa.data.health.access.services;
 
 import static eu.europa.data.health.access.Constants.CATALOGUE_ID;
+import static eu.europa.data.health.access.Constants.CONTENT_DISPOSITION;
 import static eu.europa.data.health.access.Constants.CONTENT_TYPE;
 import static eu.europa.data.health.access.Constants.ERRORS;
 import static eu.europa.data.health.access.Constants.FILENAME;
+import static eu.europa.data.health.access.Constants.FILENAME_ASTERISK_EQUALS;
 
+import eu.europa.data.health.access.AuditLogAction;
+import eu.europa.data.health.access.AuditLogActionDescription;
+import eu.europa.data.health.access.AuditLogObject;
 import eu.europa.data.health.access.dispatcher_client.DispatcherClient;
 import eu.europa.data.health.access.dto.AttachmentDTO;
 import eu.europa.data.health.access.dto.SelectObjectDTO;
@@ -32,15 +37,21 @@ import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpResponse;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Class that implements all the CRUD operations for Catalogue.
  */
+@Slf4j
 public class CatalogueManager extends AbstractManager {
 
   private final HubRepoClient hubRepoClient;
@@ -49,15 +60,18 @@ public class CatalogueManager extends AbstractManager {
 
   private final DispatcherClient dispatcherClient;
 
+  private final AuditLogManager auditLogManager;
+
   private final Vertx vertx;
 
   public CatalogueManager(DBHandler dbHandler, HubRepoClient hubRepoClient,
-    HubStoreClient hubStoreClient, DispatcherClient dispatcherClient, Vertx vertx) {
+    HubStoreClient hubStoreClient, DispatcherClient dispatcherClient, Vertx vertx,  AuditLogManager auditLogManager) {
     super(dbHandler);
     this.hubRepoClient = hubRepoClient;
     this.hubStoreClient = hubStoreClient;
     this.dispatcherClient = dispatcherClient;
     this.vertx = vertx;
+    this.auditLogManager = auditLogManager;
   }
 
 
@@ -130,9 +144,12 @@ public class CatalogueManager extends AbstractManager {
   public void getCatalogue(@NotNull RoutingContext context) {
     hubRepoClient.getCatalogue(context).compose(result ->
         getRDFFileDataForCatalogue(context, result)
-      ).onSuccess(updatedResult -> setUpContextResponse(context, HttpResponseStatus.OK, updatedResult.encode())).
-      onFailure(cause -> setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
-        "Catalogue not found."));
+      ).onSuccess(
+        updatedResult -> setUpContextResponse(context, HttpResponseStatus.OK, updatedResult.encode()
+        )).
+      onFailure(
+        cause -> setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+          "Catalogue not found."));
   }
 
   /**
@@ -142,24 +159,37 @@ public class CatalogueManager extends AbstractManager {
    */
   public void deleteCatalog(@NotNull RoutingContext context) {
 
-    //Delete catalog mapping from dispatcher
-    Future<Integer> dispatcherCall = dispatcherClient.deleteCatalogMappingByMongoId(context);
+    getCatalogueTitleValue(context)
+      .recover(err -> Future.succeededFuture("")) // ignore errors, return empty string
+      .compose(title -> {
 
-    //Delete catalog from hub repo
-    Future<String> hubRepoCall = hubRepoClient.deleteCatalogue(context);
+        Future<Integer> dispatcherCall = dispatcherClient.deleteCatalogMappingByMongoId(context);
+        Future<String> hubRepoCall = hubRepoClient.deleteCatalogue(context);
+        Future<HttpResponse<Buffer>> hubStoreCall = hubStoreClient.deleteFile(null, CATALOGUE_ID, context.pathParam(CATALOGUE_ID));
 
-    //Delete file from hub store
-    Future<HttpResponse<Buffer>> hubStoreCall = hubStoreClient.deleteFile(null, CATALOGUE_ID,
-      context.pathParam(CATALOGUE_ID));
-
-    CompositeFuture.all(dispatcherCall, hubRepoCall, hubStoreCall)
-      .onSuccess(composite -> {
-        Integer dispatcherCallResult = dispatcherCall.result();
-        String hubRepoCallResult = hubRepoCall.result();
-        HttpResponse<Buffer> hubStoreCallResult = hubStoreCall.result();
+        return CompositeFuture.all(dispatcherCall, hubRepoCall, hubStoreCall)
+          .map(cf -> new DeleteResults(
+            title,
+            dispatcherCall.result(),
+            hubRepoCall.result(),
+            hubStoreCall.result()
+          ));
+      })
+      .onSuccess(results -> {
+        String title = results.title;
+        Integer dispatcherCallResult = results.dispatcherResult;
+        String hubRepoCallResult = results.hubRepoResult;
+        HttpResponse<Buffer> hubStoreCallResult = results.hubStoreResult;
 
         int hubStoreStatus = (hubStoreCallResult != null) ? hubStoreCallResult.statusCode() : -1;
-        String hubStoreMessage = (hubStoreCallResult != null) ? hubStoreCallResult.bodyAsString() : "Unknown";
+        String hubStoreMessage =
+          (hubStoreCallResult != null) ? hubStoreCallResult.bodyAsString() : "Unknown";
+
+        //Audit Log
+        String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+          AuditLogActionDescription.CATALOGUE_DELETED.toString(), context.pathParam(CATALOGUE_ID), title);
+        auditLogManager.insertAuditLog(AuditLogObject.CATALOGUE.toString(), context.pathParam(CATALOGUE_ID),
+          AuditLogAction.CATALOGUE_DELETED.toString(), auditLogActionDescription, true, context);
 
         JsonObject finalResult = new JsonObject()
           .put("dispatcherCallResult", dispatcherCallResult)
@@ -172,11 +202,26 @@ public class CatalogueManager extends AbstractManager {
           .setStatusCode(200)
           .end(finalResult.encodePrettily());
       })
-      .onFailure(err ->
-        context.response()
-          .setStatusCode(500)
-          .end("An error occurred: " + err.getMessage())
+      .onFailure(err -> context.response()
+        .setStatusCode(500)
+        .end("An error occurred: " + err.getMessage())
       );
+  }
+
+  private Future<String> getCatalogueTitleValue(RoutingContext context) {
+    return hubRepoClient.getCatalogueTitle(context)
+      .map(json -> {
+        JsonArray graph = json.getJsonArray("@graph");
+        if (graph == null || graph.isEmpty()) return "";
+
+        JsonObject catalogue = graph.getJsonObject(0);
+        JsonObject titleObj = catalogue.getJsonObject("dct:title");
+        if (titleObj != null && "en".equals(titleObj.getString("@language"))) {
+          return titleObj.getString("@value", "");
+        }
+        return "";
+      })
+      .recover(err -> Future.succeededFuture("")); // Treat errors as empty title
   }
 
   /**
@@ -213,7 +258,7 @@ public class CatalogueManager extends AbstractManager {
         AttachmentDTO rdfTemplate = new AttachmentDTO();
         //TODO wrong id this is the file id no the catalogue id. To be corrected
         rdfTemplate.setId(response.headers().get(CATALOGUE_ID));
-        rdfTemplate.setName(response.headers().get(FILENAME));
+        rdfTemplate.setName(decodeFilename(response.getHeader(CONTENT_DISPOSITION)));
         rdfTemplate.setSize((double) response.body().length());
 
         result.getJsonObject("data").put("rdfTemplate", JsonObject.mapFrom(rdfTemplate));
@@ -244,8 +289,8 @@ public class CatalogueManager extends AbstractManager {
           context.response()
             .putHeader(CONTENT_TYPE, "application/json")
             .end(Json.encodePrettily(Map.of(
-              "content-disposition", response.headers().get("content-disposition"),
-              FILENAME, response.headers().get(FILENAME)
+              CONTENT_DISPOSITION, response.headers().get(CONTENT_DISPOSITION),
+              FILENAME, decodeFilename(response.getHeader(CONTENT_DISPOSITION))
             )));
         } else {
           // Handle file retrieval failure
@@ -270,8 +315,8 @@ public class CatalogueManager extends AbstractManager {
           HttpResponse<Buffer> response = ar.result();
           context.response()
             .putHeader(CONTENT_TYPE, "application/octet-stream")
-            .putHeader("Content-Disposition", response.headers().get("content-disposition"))
-            .putHeader(FILENAME, response.headers().get(FILENAME))
+            .putHeader(CONTENT_DISPOSITION, response.headers().get(CONTENT_DISPOSITION))
+            .putHeader(FILENAME, decodeFilename(response.getHeader(CONTENT_DISPOSITION)))
             .end(response.bodyAsBuffer());
         } else {
           // Handle file retrieval failure
@@ -280,4 +325,18 @@ public class CatalogueManager extends AbstractManager {
         }
       });
   }
+
+  protected String decodeFilename(String contentDisposition){
+    if (StringUtils.isNotEmpty(contentDisposition) && contentDisposition.contains(FILENAME_ASTERISK_EQUALS)) {
+      String part = contentDisposition.substring(contentDisposition.indexOf(FILENAME_ASTERISK_EQUALS) + FILENAME_ASTERISK_EQUALS.length()).trim();
+      if (part.startsWith("UTF-8''")) {
+        part = part.substring("UTF-8''".length());
+      }
+      return URLDecoder.decode(part, StandardCharsets.UTF_8);
+    }
+    return "Error_decoding_filename";
+  }
+
+  public record DeleteResults(String title, Integer dispatcherResult, String hubRepoResult,
+                              HttpResponse<Buffer> hubStoreResult) {}
 }

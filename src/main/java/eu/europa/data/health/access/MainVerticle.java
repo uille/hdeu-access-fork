@@ -30,19 +30,29 @@ import eu.europa.data.health.access.auth_client.AuthClient;
 import eu.europa.data.health.access.dispatcher_client.DispatcherClient;
 import eu.europa.data.health.access.handlers.DBHandler;
 import eu.europa.data.health.access.hub_repo_client.HubRepoClient;
+import eu.europa.data.health.access.hub_translation_client.HubTranslationClient;
 import eu.europa.data.health.access.scheduled_jobs.DispatcherScheduledJob;
+import eu.europa.data.health.access.scheduled_jobs.TranslationRetryScheduledJob;
 import eu.europa.data.health.access.services.AdministrationTasksManager;
 import eu.europa.data.health.access.services.AuditLogManager;
 import eu.europa.data.health.access.services.BasketManager;
+import eu.europa.data.health.access.services.BiennialReportManager;
 import eu.europa.data.health.access.services.CatalogueManager;
+import eu.europa.data.health.access.services.ControlledVocabularyManager;
 import eu.europa.data.health.access.services.CountriesManager;
 import eu.europa.data.health.access.services.DataAccessApplicationManager;
 import eu.europa.data.health.access.services.DataRequestApplicationManager;
+import eu.europa.data.health.access.services.DdaDatasetManager;
 import eu.europa.data.health.access.services.DispatcherManager;
 import eu.europa.data.health.access.services.DocumentExportDataAccessManager;
 import eu.europa.data.health.access.services.DocumentExportDataRequestManager;
 import eu.europa.data.health.access.services.HubSearchClient;
 import eu.europa.data.health.access.services.HubStoreClient;
+import eu.europa.data.health.access.services.ITBValidatorClient;
+import eu.europa.data.health.access.services.PayloadManager;
+import eu.europa.data.health.access.services.RDFService;
+import eu.europa.data.health.access.services.SchemaTranslationService;
+import eu.europa.data.health.access.services.TranslationCallbackManager;
 import eu.europa.data.health.access.services.TranslationManager;
 import eu.europa.data.health.access.services.UserManager;
 import eu.europa.data.health.access.validations.business_validators.DataAccessApplicationBusinessValidationManager;
@@ -89,7 +99,21 @@ import io.vertx.ext.web.openapi.RouterBuilder;
 import io.vertx.ext.web.openapi.RouterBuilderOptions;
 import io.vertx.ext.web.validation.BadRequestException;
 import io.vertx.serviceproxy.ServiceException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
@@ -97,22 +121,12 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-
 /**
  * The MainVerticle class of Vert.x
  */
 public class MainVerticle extends AbstractVerticle {
 
+  public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
   private final Logger log = LoggerFactory.getLogger(getClass());
   DBHandler dbHandler;
   MongoClient mongoClient;
@@ -145,7 +159,7 @@ public class MainVerticle extends AbstractVerticle {
       client = createWebClient();
 
       return initializeRouter(piveauAuth, authConfig)
-        .onSuccess(router -> startHttpServer(router))
+        .onSuccess(this::startHttpServer)
         .onSuccess(v -> promise.complete())
         .onFailure(promise::fail);
     });
@@ -267,23 +281,47 @@ public class MainVerticle extends AbstractVerticle {
     HubStoreClient hubStoreClient = new HubStoreClient(WebClient.create(vertx), config.getString(Constants.HUB_STORE_UPLOAD_DATA_URL), config.getString(Constants.PIVEAU_STORE_API_KEY));
     DispatcherClient dispatcherClient = new DispatcherClient(config.getString(Constants.DISPATCHER_URL), config.getString(Constants.DISPATCHER_X_API_KEY), client);
     HubSearchClient hubSearchClient = new HubSearchClient(client, config);
-    HubRepoClient hubRepoClient = new HubRepoClient(dbHandler, config.getString(Constants.HUB_REPO_URL), config.getString(Constants.HUB_REPO_X_API_KEY), client, dispatcherClient, hubStoreClient, hubSearchClient, countriesManager);
-
     AuditLogManager auditLogManager = new AuditLogManager(dbHandler, authClient);
+
+    TranslationManager translationManager = new TranslationManager();
+    HubTranslationClient hubTranslationClient = new HubTranslationClient(
+      config.getString(Constants.ENV_TRANSLATION_SERVICE_URL),
+      config.getString(Constants.ENV_TRANSLATION_SERVICE_FILE_URL),
+      config.getString(Constants.ENV_TRANSLATION_SERVICE_CALLBACK_URL),
+      config.getString(Constants.ENV_TRANSLATION_SERVICE_X_API_KEY),
+      config.getString(Constants.ENV_HEALTH_DATA_ACCESS_API_KEY),
+      client,
+      translationManager
+    );
+    authClient.setAuditLogManager(auditLogManager);
+    HubRepoClient hubRepoClient = new HubRepoClient(dbHandler, config.getString(Constants.HUB_REPO_URL), config.getString(Constants.HUB_REPO_X_API_KEY), client, dispatcherClient, hubStoreClient, hubSearchClient, countriesManager, auditLogManager);
+    ITBValidatorClient itbValidatorClient =
+      new ITBValidatorClient(client, config.getString(Constants.ENV_ITB_VALIDATOR_ENDPOINT, ""));
+
+    boolean translate = !StringUtils.isNotEmpty(config.getString("TRANSLATE")) || !"false".equalsIgnoreCase(config.getString("TRANSLATE"));
+
     BasketManager basketManager = new BasketManager(dbHandler, mongoClient);
     CommonApplicationValidationManager commonApplicationValidationManager = new CommonApplicationValidationManager(dbHandler, mongoClient);
     DataAccessApplicationValidationManager daaValidation = new DataAccessApplicationValidationManager();
     DataAccessApplicationBusinessValidationManager daaBusinessValidation = new DataAccessApplicationBusinessValidationManager(mongoClient);
-    DataAccessApplicationManager daaManager = new DataAccessApplicationManager(dbHandler, mongoClient, basketManager, hubStoreClient, vertx, daaValidation, daaBusinessValidation, auditLogManager);
+    DataAccessApplicationManager daaManager = new DataAccessApplicationManager(dbHandler, mongoClient, basketManager, hubStoreClient, vertx, daaValidation, daaBusinessValidation, auditLogManager, hubTranslationClient, hubSearchClient, translate, authClient);
 
     DataRequestApplicationValidationManager draValidation = new DataRequestApplicationValidationManager();
     DataRequestApplicationBusinessValidationManager draBusinessValidation = new DataRequestApplicationBusinessValidationManager(mongoClient);
-    DataRequestApplicationManager draManager = new DataRequestApplicationManager(dbHandler, mongoClient, basketManager, hubStoreClient, vertx, draValidation, draBusinessValidation, auditLogManager);
+    DataRequestApplicationManager draManager = new DataRequestApplicationManager(dbHandler, mongoClient, basketManager, hubStoreClient, vertx, draValidation, draBusinessValidation, auditLogManager, hubTranslationClient, hubSearchClient, translate, authClient);
 
     UserValidationManager userValidation = new UserValidationManager();
     UserManager userManager = new UserManager(dbHandler, mongoClient, dispatcherClient, auditLogManager, authClient);
     AdministrationTasksManager adminTasksManager = new AdministrationTasksManager(dbHandler, mongoClient);
-    TranslationManager translationManager = new TranslationManager();
+
+    ControlledVocabularyManager controlledVocabularyManager = new ControlledVocabularyManager(
+      mongoClient, client, hubTranslationClient);
+    SchemaTranslationService schemaTranslationService = new SchemaTranslationService();
+    PayloadManager payloadManager = new PayloadManager(dbHandler, mongoClient,
+      controlledVocabularyManager, hubTranslationClient, schemaTranslationService);
+
+    TranslationCallbackManager translationCallbackManager = new TranslationCallbackManager(
+      draManager, daaManager, controlledVocabularyManager, payloadManager, hubStoreClient);
 
     AuditLogValidationManager auditLogValidation = new AuditLogValidationManager( config,hubSearchClient);
     BasketValidationManager basketValidation = new BasketValidationManager(hubSearchClient);
@@ -292,14 +330,20 @@ public class MainVerticle extends AbstractVerticle {
     DocumentExportDataAccessManager documentExportAccessManager = new DocumentExportDataAccessManager(translationManager, dbHandler, client, config);
 
     DispatcherValidationManager dispatcherValidationManager = new DispatcherValidationManager();
-    DispatcherManager dispatcherManager = new DispatcherManager(mongoClient, dbHandler);
+    DispatcherManager dispatcherManager = new DispatcherManager(dbHandler, mongoClient, basketManager, hubStoreClient, vertx, auditLogManager, hubTranslationClient, hubSearchClient, authClient);
 
-    CatalogueManager catalogueManager = new CatalogueManager(dbHandler, hubRepoClient, hubStoreClient, dispatcherClient, vertx);
+    CatalogueManager catalogueManager = new CatalogueManager(dbHandler, hubRepoClient, hubStoreClient, dispatcherClient, vertx, auditLogManager);
     CatalogueValidationManager catalogueValidationManager = new CatalogueValidationManager(
       hubRepoClient, dispatcherClient, vertx, countriesManager);
 
+    DdaDatasetManager  ddaDatasetManager = new DdaDatasetManager(dbHandler, mongoClient);
+
     PermissionValidator adminValidator = new PermissionValidator(List.of(DATA_ADMIN));
     PermissionValidator userValidator = new PermissionValidator(List.of(DATA_USER));
+
+    BiennialReportManager biennialReportManager = new BiennialReportManager();
+
+    RDFService rdfService = new RDFService();
 
     setupHandlers(builder, userValidator, adminValidator, adminTasksManager, catalogueValidationManager, catalogueManager,
       commonApplicationValidationManager, dispatcherManager, dispatcherValidationManager,
@@ -307,10 +351,14 @@ public class MainVerticle extends AbstractVerticle {
       daaValidation, daaManager, daaBusinessValidation,
       basketValidation, basketManager, userValidation, userManager,
       translationManager, auditLogValidation, auditLogManager,
-      authClient, documentExportRequestManager, documentExportAccessManager);
+      authClient, documentExportRequestManager, documentExportAccessManager,
+      translationCallbackManager, biennialReportManager, payloadManager, ddaDatasetManager,
+      itbValidatorClient, rdfService);
 
     scheduleCronJobForDataAccessApplication(dispatcherManager, dispatcherClient);
     scheduleCronJobForDataRequestApplication(dispatcherManager, dispatcherClient);
+    scheduleTranslationRetryJob(hubTranslationClient, hubStoreClient, daaManager, draManager);
+    scheduleControlledVocabularyRefreshJob(controlledVocabularyManager);
   }
 
   private void addHealthCheck(Router router) {
@@ -342,7 +390,10 @@ public class MainVerticle extends AbstractVerticle {
     UserValidationManager userValidationManager, UserManager userManager,
     TranslationManager translationManager, AuditLogValidationManager auditLogValidationManager,
     AuditLogManager auditLogManager, AuthClient authClient, DocumentExportDataRequestManager documentExportDataRequestManager,
-    DocumentExportDataAccessManager documentExportDataAccessManager){
+    DocumentExportDataAccessManager documentExportDataAccessManager,
+    TranslationCallbackManager translationCallbackManager,
+    BiennialReportManager biennialReportManager, PayloadManager payloadManager, DdaDatasetManager ddaDatasetManager,
+    ITBValidatorClient itbValidatorClient, RDFService rdfService) {
 
     setupDataAccessApplicationManagerHandler(builder, userPermissionValidator,
       dataAccessApplicationValidationManager, commonApplicationValidationManager,
@@ -361,6 +412,8 @@ public class MainVerticle extends AbstractVerticle {
 
     setupTranslationManagerHandler(builder, userPermissionValidator,
       translationManager);
+
+    setupTranslationCallbackHandler(builder, translationCallbackManager);
 
     setupUserManagerHandler(builder, userPermissionValidator, adminPermissionValidator,
       userValidationManager, userManager);
@@ -384,6 +437,17 @@ public class MainVerticle extends AbstractVerticle {
 
     setupAdministrationTasksManagerHandler(builder,
       adminPermissionValidator, administrationTasksManager);
+
+    setUpBiennialReportManagerHandler(builder,
+      biennialReportManager);
+
+    setupPayloadManagerHandler(builder, payloadManager);
+
+    setupDdaDatasetManagerHandler(builder, ddaDatasetManager);
+
+    setupITBValidatorHandler(builder, itbValidatorClient);
+
+    setupRdfConversionHandler(builder, rdfService);
   }
 
   private void setupCountriesHandler(RouterBuilder builder,
@@ -409,6 +473,11 @@ public class MainVerticle extends AbstractVerticle {
     builder.operation("getAllDataRequestApplicationsByAdmin")
       .handler(adminPermissionValidator)
       .handler(administrationTasksManager::getAllDataRequestApplications);
+  }
+
+  private void setUpBiennialReportManagerHandler(RouterBuilder builder, BiennialReportManager biennialReportManager){
+    builder.operation("downloadBiennialReportDocument")
+      .handler(biennialReportManager::downloadBiennialReportDocument);
   }
 
   private void setupCatalogueManagerHandler(RouterBuilder builder, PermissionValidator adminPermissionValidator,
@@ -465,6 +534,11 @@ public class MainVerticle extends AbstractVerticle {
     builder.operation("getTranslations")
       .handler(userPermissionValidator)
       .handler(translationManager::getTranslationForSection);
+  }
+
+  private void setupTranslationCallbackHandler(RouterBuilder builder, TranslationCallbackManager translationCallbackManager) {
+    builder.operation("postTranslationCallback")
+      .handler(translationCallbackManager::handleTranslationCallback);
   }
 
   private void setupAuthClientHandler(RouterBuilder builder, PermissionValidator adminPermissionValidator,
@@ -589,9 +663,6 @@ public class MainVerticle extends AbstractVerticle {
     builder.operation("putDataRequestApplication")
       .handler(userPermissionValidator)
       .handler(dataRequestApplicationManager::updateApplication);
-    builder.operation("patchDataRequestApplication")
-      .handler(userPermissionValidator)
-      .handler(dataRequestApplicationManager::patchApplication);
     builder.operation("deleteDataRequestApplicationById")
       .handler(userPermissionValidator)
       .handler(dataRequestApplicationManager::deleteDataRequestApplicationById);
@@ -667,9 +738,6 @@ public class MainVerticle extends AbstractVerticle {
     builder.operation("putDataAccessApplication")
       .handler(userPermissionValidator)
       .handler(dataAccessApplicationManager::updateApplication);
-    builder.operation("patchDataAccessApplication")
-      .handler(userPermissionValidator)
-      .handler(dataAccessApplicationManager::patchApplication);
     builder.operation("deleteDataAccessApplicationById")
       .handler(userPermissionValidator)
       .handler(dataAccessApplicationManager::deleteDataAccessApplicationById);
@@ -722,6 +790,31 @@ public class MainVerticle extends AbstractVerticle {
       .handler(dataAccessApplicationManager::changeTitle);
   }
 
+  private void setupPayloadManagerHandler(RouterBuilder builder, PayloadManager payloadManager) {
+    builder.operation("putPayload").handler(payloadManager::createOrUpdatePayload);
+    builder.operation("getPayload").handler(payloadManager::retrievePayload);
+  }
+
+  /**
+   * Setup DDA Dataset Manager Handler
+   * @param builder : RouterBuilder
+   * @param ddaDatasetManager : DdaDatasetManager
+   */
+  private void setupDdaDatasetManagerHandler(RouterBuilder builder, DdaDatasetManager ddaDatasetManager) {
+    builder.operation("postDda").handler(ddaDatasetManager::createOrUpdateDatasetDescription);
+    builder.operation("getDda").handler(ddaDatasetManager::getDatasetDescription);
+  }
+
+  private void setupITBValidatorHandler(RouterBuilder builder,
+    ITBValidatorClient itbValidatorClient) {
+    builder.operation("validateDataset").handler(itbValidatorClient::validateDataset);
+  }
+
+  private void setupRdfConversionHandler(RouterBuilder builder, RDFService rdfService) {
+    builder.operation("convertJsonLdToRdfXml")
+      .handler(ctx -> rdfService.convertRDF(ctx, Lang.JSONLD, Lang.RDFXML));
+  }
+
   private void scheduleCronJobForDataAccessApplication(DispatcherManager dispatcherManager,
     DispatcherClient dispatcherClient) {
     int dataAccessDispatcherInterval = Constants.DATA_ACCESS_DISPATCHER_DEFAULT_INTERVAL;
@@ -766,6 +859,69 @@ public class MainVerticle extends AbstractVerticle {
       id -> dataRequestDispatcherScheduledJob.sendApplicationsToDispatcher(
         dataRequestDispatcherMaxRetries,
         dispatcherClient, DATA_REQUEST_APPLICATION_COLLECTION));
+  }
+
+  private void scheduleTranslationRetryJob(
+    HubTranslationClient hubTranslationClient,
+    HubStoreClient hubStoreClient,
+    DataAccessApplicationManager daaManager,
+    DataRequestApplicationManager draManager) {
+    int retryInterval = config.getInteger(Constants.TRANSLATION_RETRY_INTERVAL) != null
+      ? config.getInteger(Constants.TRANSLATION_RETRY_INTERVAL)
+      : Constants.TRANSLATION_RETRY_DEFAULT_INTERVAL;
+
+    int maxAttempts = config.getInteger(Constants.TRANSLATION_RETRY_MAX_ATTEMPTS) != null
+      ? config.getInteger(Constants.TRANSLATION_RETRY_MAX_ATTEMPTS)
+      : Constants.TRANSLATION_RETRY_DEFAULT_MAX_ATTEMPTS;
+
+    TranslationRetryScheduledJob retryJob = new TranslationRetryScheduledJob(mongoClient, hubTranslationClient, hubStoreClient, daaManager, draManager);
+
+    vertx.setPeriodic(retryInterval, id -> {
+      retryJob.retryPendingTranslations(DATA_REQUEST_APPLICATION_COLLECTION, maxAttempts, retryInterval);
+      retryJob.retryPendingTranslations(DATA_ACCESS_APPLICATION_COLLECTION, maxAttempts, retryInterval);
+    });
+  }
+
+  /**
+   * Periodically re-fetches every controlled vocabulary document in Mongo by its source URL.
+   * Interval (ms) can be configured via CONTROLLED_VOCABULARY_REFRESH_INTERVAL; defaults to
+   * midnight Brussels time if not set. Minimum interval is 1 minute.
+   */
+  private void scheduleControlledVocabularyRefreshJob(ControlledVocabularyManager cvManager) {
+    Object raw = config.getValue(Constants.CONTROLLED_VOCABULARY_REFRESH_INTERVAL);
+    final long configuredDelay = raw instanceof Number n ? n.longValue() : millisToMidnight();
+    final long refreshDelayMs = Math.max(configuredDelay, 60_000L); // Force minimum 1 minute
+
+    vertx.setTimer(refreshDelayMs, id -> cvManager.getAll()
+      .onSuccess(docs -> {
+        if (docs == null || docs.isEmpty()) {
+          log.info("Controlled vocabulary refresh: no documents found.");
+          return;
+        }
+        log.info("Controlled vocabulary refresh: re-fetching {} document(s).", docs.size());
+
+        for (JsonObject doc : docs) {
+          final String src = doc.getString("source");
+          if (StringUtils.isNotBlank(src)) {
+            cvManager.refreshBySource(src, doc)
+              .onSuccess(v -> log.debug("Refreshed controlled vocabulary '{}'", src))
+              .onFailure(err -> log.warn("Failed to refresh controlled vocabulary '{}'", src, err));
+          }
+        }
+      })
+      .onFailure(err -> log.error("Failed to find controlled vocabulary documents", err))
+      .onComplete(v -> scheduleControlledVocabularyRefreshJob(cvManager))
+    );
+  }
+
+  /**
+   * Calculates milliseconds until next midnight in Brussels timezone.
+   */
+  private long millisToMidnight() {
+    ZoneId zone = ZoneId.of("Europe/Brussels");
+    ZonedDateTime now = ZonedDateTime.now(zone);
+    ZonedDateTime nextMidnight = now.toLocalDate().plusDays(1).atStartOfDay(zone);
+    return Duration.between(now, nextMidnight).toMillis();
   }
 
   /**
@@ -866,7 +1022,7 @@ public class MainVerticle extends AbstractVerticle {
   }
 
   private void respondWithJson(RoutingContext context, String jsonResponse) {
-    context.response().putHeader(HttpHeaders.CONTENT_TYPE, "application/json").end(jsonResponse);
+    context.response().putHeader(HttpHeaders.CONTENT_TYPE, CONTENT_TYPE_APPLICATION_JSON).end(jsonResponse);
   }
 
   Future<Void> loadConfig() {
@@ -971,7 +1127,7 @@ public class MainVerticle extends AbstractVerticle {
 
     if (Objects.nonNull(countriesModel)) {
       JsonArray countries = countriesManager.getCountriesJsonArray(countriesModel, lang, filter);
-      context.response().putHeader("content-type", "application/json");
+      context.response().putHeader("content-type", CONTENT_TYPE_APPLICATION_JSON);
       context.response().setStatusCode(200).end(countries.encode());
     } else {
       context.response().setStatusCode(400).end("Countries model is null.");
@@ -988,7 +1144,7 @@ public class MainVerticle extends AbstractVerticle {
 
     if (Objects.nonNull(countriesModel)) {
       JsonArray countries = countriesManager.getCountriesJsonArray(countriesModel, lang, "euCountry");
-      context.response().putHeader("content-type", "application/json");
+      context.response().putHeader("content-type", CONTENT_TYPE_APPLICATION_JSON);
       context.response().setStatusCode(200).end(countries.encode());
     } else {
       context.response().setStatusCode(400).end("Countries model is null.");

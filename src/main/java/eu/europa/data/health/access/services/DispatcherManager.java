@@ -19,21 +19,22 @@ import static eu.europa.data.health.access.Constants.APPLICATION_ID;
 import static eu.europa.data.health.access.Constants.APPLICATION_TYPE;
 import static eu.europa.data.health.access.Constants.APPROVED;
 import static eu.europa.data.health.access.Constants.CATALOG_IDS;
+import static eu.europa.data.health.access.Constants.DATASETS;
 import static eu.europa.data.health.access.Constants.DATA_PERMIT_ID;
-import static eu.europa.data.health.access.Constants.DATE_MODIFIED;
 import static eu.europa.data.health.access.Constants.DISPATCHER_COLLECTION;
-import static eu.europa.data.health.access.Constants.ID;
 import static eu.europa.data.health.access.Constants.PUBLISHER;
 import static eu.europa.data.health.access.Constants.REJECTED;
 import static eu.europa.data.health.access.Constants.STATUS;
 import static eu.europa.data.health.access.Constants.STATUS_HISTORY;
 import static eu.europa.data.health.access.Constants.SUBMITTED;
+import static eu.europa.data.health.access.Constants.USER_ID;
 
 import eu.europa.data.health.access.DispatcherResponseStatus;
+import eu.europa.data.health.access.auth_client.AuthClient;
 import eu.europa.data.health.access.handlers.DBHandler;
+import eu.europa.data.health.access.hub_translation_client.HubTranslationClient;
 import io.netty.handler.codec.http.HttpResponseStatus;
-import io.vertx.core.Future;
-import io.vertx.core.Promise;
+import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.FindOptions;
@@ -48,14 +49,16 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DispatcherManager extends AbstractManager {
+public class DispatcherManager extends CommonApplicationManager {
 
 
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final MongoClient mongoClient;
 
-  public DispatcherManager(MongoClient mongoClient, DBHandler dbHandler) {
-    super(dbHandler);
+  public DispatcherManager(DBHandler dbHandler, MongoClient mongoClient,
+                           BasketManager basketManager, HubStoreClient hubStoreClient, Vertx vertx,
+                           AuditLogManager auditLogManager, HubTranslationClient hubTranslationClient, HubSearchClient hubSearchClient, AuthClient authClient) {
+    super(dbHandler, basketManager, mongoClient, vertx, hubStoreClient, auditLogManager, hubTranslationClient, hubSearchClient, authClient);
     this.mongoClient = mongoClient;
   }
 
@@ -73,11 +76,11 @@ public class DispatcherManager extends AbstractManager {
 
           JsonObject mongoApplication = res.result();
 
-          String mongoApplicationStatus = mongoApplication.getJsonObject("status")
-            .getString("status");
+          String mongoApplicationStatus = mongoApplication.getJsonObject(STATUS)
+            .getString(STATUS);
           if (SUBMITTED.equalsIgnoreCase(mongoApplicationStatus)) {
 
-            JsonArray mongoDatasets = mongoApplication.getJsonArray("datasets");
+            JsonArray mongoDatasets = mongoApplication.getJsonArray(DATASETS);
             if (mongoDatasets != null && !mongoDatasets.isEmpty()) {
 
               AtomicBoolean atLeastOneApproved = new AtomicBoolean(false);
@@ -167,9 +170,9 @@ public class DispatcherManager extends AbstractManager {
     JsonObject currentStatus = mongoApplication.getJsonObject(STATUS);
 
     JsonObject newHistoryStatus = new JsonObject();
-    newHistoryStatus.put("status", currentStatus.getString("status"));
+    newHistoryStatus.put(STATUS, currentStatus.getString(STATUS));
     newHistoryStatus.put("date", currentStatus.getString("date"));
-    newHistoryStatus.put("userId", currentStatus.getString("userId"));
+    newHistoryStatus.put(USER_ID, currentStatus.getString(USER_ID));
 
     // Update the status_history for the application.
     JsonArray statusHistory = new JsonArray();
@@ -179,12 +182,12 @@ public class DispatcherManager extends AbstractManager {
     statusHistory.add(newHistoryStatus);
 
     JsonObject newStatus = new JsonObject();
-    newStatus.put("status", applicationStatus);
+    newStatus.put(STATUS, applicationStatus);
     newStatus.put("date", Instant.now());
-    newStatus.put("userId", "DISPATCHER");
+    newStatus.put(USER_ID, "DISPATCHER");
     newStatus.put("status_history", statusHistory);
 
-    mongoApplication.put("status", newStatus);
+    mongoApplication.put(STATUS, newStatus);
   }
 
 
@@ -267,7 +270,7 @@ public class DispatcherManager extends AbstractManager {
       if (asyncAppResult.result() != null) {
         JsonObject mongoApplication = asyncAppResult.result();
         if (specificStatus != null) {
-          JsonArray mongoDatasets = mongoApplication.getJsonArray("datasets");
+          JsonArray mongoDatasets = mongoApplication.getJsonArray(DATASETS);
           if (mongoDatasets != null) {
             mongoDatasets.forEach(mongoDatasetsObj -> {
               if (mongoDatasetsObj instanceof JsonObject mongoDatasetObject) {
@@ -295,6 +298,10 @@ public class DispatcherManager extends AbstractManager {
           }
         }
         updateApplication(mongoApplication, applicationQuery, collectionName);
+      } else {
+        log.error(
+          "{} Dispatcher response status failed to update for application's datasets. Application with id: {} not found",
+          collectionName, applicationId);
       }
     });
   }
@@ -302,7 +309,7 @@ public class DispatcherManager extends AbstractManager {
   private void prepareDatasets(JsonObject mongoApplication, JsonArray catalogIds,
     String dispatcherResponseStatus) {
     if (mongoApplication != null) {
-      JsonArray mongoDatasets = mongoApplication.getJsonArray("datasets");
+      JsonArray mongoDatasets = mongoApplication.getJsonArray(DATASETS);
       if (mongoDatasets != null) {
         mongoDatasets.forEach(mongoDatasetsObj -> {
           if (mongoDatasetsObj instanceof JsonObject mongoDatasetObject) {
@@ -322,11 +329,12 @@ public class DispatcherManager extends AbstractManager {
       mongoClient.findOneAndReplace(collectionName, applicationQuery, mongoApplication,
         datasetUpdated -> {
           if (datasetUpdated.succeeded()) {
-            log.info(DISPATCHER_COLLECTION
-              + " Dispatcher response status updated successfully for application's datasets");
+            log.info(
+              "{} Dispatcher response status updated successfully for application's datasets",
+              collectionName);
           } else {
-            log.info(DISPATCHER_COLLECTION
-              + " Dispatcher response status failed to update for application's datasets");
+            log.error("{} Dispatcher response status failed to update for application's datasets",
+              collectionName);
           }
         });
     }
@@ -354,25 +362,6 @@ public class DispatcherManager extends AbstractManager {
     LocalDateTime now = LocalDateTime.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     return now.format(formatter);
-  }
-
-  private Future<JsonObject> replaceApplication(JsonObject mongoApplication, String collectionName) {
-    Promise<JsonObject> promise = Promise.promise();
-    JsonObject query = new JsonObject().put(ID, mongoApplication.getValue(ID));
-    mongoApplication.put(DATE_MODIFIED, Instant.now());
-    mongoClient.findOneAndReplace(collectionName, query, mongoApplication,
-      result -> {
-        if (result.succeeded()) {
-          log.info("{} Application with id: {} was updated successfully", collectionName,
-            mongoApplication.getValue(ID));
-          promise.complete(result.result());
-        } else {
-          log.info("{} Failed to replace application with id: {}", collectionName,
-            mongoApplication.getValue(ID));
-          promise.fail(result.cause());
-        }
-      });
-    return promise.future();
   }
 
 }

@@ -17,6 +17,21 @@
         },
         "applicationDatabases": {
             "label": "Fra hvilken(n) database(er) eller register/registre vil dataene bli hentet ut?"
+        },
+        "variables": {
+            "label": "Variabler"
+        },
+        "datatype": {
+            "label": "Datatyper (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Beskrivelse"
+        },
+        "title": {
+            "label": "Variabler"
+        },
+        "emptyTable": {
+            "label": "Ingen variabler"
         }
     },
     "section2": {
@@ -102,10 +117,10 @@
                 },
                 {
                     "key": "b",
-                    "value": "Naturlig person",
-                    "info": "(Hvis du velger dette alternativet, bekrefter du at du søker om data som privatperson uten tilknytning.)"
+                    "value": "Naturlig person"
                 }
-            ]
+            ],
+            "info": "(Hvis du velger dette alternativet, bekrefter du at du søker om data som privatperson uten tilknytning.)"
         },
         "legalPerson": "Juridisk person",
         "naturalPerson": "Naturlig person",
@@ -141,15 +156,6 @@
         },
         "contactPersonBusinessIdentifier": {
             "label": "Business ID for organisasjonen"
-        },
-        "contactPersonOperatorIdentifier": {
-            "label": "Operatør-ID"
-        },
-        "contactPersonJobTitle": {
-            "label": "Stillingstittel"
-        },
-        "contactPersonAffiliation": {
-            "label": "Tilknytning"
         },
         "contactPersonRelationship": {
             "label": "Hva er forholdet mellom kontaktpersonen og søkeren? (F.eks. en ansatt som søker om data på vegne av organisasjonen.)"
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "Formålet med databruken",
-        "section5Description": "Søkere bør angi formålet med opplysningene som det søkes om, i samsvar med artikkel 53 nr. 1 i EHDS-forordningen godkjent av Europaparlamentet 17./12. \nSøkere må forklare og argumentere for hvorfor de forespurte dataene er nødvendige for deres angitte bruksformål. Søkere blir også bedt om å gi informasjon om formålet med prosjektet. Deretter, avhengig av bruksformål (forskning eller ikke forskning), må søkere gi et sammendrag av planen for bruk av dataene eller et sammendrag av forskningsplanen, og informasjon om personen som er ansvarlig for databruken eller forskningen.",
+        "section5Description": "Søkere bør angi formålet som det søkes om data for, i samsvar med artikkel 53 nr. 1 i europaparlaments- og rådsforordning (EU) 2025/327 av 11. februar 2025 om det europeiske helsedataområdet. Søkere må forklare og argumentere for hvorfor de forespurte dataene er nødvendige for deres angitte bruksformål. Søkere blir også bedt om å gi informasjon om formålet med prosjektet. Deretter, avhengig av bruksformål (forskning eller ikke forskning), må søkere gi et sammendrag av planen for bruk av dataene eller et sammendrag av forskningsplanen, og informasjon om personen som er ansvarlig for databruken eller forskningen.",
         "purposeOfUse": {
             "label": "Formålet med databruken. Organer for tilgang til helseopplysninger skal bare gi tilgang til elektroniske helseopplysninger nevnt i artikkel 51 dersom formålet med behandlingen som søkeren forfølger, er i samsvar med følgende formål (i henhold til artikkel 53 nr. 1) oppført nedenfor).",
             "tooltip": "Formålet med EHDS-regelverket.",
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Hva er den forventede fordelen knyttet til bruken av de elektroniske helseopplysningene og hvordan denne fordelen bidrar til formålene nevnt i 5.1?"
         },
+        "describeApplicantsQualification": {
+            "label": "Beskriv søkerens kvalifikasjoner i forhold til formålet(e) med databruk og egnet kompetanse (inkl. yrkeskvalifikasjoner)"
+        },
         "legalBasis": {
             "label": "Angi det rettslige grunnlaget, for eksempel den relevante lovgivningen, som definerer oppgavene som faller inn under mandatet ditt, og bekrefter at din planlagte bruk av dataene er å lette slike oppgaver.",
             "tooltip": "Forklar her hvorfor mengden data du søker om er nødvendig for databruken din. Begrunne og beskrive hvordan innholdet i den forespurte statistikken samsvarer med formålet med bruk som er angitt i søknaden og oppfyller dine datakrav."
@@ -320,222 +329,16 @@
             "label": "Gi en lenke til underlagsdokumentasjonen som bevis på det rettslige grunnlaget"
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Gi et sammendrag av planen din for bruk av dataene. Sammendraget må være skrevet på et av de offisielle EU-språkene"
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Velg språket i sammendraget",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgarsk"
-                },
-                {
-                    "key": "hr",
-                    "value": "Kroatisk"
-                },
-                {
-                    "key": "cs",
-                    "value": "Tsjekkisk"
-                },
-                {
-                    "key": "da",
-                    "value": "Dansk"
-                },
-                {
-                    "key": "nl",
-                    "value": "Nederlandsk"
-                },
-                {
-                    "key": "en",
-                    "value": "Engelsk"
-                },
-                {
-                    "key": "et",
-                    "value": "Estisk"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finsk"
-                },
-                {
-                    "key": "fr",
-                    "value": "Fransk"
-                },
-                {
-                    "key": "de",
-                    "value": "Tysk"
-                },
-                {
-                    "key": "el",
-                    "value": "Gresk"
-                },
-                {
-                    "key": "hu",
-                    "value": "Ungarsk"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irsk"
-                },
-                {
-                    "key": "it",
-                    "value": "Italiensk"
-                },
-                {
-                    "key": "lv",
-                    "value": "Latvisk"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litauisk"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltesisk"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polsk"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugisisk"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumensk"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovakiske"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slovensk"
-                },
-                {
-                    "key": "es",
-                    "value": "Spansk"
-                },
-                {
-                    "key": "sv",
-                    "value": "Svensk"
-                }
-            ]
+            "label": "Gi et sammendrag av planen din for bruk av dataene. Sammendraget må være skrevet på et av de offisielle EU-språkene",
+            "tooltip": "Opplastede filer blir automatisk oversatt av systemet. Søkeren er ansvarlig for kvalitet, lesbarhet og formatering av de opplastede filene."
         },
         "summaryOfResearchPlan": {
-            "label": "Gi en oppsummering av din forskningsplan. Sammendraget må være skrevet på et av de offisielle EU-språkene"
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Velg språket i sammendraget",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgarsk"
-                },
-                {
-                    "key": "hr",
-                    "value": "Kroatisk"
-                },
-                {
-                    "key": "cs",
-                    "value": "Tsjekkisk"
-                },
-                {
-                    "key": "da",
-                    "value": "Dansk"
-                },
-                {
-                    "key": "nl",
-                    "value": "Nederlandsk"
-                },
-                {
-                    "key": "en",
-                    "value": "Engelsk"
-                },
-                {
-                    "key": "et",
-                    "value": "Estisk"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finsk"
-                },
-                {
-                    "key": "fr",
-                    "value": "Fransk"
-                },
-                {
-                    "key": "de",
-                    "value": "Tysk"
-                },
-                {
-                    "key": "el",
-                    "value": "Gresk"
-                },
-                {
-                    "key": "hu",
-                    "value": "Ungarsk"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irsk"
-                },
-                {
-                    "key": "it",
-                    "value": "Italiensk"
-                },
-                {
-                    "key": "lv",
-                    "value": "Latvisk"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litauisk"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltesisk"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polsk"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugisisk"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumensk"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovakiske"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slovensk"
-                },
-                {
-                    "key": "es",
-                    "value": "Spansk"
-                },
-                {
-                    "key": "sv",
-                    "value": "Svensk"
-                }
-            ]
+            "label": "Gi en oppsummering av din forskningsplan. Sammendraget må være skrevet på et av de offisielle EU-språkene",
+            "tooltip": "Opplastede filer blir automatisk oversatt av systemet. Søkeren er ansvarlig for kvalitet, lesbarhet og formatering av de opplastede filene."
         },
         "personResponsibleLabel": "Person som er ansvarlig for databruk",
         "personResponsibleName": {
             "label": "Fullt navn"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Stillingstittel"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Tilknytning"
         },
         "personResearchSameAsContactPerson": {
             "label": "Samme som kontaktperson nevnt i avsnitt 3 (søker og kontaktpersoninformasjon)?"
@@ -546,12 +349,6 @@
         },
         "personResearchName": {
             "label": "Fullt navn"
-        },
-        "personResearchJobTitle": {
-            "label": "Stillingstittel"
-        },
-        "personResearchAffiliation": {
-            "label": "Tilknytning"
         },
         "formatOfTheElectronicHealthData": {
             "label": "Velg formatet på de elektroniske helseopplysningene som skal gjøres tilgjengelige:",
@@ -638,6 +435,9 @@
         },
         "consentAndInformationLetterAttachment": {
             "label": "Legg ved samtykket og informasjonsbrevet du har sendt til forsøkspersonene. Ikke legg ved skjemaer som er fylt ut fordi de inkluderer personopplysninger."
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "Har kohorten vært basert på en datatillatelse gitt tidligere?"
         },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Jeg bekrefter at datatillatelsen er gitt for dette forskningsprosjektet"
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "Hvor ofte må dataene hentes ut?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Har du tenkt å gjøre bruk av et unntak fra retten til å melde deg ut i henhold til mekanismen i nasjonal lovgivning i den medlemsstat hvis data du søker om?",
+            "tooltip": "EHDS artikkel 71(4) «Med unntak fra retten til å nekte adgang til nr. 1 kan en medlemsstat i sin nasjonale lovgivning fastsette en mekanisme for å gjøre data som det er utøvet retten til å nekte adgang til, forutsatt at alle følgende vilkår er oppfylt: (se artikkelen for fullstendige betingelser)»"
+        },
+        "providedJustificationException": {
+            "label": "Gi begrunnelsen for dette unntaket."
+        },
         "needForDataExtractionEvery": {
             "label": "Dataene må hentes ut hver",
             "tooltip": "Hvis du vil at dataene skal trekkes ut flere ganger over en viss tidsperiode, må du være oppmerksom på at definisjonene og datainnsamlingsmetoden kan endres i løpet av gjennomgangsperioden i noen tilfeller. Vær oppmerksom på at den maksimale frekvensen av datautvinning er hvert kvartal"
@@ -835,14 +642,11 @@
         "willSameDataBeExtractedForControls": {
             "label": "Vil samme data som for kohorten trekkes ut for kontroller?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Hvis du ikke søker data for kontroller fra hele landet, fra hvilken region (e) og/eller by/by/by og/eller kommune/kommuner søker du data?"
-        },
         "fromWhichDataHolderLabel": "Fra hvilke(n) datahaveren(e) vil dataene for kontrollene hentes ut?",
         "fromWhichDatabaseLabel": "Fra hvilken database/registre/registre vil dataene for kontrollene hentes ut?",
         "fromWhichDatasetLabel": "Fra hvilke datasett/registre vil dataene for kontrollene hentes ut?",
-        "variablesForDataExtraction": {
-            "label": "Dersom opplysningene er tilgjengelige, oppgi hvilke variabler som skal brukes i dataekstraksjonen. Bruk de eksakte vilkårene som er gitt av den respektive datainnehaveren(e) i metadatakatalogen."
+        "variablesForDataExtractionAttachments": {
+            "label": "Dersom opplysningene er tilgjengelige, legger du ved listen over variablene som skal brukes i datainnsamlingen. Bruk de eksakte vilkårene som er gitt av den respektive datainnehaveren(e) i metadatakatalogen."
         },
         "timePeriodForDataExtraction": {
             "label": "For hvilke tidsperioder vil datasettet bli hentet ut?"
@@ -947,8 +751,8 @@
         "whichDataHoldersForRelatives": "Fra hvilken(e) datahaver(e) vil opplysningene for slektninger hentes ut?",
         "whichDatabaseForRelatives": "Fra hvilken database/registre/registre vil dataene for slektninger hentes ut?",
         "whichDatasetsForRelatives": "Fra hvilke datasett/registre vil dataene for slektninger hentes ut?",
-        "variablesForDataExtractionRelatives": {
-            "label": "Dersom opplysningene er tilgjengelige, oppgi hvilke variabler som skal brukes i dataekstraksjonen. Bruk de eksakte vilkårene som er gitt av den respektive datainnehaveren(e) i metadatakatalogen."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "Dersom opplysningene er tilgjengelige, legger du ved listen over variablene som skal brukes i datainnsamlingen. Bruk de eksakte vilkårene som er gitt av den respektive datainnehaveren(e) i metadatakatalogen."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "For hvilke tidsperioder vil datasettet bli hentet ut?"
@@ -1062,7 +866,6 @@
         "otherPermitApplications": {
             "label": "Har du andre ventende tillatelsessøknader?"
         },
-        "listTheOtherData": "Oppgi de andre dataene som skal kombineres, og kildene til disse dataene:",
         "applicationIssuer": {
             "label": "Utsteder"
         },
@@ -1360,6 +1163,13 @@
             "label": "Hvordan overholder du prinsippet om dataminimering (EU Data Protection Regulation) når du behandler dataene? ",
             "tooltip": "EU DPR artikkel 4(1c) \"Personopplysninger skal være tilstrekkelige, relevante og begrenset til det som er nødvendig i forhold til de formål de behandles for (\"dataminimering\")\""
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Har du tenkt å gjøre bruk av et unntak fra retten til å melde deg ut i henhold til mekanismen i nasjonal lovgivning i den medlemsstat hvis data du søker om?",
+            "tooltip": "EHDS artikkel 71(4) «Med unntak fra retten til å nekte adgang til nr. 1 kan en medlemsstat i sin nasjonale lovgivning fastsette en mekanisme for å gjøre data som det er utøvet retten til å nekte adgang til, forutsatt at alle følgende vilkår er oppfylt: (se artikkelen for fullstendige betingelser)»"
+        },
+        "providedJustificationException": {
+            "label": "Gi begrunnelsen for dette unntaket."
+        },
         "protectionAndSecurityStatements": {
             "label": "For å fortsette med dette programmet, må du bekrefte følgende uttalelser (databeskyttelse og sikkerhetsrelaterte uttalelser):"
         },
@@ -1383,13 +1193,10 @@
             "label": "Samme som kontaktperson nevnt i avsnitt 3?"
         },
         "listTheFullNames": {
-            "label": "Oppgi fullstendige navn, tilknytninger og e-postadresser til alle personene som skal behandle dataene."
+            "label": "Oppgi fullstendige navn og e-postadresser til alle personene som skal behandle dataene."
         },
         "fullName": {
             "label": "Fullt navn"
-        },
-        "affiliation": {
-            "label": "Tilknytning"
         },
         "emailAddress": {
             "label": "E-postadresse"
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Bekreftelse av opplysninger",
-        "section10Description": "Før denne søknaden behandles, må du som søker godkjenne behandlingsgebyr.",
+        "section10Description": "Før denne søknaden behandles, må du som søker godkjenne behandlingsgebyr. For å legge til informasjon om prisene og det maksimale prisestimatet for datautvinning når det er tilgjengelig.",
         "submitYouApplicationText": "For å sende inn søknaden din, må du bekrefte følgende:",
         "acceptHealthDataBody": {
             "label": "Jeg aksepterer at helsedataorganet vil utarbeide statistikken, og jeg vil ikke ha tilgang til dataene som brukes til å danne statistikken."

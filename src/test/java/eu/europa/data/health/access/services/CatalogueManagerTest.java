@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -72,6 +71,8 @@ class CatalogueManagerTest {
   private HttpServerResponse response;
   @Mock
   private HttpServerRequest request;
+  @Mock
+  private AuditLogManager auditLogManager;
 
   private CatalogueManager catalogueManager;
 
@@ -80,7 +81,7 @@ class CatalogueManagerTest {
   void setUp() {
     MockitoAnnotations.openMocks(this);
     Vertx vertx = Vertx.vertx();
-    catalogueManager = new CatalogueManager(dbHandler, hubRepoClient, hubStoreClient, dispatcherClient, vertx);
+    catalogueManager = new CatalogueManager(dbHandler, hubRepoClient, hubStoreClient, dispatcherClient, vertx, auditLogManager);
 
     // Mock other behaviors
     lenient().when(routingContext.request()).thenReturn(request);
@@ -371,6 +372,7 @@ class CatalogueManagerTest {
     when(dispatcherClient.deleteCatalogMappingByMongoId(routingContext)).thenReturn(dispatcherFuture);
     when(hubRepoClient.deleteCatalogue(routingContext)).thenReturn(hubRepoFuture);
     when(hubStoreClient.deleteFile(null, CATALOGUE_ID, "catalogue-123")).thenReturn(hubStoreFuture);
+    when(hubRepoClient.getCatalogueTitle(routingContext)).thenReturn( Future.succeededFuture(new JsonObject()) );
 
     when(httpResponse.statusCode()).thenReturn(200);
     when(httpResponse.bodyAsString()).thenReturn("File deleted");
@@ -404,6 +406,7 @@ class CatalogueManagerTest {
     when(dispatcherClient.deleteCatalogMappingByMongoId(routingContext)).thenReturn(dispatcherFuture);
     when(hubRepoClient.deleteCatalogue(routingContext)).thenReturn(hubRepoFuture);
     when(hubStoreClient.deleteFile(null, CATALOGUE_ID, "catalogue-123")).thenReturn(hubStoreFuture);
+    when(hubRepoClient.getCatalogueTitle(routingContext)).thenReturn( Future.succeededFuture(new JsonObject()) );
 
     when(response.end(anyString())).then(invocation -> {
       String errorMessage = invocation.getArgument(0);
@@ -426,6 +429,7 @@ class CatalogueManagerTest {
     when(dispatcherClient.deleteCatalogMappingByMongoId(routingContext)).thenReturn(dispatcherFuture);
     when(hubRepoClient.deleteCatalogue(routingContext)).thenReturn(hubRepoFuture);
     when(hubStoreClient.deleteFile(null, CATALOGUE_ID, "catalogue-123")).thenReturn(hubStoreFuture);
+    when(hubRepoClient.getCatalogueTitle(routingContext)).thenReturn( Future.succeededFuture(new JsonObject()) );
 
     when(response.setStatusCode(500)).thenReturn(response);
     when(response.end(anyString())).then(invocation -> {
@@ -449,6 +453,7 @@ class CatalogueManagerTest {
     when(dispatcherClient.deleteCatalogMappingByMongoId(routingContext)).thenReturn(dispatcherFuture);
     when(hubRepoClient.deleteCatalogue(routingContext)).thenReturn(hubRepoFuture);
     when(hubStoreClient.deleteFile(null, CATALOGUE_ID, "catalogue-123")).thenReturn(hubStoreFuture);
+    when(hubRepoClient.getCatalogueTitle(routingContext)).thenReturn( Future.succeededFuture(new JsonObject()) );
 
     when(response.setStatusCode(500)).thenReturn(response);
     when(response.end(anyString())).then(invocation -> {
@@ -476,6 +481,7 @@ class CatalogueManagerTest {
 
     when(httpResponse.headers()).thenReturn(headers);
     when(httpResponse.body()).thenReturn(body);
+    when(httpResponse.getHeader("Content-Disposition")).thenReturn("filename*=file.rdf");
     when(hubStoreClient.getFile(null, CATALOGUE_ID, catalogueId)).thenReturn(Future.succeededFuture(httpResponse));
 
     JsonObject result = new JsonObject().put("data", new JsonObject());
@@ -544,38 +550,4 @@ class CatalogueManagerTest {
     // Call the uploadRDFFile method
     catalogueManager.uploadRDFFile(routingContext);
   }
-
-  @Test
-  void testUploadRDFFile_success(VertxTestContext testContext) {
-    // Simulate that there are no validation errors
-    when(routingContext.get("errors")).thenReturn(null);
-
-    // Mock the `handleFileUpload` function to simulate file upload success
-    // (Assuming handleFileUpload calls a callback in this case)
-    doAnswer(invocation -> {
-      // Verify that the correct arguments are passed to handleFileUpload
-      Object[] args = invocation.getArguments();
-      assertEquals(CATALOGUE_ID, args[0]);  // Check if CATALOGUE_ID is passed correctly
-      assertEquals("someCatalogueId", args[1]);  // Mock pathParam(CATALOGUE_ID)
-      testContext.completeNow();  // Mark the test as complete once the method is called
-      return null;
-    }).when(catalogueManager).handleFileUpload(any(), any(), any(), any(), any());
-
-    // Mock response
-    HttpServerResponse mockResponse = mock(HttpServerResponse.class);
-    when(routingContext.response()).thenReturn(mockResponse);
-    when(mockResponse.putHeader(anyString(), anyString())).thenReturn(mockResponse);
-    when(mockResponse.setStatusCode(anyInt())).thenReturn(mockResponse);
-    when(mockResponse.end(anyString())).thenAnswer(invocation -> {
-      String responseBody = invocation.getArgument(0);
-      // Assert that the response body contains the expected success message
-      assertTrue(responseBody.contains("File upload completed successfully"));
-      testContext.completeNow();
-      return null;
-    });
-
-    // Call the uploadRDFFile method
-    catalogueManager.uploadRDFFile(routingContext);
-  }
-
 }

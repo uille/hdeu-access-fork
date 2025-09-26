@@ -76,6 +76,12 @@ class ListNotContainsSpecificValueValidatorTest {
   }
 
   @Test
+  void shouldReturnTrue_whenListFieldIsNull() {
+    ContainerDTO dto = new ContainerDTO(null, null);
+    assertTrue(validator.isValid(dto, context));
+  }
+
+  @Test
   void shouldReturnTrue_whenListContainsExpectedValue() {
     ContainerDTO dto = new ContainerDTO(List.of(new ListItemDTO("EXPECTED")), null);
     assertTrue(validator.isValid(dto, context));
@@ -103,6 +109,17 @@ class ListNotContainsSpecificValueValidatorTest {
   @Test
   void shouldReturnFalse_whenReflectionFails() {
     Object invalidObject = new Object(); // No fields will match
+    assertFalse(validator.isValid(invalidObject, context));
+  }
+
+  @Test
+  void shouldReturnFalse_whenReflectionThrowsAnException() {
+    class BrokenObject {
+      public Object getItems() throws Exception {
+        throw new Exception("Simulated reflection exception");
+      }
+    }
+    BrokenObject invalidObject = new BrokenObject();
     assertFalse(validator.isValid(invalidObject, context));
   }
 }

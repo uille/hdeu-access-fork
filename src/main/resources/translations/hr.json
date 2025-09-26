@@ -17,6 +17,21 @@
         },
         "applicationDatabases": {
             "label": "Iz koje će se baze podataka ili registra/registara izdvajati podaci?"
+        },
+        "variables": {
+            "label": "﻿Varijable﻿"
+        },
+        "datatype": {
+            "label": "Vrste podataka (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Opis"
+        },
+        "title": {
+            "label": "﻿Varijable﻿"
+        },
+        "emptyTable": {
+            "label": "Nema varijabli"
         }
     },
     "section2": {
@@ -102,10 +117,10 @@
                 },
                 {
                     "key": "b",
-                    "value": "Fizička osoba",
-                    "info": "(Ako odaberete ovu opciju, potvrđujete da se prijavljujete za podatke kao privatna osoba bez ikakve veze.)"
+                    "value": "Fizička osoba"
                 }
-            ]
+            ],
+            "info": "(Ako odaberete ovu opciju, potvrđujete da se prijavljujete za podatke kao privatna osoba bez ikakve veze.)"
         },
         "legalPerson": "Pravna osoba",
         "naturalPerson": "Fizička osoba",
@@ -141,15 +156,6 @@
         },
         "contactPersonBusinessIdentifier": {
             "label": "Poslovni identifikacijski broj organizacije"
-        },
-        "contactPersonOperatorIdentifier": {
-            "label": "Identifikacijska oznaka gospodarskog subjekta"
-        },
-        "contactPersonJobTitle": {
-            "label": "Naziv radnog mjesta"
-        },
-        "contactPersonAffiliation": {
-            "label": "Pripadnost"
         },
         "contactPersonRelationship": {
             "label": "Koji je odnos između osobe za kontakt i podnositelja zahtjeva? (Npr. zaposlenik koji podnosi zahtjev za podatke u ime svoje organizacije.)"
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "Svrha korištenja podataka",
-        "section5Description": "Podnositelji zahtjeva trebali bi navesti svrhu za koju se podaci traže, u skladu s člankom 53. stavkom 1. ispravka Uredbe o europskom prostoru za zdravstvene podatke koji je Europski parlament odobrio 17/12. \nPodnositelji zahtjeva moraju objasniti i obrazložiti zašto su traženi podaci nužni za navedenu svrhu uporabe. Od podnositelja zahtjeva traži se i da dostave informacije o cilju projekta. Zatim, ovisno o svrsi uporabe (istraživanje ili ne), podnositelji zahtjeva moraju dostaviti sažetak plana za upotrebu podataka ili sažetak plana istraživanja te informacije o osobi odgovornoj za uporabu podataka ili istraživanje.",
+        "section5Description": "Podnositelji zahtjeva trebali bi navesti svrhu za koju se traže podaci u skladu s člankom 53. stavkom 1. Uredbe (EU) 2025/327 Europskog parlamenta i Vijeća od 11. veljače 2025. o europskom prostoru za zdravstvene podatke. Podnositelji zahtjeva moraju objasniti i obrazložiti zašto su traženi podaci potrebni za njihovu navedenu svrhu uporabe. Od prijavitelja se također traži da dostave informacije o cilju projekta. Zatim, ovisno o svrsi korištenja (istraživanje ili ne istraživanje), podnositelji zahtjeva moraju dostaviti sažetak plana za korištenje podataka ili sažetak plana istraživanja i informacije o osobi odgovornoj za korištenje podataka ili istraživanje.",
         "purposeOfUse": {
             "label": "Svrha uporabe podataka. Tijela za pristup zdravstvenim podacima omogućuju pristup elektroničkim zdravstvenim podacima iz članka 51. samo ako je predviđena svrha obrade koju traži podnositelj zahtjeva u skladu sa sljedećim svrhama (u skladu s člankom 53. stavkom 1.) navedenima u nastavku.",
             "tooltip": "Svrhe iz Uredbe o europskom prostoru za zdravstvene podatke.",
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Koja je očekivana korist povezana s uporabom elektroničkih zdravstvenih podataka i kako ta korist doprinosi svrhama iz točke 5.1.?"
         },
+        "describeApplicantsQualification": {
+            "label": "Opišite kvalifikacije podnositelja zahtjeva u odnosu na predviđene svrhe uporabe podataka i odgovarajuće stručno znanje (uključujući stručne kvalifikacije)"
+        },
         "legalBasis": {
             "label": "Navedite pravnu osnovu, na primjer relevantno zakonodavstvo, kojim se definiraju zadaće u okviru vašeg mandata i potvrđuje da se planiranom upotrebom podataka olakšava provedba tih zadaća.",
             "tooltip": "Ovdje objasnite zašto je količina podataka za koju se prijavljujete potrebna za vašu svrhu uporabe podataka. Obrazložite i opišite kako sadržaj zatraženih statističkih podataka odgovara svrsi uporabe navedenoj u zahtjevu i ispunjava svoje zahtjeve u pogledu podataka."
@@ -320,222 +329,16 @@
             "label": "Navedite poveznicu na popratnu dokumentaciju kao dokaz pravne osnove"
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Dostavite sažetak svojeg plana za upotrebu podataka. Sažetak mora biti napisan na jednom od službenih jezika EU-a."
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Odaberite jezik sažetka",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bugarski"
-                },
-                {
-                    "key": "hr",
-                    "value": "Hrvatski"
-                },
-                {
-                    "key": "cs",
-                    "value": "Češki"
-                },
-                {
-                    "key": "da",
-                    "value": "Danski"
-                },
-                {
-                    "key": "nl",
-                    "value": "Nizozemski"
-                },
-                {
-                    "key": "en",
-                    "value": "Engleski"
-                },
-                {
-                    "key": "et",
-                    "value": "Estonski"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finski"
-                },
-                {
-                    "key": "fr",
-                    "value": "Francuski"
-                },
-                {
-                    "key": "de",
-                    "value": "Njemački"
-                },
-                {
-                    "key": "el",
-                    "value": "Grčki"
-                },
-                {
-                    "key": "hu",
-                    "value": "Mađarski"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irski"
-                },
-                {
-                    "key": "it",
-                    "value": "Talijanski"
-                },
-                {
-                    "key": "lv",
-                    "value": "Latvijski"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litavski"
-                },
-                {
-                    "key": "mt",
-                    "value": "Malteški"
-                },
-                {
-                    "key": "pl",
-                    "value": "Poljski"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugalski"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumunjski"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovački"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slovenski"
-                },
-                {
-                    "key": "es",
-                    "value": "Španjolski"
-                },
-                {
-                    "key": "sv",
-                    "value": "Švedski"
-                }
-            ]
+            "label": "Dostavite sažetak svojeg plana za upotrebu podataka. Sažetak mora biti napisan na jednom od službenih jezika EU-a.",
+            "tooltip": "Učitane datoteke automatski se prevode u sustavu. Podnositelj zahtjeva odgovoran je za kvalitetu, čitljivost i formatiranje učitanih datoteka."
         },
         "summaryOfResearchPlan": {
-            "label": "Dostavite sažetak svojeg plana istraživanja. Sažetak mora biti napisan na jednom od službenih jezika EU-a."
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Odaberite jezik sažetka",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bugarski"
-                },
-                {
-                    "key": "hr",
-                    "value": "Hrvatski"
-                },
-                {
-                    "key": "cs",
-                    "value": "Češki"
-                },
-                {
-                    "key": "da",
-                    "value": "Danski"
-                },
-                {
-                    "key": "nl",
-                    "value": "Nizozemski"
-                },
-                {
-                    "key": "en",
-                    "value": "Engleski"
-                },
-                {
-                    "key": "et",
-                    "value": "Estonski"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finski"
-                },
-                {
-                    "key": "fr",
-                    "value": "Francuski"
-                },
-                {
-                    "key": "de",
-                    "value": "Njemački"
-                },
-                {
-                    "key": "el",
-                    "value": "Grčki"
-                },
-                {
-                    "key": "hu",
-                    "value": "Mađarski"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irski"
-                },
-                {
-                    "key": "it",
-                    "value": "Talijanski"
-                },
-                {
-                    "key": "lv",
-                    "value": "Latvijski"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litavski"
-                },
-                {
-                    "key": "mt",
-                    "value": "Malteški"
-                },
-                {
-                    "key": "pl",
-                    "value": "Poljski"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugalski"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumunjski"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovački"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slovenski"
-                },
-                {
-                    "key": "es",
-                    "value": "Španjolski"
-                },
-                {
-                    "key": "sv",
-                    "value": "Švedski"
-                }
-            ]
+            "label": "Dostavite sažetak svojeg plana istraživanja. Sažetak mora biti napisan na jednom od službenih jezika EU-a.",
+            "tooltip": "Učitane datoteke automatski se prevode u sustavu. Podnositelj zahtjeva odgovoran je za kvalitetu, čitljivost i formatiranje učitanih datoteka."
         },
         "personResponsibleLabel": "Osoba odgovorna za uporabu podataka",
         "personResponsibleName": {
             "label": "Puno ime"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Naziv radnog mjesta"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Pripadnost"
         },
         "personResearchSameAsContactPerson": {
             "label": "Isto kao i osoba za kontakt navedena u odjeljku 3. (Podaci o podnositelju zahtjeva i osobi za kontakt)?"
@@ -546,12 +349,6 @@
         },
         "personResearchName": {
             "label": "Puno ime"
-        },
-        "personResearchJobTitle": {
-            "label": "Naziv radnog mjesta"
-        },
-        "personResearchAffiliation": {
-            "label": "Pripadnost"
         },
         "formatOfTheElectronicHealthData": {
             "label": "Odaberite format elektroničkih zdravstvenih podataka koji će se staviti na raspolaganje:",
@@ -638,6 +435,9 @@
         },
         "consentAndInformationLetterAttachment": {
             "label": "Priložite suglasnost i pisanu obavijest koje ste poslali ispitanicima studije. Nemojte priložiti ispunjene obrasce jer sadržavaju osobne podatke."
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "Je li se kohorta temeljila na ranije izdanoj dozvoli za podatke?"
         },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Potvrđujem da je dozvola za podatke izdana za ovaj istraživački projekt"
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "Koliko često treba izdvajati podatke?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Namjeravate li primijeniti iznimku od prava na izuzeće u skladu s mehanizmom predviđenim nacionalnim pravom države članice za čije podatke podnosite zahtjev?",
+            "tooltip": "Kao iznimku od prava na izuzeće predviđenog u stavku 1., država članica može svojim nacionalnim pravom predvidjeti mehanizam za stavljanje na raspolaganje podataka u pogledu kojih je iskorišteno pravo na izuzeće, ako su ispunjeni svi sljedeći uvjeti: (vidjeti članak za potpune uvjete)”"
+        },
+        "providedJustificationException": {
+            "label": "Navedite obrazloženje za tu iznimku."
+        },
         "needForDataExtractionEvery": {
             "label": "Podatke je potrebno izdvojiti svakim",
             "tooltip": "Ako želite da se podaci izvlače više puta tijekom određenog razdoblja, u nekim se slučajevima definicije i metoda prikupljanja podataka mogu promijeniti tijekom razdoblja preispitivanja. Imajte na umu da je maksimalna učestalost ekstrakcije podataka svaka tri mjeseca"
@@ -835,14 +642,11 @@
         "willSameDataBeExtractedForControls": {
             "label": "Hoće li se za kontrole izdvojiti isti podaci kao za kohortu?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Ako ne tražite podatke za kontrole iz cijele zemlje, iz koje regije i/ili gradova i/ili općina/općina tražite podatke?"
-        },
         "fromWhichDataHolderLabel": "Iz kojih će se vlasnika podataka izdvojiti podaci za kontrole?",
         "fromWhichDatabaseLabel": "Iz kojih će se baza podataka/registara/registara izdvajati podaci za kontrole?",
         "fromWhichDatasetLabel": "Iz kojeg će se zapisa/registara podataka za kontrole izdvojiti podaci za kontrole?",
-        "variablesForDataExtraction": {
-            "label": "Ako su informacije dostupne, navedite varijable koje treba upotrijebiti u izvlačenju podataka. Upotrebljavati točne pojmove koje su u katalogu metapodataka naveli odgovarajući vlasnici podataka."
+        "variablesForDataExtractionAttachments": {
+            "label": "Ako su informacije dostupne, priložite popis varijabli koje će se koristiti pri izvlačenju podataka. Upotrebljavati točne pojmove koje su u katalogu metapodataka naveli odgovarajući vlasnici podataka."
         },
         "timePeriodForDataExtraction": {
             "label": "Za koje će se razdoblje (razdoblja) preuzeti zapisi iz skupa podataka?"
@@ -947,8 +751,8 @@
         "whichDataHoldersForRelatives": "Iz kojeg će se vlasnika podataka izdvojiti podaci za rodbinu?",
         "whichDatabaseForRelatives": "Iz koje će se baze podataka/registara/registara izdvajati podaci za rodbinu?",
         "whichDatasetsForRelatives": "Iz kojeg će se skupa podataka/registara izdvajati podaci za rodbinu?",
-        "variablesForDataExtractionRelatives": {
-            "label": "Ako su informacije dostupne, navedite varijable koje će se upotrebljavati u ekstrakciji podataka. Upotrebljavati točne pojmove koje su u katalogu metapodataka naveli odgovarajući vlasnici podataka."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "Ako su informacije dostupne, priložite popis varijabli koje će se koristiti pri izvlačenju podataka. Upotrebljavati točne pojmove koje su u katalogu metapodataka naveli odgovarajući vlasnici podataka."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "Za koje će se razdoblje (razdoblja) preuzeti zapisi iz skupa podataka?"
@@ -1062,7 +866,6 @@
         "otherPermitApplications": {
             "label": "Imate li druge neriješene zahtjeve za dozvolu?"
         },
-        "listTheOtherData": "Navedite ostale podatke koje treba kombinirati i izvore tih podataka:",
         "applicationIssuer": {
             "label": "Izdavatelja"
         },
@@ -1360,6 +1163,13 @@
             "label": "Kako poštujete načelo smanjenja količine podataka (Uredba EU-a o zaštiti podataka) pri obradi podataka? ",
             "tooltip": "Članak 4. stavak 1.c Uredbe EU-a o zaštiti podataka „Osobni podaci moraju biti primjereni, relevantni i ograničeni na ono što je nužno u odnosu na svrhe u koje se obrađuju („smanjenje količine podataka”)”"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Namjeravate li primijeniti iznimku od prava na izuzeće u skladu s mehanizmom predviđenim nacionalnim pravom države članice za čije podatke podnosite zahtjev?",
+            "tooltip": "Kao iznimku od prava na izuzeće predviđenog u stavku 1., država članica može svojim nacionalnim pravom predvidjeti mehanizam za stavljanje na raspolaganje podataka u pogledu kojih je iskorišteno pravo na izuzeće, ako su ispunjeni svi sljedeći uvjeti: (vidjeti članak za potpune uvjete)”"
+        },
+        "providedJustificationException": {
+            "label": "Navedite obrazloženje za tu iznimku."
+        },
         "protectionAndSecurityStatements": {
             "label": "Kako biste nastavili s podnošenjem zahtjeva, morate potvrditi sljedeće izjave (izjave o zaštiti podataka i sigurnosti):"
         },
@@ -1383,13 +1193,10 @@
             "label": "Isto kao i osoba za kontakt navedena u odjeljku 3.?"
         },
         "listTheFullNames": {
-            "label": "Navedite puna imena, opredjeljenja i adrese e-pošte svih osoba koje će obrađivati podatke."
+            "label": "Navedite puna imena i adrese e-pošte svih osoba koje će obrađivati podatke."
         },
         "fullName": {
             "label": "Puno ime"
-        },
-        "affiliation": {
-            "label": "Pripadnost"
         },
         "emailAddress": {
             "label": "Adresa e-pošte"
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Potvrda podataka",
-        "section10Description": "Prije obrade ovog zahtjeva morate kao podnositelj zahtjeva odobriti pristojbe za obradu.",
+        "section10Description": "Prije obrade ovog zahtjeva morate kao podnositelj zahtjeva odobriti pristojbe za obradu. Dodati informacije o cijenama i najboljoj procijenjenoj cijeni za ekstrakciju podataka kada budu dostupni.",
         "submitYouApplicationText": "Za podnošenje prijave morate potvrditi sljedeće:",
         "acceptHealthDataBody": {
             "label": "Prihvaćam da će tijelo za zdravstvene podatke prikupiti statističke podatke i da nemam pristup podacima koji se upotrebljavaju za izradu statističkih podataka."

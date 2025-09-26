@@ -64,6 +64,26 @@ class URLFormatValidatorTest {
   }
 
   @Test
+  void testEmptyUrl() {
+    assertFalse(validator.isValid("", context));
+  }
+
+  @Test
+  void testUrlWithSpaces() {
+    assertFalse(validator.isValid("http://example .com", context));
+  }
+
+  @Test
+  void testValidUrlWithIpAddress() {
+    assertTrue(validator.isValid("http://127.0.0.1", context));
+  }
+
+  @Test
+  void testValidUrlWithUnusualCharacters() {
+    assertTrue(validator.isValid("http://example.com/~user?query=value#fragment", context));
+  }
+
+  @Test
   void testNullUrl_isValid() {
     assertTrue(validator.isValid(null, context));
   }

@@ -18,33 +18,23 @@ package eu.europa.data.health.access.services;
 
 import static eu.europa.data.health.access.Constants.APPLICATION_ID;
 import static eu.europa.data.health.access.Constants.APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR;
-import static eu.europa.data.health.access.Constants.AUDIT_LOG_COLLECTION;
 import static eu.europa.data.health.access.Constants.COMPLY_WITH_DATA_MINIMISATION_PRINCIPLE;
 import static eu.europa.data.health.access.Constants.COMPLY_WITH_DATA_MINIMISATION_PRINCIPLE_NOT_EU_MEMBER;
-import static eu.europa.data.health.access.Constants.DATASETS;
-import static eu.europa.data.health.access.Constants.DATASET_ID;
 import static eu.europa.data.health.access.Constants.DATA_ACCESS_APPLICATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.DATA_EXTRACTION_FREQUENCY;
 import static eu.europa.data.health.access.Constants.DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION;
 import static eu.europa.data.health.access.Constants.DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION_RELATIVES;
-import static eu.europa.data.health.access.Constants.DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION_RELATIVES1;
 import static eu.europa.data.health.access.Constants.DATA_EXTRACTION_FREQUENCY_RELATIVES;
 import static eu.europa.data.health.access.Constants.DATA_NEEDS_TO_BE_EXTRACTED_EVERY;
 import static eu.europa.data.health.access.Constants.DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES;
 import static eu.europa.data.health.access.Constants.DATE_CREATED;
-import static eu.europa.data.health.access.Constants.DATE_MODIFIED;
-import static eu.europa.data.health.access.Constants.DELETION_CAN_NOT_BE_EXECUTED;
-import static eu.europa.data.health.access.Constants.DISTRIBUTIONS;
-import static eu.europa.data.health.access.Constants.DISTRIBUTION_ID;
+import static eu.europa.data.health.access.Constants.EXTRACTION_CRITERIA_FOR_CONTROLS;
 import static eu.europa.data.health.access.Constants.FORM;
 import static eu.europa.data.health.access.Constants.FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA;
 import static eu.europa.data.health.access.Constants.HAS_THE_GROUP_RELATIVES_FORMED_2;
 import static eu.europa.data.health.access.Constants.HAS_THE_GROUP_RELATIVES_FORMED_3;
 import static eu.europa.data.health.access.Constants.HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS;
 import static eu.europa.data.health.access.Constants.ID;
-import static eu.europa.data.health.access.Constants.INFORMATION_PROVIDER_EMAIL;
-import static eu.europa.data.health.access.Constants.INFORMATION_PROVIDER_NAME;
-import static eu.europa.data.health.access.Constants.INFORMATION_PROVIDER_PHONE;
 import static eu.europa.data.health.access.Constants.INFORMATION_PROVIDER_SAME_AS_CONTACT_PERSON;
 import static eu.europa.data.health.access.Constants.IN_ORDER_TO_APPLY_PSEUDONYMISED_DATA_A;
 import static eu.europa.data.health.access.Constants.IN_ORDER_TO_APPLY_PSEUDONYMISED_DATA_B;
@@ -54,11 +44,13 @@ import static eu.europa.data.health.access.Constants.LEGAL_BASIS_FOR_PROCESSING_
 import static eu.europa.data.health.access.Constants.LEGAL_BASIS_FOR_PROCESSING_PERSONAL_DATA;
 import static eu.europa.data.health.access.Constants.LEGAL_BASIS_FOR_TRANSFERRING_THE_DATA_OUTSIDE_EU;
 import static eu.europa.data.health.access.Constants.LEGAL_OR_NATURAL_PERSON;
+import static eu.europa.data.health.access.Constants.MORE_INFO_ON_EXTRACTION_PERIODS;
 import static eu.europa.data.health.access.Constants.NEED_FOR_DATA_EXTRACTION_EVERY;
+import static eu.europa.data.health.access.Constants.ORDER_OF_CONTROLS_DATA_EXTRACTION;
 import static eu.europa.data.health.access.Constants.OTHER_PERMIT_APPLICATIONS;
-import static eu.europa.data.health.access.Constants.PROVIDED_APPLICATION_ID;
 import static eu.europa.data.health.access.Constants.PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS;
 import static eu.europa.data.health.access.Constants.PURPOSE_FOR_WHICH_DATA_WILL_BE_USED;
+import static eu.europa.data.health.access.Constants.RELATIONSHIP_TO_STUDY_COHORT;
 import static eu.europa.data.health.access.Constants.SECTION;
 import static eu.europa.data.health.access.Constants.SECTION_10;
 import static eu.europa.data.health.access.Constants.SECTION_2;
@@ -72,10 +64,12 @@ import static eu.europa.data.health.access.Constants.SECTION_NUMBER;
 import static eu.europa.data.health.access.Constants.SPECIFY_OTHER;
 import static eu.europa.data.health.access.Constants.SPECIFY_OTHER_RELATIVES;
 import static eu.europa.data.health.access.Constants.STATUS;
+import static eu.europa.data.health.access.Constants.TIME_PERIOD_FOR_DATA_EXTRACTION;
+import static eu.europa.data.health.access.Constants.TIME_PERIOD_FOR_DATA_EXTRACTION_RELATIVES;
 import static eu.europa.data.health.access.Constants.TITLE;
 import static eu.europa.data.health.access.Constants.USER_ID;
-import static eu.europa.data.health.access.Constants.VERSION;
-import static eu.europa.data.health.access.Constants.WAS_NOT_FOUND_IN_THE_DATABASE;
+import static eu.europa.data.health.access.Constants.VARIABLES_FOR_DATA_EXTRACTION_ATTACHMENTS;
+import static eu.europa.data.health.access.Constants.VARIABLES_FOR_DATA_EXTRACTION_RELATIVES_ATTACHMENTS;
 import static eu.europa.data.health.access.Constants.WHEN_DATA_NEEDED;
 import static eu.europa.data.health.access.Constants.WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_47;
 import static eu.europa.data.health.access.Constants.WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48;
@@ -86,8 +80,10 @@ import static eu.europa.data.health.access.Constants.WHY_WILL_DATA_BE_TRANSFERRE
 import static eu.europa.data.health.access.Constants.WILL_CONTROLS_BE_EXTRACTED;
 import static eu.europa.data.health.access.Constants.WILL_DATA_BE_COMBINED_WITH_DATA_OBTAINED;
 import static eu.europa.data.health.access.Constants.WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY;
+import static eu.europa.data.health.access.Constants.WILL_DATA_FOR_RELATIVES_BE_EXTRACTED_SIMULTANEOUSLY;
 import static eu.europa.data.health.access.Constants.WILL_RELATIVES_BE_EXTRACTED;
 import static eu.europa.data.health.access.Constants.WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS;
+import static eu.europa.data.health.access.Constants.WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES;
 import static eu.europa.data.health.access.Constants.WILL_THE_DATA_BE_TRANSFERRED;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -97,15 +93,18 @@ import eu.europa.data.health.access.AuditLogActionDescription;
 import eu.europa.data.health.access.AuditLogObject;
 import eu.europa.data.health.access.Context;
 import eu.europa.data.health.access.Sections;
-import eu.europa.data.health.access.dto.SectionDTO;
-import eu.europa.data.health.access.dto.data_access.Section7DTO;
+import eu.europa.data.health.access.TranslationStatus;
+import eu.europa.data.health.access.auth_client.AuthClient;
+import eu.europa.data.health.access.dto.sections.SectionDTO;
+import eu.europa.data.health.access.dto.sections.data_access.Section7DTO;
 import eu.europa.data.health.access.handlers.DBHandler;
+import eu.europa.data.health.access.hub_translation_client.HubTranslationClient;
+import eu.europa.data.health.access.utils.ApplicationFormUtils;
 import eu.europa.data.health.access.validations.business_validators.DataAccessApplicationBusinessValidationManager;
 import eu.europa.data.health.access.validations.validators.DataAccessApplicationValidationManager;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
-import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -116,28 +115,25 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class DataAccessApplicationManager extends CommonApplicationManager {
 
   private final MongoClient mongoClient;
-
-  private final DBHandler dbHandler;
 
   private final DataAccessApplicationValidationManager dataAccessApplicationValidationManager;
 
@@ -145,22 +141,25 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
   private final AuditLogManager auditLogManager;
 
+  private final boolean translate;
+
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   /**
    * Data access application constructor
    */
   public DataAccessApplicationManager(DBHandler dbHandler, MongoClient mongoClient,
-    BasketManager basketManager, HubStoreClient hubStoreClient, Vertx vertx,
-    DataAccessApplicationValidationManager dataAccessApplicationValidationManager,
-    DataAccessApplicationBusinessValidationManager dataAccessApplicationBusinessValidationManager,
-    AuditLogManager auditLogManager) {
-    super(dbHandler, basketManager, mongoClient, vertx, hubStoreClient, auditLogManager);
-    this.dbHandler = dbHandler;
+                                      BasketManager basketManager, HubStoreClient hubStoreClient, Vertx vertx,
+                                      DataAccessApplicationValidationManager dataAccessApplicationValidationManager,
+                                      DataAccessApplicationBusinessValidationManager dataAccessApplicationBusinessValidationManager,
+                                      AuditLogManager auditLogManager, HubTranslationClient hubTranslationClient, HubSearchClient hubSearchClient,
+                                      boolean translate, AuthClient authClient) {
+    super(dbHandler, basketManager, mongoClient, vertx, hubStoreClient, auditLogManager, hubTranslationClient, hubSearchClient, authClient);
     this.mongoClient = mongoClient;
     this.dataAccessApplicationValidationManager = dataAccessApplicationValidationManager;
     this.dataAccessApplicationBusinessValidationManager = dataAccessApplicationBusinessValidationManager;
     this.auditLogManager = auditLogManager;
+    this.translate = translate;
   }
 
   /**
@@ -206,13 +205,6 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
   }
 
   /**
-   * Update a Document for the Data Access Application collection
-   */
-  public void patchApplication(@NotNull RoutingContext context) {
-    super.patchEntity(context, DATA_ACCESS_APPLICATION_COLLECTION);
-  }
-
-  /**
    * Delete a Document by field ID for the Data Access Application collection.
    */
   public void deleteDataAccessApplicationById(@NotNull RoutingContext context) {
@@ -232,7 +224,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     JsonArray updatedApplications = new JsonArray();
 
     // A composition of all the asynchronous operations in order to perform one by one the updates of the applications
-    CompositeFuture.all(updateApplicationsAsync(context)).onComplete(ar -> {
+    CompositeFuture.all(updateApplicationsAsync(context, DATA_ACCESS_APPLICATION_COLLECTION)).onComplete(ar -> {
       if (ar.succeeded()) {
         log.info(DATA_ACCESS_APPLICATION_COLLECTION
           + " All update application operations have been completed successfully");
@@ -264,225 +256,14 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
    * Delete a list of datasets for the Data Access Application collection.
    */
   public void deleteDatasets(@NotNull RoutingContext context) {
-
-    // Get the application id
-    JsonObject query = new JsonObject().put(ID, context.pathParam(APPLICATION_ID));
-    query.put(USER_ID, Context.getEcasId(context));
-    // Search in database based on the provided application id and user Id
-    mongoClient.findOne(DATA_ACCESS_APPLICATION_COLLECTION, query, null, ar -> {
-      if (ar.succeeded()) {
-        if (ar.result() != null) {
-
-          JsonObject mongoApplication = ar.result();
-
-          //Able to delete an application only if status is not SUBMITTED
-          if (!ApplicationStatus.SUBMITTED.getStatus()
-            .equalsIgnoreCase(mongoApplication.getJsonObject(STATUS).getString(STATUS))) {
-
-            JsonArray requestContent = context.body().asJsonArray();
-            AtomicBoolean applicationModified = new AtomicBoolean(false);
-            requestContent.forEach(requestDataset -> {
-              String requestDatasetId = ((JsonObject) requestDataset).getString(DATASET_ID);
-              if (deleteApplicationDataset(mongoApplication, requestDatasetId, context)) {
-                applicationModified.set(true);
-              }
-            });
-            if (applicationModified.get()) {
-              replaceApplication(mongoApplication);
-              setUpMessageContextResponse(context, HttpResponseStatus.OK,
-                "Delete operation/s completed");
-            } else {
-              setUpMessageContextResponse(context, HttpResponseStatus.OK,
-                "No Delete operations required");
-            }
-          } else {
-            setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
-              DELETION_CAN_NOT_BE_EXECUTED);
-          }
-        } else {
-          setUpMessageContextResponse(context, HttpResponseStatus.NOT_FOUND,
-            PROVIDED_APPLICATION_ID + context.pathParam(APPLICATION_ID)
-              + WAS_NOT_FOUND_IN_THE_DATABASE);
-        }
-      } else {
-        setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
-          ar.cause().getMessage());
-      }
-    });
+    deleteDatasets(context, DATA_ACCESS_APPLICATION_COLLECTION);
   }
 
   /**
    * Delete a list of distributions for the Data Access Application collection.
    */
   public void deleteDistributions(@NotNull RoutingContext context) {
-
-    // Get the application id
-    JsonObject query = new JsonObject().put(ID, context.pathParam(APPLICATION_ID));
-    query.put(USER_ID, Context.getEcasId(context));
-    // Search in database based on the provided application id and user Id
-    mongoClient.findOne(DATA_ACCESS_APPLICATION_COLLECTION, query, null, ar -> {
-      if (ar.succeeded()) {
-        if (ar.result() != null) {
-
-          JsonObject mongoApplication = ar.result();
-
-          //Able to delete an application only if status is not SUBMITTED
-          if (!ApplicationStatus.SUBMITTED.getStatus()
-            .equalsIgnoreCase(mongoApplication.getJsonObject(STATUS).getString(STATUS))) {
-
-            JsonArray requestContent = context.body().asJsonArray();
-            requestContent.forEach(datasetDistributionCombo -> {
-              String requestDatasetId = ((JsonObject) datasetDistributionCombo).getString(
-                DATASET_ID);
-              String requestDistributionId = ((JsonObject) datasetDistributionCombo).getString(
-                DISTRIBUTION_ID);
-              deleteApplicationDatasetDistribution(mongoApplication, requestDatasetId,
-                requestDistributionId, context);
-
-            });
-            replaceApplication(mongoApplication);
-            setUpMessageContextResponse(context, HttpResponseStatus.OK,
-              "Delete operation/s completed");
-
-          } else {
-            setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
-              DELETION_CAN_NOT_BE_EXECUTED);
-          }
-        } else {
-          setUpMessageContextResponse(context, HttpResponseStatus.NOT_FOUND,
-            PROVIDED_APPLICATION_ID + context.pathParam(APPLICATION_ID)
-              + WAS_NOT_FOUND_IN_THE_DATABASE);
-        }
-      } else {
-        setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
-          ar.cause().getMessage());
-      }
-    });
-  }
-
-  boolean deleteApplicationDataset(JsonObject mongoApplication, String requestDatasetId,
-    @NotNull RoutingContext context) {
-    // Loop every dataset to check if provided dataset id is contained
-    JsonArray mongoDatasets = mongoApplication.getJsonArray(DATASETS);
-    boolean modified = false;
-
-    Iterator<Object> datasetIterator = mongoDatasets.iterator();
-    while (datasetIterator.hasNext()) {
-      Object datasetObj = datasetIterator.next();
-      if (datasetObj instanceof JsonObject mongoDataset && mongoDataset.getString(DATASET_ID)
-        .equals(requestDatasetId)) {
-        if (mongoDatasets.size() == 1) {
-          JsonObject deleteById = new JsonObject().put(ID, mongoApplication.getValue(ID));
-          dbHandler.deleteById(DATA_ACCESS_APPLICATION_COLLECTION, deleteById);
-
-          //Audit Log
-          dbHandler.updateLinkableFields(AUDIT_LOG_COLLECTION, mongoApplication.getString(ID));
-          JsonObject datasetObjJson = (JsonObject) datasetObj;
-          JsonArray distributions = datasetObjJson.getJsonArray("distributions");
-          String distributionsString = auditLogManager.extractDistributionIds(
-            distributions.toString());
-          String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
-            AuditLogActionDescription.DATA_ACCESS_APPLICATION_DISCARDED.getString(),
-            mongoApplication.getString(ID), mongoApplication.getString(TITLE),
-            datasetObjJson.getString(DATASET_ID), distributionsString);
-          auditLogManager.insertAuditLog(AuditLogObject.DATA_ACCESS_APPLICATION.getString(),
-            mongoApplication.getString(ID),
-            AuditLogAction.DATA_ACCESS_APPLICATION_DISCARDED.getString(), auditLogActionDescription,
-            false, context);
-
-          return false;
-        } else {
-          datasetIterator.remove();
-          modified = true;
-
-          // If dataset removed, delete section6 too.
-          deleteSection6ByDataset(mongoApplication, mongoDataset.getString("catalog_id"));
-
-          //Audit Log
-          JsonObject datasetObjJson = (JsonObject) datasetObj;
-          JsonArray distributions = datasetObjJson.getJsonArray("distributions");
-          String distributionsString = auditLogManager.extractDistributionIds(
-            distributions.toString());
-          String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
-            AuditLogActionDescription.DATA_ACCESS_APPLICATION_DATASET_DELETED.getString(),
-            datasetObjJson.getString(DATASET_ID), distributionsString,
-            mongoApplication.getString(ID), mongoApplication.getString(TITLE));
-          auditLogManager.insertAuditLog(AuditLogObject.DATA_ACCESS_APPLICATION.getString(),
-            mongoApplication.getString(ID), AuditLogAction.DATASET_DELETED.getString(),
-            auditLogActionDescription, true, context);
-        }
-      }
-    }
-    return modified;
-  }
-
-  void deleteApplicationDatasetDistribution(JsonObject mongoApplication, String requestDatasetId,
-    String requestDistributionId, @NotNull RoutingContext context) {
-    // Loop every dataset to check if provided dataset id is contained
-    JsonArray mongoDatasets = mongoApplication.getJsonArray(DATASETS);
-
-    Iterator<Object> datasetIterator = mongoDatasets.iterator();
-    while (datasetIterator.hasNext()) {
-      Object datasetObj = datasetIterator.next();
-      if (datasetObj instanceof JsonObject mongoDataset && mongoDataset.getString(DATASET_ID)
-        .equals(requestDatasetId)) {
-        JsonArray mongoDistributions = mongoDataset.getJsonArray(DISTRIBUTIONS);
-        Iterator<Object> distributionIterator = mongoDistributions.iterator();
-        while (distributionIterator.hasNext()) {
-          Object distributionObj = distributionIterator.next();
-          if (distributionObj instanceof JsonObject mongoDistribution
-            && mongoDistribution.getString(DISTRIBUTION_ID).equals(requestDistributionId)) {
-            if (mongoDistributions.size() == 1) {
-              if (mongoDatasets.size() == 1) {
-                JsonObject deleteById = new JsonObject().put(ID, mongoApplication.getValue(ID));
-                dbHandler.deleteById(DATA_ACCESS_APPLICATION_COLLECTION, deleteById);
-
-                //Audit Log
-                dbHandler.updateLinkableFields(AUDIT_LOG_COLLECTION,
-                  mongoApplication.getString(ID));
-                String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
-                  AuditLogActionDescription.DATA_ACCESS_APPLICATION_DISCARDED.getString(),
-                  mongoApplication.getString(ID), mongoApplication.getString(TITLE),
-                  requestDatasetId, requestDistributionId);
-                auditLogManager.insertAuditLog(AuditLogObject.DATA_ACCESS_APPLICATION.getString(),
-                  mongoApplication.getString(ID),
-                  AuditLogAction.DATA_ACCESS_APPLICATION_DISCARDED.getString(),
-                  auditLogActionDescription, false, context);
-
-                return;
-              } else {
-                datasetIterator.remove();
-                mongoApplication.put(DATE_MODIFIED, Instant.now());
-
-                // If  dataset removed, remove section 6 too.
-                deleteSection6ByDataset(mongoApplication, mongoDataset.getString("catalog_id"));
-
-                //Audit Log
-                String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
-                  AuditLogActionDescription.DATA_ACCESS_APPLICATION_DATASET_DELETED.getString(),
-                  requestDatasetId, requestDistributionId, mongoApplication.getString(ID),
-                  mongoApplication.getString(TITLE));
-                auditLogManager.insertAuditLog(AuditLogObject.DATA_ACCESS_APPLICATION.getString(),
-                  mongoApplication.getString(ID), AuditLogAction.DATASET_DELETED.getString(),
-                  auditLogActionDescription, true, context);
-              }
-            } else {
-              distributionIterator.remove();
-              mongoApplication.put(DATE_MODIFIED, Instant.now());
-
-              //Audit Log
-              String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
-                AuditLogActionDescription.DATA_ACCESS_APPLICATION_DISTRIBUTION_DELETED.getString(),
-                requestDistributionId, requestDatasetId, mongoApplication.getString(ID),
-                mongoApplication.getString(TITLE));
-              auditLogManager.insertAuditLog(AuditLogObject.DATA_ACCESS_APPLICATION.getString(),
-                mongoApplication.getString(ID), AuditLogAction.DISTRIBUTION_DELETED.getString(),
-                auditLogActionDescription, true, context);
-            }
-          }
-        }
-      }
-    }
+    deleteDistributions(context, DATA_ACCESS_APPLICATION_COLLECTION);
   }
 
   public void createOrUpdateSection(@NotNull RoutingContext context) {
@@ -549,33 +330,102 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
                 return;
               }
 
-              super.performStatusUpdate(mongoApplication, status, context);
-              performCleanUpForm(mongoApplication);
+              createApplicantDetails(context)
+                .recover(err -> {
+                  log.error("Could not update applicant details: {}", err.getMessage());
+                  return Future.succeededFuture(new JsonObject());
+                })
+                .onSuccess(applicantDetailsResult -> {
+                  if (!applicantDetailsResult.isEmpty()) {
+                    mongoApplication.put("applicantDetails", applicantDetailsResult);
+                  }
 
-              // Replace application and return result
-              replaceApplication(mongoApplication).onSuccess(replaceResult -> {
+                  // Fetch source language
+                  String sourceLang = mongoApplication
+                    .getString("inputLanguage", "EN")
+                    .toUpperCase(Locale.ENGLISH);
 
-                // If status is submitted then we need to add the application to the dispatcher table
-                ApplicationStatus requestStatus = ApplicationStatus.fromStatus(
-                  mongoApplication.getJsonObject(STATUS).getString(STATUS));
-                if (ApplicationStatus.SUBMITTED.equals(requestStatus)) {
-                  sendApplicationForDispatch(mongoApplication, DATA_ACCESS_APPLICATION_COLLECTION);
+                  // Extract datasets as List<JsonObject>
+                  List<JsonObject> datasets = mongoApplication.getJsonArray("datasets").stream()
+                    .filter(obj -> obj instanceof JsonObject)
+                    .map(obj -> (JsonObject) obj)
+                    .toList();
 
-                  //Audit Log
-                  String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
-                    AuditLogActionDescription.DATA_ACCESS_APPLICATION_SUBMITTED.getString(),
-                    applicationId, mongoApplication.getString(TITLE));
-                  auditLogManager.insertAuditLog(AuditLogObject.DATA_ACCESS_APPLICATION.getString(),
-                    applicationId, AuditLogAction.DATA_ACCESS_APPLICATION_SUBMITTED.getString(),
-                    auditLogActionDescription, true, context);
-                }
-                setUpContextResponse(context, HttpResponseStatus.OK, replaceResult.encode());
-              }).onFailure(fail -> {
-                rollbackStatusToDraft(applicationId, DATA_ACCESS_APPLICATION_COLLECTION);
-                setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
-                  fail.getMessage());
-              });
+                  // Async fetch of target languages from datasets
+                  getTargetLanguagesFromDatasets(datasets).onComplete(langResult -> {
+                    List<String> targetLanguages;
+                    boolean translationNeeded;
 
+                    if (langResult.succeeded()) {
+                      Set<String> uniqueLanguages = new HashSet<>(langResult.result());
+                      // English is included in the translation languages by default
+                      uniqueLanguages.add("EN");
+                      targetLanguages = new ArrayList<>(uniqueLanguages);
+
+                      // Remove the source language if present
+                      targetLanguages.removeIf(lang -> lang.equalsIgnoreCase(sourceLang));
+
+                      // Check if translation is needed (any language remains)
+                      translationNeeded = !targetLanguages.isEmpty();
+                    } else {
+                      translationNeeded = false;
+                      // If failed to get target languages, fallback to empty list (no translation)
+                      targetLanguages = List.of();
+                    }
+
+                    JsonObject translation = mongoApplication.getJsonObject("translation",
+                      new JsonObject());
+                    translation.put(STATUS, translationNeeded ? TranslationStatus.PENDING
+                      : TranslationStatus.NOT_REQUIRED);
+                    translation.put("sourceLanguage", sourceLang);
+                    translation.put("targetLanguages", new JsonArray(targetLanguages));
+                    mongoApplication.put("translation", translation);
+
+                    super.performStatusUpdate(mongoApplication, status, context);
+                    performCleanUpForm(mongoApplication);
+
+                    // Replace application and return result
+                    replaceApplication(mongoApplication).onSuccess(replaceResult -> {
+
+                      if (translate && translationNeeded) {
+                        triggerTranslationRequest(
+                          applicationId,
+                          mongoApplication.getJsonObject("form"),
+                          DATA_ACCESS_APPLICATION_COLLECTION,
+                          sourceLang,
+                          targetLanguages
+                        );
+
+                        setUpContextResponse(context, HttpResponseStatus.OK,
+                          replaceResult.encode());
+                        return;
+                      }
+
+                      // If status is submitted then we need to add the application to the dispatcher table
+                      ApplicationStatus requestStatus = ApplicationStatus.fromStatus(
+                        mongoApplication.getJsonObject(STATUS).getString(STATUS));
+                      if (ApplicationStatus.SUBMITTED.equals(requestStatus)) {
+                        sendApplicationForDispatch(mongoApplication,
+                          DATA_ACCESS_APPLICATION_COLLECTION);
+
+                        //Audit Log
+                        String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+                          AuditLogActionDescription.DATA_ACCESS_APPLICATION_SUBMITTED.toString(),
+                          applicationId, mongoApplication.getString(TITLE));
+                        auditLogManager.insertAuditLog(
+                          AuditLogObject.DATA_ACCESS_APPLICATION.toString(),
+                          applicationId,
+                          AuditLogAction.DATA_ACCESS_APPLICATION_SUBMITTED.toString(),
+                          auditLogActionDescription, true, context);
+                      }
+                      setUpContextResponse(context, HttpResponseStatus.OK, replaceResult.encode());
+                    }).onFailure(fail -> {
+                      rollbackStatusToDraft(applicationId, DATA_ACCESS_APPLICATION_COLLECTION);
+                      setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+                        fail.getMessage());
+                    });
+                  });
+                });
             } else {
               setUpMessageContextResponse(context, HttpResponseStatus.NOT_FOUND,
                 "Application not found");
@@ -752,22 +602,26 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
       JsonObject section = section6Array.getJsonObject(i);
       JsonObject howIsTheStudyCohortFormed = section.getJsonObject("howIsTheStudyCohortFormed");
 
-      if (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b")) {
+      if (Objects.nonNull(howIsTheStudyCohortFormed) &&
+        (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(howIsTheStudyCohortFormed.getString("key"), "c"))) {
         section.remove(HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS);
       }
 
       JsonObject hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants = section.getJsonObject(
         HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS);
-      if (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") || !Objects.equals(
-        hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants.getString("key"), "a")) {
+      if ((Objects.nonNull(howIsTheStudyCohortFormed) && (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(howIsTheStudyCohortFormed.getString("key"), "c"))) || (
+        Objects.nonNull(hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants)
+          && !Objects.equals(
+          hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants.getString("key"),
+          "a"))) {
         section.remove("doesTheInformedConsentCoverTheRequestedRegistryExtractions");
         section.remove("consentAndInformationLetterAttachment");
-        section.remove("confirmThatDataPermitHasBeenGrantedForTheResearchProject");
-        section.remove("permitDecisionAttachment");
       }
 
-      if ((!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(
-        howIsTheStudyCohortFormed.getString("key"), "c"))) {
+      if ((Objects.nonNull(howIsTheStudyCohortFormed) && (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(
+        howIsTheStudyCohortFormed.getString("key"), "c")))) {
+        section.remove("confirmThatDataPermitHasBeenGrantedForTheResearchProject");
+        section.remove("permitDecisionAttachment");
         section.remove("previouslyIssuedPermitIssuer1");
         section.remove("previouslyIssuedPermitDate1");
         section.remove("previouslyIssuedPermitValidityPeriodFrom1");
@@ -775,79 +629,92 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
         section.remove("previouslyIssuedPermitNumber1");
       }
 
-      if (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") || !Objects.equals(
-        hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants.getString("key"), "b")) {
+      if ((Objects.nonNull(howIsTheStudyCohortFormed) && !Objects.equals(
+        howIsTheStudyCohortFormed.getString("key"), "b")) || (
+        Objects.nonNull(hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants)
+          && !Objects.equals(
+          hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants.getString("key"),
+          "b"))) {
         section.remove("howTheStudyCohortWasObtained");
       }
 
       JsonObject providedInformationOfTheDataUseToCorrespondingSubjects = section.getJsonObject(
         PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS);
 
-      if (!Objects.equals(providedInformationOfTheDataUseToCorrespondingSubjects.getString("key"),
+      if (Objects.nonNull(providedInformationOfTheDataUseToCorrespondingSubjects)
+        && !Objects.equals(
+        providedInformationOfTheDataUseToCorrespondingSubjects.getString("key"),
         "a")) {
         section.remove("howProvidedInformationOfTheDataUseToCorrespondingSubjects");
       }
 
-      if (!Objects.equals(providedInformationOfTheDataUseToCorrespondingSubjects.getString("key"),
+      if (Objects.nonNull(providedInformationOfTheDataUseToCorrespondingSubjects)
+        && !Objects.equals(providedInformationOfTheDataUseToCorrespondingSubjects.getString("key"),
         "b")) {
         section.remove("whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects");
       }
 
-      if ((!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(
-        howIsTheStudyCohortFormed.getString("key"), "c"))) {
+      if (Objects.nonNull(howIsTheStudyCohortFormed) && (
+        !Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(
+          howIsTheStudyCohortFormed.getString("key"), "c"))) {
         section.remove(INFORMATION_PROVIDER_SAME_AS_CONTACT_PERSON);
-        section.remove(INFORMATION_PROVIDER_NAME);
-        section.remove(INFORMATION_PROVIDER_EMAIL);
-        section.remove(INFORMATION_PROVIDER_PHONE);
+        section.remove("informationProviderName");
+        section.remove("informationProviderEmail");
+        section.remove("informationProviderPhone");
       }
 
-      if (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "d")) {
+      if (Objects.nonNull(howIsTheStudyCohortFormed) && !Objects.equals(
+        howIsTheStudyCohortFormed.getString("key"), "d")) {
         section.remove("whyNeedDataOfaWholePopulation");
       }
 
       JsonObject extractionMethod = section.getJsonObject("extractionMethod");
-      String extractionMethodKey2 = extractionMethod.getString("key");
 
-      if (!extractionMethodKey2.equals("c")) {
+      if (Objects.nonNull(extractionMethod) && !extractionMethod.getString("key").equals("c")) {
         section.remove("samplingMethod");
       }
 
-      if (!extractionMethodKey2.equals("c") && !extractionMethodKey2.equals("a")) {
+      if (Objects.nonNull(extractionMethod) && (!extractionMethod.getString("key").equals("c")
+        && !extractionMethod.getString("key")
+        .equals("a"))) {
         section.remove("sampleSize");
       }
 
       JsonObject howOftenDoesTheDataNeedToBeExtracted = section.getJsonObject(
         "howOftenDoesTheDataNeedToBeExtracted");
-      if (!Objects.equals(howOftenDoesTheDataNeedToBeExtracted.getString("key"), "b")) {
+      if (Objects.nonNull(howOftenDoesTheDataNeedToBeExtracted) && !Objects.equals(
+        howOftenDoesTheDataNeedToBeExtracted.getString("key"), "b")) {
         section.remove(NEED_FOR_DATA_EXTRACTION_EVERY);
       }
 
-      JsonObject needForDataExtractionEvery = section.getJsonObject(NEED_FOR_DATA_EXTRACTION_EVERY);
-      if (!Objects.equals(howOftenDoesTheDataNeedToBeExtracted.getString("key"), "b")
-        || !Objects.equals(needForDataExtractionEvery.getString("key"), "d")) {
+      JsonObject needForDataExtractionEvery = section.getJsonObject(
+        NEED_FOR_DATA_EXTRACTION_EVERY);
+      if ((Objects.nonNull(howOftenDoesTheDataNeedToBeExtracted) && !Objects.equals(
+        howOftenDoesTheDataNeedToBeExtracted.getString("key"), "b"))
+        || (Objects.nonNull(needForDataExtractionEvery) && !Objects.equals(
+        needForDataExtractionEvery.getString("key"), "d"))) {
         section.remove("needForDataExtractionEveryOther");
       }
 
       //SECTION 6_2
 
-      JsonObject hasTheGroupRelativesFormed2 = section.getJsonObject(
-        HAS_THE_GROUP_RELATIVES_FORMED_2);
-
-      if (!Objects.equals(hasTheGroupRelativesFormed2.getString("key"), "a")) {
+      JsonObject willControlsBeExtracted = section.getJsonObject(WILL_CONTROLS_BE_EXTRACTED);
+      if (Objects.nonNull(willControlsBeExtracted) && !Objects.equals(
+        willControlsBeExtracted.getString("key"), "a")) {
+        section.remove(HAS_THE_GROUP_RELATIVES_FORMED_2);
+        section.remove("previouslyIssuedPermitDate2");
+        section.remove("previouslyIssuedPermitValidityPeriodFrom2");
+        section.remove("previouslyIssuedPermitValidityPeriodTo2");
+        section.remove("previouslyIssuedPermitNumber2");
         section.remove("previouslyIssuedPermitIssuer2");
         section.remove("previouslyIssuedPermitDate2");
         section.remove("previouslyIssuedPermitValidityPeriodFrom2");
         section.remove("previouslyIssuedPermitValidityPeriodTo2");
         section.remove("previouslyIssuedPermitNumber2");
-      }
-
-      JsonObject willControlsBeExtracted = section.getJsonObject(WILL_CONTROLS_BE_EXTRACTED);
-      if (!Objects.equals(willControlsBeExtracted.getString("key"), "a")) {
         section.remove(WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS);
-        section.remove("regionForControlsDataExtraction");
-        section.remove("variablesForDataExtraction");
-        section.remove("timePeriodForDataExtraction");
-        section.remove("extractionCriteriaForControls");
+        section.remove(VARIABLES_FOR_DATA_EXTRACTION_ATTACHMENTS);
+        section.remove(TIME_PERIOD_FOR_DATA_EXTRACTION);
+        section.remove(EXTRACTION_CRITERIA_FOR_CONTROLS);
         section.remove("sizeOfControlGroup");
         section.remove("sizeOfControlGroupEstimationOrExact");
         section.remove("controlsPerPersonInStudyCohort");
@@ -857,67 +724,79 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
         section.remove(DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION);
         section.remove(DATA_NEEDS_TO_BE_EXTRACTED_EVERY);
         section.remove(SPECIFY_OTHER);
-        section.remove("moreInfoOnExtractionPeriods");
-        section.remove("orderOfControlsDataExtraction");
+        section.remove(MORE_INFO_ON_EXTRACTION_PERIODS);
+        section.remove(ORDER_OF_CONTROLS_DATA_EXTRACTION);
       } else {
-        JsonObject willSameDataBeExtractedForControls = section.getJsonObject(
-          WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS);
-        if (!Objects.equals(willSameDataBeExtractedForControls.getString("key"), "b")) {
-          section.remove("regionForControlsDataExtraction");
-          section.remove("variablesForDataExtraction");
-          section.remove("timePeriodForDataExtraction");
-          section.remove("extractionCriteriaForControls");
+        JsonObject hasTheGroupRelativesFormed2 = section.getJsonObject(
+          HAS_THE_GROUP_RELATIVES_FORMED_2);
+
+        if (Objects.nonNull(hasTheGroupRelativesFormed2) && !Objects.equals(
+          hasTheGroupRelativesFormed2.getString("key"),
+          "a")) {
+          section.remove("previouslyIssuedPermitIssuer2");
+          section.remove("previouslyIssuedPermitDate2");
+          section.remove("previouslyIssuedPermitValidityPeriodFrom2");
+          section.remove("previouslyIssuedPermitValidityPeriodTo2");
+          section.remove("previouslyIssuedPermitNumber2");
         }
 
-        JsonObject willDataForControlsBeExtractedSimultaneously = section.getJsonObject(
-          WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY);
-        if (!Objects.equals(willDataForControlsBeExtractedSimultaneously.getString("key"), "b")) {
+        JsonObject willSameDataBeExtractedForControls = section.getJsonObject(
+          WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS);
+        if (Objects.nonNull(willSameDataBeExtractedForControls) && !Objects.equals(
+          willSameDataBeExtractedForControls.getString("key"), "b")) {
+          section.remove(VARIABLES_FOR_DATA_EXTRACTION_ATTACHMENTS);
+          section.remove(TIME_PERIOD_FOR_DATA_EXTRACTION);
+        }
+
+        JsonObject willDataForControlsBeExtractedSimultaneously =
+          section.getJsonObject(WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY);
+        if (Objects.nonNull(willDataForControlsBeExtractedSimultaneously) && !Objects.equals(
+          willDataForControlsBeExtractedSimultaneously.getString("key"), "b")) {
 
           section.remove(DATA_EXTRACTION_FREQUENCY);
           section.remove(DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION);
           section.remove(DATA_NEEDS_TO_BE_EXTRACTED_EVERY);
           section.remove(SPECIFY_OTHER);
-          section.remove("moreInfoOnExtractionPeriods");
-          section.remove("orderOfControlsDataExtraction");
+          section.remove(MORE_INFO_ON_EXTRACTION_PERIODS);
+          section.remove(ORDER_OF_CONTROLS_DATA_EXTRACTION);
         } else {
-          JsonObject dataExtractionFrequency = section.getJsonObject(DATA_EXTRACTION_FREQUENCY);
-          if (!Objects.equals(dataExtractionFrequency.getString("key"), "b")) {
+          JsonObject dataExtractionFrequency =
+            section.getJsonObject(DATA_EXTRACTION_FREQUENCY);
+          if (Objects.nonNull(dataExtractionFrequency) && !Objects.equals(
+            dataExtractionFrequency.getString("key"), "b")) {
             section.remove(DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION);
             section.remove(DATA_NEEDS_TO_BE_EXTRACTED_EVERY);
           }
 
-          JsonObject dataNeedsToBeExtractedEvery = section.getJsonObject(
-            DATA_NEEDS_TO_BE_EXTRACTED_EVERY);
-          if (!Objects.equals(dataExtractionFrequency.getString("key"), "b") || !Objects.equals(
-            dataNeedsToBeExtractedEvery.getString("key"), "d")) {
+          JsonObject dataNeedsToBeExtractedEvery =
+            section.getJsonObject(DATA_NEEDS_TO_BE_EXTRACTED_EVERY);
+          if (Objects.nonNull(dataNeedsToBeExtractedEvery) && (!Objects.equals(
+            dataExtractionFrequency.getString("key"), "b") ||
+            !Objects.equals(dataNeedsToBeExtractedEvery.getString("key"), "d"))) {
             section.remove(SPECIFY_OTHER);
           }
         }
       }
 
       //SECTION 6_3
+      JsonObject willRelativesBeExtracted = section.getJsonObject(WILL_RELATIVES_BE_EXTRACTED);
 
-      JsonObject hasTheGroupRelativesFormed3 = section.getJsonObject(
-        HAS_THE_GROUP_RELATIVES_FORMED_3);
-
-      if (!Objects.equals(hasTheGroupRelativesFormed3.getString("key"), "a")) {
+      if (Objects.nonNull(willRelativesBeExtracted) && !Objects.equals(
+        willRelativesBeExtracted.getString("key"),
+        "a")) {
+        section.remove(HAS_THE_GROUP_RELATIVES_FORMED_3);
         section.remove("previouslyIssuedPermitIssuer3");
         section.remove("previouslyIssuedPermitDate3");
         section.remove("previouslyIssuedPermitValidityPeriodFrom3");
         section.remove("previouslyIssuedPermitValidityPeriodTo3");
         section.remove("previouslyIssuedPermitNumber3");
-      }
-
-      JsonObject willRelativesBeExtracted = section.getJsonObject(WILL_RELATIVES_BE_EXTRACTED);
-
-      if (!Objects.equals(willRelativesBeExtracted.getString("key"), "a")) {
-        section.remove("willSameDataBeExtractedForRelatives");
-        section.remove("variablesForDataExtractionRelatives");
-        section.remove("timePeriodForDataExtractionRelatives");
-        section.remove("relationshipToStudyCohort");
+        section.remove(WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES);
+        section.remove(VARIABLES_FOR_DATA_EXTRACTION_RELATIVES_ATTACHMENTS);
+        section.remove(TIME_PERIOD_FOR_DATA_EXTRACTION_RELATIVES);
+        section.remove(RELATIONSHIP_TO_STUDY_COHORT);
         section.remove("sizeOfRelativesGroup");
         section.remove("sizeOfRelativesGroupEstimateOrExact");
-        section.remove("willDataForRelativesBeExtractedSimultaneously");
+        section.remove(WILL_DATA_FOR_RELATIVES_BE_EXTRACTED_SIMULTANEOUSLY);
         section.remove(DATA_EXTRACTION_FREQUENCY_RELATIVES);
         section.remove(DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION_RELATIVES);
         section.remove(DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES);
@@ -925,32 +804,50 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
         section.remove("moreInfoOnExtractionPeriodsRelatives");
         section.remove("orderOfRelativesDataExtraction");
       } else {
+        JsonObject hasTheGroupRelativesFormed3 = section.getJsonObject(
+          HAS_THE_GROUP_RELATIVES_FORMED_3);
+
+        if (Objects.nonNull(hasTheGroupRelativesFormed3) && !Objects.equals(
+          hasTheGroupRelativesFormed3.getString("key"),
+          "a")) {
+          section.remove("previouslyIssuedPermitIssuer3");
+          section.remove("previouslyIssuedPermitDate3");
+          section.remove("previouslyIssuedPermitValidityPeriodFrom3");
+          section.remove("previouslyIssuedPermitValidityPeriodTo3");
+          section.remove("previouslyIssuedPermitNumber3");
+        }
+
         JsonObject willSameDataBeExtractedForRelatives = section.getJsonObject(
-          "willSameDataBeExtractedForRelatives");
-        if (!Objects.equals(willSameDataBeExtractedForRelatives.getString("key"), "b")) {
-          section.remove("variablesForDataExtractionRelatives");
-          section.remove("timePeriodForDataExtractionRelatives");
-          section.remove("relationshipToStudyCohort");
+          WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES);
+        if (Objects.nonNull(willSameDataBeExtractedForRelatives) && !Objects.equals(
+          willSameDataBeExtractedForRelatives.getString("key"),
+          "b")) {
+          section.remove(VARIABLES_FOR_DATA_EXTRACTION_RELATIVES_ATTACHMENTS);
+          section.remove(TIME_PERIOD_FOR_DATA_EXTRACTION_RELATIVES);
         }
 
         JsonObject willDataForRelativesBeExtractedSimultaneously = section.getJsonObject(
-          "willDataForRelativesBeExtractedSimultaneously");
-        if (!Objects.equals(willDataForRelativesBeExtractedSimultaneously.getString("key"), "b")) {
+          WILL_DATA_FOR_RELATIVES_BE_EXTRACTED_SIMULTANEOUSLY);
+        if (Objects.nonNull(willDataForRelativesBeExtractedSimultaneously) && !Objects.equals(
+          willDataForRelativesBeExtractedSimultaneously.getString("key"),
+          "b")) {
           section.remove(DATA_EXTRACTION_FREQUENCY_RELATIVES);
-          section.remove(DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION_RELATIVES1);
+          section.remove(DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION_RELATIVES);
           section.remove(DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES);
           section.remove(SPECIFY_OTHER_RELATIVES);
         } else {
           JsonObject dataExtractionFrequencyRelatives = section.getJsonObject(
             DATA_EXTRACTION_FREQUENCY_RELATIVES);
-          if (!Objects.equals(dataExtractionFrequencyRelatives.getString("key"), "b")) {
-            section.remove(DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION_RELATIVES1);
+          if (Objects.nonNull(dataExtractionFrequencyRelatives) && !Objects.equals(
+            dataExtractionFrequencyRelatives.getString("key"), "b")) {
+            section.remove(DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION_RELATIVES);
             section.remove(DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES);
             section.remove(SPECIFY_OTHER_RELATIVES);
           } else {
             JsonObject dataNeedsToBeExtractedEveryRelatives = section.getJsonObject(
               DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES);
-            if (!Objects.equals(dataNeedsToBeExtractedEveryRelatives.getString("key"), "d")) {
+            if (Objects.nonNull(dataNeedsToBeExtractedEveryRelatives) && !Objects.equals(
+              dataNeedsToBeExtractedEveryRelatives.getString("key"), "d")) {
               section.remove(SPECIFY_OTHER_RELATIVES);
             }
           }
@@ -1344,141 +1241,8 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
         formatOfTheElectronicHealthData.getString("key"))));
   }
 
-  List<Future> updateApplicationsAsync(@NotNull RoutingContext context) {
-
-    //Retrieve all applications from the request
-    JsonArray requestApplications = context.body().asJsonObject().getJsonArray("applications");
-    //Define the array of Futures that need to be returned
-    List<Future> futures = new ArrayList<>();
-
-    // For every application in the request, invoke the asynchronous call to perform the update of the application
-    requestApplications.forEach(
-      requestApplication -> futures.add(updateApplicationAsync(requestApplication, context)));
-
-    return futures;
-  }
-
-  private Future<JsonObject> updateApplicationAsync(Object requestApplication,
-    @NotNull RoutingContext context) {
-
-    Promise<JsonObject> promise = Promise.promise();
-
-    // A map of application <application_id, title> that will store the application that is being updated
-    JsonObject updatedApplication = new JsonObject();
-    //Retrieve the application from Mongo Database
-    Future<JsonObject> mongoApplicationFuture = findApplication(requestApplication,
-      Context.getEcasId(context));
-    //Process the result asynchronously
-    mongoApplicationFuture.onComplete(ar -> {
-      if (ar.succeeded() && ar.result() != null) {
-
-        // Get the application document from the database
-        JsonObject mongoApplication = ar.result();
-
-        //Loop for every dataset
-        JsonArray requestDatasets = context.body().asJsonObject().getJsonArray(DATASETS);
-
-        requestDatasets.forEach(requestDataset -> {
-
-          JsonArray mongoDatasets = mongoApplication.getJsonArray(DATASETS);
-          String requestDatasetIdValue = ((JsonObject) requestDataset).getString(DATASET_ID);
-          if (hasElementWithValue(mongoDatasets, DATASET_ID, requestDatasetIdValue)) {
-
-            // Get the distributions for the specific dataset
-            JsonArray mongoDistributions = getDistributions(mongoDatasets, DATASET_ID,
-              requestDatasetIdValue);
-
-            // The provided dataset exists, so we have to parse the distributions
-            JsonArray requestDistributions = ((JsonObject) requestDataset).getJsonArray(
-              DISTRIBUTIONS);
-            requestDistributions.forEach(requestDistribution -> {
-
-              String requestDistributionIdValue = ((JsonObject) requestDistribution).getString(
-                DISTRIBUTION_ID);
-              if (!hasElementWithValue(mongoDistributions, DISTRIBUTION_ID,
-                requestDistributionIdValue)) {
-                // The provided distribution does not exist, so will have to add it
-                //Prepare the distribution
-                mongoDistributions.add(requestDistribution);
-                // Update the date_added of the dataset
-                updateDatasetDateAdded(mongoDatasets, requestDatasetIdValue,
-                  DATA_ACCESS_APPLICATION_COLLECTION);
-                //Add the application id and the title to the response map
-                updatedApplication.put(ID, mongoApplication.getString(ID));
-                updatedApplication.put(VERSION, mongoApplication.getString(VERSION));
-                updatedApplication.put(TITLE, mongoApplication.getString(TITLE));
-              } else {
-                // Distribution is found in Mongo database
-                log.info(DATA_ACCESS_APPLICATION_COLLECTION
-                    + " Distribution with id: {} was found in the Mongo database, so will not add it",
-                  requestDistributionIdValue);
-              }
-            });
-          } else {
-            // The provided dataset does not exist, so will have to add it with all of its distributions
-            // prepare Dataset to be added
-            mongoDatasets.add(prepareDataset(requestDataset, DATA_ACCESS_APPLICATION_COLLECTION));
-            //Add the application id and the title to the response map
-            updatedApplication.put(ID, mongoApplication.getString(ID));
-            updatedApplication.put(VERSION, mongoApplication.getString(VERSION));
-            updatedApplication.put(TITLE, mongoApplication.getString(TITLE));
-          }
-
-        });
-        //Update the application to Mongo database only if changes need to be applied
-        if (!updatedApplication.isEmpty()) {
-          replaceApplication(mongoApplication);
-        }
-
-        // Delete datasets and distributions received.
-        deleteDistributionsFromBasket(requestDatasets, context);
-
-      } else {
-        log.info(DATA_ACCESS_APPLICATION_COLLECTION
-            + " Application with id: {} was not found in the Mongo database",
-          ((JsonObject) requestApplication).getString(APPLICATION_ID));
-      }
-
-      promise.complete(updatedApplication);
-    });
-
-    return promise.future();
-  }
-
   Future<JsonObject> replaceApplication(JsonObject mongoApplication) {
     return replaceApplication(mongoApplication, DATA_ACCESS_APPLICATION_COLLECTION);
-  }
-
-  private JsonArray getDistributions(JsonArray jsonArray, String field, String value) {
-    for (Object element : jsonArray) {
-      if (element instanceof JsonObject jsonObject) {
-        String foundValue = jsonObject.getString(field);
-        if (StringUtils.isNotEmpty(foundValue) && StringUtils.equals(value, foundValue)) {
-          return jsonObject.getJsonArray(DISTRIBUTIONS);
-        }
-      }
-    }
-    return null;
-  }
-
-  private Future<JsonObject> findApplication(Object datasetQueryDocument, String userId) {
-
-    JsonObject applicationQueryDocument = new JsonObject();
-    applicationQueryDocument.put(ID, ((JsonObject) datasetQueryDocument).getString(APPLICATION_ID));
-    applicationQueryDocument.put(USER_ID, userId);
-
-    Promise<JsonObject> promise = Promise.promise();
-
-    mongoClient.findOne(DATA_ACCESS_APPLICATION_COLLECTION, applicationQueryDocument, null, ar -> {
-      if (ar.succeeded()) {
-        JsonObject application = ar.result();
-        promise.complete(application);
-      } else {
-        promise.fail(ar.cause());
-      }
-    });
-
-    return promise.future();
   }
 
   /**
@@ -1541,6 +1305,108 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
   public void changeTitle(@NotNull RoutingContext context) {
     changeTitle(context, DATA_ACCESS_APPLICATION_COLLECTION);
+  }
+
+  public void processTranslationCallback(String applicationId, JsonObject dict) {
+    JsonObject query = new JsonObject().put(ID, applicationId);
+
+    mongoClient.findOne(DATA_ACCESS_APPLICATION_COLLECTION, query, null, res -> {
+      if (res.succeeded() && res.result() != null) {
+        JsonObject application = res.result();
+        JsonObject originalForm = application.getJsonObject("form");
+        JsonObject translatedFiles = application.getJsonObject("translation", new JsonObject())
+          .getJsonObject("files", new JsonObject());
+        List<String> targetLangs = application.getJsonObject("translation", new JsonObject()).getJsonArray("targetLanguages", new JsonArray())
+          .stream().map(Object::toString).toList();
+
+        JsonObject translationUpdate = super.buildFormTranslationsAndSetStatus(
+          originalForm, dict, targetLangs, applicationId, translatedFiles, DATA_ACCESS_APPLICATION_COLLECTION
+        );
+        applyTranslationUpdate(application, translationUpdate);
+
+        TranslationStatus overallStatus = ApplicationFormUtils.determineOverallTranslationStatus(
+          application.getJsonObject("translation", new JsonObject())
+        );
+        application.getJsonObject("translation").put(STATUS, overallStatus);
+
+        if (overallStatus != TranslationStatus.COMPLETED) {
+          log.info("Translation not yet complete for application [{}], skipping dispatch (status = {})", applicationId, overallStatus);
+          replaceApplication(application).onSuccess(r -> {}).onFailure(err -> log.error("Failed to replace", err));
+          return;
+        }
+
+        replaceApplication(application).onSuccess(replaceResult -> {
+          log.info("Application updated with translations. Proceeding to dispatch.");
+
+          ApplicationStatus requestStatus = ApplicationStatus.fromStatus(
+            application.getJsonObject(STATUS).getString(STATUS));
+
+          if (ApplicationStatus.SUBMITTED.equals(requestStatus)) {
+            sendApplicationForDispatch(application, DATA_ACCESS_APPLICATION_COLLECTION);
+
+            String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+              AuditLogActionDescription.DATA_ACCESS_APPLICATION_SUBMITTED.toString(),
+              applicationId, application.getString(TITLE));
+            auditLogManager.insertAuditLog(AuditLogObject.DATA_ACCESS_APPLICATION.toString(),
+              application.getString(ID),
+              AuditLogAction.DATA_ACCESS_APPLICATION_SUBMITTED.toString(),
+              auditLogActionDescription, true, null);
+          }
+        }).onFailure(err -> log.error("Failed to replace application with translations", err));
+      } else {
+        log.error("Could not find application to apply translations: {}", applicationId);
+      }
+    });
+  }
+
+  public void processFileTranslationCallback(String applicationId, String originalFileId, Map<String, JsonObject> uploadedFiles) {
+    JsonObject query = new JsonObject().put(ID, applicationId);
+
+    mongoClient.findOne(DATA_ACCESS_APPLICATION_COLLECTION, query, null, res -> {
+      if (res.succeeded() && res.result() != null) {
+        JsonObject application = res.result();
+
+        applyFileTranslationUpdates(application, applicationId, originalFileId, uploadedFiles);
+
+        TranslationStatus overallStatus = ApplicationFormUtils.determineOverallTranslationStatus(
+          application.getJsonObject("translation", new JsonObject())
+        );
+        application.getJsonObject("translation").put(STATUS, overallStatus);
+
+        if (overallStatus != TranslationStatus.COMPLETED) {
+          log.info("Translation not yet complete for application [{}], skipping dispatch (status = {})", applicationId, overallStatus);
+          replaceApplication(application).onSuccess(r -> {}).onFailure(err -> log.error("Failed to replace", err));
+          return;
+        }
+
+        replaceApplication(application).onSuccess(replaceResult -> {
+          log.info("Application [{}] updated with translated file references for [{}]", applicationId, originalFileId);
+
+          ApplicationStatus requestStatus = ApplicationStatus.fromStatus(
+            application.getJsonObject(STATUS).getString(STATUS));
+
+          if (ApplicationStatus.SUBMITTED.equals(requestStatus)) {
+            sendApplicationForDispatch(application, DATA_ACCESS_APPLICATION_COLLECTION);
+
+            String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+              AuditLogActionDescription.DATA_ACCESS_APPLICATION_SUBMITTED.toString(),
+              applicationId, application.getString(TITLE));
+
+            auditLogManager.insertAuditLog(AuditLogObject.DATA_ACCESS_APPLICATION.toString(),
+              application.getString(ID),
+              AuditLogAction.DATA_ACCESS_APPLICATION_SUBMITTED.toString(),
+              auditLogActionDescription, true, null);
+          }
+        }).onFailure(err -> log.error("Failed to replace application with file translation updates", err));
+
+      } else {
+        log.error("Could not find application [{}] to update file translations", applicationId);
+      }
+    });
+  }
+
+  public void markTranslationError(String applicationId, String errorType, String fileId) {
+    super.markTranslationError(applicationId, DATA_ACCESS_APPLICATION_COLLECTION, errorType, fileId);
   }
 
 }

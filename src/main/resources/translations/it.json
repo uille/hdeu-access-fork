@@ -17,6 +17,21 @@
         },
         "applicationDatabases": {
             "label": "Da quali banche dati o registri saranno estratti i dati?"
+        },
+        "variables": {
+            "label": "﻿Variabili﻿"
+        },
+        "datatype": {
+            "label": "Datatypes (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Descrizione"
+        },
+        "title": {
+            "label": "﻿Variabili﻿"
+        },
+        "emptyTable": {
+            "label": "Nessuna variabile"
         }
     },
     "section2": {
@@ -102,10 +117,10 @@
                 },
                 {
                     "key": "b",
-                    "value": "Persona fisica",
-                    "info": "(Se scegli questa opzione, confermi di richiedere i dati in qualità di privato senza affiliazione.)"
+                    "value": "Persona fisica"
                 }
-            ]
+            ],
+            "info": "(Se scegli questa opzione, confermi di richiedere i dati in qualità di privato senza affiliazione.)"
         },
         "legalPerson": "Persona giuridica",
         "naturalPerson": "Persona fisica",
@@ -141,15 +156,6 @@
         },
         "contactPersonBusinessIdentifier": {
             "label": "ID aziendale dell'organizzazione"
-        },
-        "contactPersonOperatorIdentifier": {
-            "label": "ID gestore"
-        },
-        "contactPersonJobTitle": {
-            "label": "Qualifica"
-        },
-        "contactPersonAffiliation": {
-            "label": "Affiliazione"
         },
         "contactPersonRelationship": {
             "label": "Qual è il rapporto tra la persona di contatto e il richiedente? (Ad esempio, un dipendente che presenta domanda di dati per conto della propria organizzazione)."
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "Finalità dell'uso dei dati",
-        "section5Description": "I richiedenti dovrebbero indicare lo scopo per il quale sono richiesti i dati, conformemente all'articolo 53, paragrafo 1, della rettifica del regolamento sullo spazio europeo dei dati sanitari approvata dal Parlamento europeo il 17/12. \nI richiedenti devono spiegare e spiegare perché i dati richiesti sono necessari per il loro scopo d'uso indicato. I richiedenti sono inoltre invitati a fornire informazioni sull'obiettivo del progetto. Successivamente, a seconda della finalità d'uso (ricerca o non ricerca), i richiedenti devono fornire una sintesi del piano per l'utilizzo dei dati o una sintesi del piano di ricerca, nonché informazioni sulla persona responsabile dell'uso dei dati o della ricerca.",
+        "section5Description": "I richiedenti dovrebbero indicare la finalità per la quale sono richiesti i dati, a norma dell'articolo 53, paragrafo 1, del regolamento (UE) 2025/327 del Parlamento europeo e del Consiglio, dell'11 febbraio 2025, relativo allo spazio europeo dei dati sanitari. I richiedenti devono spiegare e spiegare perché i dati richiesti sono necessari per lo scopo di utilizzo indicato. I candidati sono inoltre invitati a fornire informazioni sullo scopo del progetto. Quindi, a seconda dello scopo d'uso (ricerca o meno), i candidati devono fornire una sintesi del piano per l'utilizzo dei dati o una sintesi del piano di ricerca e informazioni sulla persona responsabile dell'uso dei dati o della ricerca.",
         "purposeOfUse": {
             "label": "Finalità dell'uso dei dati. Gli organismi responsabili dell'accesso ai dati sanitari forniscono l'accesso ai dati sanitari elettronici di cui all'articolo 51 solo se la finalità prevista del trattamento perseguito dal richiedente è conforme alle seguenti finalità (di cui all'articolo 53, paragrafo 1) elencate di seguito.",
             "tooltip": "Finalità del regolamento sullo spazio europeo dei dati sanitari.",
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Qual è il beneficio previsto connesso all'uso dei dati sanitari elettronici e in che modo tale beneficio contribuisce alle finalità di cui al punto 5.1?"
         },
+        "describeApplicantsQualification": {
+            "label": "Descrivere le qualifiche del richiedente in relazione alle finalità previste per l'uso dei dati e le competenze adeguate (comprese le qualifiche professionali)"
+        },
         "legalBasis": {
             "label": "Specificare la base giuridica, ad esempio la legislazione pertinente, che definisce i compiti che rientrano nel Suo mandato e conferma che l'uso previsto dei dati è finalizzato a facilitare tali compiti.",
             "tooltip": "Spiegare qui perché la quantità di dati richiesti è necessaria per la finalità d'uso dei dati. Giustificare e descrivere in che modo il contenuto delle statistiche richieste corrisponde alla finalità d'uso indicata nell'applicazione e soddisfa i requisiti in materia di dati."
@@ -320,222 +329,16 @@
             "label": "Fornire un link alla documentazione giustificativa come prova della base giuridica"
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Fornire una sintesi del piano per l'utilizzo dei dati. La sintesi deve essere redatta in una delle lingue ufficiali dell'UE."
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Selezionare la lingua della sintesi",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgaro"
-                },
-                {
-                    "key": "hr",
-                    "value": "Croato"
-                },
-                {
-                    "key": "cs",
-                    "value": "Ceco"
-                },
-                {
-                    "key": "da",
-                    "value": "Danese"
-                },
-                {
-                    "key": "nl",
-                    "value": "Neerlandese"
-                },
-                {
-                    "key": "en",
-                    "value": "Inglese"
-                },
-                {
-                    "key": "et",
-                    "value": "Estone"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finlandese"
-                },
-                {
-                    "key": "fr",
-                    "value": "Francese"
-                },
-                {
-                    "key": "de",
-                    "value": "Tedesco"
-                },
-                {
-                    "key": "el",
-                    "value": "Greco"
-                },
-                {
-                    "key": "hu",
-                    "value": "Ungherese"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irlandese"
-                },
-                {
-                    "key": "it",
-                    "value": "Italiano"
-                },
-                {
-                    "key": "lv",
-                    "value": "Lettone"
-                },
-                {
-                    "key": "lt",
-                    "value": "Lituano"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltese"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polacco"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portoghese"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumeno"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovacco"
-                },
-                {
-                    "key": "sl",
-                    "value": "Sloveno"
-                },
-                {
-                    "key": "es",
-                    "value": "Spagnolo"
-                },
-                {
-                    "key": "sv",
-                    "value": "Svedese"
-                }
-            ]
+            "label": "Fornire una sintesi del piano per l'utilizzo dei dati. La sintesi deve essere redatta in una delle lingue ufficiali dell'UE.",
+            "tooltip": "I file caricati sono tradotti automaticamente dal sistema. Il richiedente è responsabile della qualità, della leggibilità e della formattazione dei file caricati."
         },
         "summaryOfResearchPlan": {
-            "label": "Fornire una sintesi del piano di ricerca. La sintesi deve essere redatta in una delle lingue ufficiali dell'UE."
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Selezionare la lingua della sintesi",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulgaro"
-                },
-                {
-                    "key": "hr",
-                    "value": "Croato"
-                },
-                {
-                    "key": "cs",
-                    "value": "Ceco"
-                },
-                {
-                    "key": "da",
-                    "value": "Danese"
-                },
-                {
-                    "key": "nl",
-                    "value": "Neerlandese"
-                },
-                {
-                    "key": "en",
-                    "value": "Inglese"
-                },
-                {
-                    "key": "et",
-                    "value": "Estone"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finlandese"
-                },
-                {
-                    "key": "fr",
-                    "value": "Francese"
-                },
-                {
-                    "key": "de",
-                    "value": "Tedesco"
-                },
-                {
-                    "key": "el",
-                    "value": "Greco"
-                },
-                {
-                    "key": "hu",
-                    "value": "Ungherese"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irlandese"
-                },
-                {
-                    "key": "it",
-                    "value": "Italiano"
-                },
-                {
-                    "key": "lv",
-                    "value": "Lettone"
-                },
-                {
-                    "key": "lt",
-                    "value": "Lituano"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltese"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polacco"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portoghese"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumeno"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovacco"
-                },
-                {
-                    "key": "sl",
-                    "value": "Sloveno"
-                },
-                {
-                    "key": "es",
-                    "value": "Spagnolo"
-                },
-                {
-                    "key": "sv",
-                    "value": "Svedese"
-                }
-            ]
+            "label": "Fornire una sintesi del piano di ricerca. La sintesi deve essere redatta in una delle lingue ufficiali dell'UE.",
+            "tooltip": "I file caricati sono tradotti automaticamente dal sistema. Il richiedente è responsabile della qualità, della leggibilità e della formattazione dei file caricati."
         },
         "personResponsibleLabel": "Persona responsabile dell'uso dei dati",
         "personResponsibleName": {
             "label": "Nome completo"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Qualifica"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Affiliazione"
         },
         "personResearchSameAsContactPerson": {
             "label": "Lo stesso della persona di contatto di cui alla sezione 3 (Informazioni sul richiedente e sulla persona di contatto)?"
@@ -546,12 +349,6 @@
         },
         "personResearchName": {
             "label": "Nome completo"
-        },
-        "personResearchJobTitle": {
-            "label": "Qualifica"
-        },
-        "personResearchAffiliation": {
-            "label": "Affiliazione"
         },
         "formatOfTheElectronicHealthData": {
             "label": "Selezionare il formato dei dati sanitari elettronici da mettere a disposizione:",
@@ -638,6 +435,9 @@
         },
         "consentAndInformationLetterAttachment": {
             "label": "Allegare la lettera di consenso e di informazione inviata alle materie di studio. Non allegare moduli compilati perché contengono dati personali."
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "La coorte è stata basata su un'autorizzazione ai dati rilasciata in precedenza?"
         },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Confermo che l'autorizzazione ai dati è stata concessa per questo progetto di ricerca"
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "Con quale frequenza è necessario estrarre i dati?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Intende avvalersi di un'eccezione al diritto di opt-out secondo il meccanismo previsto dal diritto nazionale dello Stato membro di cui chiede i dati?",
+            "tooltip": "A titolo di eccezione rispetto al diritto di esclusione previsto al paragrafo 1, uno Stato membro può prevedere nel proprio diritto nazionale un meccanismo per rendere disponibili i dati per i quali è stato esercitato il diritto di esclusione, a condizione che siano rispettate tutte le condizioni seguenti: (cfr. l'articolo per tutte le condizioni)\""
+        },
+        "providedJustificationException": {
+            "label": "Fornire la giustificazione di tale eccezione."
+        },
         "needForDataExtractionEvery": {
             "label": "I dati devono essere estratti ogni",
             "tooltip": "Se si desidera che i dati siano estratti più volte nell'arco di un determinato periodo di tempo, si noti che le definizioni e il metodo di raccolta dei dati possono in alcuni casi cambiare durante il periodo di riesame. Si noti che la frequenza massima di estrazione dei dati è ogni trimestre"
@@ -835,14 +642,11 @@
         "willSameDataBeExtractedForControls": {
             "label": "Saranno estratti per i controlli gli stessi dati della coorte?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Se non richiede dati per i controlli da tutto il paese, a quale regione e/o città e/o comune/comuni chiede i dati?"
-        },
         "fromWhichDataHolderLabel": "Da quali titolari dei dati saranno estratti i dati per i controlli?",
         "fromWhichDatabaseLabel": "Da quali basi di dati/registro/registri saranno estratti i dati per i controlli?",
         "fromWhichDatasetLabel": "Da quali registri/registri di serie di dati saranno estratti i dati per i controlli?",
-        "variablesForDataExtraction": {
-            "label": "Se le informazioni sono disponibili, elencare le variabili da utilizzare nell'estrazione dei dati. Utilizzare i termini esatti forniti dai rispettivi titolari dei dati nel catalogo dei metadati."
+        "variablesForDataExtractionAttachments": {
+            "label": "Se le informazioni sono disponibili, allegare l'elenco delle variabili da utilizzare nell'estrazione dei dati. Utilizzare i termini esatti forniti dai rispettivi titolari dei dati nel catalogo dei metadati."
         },
         "timePeriodForDataExtraction": {
             "label": "Per quale periodo di tempo saranno estratti i record del set di dati?"
@@ -947,8 +751,8 @@
         "whichDataHoldersForRelatives": "Da quale titolare o quali titolari dei dati saranno estratti i dati per i parenti?",
         "whichDatabaseForRelatives": "Da quali basi di dati/registro/registri saranno estratti i dati relativi ai parenti?",
         "whichDatasetsForRelatives": "Da quali registrazioni di serie di dati/registri saranno estratti i dati relativi ai parenti?",
-        "variablesForDataExtractionRelatives": {
-            "label": "Se le informazioni sono disponibili, elencare le variabili da utilizzare nell'estrazione dei dati. Utilizzare i termini esatti forniti dai rispettivi titolari dei dati nel catalogo dei metadati."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "Se le informazioni sono disponibili, allegare l'elenco delle variabili da utilizzare nell'estrazione dei dati. Utilizzare i termini esatti forniti dai rispettivi titolari dei dati nel catalogo dei metadati."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "Per quale periodo di tempo saranno estratti i record del set di dati?"
@@ -1062,7 +866,6 @@
         "otherPermitApplications": {
             "label": "Avete altre domande di autorizzazione in sospeso?"
         },
-        "listTheOtherData": "Elencare gli altri dati da combinare e le relative fonti:",
         "applicationIssuer": {
             "label": "Emittente"
         },
@@ -1360,6 +1163,13 @@
             "label": "In che modo rispetta il principio della minimizzazione dei dati (regolamento UE sulla protezione dei dati) nel trattamento dei dati? ",
             "tooltip": "Articolo 4, paragrafo 1 quater, del DPR \"I dati personali sono adeguati, pertinenti e limitati a quanto necessario rispetto alle finalità per le quali sono trattati (\" minimizzazione dei dati \")\""
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Intende avvalersi di un'eccezione al diritto di opt-out secondo il meccanismo previsto dal diritto nazionale dello Stato membro di cui chiede i dati?",
+            "tooltip": "EHDS articolo 71(4) “A titolo di eccezione rispetto al diritto di esclusione previsto al paragrafo 1, uno Stato membro può prevedere nel proprio diritto nazionale un meccanismo per rendere disponibili i dati per i quali è stato esercitato il diritto di esclusione, a condizione che siano rispettate tutte le condizioni seguenti: (cfr. l'articolo per tutte le condizioni)\""
+        },
+        "providedJustificationException": {
+            "label": "Fornire la giustificazione di tale eccezione."
+        },
         "protectionAndSecurityStatements": {
             "label": "Per procedere con la presente domanda occorre confermare le seguenti dichiarazioni (dichiarazioni relative alla protezione dei dati e alla sicurezza):"
         },
@@ -1383,13 +1193,10 @@
             "label": "Lo stesso della persona di contatto di cui alla sezione 3?"
         },
         "listTheFullNames": {
-            "label": "Elencare i nomi completi, le affiliazioni e gli indirizzi di posta elettronica di tutte le persone che elaboreranno i dati."
+            "label": "Elencare i nomi completi e gli indirizzi di posta elettronica di tutte le persone che elaboreranno i dati."
         },
         "fullName": {
             "label": "Denominazione"
-        },
-        "affiliation": {
-            "label": "Affiliazione"
         },
         "emailAddress": {
             "label": "Indirizzo di posta elettronica"
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Conferma delle informazioni",
-        "section10Description": "Prima di trattare la presente domanda, il richiedente deve approvare le tasse di trattamento.",
+        "section10Description": "Prima di trattare la presente domanda, il richiedente deve approvare le tasse di trattamento. Aggiungere informazioni sui prezzi e sulla stima dei prezzi massimi per l'estrazione dei dati, una volta disponibili.",
         "submitYouApplicationText": "Per presentare la candidatura occorre confermare quanto segue:",
         "acceptHealthDataBody": {
             "label": "Accetto che l'organismo responsabile dei dati sanitari rediga le statistiche e non ho accesso ai dati utilizzati per formare le statistiche."

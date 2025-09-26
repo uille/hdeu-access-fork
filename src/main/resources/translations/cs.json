@@ -17,6 +17,21 @@
         },
         "applicationDatabases": {
             "label": "Z jaké databáze (databází) nebo registru/registrů budou údaje získány?"
+        },
+        "variables": {
+            "label": "Proměnné"
+        },
+        "datatype": {
+            "label": "Datové typy (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Popis"
+        },
+        "title": {
+            "label": "Proměnné"
+        },
+        "emptyTable": {
+            "label": "Žádné proměnné"
         }
     },
     "section2": {
@@ -102,10 +117,10 @@
                 },
                 {
                     "key": "b",
-                    "value": "Fyzická osoba",
-                    "info": "(Pokud zvolíte tuto možnost, potvrďte, že žádáte o údaje jako soukromá osoba bez jakékoli vazby.)"
+                    "value": "Fyzická osoba"
                 }
-            ]
+            ],
+            "info": "(Pokud zvolíte tuto možnost, potvrďte, že žádáte o údaje jako soukromá osoba bez jakékoli vazby.)"
         },
         "legalPerson": "Právnická osoba",
         "naturalPerson": "Fyzická osoba",
@@ -141,15 +156,6 @@
         },
         "contactPersonBusinessIdentifier": {
             "label": "Obchodní identifikační číslo organizace"
-        },
-        "contactPersonOperatorIdentifier": {
-            "label": "ID provozovatele"
-        },
-        "contactPersonJobTitle": {
-            "label": "Pracovní zařazení"
-        },
-        "contactPersonAffiliation": {
-            "label": "Příslušnost"
         },
         "contactPersonRelationship": {
             "label": "Jaký je vztah mezi kontaktní osobou a žadatelem? (Např. zaměstnanec žádající o údaje jménem své organizace.)"
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "Účel použití údajů",
-        "section5Description": "Žadatelé by měli uvést účel, pro který jsou údaje požadovány, v souladu s čl. 53 odst. 1 nařízení o EHDS, oprava schválená Evropským parlamentem dne 17. prosince. \nŽadatelé musí vysvětlit a odůvodnit, proč jsou požadované údaje nezbytné pro jejich uvedený účel použití. Žadatelé jsou rovněž požádáni, aby poskytli informace o cíli projektu. Poté musí žadatelé v závislosti na účelu použití (výzkum či nikoli) předložit shrnutí plánu využití údajů nebo shrnutí výzkumného plánu a informace o osobě odpovědné za použití nebo výzkum údajů.",
+        "section5Description": "Žadatelé by měli uvést účel, pro který jsou údaje požadovány, v souladu s čl. 53 odst. 1 nařízení Evropského parlamentu a Rady (EU) 2025/327 ze dne 11. února 2025 o evropském prostoru pro zdravotní data. Žadatelé musí vysvětlit a argumentovat, proč jsou požadované údaje nezbytné pro jejich uvedený účel použití. Žadatelé jsou rovněž požádáni, aby poskytli informace o cíli projektu. Poté, v závislosti na účelu použití (výzkum nebo nevýzkum), musí žadatelé poskytnout shrnutí plánu pro použití dat nebo shrnutí výzkumného plánu a informace o osobě odpovědné za použití dat nebo výzkum.",
         "purposeOfUse": {
             "label": "Účel použití dat. Subjekty pro přístup ke zdravotním datům poskytnou přístup k elektronickým zdravotním datům uvedeným v článku 51, pouze pokud zamýšlený účel zpracování sledovaný žadatelem splňuje níže uvedené účely (podle čl. 53 odst. 1)",
             "tooltip": "Účely nařízení o EHDS.",
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Jaký je očekávaný přínos související s používáním elektronických zdravotních dat a jak tento přínos přispívá k účelům uvedeným v bodě 5.1?"
         },
+        "describeApplicantsQualification": {
+            "label": "Popište kvalifikaci žadatele ve vztahu k zamýšlenému účelu (účelům) použití údajů a odpovídající odborné znalosti (včetně odborné kvalifikace)"
+        },
         "legalBasis": {
             "label": "Uveďte právní základ, například příslušné právní předpisy, které definují úkoly spadající do Vašeho mandátu a potvrzují, že vaše plánované použití údajů má tyto úkoly usnadnit.",
             "tooltip": "Zde vysvětlete, proč je množství údajů, o něž žádáte, nezbytné pro váš účel použití údajů. Zdůvodněte a popište, jak obsah požadovaných statistik odpovídá účelu použití uvedenému v žádosti a jak splňuje vaše požadavky na údaje."
@@ -320,222 +329,16 @@
             "label": "Jako důkaz právního základu uveďte odkaz na podpůrnou dokumentaci."
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Uveďte shrnutí svého plánu využití údajů. Shrnutí musí být napsáno v jednom z úředních jazyků EU."
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Vyberte jazyk shrnutí",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulharština"
-                },
-                {
-                    "key": "hr",
-                    "value": "Chorvatština"
-                },
-                {
-                    "key": "cs",
-                    "value": "Čeština"
-                },
-                {
-                    "key": "da",
-                    "value": "Dánština"
-                },
-                {
-                    "key": "nl",
-                    "value": "Nizozemština"
-                },
-                {
-                    "key": "en",
-                    "value": "Angličtina"
-                },
-                {
-                    "key": "et",
-                    "value": "Estonština"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finština"
-                },
-                {
-                    "key": "fr",
-                    "value": "Francouzština"
-                },
-                {
-                    "key": "de",
-                    "value": "Němčina"
-                },
-                {
-                    "key": "el",
-                    "value": "Řečtina"
-                },
-                {
-                    "key": "hu",
-                    "value": "Maďarština"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irština"
-                },
-                {
-                    "key": "it",
-                    "value": "Italština"
-                },
-                {
-                    "key": "lv",
-                    "value": "Lotyština"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litevština"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltština"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polština"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugalština"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumunština"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovenština"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slovinština"
-                },
-                {
-                    "key": "es",
-                    "value": "Španělština"
-                },
-                {
-                    "key": "sv",
-                    "value": "Švédština"
-                }
-            ]
+            "label": "Uveďte shrnutí svého plánu využití údajů. Shrnutí musí být napsáno v jednom z úředních jazyků EU.",
+            "tooltip": "Nahrané soubory jsou systémem automaticky přeloženy. Žadatel odpovídá za kvalitu, čitelnost a formátování nahraných souborů."
         },
         "summaryOfResearchPlan": {
-            "label": "Poskytněte shrnutí svého výzkumného plánu. Shrnutí musí být napsáno v jednom z úředních jazyků EU."
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Vyberte jazyk shrnutí",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Bulharština"
-                },
-                {
-                    "key": "hr",
-                    "value": "Chorvatština"
-                },
-                {
-                    "key": "cs",
-                    "value": "Čeština"
-                },
-                {
-                    "key": "da",
-                    "value": "Dánština"
-                },
-                {
-                    "key": "nl",
-                    "value": "Nizozemština"
-                },
-                {
-                    "key": "en",
-                    "value": "Angličtina"
-                },
-                {
-                    "key": "et",
-                    "value": "Estonština"
-                },
-                {
-                    "key": "fi",
-                    "value": "Finština"
-                },
-                {
-                    "key": "fr",
-                    "value": "Francouzština"
-                },
-                {
-                    "key": "de",
-                    "value": "Němčina"
-                },
-                {
-                    "key": "el",
-                    "value": "Řečtina"
-                },
-                {
-                    "key": "hu",
-                    "value": "Maďarština"
-                },
-                {
-                    "key": "ga",
-                    "value": "Irština"
-                },
-                {
-                    "key": "it",
-                    "value": "Italština"
-                },
-                {
-                    "key": "lv",
-                    "value": "Lotyština"
-                },
-                {
-                    "key": "lt",
-                    "value": "Litevština"
-                },
-                {
-                    "key": "mt",
-                    "value": "Maltština"
-                },
-                {
-                    "key": "pl",
-                    "value": "Polština"
-                },
-                {
-                    "key": "pt",
-                    "value": "Portugalština"
-                },
-                {
-                    "key": "ro",
-                    "value": "Rumunština"
-                },
-                {
-                    "key": "sk",
-                    "value": "Slovenština"
-                },
-                {
-                    "key": "sl",
-                    "value": "Slovinština"
-                },
-                {
-                    "key": "es",
-                    "value": "Španělština"
-                },
-                {
-                    "key": "sv",
-                    "value": "Švédština"
-                }
-            ]
+            "label": "Poskytněte shrnutí svého výzkumného plánu. Shrnutí musí být napsáno v jednom z úředních jazyků EU.",
+            "tooltip": "Nahrané soubory jsou systémem automaticky přeloženy. Žadatel odpovídá za kvalitu, čitelnost a formátování nahraných souborů."
         },
         "personResponsibleLabel": "Osoba odpovědná za využívání údajů",
         "personResponsibleName": {
             "label": "Celé jméno"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Pracovní zařazení"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Příslušnost"
         },
         "personResearchSameAsContactPerson": {
             "label": "Stejné jako kontaktní osoba uvedená v oddíle 3 (Údaje o žadateli a kontaktní osobě)?"
@@ -546,12 +349,6 @@
         },
         "personResearchName": {
             "label": "Celé jméno"
-        },
-        "personResearchJobTitle": {
-            "label": "Pracovní zařazení"
-        },
-        "personResearchAffiliation": {
-            "label": "Příslušnost"
         },
         "formatOfTheElectronicHealthData": {
             "label": "Vyberte formát elektronických zdravotních dat, která mají být zpřístupněna:",
@@ -638,6 +435,9 @@
         },
         "consentAndInformationLetterAttachment": {
             "label": "Připojte souhlas a informační dopis, které jste zaslal(a) subjektům studie. Nepřipojte formuláře, které jsou vyplněny, protože obsahují osobní údaje."
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "Byla kohorta založena na dříve uděleném povolení k datům?"
         },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Potvrzuji, že pro tento výzkumný projekt bylo uděleno povolení k datům."
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "Jak často je třeba údaje získat?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Máte v úmyslu využít výjimku z práva na výjimku podle mechanismu stanoveného ve vnitrostátních právních předpisech členského státu, o jehož údaje žádáte?",
+            "tooltip": "Odchylně od práva odmítnout zpracování stanoveného v odstavci 1, mohou členské státy ve svém vnitrostátním právu zavést mechanismus pro zpřístupnění údajů, u nichž bylo právo odmítnout zpracování uplatněno, za předpokladu, že jsou splněny všechny tyto podmínky: (plné podmínky viz článek)“"
+        },
+        "providedJustificationException": {
+            "label": "Uveďte odůvodnění této výjimky."
+        },
         "needForDataExtractionEvery": {
             "label": "Údaje je třeba vytěžit z každého",
             "tooltip": "Chcete-li, aby byly údaje extrahovány několikrát za určité časové období, vezměte prosím na vědomí, že definice a metoda shromažďování údajů se mohou během období přezkumu v některých případech změnit. Upozorňujeme, že maximální četnost extrakce údajů je každé čtvrtletí."
@@ -835,14 +642,11 @@
         "willSameDataBeExtractedForControls": {
             "label": "Budou pro účely kontrol extrahovány stejné údaje jako pro kohortu?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Pokud nehledáte údaje pro kontroly z celé země, od kterého regionu (regionů) a/nebo města/měst a/nebo obce/obce údaje hledáte?"
-        },
         "fromWhichDataHolderLabel": "Od kterého (kterých) budou data pro kontroly extrahována?",
         "fromWhichDatabaseLabel": "Z jaké databáze (databází)/registrů/registrů budou údaje pro kontroly získány?",
         "fromWhichDatasetLabel": "Z jakého datového souboru (záznamů)/rejstříku (rejstříků) budou údaje pro kontroly extrahovány?",
-        "variablesForDataExtraction": {
-            "label": "Jsou-li informace k dispozici, uveďte proměnné, které mají být použity při extrakci dat. Použijte přesné termíny poskytnuté příslušným držitelem (příslušnými držiteli) dat v katalogu metadat."
+        "variablesForDataExtractionAttachments": {
+            "label": "Jsou-li informace k dispozici, připojte seznam proměnných, které mají být použity při extrakci údajů. Použijte přesné termíny poskytnuté příslušným držitelem (příslušnými držiteli) dat v katalogu metadat."
         },
         "timePeriodForDataExtraction": {
             "label": "Za jaké časové období budou záznamy datového souboru extrahovány?"
@@ -947,8 +751,8 @@
         "whichDataHoldersForRelatives": "Od kterého držitele (držitelů) dat budou data o příbuzných získána?",
         "whichDatabaseForRelatives": "Z jaké databáze (databází)/registrů/registrů budou údaje o příbuzných získány?",
         "whichDatasetsForRelatives": "Z jakého datového souboru (záznamů)/rejstříku (rejstříků) budou údaje o příbuzných získány?",
-        "variablesForDataExtractionRelatives": {
-            "label": "Jsou-li informace k dispozici, uveďte proměnné, které mají být použity při extrakci údajů. Použijte přesné termíny poskytnuté příslušným držitelem (příslušnými držiteli) dat v katalogu metadat."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "Jsou-li informace k dispozici, připojte seznam proměnných, které mají být použity při extrakci údajů. Použijte přesné termíny poskytnuté příslušným držitelem (příslušnými držiteli) dat v katalogu metadat."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "Za jaké časové období budou záznamy datového souboru extrahovány?"
@@ -1062,7 +866,6 @@
         "otherPermitApplications": {
             "label": "Máte jiné nevyřízené žádosti o povolení?"
         },
-        "listTheOtherData": "Uveďte další údaje, které je třeba kombinovat, a zdroje těchto údajů:",
         "applicationIssuer": {
             "label": "Emitent"
         },
@@ -1360,6 +1163,13 @@
             "label": "Jak dodržujete při zpracování údajů zásadu minimalizace údajů (nařízení EU o ochraně údajů)? ",
             "tooltip": "Čl. 4 odst. 1c nařízení EU o ochraně osobních údajů: „Osobní údaje musí být přiměřené, relevantní a omezené na to, co je nezbytné ve vztahu k účelům, pro které jsou zpracovávány („minimalizace údajů“)“"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Máte v úmyslu využít výjimku z práva na výjimku podle mechanismu stanoveného ve vnitrostátních právních předpisech členského státu, o jehož údaje žádáte?",
+            "tooltip": "Odchylně od práva odmítnout zpracování stanoveného v odstavci 1, mohou členské státy ve svém vnitrostátním právu zavést mechanismus pro zpřístupnění údajů, u nichž bylo právo odmítnout zpracování uplatněno, za předpokladu, že jsou splněny všechny tyto podmínky: (plné podmínky viz článek)“"
+        },
+        "providedJustificationException": {
+            "label": "Uveďte odůvodnění této výjimky."
+        },
         "protectionAndSecurityStatements": {
             "label": "Chcete-li pokračovat v této aplikaci, musíte potvrdit následující prohlášení (prohlášení týkající se ochrany údajů a bezpečnosti):"
         },
@@ -1383,13 +1193,10 @@
             "label": "Stejná jako kontaktní osoba uvedená v oddíle 3?"
         },
         "listTheFullNames": {
-            "label": "Uveďte úplná jména, příslušnost a e-mailové adresy všech osob, které budou údaje zpracovávat."
+            "label": "Uveďte úplná jména a e-mailové adresy všech osob, které budou údaje zpracovávat."
         },
         "fullName": {
             "label": "Plné jméno"
-        },
-        "affiliation": {
-            "label": "Příslušnost"
         },
         "emailAddress": {
             "label": "Elektronická adresa"
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Potvrzení informací",
-        "section10Description": "Před zpracováním této žádosti musíte jako žadatel schválit poplatky za zpracování.",
+        "section10Description": "Před zpracováním této žádosti musíte jako žadatel schválit poplatky za zpracování. Doplnit informace o cenách a maximálním odhadu ceny pro extrakci dat, jakmile bude k dispozici.",
         "submitYouApplicationText": "K podání přihlášky musíte potvrdit následující:",
         "acceptHealthDataBody": {
             "label": "Souhlasím s tím, že subjekt pro zdravotní data statistiky sestavuje a nebudem mít přístup k údajům použitým k vytvoření statistiky."

@@ -21,7 +21,7 @@
 replicaCount: 1
 
 image:
-  repository: code.europa.eu:4567/healthdataeu-private/healthdataeu-eu-dataset-catalogue/hdeu-access
+  repository: registry.sdlc.webcloud.ec.europa.eu/ehds/healthdataeu-eu-dataset-catalogue/hdeu-access
   ## Specify a imagePullPolicy
   ## ref: http://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
   ##
@@ -190,7 +190,12 @@ aws:
   enabled: true
   secrets:
     provider: aws
+    # List of AWS Secrets Manager objects to be mounted via the CSI driver.
+    # Each object defines its name, type, and the specific secret keys (via jmesPath) to extract.
     objects: []
+  # Maps environment variable names to the corresponding secret keys from the mounted Kubernetes secret,
+  # used to populate container environment variables.
+  envSecretsMap: {}
 
 ## Hdeu-Access Ingress
 ## ref: http://kubernetes.io/docs/concepts/services-networking/ingress/

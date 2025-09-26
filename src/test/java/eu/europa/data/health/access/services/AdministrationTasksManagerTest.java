@@ -52,7 +52,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 
 
-public class AdministrationTasksManagerTest {
+class AdministrationTasksManagerTest {
 
   @InjectMocks
   private AdministrationTasksManager manager;
@@ -106,18 +106,18 @@ public class AdministrationTasksManagerTest {
     String appId = "app-123";
     String dispatcherId = "dispatcher-456";
 
-    JsonObject record = new JsonObject()
+    JsonObject jsonObject = new JsonObject()
       .put("_id", dispatcherId)
       .put("configuration", new JsonObject().put("status", "FAILED"));
 
     when(routingContext.pathParam("applicationId")).thenReturn(appId);
     when(mongoClient.findOne(anyString(), any(JsonObject.class), isNull()))
-      .thenReturn(Future.succeededFuture(record));
+      .thenReturn(Future.succeededFuture(jsonObject));
 
-    HttpServerResponse response = mock(HttpServerResponse.class);
-    when(routingContext.response()).thenReturn(response);
-    when(response.putHeader(anyString(), anyString())).thenReturn(response);
-    when(response.setStatusCode(anyInt())).thenReturn(response);
+    HttpServerResponse httpResponse = mock(HttpServerResponse.class);
+    when(routingContext.response()).thenReturn(httpResponse);
+    when(httpResponse.putHeader(anyString(), anyString())).thenReturn(httpResponse);
+    when(httpResponse.setStatusCode(anyInt())).thenReturn(httpResponse);
 
     doAnswer(invocation -> {
       Handler<AsyncResult<MongoClientUpdateResult>> handler = invocation.getArgument(3);
@@ -129,18 +129,18 @@ public class AdministrationTasksManagerTest {
 
     manager.retrySubmitAction(routingContext);
 
-    verify(response).setStatusCode(eq(500));
-    verify(response).end(contains("Internal server error occurred with message:Update failed"));
+    verify(httpResponse).setStatusCode(eq(500));
+    verify(httpResponse).end(contains("Internal server error occurred with message:Update failed"));
   }
 
   @Test
   void testRetrySubmitAction_updateSuccess() {
     when(routingContext.pathParam(APPLICATION_ID)).thenReturn("app-123");
-    JsonObject record = new JsonObject().put("_id", "12345")
+    JsonObject rec = new JsonObject().put("_id", "12345")
       .put("configuration", new JsonObject().put("status", "FAILED"));
 
     when(mongoClient.findOne(eq(DISPATCHER_COLLECTION), any(JsonObject.class), isNull()))
-      .thenReturn(Future.succeededFuture(record));
+      .thenReturn(Future.succeededFuture(rec));
 
     doAnswer(invocation -> {
       Handler<AsyncResult<MongoClientUpdateResult>> handler = invocation.getArgument(3);

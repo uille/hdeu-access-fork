@@ -15,6 +15,13 @@
  */
 package eu.europa.data.health.access.services;
 
+import static eu.europa.data.health.access.Constants.APPLICATIONID;
+import static eu.europa.data.health.access.Constants.DATA;
+import static eu.europa.data.health.access.Constants.PARAMETER_ID;
+import static eu.europa.data.health.access.Constants.PARAMETER_TYPE;
+
+import eu.europa.data.health.access.utils.SafeHttpResponse;
+import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
@@ -22,12 +29,15 @@ import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.multipart.MultipartForm;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static eu.europa.data.health.access.Constants.PARAMETER_ID;
-import static eu.europa.data.health.access.Constants.PARAMETER_TYPE;
-import static eu.europa.data.health.access.Constants.DATA;
 
 
 /**
@@ -102,8 +112,12 @@ public class HubStoreClient {
      return  request.send()
       .compose(response -> {
         if (response.statusCode() == 200) {
+
+          // Wrap the response in SafeHttpResponse (normalizes null body -> empty Buffer)
+          SafeHttpResponse safeResponse = new SafeHttpResponse(response);
+
           log.info("File downloaded successfully: fileId={}", fileId);
-          return Future.succeededFuture(response);
+          return Future.succeededFuture(safeResponse);
         } else {
           log.error("Failed to download file: fileId={}, status={}, body={}", fileId, response.statusCode(), response.bodyAsString());
           return Future.failedFuture("Failed to download file: " + response.statusMessage());
@@ -156,4 +170,55 @@ public class HubStoreClient {
         }
       });
   }
+
+  public Future<JsonObject> getFileAsBase64(String fileId, String parameterType, String parameterId) {
+    return getFile(fileId, parameterType, parameterId)
+      .map(response -> {
+        byte[] fileBytes = response.body().getBytes();
+        String base64 = Base64.getEncoder().encodeToString(fileBytes);
+
+        String fileName = decodeFilename(response.getHeader("Content-Disposition"));
+        String format = extractFileType(fileName);
+
+        return new JsonObject()
+          .put("fileId", fileId)
+          .put("fileName", fileName)
+          .put("format", format)
+          .put("base64Content", base64);
+      });
+  }
+
+  protected String decodeFilename(String contentDisposition){
+    if (StringUtils.isNotEmpty(contentDisposition) && contentDisposition.contains("filename*=")) {
+      String part = contentDisposition.substring(contentDisposition.indexOf("filename*=") + "filename*=".length()).trim();
+      if (part.startsWith("UTF-8''")) {
+        part = part.substring("UTF-8''".length());
+      }
+      return URLDecoder.decode(part, StandardCharsets.UTF_8);
+    }
+    return "Error_decoding_filename";
+  }
+
+  private String extractFileType(String fileName) {
+    if (fileName == null || !fileName.contains(".")) return "unknown";
+    return fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
+  }
+
+  public Future<List<JsonObject>> getFilesAsBase64(List<String> fileIds, String applicationId) {
+    List<Future<JsonObject>> futures = fileIds.stream()
+      .map(id -> getFileAsBase64(id, APPLICATIONID, applicationId))
+      .toList();
+
+    Future<?>[] futuresArray = futures.toArray(new Future[0]);
+
+    return CompositeFuture.all(Arrays.asList(futuresArray))
+      .map(cf -> {
+        List<JsonObject> results = new ArrayList<>();
+        for (int i = 0; i < cf.size(); i++) {
+          results.add(cf.resultAt(i));
+        }
+        return results;
+      });
+  }
+
 }

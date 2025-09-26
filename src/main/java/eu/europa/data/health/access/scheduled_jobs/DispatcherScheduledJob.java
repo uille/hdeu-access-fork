@@ -143,6 +143,7 @@ public class DispatcherScheduledJob {
         promise.complete(actionRes.result());
       } else {
         promise.fail(actionRes.cause().getMessage());
+        log.error(actionRes.cause().getMessage());
       }
     });
     return promise.future();

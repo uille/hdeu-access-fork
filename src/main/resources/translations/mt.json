@@ -17,6 +17,21 @@
         },
         "applicationDatabases": {
             "label": "Minn liema bażi tad-data jew reġistru/i se tiġi estratta d-data?"
+        },
+        "variables": {
+            "label": "Varjabbli"
+        },
+        "datatype": {
+            "label": "Datatypes (CSVW/XSD)"
+        },
+        "description": {
+            "label": "Deskrizzjoni"
+        },
+        "title": {
+            "label": "Varjabbli"
+        },
+        "emptyTable": {
+            "label": "L-ebda varjabbli"
         }
     },
     "section2": {
@@ -102,10 +117,10 @@
                 },
                 {
                     "key": "b",
-                    "value": "Persuna fiżika",
-                    "info": "(Jekk tagħżel din l-għażla, tikkonferma li tapplika għad-data bħala persuna privata mingħajr ebda affiljazzjoni.)"
+                    "value": "Persuna fiżika"
                 }
-            ]
+            ],
+            "info": "(Jekk tagħżel din l-għażla, tikkonferma li tapplika għad-data bħala persuna privata mingħajr ebda affiljazzjoni.)"
         },
         "legalPerson": "Il-persuna ġuridika",
         "naturalPerson": "Persuna fiżika",
@@ -141,15 +156,6 @@
         },
         "contactPersonBusinessIdentifier": {
             "label": "Id tan-negozju tal-organizzazzjoni"
-        },
-        "contactPersonOperatorIdentifier": {
-            "label": "Id tal-operatur"
-        },
-        "contactPersonJobTitle": {
-            "label": "Titolu tax-xogħol"
-        },
-        "contactPersonAffiliation": {
-            "label": "Affiljazzjoni"
         },
         "contactPersonRelationship": {
             "label": "X’inhi r-relazzjoni bejn il-persuna ta’ kuntatt u l-applikant? (Eż. impjegat li japplika għal data f’isem l-organizzazzjoni tiegħu.)"
@@ -269,7 +275,7 @@
     },
     "section5": {
         "section5h5": "L-iskop tal-użu tad-data",
-        "section5Description": "L-applikanti għandhom jindikaw l-iskop li għalih qed tintalab id-data, skont l-Artikolu 53(1) tar-Regolament EHDS corrigendum approvat mill-Parlament Ewropew 17/12. \nL-applikanti jridu jispjegaw u jargumentaw għaliex id-data mitluba hija meħtieġa għall-iskop indikat tal-użu tagħhom. L-applikanti huma mitluba wkoll jipprovdu informazzjoni dwar l-għan tal-proġett. Imbagħad, skont l-iskop tal-użu (riċerka jew mhux riċerka), l-applikanti jeħtieġ li jipprovdu sommarju tal-pjan għall-użu tad-data jew sommarju tal-pjan ta’ riċerka, u informazzjoni dwar il-persuna responsabbli għall-użu tad-data jew għar-riċerka.",
+        "section5Description": "L-applikanti jenħtieġ li jindikaw l-iskop li għalih qed tintalab id-data, skont l-Artikolu 53(1) tar-Regolament (UE) 2025/327 tal-Parlament Ewropew u tal-Kunsill tal-11 ta’ Frar 2025 dwar l-Ispazju Ewropew tad-Data dwar is-Saħħa. L-applikanti jridu jispjegaw u jargumentaw għaliex id-data mitluba hija meħtieġa għall-iskop tal-użu indikat tagħhom. L-applikanti huma mitluba wkoll jipprovdu informazzjoni dwar l-għan tal-proġett. Imbagħad, skont l-iskop tal-użu (riċerka jew le), l-applikanti jridu jipprovdu sommarju tal-pjan għall-użu tad-data jew sommarju tal-pjan ta’ riċerka, u informazzjoni dwar il-persuna responsabbli għall-użu tad-data jew għar-riċerka.",
         "purposeOfUse": {
             "label": "L-iskop tal-użu tad-data. Il-korpi tal-aċċess għad-data dwar is-saħħa għandhom jipprovdu biss aċċess għad-data elettronika dwar is-saħħa msemmija fl-Artikolu 51 meta l-għan maħsub tal-ipproċessar segwit mill-applikant jikkonforma mal-finijiet li ġejjin (skont l-Artikolu 53(1)) elenkati hawn taħt).",
             "tooltip": "L-iskopijiet mir-regolament dwar l-EHDS.",
@@ -312,6 +318,9 @@
         "whichAreTheExpectedBenefits": {
             "label": "Liema huwa l-benefiċċju mistenni relatat mal-użu tad-data elettronika dwar is-saħħa u kif dan il-benefiċċju jikkontribwixxi għall-finijiet imsemmija f’ 5.1?"
         },
+        "describeApplicantsQualification": {
+            "label": "Iddeskrivi l-kwalifiki tal-applikant fir-rigward tal-iskop (ijiet) maħsub (a) tal-użu tad-data u l-għarfien espert xieraq (inklużi l-kwalifiki professjonali)"
+        },
         "legalBasis": {
             "label": "Speċifika l-bażi legali, pereżempju l-leġiżlazzjoni rilevanti, li tiddefinixxi l-kompiti li jaqgħu fil-mandat tiegħek u tikkonferma li l-użu ppjanat tiegħek tad-data huwa li tiffaċilita tali kompiti.",
             "tooltip": "Spjega hawnhekk għaliex l-ammont ta’ data li tapplika għaliha huwa meħtieġ għall-iskop tal-użu tad-data tiegħek. Iġġustifika u ddeskrivi kif il-kontenut tal-istatistika mitluba jikkorrispondi mal-iskop tal-użu ddikjarat fl-applikazzjoni u jissodisfa r-rekwiżiti tad-data tiegħek."
@@ -320,222 +329,16 @@
             "label": "Ipprovdi link għad-dokumentazzjoni ta’ sostenn bħala evidenza tal-bażi ġuridika"
         },
         "summaryOfPlanForUsingTheData": {
-            "label": "Ipprovdi sommarju tal-pjan tiegħek għall-użu tad-data. Is-sommarju jrid jinkiteb b’waħda mil-lingwi uffiċjali tal-UE"
-        },
-        "summaryOfPlanForUsingTheDataLanguage": {
-            "label": "Agħżel il-lingwa tas-sommarju",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Il-Bulgaru"
-                },
-                {
-                    "key": "hr",
-                    "value": "Il-Kroat"
-                },
-                {
-                    "key": "cs",
-                    "value": "Iċ-Ċek"
-                },
-                {
-                    "key": "da",
-                    "value": "Id-Daniż"
-                },
-                {
-                    "key": "nl",
-                    "value": "L-Olandiż"
-                },
-                {
-                    "key": "en",
-                    "value": "L-Ingliż"
-                },
-                {
-                    "key": "et",
-                    "value": "L-Estonjan"
-                },
-                {
-                    "key": "fi",
-                    "value": "Il-Finlandiż"
-                },
-                {
-                    "key": "fr",
-                    "value": "Il-Franċiż"
-                },
-                {
-                    "key": "de",
-                    "value": "Il-Ġermaniż"
-                },
-                {
-                    "key": "el",
-                    "value": "Il-Grieg"
-                },
-                {
-                    "key": "hu",
-                    "value": "L-Ungeriż"
-                },
-                {
-                    "key": "ga",
-                    "value": "L-Irlandiż"
-                },
-                {
-                    "key": "it",
-                    "value": "It-Taljan"
-                },
-                {
-                    "key": "lv",
-                    "value": "Il-Latvjan"
-                },
-                {
-                    "key": "lt",
-                    "value": "Il-Litwan"
-                },
-                {
-                    "key": "mt",
-                    "value": "Il-Malti"
-                },
-                {
-                    "key": "pl",
-                    "value": "Il-Pollakk"
-                },
-                {
-                    "key": "pt",
-                    "value": "Il-Portugiż"
-                },
-                {
-                    "key": "ro",
-                    "value": "Ir-Rumen"
-                },
-                {
-                    "key": "sk",
-                    "value": "Is-Slovakk"
-                },
-                {
-                    "key": "sl",
-                    "value": "Is-Sloven"
-                },
-                {
-                    "key": "es",
-                    "value": "L-Ispanjol"
-                },
-                {
-                    "key": "sv",
-                    "value": "L-Iżvediż"
-                }
-            ]
+            "label": "Ipprovdi sommarju tal-pjan tiegħek għall-użu tad-data. Is-sommarju jrid jinkiteb b’waħda mil-lingwi uffiċjali tal-UE",
+            "tooltip": "Il-fajls applowdjati jiġu tradotti awtomatikament mis-sistema. L-applikant huwa responsabbli għall-kwalità, il-leġibbiltà u l-ifformattjar tal-fajls imtellgħin."
         },
         "summaryOfResearchPlan": {
-            "label": "Ipprovdi sommarju tal-pjan ta’ riċerka tiegħek. Is-sommarju jrid jinkiteb b’waħda mil-lingwi uffiċjali tal-UE"
-        },
-        "summaryOfResearchPlanLanguage": {
-            "label": "Agħżel il-lingwa tas-sommarju",
-            "items": [
-                {
-                    "key": "bg",
-                    "value": "Il-Bulgaru"
-                },
-                {
-                    "key": "hr",
-                    "value": "Il-Kroat"
-                },
-                {
-                    "key": "cs",
-                    "value": "Iċ-Ċek"
-                },
-                {
-                    "key": "da",
-                    "value": "Id-Daniż"
-                },
-                {
-                    "key": "nl",
-                    "value": "L-Olandiż"
-                },
-                {
-                    "key": "en",
-                    "value": "L-Ingliż"
-                },
-                {
-                    "key": "et",
-                    "value": "L-Estonjan"
-                },
-                {
-                    "key": "fi",
-                    "value": "Il-Finlandiż"
-                },
-                {
-                    "key": "fr",
-                    "value": "Il-Franċiż"
-                },
-                {
-                    "key": "de",
-                    "value": "Il-Ġermaniż"
-                },
-                {
-                    "key": "el",
-                    "value": "Il-Grieg"
-                },
-                {
-                    "key": "hu",
-                    "value": "L-Ungeriż"
-                },
-                {
-                    "key": "ga",
-                    "value": "L-Irlandiż"
-                },
-                {
-                    "key": "it",
-                    "value": "It-Taljan"
-                },
-                {
-                    "key": "lv",
-                    "value": "Il-Latvjan"
-                },
-                {
-                    "key": "lt",
-                    "value": "Il-Litwan"
-                },
-                {
-                    "key": "mt",
-                    "value": "Il-Malti"
-                },
-                {
-                    "key": "pl",
-                    "value": "Il-Pollakk"
-                },
-                {
-                    "key": "pt",
-                    "value": "Il-Portugiż"
-                },
-                {
-                    "key": "ro",
-                    "value": "Ir-Rumen"
-                },
-                {
-                    "key": "sk",
-                    "value": "Is-Slovakk"
-                },
-                {
-                    "key": "sl",
-                    "value": "Is-Sloven"
-                },
-                {
-                    "key": "es",
-                    "value": "L-Ispanjol"
-                },
-                {
-                    "key": "sv",
-                    "value": "L-Iżvediż"
-                }
-            ]
+            "label": "Ipprovdi sommarju tal-pjan ta’ riċerka tiegħek. Is-sommarju jrid jinkiteb b’waħda mil-lingwi uffiċjali tal-UE",
+            "tooltip": "Il-fajls applowdjati jiġu tradotti awtomatikament mis-sistema. L-applikant huwa responsabbli għall-kwalità, il-leġibbiltà u l-ifformattjar tal-fajls imtellgħin."
         },
         "personResponsibleLabel": "Il-persuna responsabbli għall-użu tad-data",
         "personResponsibleName": {
             "label": "L-isem sħiħ"
-        },
-        "personResponsibleJobTitle": {
-            "label": "Titolu tax-xogħol"
-        },
-        "personResponsibleAffiliation": {
-            "label": "Affiljazzjoni"
         },
         "personResearchSameAsContactPerson": {
             "label": "L-istess bħall-persuna ta’ kuntatt imsemmija fit-taqsima 3 (Informazzjoni dwar l-applikant u l-persuna ta’ kuntatt)?"
@@ -546,12 +349,6 @@
         },
         "personResearchName": {
             "label": "L-isem sħiħ"
-        },
-        "personResearchJobTitle": {
-            "label": "Titolu tax-xogħol"
-        },
-        "personResearchAffiliation": {
-            "label": "Affiljazzjoni"
         },
         "formatOfTheElectronicHealthData": {
             "label": "Agħżel il-format tad-data elettronika dwar is-saħħa li għandha ssir disponibbli:",
@@ -638,6 +435,9 @@
         },
         "consentAndInformationLetterAttachment": {
             "label": "Ehmeż l-ittra ta’ kunsens u ta’ informazzjoni li bgħatt lis-suġġetti tal-istudju. Tehmeż formoli li jimtlew minħabba li jinkludu data personali."
+        },
+        "hasTheCohortBeenBasedOnADataPermit": {
+            "label": "Il-koorti kienet ibbażata fuq permess tad-data mogħti qabel?"
         },
         "confirmThatDataPermitHasBeenGrantedForTheResearchProject": {
             "label": "Nikkonferma li l-permess tad-data ngħata għal dan il-proġett ta’ riċerka"
@@ -804,6 +604,13 @@
         "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple": {
             "label": "Kemm-il darba jeħtieġ li tiġi estratta d-data?"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Beħsiebek tagħmel użu minn eċċezzjoni għad-dritt ta’ nonparteċipazzjoni skont il-mekkaniżmu previst fil-liġi nazzjonali tal-Istat Membru li d-data tiegħu qed tapplika għalih?",
+            "tooltip": "Artikolu 71(4) EHDS “B’eċċezzjoni mid-dritt ta’ nonparteċipazzjoni previst fil-paragrafu 1, Stat Membru jista’ jipprevedi fil-liġi nazzjonali tiegħu mekkaniżmu biex jagħmel id-data li għaliha ikun ġie eżerċitat id-dritt ta’ nonparteċipazzjoni disponibbli, dment li l-kundizzjonijiet kollha li ġejjin ikunu ssodisfati: (irreferi għall-artikolu għall-kundizzjonijiet sħaħ)”"
+        },
+        "providedJustificationException": {
+            "label": "Ipprovdi l-ġustifikazzjoni għal din l-eċċezzjoni."
+        },
         "needForDataExtractionEvery": {
             "label": "Id-data jeħtieġ li tiġi estratta kull",
             "tooltip": "Jekk tixtieq li d-data tiġi estratta diversi drabi matul ċertu perjodu ta’ żmien, innota li d-definizzjonijiet u l-metodu tal-ġbir tad-data jistgħu jinbidlu matul il-perjodu ta’ rieżami f’xi każijiet. Innota li l-frekwenza massima tal-estrazzjoni tad-data hija kull tliet xhur"
@@ -835,14 +642,11 @@
         "willSameDataBeExtractedForControls": {
             "label": "L-istess data bħal dik għall-koorti se tiġi estratta għall-kontrolli?"
         },
-        "regionForControlsDataExtraction": {
-            "label": "Jekk ma tfittix data għal kontrolli mill-pajjiż kollu, minn liema reġjun (i) u/jew belt/bliet u/jew muniċipalità/muniċipalitajiet tfittex data?"
-        },
         "fromWhichDataHolderLabel": "Minn liema detentur (i) tad-data se tiġi estratta d-data għall-kontrolli?",
         "fromWhichDatabaseLabel": "Minn liema bażi tad-data/bażijiet tad-data/Reġistru/reġistri se tiġi estratta d-data għall-kontrolli?",
         "fromWhichDatasetLabel": "Minn liema rekord (i)/reġistru/i tas-sett tad-data se tiġi estratta d-data għall-kontrolli?",
-        "variablesForDataExtraction": {
-            "label": "Jekk l-informazzjoni tkun disponibbli, elenka l-varjabbli li għandhom jintużaw fl-estrazzjoni tad-drata. Uża t-termini eżatti pprovduti mid-detentur (i) tad-data rispettiv (i) fil-katalgu tal-metadata."
+        "variablesForDataExtractionAttachments": {
+            "label": "Jekk l-informazzjoni tkun disponibbli, ehmeż il-lista tal-varjabbli li għandhom jintużaw fl-estrazzjoni tad-data. Uża t-termini eżatti pprovduti mid-detentur (i) tad-data rispettiv (i) fil-katalgu tal-metadata."
         },
         "timePeriodForDataExtraction": {
             "label": "Għal liema perjodu/i ta’ żmien se jiġu estratti r-rekords tas-settijiet tad-data?"
@@ -947,8 +751,8 @@
         "whichDataHoldersForRelatives": "Minn liema detentur (i) tad-data se tiġi estratta d-data għall-qraba?",
         "whichDatabaseForRelatives": "Minn liema bażi tad-data/i/Reġistru/reġistri se tiġi estratta d-data għall-qraba?",
         "whichDatasetsForRelatives": "Minn liema rekord (i)/reġistru/i tas-sett tad-data se tiġi estratta d-data għall-qraba?",
-        "variablesForDataExtractionRelatives": {
-            "label": "Jekk l-informazzjoni tkun disponibbli, elenka l-varjabbli li għandhom jintużaw fl-estrazzjoni tad-data. Uża t-termini eżatti pprovduti mid-detentur (i) tad-data rispettiv (i) fil-katalgu tal-metadata."
+        "variablesForDataExtractionRelativesAttachments": {
+            "label": "Jekk l-informazzjoni tkun disponibbli, ehmeż il-lista tal-varjabbli li għandhom jintużaw fl-estrazzjoni tad-data. Uża t-termini eżatti pprovduti mid-detentur (i) tad-data rispettiv (i) fil-katalgu tal-metadata."
         },
         "timePeriodForDataExtractionRelatives": {
             "label": "Għal liema perjodu/i ta’ żmien se jiġu estratti r-rekords tas-settijiet tad-data?"
@@ -1062,7 +866,6 @@
         "otherPermitApplications": {
             "label": "Għandek applikazzjonijiet pendenti oħra għall-permessi?"
         },
-        "listTheOtherData": "Elenka d-data l-oħra li għandha tiġi kkombinata u s-sorsi ta’ din id-data:",
         "applicationIssuer": {
             "label": "Min joħroġ l-assi"
         },
@@ -1360,6 +1163,13 @@
             "label": "Kif tikkonforma mal-prinċipju tal-minimizzazzjoni tad-data (ir-Regolament tal-UE dwar il-Protezzjoni tad-Data) meta tipproċessa d-data? ",
             "tooltip": "L-Artikolu 4 (1c) tad-DPR tal-UE “Id-data personali għandha tkun adegwata, rilevanti u limitata għal dak li huwa meħtieġ fir-rigward tal-finijiet li għalihom tiġi pproċessata (“minimizzazzjoni tad-data”)”"
         },
+        "optOutOfTheMechanismProvidedInTheNationalLaw": {
+            "label": "Beħsiebek tagħmel użu minn eċċezzjoni għad-dritt ta’ nonparteċipazzjoni skont il-mekkaniżmu previst fil-liġi nazzjonali tal-Istat Membru li d-data tiegħu qed tapplika għalih?",
+            "tooltip": "Artikolu 71(4) EHDS “B’eċċezzjoni mid-dritt ta’ nonparteċipazzjoni previst fil-paragrafu 1, Stat Membru jista’ jipprevedi fil-liġi nazzjonali tiegħu mekkaniżmu biex jagħmel id-data li għaliha ikun ġie eżerċitat id-dritt ta’ nonparteċipazzjoni disponibbli, dment li l-kundizzjonijiet kollha li ġejjin ikunu ssodisfati: (irreferi għall-artikolu għall-kundizzjonijiet sħaħ)”"
+        },
+        "providedJustificationException": {
+            "label": "Ipprovdi l-ġustifikazzjoni għal din l-eċċezzjoni."
+        },
         "protectionAndSecurityStatements": {
             "label": "Biex tipproċedi b’din l-applikazzjoni, trid tikkonferma d-dikjarazzjonijiet li ġejjin (dikjarazzjonijiet relatati mal-protezzjoni tad-data u mas-sigurtà):"
         },
@@ -1383,13 +1193,10 @@
             "label": "L-istess bħall-persuna ta’ kuntatt imsemmija fit-Taqsima 3?"
         },
         "listTheFullNames": {
-            "label": "Elenka l-ismijiet sħaħ, l-affiljazzjonijiet u l-indirizzi tal-posta elettronika tal-persuni kollha li se jipproċessaw id-data."
+            "label": "Elenka l-ismijiet sħaħ u l-indirizzi tal-email tal-persuni kollha li se jipproċessaw id-data."
         },
         "fullName": {
             "label": "Isem Sħiħ"
-        },
-        "affiliation": {
-            "label": "Affiljazzjoni"
         },
         "emailAddress": {
             "label": "Indirizz tal-email"
@@ -1495,7 +1302,7 @@
     },
     "section10": {
         "section10h5": "Konferma tal-informazzjoni",
-        "section10Description": "Qabel ma din l-applikazzjoni tiġi pproċessata, inti bħala l-applikant trid tapprova t-tariffi tal-ipproċessar.",
+        "section10Description": "Qabel ma din l-applikazzjoni tiġi pproċessata, inti bħala l-applikant trid tapprova t-tariffi tal-ipproċessar. Li tiżdied informazzjoni dwar il-prezzijiet u l-istima tal-prezz massimu għall-estrazzjoni tad-data ladarba tkun disponibbli.",
         "submitYouApplicationText": "Biex tissottometti l-applikazzjoni tiegħek, trid tikkonferma dan li ġej:",
         "acceptHealthDataBody": {
             "label": "Naċċetta li l-korp tad-data dwar is-saħħa se jiġbor l-istatistika u mhu se jkolli l-ebda aċċess għad-data użata biex tifforma l-istatistika."

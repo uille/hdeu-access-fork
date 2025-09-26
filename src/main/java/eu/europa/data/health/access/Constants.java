@@ -15,9 +15,11 @@
  */
 package eu.europa.data.health.access;
 
+import java.util.Set;
+
 public class Constants {
 
-  public Constants() {
+  private Constants() {
     throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
   }
 
@@ -39,15 +41,25 @@ public class Constants {
   public static final int DATA_REQUEST_DISPATCHER_DEFAULT_MAX_RETRIES = 5;
   public static final int DATA_ACCESS_DISPATCHER_DEFAULT_INTERVAL = 300000;
   public static final int DATA_REQUEST_DISPATCHER_DEFAULT_INTERVAL = 300000;
+  public static final String TRANSLATION_RETRY_INTERVAL = "TRANSLATION_RETRY_INTERVAL";
+  public static final String TRANSLATION_RETRY_MAX_ATTEMPTS = "TRANSLATION_RETRY_MAX_ATTEMPTS";
+  public static final int TRANSLATION_RETRY_DEFAULT_INTERVAL = 18_000_000; // 5 hours
+  public static final int TRANSLATION_RETRY_DEFAULT_MAX_ATTEMPTS = 3;
+  public static final String CONTROLLED_VOCABULARY_REFRESH_INTERVAL = "CONTROLLED_VOCABULARY_REFRESH_INTERVAL";
   public static final int PAGINATION_LIMIT = 50;
   public static final String DISPATCHER_URL = "DISPATCHER_URL";
   public static final String DISPATCHER_X_API_KEY = "DISPATCHER_X_API_KEY";
   public static final String HUB_REPO_URL = "HUB_REPO_URL";
   public static final String AUTH_URL = "AUTH_URL";
   public static final String HUB_REPO_X_API_KEY = "HUB_REPO_X_API_KEY";
+  public static final String ENV_TRANSLATION_SERVICE_URL = "TRANSLATION_SERVICE_URL";
+  public static final String ENV_TRANSLATION_SERVICE_FILE_URL = "TRANSLATION_SERVICE_FILE_URL";
+  public static final String ENV_TRANSLATION_SERVICE_CALLBACK_URL = "TRANSLATION_SERVICE_CALLBACK_URL";
+  public static final String ENV_TRANSLATION_SERVICE_X_API_KEY = "TRANSLATION_SERVICE_X_API_KEY";
   public static final String  ENV_KEYCLOAK_INTROSPECT_PATH = "KEYCLOAK_INTROSPECT_PATH";
   public static final String ENV_PIVEAU_ACCESS_AUTH_CONFIG = "PIVEAU_ACCESS_AUTH_CONFIG";
   public static final String ENV_HEALTH_DATA_ACCESS_API_KEY = "HEALTH_DATA_ACCESS_API_KEY";
+  public static final String ENV_ITB_VALIDATOR_ENDPOINT = "ITB_VALIDATOR_ENDPOINT";
   public static final String BEARER_AUTH = "BearerAuth";
   public static final String USER_DELETED = "USER_DELETED";
   public static final String HUB_SEARCH_DATA_URL = "HUB_SEARCH_DATA_URL";
@@ -61,6 +73,8 @@ public class Constants {
   public static final String APPLICATION = "application";
   public static final String STATUS = "status";
   public static final String CONTENT_TYPE = "Content-Type";
+  public static final String CONTENT_DISPOSITION = "Content-Disposition";
+
   public static final String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
   public static final String CLIENT_ID = "client_id";
   public static final String CLIENT_SECRET = "client_secret";
@@ -79,6 +93,7 @@ public class Constants {
   public static final String DATE_SUBMITTED = "date_submitted";
   public static final String DATE_CREATED = "date_created";
   public static final String DATE_MODIFIED = "date_modified";
+  public static final String DATE_DISPATCHED = "date_dispatched";
   public static final String VERSION = "version";
   public static final String DATASETS = "datasets";
   public static final String DATE_ADDED = "date_added";
@@ -97,23 +112,14 @@ public class Constants {
   public static final String SECTION = "section";
   public static final String FORM = "form.";
   public static final String LEGAL_PERSON_ADDRESS = "legalPersonAddress";
-  public static final String CONTACT_PERSON_OPERATOR_ID = "contactPersonOperatorID";
   public static final String CONTACT_PERSON_ORGANISATION_NAME = "contactPersonOrganisationName";
   public static final String CONTACT_PERSON_BUSINESS_ID = "contactPersonBusinessID";
   public static final String NATURAL_PERSON_NAME = "naturalPersonName";
   public static final String NATURAL_PERSON_EMAIL = "naturalPersonEmail";
   public static final String PERSON_RESPONSIBLE_SAME_AS_CONTACT_PERSON = "personResponsibleSameAsContactPerson";
   public static final String PERSON_RESPONSIBLE_NAME = "personResponsibleName";
-  public static final String CONTACT_PERSON_JOB_TITLE = "contactPersonJobTitle";
-  public static final String PERSON_RESPONSIBLE_JOB_TITLE = "personResponsibleJobTitle";
-  public static final String CONTACT_PERSON_AFFILIATION = "contactPersonAffiliation";
-  public static final String PERSON_RESPONSIBLE_AFFILIATION = "personResponsibleAffiliation";
-  public static final String NATURAL_PERSON_JOB_TITLE = "naturalPersonJobTitle";
-  public static final String NATURAL_PERSON_AFFILIATION = "naturalPersonAffiliation";
   public static final String PERSON_RESEARCH_SAME_AS_CONTACT_PERSON = "personResearchSameAsContactPerson";
   public static final String PERSON_RESEARCH_NAME = "personResearchName";
-  public static final String PERSON_RESEARCH_JOB_TITLE = "personResearchJobTitle";
-  public static final String PERSON_RESEARCH_AFFILIATION = "personResearchAffiliation";
   public static final String INFORMATION_PROVIDER_SAME_AS_CONTACT_PERSON = "informationProviderSameAsContactPerson";
   public static final String SAME_AS_CONTACT_PERSON = "sameAsContactPerson";
   public static final String LEGAL_OR_NATURAL_PERSON = "legalOrNaturalPerson";
@@ -125,9 +131,13 @@ public class Constants {
   public static final String PREFIX_SKOS_HTTP_WWW_W_3_ORG_2004_02_SKOS_CORE = "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> ";
   public static final String PREFIX_AT_HTTP_PUBLICATIONS_EUROPA_EU_ONTOLOGY_AUTHORITY = "PREFIX at: <http://publications.europa.eu/ontology/authority/> ";
   public static final String SELECT_COUNTRY_NAME_COUNTRY_WHERE = "SELECT ?countryName ?country WHERE { ";
+  public static final String SELECT_COUNTRY_NAME_COUNTRY_NOTATION_WHERE = "SELECT ?countryName ?country ?notation WHERE { ";
   public static final String COUNTRY_SKOS_PREFLABEL_COUNTRY_NAME = "  ?country skos:prefLabel ?countryName . ";
   public static final String OPTIONAL = "  OPTIONAL { ";
   public static final String COUNTRY_AT_DEPRECATED = "    ?country at:deprecated ?deprecated . ";
+  public static final String COUNTRY_SKOS_NOTATION =
+    "    ?country skos:notation ?notation . " +
+      "    FILTER (datatype(?notation) = <http://publications.europa.eu/ontology/euvoc#ISO_3166_1_ALPHA_2>) ";
   public static final String FILTER_LANG_COUNTRY_NAME = "  FILTER (lang(?countryName) = '";
   public static final String FILTER_BOUND_DEPRECATED = "  FILTER (!bound(?deprecated) || ?deprecated = 'false') ";
   public static final String DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION_RELATIVES = "dataExtractionFrequencyMultipleTimesInformationRelatives";
@@ -139,6 +149,7 @@ public class Constants {
   public static final String SPECIFY_OTHER = "specifyOther";
   public static final String LEGAL_BASIS_FOR_TRANSFERRING_THE_DATA_OUTSIDE_EU = "legalBasisForTransferringTheDataOutsideEU";
   public static final String TITLE = "title";
+  public static final String INPUT_LANGUAGE = "inputLanguage";
   public static final String SECTION_1 = "section1";
   public static final String SECTION_2 = "section2";
   public static final String SECTION_3 = "section3";
@@ -170,7 +181,6 @@ public class Constants {
   public static final String LEGAL_BASIS_FOR_PROCESSING_COMBINED_APPLICATION_DATA = "legalBasisForProcessingCombinedApplicationData";
   public static final String APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR = "applyingForDataOnBehalfOfPublicSector";
   public static final String HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS = "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants";
-  public static final String THE_NATURE_OF_THE_DATA_DOES_NOT_LET_YOU_PROVIDE_A_DESCRIPTION = "theNatureOfTheDataDoesNotLetYouProvideADescription";
   public static final String THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY = "theNatureOfTheProjectDoesNotLetYouProvideASummary";
   public static final String THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY_REASON = "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason";
   public static final String APPLYING_FOR_DATA_FOR_CARRYING_OUT_TASKS = "applyingForDataForCarryingOutTasks";
@@ -199,15 +209,11 @@ public class Constants {
   public static final String NUMBER = "number";
   public static final String NAME = "name";
   public static final String FULL_NAME = "fullName";
-  public static final String POSTAL_ADDRESS_LABEL = "postalAddressLabel";
   public static final String ADDRESS = "address";
   public static final String PHONE = "phone";
   public static final String EMAIL = "email";
   public static final String SUMMARY_OF_PLAN_FOR_USING_THE_DATA = "summaryOfPlanForUsingTheData";
-  public static final String SUMMARY_OF_PLAN_FOR_USING_THE_DATA_LANGUAGE = "summaryOfPlanForUsingTheDataLanguage";
   public static final String SUMMARY_OF_RESEARCH_PLAN = "summaryOfResearchPlan";
-  public static final String SUMMARY_OF_RESEARCH_PLAN_LANGUAGE = "summaryOfResearchPlanLanguage";
-  public static final String COUNTRY_ID = "country_id";
   public static final String HEADING_3 = "Heading3";
   public static final String PERMIT_DECISION_ATTACHMENT = "permitDecisionAttachment";
   public static final String INFORMATION_PROVIDER_PHONE = "informationProviderPhone";
@@ -237,13 +243,14 @@ public class Constants {
   public static final String AWARE_INFORMATION_CORRECT = "awareInformationCorrect";
   public static final String CONFIRM_THAT_DATA_PERMIT_HAS_BEEN_GRANTED_FOR_THE_RESEARCH_PROJECT = "confirmThatDataPermitHasBeenGrantedForTheResearchProject";
   public static final String TABULATION_PLAN = "tabulationPlan";
-  public static final String ETHICAL_REVIEW_INPUT = "ethicalReviewInput";
-  public static final String ETHICAL_REVIEW_ATTACHMENT = "ethicalReviewAttachment";
   public static final String TABULATION_PLAN_ARRAY = "tabulationPlanArray";
   public static final String EXTRACTION_DESCRIPTION_AND_COMPILATION = "extractionDescriptionAndCompilation";
-  public static final String PURPOSE_OF_USE = "purposeOfUse";
+  public static final String NATURAL_PERSON_JOB_TITLE = "naturalPersonJobTitle";
+  public static final String NATURAL_PERSON_AFFILIATION = "naturalPersonAffiliation";
   public static final String ACCEPT_HEALTH_DATA_BODY = "acceptHealthDataBody";
   public static final String HOW_OFTEN_DOES_THE_DATA_NEED_TO_BE_EXTRACTED_ONCE_OR_MULTIPLE = "howOftenDoesTheDataNeedToBeExtractedOnceOrMultiple";
+  public static final String OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW= "optOutOfTheMechanismProvidedInTheNationalLaw";
+  public static final String PROVIDED_JUSTIFICATION_EXCEPTION= "providedJustificationException";
   public static final String EXTERNAL_DATASET_ID = "external_dataset_id";
   public static final String RESULT = "result";
   public static final String DATA = "/data/";
@@ -260,12 +267,11 @@ public class Constants {
   public static final String MESSAGE = "message";
   public static final String MANDATORY_FIELD = "mandatoryField";
   public static final String ERROR_CODE = "errorCode";
-  public static final String REGION_FOR_CONTROLS_DATA_EXTRACTION = "regionForControlsDataExtraction";
-  public static final String VARIABLES_FOR_DATA_EXTRACTION = "variablesForDataExtraction";
+  public static final String VARIABLES_FOR_DATA_EXTRACTION_ATTACHMENTS = "variablesForDataExtractionAttachments";
   public static final String TIME_PERIOD_FOR_DATA_EXTRACTION = "timePeriodForDataExtraction";
   public static final String EXTRACTION_CRITERIA_FOR_CONTROLS = "extractionCriteriaForControls";
   public static final String PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM = "previouslyIssuedPermitValidityPeriodFrom2";
-  public static final String VARIABLES_FOR_DATA_EXTRACTION_RELATIVES = "variablesForDataExtractionRelatives";
+  public static final String VARIABLES_FOR_DATA_EXTRACTION_RELATIVES_ATTACHMENTS= "variablesForDataExtractionRelativesAttachments";
   public static final String TIME_PERIOD_FOR_DATA_EXTRACTION_RELATIVES = "timePeriodForDataExtractionRelatives";
   public static final String RELATIONSHIP_TO_STUDY_COHORT = "relationshipToStudyCohort";
   public static final String LEGAL_BASIS_FOR_TRANSFERRING_THE_DATA_OUTSIDE_EU_OTHER_OPTIONS = "legalBasisForTransferringTheDataOutsideEUOtherOptions";
@@ -288,6 +294,7 @@ public class Constants {
   public static final String UPLOAD_RDF= "uploadRDF";
   public static final String DOMIBUS_ID = "domibusId";
   public static final String GEOGRAPHICAL_COVERAGE ="geographicalCoverage";
+  public static final String CATALOGUE_LANGUAGE ="language";
   public static final String RDF_TEMPLATE ="rdfTemplate";
   public static final String FILE_UPLOAD_CATALOGUE_VALID_TYPES = ".*\\.(rdf|xml|jsonld|json|ttl|nt|n3)$";
   public static final String PAGE = "page";
@@ -309,9 +316,82 @@ public class Constants {
   public static final int MAX_ALLOWED_CHARS_36 = 36;
   public static final String OBJECT = "object";
   public static final String OBJECT_ID = "objectId";
+  public static final String FORM_TRANSLATIONS = "form_translations";
   public static final String ACTION_DESCRIPTION = "actionDescription";
   public static final String ECAS_ID = "ecasId";
   public static final String REGEX = "$regex";
+  public static final String FILENAME_ASTERISK_EQUALS = "filename*=";
   public static final String OPTIONS = "$options";
   public static final String ACTION = "action";
+  public static final String FILE_ID = "fileId";
+  public static final String NOTATION = "notation";
+  public static final String TRANSLATION = "translation";
+  public static final String COUNTRY = "country";
+  public static final String CONFIGURATION_COLLECTION = "CONFIGURATION";
+  public static final String CONTROLLED_VOCABULARY_COLLECTION = "CONTROLLED_VOCABULARY";
+  public static final String DATASET_ASSISTANT_COLLECTION = "DDA_DATASET";
+  public static final Set<String> SUPPORTED_LANGUAGES = Set.of(
+    "bg", "cs", "da", "de", "el", "en", "es", "et", "fi", "fr", "ga", "hr", "hu", "is", "it", "lt",
+    "lv", "mt", "nb", "nl", "nn", "pl", "pt", "ro", "sk", "sl", "sv"
+  );
+  public static final String LANGUAGE_SCHEME = "http://publications.europa.eu/resource/authority/language";
+  public static final Set<String> SUPPORTED_LANGUAGE_CONCEPTS = Set.of(
+    LANGUAGE_SCHEME + "/BUL", // Bulgarian
+    LANGUAGE_SCHEME + "/CES", // Czech
+    LANGUAGE_SCHEME + "/DAN", // Danish
+    LANGUAGE_SCHEME + "/DEU", // German
+    LANGUAGE_SCHEME + "/ELL", // Greek
+    LANGUAGE_SCHEME + "/ENG", // English
+    LANGUAGE_SCHEME + "/EST", // Estonian
+    LANGUAGE_SCHEME + "/FIN", // Finnish
+    LANGUAGE_SCHEME + "/FRA", // French
+    LANGUAGE_SCHEME + "/GLE", // Irish
+    LANGUAGE_SCHEME + "/HRV", // Croatian
+    LANGUAGE_SCHEME + "/HUN", // Hungarian
+    LANGUAGE_SCHEME + "/ITA", // Italian
+    LANGUAGE_SCHEME + "/ISL", // Icelandic
+    LANGUAGE_SCHEME + "/LAV", // Latvian
+    LANGUAGE_SCHEME + "/LIT", // Lithuanian
+    LANGUAGE_SCHEME + "/MLT", // Maltese
+    LANGUAGE_SCHEME + "/NLD", // Dutch
+    LANGUAGE_SCHEME + "/NNO", // Norwegian Nynorsk
+    LANGUAGE_SCHEME + "/NOB", // Norwegian Bokmål
+    LANGUAGE_SCHEME + "/POL", // Polish
+    LANGUAGE_SCHEME + "/POR", // Portuguese
+    LANGUAGE_SCHEME + "/RON", // Romanian
+    LANGUAGE_SCHEME + "/SLK", // Slovak
+    LANGUAGE_SCHEME + "/SLV", // Slovenian
+    LANGUAGE_SCHEME + "/SPA", // Spanish
+    LANGUAGE_SCHEME + "/SWE" // Swedish
+  );
+  public static final String COUNTRY_SCHEME = "http://publications.europa.eu/resource/authority/country";
+  public static final Set<String> SUPPORTED_COUNTRY_CONCEPTS = Set.of(
+    COUNTRY_SCHEME + "/AUT", // Austria
+    COUNTRY_SCHEME + "/BEL", // Belgium
+    COUNTRY_SCHEME + "/BGR", // Bulgaria
+    COUNTRY_SCHEME + "/HRV", // Croatia
+    COUNTRY_SCHEME + "/CYP", // Cyprus
+    COUNTRY_SCHEME + "/CZE", // Czechia
+    COUNTRY_SCHEME + "/DNK", // Denmark
+    COUNTRY_SCHEME + "/EST", // Estonia
+    COUNTRY_SCHEME + "/FIN", // Finland
+    COUNTRY_SCHEME + "/FRA", // France
+    COUNTRY_SCHEME + "/DEU", // Germany
+    COUNTRY_SCHEME + "/GRC", // Greece
+    COUNTRY_SCHEME + "/HUN", // Hungary
+    COUNTRY_SCHEME + "/IRL", // Ireland
+    COUNTRY_SCHEME + "/ITA", // Italy
+    COUNTRY_SCHEME + "/LVA", // Latvia
+    COUNTRY_SCHEME + "/LTU", // Lithuania
+    COUNTRY_SCHEME + "/LUX", // Luxembourg
+    COUNTRY_SCHEME + "/MLT", // Malta
+    COUNTRY_SCHEME + "/NLD", // Netherlands
+    COUNTRY_SCHEME + "/POL", // Poland
+    COUNTRY_SCHEME + "/PRT", // Portugal
+    COUNTRY_SCHEME + "/ROU", // Romania
+    COUNTRY_SCHEME + "/SVK", // Slovakia
+    COUNTRY_SCHEME + "/SVN", // Slovenia
+    COUNTRY_SCHEME + "/ESP", // Spain
+    COUNTRY_SCHEME + "/SWE"  // Sweden
+  );
 }

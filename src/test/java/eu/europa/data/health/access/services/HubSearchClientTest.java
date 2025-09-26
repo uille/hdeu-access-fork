@@ -36,7 +36,7 @@ import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class HubSearchClientTest {
+class HubSearchClientTest {
 
   @Mock
   private WebClient mockClient;
@@ -52,7 +52,6 @@ public class HubSearchClientTest {
   void setUp() {
     MockitoAnnotations.openMocks(this);
     when(mockConfig.getString(Constants.HUB_SEARCH_DATA_URL)).thenReturn("http://example.com");
-
     hubSearchClient = new HubSearchClient(mockClient, mockConfig);
   }
 
@@ -124,4 +123,69 @@ public class HubSearchClientTest {
     List<String> logs = testAppender.getLogMessages();
     assertTrue(logs.stream().anyMatch(logMessage -> logMessage.contains("Dataset downloaded successfully")));
   }
+
+  @Test
+  void testGetAllCatalogues_success() {
+    when(mockClient.getAbs(anyString())).thenReturn(mockRequest);
+    when(mockRequest.addQueryParam("filter", "catalogue")).thenReturn(mockRequest);
+    when(mockRequest.send()).thenReturn(Future.succeededFuture(mockResponse));
+    when(mockResponse.statusCode()).thenReturn(200);
+    when(mockResponse.bodyAsJsonObject()).thenReturn(new JsonObject().put("type", "catalogues"));
+
+    JsonObject result = hubSearchClient.getAllCatalogues().result();
+
+    assertEquals("catalogues", result.getString("type"));
+  }
+
+  @Test
+  void testGetAllCatalogues_failure() {
+    when(mockClient.getAbs(anyString())).thenReturn(mockRequest);
+    when(mockRequest.addQueryParam("filter", "catalogue")).thenReturn(mockRequest);
+    when(mockRequest.send()).thenReturn(Future.succeededFuture(mockResponse));
+    when(mockResponse.statusCode()).thenReturn(503);
+    when(mockResponse.statusMessage()).thenReturn("Service Unavailable");
+    when(mockResponse.bodyAsString()).thenReturn("down");
+
+    Future<JsonObject> future = hubSearchClient.getAllCatalogues();
+
+    assertTrue(future.failed());
+    assertTrue(future.cause().getMessage().contains("Failed to get catalogues: Service Unavailable"));
+  }
+
+  @Test
+  void testGetCatalogue_success() {
+    when(mockClient.getAbs(anyString())).thenReturn(mockRequest);
+    when(mockRequest.send()).thenReturn(Future.succeededFuture(mockResponse));
+    when(mockResponse.statusCode()).thenReturn(200);
+    when(mockResponse.bodyAsJsonObject()).thenReturn(new JsonObject().put("id", "cat1"));
+
+    JsonObject result = hubSearchClient.getCatalogue("cat1").result();
+
+    assertEquals("cat1", result.getString("id"));
+  }
+
+  @Test
+  void testGetCatalogue_notFound() {
+    when(mockClient.getAbs(anyString())).thenReturn(mockRequest);
+    when(mockRequest.send()).thenReturn(Future.succeededFuture(mockResponse));
+    when(mockResponse.statusCode()).thenReturn(404);
+    JsonObject result = hubSearchClient.getCatalogue("cat404").result();
+
+    assertEquals("cat404", result.getString("catalogue_id"));
+  }
+
+  @Test
+  void testGetCatalogue_failure() {
+    when(mockClient.getAbs(anyString())).thenReturn( mockRequest);
+    when(mockRequest.send()).thenReturn(Future.succeededFuture(mockResponse));
+    when(mockResponse.statusCode()).thenReturn(500);
+    when(mockResponse.statusMessage()).thenReturn("Server Down");
+    when(mockResponse.bodyAsString()).thenReturn("fail");
+
+    Future<JsonObject> future = hubSearchClient.getCatalogue("catX");
+
+    assertTrue(future.failed());
+    assertTrue(future.cause().getMessage().contains("Failed to get catalogue: Server Down"));
+  }
+
 }

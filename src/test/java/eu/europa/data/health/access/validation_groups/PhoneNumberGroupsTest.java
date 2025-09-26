@@ -17,6 +17,7 @@ package eu.europa.data.health.access.validation_groups;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import eu.europa.data.health.access.dto.PhoneNumberDTO;
@@ -113,11 +114,11 @@ class PhoneNumberGroupsTest {
     assertTrue(violations.isEmpty());
   }
 
-
-
-
-
-
-
-
+    @Test
+    void testPrivateConstructorExists() throws Exception {
+      var constructor = PhoneNumberGroups.class.getDeclaredConstructor();
+      constructor.setAccessible(true);
+      PhoneNumberGroups instance = constructor.newInstance();
+      assertNotNull(instance);
+    }
 }

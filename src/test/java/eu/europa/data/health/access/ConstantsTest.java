@@ -71,7 +71,8 @@ class ConstantsTest {
     assertEquals(1, constructors.length, "Constants class should only have one constructor");
 
     Constructor<?> constructor = constructors[0];
-    assertTrue(java.lang.reflect.Modifier.isPublic(constructor.getModifiers()), "Constructor should be private");
+    assertTrue(java.lang.reflect.Modifier.isPrivate(constructor.getModifiers()), "Constructor should be "
+      + "private");
 
     constructor.setAccessible(true);
 

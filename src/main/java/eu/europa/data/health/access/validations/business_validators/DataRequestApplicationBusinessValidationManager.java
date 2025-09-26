@@ -15,22 +15,25 @@
  */
 package eu.europa.data.health.access.validations.business_validators;
 
+import static eu.europa.data.health.access.Constants.APPLICATION_ID;
 import static eu.europa.data.health.access.Constants.DATA_REQUEST_APPLICATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.ERRORS;
 import static eu.europa.data.health.access.Constants.LEGAL_OR_NATURAL_PERSON;
+import static eu.europa.data.health.access.Constants.SECTION_2;
 import static eu.europa.data.health.access.validations.validators.DataAccessApplicationValidationManager.buildCustomValidationErrors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.europa.data.health.access.dto.SelectObjectDTO;
-import eu.europa.data.health.access.dto.data_request.Section5BindToOtherSections;
-import eu.europa.data.health.access.dto.data_request.Section4BindSection3DTO;
-import eu.europa.data.health.access.dto.data_request.Section6BindToOtherSections;
-import eu.europa.data.health.access.dto.data_request.Section6CountryDTO;
+import eu.europa.data.health.access.dto.sections.Section4BindSection3DTO;
+import eu.europa.data.health.access.dto.sections.data_request.Section5BindToOtherSections;
+import eu.europa.data.health.access.dto.sections.data_request.Section6BindToOtherSections;
+import eu.europa.data.health.access.dto.sections.data_request.Section6CountryDTO;
 import eu.europa.data.health.access.exceptions.FieldError;
 import eu.europa.data.health.access.exceptions.GeneralException;
 import eu.europa.data.health.access.validations.validators.AbstractSchemaValidator;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.RoutingContext;
@@ -39,9 +42,11 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 
 /**
@@ -59,7 +64,9 @@ public class DataRequestApplicationBusinessValidationManager extends AbstractSch
   public void businessValidateUpdate(RoutingContext context) {
     Integer sectionNumberFromUrl = Integer.valueOf(context.pathParam("section_number"));
 
-    if (sectionNumberFromUrl == 4) {
+    if(sectionNumberFromUrl == 1){
+      section1Validation(context);
+    } else if (sectionNumberFromUrl == 4) {
       section4Validation(context);
     } else if (sectionNumberFromUrl == 6) {
       section6Validation(context);
@@ -68,6 +75,93 @@ public class DataRequestApplicationBusinessValidationManager extends AbstractSch
     } else {
       context.next();
     }
+  }
+
+  public void section1Validation(RoutingContext context){
+    JsonObject sectionForm = context.body().asJsonObject();
+    String applicationId = context.pathParam(APPLICATION_ID);
+    JsonObject query = new JsonObject().put("_id", applicationId);
+
+    // Search in the database based on the provided application ID
+    mongoClient.findOne(DATA_REQUEST_APPLICATION_COLLECTION, query, null, ar -> {
+      if (ar.succeeded() && !ar.result().isEmpty()) {
+        JsonObject result = ar.result();
+
+        // Check if the section and the field exist in the result
+        if (result.containsKey("datasets")) {
+          JsonArray datasets = result.getJsonArray("datasets", new JsonArray());
+          Set<String> datasetIdsWithVars = new HashSet<>();
+
+          for (int i = 0; i < datasets.size(); i++) {
+            Object o = datasets.getValue(i);
+            if (!(o instanceof JsonObject)) continue;
+            JsonObject ds = (JsonObject) o;
+
+            String dsId = ds.getString("dataset_id", ds.getString("id"));
+            if (dsId == null) continue;
+
+            boolean hasVars = false;
+
+            // case A: dataset.variables
+            JsonArray dsVars = ds.getJsonArray("variables");
+            if (dsVars != null && !dsVars.isEmpty()) {
+              hasVars = true;
+            }
+
+            // case B: dataset.distributions_sample[*].variables
+            if (!hasVars) {
+              JsonArray samples = ds.getJsonArray("distributions_sample");
+              if (samples != null) {
+                for (int s = 0; s < samples.size(); s++) {
+                  Object so = samples.getValue(s);
+                  if (!(so instanceof JsonObject)) continue;
+                  JsonArray sampleVars = ((JsonObject) so).getJsonArray("variables");
+                  if (sampleVars != null && !sampleVars.isEmpty()) {
+                    hasVars = true;
+                    break;
+                  }
+                }
+              }
+            }
+
+            if (hasVars) {
+              datasetIdsWithVars.add(dsId);
+            }
+          }
+
+          // --- collect datasetIds provided in sectionForm ---
+          JsonArray provided = sectionForm.getJsonArray("datasetVariables", new JsonArray());
+          Set<String> providedIds = provided.stream()
+            .filter(JsonObject.class::isInstance)
+            .map(JsonObject.class::cast)
+            .map(j -> j.getString("datasetId"))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
+
+          // --- find missing: DB says variables exist, but sectionForm has nothing for that dataset ---
+          Set<String> missing = new HashSet<>(datasetIdsWithVars);
+          missing.removeAll(providedIds);
+
+          if (!missing.isEmpty()) {
+            List<FieldError> errors = new ArrayList<>();
+            for (String dsId : missing) {
+              errors.add(new FieldError(
+                  "NotNullVariables",
+                  "Selected variable for the corresponding dataset should not be null",
+                  dsId, null, null, null, null
+                )
+              );
+            }
+
+            context.put(ERRORS, new GeneralException(errors).getErrors());
+          }
+
+          context.next();
+        } else {
+          context.next();
+        }
+      }
+    });
   }
 
   public boolean section4Validation(JsonObject form, RoutingContext context) {
@@ -99,7 +193,7 @@ public class DataRequestApplicationBusinessValidationManager extends AbstractSch
 
   public void section4Validation(RoutingContext context) {
     JsonObject requestApplicationId = new JsonObject().put("_id",
-      context.pathParam("application_id"));
+      context.pathParam(APPLICATION_ID));
     String sectionNumber = "section3";
 
     // Search in the database based on the provided application ID
@@ -171,8 +265,7 @@ public class DataRequestApplicationBusinessValidationManager extends AbstractSch
   public void section5Validation(RoutingContext context) {
     // Search in the database based on the provided application ID
     JsonObject requestApplicationId = new JsonObject().put("_id",
-      context.pathParam("application_id"));
-    String section2 = "section2";
+      context.pathParam(APPLICATION_ID));
 
     // Search in the database based on the provided application ID
     mongoClient.findOne(DATA_REQUEST_APPLICATION_COLLECTION, requestApplicationId, null,
@@ -181,8 +274,8 @@ public class DataRequestApplicationBusinessValidationManager extends AbstractSch
           JsonObject result = ar.result();
 
           // Check if the section and the field exist in the result
-          if (result.containsKey("form") && (result.getJsonObject("form").containsKey(section2))) {
-            JsonObject sectionData2 = result.getJsonObject("form").getJsonObject(section2);
+          if (result.containsKey("form") && (result.getJsonObject("form").containsKey(SECTION_2))) {
+            JsonObject sectionData2 = result.getJsonObject("form").getJsonObject(SECTION_2);
             //T.01.2 section 2 field
             List<SelectObjectDTO> section2purposeForWhichDataWillBeUsed = new ArrayList<>();
 
@@ -257,7 +350,7 @@ public class DataRequestApplicationBusinessValidationManager extends AbstractSch
 
   public void section6Validation(RoutingContext context) {
     JsonObject requestApplicationId = new JsonObject().put("_id",
-      context.pathParam("application_id"));
+      context.pathParam(APPLICATION_ID));
 
     // Search in the database based on the provided application ID
     mongoClient.findOne(DATA_REQUEST_APPLICATION_COLLECTION, requestApplicationId, null, ar -> {
@@ -266,9 +359,9 @@ public class DataRequestApplicationBusinessValidationManager extends AbstractSch
 
         // Check if the section and the field exist in the result
         if (result.containsKey("form") && result.getJsonObject("form")
-          .containsKey("section2")) {
+          .containsKey(SECTION_2)) {
 
-          JsonObject sectionData2 = result.getJsonObject("form").getJsonObject("section2");
+          JsonObject sectionData2 = result.getJsonObject("form").getJsonObject(SECTION_2);
 
           // Check if the field purposeForWhichDataWillBeUsed in section2 exists
           if (Objects.nonNull(sectionData2) && sectionData2.containsKey("purposeForWhichDataWillBeUsed")) {

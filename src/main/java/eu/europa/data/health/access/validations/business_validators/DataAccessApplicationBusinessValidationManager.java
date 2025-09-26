@@ -18,6 +18,7 @@ package eu.europa.data.health.access.validations.business_validators;
 import static eu.europa.data.health.access.Constants.DATA_ACCESS_APPLICATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.ERRORS;
 import static eu.europa.data.health.access.Constants.LEGAL_OR_NATURAL_PERSON;
+import static eu.europa.data.health.access.Constants.SECTION_1;
 import static eu.europa.data.health.access.Constants.SECTION_3;
 import static eu.europa.data.health.access.services.DataAccessApplicationManager.extractField;
 import static eu.europa.data.health.access.validations.validators.DataAccessApplicationValidationManager.buildCustomValidationErrors;
@@ -27,12 +28,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.europa.data.health.access.dto.SelectObjectDTO;
-import eu.europa.data.health.access.dto.data_access.Section4BindSection3DTO;
-import eu.europa.data.health.access.dto.data_access.Section5BindToOtherSections;
-import eu.europa.data.health.access.dto.data_access.Section8BindToOtherSections;
+import eu.europa.data.health.access.dto.sections.Section4BindSection3DTO;
+import eu.europa.data.health.access.dto.sections.data_access.Section5BindToOtherSections;
+import eu.europa.data.health.access.dto.sections.data_access.Section8BindToOtherSections;
 import eu.europa.data.health.access.exceptions.FieldError;
 import eu.europa.data.health.access.exceptions.GeneralException;
 import eu.europa.data.health.access.validations.validators.AbstractSchemaValidator;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.RoutingContext;
@@ -45,6 +47,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 
 /**
@@ -53,6 +56,8 @@ import org.apache.commons.collections.CollectionUtils;
  */
 public class DataAccessApplicationBusinessValidationManager extends AbstractSchemaValidator {
 
+  public static final String APPLICATION_ID = "application_id";
+  public static final String SECTION_2 = "section2";
   private final MongoClient mongoClient;
 
   public DataAccessApplicationBusinessValidationManager(MongoClient mongoClient) {
@@ -62,7 +67,9 @@ public class DataAccessApplicationBusinessValidationManager extends AbstractSche
   public void businessValidateUpdate(RoutingContext context) {
     Integer sectionNumberFromUrl = Integer.valueOf(context.pathParam("section_number"));
 
-    if (sectionNumberFromUrl == 4) {
+    if(sectionNumberFromUrl == 1){
+      section1Validation(context);
+    } else if (sectionNumberFromUrl == 4) {
       section4Validation(context);
     } else if (sectionNumberFromUrl == 8) {
       section8Validation(context);
@@ -72,6 +79,93 @@ public class DataAccessApplicationBusinessValidationManager extends AbstractSche
     else {
       context.next();
     }
+  }
+
+  public void section1Validation(RoutingContext context){
+    JsonObject sectionForm = context.body().asJsonObject();
+    String applicationId = context.pathParam(APPLICATION_ID);
+    JsonObject query = new JsonObject().put("_id", applicationId);
+
+    // Search in the database based on the provided application ID
+    mongoClient.findOne(DATA_ACCESS_APPLICATION_COLLECTION, query, null, ar -> {
+      if (ar.succeeded() && !ar.result().isEmpty()) {
+        JsonObject result = ar.result();
+
+        // Check if the section and the field exist in the result
+        if (result.containsKey("datasets")) {
+          JsonArray datasets = result.getJsonArray("datasets", new JsonArray());
+          Set<String> datasetIdsWithVars = new HashSet<>();
+
+          for (int i = 0; i < datasets.size(); i++) {
+            Object o = datasets.getValue(i);
+            if (!(o instanceof JsonObject)) continue;
+            JsonObject ds = (JsonObject) o;
+
+            String dsId = ds.getString("dataset_id", ds.getString("id"));
+            if (dsId == null) continue;
+
+            boolean hasVars = false;
+
+            // case A: dataset.variables
+            JsonArray dsVars = ds.getJsonArray("variables");
+            if (dsVars != null && !dsVars.isEmpty()) {
+              hasVars = true;
+            }
+
+            // case B: dataset.distributions_sample[*].variables
+            if (!hasVars) {
+              JsonArray samples = ds.getJsonArray("distributions_sample");
+              if (samples != null) {
+                for (int s = 0; s < samples.size(); s++) {
+                  Object so = samples.getValue(s);
+                  if (!(so instanceof JsonObject)) continue;
+                  JsonArray sampleVars = ((JsonObject) so).getJsonArray("variables");
+                  if (sampleVars != null && !sampleVars.isEmpty()) {
+                    hasVars = true;
+                    break;
+                  }
+                }
+              }
+            }
+
+            if (hasVars) {
+              datasetIdsWithVars.add(dsId);
+            }
+          }
+
+          // --- collect datasetIds provided in sectionForm ---
+          JsonArray provided = sectionForm.getJsonArray("datasetVariables", new JsonArray());
+          Set<String> providedIds = provided.stream()
+            .filter(JsonObject.class::isInstance)
+            .map(JsonObject.class::cast)
+            .map(j -> j.getString("datasetId"))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
+
+          // --- find missing: DB says variables exist, but sectionForm has nothing for that dataset ---
+          Set<String> missing = new HashSet<>(datasetIdsWithVars);
+          missing.removeAll(providedIds);
+
+          if (!missing.isEmpty()) {
+            List<FieldError> errors = new ArrayList<>();
+            for (String dsId : missing) {
+              errors.add(new FieldError(
+                "NotNullVariables",
+                "Selected variable for the corresponding dataset should not be null",
+                dsId, null, null, null, null
+                )
+              );
+            }
+
+            context.put(ERRORS, new GeneralException(errors).getErrors());
+          }
+
+          context.next();
+        } else {
+          context.next();
+        }
+      }
+    });
   }
 
   public boolean section4Validation(JsonObject form, RoutingContext context) {
@@ -103,7 +197,7 @@ public class DataAccessApplicationBusinessValidationManager extends AbstractSche
 
   public void section4Validation(RoutingContext context) {
     JsonObject requestApplicationId = new JsonObject().put("_id",
-      context.pathParam("application_id"));
+      context.pathParam(APPLICATION_ID));
     String sectionNumber = SECTION_3;
 
     // Search in the database based on the provided application ID
@@ -174,7 +268,7 @@ public class DataAccessApplicationBusinessValidationManager extends AbstractSche
 
     boolean result = false;
 
-    JsonObject sectionData2 = form.getJsonObject("section2");
+    JsonObject sectionData2 = form.getJsonObject(SECTION_2);
     JsonObject sectionData3 = form.getJsonObject(SECTION_3);
     JsonObject sectionData5 = form.getJsonObject("section5");
     JsonObject sectionData7 = form.getJsonObject("section7");
@@ -287,8 +381,8 @@ public class DataAccessApplicationBusinessValidationManager extends AbstractSche
   }
 
   public void section8Validation(RoutingContext context){
-    JsonObject requestApplicationId = new JsonObject().put("_id", context.pathParam("application_id"));
-    String section2 = "section2";
+    JsonObject requestApplicationId = new JsonObject().put("_id", context.pathParam(APPLICATION_ID));
+    String section2 = SECTION_2;
     String section3 = SECTION_3;
     String section7 = "section7";
     String section5 = "section5";
@@ -441,8 +535,8 @@ public class DataAccessApplicationBusinessValidationManager extends AbstractSche
   }
 
   public void section5Validation(RoutingContext context){
-    JsonObject requestApplicationId = new JsonObject().put("_id", context.pathParam("application_id"));
-    String section2 = "section2";
+    JsonObject requestApplicationId = new JsonObject().put("_id", context.pathParam(APPLICATION_ID));
+    String section2 = SECTION_2;
 
     // Search in the database based on the provided application ID
     mongoClient.findOne(DATA_ACCESS_APPLICATION_COLLECTION, requestApplicationId, null,

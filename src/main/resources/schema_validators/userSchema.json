@@ -51,8 +51,6 @@
         "legalPersonOrganisationName": { "type": "string" },
         "legalPersonBusinessID": { "type": "string" },
         "legalPersonOperatorID": { "type": "string" },
-        "legalPersonJobTitle": { "type": "string" },
-        "legalPersonAffiliation": { "type": "string" },
         "legalPersonAddress": { "type": "string" },
         "legalPersonZipCode": { "type": "string" },
         "legalPersonCity": { "type": "string" },

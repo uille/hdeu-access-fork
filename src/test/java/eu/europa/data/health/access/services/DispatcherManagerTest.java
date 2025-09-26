@@ -18,30 +18,27 @@ package eu.europa.data.health.access.services;
 import static eu.europa.data.health.access.Constants.DISPATCHER_COLLECTION;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.isNull;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyInt;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
+import eu.europa.data.health.access.auth_client.AuthClient;
 import eu.europa.data.health.access.handlers.DBHandler;
+import eu.europa.data.health.access.hub_translation_client.HubTranslationClient;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
-import io.vertx.ext.mongo.MongoClientUpdateResult;
 import io.vertx.ext.web.RoutingContext;
+import java.time.Duration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -50,8 +47,6 @@ import org.mockito.MockitoAnnotations;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.shaded.org.awaitility.Awaitility;
 
-import java.time.Duration;
-
 class DispatcherManagerTest {
 
   @Mock
@@ -59,9 +54,23 @@ class DispatcherManagerTest {
   @Mock
   DBHandler dbHandler;
   @Mock
+  BasketManager basketManager;
+  @Mock
+  HubStoreClient hubStoreClient;
+  @Mock
+  HubTranslationClient hubTranslationClient;
+  @Mock
+  HubSearchClient hubSearchClient;
+  @Mock
+  Vertx vertx;
+  @Mock
+  AuditLogManager auditLogManager;
+  @Mock
   RoutingContext routingContext;
   @Mock
   private HttpServerResponse response;
+  @Mock
+  private AuthClient authClient;
   @Mock
   private HttpServerRequest request;
 
@@ -72,7 +81,9 @@ class DispatcherManagerTest {
   @BeforeEach
   void setup() {
     MockitoAnnotations.openMocks(this);
-    dispatcherManager = new DispatcherManager(mongoClient, dbHandler);
+    dispatcherManager = new DispatcherManager(dbHandler, mongoClient,
+      basketManager, hubStoreClient, vertx,
+      auditLogManager, hubTranslationClient, hubSearchClient, authClient);
     // Mock other behaviors
     lenient().when(routingContext.request()).thenReturn(request);
     lenient().when(routingContext.response()).thenReturn(response);
@@ -123,6 +134,132 @@ class DispatcherManagerTest {
     dispatcherManager.updateDatasetStatusFromDispatcher(routingContext);
   }
 
+    @Test
+    void testUpdateDatasetStatusFromDispatcher_applicationNotFound() {
+        JsonObject payload = new JsonObject()
+                .put("catalogId", "CAT123")
+                .put("applicationType", "collectionName");
+
+        JsonObject contextBody = new JsonObject()
+                .put("objectId", "app1")
+                .put("payload", payload);
+
+        when(routingContext.body()).thenReturn(mock(io.vertx.ext.web.RequestBody.class));
+        when(routingContext.body().asJsonObject()).thenReturn(contextBody);
+
+        when(mongoClient.findOne(anyString(), any(), any(), any()))
+                .thenAnswer(invocation -> {
+                    Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+                    handler.handle(Future.succeededFuture(null));
+                    return null;
+                });
+
+        dispatcherManager.updateDatasetStatusFromDispatcher(routingContext);
+
+        // Assert no application found is returned
+        verify(response).setStatusCode(HttpResponseStatus.NOT_FOUND.code());
+    }
+
+    @Test
+    void testUpdateDatasetStatusFromDispatcher_noDatasets() {
+        JsonObject payload = new JsonObject()
+                .put("catalogId", "CAT123")
+                .put("applicationType", "collectionName");
+
+        JsonObject contextBody = new JsonObject()
+                .put("objectId", "app1")
+                .put("payload", payload);
+
+        JsonObject application = new JsonObject()
+                .put("status", new JsonObject()
+                        .put("status", "SUBMITTED"))
+                .put("datasets", new JsonArray());
+
+        when(routingContext.body()).thenReturn(mock(io.vertx.ext.web.RequestBody.class));
+        when(routingContext.body().asJsonObject()).thenReturn(contextBody);
+
+        when(mongoClient.findOne(anyString(), any(), any(), any()))
+                .thenAnswer(invocation -> {
+                    Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+                    handler.handle(Future.succeededFuture(application));
+                    return null;
+                });
+
+        dispatcherManager.updateDatasetStatusFromDispatcher(routingContext);
+
+        // Assert no datasets in the application is returned
+        verify(response).setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
+    }
+
+    @Test
+    void testUpdateDatasetStatusFromDispatcher_statusNotSubmitted() {
+        JsonObject payload = new JsonObject()
+                .put("catalogId", "CAT123")
+                .put("applicationType", "collectionName");
+
+        JsonObject contextBody = new JsonObject()
+                .put("objectId", "app1")
+                .put("payload", payload);
+
+        JsonObject application = new JsonObject()
+                .put("status", new JsonObject()
+                        .put("status", "APPROVED"));
+
+        when(routingContext.body()).thenReturn(mock(io.vertx.ext.web.RequestBody.class));
+        when(routingContext.body().asJsonObject()).thenReturn(contextBody);
+
+        when(mongoClient.findOne(anyString(), any(), any(), any()))
+                .thenAnswer(invocation -> {
+                    Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+                    handler.handle(Future.succeededFuture(application));
+                    return null;
+                });
+
+        dispatcherManager.updateDatasetStatusFromDispatcher(routingContext);
+
+        // Assert application not submitted is returned
+        verify(response).setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
+    }
+
+    @Test
+    void testUpdateDatasetStatusFromDispatcher_noStatusUpdatePerformed() {
+        JsonObject payload = new JsonObject()
+                .put("catalogId", "CAT123")
+                .put("applicationType", "collectionName")
+                .put("decisions", new JsonArray().add(new JsonObject()
+                        .put("publisher", "Pub1")
+                        .put("decision", "PENDING")));
+
+        JsonObject contextBody = new JsonObject()
+                .put("objectId", "app1")
+                .put("payload", payload);
+
+        JsonObject dataset = new JsonObject()
+                .put("catalog_id", "CAT123")
+                .put("dispatcher_response_status", "domibus_national_received")
+                .put("publisher", new JsonObject().put("name", "Pub1"));
+
+        JsonObject application = new JsonObject()
+                .put("status", new JsonObject()
+                        .put("status", "SUBMITTED"))
+                .put("datasets", new JsonArray().add(dataset));
+
+        when(routingContext.body()).thenReturn(mock(io.vertx.ext.web.RequestBody.class));
+        when(routingContext.body().asJsonObject()).thenReturn(contextBody);
+
+        when(mongoClient.findOne(anyString(), any(), any(), any()))
+                .thenAnswer(invocation -> {
+                    Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+                    handler.handle(Future.succeededFuture(application));
+                    return null;
+                });
+
+        dispatcherManager.updateDatasetStatusFromDispatcher(routingContext);
+
+        // Assert no status update performed is returned
+        verify(response).setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
+    }
+
   @Test
   void testUpdateApplicationStatusFromDispatcher_success() {
     JsonArray requestBody = new JsonArray()
@@ -134,15 +271,6 @@ class DispatcherManagerTest {
 
     when(routingContext.body()).thenReturn(mock(io.vertx.ext.web.RequestBody.class));
     when(routingContext.body().asJsonArray()).thenReturn(requestBody);
-
-    when(mongoClient.updateCollection(any(), any(), (JsonObject) any(), any()))
-      .thenAnswer(invocation -> {
-        Handler<AsyncResult<MongoClientUpdateResult>> handler = invocation.getArgument(3);
-        MongoClientUpdateResult updateResult = mock(MongoClientUpdateResult.class);
-        when(updateResult.getDocMatched()).thenReturn(1L);
-        handler.handle(Future.succeededFuture(updateResult));
-        return null;
-      });
 
     JsonObject dispatcherResponse = new JsonObject()
       .put("catalogIds", new JsonArray().add("CAT123"))
@@ -161,9 +289,11 @@ class DispatcherManagerTest {
       .put("application", new JsonObject().put("_id", "app1"))
       .put("configuration", dispatcherConfig);
 
-    when(mongoClient.findOne(eq(DISPATCHER_COLLECTION), any(), any(), any()))
+    when(
+      mongoClient.findOneAndUpdateWithOptions(eq(DISPATCHER_COLLECTION), any(), any(), any(), any(),
+        any()))
       .thenAnswer(invocation -> {
-        Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+        Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(5);
         handler.handle(Future.succeededFuture(mongoApp));
         return null;
       });
@@ -256,11 +386,11 @@ class DispatcherManagerTest {
       .put("application", new JsonObject().put("_id", "app1"))
       .put("configuration", dispatcherConfig);
 
-    when(mongoClient.updateCollection(any(), any(), (JsonObject) any(), any()))
+    when(
+      mongoClient.findOneAndUpdateWithOptions(eq(DISPATCHER_COLLECTION), any(), any(), any(), any(),
+        any()))
       .thenAnswer(invocation -> {
-        Handler<AsyncResult<MongoClientUpdateResult>> handler = invocation.getArgument(3);
-        MongoClientUpdateResult updateResult = mock(MongoClientUpdateResult.class);
-        when(updateResult.getDocMatched()).thenReturn(1L);
+        Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(5);
         handler.handle(Future.failedFuture("failed"));
         return null;
       });

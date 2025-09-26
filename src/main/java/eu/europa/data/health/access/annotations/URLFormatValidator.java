@@ -28,10 +28,6 @@ public class URLFormatValidator implements ConstraintValidator<URLFormat, String
     }
 
     // Check if format is correct
-    if (!Pattern.compile("^(https?|ftp):\\/\\/[^\\s/$.?#].[^\\s]*$").matcher(value).matches()) {
-      return false;
-    }
-
-    return true;
+    return Pattern.compile("^(https?|ftp):\\/\\/[^\\s/$.?#].[^\\s]*$").matcher(value).matches();
   }
 }

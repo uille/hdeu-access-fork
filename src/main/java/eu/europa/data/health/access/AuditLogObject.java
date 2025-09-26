@@ -19,15 +19,18 @@ public enum AuditLogObject {
   DATASET_RECORD("Dataset Record"),
   DATA_ACCESS_APPLICATION("Data Access Application"),
   DATA_REQUEST_APPLICATION("Data Request Application"),
-  USER_ACCOUNT("User Account");
+  USER_ACCOUNT("User Account"),
+  CATALOGUE("Catalogue Management"),
+  USER_ROLE_MANAGEMENT("User Role Management");
 
-  private final String auditLogObject;
+  private final String object;
 
-  AuditLogObject(final String auditLogObject) {
-    this.auditLogObject = auditLogObject;
+  AuditLogObject(final String object) {
+    this.object = object;
   }
 
-  public String getString() {
-    return auditLogObject;
+  @Override
+  public String toString() {
+    return object;
   }
 }
