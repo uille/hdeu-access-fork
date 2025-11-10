@@ -14,12 +14,12 @@
 # governing permissions and limitations under the Licence.
 #
 
-FROM maven:3.8-openjdk-17-slim AS build
+FROM maven:3.9.9-eclipse-temurin-17 AS build
 COPY ./ /usr/src/app
 WORKDIR /usr/src/app
 RUN mvn clean package -Dmaven.test.skip=true
 
-FROM openjdk:17-jdk
+FROM eclipse-temurin:17-jdk
 
 ENV VERTICLE_FILE hdeu-access.jar
 # Set the location of the verticles
