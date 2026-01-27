@@ -173,7 +173,7 @@ public class CountriesManager {
       context.response().putHeader("content-type", "application/json");
       context.response().setStatusCode(200).end(sortedCountries.encode());
     } catch (IOException e) {
-      log.info("RDF file not found.", e);
+      log.error("RDF file not found.", e);
       context.response().setStatusCode(404).end("RDF file not found.");
     }
 
@@ -339,7 +339,7 @@ public class CountriesManager {
       Query queryEEA = QueryFactory.create(sparqlQuery);
       return getCountry(queryEEA, model, countryCode);
     } catch (Exception e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
       return null;
     }
   }
@@ -357,7 +357,7 @@ public class CountriesManager {
         }
       }
     } catch (Exception e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
     }
     return null;
   }
@@ -387,7 +387,7 @@ public class CountriesManager {
         countriesList.add(countryJson);
       }
     } catch (Exception e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
     }
   }
 

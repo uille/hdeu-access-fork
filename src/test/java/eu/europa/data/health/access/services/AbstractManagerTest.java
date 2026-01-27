@@ -45,6 +45,11 @@ import io.vertx.ext.web.FileUpload;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
+import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -52,10 +57,6 @@ import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.testcontainers.containers.MongoDBContainer;
-
-import java.lang.reflect.Field;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 
 @ExtendWith(VertxExtension.class)
 class AbstractManagerTest {
@@ -355,7 +356,7 @@ class AbstractManagerTest {
 
         RoutingContext routingContext = RoutingContextMocker.mockRoutingContext(new JsonObject());
 
-        abstractManager.getAuditLogs(routingContext, 1, 10, "timestamp", "desc", queryOptions);
+        abstractManager.getAuditLogs(routingContext, "APPLICATION_AUDIT_LOG", 1, 10, "timestamp", "desc", queryOptions);
 
         vertx.setTimer(500, updateContextTimerId -> {
           verify(routingContext.response()).setStatusCode(200);
@@ -437,6 +438,243 @@ class AbstractManagerTest {
     verify(response).end(contains("Failed to upload file"));
   }
 
+  @Test
+  void testFindByIdWithoutSecurity(Vertx vertx, VertxTestContext testContext) {
+    JsonObject testDoc = new JsonObject()
+      .put("key", "securityTestKey")
+      .put("value", "securityTestValue")
+      .put("additionalInformation", "sensitive data")
+      .put("userId", USER_ID);
+
+    dbHandler.create(ABSTRACT_MANAGER_COLLECTION, testDoc).onSuccess(docId -> {
+
+      RoutingContext findContext = RoutingContextMocker.mockRoutingContext(new JsonObject());
+      when(findContext.pathParam("id")).thenReturn(docId);
+
+      abstractManager.findByIdWithoutSecurity(findContext, ABSTRACT_MANAGER_COLLECTION);
+
+      vertx.setTimer(500, timerId -> {
+        assertEquals(HttpResponseStatus.OK.code(), findContext.response().getStatusCode());
+        String responseBody = findContext.response().getStatusMessage();
+
+        assertTrue(responseBody.contains("securityTestKey"), "Response should contain the key");
+        assertTrue(responseBody.contains("securityTestValue"), "Response should contain the value");
+        assertTrue(!responseBody.contains("sensitive data"), "Response should not contain additionalInformation");
+
+        testContext.completeNow();
+      });
+    }).onFailure(testContext::failNow);
+  }
+
+  @Test
+  void testGetApplications(Vertx vertx, VertxTestContext testContext) {
+    DBHandler mockDbHandler = mock(DBHandler.class);
+
+    AbstractManager testManager = new AbstractManager(mockDbHandler) {};
+
+    List<JsonObject> mockResults = new ArrayList<>();
+    mockResults.add(new JsonObject().put("id", "app1").put("name", "Application 1"));
+    mockResults.add(new JsonObject().put("id", "app2").put("name", "Application 2"));
+
+    JsonObject queryOptions = new JsonObject().put("status", "ACTIVE");
+    when(mockDbHandler.findApplications(
+      ("applications"),
+      (1),
+      (10),
+      ("name"),
+      ("asc"),
+      (queryOptions)
+    )).thenReturn(Future.succeededFuture(mockResults));
+
+    when(mockDbHandler.countAll(eq("applications"), any()))
+      .thenReturn(Future.succeededFuture(2));
+
+    RoutingContext context = RoutingContextMocker.mockRoutingContext(new JsonObject());
+
+    testManager.getApplications(context, "applications", 1, 10, "name", "asc", queryOptions);
+
+    vertx.setTimer(500, timerId -> {
+      verify(context.response()).setStatusCode(HttpResponseStatus.OK.code());
+      verify(context.response()).end(anyString());
+      testContext.completeNow();
+    });
+  }
+
+  @Test
+  void testGetDatasets(Vertx vertx, VertxTestContext testContext) {
+    DBHandler mockDbHandler = mock(DBHandler.class);
+
+    AbstractManager testManager = new AbstractManager(mockDbHandler) {};
+
+    List<JsonObject> mockResults = new ArrayList<>();
+    mockResults.add(new JsonObject().put("id", "ds1").put("name", "Dataset 1"));
+    mockResults.add(new JsonObject().put("id", "ds2").put("name", "Dataset 2"));
+
+    JsonObject queryOptions = new JsonObject().put("applicationId", "app123");
+    when(mockDbHandler.findDatasetsPerApplication(
+      ("datasets"),
+      (1),
+      (10),
+      ("name"),
+      ("asc"),
+      (queryOptions)
+    )).thenReturn(Future.succeededFuture(mockResults));
+
+    when(mockDbHandler.countDatasetsPerApplication(eq("datasets"), any()))
+      .thenReturn(Future.succeededFuture(2));
+
+    RoutingContext context = RoutingContextMocker.mockRoutingContext(new JsonObject());
+
+    testManager.getDatasets(context, "datasets", 1, 10, "name", "asc", queryOptions);
+
+    vertx.setTimer(500, timerId -> {
+      verify(context.response()).setStatusCode(HttpResponseStatus.OK.code());
+      verify(context.response()).end(anyString());
+      testContext.completeNow();
+    });
+  }
+
+  @Test
+  void testGetDecisionIssuedDatasets(Vertx vertx, VertxTestContext testContext) {
+    DBHandler mockDbHandler = mock(DBHandler.class);
+
+    AbstractManager testManager = new AbstractManager(mockDbHandler) {};
+
+    List<JsonObject> mockResults = new ArrayList<>();
+    mockResults.add(new JsonObject().put("id", "ds1").put("name", "Dataset 1").put("decision", "APPROVED"));
+    mockResults.add(new JsonObject().put("id", "ds2").put("name", "Dataset 2").put("decision", "APPROVED"));
+
+    JsonObject queryOptions = new JsonObject().put("applicationId", "app123");
+    when(mockDbHandler.findDecisionIssuedDatasetsPerApplication(
+      ("datasets"),
+      (1),
+      (10),
+      ("name"),
+      ("asc"),
+      (queryOptions),
+      (true)
+    )).thenReturn(Future.succeededFuture(mockResults));
+
+    when(mockDbHandler.countDecisionIssuedDatasetsPerApplication(eq("datasets"), any(), eq(true)))
+      .thenReturn(Future.succeededFuture(2));
+
+    RoutingContext context = RoutingContextMocker.mockRoutingContext(new JsonObject());
+
+    testManager.getDecisionIssuedDatasets(context, "datasets", 1, 10, "name", "asc", queryOptions, true);
+
+    vertx.setTimer(500, timerId -> {
+      verify(context.response()).setStatusCode(HttpResponseStatus.OK.code());
+      verify(context.response()).end(anyString());
+      testContext.completeNow();
+    });
+  }
+
+  @Test
+  void testGetDataPermitGrantedDatasets(Vertx vertx, VertxTestContext testContext) {
+    DBHandler mockDbHandler = mock(DBHandler.class);
+
+    AbstractManager testManager = new AbstractManager(mockDbHandler) {};
+
+    List<JsonObject> mockResults = new ArrayList<>();
+    mockResults.add(new JsonObject().put("id", "ds1").put("name", "Dataset 1").put("permitGranted", true));
+    mockResults.add(new JsonObject().put("id", "ds2").put("name", "Dataset 2").put("permitGranted", true));
+
+    JsonObject queryOptions = new JsonObject().put("applicationId", "app123");
+    when(mockDbHandler.findDataPermitGrantedDatasetsPerApplication(
+      ("datasets"),
+      (1),
+      (10),
+      ("name"),
+      ("asc"),
+      (queryOptions)
+    )).thenReturn(Future.succeededFuture(mockResults));
+
+    when(mockDbHandler.countDatasetsPerDataPermitGrantedDatasetApplication(eq("datasets"), any()))
+      .thenReturn(Future.succeededFuture(2));
+
+    RoutingContext context = RoutingContextMocker.mockRoutingContext(new JsonObject());
+
+    testManager.getDataPermitGrantedDatasets(context, "datasets", 1, 10, "name", "asc", queryOptions);
+
+    vertx.setTimer(500, timerId -> {
+      verify(context.response()).setStatusCode(HttpResponseStatus.OK.code());
+      verify(context.response()).end(anyString());
+      testContext.completeNow();
+    });
+  }
+
+  @Test
+  void testGetAllRecordsByAdmin(Vertx vertx, VertxTestContext testContext) {
+    DBHandler mockDbHandler = mock(DBHandler.class);
+
+    AbstractManager testManager = new AbstractManager(mockDbHandler) {};
+
+    List<JsonObject> mockResults = new ArrayList<>();
+    mockResults.add(new JsonObject().put("id", "rec1").put("name", "Record 1"));
+    mockResults.add(new JsonObject().put("id", "rec2").put("name", "Record 2"));
+
+    when(mockDbHandler.findAll(
+      ("records"),
+      (1),
+      (10),
+      ("name"),
+      ("asc"),
+      ("ACTIVE")
+    )).thenReturn(Future.succeededFuture(mockResults));
+
+    when(mockDbHandler.countAllDocuments(eq("records"), any()))
+      .thenReturn(Future.succeededFuture(2));
+
+    RoutingContext context = RoutingContextMocker.mockRoutingContext(new JsonObject());
+    testManager.getAllRecordsByAdmin(context, "records", 1, 10, "name", "asc", "ACTIVE");
+
+    vertx.setTimer(500, timerId -> {
+      verify(context.response()).setStatusCode(HttpResponseStatus.OK.code());
+      verify(context.response()).end(anyString());
+      testContext.completeNow();
+    });
+  }
+
+  @Test
+  void testHandleDocUpload() {
+    Vertx vertxMock = mock(Vertx.class);
+    RoutingContext routingContext = RoutingContextMocker.mockRoutingContext(new JsonObject());
+    HubStoreClient hubStoreClient = mock(HubStoreClient.class);
+    HttpServerResponse response = mock(HttpServerResponse.class);
+    HttpServerRequest request = mock(HttpServerRequest.class);
+    FileUpload fileUpload = mock(FileUpload.class);
+    FileSystem fileSystem = mock(FileSystem.class);
+
+    String contentType = "application/pdf";
+    String parentName = "document";
+    String parentId = "doc123";
+    String fileName = "test.pdf";
+    String fileContent = "PDF content";
+    Buffer fileBuffer = Buffer.buffer(fileContent);
+
+    when(routingContext.request()).thenReturn(request);
+    when(routingContext.fileUploads()).thenReturn(Collections.singletonList(fileUpload));
+    when(fileUpload.uploadedFileName()).thenReturn(fileName);
+    when(fileUpload.fileName()).thenReturn(fileName);
+    when(request.getHeader("Content-Type")).thenReturn(contentType);
+
+    when(vertxMock.fileSystem()).thenReturn(fileSystem);
+    when(fileSystem.readFile(fileName)).thenReturn(Future.succeededFuture(fileBuffer));
+    Mockito.when(response.putHeader(Mockito.anyString(), Mockito.anyString())).thenReturn(response);
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+
+    JsonObject mockResponse = new JsonObject().put("status", "ok").put("fileName", fileName);
+    when(hubStoreClient.uploadFile(any(), any(), any(), any(), any())).thenReturn(Future.succeededFuture(mockResponse));
+
+    Future<JsonObject> result = abstractManager.handleDocUpload(routingContext, parentName, parentId, hubStoreClient, vertxMock);
+
+    verify(response).putHeader("Content-Type", "application/json");
+    verify(response).setStatusCode(201);
+    verify(response).end(mockResponse.encode());
+    assertTrue(result.succeeded());
+    assertEquals(mockResponse, result.result());
+  }
 
   @Test
   void testDeleteAllEntities_shouldReturn404OnNotFoundMessage()

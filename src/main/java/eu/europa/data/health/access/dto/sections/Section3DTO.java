@@ -218,8 +218,10 @@ public class Section3DTO extends SectionDTO {
   @CheckEnumValue(fieldName = "legalOrNaturalPerson", sectionNumber = "section3")
   SelectObjectDTO legalOrNaturalPerson;
   @Size(max = 500)
+  @TranslatableField
   String legalPersonName;
   @Size(max = 2000)
+  @TranslatableField
   String legalPersonAddress;
   @Size(max = 50)
   String legalPersonZipCode;
@@ -229,6 +231,7 @@ public class Section3DTO extends SectionDTO {
   @Valid
   SelectObjectDTO legalPersonCountry;
   @Size(max = 500)
+  @TranslatableField
   String contactPersonName;
   @EmailFormat
   @Size(max = 500)
@@ -236,15 +239,19 @@ public class Section3DTO extends SectionDTO {
   @Valid
   PhoneNumberDTO contactPersonPhone;
   @Size(max = 250)
+  @TranslatableField
   String contactPersonOrganisationName;
   @Size(max = 250)
+  @TranslatableField
   String contactPersonBusinessID;
   @Size(max = 500)
   @TranslatableField
   String contactPersonRelationship;
   @Size(max = 500)
+  @TranslatableField
   String naturalPersonName;
   @Size(max = 2000)
+  @TranslatableField
   String naturalPersonAddress;
   @Size(max = 50)
   String naturalPersonZipCode;
@@ -254,8 +261,10 @@ public class Section3DTO extends SectionDTO {
   @Valid
   SelectObjectDTO naturalPersonCountry;
   @Size(max = 500)
+  @TranslatableField
   String naturalPersonJobTitle;
   @Size(max = 500)
+  @TranslatableField
   String naturalPersonAffiliation;
   @EmailFormat
   @Size(max = 500)

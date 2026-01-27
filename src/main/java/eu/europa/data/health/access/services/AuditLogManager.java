@@ -276,8 +276,8 @@ public class AuditLogManager extends AbstractManager {
     Integer finalPageLimit = pageLimit;
 
     getQueryOptions(context).onSuccess(queryOptions -> {
-      log.info("{}Retrieved query options ", auditLogManagerClassName);
-      super.getAuditLogs(context, finalPage, finalPageLimit,
+      log.debug("{}Retrieved query options ", auditLogManagerClassName);
+      super.getAuditLogs(context, AUDIT_LOG_COLLECTION, finalPage, finalPageLimit,
         StringUtils.isNotEmpty(sortByString) ? sortByString : null,
         StringUtils.isNotEmpty(sortOrderString) ? sortOrderString : null, queryOptions);
     }).onFailure(err -> {

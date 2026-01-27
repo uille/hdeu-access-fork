@@ -30,7 +30,7 @@ Install the following software
 
 ***
 
-Clone the directory and enter it
+Clone the directory and enter it.
 
 ```bash
    $ git clone "repository/path/hdeu-access.git"

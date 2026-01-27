@@ -634,7 +634,7 @@ class HubRepoClientTest {
       mapperMock.when(() -> CatalogueMapper.mapGeographicalCoverageList(any(), any()))
         .thenReturn(expectedMapped);
 
-      Future<JsonObject> resultFuture = hubRepoClient.getAllGeographicalCoverage(context);
+      Future<JsonObject> resultFuture = hubRepoClient.getAllGeographicalCoverage();
 
       resultFuture.onComplete(ar -> {
         assertTrue(ar.succeeded());
@@ -657,7 +657,7 @@ class HubRepoClientTest {
       return null;
     }).when(httpRequest).sendBuffer(eq(null), any());
 
-    Future<JsonObject> resultFuture = hubRepoClient.getAllGeographicalCoverage(context);
+    Future<JsonObject> resultFuture = hubRepoClient.getAllGeographicalCoverage();
 
     resultFuture.onComplete(ar -> {
       assertTrue(ar.failed());

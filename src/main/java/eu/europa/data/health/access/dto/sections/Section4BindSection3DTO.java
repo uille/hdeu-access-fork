@@ -17,6 +17,7 @@ package eu.europa.data.health.access.dto.sections;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import eu.europa.data.health.access.annotations.AlphanumericFormat;
+import eu.europa.data.health.access.annotations.TranslatableField;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -28,18 +29,23 @@ import lombok.NoArgsConstructor;
 public class Section4BindSection3DTO {
   @NotBlank
   @Size(max=250)
+  @TranslatableField
   String operatorIdentifier;
   @NotBlank
   @Size(max=250)
+  @TranslatableField
   String nameOfTheOrganisation;
   @NotBlank
   @Size(max=250)
+  @TranslatableField
   String businessIdentifierOrganization;
   @NotBlank
   @AlphanumericFormat
   @Size(max=500)
+  @TranslatableField
   String vatNumber;
   @Size(max=250)
+  @TranslatableField
   String peppolCode;
 
 }

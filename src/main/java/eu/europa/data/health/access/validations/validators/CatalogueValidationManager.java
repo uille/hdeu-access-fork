@@ -15,8 +15,16 @@
  */
 package eu.europa.data.health.access.validations.validators;
 
-import static eu.europa.data.health.access.Constants.*;
+import static eu.europa.data.health.access.Constants.CATALOGUE_ID;
+import static eu.europa.data.health.access.Constants.COUNTRIES_EU_EEA;
+import static eu.europa.data.health.access.Constants.DOMIBUS_ID;
+import static eu.europa.data.health.access.Constants.ERRORS;
 import static eu.europa.data.health.access.Constants.FILE_UPLOAD_CATALOGUE_VALID_TYPES;
+import static eu.europa.data.health.access.Constants.GEOGRAPHICAL_COVERAGE;
+import static eu.europa.data.health.access.Constants.MESSAGE;
+import static eu.europa.data.health.access.Constants.RDF_TEMPLATE;
+import static eu.europa.data.health.access.Constants.RESULT_MESSAGE;
+import static eu.europa.data.health.access.Constants.THE_PARSING_OF_JSON_FAILED_WITH_ERROR;
 import static eu.europa.data.health.access.SchemaFiles.COUNTRIES_RDF;
 import static eu.europa.data.health.access.validations.validators.DataAccessApplicationValidationManager.buildCustomValidationErrors;
 
@@ -44,13 +52,14 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.rdf.model.Model;
@@ -340,7 +349,7 @@ public class CatalogueValidationManager extends AbstractSchemaValidator {
 
     dispatcherClient.getCatalogMappingByCatalogId(catalogId).onComplete(actionRes -> {
       if (actionRes.succeeded()) {
-        log.info("Successfully retrieved catalog mapping");
+        log.debug("Successfully retrieved catalog mapping");
         context.put("catalogMappingMongoId", actionRes.result().getString("_id"));
         promise.complete(actionRes.result());
       } else {
@@ -357,7 +366,7 @@ public class CatalogueValidationManager extends AbstractSchemaValidator {
 
     hubRepoClient.getDatasetsByCatalogId(catalogId).onComplete(actionRes -> {
       if (actionRes.succeeded()) {
-        log.info("Successfully retrieved catalog mapping");
+        log.debug("Successfully retrieved catalog mapping");
         promise.complete(actionRes.result());
       } else {
         log.error("Could not retrieve catalog mapping");
@@ -423,7 +432,7 @@ public class CatalogueValidationManager extends AbstractSchemaValidator {
       String spatialLine = matcher.group();
 
       // Check if the geographical coverage exists already in the system.
-      hubRepoClient.getAllGeographicalCoverage(context).onComplete(response -> {
+      hubRepoClient.getAllGeographicalCoverage().onComplete(response -> {
         if (response.result() != null) {
           JsonArray selectedObjectList = response.result().getJsonArray("geographicalCoverageList");
           for (Object selectedObjectObj : selectedObjectList) {

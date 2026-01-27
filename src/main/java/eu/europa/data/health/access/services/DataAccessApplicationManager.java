@@ -16,6 +16,8 @@
 package eu.europa.data.health.access.services;
 
 
+import static eu.europa.data.health.access.ApplicationStatus.DRAFT;
+import static eu.europa.data.health.access.ApplicationStatus.ON_GOING;
 import static eu.europa.data.health.access.Constants.APPLICATION_ID;
 import static eu.europa.data.health.access.Constants.APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR;
 import static eu.europa.data.health.access.Constants.COMPLY_WITH_DATA_MINIMISATION_PRINCIPLE;
@@ -28,6 +30,7 @@ import static eu.europa.data.health.access.Constants.DATA_EXTRACTION_FREQUENCY_R
 import static eu.europa.data.health.access.Constants.DATA_NEEDS_TO_BE_EXTRACTED_EVERY;
 import static eu.europa.data.health.access.Constants.DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES;
 import static eu.europa.data.health.access.Constants.DATE_CREATED;
+import static eu.europa.data.health.access.Constants.DATE_MODIFIED;
 import static eu.europa.data.health.access.Constants.EXTRACTION_CRITERIA_FOR_CONTROLS;
 import static eu.europa.data.health.access.Constants.FORM;
 import static eu.europa.data.health.access.Constants.FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA;
@@ -46,10 +49,16 @@ import static eu.europa.data.health.access.Constants.LEGAL_BASIS_FOR_TRANSFERRIN
 import static eu.europa.data.health.access.Constants.LEGAL_OR_NATURAL_PERSON;
 import static eu.europa.data.health.access.Constants.MORE_INFO_ON_EXTRACTION_PERIODS;
 import static eu.europa.data.health.access.Constants.NEED_FOR_DATA_EXTRACTION_EVERY;
+import static eu.europa.data.health.access.Constants.OPTIONS;
 import static eu.europa.data.health.access.Constants.ORDER_OF_CONTROLS_DATA_EXTRACTION;
 import static eu.europa.data.health.access.Constants.OTHER_PERMIT_APPLICATIONS;
+import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_DATE_2;
+import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_NUMBER_2;
+import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM_2;
+import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_2;
 import static eu.europa.data.health.access.Constants.PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS;
 import static eu.europa.data.health.access.Constants.PURPOSE_FOR_WHICH_DATA_WILL_BE_USED;
+import static eu.europa.data.health.access.Constants.REGEX;
 import static eu.europa.data.health.access.Constants.RELATIONSHIP_TO_STUDY_COHORT;
 import static eu.europa.data.health.access.Constants.SECTION;
 import static eu.europa.data.health.access.Constants.SECTION_10;
@@ -61,6 +70,7 @@ import static eu.europa.data.health.access.Constants.SECTION_6;
 import static eu.europa.data.health.access.Constants.SECTION_7;
 import static eu.europa.data.health.access.Constants.SECTION_8;
 import static eu.europa.data.health.access.Constants.SECTION_NUMBER;
+import static eu.europa.data.health.access.Constants.SENDING;
 import static eu.europa.data.health.access.Constants.SPECIFY_OTHER;
 import static eu.europa.data.health.access.Constants.SPECIFY_OTHER_RELATIVES;
 import static eu.europa.data.health.access.Constants.STATUS;
@@ -92,6 +102,7 @@ import eu.europa.data.health.access.AuditLogAction;
 import eu.europa.data.health.access.AuditLogActionDescription;
 import eu.europa.data.health.access.AuditLogObject;
 import eu.europa.data.health.access.Context;
+import eu.europa.data.health.access.OperationStatus;
 import eu.europa.data.health.access.Sections;
 import eu.europa.data.health.access.TranslationStatus;
 import eu.europa.data.health.access.auth_client.AuthClient;
@@ -103,8 +114,8 @@ import eu.europa.data.health.access.utils.ApplicationFormUtils;
 import eu.europa.data.health.access.validations.business_validators.DataAccessApplicationBusinessValidationManager;
 import eu.europa.data.health.access.validations.validators.DataAccessApplicationValidationManager;
 import io.netty.handler.codec.http.HttpResponseStatus;
-import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -115,17 +126,17 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -141,25 +152,24 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
   private final AuditLogManager auditLogManager;
 
-  private final boolean translate;
-
   private final Logger log = LoggerFactory.getLogger(getClass());
+
+  private final String dataAccessManagerClassName = this.getClass().getSimpleName() + " - ";
 
   /**
    * Data access application constructor
    */
   public DataAccessApplicationManager(DBHandler dbHandler, MongoClient mongoClient,
-                                      BasketManager basketManager, HubStoreClient hubStoreClient, Vertx vertx,
-                                      DataAccessApplicationValidationManager dataAccessApplicationValidationManager,
-                                      DataAccessApplicationBusinessValidationManager dataAccessApplicationBusinessValidationManager,
+    BasketManager basketManager, HubStoreClient hubStoreClient, Vertx vertx,
+    DataAccessApplicationValidationManager dataAccessApplicationValidationManager,
+    DataAccessApplicationBusinessValidationManager dataAccessApplicationBusinessValidationManager,
                                       AuditLogManager auditLogManager, HubTranslationClient hubTranslationClient, HubSearchClient hubSearchClient,
-                                      boolean translate, AuthClient authClient) {
+                                      AuthClient authClient) {
     super(dbHandler, basketManager, mongoClient, vertx, hubStoreClient, auditLogManager, hubTranslationClient, hubSearchClient, authClient);
     this.mongoClient = mongoClient;
     this.dataAccessApplicationValidationManager = dataAccessApplicationValidationManager;
     this.dataAccessApplicationBusinessValidationManager = dataAccessApplicationBusinessValidationManager;
     this.auditLogManager = auditLogManager;
-    this.translate = translate;
   }
 
   /**
@@ -167,6 +177,13 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
    */
   public void getApplicationById(RoutingContext context) {
     super.findById(context, DATA_ACCESS_APPLICATION_COLLECTION);
+  }
+
+  /**
+   * Get a Document by field ID for the Data Access Application collection.
+   */
+  public void getEveryDataAccessApplicationById(RoutingContext context) {
+    super.findByIdWithoutSecurity(context, DATA_ACCESS_APPLICATION_COLLECTION);
   }
 
   /**
@@ -186,15 +203,222 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     String limitString = context.request().getParam("limit");
     String sortByString = context.request().getParam("sortBy");
     String sortOrderString = context.request().getParam("sortOrder");
-    String status = context.request().getParam(STATUS);
     if (StringUtils.isNotEmpty(pageString) && StringUtils.isNotEmpty(limitString)) {
       pageSize = Integer.parseInt(pageString);
       pageLimit = Integer.parseInt(limitString);
     }
 
-    super.getEntity(context, DATA_ACCESS_APPLICATION_COLLECTION, pageSize, pageLimit,
+    Integer finalPage = pageSize;
+    Integer finalPageLimit = pageLimit;
+
+    getQueryOptionsApplication(context).onSuccess(queryOptions -> {
+      log.debug("{}Retrieved query options ", dataAccessManagerClassName);
+      super.getApplications(context, DATA_ACCESS_APPLICATION_COLLECTION, finalPage, finalPageLimit,
+        StringUtils.isNotEmpty(sortByString) ? sortByString : DATE_CREATED,
+        StringUtils.isNotEmpty(sortOrderString) ? sortOrderString : "desc", queryOptions);
+    }).onFailure(err -> {
+      log.error("{}Error building query options, will proceed without them",
+        dataAccessManagerClassName);
+      setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+        "Could not construct query options");
+    });
+  }
+
+  /**
+   * Get all Ongoing Data Access Application collection.
+   */
+  public void getAllOnGoingDataAccessApplications(@NotNull RoutingContext context) {
+    Integer pageSize = null;
+    Integer pageLimit = null;
+    String pageString = context.request().getParam("page");
+    String limitString = context.request().getParam("limit");
+    String sortByString = context.request().getParam("sortBy");
+    String sortOrderString = context.request().getParam("sortOrder");
+
+    if (StringUtils.isNotEmpty(pageString) && StringUtils.isNotEmpty(limitString)) {
+      pageSize = Integer.parseInt(pageString);
+      pageLimit = Integer.parseInt(limitString);
+    }
+
+    Integer finalPage = pageSize;
+    Integer finalPageLimit = pageLimit;
+
+    JsonObject searchFields = context.body().asJsonObject();
+    if (searchFields == null) {
+      searchFields = new JsonObject();
+    }
+
+    String title = searchFields.getString("title");
+
+    JsonObject queryOptions = new JsonObject();
+
+    if (StringUtils.isNotBlank(title)) {
+      queryOptions.put("title",
+        new JsonObject()
+          .put("$regex", title)
+          .put("$options", "i")
+      );
+    }
+    queryOptions.put("status.status",
+      new JsonObject().put("$in",
+        new JsonArray().add("ON-GOING").add("COMPLETED")
+      )
+    );
+
+    log.debug("{}Using query options for ongoing applications: {}",
+      dataAccessManagerClassName, queryOptions.encode());
+
+    super.getApplications(
+      context,
+      DATA_ACCESS_APPLICATION_COLLECTION,
+      finalPage,
+      finalPageLimit,
       StringUtils.isNotEmpty(sortByString) ? sortByString : DATE_CREATED,
-      StringUtils.isNotEmpty(sortOrderString) ? sortOrderString : "desc", status);
+      StringUtils.isNotEmpty(sortOrderString) ? sortOrderString : "desc",
+      queryOptions
+    );
+  }
+
+  public void getAllDecisionIssuedDataAccessApplications(@NotNull RoutingContext context) {
+    Integer pageSize = null;
+    Integer pageLimit = null;
+    String pageString = context.request().getParam("page");
+    String limitString = context.request().getParam("limit");
+    String sortByString = context.request().getParam("sortBy");
+    String sortOrderString = context.request().getParam("sortOrder");
+
+    if (StringUtils.isNotEmpty(pageString) && StringUtils.isNotEmpty(limitString)) {
+      pageSize = Integer.parseInt(pageString);
+      pageLimit = Integer.parseInt(limitString);
+    }
+
+    Integer finalPage = pageSize;
+    Integer finalPageLimit = pageLimit;
+
+    JsonObject searchFields = context.body().asJsonObject();
+    if (searchFields == null) {
+      searchFields = new JsonObject();
+    }
+
+    String title = searchFields.getString("title");
+    String decisionType = searchFields.getString("decisionType"); // NEW
+
+    JsonObject queryOptions = new JsonObject();
+
+    // Title filter
+    if (StringUtils.isNotBlank(title)) {
+      queryOptions.put("title",
+        new JsonObject()
+          .put("$regex", title)
+          .put("$options", "i")
+      );
+    }
+
+    // NEW — Decide whether we want positive or negative decisions
+    Boolean isPositiveDecision = null;
+
+    if (StringUtils.isNotBlank(decisionType)) {
+      switch (decisionType) {
+        case "POSITIVE_DECISION_ISSUED":
+          isPositiveDecision = true;
+          break;
+        case "NEGATIVE_DECISION_ISSUED":
+          isPositiveDecision = false;
+          break;
+        default:
+          // unknown value, ignore or log warning
+          log.warn("Unknown decisionType '{}'", decisionType);
+          break;
+      }
+    }
+
+    log.debug("{}Using query options for ongoing applications: {}",
+      dataAccessManagerClassName, queryOptions.encode());
+
+    super.getDecisionIssuedDatasets(
+      context,
+      DATA_ACCESS_APPLICATION_COLLECTION,
+      finalPage,
+      finalPageLimit,
+      StringUtils.isNotEmpty(sortByString) ? sortByString : DATE_CREATED,
+      StringUtils.isNotEmpty(sortOrderString) ? sortOrderString : "desc",
+      queryOptions,
+      isPositiveDecision
+    );
+  }
+
+  public void getAllDataPermitIssuedApplications(@NotNull RoutingContext context) {
+    Integer pageSize = null;
+    Integer pageLimit = null;
+    String pageString = context.request().getParam("page");
+    String limitString = context.request().getParam("limit");
+    String sortByString = context.request().getParam("sortBy");
+    String sortOrderString = context.request().getParam("sortOrder");
+
+    if (StringUtils.isNotEmpty(pageString) && StringUtils.isNotEmpty(limitString)) {
+      pageSize = Integer.parseInt(pageString);
+      pageLimit = Integer.parseInt(limitString);
+    }
+
+    Integer finalPage = pageSize;
+    Integer finalPageLimit = pageLimit;
+
+    JsonObject searchFields = context.body().asJsonObject();
+    if (searchFields == null) {
+      searchFields = new JsonObject();
+    }
+
+    String title = searchFields.getString("title");
+
+    JsonObject queryOptions = new JsonObject();
+
+    if (StringUtils.isNotBlank(title)) {
+      queryOptions.put("title",
+        new JsonObject()
+          .put("$regex", title)
+          .put("$options", "i")
+      );
+    }
+
+    log.debug("{}Using query options for ongoing applications: {}",
+      dataAccessManagerClassName, queryOptions.encode());
+
+    super.getDataPermitGrantedDatasets(context, DATA_ACCESS_APPLICATION_COLLECTION, finalPage,
+      finalPageLimit,
+      StringUtils.isNotEmpty(sortByString) ? sortByString : DATE_CREATED,
+      StringUtils.isNotEmpty(sortOrderString) ? sortOrderString : "desc", queryOptions);
+  }
+
+
+  /**
+   * Get all Documents for the Data Access Application collection.
+   */
+  public void getAllDataAccessDatasets(@NotNull RoutingContext context) {
+    Integer pageSize = null;
+    Integer pageLimit = null;
+    String pageString = context.request().getParam("page");
+    String limitString = context.request().getParam("limit");
+    String sortByString = context.request().getParam("sortBy");
+    String sortOrderString = context.request().getParam("sortOrder");
+    if (StringUtils.isNotEmpty(pageString) && StringUtils.isNotEmpty(limitString)) {
+      pageSize = Integer.parseInt(pageString);
+      pageLimit = Integer.parseInt(limitString);
+    }
+
+    Integer finalPage = pageSize;
+    Integer finalPageLimit = pageLimit;
+
+    getQueryOptionsDataset(context).onSuccess(queryOptions -> {
+      log.debug("{}Retrieved query options ", dataAccessManagerClassName);
+      super.getDatasets(context, DATA_ACCESS_APPLICATION_COLLECTION, finalPage, finalPageLimit,
+        StringUtils.isNotEmpty(sortByString) ? sortByString : DATE_CREATED,
+        StringUtils.isNotEmpty(sortOrderString) ? sortOrderString : "desc", queryOptions);
+    }).onFailure(err -> {
+      log.error("{}Error building query options, will proceed without them",
+        dataAccessManagerClassName);
+      setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+        "Could not construct query options");
+    });
   }
 
   /**
@@ -219,37 +443,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
   }
 
   public void putDistributionsApplication(@NotNull RoutingContext context) {
-
-    // A json array that will contain all the json objects<application_id, title> for the applications that have been updated
-    JsonArray updatedApplications = new JsonArray();
-
-    // A composition of all the asynchronous operations in order to perform one by one the updates of the applications
-    CompositeFuture.all(updateApplicationsAsync(context, DATA_ACCESS_APPLICATION_COLLECTION)).onComplete(ar -> {
-      if (ar.succeeded()) {
-        log.info(DATA_ACCESS_APPLICATION_COLLECTION
-          + " All update application operations have been completed successfully");
-
-        // Access the results of each operation
-        for (Object updatedApplication : ar.result().list()) {
-
-          if (updatedApplication != null && !((JsonObject) updatedApplication).isEmpty()) {
-            updatedApplications.add(updatedApplication);
-          } else {
-            log.info(DATA_ACCESS_APPLICATION_COLLECTION + "Application returned was null");
-          }
-        }
-      } else {
-        log.info(DATA_ACCESS_APPLICATION_COLLECTION + "Some operations have failed");
-      }
-
-      // Setup the context response containing all the updated applications
-      if (updatedApplications.isEmpty()) {
-        setUpContextResponse(context, HttpResponseStatus.NO_CONTENT);
-      } else {
-        setUpContextResponse(context, HttpResponseStatus.OK, updatedApplications.encode());
-      }
-
-    });
+    putDistributionsApplication(context, DATA_ACCESS_APPLICATION_COLLECTION);
   }
 
   /**
@@ -302,19 +496,154 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     });
   }
 
+  public void changeCatalogStatus(@NotNull RoutingContext context) {
+    changeCatalogStatus(context, DATA_ACCESS_APPLICATION_COLLECTION);
+  }
+
+  public void changeDatasetStatus(@NotNull RoutingContext context) {
+    changeDatasetStatus(context, DATA_ACCESS_APPLICATION_COLLECTION);
+  }
+
   public void changeStatus(@NotNull RoutingContext context) {
 
     String applicationId = context.pathParam(APPLICATION_ID);
     String targetStatus = context.body().asJsonObject().getString(STATUS);
 
-    if ("SUBMITTED".equalsIgnoreCase(targetStatus)) {
+    if ("EDIT".equalsIgnoreCase(targetStatus)) {
 
       JsonObject query = new JsonObject().put(ID, applicationId);
       query.put(USER_ID, Context.getEcasId(context));
-      query.put("status.status", "DRAFT");
+      query.put("status.status", new JsonObject().put("$in",
+        new JsonArray()
+          .add(DRAFT.getStatus())
+          .add(ON_GOING.getStatus())
+      ));
+      query.put("translation.status", new JsonObject()
+        .put("$in", new JsonArray()
+          .add(TranslationStatus.FORM_PENDING.name())
+          .add(TranslationStatus.COMPLETED.name())));
+
+      JsonObject newStatus = new JsonObject()
+        .put("$set", new JsonObject()
+          .put("translation.status", TranslationStatus.FILES_COMPLETED.name()))
+        .put("$unset", new JsonObject()
+          .put("translation.form", true)
+          .put("form_translations", true));
+
+      mongoClient.findOneAndUpdate(DATA_ACCESS_APPLICATION_COLLECTION, query, newStatus,
+        updateResult -> {
+          if (updateResult.succeeded()) {
+            if (updateResult.result() != null) {
+              //JsonObject mongoApplication = updateResult.result();
+              setUpMessageContextResponse(context, HttpResponseStatus.OK,
+                "Changed to Edit");
+            } else {
+              setUpMessageContextResponse(context, HttpResponseStatus.NOT_FOUND,
+                "Application not found");
+            }
+          } else {
+            setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+              "Error occurred: " + updateResult.cause().getMessage());
+          }
+        });
+
+    } else if ("TRANSLATE".equalsIgnoreCase(targetStatus)) {
+
+      JsonObject query = new JsonObject().put(ID, applicationId);
+      query.put(USER_ID, Context.getEcasId(context));
+      query.put("status.status", new JsonObject().put("$in",
+        new JsonArray()
+          .add(DRAFT.getStatus())
+          .add(ON_GOING.getStatus())
+      ));
+      query.put("translation.status", TranslationStatus.FILES_COMPLETED.name());
+
+      JsonObject translatingStatus = new JsonObject().put("$set",
+        new JsonObject().put("translation.status", TranslationStatus.FORM_PENDING.name()));
+
+      mongoClient.findOneAndUpdate(DATA_ACCESS_APPLICATION_COLLECTION, query, translatingStatus,
+        updateResult -> {
+          if (updateResult.succeeded()) {
+            if (updateResult.result() != null) {
+
+              JsonObject mongoApplication = updateResult.result();
+
+              // Fetch source language
+              String sourceLang = mongoApplication.getString("inputLanguage", "EN")
+                .toUpperCase(Locale.ENGLISH);
+
+              JsonArray tl = mongoApplication.getJsonObject("translation")
+                .getJsonArray("targetLanguages");
+              ArrayList<String> targetLanguages = tl.stream()
+                .map(Object::toString)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+              boolean hasOtherLanguages = targetLanguages.stream()
+                .anyMatch(lang -> !lang.equalsIgnoreCase(sourceLang));
+              targetLanguages.remove(sourceLang);
+
+              JsonObject formTranslations = getDefaultEnglishFormTranslation(sourceLang,
+                mongoApplication);
+
+              if (hasOtherLanguages) {
+
+                triggerFormTranslationRequest(applicationId,
+                  mongoApplication.getJsonObject("form"), DATA_ACCESS_APPLICATION_COLLECTION,
+                  sourceLang, targetLanguages, formTranslations, true);
+
+                setUpMessageContextResponse(context, HttpResponseStatus.OK,
+                  "Form translation initiated");
+              } else {
+                log.debug("No translation required");
+                JsonObject translationUpdate = new JsonObject()
+                  .put("$set", new JsonObject()
+                    .put(DATE_MODIFIED, Instant.now())
+                    .put("translation.status", TranslationStatus.COMPLETED.name())
+                    .put("translation.sourceLanguage", sourceLang)
+                    .put("translation.targetLanguages", targetLanguages)
+                    .put("form_translations", formTranslations)
+                  );
+                mongoClient.updateCollection(
+                  DATA_ACCESS_APPLICATION_COLLECTION,
+                  new JsonObject().put("_id", mongoApplication.getString(ID)),
+                  translationUpdate,
+                  ar -> {
+                    if (ar.succeeded()) {
+                      setUpMessageContextResponse(context, HttpResponseStatus.OK, "No translation required");
+                    } else {
+                      setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+                        "Failed to complete translation update: " + ar.cause().getMessage());
+                    }
+                  }
+                );
+              }
+            } else {
+              setUpMessageContextResponse(context, HttpResponseStatus.NOT_FOUND,
+                "Application not found");
+            }
+          } else {
+            setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+              "Error occurred: " + updateResult.cause().getMessage());
+          }
+        });
+
+    } else if ("SUBMITTED".equalsIgnoreCase(targetStatus)) {
+
+      JsonObject query = new JsonObject()
+        .put("translation.status", "COMPLETED")
+        .put("$or", new JsonArray()
+          .add(new JsonObject()
+            .put(ID, applicationId)
+            .put(USER_ID, Context.getEcasId(context))
+            .put("status.status", DRAFT.getStatus()))
+          .add(new JsonObject()
+            .put(ID, applicationId)
+            .put("status.status", ON_GOING.getStatus())
+            .put("date_submitted", new JsonObject().put("$exists", true)))
+        );
 
       JsonObject submittingStatus = new JsonObject().put("$set",
-        new JsonObject().put("status.status", "SUBMITTING"));
+        new JsonObject().put("status.status", SENDING));
 
       mongoClient.findOneAndUpdate(DATA_ACCESS_APPLICATION_COLLECTION, query, submittingStatus,
         updateResult -> {
@@ -322,92 +651,130 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
             if (updateResult.result() != null) {
 
               JsonObject mongoApplication = updateResult.result();
-              JsonObject status = context.body().asJsonObject();
 
-              //validate status change
-              if (!canChangeStatus(status, mongoApplication, context)) {
-                rollbackStatusToDraft(applicationId, DATA_ACCESS_APPLICATION_COLLECTION);
-                return;
-              }
+              if (mongoApplication.containsKey("date_submitted")
+                && hasAtLeastOneAdditionalInformationAsLatest(
+                mongoApplication.getJsonArray("catalogs"))) {
 
-              createApplicantDetails(context)
-                .recover(err -> {
-                  log.error("Could not update applicant details: {}", err.getMessage());
-                  return Future.succeededFuture(new JsonObject());
-                })
-                .onSuccess(applicantDetailsResult -> {
-                  if (!applicantDetailsResult.isEmpty()) {
-                    mongoApplication.put("applicantDetails", applicantDetailsResult);
+                JsonObject status = new JsonObject().put("status", ON_GOING.getStatus());
+
+                //validate status change
+                if (!canChangeStatus(status, mongoApplication, context)) {
+                  rollbackStatus(applicationId, ON_GOING, DATA_ACCESS_APPLICATION_COLLECTION);
+                  return;
+                }
+
+                super.updateApplicationStatus(mongoApplication, status, context);
+                performCleanUpForm(mongoApplication);
+                updateCatalogStatus(mongoApplication);
+                int currentVersion = mongoApplication.getInteger("version") + 1;
+                mongoApplication.put("version", currentVersion);
+
+                if (currentVersion > 1) {
+                  // 1) Read target languages from mongoApplication.translation.targetLanguages
+                  JsonObject translation = mongoApplication.getJsonObject("translation");
+                  JsonArray tl = translation != null ? translation.getJsonArray("targetLanguages") : null;
+
+                  if (tl != null && !tl.isEmpty()) {
+                    // Normalize targets to lowercase because form_translations keys are usually "en", "fr", ...
+                    Set<String> targetLangsLower = tl.stream()
+                      .map(Object::toString)
+                      .map(s -> s.trim().toLowerCase(Locale.ROOT))
+                      .collect(Collectors.toSet());
+
+                    // 2) Read current form_translations
+                    JsonObject formTranslations = mongoApplication.getJsonObject("form_translations");
+
+                    if (formTranslations != null && !formTranslations.isEmpty()) {
+                      JsonObject filtered = new JsonObject();
+
+                      // Keep only langs that exist in targetLanguages
+                      for (String lang : targetLangsLower) {
+                        JsonObject langObj = formTranslations.getJsonObject(lang);
+                        if (langObj != null) {
+                          filtered.put(lang, langObj);
+                        }
+                      }
+
+                      // 3) Replace form_translations with filtered
+                      mongoApplication.put("form_translations", filtered);
+                    }
                   }
+                }
 
-                  // Fetch source language
-                  String sourceLang = mongoApplication
-                    .getString("inputLanguage", "EN")
-                    .toUpperCase(Locale.ENGLISH);
+                // Replace application and return result
+                replaceApplication(mongoApplication).onSuccess(replaceResult -> {
 
-                  // Extract datasets as List<JsonObject>
-                  List<JsonObject> datasets = mongoApplication.getJsonArray("datasets").stream()
-                    .filter(obj -> obj instanceof JsonObject)
-                    .map(obj -> (JsonObject) obj)
-                    .toList();
+                  // If status is submitted then we need to add the application to the dispatcher table
+                  ApplicationStatus requestStatus = ApplicationStatus.fromStatus(
+                    mongoApplication.getJsonObject(STATUS).getString(STATUS));
+                  if (ON_GOING.equals(requestStatus)) {
+                    sendApplicationForDispatch(mongoApplication,
+                      DATA_ACCESS_APPLICATION_COLLECTION, OperationStatus.UPDATE);
 
-                  // Async fetch of target languages from datasets
-                  getTargetLanguagesFromDatasets(datasets).onComplete(langResult -> {
-                    List<String> targetLanguages;
-                    boolean translationNeeded;
+                    // trigger extra translations (all eu languages, for registry page)
+                    triggerRemainingTranslations(applicationId, mongoApplication, DATA_ACCESS_APPLICATION_COLLECTION);
 
-                    if (langResult.succeeded()) {
-                      Set<String> uniqueLanguages = new HashSet<>(langResult.result());
-                      // English is included in the translation languages by default
-                      uniqueLanguages.add("EN");
-                      targetLanguages = new ArrayList<>(uniqueLanguages);
+                    removeAdditionalInformationFromDataAccessCollection(applicationId)
+                      .onFailure(err -> log.warn("Failed to unset additional_information for {}: {}", applicationId, err.getMessage()));
 
-                      // Remove the source language if present
-                      targetLanguages.removeIf(lang -> lang.equalsIgnoreCase(sourceLang));
+                    //Audit Log
+                    String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
+                      AuditLogActionDescription.DATA_ACCESS_APPLICATION_SUBMITTED.toString(),
+                      applicationId, mongoApplication.getString(TITLE));
+                    auditLogManager.insertAuditLog(
+                      AuditLogObject.DATA_ACCESS_APPLICATION.toString(),
+                      applicationId,
+                      AuditLogAction.DATA_ACCESS_APPLICATION_SUBMITTED.toString(),
+                      auditLogActionDescription, true, context);
+                  }
+                  setUpContextResponse(context, HttpResponseStatus.OK, replaceResult.encode());
+                }).onFailure(fail -> {
+                  rollbackStatus(applicationId, ON_GOING, DATA_ACCESS_APPLICATION_COLLECTION);
+                  setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+                    fail.getMessage());
+                });
 
-                      // Check if translation is needed (any language remains)
-                      translationNeeded = !targetLanguages.isEmpty();
-                    } else {
-                      translationNeeded = false;
-                      // If failed to get target languages, fallback to empty list (no translation)
-                      targetLanguages = List.of();
+              } else {
+                JsonObject status = new JsonObject().put("status", ON_GOING.getStatus());
+
+                //validate status change
+                if (!canChangeStatus(status, mongoApplication, context)) {
+                  rollbackStatus(applicationId, ApplicationStatus.DRAFT,
+                    DATA_ACCESS_APPLICATION_COLLECTION);
+                  return;
+                }
+
+                createApplicantDetails(context)
+                  .recover(err -> {
+                    log.error("Could not update applicant details: {}", err.getMessage());
+                    return Future.succeededFuture(new JsonObject());
+                  })
+                  .onSuccess(applicantDetailsResult -> {
+                    if (!applicantDetailsResult.isEmpty()) {
+                      mongoApplication.put("applicantDetails", applicantDetailsResult);
                     }
 
-                    JsonObject translation = mongoApplication.getJsonObject("translation",
-                      new JsonObject());
-                    translation.put(STATUS, translationNeeded ? TranslationStatus.PENDING
-                      : TranslationStatus.NOT_REQUIRED);
-                    translation.put("sourceLanguage", sourceLang);
-                    translation.put("targetLanguages", new JsonArray(targetLanguages));
-                    mongoApplication.put("translation", translation);
-
-                    super.performStatusUpdate(mongoApplication, status, context);
+                    super.updateApplicationStatus(mongoApplication, status, context);
                     performCleanUpForm(mongoApplication);
+
+                    updateCatalogStatus(mongoApplication);
 
                     // Replace application and return result
                     replaceApplication(mongoApplication).onSuccess(replaceResult -> {
 
-                      if (translate && translationNeeded) {
-                        triggerTranslationRequest(
-                          applicationId,
-                          mongoApplication.getJsonObject("form"),
-                          DATA_ACCESS_APPLICATION_COLLECTION,
-                          sourceLang,
-                          targetLanguages
-                        );
-
-                        setUpContextResponse(context, HttpResponseStatus.OK,
-                          replaceResult.encode());
-                        return;
-                      }
-
                       // If status is submitted then we need to add the application to the dispatcher table
                       ApplicationStatus requestStatus = ApplicationStatus.fromStatus(
                         mongoApplication.getJsonObject(STATUS).getString(STATUS));
-                      if (ApplicationStatus.SUBMITTED.equals(requestStatus)) {
+                      if (ON_GOING.equals(requestStatus)) {
                         sendApplicationForDispatch(mongoApplication,
-                          DATA_ACCESS_APPLICATION_COLLECTION);
+                          DATA_ACCESS_APPLICATION_COLLECTION, OperationStatus.CREATE);
 
+                        // trigger extra translations (all eu languages, for registry page)
+                        triggerRemainingTranslations(applicationId, mongoApplication, DATA_ACCESS_APPLICATION_COLLECTION);
+
+                        removeAdditionalInformationFromDataAccessCollection(applicationId)
+                          .onFailure(err -> log.warn("Failed to unset additional_information for {}: {}", applicationId, err.getMessage()));
                         //Audit Log
                         String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
                           AuditLogActionDescription.DATA_ACCESS_APPLICATION_SUBMITTED.toString(),
@@ -420,12 +787,13 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
                       }
                       setUpContextResponse(context, HttpResponseStatus.OK, replaceResult.encode());
                     }).onFailure(fail -> {
-                      rollbackStatusToDraft(applicationId, DATA_ACCESS_APPLICATION_COLLECTION);
+                      rollbackStatus(applicationId, ApplicationStatus.DRAFT,
+                        DATA_ACCESS_APPLICATION_COLLECTION);
                       setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
                         fail.getMessage());
                     });
                   });
-                });
+              }
             } else {
               setUpMessageContextResponse(context, HttpResponseStatus.NOT_FOUND,
                 "Application not found");
@@ -439,6 +807,137 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     } else {
       setUpContextResponse(context, HttpResponseStatus.BAD_REQUEST, "Wrong status provided");
     }
+  }
+
+  private Future<Void> removeAdditionalInformationFromDataAccessCollection(String applicationId) {
+    Promise<Void> p = Promise.promise();
+
+    JsonObject query = new JsonObject().put("_id", applicationId);
+
+    JsonObject update = new JsonObject().put("$unset", new JsonObject().put("additionalInformation", ""));
+
+    mongoClient.findOneAndUpdate(DATA_ACCESS_APPLICATION_COLLECTION, query, update, ar -> {
+      if (ar.succeeded()) p.complete();
+      else p.fail(ar.cause());
+    });
+
+    return p.future();
+  }
+
+  private Future<JsonObject> getQueryOptionsApplication(@NotNull RoutingContext context) {
+    Promise<JsonObject> promise = Promise.promise();
+
+    JsonObject searchFields = context.body().asJsonObject();
+
+    String title = searchFields.getString("title");
+    JsonArray statusList = searchFields.getJsonArray("status");
+    JsonArray hdabList = searchFields.getJsonArray("hdab");
+    JsonArray geographicalList = searchFields.getJsonArray("geographicalList");
+
+    // Collect AND clauses
+    JsonObject query = new JsonObject();
+
+    // title (top-level string) -> case-insensitive regex
+    if (title != null && !title.isBlank()) {
+      query.put("title", new JsonObject().put(REGEX, title).put(OPTIONS, "i"));
+      ;
+    }
+
+    if (statusList != null && !statusList.isEmpty()) {
+      query.put("status.status",
+        new JsonObject().put("$in", statusList));
+    }
+
+    if (hdabList != null && !hdabList.isEmpty()) {
+      query.put("datasets.hdab.name",
+        new JsonObject().put("$in", hdabList));
+    }
+
+    if (geographicalList != null && !geographicalList.isEmpty()) {
+      query.put("datasets.country.label",
+        new JsonObject().put("$in", geographicalList));
+    }
+
+    String userId = Context.getEcasId(context);
+
+    if (StringUtils.isNotEmpty(userId)) {
+      query.put("userId", userId);
+    }
+
+    promise.complete(query);
+    return promise.future();
+  }
+
+  private Future<JsonObject> getQueryOptionsDataset(@NotNull RoutingContext context) {
+    Promise<JsonObject> promise = Promise.promise();
+
+    JsonObject searchFields = context.body().asJsonObject();
+    if (searchFields == null) {
+      searchFields = new JsonObject(); // <-- avoid NPE
+    }
+
+    String title = searchFields.getString("title");
+    JsonArray datasetStatusList = searchFields.getJsonArray("datasetStatus");
+    JsonArray permitStatusList = searchFields.getJsonArray("permitStatus");
+    JsonArray hdabList = searchFields.getJsonArray("hdab");
+    JsonArray applicationTitle = searchFields.getJsonArray("applicationTitle");
+
+    JsonObject query = new JsonObject();
+    JsonArray andClauses = new JsonArray();
+
+    // title (regex)
+    if (title != null && !title.isBlank()) {
+      andClauses.add(new JsonObject()
+        .put("title", new JsonObject().put("$regex", title).put("$options", "i")));
+    }
+
+    // applicationTitle (title IN [...])
+    if (applicationTitle != null && !applicationTitle.isEmpty()) {
+      andClauses.add(new JsonObject()
+        .put("title", new JsonObject().put("$in", applicationTitle)));
+    }
+
+    // dataset-level latest decision status
+    if (datasetStatusList != null && !datasetStatusList.isEmpty()) {
+      andClauses.add(new JsonObject().put(
+        "datasets.decisions",
+        new JsonObject().put("$elemMatch", new JsonObject()
+          .put("latest", 1)
+          .put("datasetStatus", new JsonObject().put("$in", datasetStatusList))
+        )
+      ));
+    }
+
+    // dataset-level latest decision status
+    if (permitStatusList != null && !permitStatusList.isEmpty()) {
+      andClauses.add(new JsonObject().put(
+        "datasets.permits",
+        new JsonObject().put("$elemMatch", new JsonObject()
+          .put("latest", 1)
+          .put("permit_status", new JsonObject().put("$in", permitStatusList))
+        )
+      ));
+    }
+
+    // dataset-level HDAB name (IMPORTANT: keep datasets. prefix)
+    if (hdabList != null && !hdabList.isEmpty()) {
+      andClauses.add(new JsonObject()
+        .put("datasets.hdab.name", new JsonObject().put("$in", hdabList)));
+    }
+
+    // user constraint (application-level)
+    String userId = Context.getEcasId(context);
+    if (StringUtils.isNotEmpty(userId)) {
+      andClauses.add(new JsonObject().put("userId", userId));
+    }
+
+    // Collapse ANDs
+    if (!andClauses.isEmpty()) {
+      query.put("$and", andClauses);
+    }
+
+    promise.complete(query);
+    return promise.future();
   }
 
   private boolean performBusinessValidation(JsonObject form, RoutingContext context) {
@@ -528,39 +1027,25 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     RoutingContext context) {
 
     String statusStr = requestStatusObject.getString(STATUS);
-    if (!ApplicationStatus.isValid(statusStr)) {
+    if (!ApplicationStatus.isValidStatus(statusStr)) {
       setUpMessageContextResponse(context, HttpResponseStatus.FORBIDDEN,
         "Status cannot be " + "updated: wrong status value");
       return false;
     }
 
     ApplicationStatus requestStatus = ApplicationStatus.fromStatus(statusStr);
-    ApplicationStatus mongoStatus = ApplicationStatus.fromStatus(
-      mongoApplication.getJsonObject(STATUS).getString(STATUS));
-    Map<ApplicationStatus, Set<ApplicationStatus>> allowStatuses = Map.of(
-      ApplicationStatus.SUBMITTED, EnumSet.of(ApplicationStatus.DRAFT, ApplicationStatus.WITHDRAWN),
-      ApplicationStatus.WITHDRAWN, EnumSet.of(ApplicationStatus.SUBMITTED));
-    boolean statusChangeAllowed = allowStatuses.getOrDefault(requestStatus, Collections.emptySet())
-      .contains(mongoStatus);
 
-    if (statusChangeAllowed && ApplicationStatus.SUBMITTED.equals(requestStatus)) {
-      // In case the status is 'submitted' we need to validate all the sections before updating it
-      // Perform the DTO validations
-      statusChangeAllowed = performDTOValidation(mongoApplication, context);
-      // If DTO's validations passed successfully, then we need to perform the business validations
-      if (statusChangeAllowed) {
-        statusChangeAllowed =
-          performBusinessValidation(mongoApplication.getJsonObject("form"), context)
-            && dataAccessApplicationBusinessValidationManager.validateCatalogs(mongoApplication,
-            context);
+    if (ON_GOING.equals(requestStatus)) {
+      if (performDTOValidation(mongoApplication, context)) {
+        if (performBusinessValidation(mongoApplication.getJsonObject("form"), context))
+          return dataAccessApplicationBusinessValidationManager.validateCatalogs(mongoApplication, context);
       }
     } else {
       setUpMessageContextResponse(context, HttpResponseStatus.FORBIDDEN,
-        "Status cannot be " + "updated: wrong flow");
-      return false;
+        "Status cannot be updated: wrong flow");
     }
 
-    return statusChangeAllowed;
+    return false;
   }
 
   void performCleanUpForm(JsonObject mongoApplication) {
@@ -603,13 +1088,16 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
       JsonObject howIsTheStudyCohortFormed = section.getJsonObject("howIsTheStudyCohortFormed");
 
       if (Objects.nonNull(howIsTheStudyCohortFormed) &&
-        (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(howIsTheStudyCohortFormed.getString("key"), "c"))) {
+        (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(
+          howIsTheStudyCohortFormed.getString("key"), "c"))) {
         section.remove(HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS);
       }
 
       JsonObject hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants = section.getJsonObject(
         HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS);
-      if ((Objects.nonNull(howIsTheStudyCohortFormed) && (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(howIsTheStudyCohortFormed.getString("key"), "c"))) || (
+      if ((Objects.nonNull(howIsTheStudyCohortFormed) && (
+        !Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(
+          howIsTheStudyCohortFormed.getString("key"), "c"))) || (
         Objects.nonNull(hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants)
           && !Objects.equals(
           hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants.getString("key"),
@@ -618,8 +1106,9 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
         section.remove("consentAndInformationLetterAttachment");
       }
 
-      if ((Objects.nonNull(howIsTheStudyCohortFormed) && (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(
-        howIsTheStudyCohortFormed.getString("key"), "c")))) {
+      if ((Objects.nonNull(howIsTheStudyCohortFormed) && (
+        !Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(
+          howIsTheStudyCohortFormed.getString("key"), "c")))) {
         section.remove("confirmThatDataPermitHasBeenGrantedForTheResearchProject");
         section.remove("permitDecisionAttachment");
         section.remove("previouslyIssuedPermitIssuer1");
@@ -702,15 +1191,15 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
       if (Objects.nonNull(willControlsBeExtracted) && !Objects.equals(
         willControlsBeExtracted.getString("key"), "a")) {
         section.remove(HAS_THE_GROUP_RELATIVES_FORMED_2);
-        section.remove("previouslyIssuedPermitDate2");
-        section.remove("previouslyIssuedPermitValidityPeriodFrom2");
-        section.remove("previouslyIssuedPermitValidityPeriodTo2");
-        section.remove("previouslyIssuedPermitNumber2");
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_DATE_2);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM_2);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_2);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_NUMBER_2);
         section.remove("previouslyIssuedPermitIssuer2");
-        section.remove("previouslyIssuedPermitDate2");
-        section.remove("previouslyIssuedPermitValidityPeriodFrom2");
-        section.remove("previouslyIssuedPermitValidityPeriodTo2");
-        section.remove("previouslyIssuedPermitNumber2");
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_DATE_2);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM_2);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_2);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_NUMBER_2);
         section.remove(WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS);
         section.remove(VARIABLES_FOR_DATA_EXTRACTION_ATTACHMENTS);
         section.remove(TIME_PERIOD_FOR_DATA_EXTRACTION);
@@ -734,10 +1223,10 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
           hasTheGroupRelativesFormed2.getString("key"),
           "a")) {
           section.remove("previouslyIssuedPermitIssuer2");
-          section.remove("previouslyIssuedPermitDate2");
-          section.remove("previouslyIssuedPermitValidityPeriodFrom2");
-          section.remove("previouslyIssuedPermitValidityPeriodTo2");
-          section.remove("previouslyIssuedPermitNumber2");
+          section.remove(PREVIOUSLY_ISSUED_PERMIT_DATE_2);
+          section.remove(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM_2);
+          section.remove(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_2);
+          section.remove(PREVIOUSLY_ISSUED_PERMIT_NUMBER_2);
         }
 
         JsonObject willSameDataBeExtractedForControls = section.getJsonObject(
@@ -1146,18 +1635,6 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     return false;
   }
 
-  private boolean notContainsSelectedValueWithoutSpecificValue(JsonArray jsonArray) {
-    for (int i = 0; i < jsonArray.size(); i++) {
-      JsonObject obj = jsonArray.getJsonObject(i);
-      String key = obj.getString("key");
-
-      if (!key.equals("e")) {
-        return false;
-      }
-    }
-    return true;
-  }
-
   private Boolean displayLawfulnessOfProcessing(JsonObject section, JsonObject section3,
     JsonObject section5, JsonObject section7) {
     JsonObject applyingForDataOnBehalfOfPublicSector = null;
@@ -1307,6 +1784,18 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     changeTitle(context, DATA_ACCESS_APPLICATION_COLLECTION);
   }
 
+  public void getDataAccessApplicationsHbad(@NotNull RoutingContext context) {
+    getApplicationsHbad(context, DATA_ACCESS_APPLICATION_COLLECTION);
+  }
+
+  public void getDataAccessApplicationsCountries(@NotNull RoutingContext context) {
+    getApplicationsCountries(context, DATA_ACCESS_APPLICATION_COLLECTION);
+  }
+
+  public void getDataAccessApplicationTitles(@NotNull RoutingContext context) {
+    getApplicationTitles(context, DATA_ACCESS_APPLICATION_COLLECTION);
+  }
+
   public void processTranslationCallback(String applicationId, JsonObject dict) {
     JsonObject query = new JsonObject().put(ID, applicationId);
 
@@ -1314,90 +1803,77 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
       if (res.succeeded() && res.result() != null) {
         JsonObject application = res.result();
         JsonObject originalForm = application.getJsonObject("form");
-        JsonObject translatedFiles = application.getJsonObject("translation", new JsonObject())
+        JsonObject translatedFiles = application.getJsonObject(TRANSLATION, new JsonObject())
           .getJsonObject("files", new JsonObject());
-        List<String> targetLangs = application.getJsonObject("translation", new JsonObject()).getJsonArray("targetLanguages", new JsonArray())
+        JsonObject formTranslations = application.getJsonObject("form_translations",
+          new JsonObject());
+        List<String> targetLangs = application.getJsonObject(TRANSLATION, new JsonObject())
+          .getJsonArray("targetLanguages", new JsonArray())
           .stream().map(Object::toString).toList();
 
         JsonObject translationUpdate = super.buildFormTranslationsAndSetStatus(
-          originalForm, dict, targetLangs, applicationId, translatedFiles, DATA_ACCESS_APPLICATION_COLLECTION
+          originalForm, dict, targetLangs, applicationId, translatedFiles,
+          DATA_ACCESS_APPLICATION_COLLECTION, formTranslations
         );
+
         applyTranslationUpdate(application, translationUpdate);
 
         TranslationStatus overallStatus = ApplicationFormUtils.determineOverallTranslationStatus(
-          application.getJsonObject("translation", new JsonObject())
+          application.getJsonObject(TRANSLATION, new JsonObject())
         );
-        application.getJsonObject("translation").put(STATUS, overallStatus);
+        application.getJsonObject(TRANSLATION).put(STATUS, overallStatus);
 
-        if (overallStatus != TranslationStatus.COMPLETED) {
-          log.info("Translation not yet complete for application [{}], skipping dispatch (status = {})", applicationId, overallStatus);
-          replaceApplication(application).onSuccess(r -> {}).onFailure(err -> log.error("Failed to replace", err));
-          return;
+        if (TranslationStatus.COMPLETED.equals(overallStatus)) {
+          application.getJsonObject(TRANSLATION).remove("errorType");
         }
 
-        replaceApplication(application).onSuccess(replaceResult -> {
-          log.info("Application updated with translations. Proceeding to dispatch.");
+        replaceApplication(application)
+          .onSuccess(replaceResult -> {
+            log.info("Application updated with translations. Proceeding to dispatch.");
+          }).onFailure(err -> log.error("Failed to replace application with translations", err));
 
-          ApplicationStatus requestStatus = ApplicationStatus.fromStatus(
-            application.getJsonObject(STATUS).getString(STATUS));
-
-          if (ApplicationStatus.SUBMITTED.equals(requestStatus)) {
-            sendApplicationForDispatch(application, DATA_ACCESS_APPLICATION_COLLECTION);
-
-            String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
-              AuditLogActionDescription.DATA_ACCESS_APPLICATION_SUBMITTED.toString(),
-              applicationId, application.getString(TITLE));
-            auditLogManager.insertAuditLog(AuditLogObject.DATA_ACCESS_APPLICATION.toString(),
-              application.getString(ID),
-              AuditLogAction.DATA_ACCESS_APPLICATION_SUBMITTED.toString(),
-              auditLogActionDescription, true, null);
-          }
-        }).onFailure(err -> log.error("Failed to replace application with translations", err));
       } else {
         log.error("Could not find application to apply translations: {}", applicationId);
       }
     });
   }
 
-  public void processFileTranslationCallback(String applicationId, String originalFileId, Map<String, JsonObject> uploadedFiles) {
+  public void processFileTranslationCallback(String applicationId, String originalFileId,
+    Map<String, JsonObject> uploadedFiles) {
     JsonObject query = new JsonObject().put(ID, applicationId);
 
     mongoClient.findOne(DATA_ACCESS_APPLICATION_COLLECTION, query, null, res -> {
       if (res.succeeded() && res.result() != null) {
         JsonObject application = res.result();
 
-        applyFileTranslationUpdates(application, applicationId, originalFileId, uploadedFiles);
-
-        TranslationStatus overallStatus = ApplicationFormUtils.determineOverallTranslationStatus(
-          application.getJsonObject("translation", new JsonObject())
-        );
-        application.getJsonObject("translation").put(STATUS, overallStatus);
-
-        if (overallStatus != TranslationStatus.COMPLETED) {
-          log.info("Translation not yet complete for application [{}], skipping dispatch (status = {})", applicationId, overallStatus);
-          replaceApplication(application).onSuccess(r -> {}).onFailure(err -> log.error("Failed to replace", err));
+        boolean fileIdExists = Optional.ofNullable(application)
+          .map(m -> m.getJsonObject("translation"))
+          .map(t -> t.getJsonObject("files"))
+          .map(f -> f.containsKey(originalFileId))
+          .orElse(false);
+        if (!fileIdExists) {
           return;
         }
 
-        replaceApplication(application).onSuccess(replaceResult -> {
-          log.info("Application [{}] updated with translated file references for [{}]", applicationId, originalFileId);
+        applyFileTranslationUpdates(application, applicationId, originalFileId, uploadedFiles);
 
-          ApplicationStatus requestStatus = ApplicationStatus.fromStatus(
-            application.getJsonObject(STATUS).getString(STATUS));
+        TranslationStatus overallStatus = ApplicationFormUtils.determineOverallTranslationStatus(
+          application.getJsonObject(TRANSLATION, new JsonObject())
+        );
+        application.getJsonObject(TRANSLATION).put(STATUS, overallStatus);
 
-          if (ApplicationStatus.SUBMITTED.equals(requestStatus)) {
-            sendApplicationForDispatch(application, DATA_ACCESS_APPLICATION_COLLECTION);
+        if (TranslationStatus.FILES_COMPLETED.equals(overallStatus)) {
+          application.getJsonObject(TRANSLATION).remove("errorType");
+        }
+        log.info("File Translation completed for application id: {} and file id : {}",
+          applicationId, originalFileId);
 
-            String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
-              AuditLogActionDescription.DATA_ACCESS_APPLICATION_SUBMITTED.toString(),
-              applicationId, application.getString(TITLE));
-
-            auditLogManager.insertAuditLog(AuditLogObject.DATA_ACCESS_APPLICATION.toString(),
-              application.getString(ID),
-              AuditLogAction.DATA_ACCESS_APPLICATION_SUBMITTED.toString(),
-              auditLogActionDescription, true, null);
-          }
-        }).onFailure(err -> log.error("Failed to replace application with file translation updates", err));
+        replaceApplication(application)
+          .onSuccess(replaceResult -> {
+            log.info("Application [{}] updated with translated file references for [{}]",
+              applicationId, originalFileId);
+          }).onFailure(
+            err -> log.error("Failed to replace application with file translation updates", err));
 
       } else {
         log.error("Could not find application [{}] to update file translations", applicationId);
@@ -1406,7 +1882,17 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
   }
 
   public void markTranslationError(String applicationId, String errorType, String fileId) {
-    super.markTranslationError(applicationId, DATA_ACCESS_APPLICATION_COLLECTION, errorType, fileId);
+    super.markTranslationError(applicationId, DATA_ACCESS_APPLICATION_COLLECTION, errorType,
+      fileId);
+  }
+
+  public void incrementTranslationAttempts(String applicationId, String errorType, String fileId) {
+    super.incrementTranslationAttempts(
+      applicationId,
+      DATA_ACCESS_APPLICATION_COLLECTION,
+      errorType,
+      fileId
+    );
   }
 
 }

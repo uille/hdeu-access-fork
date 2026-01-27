@@ -91,10 +91,13 @@ public class Section7DTO extends SectionDTO {
   @TranslatableField
   String combinedCountries;
   @Size(max = 500)
+  @TranslatableField
   String combinedDataHolders;
   @Size(max = 500)
+  @TranslatableField
   String combinedDatabaseRegistries;
   @Size(max = 500)
+  @TranslatableField
   String combinedDatasetsRegistries;
   @ListOfAttachmentsValidation(allowedExtensions = {"doc", "docx", "pdf", "xls", "xlsx",
     "odt"}, maxSize = 5242880, fieldName = "attachmentOfPermitDocuments") // 5MB
@@ -104,9 +107,11 @@ public class Section7DTO extends SectionDTO {
   SelectObjectDTO otherPermitApplications;
   String dateOfSubmittingTheApplication;
   @Size(max = 500)
+  @TranslatableField
   String applicationIssuer;
   @AlphanumericFormat
   @Size(max = 500)
+  @TranslatableField
   String identificationCode;
   @Valid
   @ListObjectFieldsNotNull(fields = {"permitIssuer", "permitStartDateOfIssue",

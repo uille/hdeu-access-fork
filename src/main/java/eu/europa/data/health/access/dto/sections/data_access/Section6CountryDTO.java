@@ -598,6 +598,7 @@ public class Section6CountryDTO extends SectionDTO {
   @NotEmpty
   List<String> catalogIds;
   @Size(max = 2000)
+  @TranslatableField
   String hdabContacts;
   @NotBlank
   @Size(max = 2000)
@@ -631,12 +632,14 @@ public class Section6CountryDTO extends SectionDTO {
   Boolean confirmThatDataPermitHasBeenGrantedForTheResearchProject;
 
   @Size(max = 500)
+  @TranslatableField
   String previouslyIssuedPermitIssuer1;
   String previouslyIssuedPermitDate1;
   String previouslyIssuedPermitValidityPeriodFrom1;
   String previouslyIssuedPermitValidityPeriodTo1;
   @AlphanumericFormat
   @Size(max = 500)
+  @TranslatableField
   String previouslyIssuedPermitNumber1;
 
   @ListOfAttachmentsValidation(allowedExtensions = {"doc", "docx", "pdf", "xls", "xlsx", "odt"},
@@ -655,6 +658,7 @@ public class Section6CountryDTO extends SectionDTO {
   @TranslatableField
   String whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects;
   @Size(max = 500)
+  @TranslatableField
   String informationProviderName;
   @EmailFormat
   @Size(max = 500)
@@ -755,6 +759,7 @@ public class Section6CountryDTO extends SectionDTO {
   @TranslatableField
   String exclusionCriteriaForControls;
   @Size(max = 500)
+  @TranslatableField
   String previouslyIssuedPermitIssuer2;
   String previouslyIssuedPermitDate2;
 
@@ -763,6 +768,7 @@ public class Section6CountryDTO extends SectionDTO {
 
   @AlphanumericFormat
   @Size(max = 500)
+  @TranslatableField
   String previouslyIssuedPermitNumber2;
 
   @CheckEnumValue(fieldName = "yesOrNoOptions", sectionNumber = "commonFields")
@@ -799,6 +805,7 @@ public class Section6CountryDTO extends SectionDTO {
   SelectObjectDTO hasTheGroupRelativesFormed3;
 
   @Size(max = 500)
+  @TranslatableField
   String previouslyIssuedPermitIssuer3;
   String previouslyIssuedPermitDate3;
 
@@ -807,6 +814,7 @@ public class Section6CountryDTO extends SectionDTO {
 
   @AlphanumericFormat
   @Size(max = 500)
+  @TranslatableField
   String previouslyIssuedPermitNumber3;
 
   //field 2

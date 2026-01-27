@@ -25,4 +25,11 @@ public class DispatcherValidationManager extends AbstractSchemaValidator{
     validateJsonSchema(context, SchemaFiles.DISPATCHER_DECISION_SCHEMA_FILE.getValue());
   }
 
+  public void validateDispatcherStatusJsonSchema(@NotNull RoutingContext context) {
+    validateJsonSchema(context, SchemaFiles.DISPATCHER_STATUS_SCHEMA_FILE.getValue());
+  }
+
+  public void validateDispatcherPermitJsonSchema(RoutingContext context) {
+    validateJsonSchema(context, SchemaFiles.PERMIT_STATUS_SCHEMA_FILE.getValue());
+  }
 }

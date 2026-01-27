@@ -21,6 +21,8 @@ import static eu.europa.data.health.access.Constants.EMAIL;
 import static eu.europa.data.health.access.Constants.EXPORT_DATASET_EXTERNAL_URL;
 import static eu.europa.data.health.access.Constants.EXTERNAL_DATASET_ID;
 import static eu.europa.data.health.access.Constants.FULL_NAME;
+import static eu.europa.data.health.access.Constants.INVOICE_TYPE;
+import static eu.europa.data.health.access.Constants.IS_THE_PROJECT_FINANCIALLY_COVERED;
 import static eu.europa.data.health.access.Constants.LABEL;
 import static eu.europa.data.health.access.Constants.LEGAL_OR_NATURAL_PERSON;
 import static eu.europa.data.health.access.Constants.NUMBER;
@@ -29,6 +31,7 @@ import static eu.europa.data.health.access.Constants.RESULT;
 import static eu.europa.data.health.access.Constants.SAME_AS_CONTACT_PERSON;
 import static eu.europa.data.health.access.Constants.TITLE;
 import static eu.europa.data.health.access.Constants.VALUE;
+import static eu.europa.data.health.access.Constants.VARIABLES;
 
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
@@ -166,16 +169,16 @@ public  abstract class DocumentExportUtility {
       return;
     }
 
-    ObjectFactory factory = new ObjectFactory();
+    ObjectFactory factoryLocal = new ObjectFactory();
 
     // Distinct variables based on the "name"
     Map<String, JsonObject> distinctByName = new LinkedHashMap<>();
 
     for (int j = 0; j < distributionsSample.size(); j++) {
       JsonObject dist = distributionsSample.getJsonObject(j);
-      if (dist == null || !dist.containsKey("variables")) continue;
+      if (dist == null || !dist.containsKey(VARIABLES)) continue;
 
-      JsonArray vars = dist.getJsonArray("variables");
+      JsonArray vars = dist.getJsonArray(VARIABLES);
       if (vars == null) continue;
 
       for (int k = 0; k < vars.size(); k++) {
@@ -191,12 +194,12 @@ public  abstract class DocumentExportUtility {
     if (distinctByName.isEmpty()) return;
 
     // Create table
-    Tbl table = factory.createTbl();
+    Tbl table = factoryLocal.createTbl();
     setFixedTableWidth(table, document);
 
     table.getContent().add(
-      createRow(factory,
-        Arrays.asList("", languageMap.getJsonObject("variables").getString(LABEL), languageMap.getJsonObject("datatype").getString(LABEL), languageMap.getJsonObject("description").getString(LABEL)),
+      createRow(factoryLocal,
+        Arrays.asList("", languageMap.getJsonObject(VARIABLES).getString(LABEL), languageMap.getJsonObject("datatype").getString(LABEL), languageMap.getJsonObject("description").getString(LABEL)),
         Arrays.asList(true, true, true, true))
     );
 
@@ -212,11 +215,11 @@ public  abstract class DocumentExportUtility {
       boolean selected = isVariableSelectedInSection(section1, datasetId, name);
       String checkbox = selected ? "\u2612" /* ☒ */ : "\u2610" /* ☐ */;
 
-      Tr row = factory.createTr();
-      row.getContent().add(createCell(factory, checkbox, false, false));
-      row.getContent().add(createCell(factory, name, false, false));
-      row.getContent().add(createCell(factory, datasetType, false, false));
-      row.getContent().add(createCell(factory, description, false, false));
+      Tr row = factoryLocal.createTr();
+      row.getContent().add(createCell(factoryLocal, checkbox, false, false));
+      row.getContent().add(createCell(factoryLocal, name, false, false));
+      row.getContent().add(createCell(factoryLocal, datasetType, false, false));
+      row.getContent().add(createCell(factoryLocal, description, false, false));
 
       table.getContent().add(row);
     }
@@ -639,7 +642,7 @@ public  abstract class DocumentExportUtility {
 
         addTextToNewParagraphWithTable(document, value, false, false);
 
-        document.getMainDocumentPart().addParagraphOfText(languageMap.getJsonObject("variables").getString(LABEL));
+        document.getMainDocumentPart().addParagraphOfText(languageMap.getJsonObject(VARIABLES).getString(LABEL));
 
         // Table with the distinct variables from distributions_sample
         String datasetId = datasets.getJsonObject(i).getJsonObject(RESULT).getString("id");
@@ -692,7 +695,7 @@ public  abstract class DocumentExportUtility {
       return hubDatasets.stream()
         .map(jsonValue -> (JsonObject) jsonValue)
         .map(item -> {
-          JsonObject result = item.getJsonObject("result");
+          JsonObject result = item.getJsonObject(RESULT);
           if (result != null) {
             JsonObject catalog = result.getJsonObject("catalog");
             if (catalog != null) {
@@ -806,10 +809,10 @@ public  abstract class DocumentExportUtility {
     }
 
     // --- INVOICE INFORMATION ---
-    addTextToNewParagraph(document, languageMap.getJsonObject("invoiceType").getString(LABEL), true,
+    addTextToNewParagraph(document, languageMap.getJsonObject(INVOICE_TYPE).getString(LABEL), true,
       false);
-    JsonObject invoiceType = getObject(section, "invoiceType");
-    addTextToNewParagraphWithTable(document, getObjectValue(section, "invoiceType"), false, false);
+    JsonObject invoiceType = getObject(section, INVOICE_TYPE);
+    addTextToNewParagraphWithTable(document, getObjectValue(section, INVOICE_TYPE), false, false);
 
     addTextToNewParagraph(document,
       languageMap.getJsonObject("invoiceReferenceNumber").getString(LABEL), true, false);
@@ -836,12 +839,12 @@ public  abstract class DocumentExportUtility {
 
     // --- FINANCIAL COVERAGE ---
     addTextToNewParagraph(document,
-      languageMap.getJsonObject("isTheProjectFinanciallyCovered").getString(LABEL), true, false);
-    String financiallyCoveredValue = getObjectValue(section, "isTheProjectFinanciallyCovered");
+      languageMap.getJsonObject(IS_THE_PROJECT_FINANCIALLY_COVERED).getString(LABEL), true, false);
+    String financiallyCoveredValue = getObjectValue(section, IS_THE_PROJECT_FINANCIALLY_COVERED);
     addTextToNewParagraphWithTable(document, financiallyCoveredValue, false, false);
 
     if (financiallyCoveredValue != null) {
-      JsonObject financiallyCovered = getObject(section, "isTheProjectFinanciallyCovered");
+      JsonObject financiallyCovered = getObject(section, IS_THE_PROJECT_FINANCIALLY_COVERED);
       if (isKey(financiallyCovered, "a")) {
         addTextToNewParagraph(document,
           languageMap.getJsonObject("rangeOfAmountOfFinancing").getString(LABEL), true, false);
@@ -854,11 +857,11 @@ public  abstract class DocumentExportUtility {
   protected void section60(WordprocessingMLPackage document, JsonObject languageMap,
     JsonObject section, JsonArray datasets) {
     addTextToNewParagraph(document,
-      datasets.getJsonObject(0).getJsonObject("result").getJsonObject("country")
+      datasets.getJsonObject(0).getJsonObject(RESULT).getJsonObject("country")
         .getString("label", null), true, false);
     addHeaderToTheText(document,
       languageMap.getString("descriptionOfTheDataNeeded") + " " + datasets.getJsonObject(0)
-        .getJsonObject("result").getJsonObject("country")
+        .getJsonObject(RESULT).getJsonObject("country")
         .getString("label", null),
       "Heading2");
     addTextToNewParagraph(document, languageMap.getString("applicationHDABsForSelectedCountry"),
@@ -890,7 +893,7 @@ public  abstract class DocumentExportUtility {
       String datasetId = datasets.getJsonObject(i).getString("dataset_id");
       Future<JsonObject> future = hubSearchClient.getDataset(datasetId)
         .onSuccess(hubSearchDataSetValues::add)
-        .onFailure(cause -> log.info(cause.getMessage()));
+        .onFailure(cause -> log.error(cause.getMessage()));
       futures.add(future);
     }
     //Wait until all dataset retrievals are completed
@@ -951,7 +954,7 @@ public  abstract class DocumentExportUtility {
           .end(Buffer.buffer(pdfOutputStream.toByteArray()));
       } else if ("docx".equalsIgnoreCase(type)) {
         context.response().putHeader("Content-Length", String.valueOf(outputStream.size()))
-          .putHeader("Content-Disposition", "attachment; filename=DataAccessForm.docx")
+          .putHeader("Content-Disposition", "attachment; filename="+filename)
           .putHeader("Content-Type",
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
           .end(Buffer.buffer(outputStream.toByteArray()));

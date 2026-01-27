@@ -17,6 +17,10 @@ package eu.europa.data.health.access.hub_translation_client;
 
 import static eu.europa.data.health.access.Constants.DATA_ACCESS_APPLICATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.DATA_REQUEST_APPLICATION_COLLECTION;
+import static eu.europa.data.health.access.Constants.FILE_NAME;
+import static eu.europa.data.health.access.Constants.SOURCE_LANGUAGE;
+import static eu.europa.data.health.access.Constants.TARGET_LANGUAGES;
+import static eu.europa.data.health.access.Constants.VALUE;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.europa.data.health.access.TranslationStatus;
@@ -180,8 +184,12 @@ public class HubTranslationClient {
       }
     }
 
+    List<String> filteredLanguages = targetLangs.stream()
+      .filter(lang -> !lang.equalsIgnoreCase(sourceLang))
+      .toList();
+
     JsonObject translatablePayload = buildTranslatablePayload(dict, sectionDtoMap, sourceLang,
-      targetLangs);
+      filteredLanguages);
 
     JsonObject callback = createCallbackJson();
 
@@ -189,7 +197,7 @@ public class HubTranslationClient {
       .put("applicationId", applicationId)
       .put("applicationType", applicationType)
       .put("defaultLanguage", "EN")
-      .put("targetLanguages", targetLangs);
+      .put(TARGET_LANGUAGES, filteredLanguages);
 
     return new JsonObject()
       .put("id", UUID.randomUUID().toString())
@@ -309,9 +317,9 @@ public class HubTranslationClient {
       if (field.isAnnotationPresent(TranslatableField.class) && fieldValue instanceof String strVal
         && !strVal.isBlank()) {
         result.put(dictKey, new JsonObject()
-          .put("value", strVal)
-          .put("sourceLanguage", sourceLang)
-          .put("targetLanguages", new JsonArray(targetLangs)));
+          .put(VALUE, strVal)
+          .put(SOURCE_LANGUAGE, sourceLang)
+          .put(TARGET_LANGUAGES, new JsonArray(targetLangs)));
       }
 
       // Nested object
@@ -341,9 +349,9 @@ public class HubTranslationClient {
           } else if (element instanceof String strElem && field.isAnnotationPresent(
             TranslatableField.class)) {
             result.put(elementPrefix, new JsonObject()
-              .put("value", strElem)
-              .put("sourceLanguage", sourceLang)
-              .put("targetLanguages", new JsonArray(targetLangs)));
+              .put(VALUE, strElem)
+              .put(SOURCE_LANGUAGE, sourceLang)
+              .put(TARGET_LANGUAGES, new JsonArray(targetLangs)));
           }
         }
       }
@@ -398,9 +406,9 @@ public class HubTranslationClient {
     JsonObject originalForm,
     JsonObject translationDict,
     JsonObject translatedFiles,
-    String applicationType
+    String applicationType,
+    JsonObject formTranslations
   ) {
-    JsonObject formTranslations = new JsonObject();
     Set<String> targetLanguages = new HashSet<>();
 
     // Collect all target languages from the dictionary
@@ -477,7 +485,7 @@ public class HubTranslationClient {
           if (translatedPerLang != null && translatedPerLang.containsKey(lang)) {
             JsonObject translatedFile = translatedPerLang.getJsonObject(lang);
             String newFileId = translatedFile.getString("fileId");
-            String newFileName = translatedFile.getString("fileName");
+            String newFileName = translatedFile.getString(FILE_NAME);
 
             ApplicationFormUtils.updateTranslatedFileReferencesInForm(
               translatedForm, originalFileId, newFileId, newFileName
@@ -705,7 +713,7 @@ public class HubTranslationClient {
 
         // Case 1: Single option object with key/value
         if (value instanceof JsonObject optionObj &&
-          optionObj.containsKey("key") && optionObj.containsKey("value")) {
+          optionObj.containsKey("key") && optionObj.containsKey(VALUE)) {
 
           JsonArray translatedItems = findTranslatedOptionItems(
             lang, fieldName, staticSectionTranslations, enumMap);
@@ -715,7 +723,7 @@ public class HubTranslationClient {
             for (int i = 0; i < translatedItems.size(); i++) {
               JsonObject translatedItem = translatedItems.getJsonObject(i);
               if (key != null && key.equals(translatedItem.getString("key"))) {
-                optionObj.put("value", translatedItem.getString("value"));
+                optionObj.put(VALUE, translatedItem.getString(VALUE));
                 if (translatedItem.containsKey("info")) {
                   optionObj.put("info", translatedItem.getString("info"));
                 }
@@ -745,7 +753,7 @@ public class HubTranslationClient {
               for (int j = 0; j < translatedItems.size(); j++) {
                 JsonObject translatedItem = translatedItems.getJsonObject(j);
                 if (key != null && key.equals(translatedItem.getString("key"))) {
-                  item.put("value", translatedItem.getString("value"));
+                  item.put(VALUE, translatedItem.getString(VALUE));
                   if (translatedItem.containsKey("info")) {
                     item.put("info", translatedItem.getString("info"));
                   }
@@ -795,7 +803,7 @@ public class HubTranslationClient {
     List<String> targetLanguages
   ) {
     final String fileId = fileObj.getString("fileId");
-    final String fileName = fileObj.getString("fileName");
+    final String fileName = fileObj.getString(FILE_NAME);
     final String format = fileObj.getString("format", "application/pdf");
     final String base64Content = fileObj.getString("base64Content");
     final String autoDetectLang = "LD";
@@ -803,12 +811,12 @@ public class HubTranslationClient {
     JsonObject documentToTranslate = new JsonObject()
       .put("content", base64Content)
       .put("format", format)
-      .put("fileName", fileName);
+      .put(FILE_NAME, fileName);
 
     JsonObject file = new JsonObject()
       .put("documentToTranslateBase64", documentToTranslate)
-      .put("sourceLanguage", autoDetectLang)
-      .put("targetLanguages", targetLanguages);
+      .put(SOURCE_LANGUAGE, autoDetectLang)
+      .put(TARGET_LANGUAGES, targetLanguages);
 
     // Two levels of nesting are expected from hub-translation
     JsonObject dict = new JsonObject()
@@ -821,7 +829,7 @@ public class HubTranslationClient {
       .put("applicationId", applicationId)
       .put("applicationType", applicationType)
       .put("defaultLanguage", autoDetectLang)
-      .put("targetLanguages", targetLanguages);
+      .put(TARGET_LANGUAGES, targetLanguages);
 
     return new JsonObject()
       .put("id", UUID.randomUUID().toString())

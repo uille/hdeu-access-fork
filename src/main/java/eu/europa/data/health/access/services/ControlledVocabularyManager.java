@@ -20,6 +20,7 @@ import static eu.europa.data.health.access.Constants.COUNTRY_SCHEME;
 import static eu.europa.data.health.access.Constants.DESCRIPTION;
 import static eu.europa.data.health.access.Constants.LABEL;
 import static eu.europa.data.health.access.Constants.LANGUAGE_SCHEME;
+import static eu.europa.data.health.access.Constants.PUBLISHER_TYPE_SCHEME;
 import static eu.europa.data.health.access.Constants.SUPPORTED_COUNTRY_CONCEPTS;
 import static eu.europa.data.health.access.Constants.SUPPORTED_LANGUAGES;
 import static eu.europa.data.health.access.Constants.SUPPORTED_LANGUAGE_CONCEPTS;
@@ -90,6 +91,8 @@ public class ControlledVocabularyManager {
   private static final String FILE_TYPE_SCHEME = "http://publications.europa.eu/resource/authority/file-type";
   private static final String GML_NS = "http://www.opengis.net/gml/3.2";
   private static final String ROLE_CODE_SCHEME = "https://standards.iso.org/iso/19115/resources/Codelists/gml/CI_RoleCode.xml";
+  private static final String PERSONAL_DATA_SCHEME = "https://raw.githubusercontent.com/w3c/dpv/refs/heads/master/2.2/pd/pd.ttl";
+  private static final String PERSONAL_DATA_IN_SCHEME_URI = "https://w3id.org/dpv/pd#extended-classes";
   private static final String ITEMS = "items";
   private static final String SOURCE = "source";
   private static final String SOURCE_LANG = "en";
@@ -411,6 +414,11 @@ public class ControlledVocabularyManager {
     if (ROLE_CODE_SCHEME.equals(source)) {
       return buildFromRoleCode(source);
     }
+
+    if (PERSONAL_DATA_SCHEME.equals(source)) {
+      return buildFromPersonalData(source);
+    }
+
     return buildFromRDF(source);
   }
 
@@ -541,6 +549,123 @@ public class ControlledVocabularyManager {
   }
 
   /**
+   * Builds the vocabulary document for Personal Data from <a href="https://raw.githubusercontent.com/w3c/dpv/refs/heads/master/2.2/pd/pd.ttl">...</a>
+   * URL. It builds items as:
+   * <pre>{@code
+   * {
+   *   "value": "<source>#<identifier>",
+   *   "label": { "en": "<prefLabel>" }
+   * }
+   * }></pre>
+   *
+   * @param url The Personal Data rdf/ttl URL.
+   * @return A Future with the vocabulary document.
+   */
+  private Future<JsonObject> buildFromPersonalData(String url) {
+    // Fetch personal data model (async)
+    return fetchRDFModel(url, Lang.TTL).map(model -> {
+      Set<Resource> conceptResources = new LinkedHashSet<>();
+      Resource scheme = model.getResource(PERSONAL_DATA_IN_SCHEME_URI);
+
+      ResIterator conceptsIter = model.listResourcesWithProperty(SKOS.inScheme, scheme);
+      while (conceptsIter.hasNext()) {
+        Resource concept = conceptsIter.next();
+        if (concept.getURI() != null) {
+          conceptResources.add(concept);
+        }
+      }
+
+      if (conceptResources.isEmpty()) {
+        throw new IllegalStateException("No concepts found in scheme: " + url);
+      }
+
+      JsonArray items = new JsonArray();
+      for (Resource concept : conceptResources) {
+        items.add(buildItemForPersonalData(concept));
+      }
+
+      return new JsonObject()
+        .put(SOURCE, url)
+        .put(ITEMS, items);
+    });
+  }
+
+  /**
+   * Builds a JSON representation of a single DPV Personal Data concept.
+   * <p>
+   * This method extracts information for one RDF resource that represents a
+   * SKOS concept within the DPV Personal Data vocabulary. It reads:
+   * <ul>
+   *   <li>the concept's full URI, and</li>
+   *   <li>all {@code skos:prefLabel} literals whose language tag is contained in
+   *       {@code SUPPORTED_LANGUAGES},</li>
+   * </ul>
+   * and produces a JSON object in the standard structure used across the
+   * application.
+   * <p>
+   * The generated JSON object has the form:
+   *
+   * <pre>
+   * {
+   *   "value": "<a href="https://w3id.org/dpv/pd#Accent">...</a>",
+   *   "label": {
+   *     "en": "Accent"
+   *     // optionally other languages if present and supported, e.g.
+   *     // "fr": "...",
+   *     // "de": "..."
+   *   }
+   * }
+   * </pre>
+   *
+   * where:
+   * <ul>
+   *   <li>{@code value} — the full URI of the SKOS concept</li>
+   *   <li>{@code label} — an object mapping language codes (e.g. {@code "en"})
+   *       to their corresponding preferred labels, as taken from
+   *       {@code skos:prefLabel}</li>
+   * </ul>
+   *
+   * <p>
+   * Only labels whose language tag is non-empty and present in
+   * {@code SUPPORTED_LANGUAGES} are included. If none of the concept's
+   * {@code skos:prefLabel} statements match the supported languages, the
+   * {@code label} object will be empty, but {@code value} will still contain the
+   * concept's URI so the entry remains identifiable.
+   *
+   * @param concept the RDF resource representing a single Personal Data concept
+   *                inside the DPV model; must have a non-null URI
+   * @return a JSON object containing the concept's full URI and its labels
+   *         grouped by language
+   */
+  private JsonObject buildItemForPersonalData(Resource concept) {
+    String conceptURI = concept.getURI(); // e.g. "https://w3id.org/dpv/pd#Accent"
+    // in the produced rdf for a dataset we already declare https://w3id.org/dpv/dpv-pd# in our prefixes
+    // @prefix dpv-pd: <https://w3id.org/dpv/dpv-pd#>.
+    // so we can safely use the prefix here instead of the full URI
+    String conceptURIShortHand = "dpv-pd:" + conceptURI.substring(
+      conceptURI.indexOf('#') + 1
+    ); // e.g. "dpv-pd:Accent"
+
+    JsonObject labelsJson = new JsonObject();
+    StmtIterator it = concept.listProperties(SKOS.prefLabel);
+    while (it.hasNext()) {
+      Statement st = it.next();
+      if (!st.getObject().isLiteral()) {
+        continue;
+      }
+      Literal lit = st.getObject().asLiteral();
+      String lang = lit.getLanguage();
+      if (lang != null && !lang.isEmpty() && SUPPORTED_LANGUAGES.contains(lang)) {
+        labelsJson.put(lang, lit.getString()); // e.g. "Accent"
+      }
+    }
+
+    return new JsonObject()
+      .put("value", conceptURIShortHand)      // full URI: https://w3id.org/dpv/pd#Accent
+      .put("label", labelsJson);
+  }
+
+  /**
    * Parses an XML document from a buffer.
    *
    * @param body The buffer containing the XML.
@@ -602,9 +727,11 @@ public class ControlledVocabularyManager {
     final boolean multilingual = !FILE_TYPE_SCHEME.equals(url);
 
     // Fetch scheme model
-    return fetchRDFModel(url).compose(model -> {
-      // Extract concept URIs
-      Set<String> conceptURIs = extractConceptURIs(model, url);
+    return fetchRDFModel(url, Lang.RDFXML).compose(model -> {
+      // Extract concept URIs (for publisher type extract all inScheme and not just topConcepts)
+      Set<String> conceptURIs =
+        PUBLISHER_TYPE_SCHEME.equals(url) ? extractAllInSchemeConceptURIs(model, url)
+          : extractTopConceptURIs(model, url);
 
       // Filter concepts for language and country schemes
       if (LANGUAGE_SCHEME.equals(url)) {
@@ -638,7 +765,7 @@ public class ControlledVocabularyManager {
    * @param url The RDF URL.
    * @return A Future with the RDF model.
    */
-  private Future<Model> fetchRDFModel(String url) {
+  private Future<Model> fetchRDFModel(String url, Lang lang) {
     Promise<Model> promise = Promise.promise();
 
     client.getAbs(url).send(ar -> {
@@ -654,7 +781,7 @@ public class ControlledVocabularyManager {
       Buffer body = resp.body();
       try (ByteArrayInputStream in = new ByteArrayInputStream(body.getBytes())) {
         Model model = ModelFactory.createDefaultModel();
-        RDFDataMgr.read(model, in, Lang.RDFXML);
+        RDFDataMgr.read(model, in, lang);
         promise.complete(model);
       } catch (Exception e) {
         // If parse fails, log body head for debugging.
@@ -672,9 +799,9 @@ public class ControlledVocabularyManager {
    *
    * @param model     The RDF model of the concept scheme.
    * @param schemeURI The URI of the concept scheme.
-   * @return A Set of concept URIs.
+   * @return A Set of topConcept URIs.
    */
-  private Set<String> extractConceptURIs(Model model, String schemeURI) {
+  private Set<String> extractTopConceptURIs(Model model, String schemeURI) {
     Set<String> uris = new LinkedHashSet<>();
 
     // Preferred: skos:hasTopConcept <concept>
@@ -703,6 +830,46 @@ public class ControlledVocabularyManager {
   }
 
   /**
+   * Extracts all SKOS concept URIs that belong to a given concept scheme.
+   * <p>
+   * This method inspects the provided RDF {@link Model} and collects every resource that is
+   * associated with the specified scheme via the {@code skos:inScheme} property. Any resource
+   * that:
+   * <ul>
+   *   <li>has the predicate {@code skos:inScheme} with the given scheme URI as its object, and</li>
+   *   <li>has a non-null {@code rdf:about} (i.e. a URI-backed resource),</li>
+   * </ul>
+   * is included in the returned set.
+   * <p>
+   * Unlike {@code skos:hasTopConcept}, which describes only the scheme’s
+   * top-level categories, {@code skos:inScheme} covers <em>all</em> concepts
+   * in the scheme—both top-level and subordinate ones. This makes the method
+   * suitable for retrieving a complete list of concepts defined by the authority.
+   * <p>
+   * The method preserves insertion order by using a {@link LinkedHashSet},
+   * ensuring deterministic ordering of results.
+   *
+   * @param model     the Jena RDF model containing the concept scheme and its concepts
+   * @param schemeURI the URI of the SKOS ConceptScheme whose concepts should be extracted
+   * @return a {@link Set} of concept URIs (never {@code null}), possibly empty if the model does
+   * does not contain any {@code skos:inScheme} relationships for the given scheme
+   */
+  private Set<String> extractAllInSchemeConceptURIs(Model model, String schemeURI) {
+    Set<String> uris = new LinkedHashSet<>();
+    Resource scheme = model.getResource(schemeURI);
+
+    ResIterator concepts = model.listResourcesWithProperty(SKOS.inScheme, scheme);
+    while (concepts.hasNext()) {
+      Resource concept = concepts.next();
+      if (concept.getURI() != null) {
+        uris.add(concept.getURI());
+      }
+    }
+
+    return uris;
+  }
+
+  /**
    * Fetches the RDF of a concept and builds its item object with labels per supported language.
    * Builds items as:
    * <pre>{@code
@@ -716,7 +883,7 @@ public class ControlledVocabularyManager {
    * @return A Future with the item.
    */
   private Future<JsonObject> buildItemFromConcept(String conceptURI, boolean multilingual) {
-    return fetchRDFModel(conceptURI).map(model -> {
+    return fetchRDFModel(conceptURI, Lang.RDFXML).map(model -> {
       Resource concept = model.getResource(conceptURI);
 
       if (!multilingual) {

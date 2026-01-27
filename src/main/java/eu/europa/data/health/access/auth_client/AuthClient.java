@@ -526,7 +526,7 @@ public class AuthClient {
 
   public void validateUsersSearchFilters(@NotNull RoutingContext context){
 
-    log.info("Will validate filters of Users");
+    log.debug("Will validate filters of Users");
 
     JsonObject searchFields = context.body().asJsonObject();
 
@@ -552,7 +552,7 @@ public class AuthClient {
       }
 
     if (errors.isEmpty()) {
-      log.info("No errors exist");
+      log.debug("No errors exist");
       context.next();
     } else {
       log.error("Audit Log search could not proceed due to validation errors");

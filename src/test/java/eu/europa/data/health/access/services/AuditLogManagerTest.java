@@ -15,386 +15,564 @@
  */
 package eu.europa.data.health.access.services;
 
+import static eu.europa.data.health.access.Constants.ACTION;
+import static eu.europa.data.health.access.Constants.ACTION_DESCRIPTION;
 import static eu.europa.data.health.access.Constants.AUDIT_LOG_COLLECTION;
 import static eu.europa.data.health.access.Constants.DATA_ACCESS_APPLICATION_COLLECTION;
+import static eu.europa.data.health.access.Constants.DATA_REQUEST_APPLICATION_COLLECTION;
+import static eu.europa.data.health.access.Constants.ECAS_ID;
+import static eu.europa.data.health.access.Constants.OBJECT;
+import static eu.europa.data.health.access.Constants.OBJECT_ID;
+import static eu.europa.data.health.access.Constants.USER_ID;
+import static eu.europa.data.health.access.Constants.USER_ID_PARAM;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doCallRealMethod;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import eu.europa.data.health.access.AuditLogObject;
 import eu.europa.data.health.access.auth_client.AuthClient;
 import eu.europa.data.health.access.handlers.DBHandler;
-import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Future;
-import io.vertx.core.Promise;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RequestBody;
 import io.vertx.ext.web.RoutingContext;
+import java.time.Duration;
+import java.util.regex.Pattern;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.testcontainers.shaded.org.awaitility.Awaitility;
 
+@ExtendWith(MockitoExtension.class)
 class AuditLogManagerTest {
 
-  @InjectMocks
-  private AuditLogManager auditLogManager;
-  private  DBHandler dbHandler;
-  private  AuthClient authClient;
-  private RoutingContext routingContext;
-  private HttpServerResponse response;
-  private HttpServerRequest request;
+  @Mock
+  DBHandler dbHandler;
+
+  @Mock
+  AuthClient authClient;
+
+  @Mock
+  RoutingContext routingContext;
+
+  @Mock
+  HttpServerRequest request;
+
+  @Mock
+  HttpServerResponse response;
+
+  AuditLogManager auditLogManager;
 
   @BeforeEach
   void setUp() {
-    authClient = mock(AuthClient.class);
-    dbHandler = mock(DBHandler.class);
-    auditLogManager = new AuditLogManager(dbHandler, authClient);
+    auditLogManager = Mockito.spy(new AuditLogManager(dbHandler, authClient));
 
-    routingContext = mock(RoutingContext.class);
-    response = mock(HttpServerResponse.class);
-    request = mock(HttpServerRequest.class);
+    lenient().when(routingContext.request()).thenReturn(request);
+    lenient().when(routingContext.response()).thenReturn(response);
+    lenient().when(response.setStatusCode(anyInt())).thenReturn(response);
+    lenient().when(response.end(anyString())).thenReturn(Future.succeededFuture());
+  }
 
-    when(routingContext.request()).thenReturn(request);
-    when(routingContext.response()).thenReturn(response);
-    when(response.setStatusCode(anyInt())).thenReturn(response);
-    when(response.end(anyString())).thenReturn(null);
-    User mockUser = Mockito.mock(User.class);
-    String ecasId = "n3817490";
-    Mockito.when(routingContext.user()).thenReturn(mockUser);
-    JsonObject principal = new JsonObject().put("preferred_username", ecasId);
-    Mockito.when(routingContext.user().principal()).thenReturn(principal);
-    Mockito.when(mockUser.get("preferred_username")).thenReturn(ecasId);
+  private void addUserOnContext() {
+    io.vertx.ext.auth.User mockUser = mock(io.vertx.ext.auth.User.class);
+    when(routingContext.user()).thenReturn(mockUser);
+
+    JsonObject principal = new JsonObject().put("preferred_username", "n3817490");
+    when(mockUser.principal()).thenReturn(principal);
+  }
+
+  // -------------------------------------------------------------------------
+  // prepareAuditLogActionDescription + getCurrentISOTimestamp + extractDistributionIds
+  // -------------------------------------------------------------------------
+
+  @Test
+  void prepareAuditLogActionDescription_shouldReplaceCurlyPlaceholdersAndFormat() {
+    String template = "Hello {} you have {} items";
+    String out = auditLogManager.prepareAuditLogActionDescription(template, "John", 3);
+    assertEquals("Hello John you have 3 items", out);
   }
 
   @Test
-  void testInsertAuditLog_createsAuditLogEntryAndSavesIt() {
-    String object = "TestObject";
-    String objectId = "12345";
-    String action = "CREATE";
-    String description = "Created test object";
-    boolean linkable = true;
-
-    auditLogManager.insertAuditLog(object, objectId, action, description, linkable, routingContext);
-
-    ArgumentCaptor<JsonObject> captor = ArgumentCaptor.forClass(JsonObject.class);
-    verify(dbHandler).create(eq(AUDIT_LOG_COLLECTION), captor.capture());
-
-    JsonObject capturedLog = captor.getValue();
-
-    assertEquals(object, capturedLog.getString("object"));
-    assertEquals(objectId, capturedLog.getString("objectId"));
-    assertEquals(action, capturedLog.getString("action"));
-    assertEquals(description, capturedLog.getString("actionDescription"));
-    assertEquals(linkable, capturedLog.getBoolean("linkable"));
-    assertNotNull(capturedLog.getString("date"));
-    assertNotNull(capturedLog.getString("userId"));
+  void getCurrentISOTimestamp_shouldReturnIsoInstant() {
+    String ts = AuditLogManager.getCurrentISOTimestamp();
+    assertNotNull(ts);
+    // ISO-8601 instant format ends with 'Z'
+    assertTrue(ts.endsWith("Z"));
+    // Rough sanity: yyyy-mm-ddThh:mm:ss...
+    assertTrue(Pattern.matches("\\d{4}-\\d{2}-\\d{2}T.*Z", ts));
   }
 
   @Test
-  void testExtractDistributionIds_validJson() {
-    String jsonArray = "[{\"distribution_id\": \"dist1\"}, {\"distribution_id\": \"dist2\"}]";
-    String result = auditLogManager.extractDistributionIds(jsonArray);
-    assertEquals("dist1, dist2", result);
+  void extractDistributionIds_whenValidJsonArray_shouldJoinIds() {
+    String json = "[{\"distribution_id\":\"d1\"},{\"distribution_id\":\"d2\"}]";
+    String out = auditLogManager.extractDistributionIds(json);
+    assertEquals("d1, d2", out);
   }
 
   @Test
-  void testExtractDistributionIds_emptyArray() {
-    String jsonArray = "[]";
-    String result = auditLogManager.extractDistributionIds(jsonArray);
-    assertEquals("", result);
+  void extractDistributionIds_whenInvalidJson_shouldReturnEmptyString() {
+    String out = auditLogManager.extractDistributionIds("not-json");
+    assertEquals("", out);
+  }
+
+  // -------------------------------------------------------------------------
+  // insertAuditLog overload (legacy) - context null and non-null
+  // -------------------------------------------------------------------------
+
+  @Test
+  void insertAuditLog_legacyOverload_withContext_shouldCreateEntry() {
+    addUserOnContext(); // <-- ADD THIS
+
+    auditLogManager.insertAuditLog(
+      "DATASET_RECORD",
+      "ACTION",
+      "DESC",
+      routingContext
+    );
+
+    verify(dbHandler).create(eq(AUDIT_LOG_COLLECTION), any(JsonObject.class));
   }
 
   @Test
-  void testExtractDistributionIds_missingField() {
-    String jsonArray = "[{\"no_distribution_id\": \"x\"}]";
-    String result = auditLogManager.extractDistributionIds(jsonArray);
-    assertEquals("", result);
+  void insertAuditLog_legacyOverload_withoutContext_shouldCreateEntry() {
+    auditLogManager.insertAuditLog("OBJ", "ACTION_X", "desc", null);
+
+    ArgumentCaptor<JsonObject> entryCap = ArgumentCaptor.forClass(JsonObject.class);
+    verify(dbHandler).create(eq(AUDIT_LOG_COLLECTION), entryCap.capture());
+
+    JsonObject entry = entryCap.getValue();
+    assertEquals("OBJ", entry.getString(OBJECT));
+    assertEquals("ACTION_X", entry.getString(ACTION));
+    assertEquals("desc", entry.getString(ACTION_DESCRIPTION));
+    assertEquals("", entry.getString(USER_ID));
+  }
+
+  // -------------------------------------------------------------------------
+  // insertAuditLog (objectId overload) - application objects without context
+  //   - resolves USER_ID from application doc, then saves
+  //   - failure path saves with empty USER_ID
+  // -------------------------------------------------------------------------
+
+  @Test
+  void insertAuditLog_applicationObject_withoutContext_shouldResolveUserIdAndSave() {
+    String appId = "app-1";
+    JsonObject appDoc = new JsonObject().put(USER_ID_PARAM, "ecas123");
+
+    when(dbHandler.findById(DATA_REQUEST_APPLICATION_COLLECTION, appId))
+      .thenReturn(Future.succeededFuture(appDoc));
+
+    auditLogManager.insertAuditLog(
+      AuditLogObject.DATA_REQUEST_APPLICATION.toString(),
+      appId,
+      "SOME_ACTION",
+      "some desc",
+      true,
+      null
+    );
+
+    Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted(() -> {
+      ArgumentCaptor<JsonObject> entryCap = ArgumentCaptor.forClass(JsonObject.class);
+      verify(dbHandler).create(eq(AUDIT_LOG_COLLECTION), entryCap.capture());
+
+      JsonObject entry = entryCap.getValue();
+      assertEquals(appId, entry.getString(OBJECT_ID));
+      assertEquals("ecas123", entry.getString(USER_ID));
+      assertTrue(entry.getBoolean("linkable"));
+    });
   }
 
   @Test
-  void testExtractDistributionIds_invalidJson() {
-    String jsonArray = "[{\"distribution_id\": \"dist1\", {\"distribution_id\": \"dist2\"}]";
-    String result = auditLogManager.extractDistributionIds(jsonArray);
-    assertEquals("", result);
+  void insertAuditLog_applicationObject_withoutContext_whenLookupFails_shouldSaveWithEmptyUser() {
+    String appId = "app-2";
+
+    when(dbHandler.findById(DATA_ACCESS_APPLICATION_COLLECTION, appId))
+      .thenReturn(Future.failedFuture("boom"));
+
+    auditLogManager.insertAuditLog(
+      AuditLogObject.DATA_ACCESS_APPLICATION.toString(),
+      appId,
+      "SOME_ACTION",
+      "some desc",
+      true,
+      null
+    );
+
+    Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted(() -> {
+      ArgumentCaptor<JsonObject> entryCap = ArgumentCaptor.forClass(JsonObject.class);
+      verify(dbHandler).create(eq(AUDIT_LOG_COLLECTION), entryCap.capture());
+
+      JsonObject entry = entryCap.getValue();
+      assertEquals(appId, entry.getString(OBJECT_ID));
+      assertEquals("", entry.getString(USER_ID));
+    });
   }
 
   @Test
-  void testSubmitDatasetAuditLog_createAction() {
-    JsonObject input = new JsonObject()
+  void insertAuditLog_nonApplicationObject_withoutContext_shouldSaveWithoutLookup() {
+    auditLogManager.insertAuditLog(
+      AuditLogObject.DATASET_RECORD.toString(),
+      "ds-1",
+      "A",
+      "desc",
+      true,
+      null
+    );
+
+    verify(dbHandler).create(eq(AUDIT_LOG_COLLECTION), any(JsonObject.class));
+    verify(dbHandler, never()).findById(anyString(), anyString());
+  }
+
+  // -------------------------------------------------------------------------
+  // submitDatasetAuditLog - create/update/default paths (+ updateLinkableFields in default)
+  // -------------------------------------------------------------------------
+
+  @Test
+  void submitDatasetAuditLog_whenCreate_shouldInsertAuditLogAndReturnOk() {
+    JsonObject body = new JsonObject()
       .put("datasetId", "ds1")
       .put("datasetAction", "create")
-      .put("ncp", "NCP-X");
+      .put("ncp", "AT");
 
-    when(routingContext.body()).thenReturn(mock(RequestBody.class));
-    when(routingContext.body().asJsonObject()).thenReturn(input);
+    RequestBody rb = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(rb);
+    when(rb.asJsonObject()).thenReturn(body);
 
-    AuditLogManager spyManager = Mockito.spy(auditLogManager);
+    auditLogManager.submitDatasetAuditLog(routingContext);
 
-    doNothing().when(spyManager).setUpMessageContextResponse(any(), any(), any());
-    doReturn("Dataset Record with id: ds1 was created by NCP: NCP-X")
-      .when(spyManager).prepareAuditLogActionDescription(any(), any(), any());
+    verify(dbHandler).create(eq(AUDIT_LOG_COLLECTION), any(JsonObject.class));
+    verify(dbHandler, never()).updateLinkableFields(anyString(), anyString());
 
-    doCallRealMethod().when(spyManager)
-      .insertAuditLog(any(), any(), any(), any(), anyBoolean(), isNull());
-
-    spyManager.submitDatasetAuditLog(routingContext);
-
-    ArgumentCaptor<String> actionDescriptionCaptor = ArgumentCaptor.forClass(String.class);
-
-    verify(spyManager).insertAuditLog(
-      eq("Dataset Record"),
-      eq("ds1"),
-      eq("Dataset Record creation"),
-      actionDescriptionCaptor.capture(),
-      eq(true),
-      isNull()
-    );
-
-    assertEquals("Dataset Record with id: ds1 was created by NCP: NCP-X",
-      actionDescriptionCaptor.getValue()
-    );
-
-    verify(spyManager).setUpMessageContextResponse(
-      eq(routingContext),
-      eq(HttpResponseStatus.OK),
-      eq("Audit Log record inserted successfully")
-    );
-  }
-
-
-  @Test
-  void testSubmitDatasetAuditLog_deleteAction() {
-    JsonObject input = new JsonObject()
-      .put("datasetId", "ds42")
-      .put("datasetAction", "delete")
-      .put("ncp", "NCP-DEL");
-
-    when(routingContext.body()).thenReturn(mock(RequestBody.class));
-    when(routingContext.body().asJsonObject()).thenReturn(input);
-
-    AuditLogManager spyManager = Mockito.spy(auditLogManager);
-
-    doNothing().when(spyManager).insertAuditLog(any(), any(), any(), any(), anyBoolean(), isNull());
-    doNothing().when(spyManager).setUpMessageContextResponse(any(), any(), any());
-    when(dbHandler.updateLinkableFields(any(), any())).thenReturn(null); // FIX HERE
-
-    spyManager.submitDatasetAuditLog(routingContext);
-
-    verify(dbHandler).updateLinkableFields(eq(AUDIT_LOG_COLLECTION), eq("ds42"));
-
-    verify(spyManager).insertAuditLog(
-      eq("Dataset Record"),
-      eq("ds42"),
-      eq("Dataset Record deletion"),
-      argThat(s -> s.contains("ds42") && s.contains("NCP-DEL")),
-      eq(false),
-      isNull()
-    );
+    verify(response).setStatusCode(200);
+    verify(response).end(contains("Audit Log record inserted successfully"));
   }
 
   @Test
-  void testGetQueryOptions_withSearchFieldsAndMatchingUsers() {
-    RoutingContext ctx = mock(RoutingContext.class);
-    HttpServerRequest request = mock(HttpServerRequest.class);
-    when(ctx.request()).thenReturn(request);
+  void submitDatasetAuditLog_whenUpdate_shouldInsertAuditLogAndReturnOk() {
+    JsonObject body = new JsonObject()
+      .put("datasetId", "ds2")
+      .put("datasetAction", "update")
+      .put("ncp", "DE");
+
+    RequestBody rb = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(rb);
+    when(rb.asJsonObject()).thenReturn(body);
+
+    auditLogManager.submitDatasetAuditLog(routingContext);
+
+    verify(dbHandler).create(eq(AUDIT_LOG_COLLECTION), any(JsonObject.class));
+    verify(dbHandler, never()).updateLinkableFields(anyString(), anyString());
+
+    verify(response).setStatusCode(200);
+    verify(response).end(contains("Audit Log record inserted successfully"));
+  }
+
+  @Test
+  void submitDatasetAuditLog_whenDefaultDeletion_shouldUpdateLinkableFieldsAndInsertNonLinkableAuditLog() {
+    JsonObject body = new JsonObject()
+      .put("datasetId", "ds3")
+      .put("datasetAction", "delete") // hits default
+      .put("ncp", "FR");
+
+    RequestBody rb = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(rb);
+    when(rb.asJsonObject()).thenReturn(body);
+
+    auditLogManager.submitDatasetAuditLog(routingContext);
+
+    verify(dbHandler).updateLinkableFields(AUDIT_LOG_COLLECTION, "ds3");
+
+    ArgumentCaptor<JsonObject> entryCap = ArgumentCaptor.forClass(JsonObject.class);
+    verify(dbHandler).create(eq(AUDIT_LOG_COLLECTION), entryCap.capture());
+
+    assertFalse(entryCap.getValue().getBoolean("linkable"));
+
+    verify(response).setStatusCode(200);
+    verify(response).end(contains("Audit Log record inserted successfully"));
+  }
+
+  // -------------------------------------------------------------------------
+  // searchAuditLogs - success + failure (query building uses authClient.getAllUsers)
+  // -------------------------------------------------------------------------
+
+  @Test
+  void searchAuditLogs_whenQueryOptionsBuilt_shouldDelegateToGetAuditLogs() {
+    // request params
+    when(request.getParam("page")).thenReturn("2");
+    when(request.getParam("limit")).thenReturn("10");
+    when(request.getParam("sortBy")).thenReturn("date");
+    when(request.getParam("sortOrder")).thenReturn("desc");
+
+    // body
+    JsonObject body = new JsonObject()
+      .put(OBJECT_ID, "abc")
+      .put(ACTION, "CREATE")
+      .put(ACTION_DESCRIPTION, "hello")
+      .put(ECAS_ID, "n381") // filters users
+      .put("firstName", "")
+      .put("lastName", "");
+
+    RequestBody rb = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(rb);
+    when(rb.asJsonObject()).thenReturn(body);
+
+    // users from auth
+    JsonArray users = new JsonArray()
+      .add(new JsonObject().put("ecasId", "n3817490").put("firstName", "John").put("lastName", "Doe"))
+      .add(new JsonObject().put("ecasId", "x999").put("firstName", "Alice").put("lastName", "Smith"));
+
+    when(authClient.getAllUsers(routingContext, false))
+      .thenReturn(Future.succeededFuture(users));
+
+    // Intercept inherited getAuditLogs call
+    doAnswer(inv -> null).when(auditLogManager).getAuditLogs(
+      any(), anyString(), any(), any(), any(), any(), any()
+    );
+
+    auditLogManager.searchAuditLogs(routingContext);
+
+    Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted(() -> {
+      ArgumentCaptor<JsonObject> queryCap = ArgumentCaptor.forClass(JsonObject.class);
+      verify(auditLogManager).getAuditLogs(
+        eq(routingContext),
+        eq(AUDIT_LOG_COLLECTION),
+        eq(2),
+        eq(10),
+        eq("date"),
+        eq("desc"),
+        queryCap.capture()
+      );
+
+      JsonObject q = queryCap.getValue();
+      assertTrue(q.containsKey("users")); // put in queryOptions
+      assertTrue(q.containsKey(USER_ID)); // derived from auth filtering
+      assertTrue(q.containsKey(OBJECT_ID));
+      assertTrue(q.containsKey(ACTION));
+      assertTrue(q.containsKey(ACTION_DESCRIPTION));
+    });
+  }
+
+  @Test
+  void searchAuditLogs_whenAuthClientFails_shouldReturn500() {
     when(request.getParam("page")).thenReturn(null);
     when(request.getParam("limit")).thenReturn(null);
-    when(request.getParam("sortBy")).thenReturn(null);
-    when(request.getParam("sortOrder")).thenReturn(null);
 
-    JsonObject searchBody = new JsonObject()
-      .put("objectId", "abc123")
-      .put("logDateFrom", "2023-01-01")
-      .put("logDateTo", "2023-12-31")
-      .put("object", new JsonArray().add("Dataset"))
-      .put("action", "delete")
-      .put("actionDescription", "removed")
-      .put("ecasId", "john.doe")
-      .put("firstName", "John")
-      .put("lastName", "Doe");
+    RequestBody rb = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(rb);
+    when(rb.asJsonObject()).thenReturn(new JsonObject());
 
-    when(ctx.body()).thenReturn(mock(RequestBody.class));
-    when(ctx.body().asJsonObject()).thenReturn(searchBody);
+    when(authClient.getAllUsers(routingContext, false))
+      .thenReturn(Future.failedFuture("boom"));
 
-    JsonArray users = new JsonArray().add(new JsonObject()
-      .put("ecasId", "john.doe")
-      .put("firstName", "John")
-      .put("lastName", "Doe"));
+    auditLogManager.searchAuditLogs(routingContext);
 
-    doAnswer(invocation -> {
-      Promise<JsonArray> p = Promise.promise();
-      p.complete(users);
-      return p.future();
-    }).when(authClient).getAllUsers(eq(ctx),anyBoolean());
-
-    AuditLogManager spyManager = Mockito.spy(auditLogManager);
-    doNothing().when(spyManager).getAuditLogs(any(), any(), any(), any(), any(), any());
-
-    spyManager.searchAuditLogs(ctx);
-
-    ArgumentCaptor<JsonObject> queryCaptor = ArgumentCaptor.forClass(JsonObject.class);
-
-    verify(spyManager).getAuditLogs(
-      eq(ctx),
-      isNull(),
-      isNull(),
-      isNull(),
-      isNull(),
-      queryCaptor.capture()
-    );
-
-    JsonObject capturedQuery = queryCaptor.getValue();
-
-    assertNotNull(capturedQuery);
-    assertTrue(capturedQuery.containsKey("objectId"));
-    assertTrue(capturedQuery.containsKey("date"));
-    assertTrue(capturedQuery.containsKey("object"));
-    assertTrue(capturedQuery.containsKey("action"));
-    assertTrue(capturedQuery.containsKey("actionDescription"));
-    assertTrue(capturedQuery.containsKey("userId"));
-    assertEquals("john.doe", capturedQuery.getJsonObject("userId").getJsonArray("$in").getString(0));
+    Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted(() -> {
+      verify(response).setStatusCode(500);
+      verify(response).end(contains("Could not construct query options"));
+      verify(auditLogManager, never()).getAuditLogs(any(), anyString(), any(), any(), any(), any(), any());
+    });
   }
 
   @Test
-  void testGetQueryOptions_whenAuthClientFails() {
-    RoutingContext ctx = mock(RoutingContext.class);
-    HttpServerRequest request = mock(HttpServerRequest.class);
-    when(ctx.request()).thenReturn(request);
-    when(request.getParam("page")).thenReturn(null);
-    when(request.getParam("limit")).thenReturn(null);
-    when(request.getParam("sortBy")).thenReturn(null);
-    when(request.getParam("sortOrder")).thenReturn(null);
+  void searchAuditLogs_whenNoUserCriteriaMatch_shouldUseNoResultSentinel() {
+    RequestBody rb = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(rb);
 
-    JsonObject searchBody = new JsonObject().put("ecasId", "fail");
+    // criteria present but do not match any user -> USER_ID IN ["NO_RESULT"]
+    JsonObject body = new JsonObject()
+      .put(ECAS_ID, "nope")
+      .put("firstName", "nope")
+      .put("lastName", "nope");
+    when(rb.asJsonObject()).thenReturn(body);
 
-    when(ctx.body()).thenReturn(mock(RequestBody.class));
-    when(ctx.body().asJsonObject()).thenReturn(searchBody);
+    JsonArray users = new JsonArray()
+      .add(new JsonObject().put("ecasId", "aaa").put("firstName", "John").put("lastName", "Doe"));
+    when(authClient.getAllUsers(routingContext, false))
+      .thenReturn(Future.succeededFuture(users));
 
-    doAnswer(invocation -> {
-      Promise<JsonArray> p = Promise.promise();
-      p.fail("User service down");
-      return p.future();
-    }).when(authClient).getAllUsers(eq(ctx),anyBoolean());
-
-    AuditLogManager spyManager = Mockito.spy(auditLogManager);
-
-    doNothing().when(spyManager).setUpMessageContextResponse(
-      eq(ctx),
-      eq(HttpResponseStatus.INTERNAL_SERVER_ERROR),
-      eq("Could not construct query options")
+    doAnswer(inv -> null).when(auditLogManager).getAuditLogs(
+      any(), anyString(), any(), any(), any(), any(), any()
     );
 
-    spyManager.searchAuditLogs(ctx);
+    auditLogManager.searchAuditLogs(routingContext);
 
-    verify(spyManager).setUpMessageContextResponse(
-      eq(ctx),
-      eq(HttpResponseStatus.INTERNAL_SERVER_ERROR),
-      eq("Could not construct query options")
-    );
+    Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted(() -> {
+      ArgumentCaptor<JsonObject> queryCap = ArgumentCaptor.forClass(JsonObject.class);
+      verify(auditLogManager).getAuditLogs(
+        eq(routingContext),
+        eq(AUDIT_LOG_COLLECTION),
+        isNull(),
+        isNull(),
+        isNull(),
+        isNull(),
+        queryCap.capture()
+      );
+
+      JsonObject q = queryCap.getValue();
+      JsonObject userIdClause = q.getJsonObject(USER_ID);
+      assertNotNull(userIdClause);
+      JsonArray in = userIdClause.getJsonArray("$in");
+      assertNotNull(in);
+      assertEquals("NO_RESULT", in.getString(0));
+    });
   }
 
+  @Test
+  void searchAuditLogs_whenNoCriteriaProvided_shouldNotForceNoResultUserId() {
+    RequestBody rb = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(rb);
+    when(rb.asJsonObject()).thenReturn(new JsonObject()); // no ECAS/first/last
 
-@Test
-void testInsertAuditLog_withApplicationIdShouldResolveUserId() {
-    // Setup
-    String applicationId = "test-app-id";
-    String userId = "test-user-id";
-    JsonObject applicationDoc = new JsonObject()
-        .put("userId", userId);
+    JsonArray users = new JsonArray()
+      .add(new JsonObject().put("ecasId", "aaa").put("firstName", "John").put("lastName", "Doe"));
+    when(authClient.getAllUsers(routingContext, false))
+      .thenReturn(Future.succeededFuture(users));
 
-    // Mock findById to return the application document
-    when(dbHandler.findById(DATA_ACCESS_APPLICATION_COLLECTION, applicationId))
-        .thenReturn(Future.succeededFuture(applicationDoc));
-
-    // Call method without context - this will trigger userIdFromApplicationObjectId
-    auditLogManager.insertAuditLog(
-        AuditLogObject.DATA_ACCESS_APPLICATION.toString(),
-        applicationId,
-        "TEST_ACTION",
-        "Test description",
-        true,
-        null
+    doAnswer(inv -> null).when(auditLogManager).getAuditLogs(
+      any(), anyString(), any(), any(), any(), any(), any()
     );
 
-    // Verify that create was called with correct userId
-    ArgumentCaptor<JsonObject> logCaptor = ArgumentCaptor.forClass(JsonObject.class);
-    verify(dbHandler).create(eq(AUDIT_LOG_COLLECTION), logCaptor.capture());
+    auditLogManager.searchAuditLogs(routingContext);
 
-    JsonObject capturedLog = logCaptor.getValue();
-    assertEquals(userId, capturedLog.getString("userId"));
-}
+    Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted(() -> {
+      ArgumentCaptor<JsonObject> queryCap = ArgumentCaptor.forClass(JsonObject.class);
+      verify(auditLogManager).getAuditLogs(
+        eq(routingContext),
+        eq(AUDIT_LOG_COLLECTION),
+        isNull(),
+        isNull(),
+        isNull(),
+        isNull(),
+        queryCap.capture()
+      );
 
-@Test
-void testInsertAuditLog_withApplicationIdWhenUserLookupFails() {
-    // Setup
-    String applicationId = "test-app-id";
+      JsonObject q = queryCap.getValue();
+      // No criteria => USER_ID should be "$in" of ALL users or absent?
+      // Code adds USER_ID for any users list; but does NOT add "NO_RESULT".
+      JsonObject userIdClause = q.getJsonObject(USER_ID);
+      assertNotNull(userIdClause);
+      JsonArray in = userIdClause.getJsonArray("$in");
+      assertNotNull(in);
+      assertTrue(in.contains("aaa"));
+      assertFalse(in.contains("NO_RESULT"));
+    });
+  }
 
-    // Mock findById to fail
-    when(dbHandler.findById(DATA_ACCESS_APPLICATION_COLLECTION, applicationId))
-        .thenReturn(Future.failedFuture("Database error"));
+  @Test
+  void searchAuditLogs_whenLogDateFromOnly_shouldPutGteOnDate() {
+    // body with logDateFrom only
+    RequestBody rb = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(rb);
 
-    // Call method without context - this will trigger userIdFromApplicationObjectId
-    auditLogManager.insertAuditLog(
-        AuditLogObject.DATA_ACCESS_APPLICATION.toString(),
-        applicationId,
-        "TEST_ACTION",
-        "Test description",
-        true,
-        null
+    JsonObject body = new JsonObject()
+      .put("logDateFrom", "2025-01-10"); // yyyy-MM-dd
+    when(rb.asJsonObject()).thenReturn(body);
+
+    // auth users success (required for getQueryOptions to complete)
+    JsonArray users = new JsonArray()
+      .add(new JsonObject().put("ecasId", "u1").put("firstName", "A").put("lastName", "B"));
+    when(authClient.getAllUsers(routingContext, false))
+      .thenReturn(Future.succeededFuture(users));
+
+    // intercept inherited call
+    doAnswer(inv -> null).when(auditLogManager).getAuditLogs(
+      any(), anyString(), any(), any(), any(), any(), any()
     );
 
-    // Verify that create was called with empty userId (best-effort policy)
-    ArgumentCaptor<JsonObject> logCaptor = ArgumentCaptor.forClass(JsonObject.class);
-    verify(dbHandler).create(eq(AUDIT_LOG_COLLECTION), logCaptor.capture());
+    auditLogManager.searchAuditLogs(routingContext);
 
-    JsonObject capturedLog = logCaptor.getValue();
-    assertEquals("", capturedLog.getString("userId"));
-}
+    Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted(() -> {
+      ArgumentCaptor<JsonObject> queryCap = ArgumentCaptor.forClass(JsonObject.class);
+      verify(auditLogManager).getAuditLogs(
+        eq(routingContext),
+        eq(AUDIT_LOG_COLLECTION),
+        isNull(), isNull(), isNull(), isNull(),
+        queryCap.capture()
+      );
 
-@Test
-void testInsertAuditLog_withApplicationIdWhenDocumentNotFound() {
-    // Setup
-    String applicationId = "test-app-id";
+      JsonObject q = queryCap.getValue();
+      assertNotNull(q);
 
-    // Mock findById to return null document
-    when(dbHandler.findById(DATA_ACCESS_APPLICATION_COLLECTION, applicationId))
-        .thenReturn(Future.succeededFuture(null));
+      JsonObject date = q.getJsonObject("date");
+      assertNotNull(date);
+      assertEquals("2025-01-10 00:00:00", date.getString("$gte"));
+      assertFalse(date.containsKey("$lte"));
+    });
+  }
 
-    // Call method without context - this will trigger userIdFromApplicationObjectId
-    auditLogManager.insertAuditLog(
-        AuditLogObject.DATA_ACCESS_APPLICATION.toString(),
-        applicationId,
-        "TEST_ACTION",
-        "Test description",
-        true,
-        null
+  @Test
+  void searchAuditLogs_whenLogDateFromAndTo_andObjectList_andAction_shouldBuildAllClauses() {
+    RequestBody rb = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(rb);
+
+    JsonArray objectList = new JsonArray().add("DATASET_RECORD").add("DATA_REQUEST_APPLICATION");
+
+    JsonObject body = new JsonObject()
+      .put("logDateFrom", "2025-01-10")
+      .put("logDateTo", "2025-01-12")
+      .put(OBJECT, objectList)
+      .put(ACTION, "CREATE"); // triggers action REGEX clause
+    when(rb.asJsonObject()).thenReturn(body);
+
+    JsonArray users = new JsonArray()
+      .add(new JsonObject().put("ecasId", "u1").put("firstName", "A").put("lastName", "B"));
+    when(authClient.getAllUsers(routingContext, false))
+      .thenReturn(Future.succeededFuture(users));
+
+    doAnswer(inv -> null).when(auditLogManager).getAuditLogs(
+      any(), anyString(), any(), any(), any(), any(), any()
     );
 
-    // Verify that create was called with empty userId
-    ArgumentCaptor<JsonObject> logCaptor = ArgumentCaptor.forClass(JsonObject.class);
-    verify(dbHandler).create(eq(AUDIT_LOG_COLLECTION), logCaptor.capture());
+    auditLogManager.searchAuditLogs(routingContext);
 
-    JsonObject capturedLog = logCaptor.getValue();
-    assertEquals("", capturedLog.getString("userId"));
-}
+    Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted(() -> {
+      ArgumentCaptor<JsonObject> queryCap = ArgumentCaptor.forClass(JsonObject.class);
+      verify(auditLogManager).getAuditLogs(
+        eq(routingContext),
+        eq(AUDIT_LOG_COLLECTION),
+        isNull(), isNull(), isNull(), isNull(),
+        queryCap.capture()
+      );
+
+      JsonObject q = queryCap.getValue();
+      assertNotNull(q);
+
+      // Date clause merges $gte and $lte
+      JsonObject date = q.getJsonObject("date");
+      assertNotNull(date);
+      assertEquals("2025-01-10 00:00:00", date.getString("$gte"));
+      assertEquals("2025-01-12 23:59:59", date.getString("$lte"));
+
+      // object list clause
+      JsonObject objClause = q.getJsonObject(OBJECT);
+      assertNotNull(objClause);
+      assertEquals(objectList, objClause.getJsonArray("$in"));
+
+      // action regex clause
+      JsonObject actionClause = q.getJsonObject(ACTION);
+      assertNotNull(actionClause);
+      assertEquals("CREATE", actionClause.getString("regex")); // REGEX constant value is "regex"
+      assertEquals("i", actionClause.getString("options"));    // OPTIONS constant value is "options"
+    });
+  }
+
 }

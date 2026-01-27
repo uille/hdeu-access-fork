@@ -131,7 +131,7 @@ public class CatalogueManager extends AbstractManager {
   }
 
   public void getAllGeographicalCoverage(@NotNull RoutingContext context) {
-    hubRepoClient.getAllGeographicalCoverage(context).onSuccess(result -> setUpContextResponse(context, HttpResponseStatus.OK, result.encode())).onFailure(
+    hubRepoClient.getAllGeographicalCoverage().onSuccess(result -> setUpContextResponse(context, HttpResponseStatus.OK, result.encode())).onFailure(
       cause -> setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
         "No countries found."));
   }

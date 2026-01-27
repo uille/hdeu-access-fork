@@ -92,6 +92,7 @@ public class Section5BindToOtherSections {
   @NotNull
   boolean personResponsibleSameAsContactPerson;
   @Size(max = 500)
+  @TranslatableField
   String personResponsibleName;
 
   @ListOfAttachmentsValidation(allowedExtensions = {"doc", "docx", "pdf", "xls", "xlsx",
@@ -101,5 +102,6 @@ public class Section5BindToOtherSections {
   @NotNull
   boolean personResearchSameAsContactPerson;
   @Size(max = 500)
+  @TranslatableField
   String personResearchName;
 }

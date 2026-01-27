@@ -192,6 +192,46 @@ class UserManagerTest {
     });
   }
 
+    @Test
+    void testCreateOrUpdateUser_validRequest(Vertx vertx, VertxTestContext testContext) {
+        RoutingContext context = RoutingContextMocker.mockRoutingContext(new JsonObject());
+        when(context.body().asJsonObject()).thenReturn(createMockNaturalUser());
+
+        userManager.createOrUpdateUser(context);
+
+        vertx.setTimer(500, timerId -> {
+            HttpServerResponse response = context.response();
+            assertNotNull(response, "Response should not be null");
+            assertEquals(200, response.getStatusCode(), "Expected status code to be 200");
+            assertEquals("Document created or updated successfully", response.getStatusMessage());
+            testContext.completeNow();
+        });
+    }
+
+    @Test
+    void testCreateOrUpdateUser_invalidRequest(Vertx vertx, VertxTestContext testContext) {
+        RoutingContext context = RoutingContextMocker.mockRoutingContext(new JsonObject());
+        when(context.body().asJsonObject()).thenReturn(createMockNaturalUser());
+
+        // Simulate failure on MongoClient
+        MongoClient mongoClientSpy = Mockito.spy(mongoClient);
+        doAnswer(inv -> Future.failedFuture(new RuntimeException("MongoDB error")))
+                .when(mongoClientSpy).replaceDocumentsWithOptions(anyString(), any(), any(), any());
+
+        UserManager userManagerWithMockedMongoClient = new UserManager(dbHandler, mongoClientSpy, dispatcherClient,
+                new AuditLogManager(dbHandler, authClient), authClient);
+
+        userManagerWithMockedMongoClient.createOrUpdateUser(context);
+
+        vertx.setTimer(500, timerId -> {
+            HttpServerResponse response = context.response();
+            assertNotNull(response, "Response should not be null");
+            assertEquals(500, response.getStatusCode(), "Expected status code to be 500");
+            assertEquals("Failed", response.getStatusMessage());
+            testContext.completeNow();
+        });
+    }
+
   @Test
   void testDeleteUser(Vertx vertx, VertxTestContext testContext) {
 

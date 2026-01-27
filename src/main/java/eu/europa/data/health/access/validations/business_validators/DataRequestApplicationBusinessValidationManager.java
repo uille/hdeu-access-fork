@@ -19,6 +19,7 @@ import static eu.europa.data.health.access.Constants.APPLICATION_ID;
 import static eu.europa.data.health.access.Constants.DATA_REQUEST_APPLICATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.ERRORS;
 import static eu.europa.data.health.access.Constants.LEGAL_OR_NATURAL_PERSON;
+import static eu.europa.data.health.access.Constants.PURPOSE_FOR_WHICH_DATA_WILL_BE_USED;
 import static eu.europa.data.health.access.Constants.SECTION_2;
 import static eu.europa.data.health.access.validations.validators.DataAccessApplicationValidationManager.buildCustomValidationErrors;
 
@@ -281,7 +282,7 @@ public class DataRequestApplicationBusinessValidationManager extends AbstractSch
 
             ObjectMapper objectMapper = new ObjectMapper();
             if (Objects.nonNull(sectionData2)) {
-              String jsonValue = sectionData2.getString("purposeForWhichDataWillBeUsed");
+              String jsonValue = sectionData2.getString(PURPOSE_FOR_WHICH_DATA_WILL_BE_USED);
               if (Objects.nonNull(jsonValue)) {
                 try {
                   section2purposeForWhichDataWillBeUsed = objectMapper.readValue(jsonValue,
@@ -364,11 +365,11 @@ public class DataRequestApplicationBusinessValidationManager extends AbstractSch
           JsonObject sectionData2 = result.getJsonObject("form").getJsonObject(SECTION_2);
 
           // Check if the field purposeForWhichDataWillBeUsed in section2 exists
-          if (Objects.nonNull(sectionData2) && sectionData2.containsKey("purposeForWhichDataWillBeUsed")) {
+          if (Objects.nonNull(sectionData2) && sectionData2.containsKey(PURPOSE_FOR_WHICH_DATA_WILL_BE_USED)) {
 
             ObjectMapper objectMapper = new ObjectMapper();
             List<SelectObjectDTO> section5purposeOfUse = new ArrayList<>();
-            String jsonValue = sectionData2.getString("purposeForWhichDataWillBeUsed");
+            String jsonValue = sectionData2.getString(PURPOSE_FOR_WHICH_DATA_WILL_BE_USED);
 
             if (Objects.nonNull(jsonValue)) {
               try {

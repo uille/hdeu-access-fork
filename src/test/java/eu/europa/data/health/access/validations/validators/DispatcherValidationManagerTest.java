@@ -15,61 +15,64 @@
  */
 package eu.europa.data.health.access.validations.validators;
 
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
-
-import io.vertx.core.buffer.Buffer;
+import eu.europa.data.health.access.SchemaFiles;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.ext.web.RequestBody;
 import io.vertx.ext.web.RoutingContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
- class DispatcherValidationManagerTest {
+class DispatcherValidationManagerTest {
 
+  private DispatcherValidationManager manager;
+  private RoutingContext ctx;
+  private HttpServerResponse response;
 
   @BeforeEach
   void setUp() {
-    manager = new DispatcherValidationManager();
+    manager = spy(new DispatcherValidationManager());
+
+    ctx = mock(RoutingContext.class);
+    response = mock(HttpServerResponse.class);
+
+    // IMPORTANT: prevent NPE inside validateJsonSchema(...)
+    when(ctx.response()).thenReturn(response);
+
+    // common Vert.x response chaining
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+    when(response.putHeader(anyString(), anyString())).thenReturn(response);
   }
-
-  private DispatcherValidationManager manager;
-
-
-  @Mock
-  private HttpServerResponse response;
 
   @Test
-  void testValidateSearchCatalogueJsonSchema_invokesValidator() {
-    RoutingContext context = mock(RoutingContext.class);
-    RequestBody requestBody = Mockito.mock(RequestBody.class);
+  void validateDispatcherDecisionJsonSchema_shouldUseDecisionSchema() {
+    manager.validateDispatcherDecisionJsonSchema(ctx);
 
-    Buffer buffer = Buffer.buffer("{\"exampleField\":\"exampleValue\"}");
-    var body = mock(io.vertx.ext.web.RequestBody.class);
-
-    when(context.response()).thenReturn(response);
-
-    when(context.body()).thenReturn(body);
-    when(requestBody.asString()).thenReturn(buffer.toString());
-
-    when(context.response()).thenReturn(response);
-    when(context.response().setStatusCode(anyInt())).thenReturn(response);
-
-    when(context.body()).thenReturn(requestBody);
-    manager.validateDispatcherDecisionJsonSchema(context);
-    verify(context, times(2)).response();
+    verify(manager).validateJsonSchema(
+      same(ctx),
+      eq(SchemaFiles.DISPATCHER_DECISION_SCHEMA_FILE.getValue())
+    );
   }
 
+  @Test
+  void validateDispatcherStatusJsonSchema_shouldUseStatusSchema() {
+    manager.validateDispatcherStatusJsonSchema(ctx);
 
+    verify(manager).validateJsonSchema(
+      same(ctx),
+      eq(SchemaFiles.DISPATCHER_STATUS_SCHEMA_FILE.getValue())
+    );
+  }
 
+  @Test
+  void validateDispatcherPermitJsonSchema_shouldUsePermitSchema() {
+    manager.validateDispatcherPermitJsonSchema(ctx);
 
+    verify(manager).validateJsonSchema(
+      same(ctx),
+      eq(SchemaFiles.PERMIT_STATUS_SCHEMA_FILE.getValue())
+    );
+  }
 }
+

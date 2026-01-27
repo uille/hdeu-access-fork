@@ -15,6 +15,7 @@
  */
 package eu.europa.data.health.access.scheduled_jobs;
 
+import static eu.europa.data.health.access.Constants.DISPATCHER_COLLECTION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -35,6 +36,8 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
 import eu.europa.data.health.access.DispatcherResponseStatus;
 import eu.europa.data.health.access.dispatcher_client.DispatcherClient;
+import eu.europa.data.health.access.handlers.DBHandler;
+import eu.europa.data.health.access.services.AuditLogManager;
 import eu.europa.data.health.access.services.DispatcherManager;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -42,6 +45,9 @@ import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.mongo.MongoClientUpdateResult;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -49,11 +55,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 class DispatcherScheduledJobTest {
+
+  @Mock
+  DBHandler dbHandler;
 
   @Mock
   MongoClient mongoClient;
@@ -64,6 +69,9 @@ class DispatcherScheduledJobTest {
   @Mock
   DispatcherClient dispatcherClient;
 
+  @Mock
+  AuditLogManager auditLogManager;
+
   @InjectMocks
   DispatcherScheduledJob job;
   private final Logger logger = (Logger) LoggerFactory.getLogger(DispatcherScheduledJob.class);
@@ -71,7 +79,7 @@ class DispatcherScheduledJobTest {
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
-    job = new DispatcherScheduledJob(mongoClient, dispatcherManager);
+    job = new DispatcherScheduledJob(dbHandler, mongoClient, dispatcherManager, auditLogManager);
   }
 
   @Test
@@ -181,7 +189,7 @@ class DispatcherScheduledJobTest {
       return null;
     });
 
-    job.markDispatcherRecordAsCompleted("app1", "[\"message-id\"]");
+    job.markDispatcherRecordAsCompleted(updatedResult, "[\"message-id\"]");
     verify(mongoClient).updateCollection(eq("DISPATCHER"), any(JsonObject.class),
       any(JsonObject.class), any(Handler.class)
     );
@@ -209,7 +217,8 @@ class DispatcherScheduledJobTest {
       return null;
     });
 
-    job.retrySendApplicationToDispatcher("app1", dispatcherRecord, 2, "some error");
+    job.retrySendApplicationToDispatcher("app1", dispatcherRecord, 2, "some error",
+      DISPATCHER_COLLECTION);
     verify(dispatcherManager).updateDispatcherStatusInApplication(any(),
       eq(DispatcherResponseStatus.FAILED));
   }

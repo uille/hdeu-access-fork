@@ -15,17 +15,6 @@
  */
 package eu.europa.data.health.access.scheduled_jobs;
 
-import static eu.europa.data.health.access.Constants.DATA_REQUEST_APPLICATION_COLLECTION;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import ch.qos.logback.classic.Level;
 import eu.europa.data.health.access.TestAppender;
 import eu.europa.data.health.access.hub_translation_client.HubTranslationClient;
@@ -35,9 +24,6 @@ import eu.europa.data.health.access.services.HubStoreClient;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
-
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,6 +31,15 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+
+import static eu.europa.data.health.access.Constants.DATA_REQUEST_APPLICATION_COLLECTION;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TranslationRetryScheduledJobTest {
@@ -208,6 +203,124 @@ class TranslationRetryScheduledJobTest {
 
   }
 
+
+    @Test
+    void testRetryPendingTranslations_fetchError() {
+        String appType = "dataRequest";
+        // Mock Mongo failure
+        when(mongoClient.findWithOptions(eq(appType), any(JsonObject.class), any()))
+                .thenReturn(Future.failedFuture(new RuntimeException("DB error")));
+        // Act
+        translationRetryScheduledJob.retryPendingTranslations(appType, 3, 1000);
+
+        // Assert: Ensure error is logged
+        boolean found = testAppender.getLogs().stream()
+                .anyMatch(log -> log.getLevel() == Level.ERROR &&
+                        log.getFormattedMessage().contains("Failed to fetch applications for retry"));
+
+        assertTrue(found, "Expected ERROR log with 'Failed to fetch applications for retry'");
+    }
+
+    @Test
+    void testRetryPendingTranslations_fileTranslationMaxAttempts() {
+        String appId = "app-789";
+        String appType = DATA_REQUEST_APPLICATION_COLLECTION;
+        String fileId = "file123";
+
+        JsonObject file = new JsonObject().put("status", "PENDING")
+                .put("attempts", 5); // Exceed maxAttempts
+
+        JsonObject translation = new JsonObject().put("files", new JsonObject().put(fileId, file));
+        JsonObject app = new JsonObject().put("_id", appId).put("translation", translation);
+
+        when(mongoClient.findWithOptions(eq(appType), any(JsonObject.class), any()))
+                .thenReturn(Future.succeededFuture(List.of(app)));
+
+        // Act
+        translationRetryScheduledJob.retryPendingTranslations(appType, 4, 1000);
+
+        // Assert: Ensure translation retry was skipped and warn logged
+        verify(hubTranslationClient, never()).requestFileTranslation(any());
+
+        boolean found = testAppender.getLogs().stream()
+                .anyMatch(log -> log.getLevel() == Level.WARN &&
+                        log.getFormattedMessage()
+                                .contains("Skipping file translation retry for fileId=" + fileId + ", appId=" + appId));
+
+        assertTrue(found, "Expected WARN log with 'Skipping file translation retry'");
+    }
+
+    @Test
+    void testRetryPendingTranslations_formTranslationRetry() {
+        String appId = "app-123";
+        String appType = "dataRequest";
+
+        JsonObject form = new JsonObject().put("status", "PENDING")
+                .put("payload", new JsonObject().put("key", "value"))
+                .put("attempts", 0);
+
+        JsonObject translation = new JsonObject().put("form", form);
+        JsonObject app = new JsonObject().put("_id", appId).put("translation", translation);
+
+        when(mongoClient.findWithOptions(eq(appType), any(JsonObject.class), any()))
+                .thenReturn(Future.succeededFuture(List.of(app)));
+
+        when(hubTranslationClient.requestTranslation(eq(form.getJsonObject("payload"))))
+                .thenReturn(Future.succeededFuture());
+
+        when(mongoClient.updateCollection(eq(appType), any(JsonObject.class), any(JsonObject.class)))
+                .thenReturn(Future.succeededFuture());
+
+        // Act
+        translationRetryScheduledJob.retryPendingTranslations(appType, 3, 1000);
+
+        // Assert: requestTranslation is called for form payload
+        verify(hubTranslationClient).requestTranslation(eq(form.getJsonObject("payload")));
+
+        // Assert: Update attempts and lastRetryAt is called
+        verify(mongoClient, atLeastOnce()).updateCollection(eq(appType), any(JsonObject.class), any(JsonObject.class));
+    }
+
+    @Test
+    void testRetryPendingTranslations_fileTranslationRetry() {
+        String appId = "app-123";
+        String appType = "dataRequest";
+        String fileId = "file456";
+
+        JsonObject file = new JsonObject().put("status", "PENDING")
+                .put("attempts", 0);
+
+        JsonObject translation = new JsonObject().put("files", new JsonObject().put(fileId, file));
+        JsonObject app = new JsonObject().put("_id", appId).put("translation", translation);
+
+        JsonObject fileObj = new JsonObject().put("id", fileId).put("base64", "abc123");
+        JsonObject payload = new JsonObject().put("key", "value");
+
+        when(mongoClient.findWithOptions(eq(appType), any(JsonObject.class), any()))
+                .thenReturn(Future.succeededFuture(List.of(app)));
+
+        when(hubStoreClient.getFilesAsBase64(any(), eq(appId)))
+                .thenReturn(Future.succeededFuture(List.of(fileObj)));
+
+        when(hubTranslationClient.buildFileTranslationPayload(eq(appId), eq(appType), eq(fileObj), any()))
+                .thenReturn(payload);
+
+        when(hubTranslationClient.requestFileTranslation(eq(payload)))
+                .thenReturn(Future.succeededFuture());
+
+        when(mongoClient.updateCollection(eq(appType), any(JsonObject.class), any(JsonObject.class)))
+                .thenReturn(Future.succeededFuture());
+
+        // Act
+        translationRetryScheduledJob.retryPendingTranslations(appType, 3, 1000);
+
+        // Assert: Ensure file translation is attempted
+        verify(hubStoreClient).getFilesAsBase64(any(), eq(appId));
+        verify(hubTranslationClient).requestFileTranslation(eq(payload));
+
+        // Assert: Update attempts and lastRetryAt is called
+        verify(mongoClient, atLeastOnce()).updateCollection(eq(appType), any(JsonObject.class), any(JsonObject.class));
+    }
 
 }
 

@@ -233,45 +233,61 @@ class TranslationCallbackManagerTest {
         verify(response).end("Missing required fields");
     }
 
-    @Test
-    void testHandleTranslationCallback_translationError_dataRequestApplication() {
-        JsonObject dict = new JsonObject().put("file", new JsonObject()
-                .put("fileId", new JsonObject()
-                        .put("translations", new JsonObject().put("en", -1))));
-        JsonObject data = new JsonObject()
-                .put("applicationId", "app123")
-                .put("applicationType", Constants.DATA_REQUEST_APPLICATION_COLLECTION);
-        JsonObject body = new JsonObject().put("data", data).put("dict", dict);
+  @Test
+  void testHandleTranslationCallback_translationError_dataRequestApplication() {
+    JsonObject dict = new JsonObject().put(
+      "file",
+      new JsonObject().put(
+        "fileId",
+        new JsonObject().put("translations", new JsonObject().put("en", -1))
+      )
+    );
+    JsonObject data = new JsonObject()
+      .put("applicationId", "app123")
+      .put("applicationType", Constants.DATA_REQUEST_APPLICATION_COLLECTION);
+    JsonObject body = new JsonObject().put("data", data).put("dict", dict);
 
-        when(context.body()).thenReturn(requestBody);
-        when(requestBody.asJsonObject()).thenReturn(body);
+    when(context.body()).thenReturn(requestBody);
+    when(requestBody.asJsonObject()).thenReturn(body);
 
-        manager.handleTranslationCallback(context);
+    manager.handleTranslationCallback(context);
 
-        verify(dataRequestManager).markTranslationError("app123", "Translation error code: -1", "fileId");
-        verify(response).setStatusCode(200);
-        verify(response).end("Translation error handled");
-    }
+    verify(dataRequestManager).incrementTranslationAttempts(
+      "app123",
+      "Translation error code(s): [-1]",
+      "fileId"
+    );
+    verify(response).setStatusCode(200);
+    verify(response).end("Translation error handled");
+  }
 
-    @Test
-    void testHandleTranslationCallback_translationError_dataAccessApplication() {
-        JsonObject dict = new JsonObject().put("file", new JsonObject()
-                .put("fileId", new JsonObject()
-                        .put("translations", new JsonObject().put("en", -1))));
-        JsonObject data = new JsonObject()
-                .put("applicationId", "app456")
-                .put("applicationType", Constants.DATA_ACCESS_APPLICATION_COLLECTION);
-        JsonObject body = new JsonObject().put("data", data).put("dict", dict);
+  @Test
+  void testHandleTranslationCallback_translationError_dataAccessApplication() {
+    JsonObject dict = new JsonObject().put(
+      "file",
+      new JsonObject().put(
+        "fileId",
+        new JsonObject().put("translations", new JsonObject().put("en", -1))
+      )
+    );
+    JsonObject data = new JsonObject()
+      .put("applicationId", "app456")
+      .put("applicationType", Constants.DATA_ACCESS_APPLICATION_COLLECTION);
+    JsonObject body = new JsonObject().put("data", data).put("dict", dict);
 
-        when(context.body()).thenReturn(requestBody);
-        when(requestBody.asJsonObject()).thenReturn(body);
+    when(context.body()).thenReturn(requestBody);
+    when(requestBody.asJsonObject()).thenReturn(body);
 
-        manager.handleTranslationCallback(context);
+    manager.handleTranslationCallback(context);
 
-        verify(dataAccessManager).markTranslationError("app456", "Translation error code: -1", "fileId");
-        verify(response).setStatusCode(200);
-        verify(response).end("Translation error handled");
-    }
+    verify(dataAccessManager).incrementTranslationAttempts(
+      "app456",
+      "Translation error code(s): [-1]",
+      "fileId"
+    );
+    verify(response).setStatusCode(200);
+    verify(response).end("Translation error handled");
+  }
 
   @Test
   void testHandleTranslationCallback_fileTranslation_success() {
@@ -305,7 +321,6 @@ class TranslationCallbackManagerTest {
       any(Map.class));
     verify(response).setStatusCode(200);
   }
-
 
   @Test
   void testHandleTranslationCallbackAccess_fileTranslation_success() {

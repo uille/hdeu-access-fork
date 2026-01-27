@@ -69,6 +69,7 @@ import static eu.europa.data.health.access.UtilityServiceTest.getStringJsonObjec
 import static eu.europa.data.health.access.services.CommonApplicationManager.TARGET_LANGUAGES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
@@ -177,7 +178,7 @@ class DataAccessApplicationManagerTest {
     dataAccessApplicationManager = new DataAccessApplicationManager(
       dbHandler, mongoClient, basketManager, hubStoreClient,
       vertx, dataAccessApplicationValidationManager, dataAccessApplicationBusinessValidationManager,
-      auditLogManager, hubTranslationClient, hubSearchClient, false, authClient);
+      auditLogManager, hubTranslationClient, hubSearchClient, authClient);
 
     when(routingContext.request()).thenReturn(request);
     // Mock other behaviors
@@ -480,6 +481,289 @@ class DataAccessApplicationManagerTest {
   }
 
   @Test
+  void testGetEveryDataAccessApplicationById() {
+    DataAccessApplicationManager spyManager = Mockito.spy(dataAccessApplicationManager);
+    doAnswer(invocation -> {
+      RoutingContext ctx = invocation.getArgument(0);
+      ctx.response().setStatusCode(200).end("mocked");
+      return null;
+    }).when(spyManager).findByIdWithoutSecurity(any(), anyString());
+    spyManager.getEveryDataAccessApplicationById(routingContext);
+    verify(spyManager).findByIdWithoutSecurity(routingContext, DATA_ACCESS_APPLICATION_COLLECTION);
+    verify(response).setStatusCode(200);
+  }
+
+  @Test
+  void testGetAllOnGoingDataAccessApplications() {
+    String page = "2";
+    String limit = "10";
+    String sortBy = "name";
+    String sortOrder = "asc";
+
+    when(request.getParam("page")).thenReturn(page);
+    when(request.getParam("limit")).thenReturn(limit);
+    when(request.getParam("sortBy")).thenReturn(sortBy);
+    when(request.getParam("sortOrder")).thenReturn(sortOrder);
+
+    JsonObject searchBody = new JsonObject().put("title", "Test Title");
+    RequestBody mockBody = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(mockBody);
+    when(mockBody.asJsonObject()).thenReturn(searchBody);
+
+    DataAccessApplicationManager spyManager = Mockito.spy(dataAccessApplicationManager);
+    doAnswer(invocation -> {
+      RoutingContext ctx = invocation.getArgument(0);
+      String collection = invocation.getArgument(1);
+      Integer pageNum = invocation.getArgument(2);
+      Integer pageSize = invocation.getArgument(3);
+      String sortField = invocation.getArgument(4);
+      String sortDirection = invocation.getArgument(5);
+      JsonObject queryOpts = invocation.getArgument(6);
+
+      assertEquals(DATA_ACCESS_APPLICATION_COLLECTION, collection);
+      assertEquals(Integer.valueOf(2), pageNum);
+      assertEquals(Integer.valueOf(10), pageSize);
+      assertEquals("name", sortField);
+      assertEquals("asc", sortDirection);
+
+
+      assertTrue(queryOpts.containsKey("title"));
+      assertTrue(queryOpts.containsKey("status.status"));
+      JsonObject titleQuery = queryOpts.getJsonObject("title");
+      assertEquals("Test Title", titleQuery.getString("$regex"));
+      assertEquals("i", titleQuery.getString("$options"));
+
+      JsonObject statusQuery = queryOpts.getJsonObject("status.status");
+      JsonArray statusValues = statusQuery.getJsonArray("$in");
+      assertTrue(statusValues.contains("ON-GOING"));
+      assertTrue(statusValues.contains("COMPLETED"));
+
+      ctx.response().setStatusCode(200).end("mocked");
+      return null;
+    }).when(spyManager).getApplications(any(), anyString(), any(), any(), anyString(), anyString(), any());
+
+    spyManager.getAllOnGoingDataAccessApplications(routingContext);
+
+    verify(response).setStatusCode(200);
+  }
+
+  @Test
+  void testGetAllDecisionIssuedDataAccessApplications_positiveDecision() {
+    String page = "2";
+    String limit = "10";
+    String sortBy = "name";
+    String sortOrder = "asc";
+
+    when(request.getParam("page")).thenReturn(page);
+    when(request.getParam("limit")).thenReturn(limit);
+    when(request.getParam("sortBy")).thenReturn(sortBy);
+    when(request.getParam("sortOrder")).thenReturn(sortOrder);
+
+    JsonObject searchBody = new JsonObject()
+      .put("title", "Test Title")
+      .put("decisionType", "POSITIVE_DECISION_ISSUED");
+    RequestBody mockBody = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(mockBody);
+    when(mockBody.asJsonObject()).thenReturn(searchBody);
+
+    DataAccessApplicationManager spyManager = Mockito.spy(dataAccessApplicationManager);
+    doAnswer(invocation -> {
+      RoutingContext ctx = invocation.getArgument(0);
+      String collection = invocation.getArgument(1);
+      Integer pageNum = invocation.getArgument(2);
+      Integer pageSize = invocation.getArgument(3);
+      String sortField = invocation.getArgument(4);
+      String sortDirection = invocation.getArgument(5);
+      JsonObject queryOpts = invocation.getArgument(6);
+      Boolean isPositive = invocation.getArgument(7);
+
+      assertEquals(DATA_ACCESS_APPLICATION_COLLECTION, collection);
+      assertEquals(Integer.valueOf(2), pageNum);
+      assertEquals(Integer.valueOf(10), pageSize);
+      assertEquals("name", sortField);
+      assertEquals("asc", sortDirection);
+      assertTrue(isPositive);
+
+      assertTrue(queryOpts.containsKey("title"));
+      JsonObject titleQuery = queryOpts.getJsonObject("title");
+      assertEquals("Test Title", titleQuery.getString("$regex"));
+      assertEquals("i", titleQuery.getString("$options"));
+
+      ctx.response().setStatusCode(200).end("mocked");
+      return null;
+    }).when(spyManager).getDecisionIssuedDatasets(any(), anyString(), any(), any(), anyString(), anyString(), any(), any());
+
+    spyManager.getAllDecisionIssuedDataAccessApplications(routingContext);
+
+    verify(response).setStatusCode(200);
+  }
+
+  @Test
+  void testGetAllDecisionIssuedDataAccessApplications_negativeDecision() {
+    String page = "2";
+    String limit = "10";
+    String sortBy = "name";
+    String sortOrder = "asc";
+
+    when(request.getParam("page")).thenReturn(page);
+    when(request.getParam("limit")).thenReturn(limit);
+    when(request.getParam("sortBy")).thenReturn(sortBy);
+    when(request.getParam("sortOrder")).thenReturn(sortOrder);
+
+    JsonObject searchBody = new JsonObject()
+      .put("title", "Test Title")
+      .put("decisionType", "NEGATIVE_DECISION_ISSUED");
+    RequestBody mockBody = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(mockBody);
+    when(mockBody.asJsonObject()).thenReturn(searchBody);
+
+    DataAccessApplicationManager spyManager = Mockito.spy(dataAccessApplicationManager);
+    doAnswer(invocation -> {
+      RoutingContext ctx = invocation.getArgument(0);
+      String collection = invocation.getArgument(1);
+      Integer pageNum = invocation.getArgument(2);
+      Integer pageSize = invocation.getArgument(3);
+      String sortField = invocation.getArgument(4);
+      String sortDirection = invocation.getArgument(5);
+      JsonObject queryOpts = invocation.getArgument(6);
+      Boolean isPositive = invocation.getArgument(7);
+
+
+      assertEquals(DATA_ACCESS_APPLICATION_COLLECTION, collection);
+      assertEquals(Integer.valueOf(2), pageNum);
+      assertEquals(Integer.valueOf(10), pageSize);
+      assertEquals("name", sortField);
+      assertEquals("asc", sortDirection);
+      assertFalse(isPositive);
+
+      assertTrue(queryOpts.containsKey("title"));
+      JsonObject titleQuery = queryOpts.getJsonObject("title");
+      assertEquals("Test Title", titleQuery.getString("$regex"));
+      assertEquals("i", titleQuery.getString("$options"));
+
+      ctx.response().setStatusCode(200).end("mocked");
+      return null;
+    }).when(spyManager).getDecisionIssuedDatasets(any(), anyString(), any(), any(), anyString(), anyString(), any(), any());
+
+    spyManager.getAllDecisionIssuedDataAccessApplications(routingContext);
+
+    verify(response).setStatusCode(200);
+  }
+
+  @Test
+  void testGetAllDecisionIssuedDataAccessApplications_unknownDecisionType() {
+    String page = "2";
+    String limit = "10";
+    String sortBy = "name";
+    String sortOrder = "asc";
+
+    when(request.getParam("page")).thenReturn(page);
+    when(request.getParam("limit")).thenReturn(limit);
+    when(request.getParam("sortBy")).thenReturn(sortBy);
+    when(request.getParam("sortOrder")).thenReturn(sortOrder);
+
+    JsonObject searchBody = new JsonObject()
+      .put("title", "Test Title")
+      .put("decisionType", "UNKNOWN_TYPE");
+    RequestBody mockBody = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(mockBody);
+    when(mockBody.asJsonObject()).thenReturn(searchBody);
+
+
+    ListAppender<ILoggingEvent> listAppenderLocal = new ListAppender<>();
+    listAppenderLocal.start();
+    logger.addAppender(listAppenderLocal);
+
+    DataAccessApplicationManager spyManager = Mockito.spy(dataAccessApplicationManager);
+    doAnswer(invocation -> {
+      RoutingContext ctx = invocation.getArgument(0);
+      String collection = invocation.getArgument(1);
+      Integer pageNum = invocation.getArgument(2);
+      Integer pageSize = invocation.getArgument(3);
+      String sortField = invocation.getArgument(4);
+      String sortDirection = invocation.getArgument(5);
+      JsonObject queryOpts = invocation.getArgument(6);
+      Boolean isPositive = invocation.getArgument(7);
+
+      assertEquals(DATA_ACCESS_APPLICATION_COLLECTION, collection);
+      assertEquals(Integer.valueOf(2), pageNum);
+      assertEquals(Integer.valueOf(10), pageSize);
+      assertEquals("name", sortField);
+      assertEquals("asc", sortDirection);
+      assertNull(isPositive);
+
+
+      assertTrue(queryOpts.containsKey("title"));
+      JsonObject titleQuery = queryOpts.getJsonObject("title");
+      assertEquals("Test Title", titleQuery.getString("$regex"));
+      assertEquals("i", titleQuery.getString("$options"));
+
+      ctx.response().setStatusCode(200).end("mocked");
+      return null;
+    }).when(spyManager).getDecisionIssuedDatasets(any(), anyString(), any(), any(), anyString(), anyString(), any(), any());
+
+    spyManager.getAllDecisionIssuedDataAccessApplications(routingContext);
+
+    boolean foundWarning = listAppenderLocal.list.stream()
+      .anyMatch(event ->
+        event.getLevel() == Level.WARN &&
+        event.getFormattedMessage().contains("Unknown decisionType 'UNKNOWN_TYPE'"));
+    assertTrue(foundWarning);
+
+    verify(response).setStatusCode(200);
+  }
+
+  @Test
+  void testGetAllDataPermitIssuedApplications() {
+
+    String page = "2";
+    String limit = "10";
+    String sortBy = "name";
+    String sortOrder = "asc";
+
+    when(request.getParam("page")).thenReturn(page);
+    when(request.getParam("limit")).thenReturn(limit);
+    when(request.getParam("sortBy")).thenReturn(sortBy);
+    when(request.getParam("sortOrder")).thenReturn(sortOrder);
+
+    JsonObject searchBody = new JsonObject().put("title", "Test Title");
+    RequestBody mockBody = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(mockBody);
+    when(mockBody.asJsonObject()).thenReturn(searchBody);
+
+    DataAccessApplicationManager spyManager = Mockito.spy(dataAccessApplicationManager);
+    doAnswer(invocation -> {
+      RoutingContext ctx = invocation.getArgument(0);
+      String collection = invocation.getArgument(1);
+      Integer pageNum = invocation.getArgument(2);
+      Integer pageSize = invocation.getArgument(3);
+      String sortField = invocation.getArgument(4);
+      String sortDirection = invocation.getArgument(5);
+      JsonObject queryOpts = invocation.getArgument(6);
+
+      assertEquals(DATA_ACCESS_APPLICATION_COLLECTION, collection);
+      assertEquals(Integer.valueOf(2), pageNum);
+      assertEquals(Integer.valueOf(10), pageSize);
+      assertEquals("name", sortField);
+      assertEquals("asc", sortDirection);
+
+
+      assertTrue(queryOpts.containsKey("title"));
+      JsonObject titleQuery = queryOpts.getJsonObject("title");
+      assertEquals("Test Title", titleQuery.getString("$regex"));
+      assertEquals("i", titleQuery.getString("$options"));
+
+      ctx.response().setStatusCode(200).end("mocked");
+      return null;
+    }).when(spyManager).getDataPermitGrantedDatasets(any(), anyString(), any(), any(), anyString(), anyString(), any());
+
+    spyManager.getAllDataPermitIssuedApplications(routingContext);
+
+    verify(response).setStatusCode(200);
+  }
+
+
+  @Test
   void testCreateApplication() {
     DataAccessApplicationManager spyManager = Mockito.spy(dataAccessApplicationManager);
     doAnswer(invocation -> {
@@ -563,9 +847,9 @@ class DataAccessApplicationManagerTest {
 
   @Test
   void testPutDistributionsApplication_success() {
-    ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-    listAppender.start();
-    logger.addAppender(listAppender);
+    ListAppender<ILoggingEvent> listAppenderLocal = new ListAppender<>();
+    listAppenderLocal.start();
+    logger.addAppender(listAppenderLocal);
 
     JsonObject requestApplication = new JsonObject()
       .put("application_id", "app1");
@@ -615,9 +899,9 @@ class DataAccessApplicationManagerTest {
 
   @Test
   void testPutDistributionsApplication_applicationReturnedIsNull() {
-    ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-    listAppender.start();
-    logger.addAppender(listAppender);
+    ListAppender<ILoggingEvent> listAppenderLocal = new ListAppender<>();
+    listAppenderLocal.start();
+    logger.addAppender(listAppenderLocal);
 
     JsonObject requestApplication = new JsonObject()
       .put("application_id", "app1");
@@ -658,9 +942,9 @@ class DataAccessApplicationManagerTest {
 
   @Test
   void testPutDistributionsApplication_someOperationsFailed() {
-    ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-    listAppender.start();
-    logger.addAppender(listAppender);
+    ListAppender<ILoggingEvent> listAppenderLocal = new ListAppender<>();
+    listAppenderLocal.start();
+    logger.addAppender(listAppenderLocal);
     DataAccessApplicationManager spyManager = Mockito.spy(dataAccessApplicationManager);
 
     Future<Object> failedFuture = Future.failedFuture("Some failure");
@@ -820,7 +1104,7 @@ class DataAccessApplicationManagerTest {
     doReturn(true).when(spyManager).canChangeStatus(any(), any(), any());
     doReturn(Future.succeededFuture(mongoApp)).when(spyManager).replaceApplication(any());
     doNothing().when(spyManager).performCleanUpForm(any());
-    doNothing().when(spyManager).sendApplicationForDispatch(any(), any());
+    doNothing().when(spyManager).sendApplicationForDispatch(any(), any(), any());
     doNothing().when(auditLogManager)
       .insertAuditLog(any(), any(), any(), any(), anyBoolean(), any());
 
@@ -1432,7 +1716,7 @@ class DataAccessApplicationManagerTest {
 
 
     when(hubTranslationClient.buildFormTranslations(any(JsonObject.class),any(JsonObject.class),
-      any(JsonObject.class),anyString())).thenReturn(app);
+      any(JsonObject.class),anyString(), any(JsonObject.class))).thenReturn(app);
 
     JsonObject fileJson = new JsonObject().put("fileId", fileId).put("fileName", "fileName");
     HashMap<String, JsonObject> hashMap = new HashMap<>();
@@ -1479,7 +1763,7 @@ class DataAccessApplicationManagerTest {
     }).when(mongoClient).findOneAndReplace(anyString(), any(), any(JsonObject.class), any());
 
     when(hubTranslationClient.buildFormTranslations(any(JsonObject.class),any(JsonObject.class),
-      any(JsonObject.class),anyString())).thenReturn(new JsonObject().put("EN", "test"));
+      any(JsonObject.class),anyString(), any(JsonObject.class))).thenReturn(new JsonObject().put("EN", "test"));
 
     JsonObject fileJson = new JsonObject().put("fileId", fileId).put("fileName", "fileName");
     HashMap<String, JsonObject> hashMap = new HashMap<>();
@@ -1493,4 +1777,3 @@ class DataAccessApplicationManagerTest {
   }
 
 }
-

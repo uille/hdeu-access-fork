@@ -20,6 +20,7 @@ import static eu.europa.data.health.access.Constants.CONFIGURATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.CONTROLLED_VOCABULARY_COLLECTION;
 import static eu.europa.data.health.access.Constants.DATA_ACCESS_APPLICATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.DATA_REQUEST_APPLICATION_COLLECTION;
+import static eu.europa.data.health.access.Constants.UNKNOWN_APPLICATION_TYPE;
 
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
@@ -30,8 +31,10 @@ import io.vertx.ext.web.RoutingContext;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +43,8 @@ public class TranslationCallbackManager {
   private static final Logger log = LoggerFactory.getLogger(TranslationCallbackManager.class);
   private static final String CALLBACK_RECEIVED = "Callback received";
   private static final String MISSING_REQUIRED_FIELDS = "Missing required fields";
+  private static final int TIMEOUT_ERROR_CODE = 41003;
+  private static final String TRANSLATIONS = "translations";
 
   private final DataRequestApplicationManager dataRequestManager;
   private final DataAccessApplicationManager dataAccessManager;
@@ -86,7 +91,7 @@ public class TranslationCallbackManager {
    *                </ul>
    */
   public void handleTranslationCallback(RoutingContext context) {
-    log.info("Handling translation callback");
+    log.debug("Handling translation callback");
 
     JsonObject body = context.body().asJsonObject();
 
@@ -107,12 +112,14 @@ public class TranslationCallbackManager {
       return;
     }
 
-    // Check for error in payload
-    Integer errorCode = getFirstTranslationErrorCode(dict);
-    if (errorCode != null) {
-      log.warn("Detected translation error {} in callback for application {}", errorCode, applicationId);
+    // Check for errors in payload
+    Set<Integer> errorCodes = getAllTranslationErrorCodes(dict);
+    boolean hasTimeoutError = errorCodes.remove(TIMEOUT_ERROR_CODE);
+    if (!errorCodes.isEmpty()) {
+      log.warn("Detected translation errors {} in callback for application {}", errorCodes,
+        applicationId);
 
-      String errorMessage = "Translation error code: " + errorCode;
+      String errorMessage = "Translation error code(s): " + errorCodes;
 
       // Determine if this is a file translation callback
       JsonObject fileSection = dict.getJsonObject("file");
@@ -123,9 +130,9 @@ public class TranslationCallbackManager {
 
       switch (applicationType) {
         case DATA_REQUEST_APPLICATION_COLLECTION ->
-          dataRequestManager.markTranslationError(applicationId, errorMessage, fileId);
+          dataRequestManager.incrementTranslationAttempts(applicationId, errorMessage, fileId);
         case DATA_ACCESS_APPLICATION_COLLECTION ->
-          dataAccessManager.markTranslationError(applicationId, errorMessage, fileId);
+          dataAccessManager.incrementTranslationAttempts(applicationId, errorMessage, fileId);
         case CONTROLLED_VOCABULARY_COLLECTION ->
           controlledVocabularyManager.processTranslationCallback(applicationId, dict);
         case CONFIGURATION_COLLECTION -> {
@@ -139,11 +146,20 @@ public class TranslationCallbackManager {
         }
         default -> {
           log.warn("Unknown application type while handling translation error: {}", applicationType);
-          context.response().setStatusCode(400).end("Unknown application type");
+          context.response().setStatusCode(400).end(UNKNOWN_APPLICATION_TYPE);
           return;
         }
       }
       context.response().setStatusCode(200).end("Translation error handled");
+      return;
+    } else if (
+      hasTimeoutError &&
+        (applicationType.equals(DATA_REQUEST_APPLICATION_COLLECTION) ||
+          applicationType.equals(DATA_ACCESS_APPLICATION_COLLECTION))
+    ) {
+      // Ignore timeout errors for applications in order to retry translating them later
+      log.warn("Detected translation timeout in callback for application {}", applicationId);
+      context.response().setStatusCode(200).end("Translation timeout handled");
       return;
     }
 
@@ -156,7 +172,7 @@ public class TranslationCallbackManager {
 
       handleFileTranslationCallback(applicationId, fileId, dict)
               .onSuccess(translatedFiles -> {
-                log.info("Translation callback successful for file {}", fileId);
+                log.debug("Translation callback successful for file {}", fileId);
 
                 // Now update MongoDB metadata with uploaded file references
                 switch (applicationType) {
@@ -170,7 +186,7 @@ public class TranslationCallbackManager {
                   }
                   default -> {
                     log.warn("Unknown application type while handling file translation callback: {}", applicationType);
-                    context.response().setStatusCode(400).end("Unknown application type");
+                    context.response().setStatusCode(400).end(UNKNOWN_APPLICATION_TYPE);
                   }
                 }
               })
@@ -207,7 +223,7 @@ public class TranslationCallbackManager {
       }
       default -> {
         log.warn("Unknown application type while handling form translation callback: {}", applicationType);
-        context.response().setStatusCode(400).end("Unknown application type");
+        context.response().setStatusCode(400).end(UNKNOWN_APPLICATION_TYPE);
       }
     }
   }
@@ -247,11 +263,11 @@ public class TranslationCallbackManager {
     }
 
     JsonObject file = fileSection.getJsonObject(originalFileId);
-    if (file == null || !file.containsKey("translations")) {
+    if (file == null || !file.containsKey(TRANSLATIONS)) {
       return Future.failedFuture("Missing file translations for fileId: " + originalFileId);
     }
 
-    JsonObject translations = file.getJsonObject("translations");
+    JsonObject translations = file.getJsonObject(TRANSLATIONS);
     JsonObject docMeta = file.getJsonObject("documentToTranslateBase64");
 
     if (docMeta == null) {
@@ -313,21 +329,21 @@ public class TranslationCallbackManager {
     return original.substring(0, dotIdx) + "_" + lang + original.substring(dotIdx);
   }
 
-  private Integer getFirstTranslationErrorCode(JsonObject dict) {
+  private Set<Integer> getAllTranslationErrorCodes(JsonObject dict) {
+    Set<Integer> errorCodes = new HashSet<>();
     for (String sectionKey : dict.fieldNames()) {
       JsonObject section = dict.getJsonObject(sectionKey, new JsonObject());
       for (String fieldKey : section.fieldNames()) {
         JsonObject field = section.getJsonObject(fieldKey, new JsonObject());
-        JsonObject translations = field.getJsonObject("translations", new JsonObject());
+        JsonObject translations = field.getJsonObject(TRANSLATIONS, new JsonObject());
         for (String lang : translations.fieldNames()) {
           Object value = translations.getValue(lang);
-          if (value instanceof Number && ((Number) value).intValue() < 0) {
-            return ((Number) value).intValue(); // return first negative code
+          if (value instanceof Number number) {
+            errorCodes.add(number.intValue()); // collect error code
           }
         }
       }
     }
-    return null; // no errors
+    return errorCodes;
   }
-
 }

@@ -17,7 +17,11 @@ package eu.europa.data.health.access.hub_translation_client;
 
 import static eu.europa.data.health.access.Constants.DATA_ACCESS_APPLICATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.DATA_REQUEST_APPLICATION_COLLECTION;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.doAnswer;
@@ -198,7 +202,7 @@ class HubTranslationClientTest {
             .put("fileName", "test")
             .put("fileId", "test")
           )),
-      DATA_ACCESS_APPLICATION_COLLECTION);
+      DATA_ACCESS_APPLICATION_COLLECTION, new JsonObject());
 
     assertEquals("original",
       translatedForms.getJsonObject("FR").getJsonObject("section2").getString("status"));
@@ -223,7 +227,7 @@ class HubTranslationClientTest {
             .put("fileName", "test")
             .put("fileId", "test")
           )),
-      DATA_ACCESS_APPLICATION_COLLECTION);
+      DATA_ACCESS_APPLICATION_COLLECTION, new JsonObject());
 
     assertEquals("original",
       translatedForms.getJsonObject("FR").getJsonObject("section1").getJsonObject("status").getString("status"));
@@ -248,7 +252,7 @@ class HubTranslationClientTest {
             .put("fileName", "test")
             .put("fileId", "test")
           )),
-      DATA_REQUEST_APPLICATION_COLLECTION);
+      DATA_REQUEST_APPLICATION_COLLECTION, new JsonObject());
 
     assertEquals("original",
       translatedForms.getJsonObject("FR").getJsonArray("section3").getJsonObject(0).getString(
@@ -267,7 +271,7 @@ class HubTranslationClientTest {
     assertThrows(IllegalArgumentException.class, () -> client.buildFormTranslations(form, dict,
       new JsonObject().put("status", new JsonObject().put("status", "COMPLETED")
         .put("translatedFiles", new JsonObject().put("FR", new JsonObject()).put("fileName", "test")
-          .put("fileId", "test"))), "error"));
+          .put("fileId", "test"))), "error", new JsonObject()));
   }
 
 

@@ -29,6 +29,7 @@ import static eu.europa.data.health.access.SchemaFiles.COUNTRIES_RDF;
 import eu.europa.data.health.access.auth_client.AuthClient;
 import eu.europa.data.health.access.dispatcher_client.DispatcherClient;
 import eu.europa.data.health.access.handlers.DBHandler;
+import eu.europa.data.health.access.handlers.DynamicLogLevelHandler;
 import eu.europa.data.health.access.hub_repo_client.HubRepoClient;
 import eu.europa.data.health.access.hub_translation_client.HubTranslationClient;
 import eu.europa.data.health.access.scheduled_jobs.DispatcherScheduledJob;
@@ -204,7 +205,7 @@ public class MainVerticle extends AbstractVerticle {
     return ctx -> {
       Cookie authTokenCookie = ctx.request().getCookie("authToken");
       if (authTokenCookie != null) {
-        log.info("Auth token found in cookie for request {}", ctx.request().absoluteURI());
+        log.debug("Auth token found in cookie for request {}", ctx.request().absoluteURI());
         String token = authTokenCookie.getValue();
         piveauAuth.authenticate(token).onSuccess(user -> {
           log.debug("authConfig: {}", authConfig);
@@ -213,7 +214,7 @@ public class MainVerticle extends AbstractVerticle {
           String serverUrl = authConfig.getJsonObject("tokenServerConfig")
             .getJsonObject("keycloak").getString("serverUrl");
 
-          log.info("Introspecting token {} with client id {} and secret {} to server {}", token, clientId, clientSecret, serverUrl);
+          log.debug("Introspecting token {} with client id {} and secret {} to server {}", token, clientId, clientSecret, serverUrl);
           client.postAbs(serverUrl + config.getString(Constants.ENV_KEYCLOAK_INTROSPECT_PATH))
             .putHeader(CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED)
             .sendForm(new HeadersMultiMap().add(CLIENT_ID, clientId).add(CLIENT_SECRET, clientSecret).add("token", token), ar -> {
@@ -223,7 +224,7 @@ public class MainVerticle extends AbstractVerticle {
                   JsonObject json = response.bodyAsJsonObject();
                   boolean isActive = json.getBoolean("active");
                   if (isActive) {
-                    log.info("Token is active for user {}", user.principal().getString("preferred_username"));
+                    log.debug("Token is active for user {}", user.principal().getString("preferred_username"));
                     ctx.request().headers().set("Authorization", "Bearer " + token);
                     ctx.setUser(user);
                     ctx.next();
@@ -245,7 +246,7 @@ public class MainVerticle extends AbstractVerticle {
           ctx.fail(401, err);
         });
       } else {
-        log.info("No auth token found in cookie for request {}", ctx.request().absoluteURI());
+        log.debug("No auth token found in cookie for request {}", ctx.request().absoluteURI());
         ctx.next();
       }
     };
@@ -283,7 +284,7 @@ public class MainVerticle extends AbstractVerticle {
     HubSearchClient hubSearchClient = new HubSearchClient(client, config);
     AuditLogManager auditLogManager = new AuditLogManager(dbHandler, authClient);
 
-    TranslationManager translationManager = new TranslationManager();
+    TranslationManager translationManager = new TranslationManager(dbHandler);
     HubTranslationClient hubTranslationClient = new HubTranslationClient(
       config.getString(Constants.ENV_TRANSLATION_SERVICE_URL),
       config.getString(Constants.ENV_TRANSLATION_SERVICE_FILE_URL),
@@ -304,11 +305,11 @@ public class MainVerticle extends AbstractVerticle {
     CommonApplicationValidationManager commonApplicationValidationManager = new CommonApplicationValidationManager(dbHandler, mongoClient);
     DataAccessApplicationValidationManager daaValidation = new DataAccessApplicationValidationManager();
     DataAccessApplicationBusinessValidationManager daaBusinessValidation = new DataAccessApplicationBusinessValidationManager(mongoClient);
-    DataAccessApplicationManager daaManager = new DataAccessApplicationManager(dbHandler, mongoClient, basketManager, hubStoreClient, vertx, daaValidation, daaBusinessValidation, auditLogManager, hubTranslationClient, hubSearchClient, translate, authClient);
+    DataAccessApplicationManager daaManager = new DataAccessApplicationManager(dbHandler, mongoClient, basketManager, hubStoreClient, vertx, daaValidation, daaBusinessValidation, auditLogManager, hubTranslationClient, hubSearchClient, authClient);
 
     DataRequestApplicationValidationManager draValidation = new DataRequestApplicationValidationManager();
     DataRequestApplicationBusinessValidationManager draBusinessValidation = new DataRequestApplicationBusinessValidationManager(mongoClient);
-    DataRequestApplicationManager draManager = new DataRequestApplicationManager(dbHandler, mongoClient, basketManager, hubStoreClient, vertx, draValidation, draBusinessValidation, auditLogManager, hubTranslationClient, hubSearchClient, translate, authClient);
+    DataRequestApplicationManager draManager = new DataRequestApplicationManager(dbHandler, mongoClient, basketManager, hubStoreClient, vertx, draValidation, draBusinessValidation, auditLogManager, hubTranslationClient, hubSearchClient, authClient);
 
     UserValidationManager userValidation = new UserValidationManager();
     UserManager userManager = new UserManager(dbHandler, mongoClient, dispatcherClient, auditLogManager, authClient);
@@ -355,11 +356,15 @@ public class MainVerticle extends AbstractVerticle {
       translationCallbackManager, biennialReportManager, payloadManager, ddaDatasetManager,
       itbValidatorClient, rdfService);
 
-    scheduleCronJobForDataAccessApplication(dispatcherManager, dispatcherClient);
-    scheduleCronJobForDataRequestApplication(dispatcherManager, dispatcherClient);
+    scheduleCronJobForDataAccessApplication(dispatcherManager, dispatcherClient, auditLogManager);
+    scheduleCronJobForDataRequestApplication(dispatcherManager, dispatcherClient, auditLogManager);
     scheduleTranslationRetryJob(hubTranslationClient, hubStoreClient, daaManager, draManager);
     scheduleControlledVocabularyRefreshJob(controlledVocabularyManager);
+    setUpSchedulersOutgoingApplicationActivities(dispatcherManager,  dispatcherClient, auditLogManager);
   }
+
+
+
 
   private void addHealthCheck(Router router) {
     HealthCheckHandler healthCheckHandler = HealthCheckHandler.create(vertx);
@@ -448,12 +453,13 @@ public class MainVerticle extends AbstractVerticle {
     setupITBValidatorHandler(builder, itbValidatorClient);
 
     setupRdfConversionHandler(builder, rdfService);
+
+    setupLogLevelHandler(builder);
   }
 
   private void setupCountriesHandler(RouterBuilder builder,
     PermissionValidator userPermissionValidator){
     builder.operation("getCountries")
-      .handler(userPermissionValidator)
       .handler(this::getCountries);
   }
 
@@ -524,16 +530,31 @@ public class MainVerticle extends AbstractVerticle {
     DispatcherValidationManager dispatcherValidationManager) {
     builder.operation("postStatusFromDispatcher")
       .handler(dispatcherManager::updateApplicationStatusFromDispatcher);
-    builder.operation("putStatusFromDispatcher")
+
+    builder.operation("putDecisionFromDispatcher")
       .handler(dispatcherValidationManager::validateDispatcherDecisionJsonSchema)
-      .handler(dispatcherManager::updateDatasetStatusFromDispatcher);
+      .handler(dispatcherManager::updateDatasetDecisionFromDispatcher);
+
+    builder.operation("putStatusFromDispatcher")
+      .handler(dispatcherValidationManager::validateDispatcherStatusJsonSchema)
+      .handler(dispatcherManager::updateStatusFromDispatcher);
+
+    builder.operation("putPermitFromDispatcher")
+      .handler(dispatcherValidationManager::validateDispatcherPermitJsonSchema)
+      .handler(dispatcherManager::updatePermitFromDispatcher);
+    builder.operation("getDispatcherApplicationByIdAndVersion")
+      .handler(dispatcherManager::getDispatcherApplicationByIdAndVersion);
+    builder.operation("getDispatcherApplicationById")
+      .handler(dispatcherManager::getDispatcherApplicationById);
   }
 
   private void setupTranslationManagerHandler(RouterBuilder builder, PermissionValidator userPermissionValidator,
     TranslationManager translationManager) {
     builder.operation("getTranslations")
-      .handler(userPermissionValidator)
       .handler(translationManager::getTranslationForSection);
+    builder.operation("getApplicationTranslation")
+      .handler(userPermissionValidator)
+      .handler(translationManager::getApplicationTranslation);
   }
 
   private void setupTranslationCallbackHandler(RouterBuilder builder, TranslationCallbackManager translationCallbackManager) {
@@ -698,7 +719,25 @@ public class MainVerticle extends AbstractVerticle {
     builder.operation("postRequestData")
       .handler(userPermissionValidator)
       .handler(commonApplicationValidationManager::validateFile)
-      .handler(dataRequestApplicationManager::postData);
+      .handler(dataRequestApplicationManager::postData)
+      // ⬇️ this catches ANY failure for this operation, even before your handlers run
+      .failureHandler(ctx -> {
+        int status = ctx.statusCode() > 0 ? ctx.statusCode() : 500;
+        Throwable t = ctx.failure();
+
+        // structured, consistent log entry
+        if (t != null) {
+          log.error("[postRequestData] Failure (status={}): {}", status, t.getMessage(), t);
+        } else {
+          log.error("[postRequestData] Failure (status={}): no exception object", status);
+        }
+
+        if (!ctx.response().ended()) {
+          ctx.response()
+            .setStatusCode(status)
+            .end("Upload failed");
+        }
+      });
     builder.operation("getRequestData")
       .handler(userPermissionValidator)
       .handler(dataRequestApplicationManager::getData);
@@ -709,11 +748,42 @@ public class MainVerticle extends AbstractVerticle {
       .handler(userPermissionValidator)
       .handler(dataRequestApplicationValidationManager::validateChangeStatusJsonSchema)
       .handler(dataRequestApplicationManager::changeStatus);
+    builder.operation("putCatalogStatusDataRequestApplication")
+      .handler(userPermissionValidator)
+      .handler(dataRequestApplicationValidationManager::validateChangeStatusJsonSchema)
+      .handler(dataRequestApplicationManager::changeCatalogStatus);
+    builder.operation("putDatasetStatusDataRequestApplication")
+      .handler(userPermissionValidator)
+      .handler(dataRequestApplicationValidationManager::validateChangeStatusJsonSchema)
+      .handler(dataRequestApplicationManager::changeDatasetStatus);
     builder.operation("putTitleDataRequestApplication")
       .handler(userPermissionValidator)
       .handler(dataRequestApplicationValidationManager::validateChangeTitleJsonSchema)
       .handler(dataRequestApplicationValidationManager::validateUpdateTitle)
       .handler(dataRequestApplicationManager::changeTitle);
+    builder.operation("getDataRequestApplicationsHbad")
+      .handler(userPermissionValidator)
+      .handler(dataRequestApplicationManager::getDataRequestApplicationsHbad);
+    builder.operation("getDataRequestApplicationsCountries")
+      .handler(userPermissionValidator)
+      .handler(dataRequestApplicationManager::getDataRequestApplicationsCountries);
+    builder.operation("getAllDataRequestDatasets")
+      .handler(userPermissionValidator)
+      .handler(dataRequestApplicationManager::getAllDataRequestDatasets);
+    builder.operation("getAllOnGoingDataRequestApplications")
+      .handler(dataRequestApplicationManager::getAllOnGoingDataRequestApplications);
+    builder.operation("getAllOnGoingDataRequestApplications")
+      .handler(dataRequestApplicationManager::getAllOnGoingDataRequestApplications);
+    builder.operation("getAllDataPermitIssuedDataRequestApplications")
+      .handler(dataRequestApplicationManager::getAllDataPermitIssuedApplications);
+    builder.operation("getAllDecisionIssuedDataRequestApplications")
+      .handler(dataRequestApplicationManager::getAllDecisionIssuedDataRequestApplications);
+    builder.operation("getEveryDataRequestApplicationById")
+      .handler(dataRequestApplicationManager::getEveryDataRequestApplicationById);
+    builder.operation("getDataRequestApplicationTitles")
+      .handler(userPermissionValidator)
+      .handler(dataRequestApplicationManager::getDataRequestApplicationTitles);
+
   }
 
   private void setupDataAccessApplicationManagerHandler(RouterBuilder builder,
@@ -783,11 +853,43 @@ public class MainVerticle extends AbstractVerticle {
       .handler(userPermissionValidator)
       .handler(dataAccessApplicationValidationManager::validateChangeStatusJsonSchema)
       .handler(dataAccessApplicationManager::changeStatus);
+    builder.operation("putCatalogStatusDataAccessApplication")
+      .handler(userPermissionValidator)
+      .handler(dataAccessApplicationValidationManager::validateChangeStatusJsonSchema)
+      .handler(dataAccessApplicationManager::changeCatalogStatus);
+    builder.operation("putDatasetStatusDataAccessApplication")
+      .handler(userPermissionValidator)
+      .handler(dataAccessApplicationValidationManager::validateChangeStatusJsonSchema)
+      .handler(dataAccessApplicationManager::changeDatasetStatus);
+    builder.operation("putDatasetPermitStatusDataAccessApplication")
+      .handler(userPermissionValidator)
+      .handler(dataAccessApplicationValidationManager::validateChangeStatusJsonSchema)
+      .handler(dataAccessApplicationManager::changePermitStatus);
     builder.operation("putTitleApplication")
       .handler(userPermissionValidator)
       .handler(dataAccessApplicationValidationManager::validateChangeTitleJsonSchema)
       .handler(dataAccessApplicationValidationManager::validateUpdateTitle)
       .handler(dataAccessApplicationManager::changeTitle);
+    builder.operation("getDataAccessApplicationsHbad")
+      .handler(userPermissionValidator)
+      .handler(dataAccessApplicationManager::getDataAccessApplicationsHbad);
+    builder.operation("getDataAccessApplicationsCountries")
+      .handler(userPermissionValidator)
+      .handler(dataAccessApplicationManager::getDataAccessApplicationsCountries);
+    builder.operation("getAllDataAccessDatasets")
+      .handler(userPermissionValidator)
+      .handler(dataAccessApplicationManager::getAllDataAccessDatasets);
+    builder.operation("getAllOnGoingDataAccessApplications")
+      .handler(dataAccessApplicationManager::getAllOnGoingDataAccessApplications);
+    builder.operation("getAllDataPermitIssuedDataAccessApplications")
+      .handler(dataAccessApplicationManager::getAllDataPermitIssuedApplications);
+    builder.operation("getAllDecisionIssuedDataAccessApplications")
+      .handler(dataAccessApplicationManager::getAllDecisionIssuedDataAccessApplications);
+    builder.operation("getEveryDataAccessApplicationById")
+      .handler(dataAccessApplicationManager::getEveryDataAccessApplicationById);
+    builder.operation("getDataAccessApplicationTitles")
+      .handler(userPermissionValidator)
+      .handler(dataAccessApplicationManager::getDataAccessApplicationTitles);
   }
 
   private void setupPayloadManagerHandler(RouterBuilder builder, PayloadManager payloadManager) {
@@ -815,13 +917,42 @@ public class MainVerticle extends AbstractVerticle {
       .handler(ctx -> rdfService.convertRDF(ctx, Lang.JSONLD, Lang.RDFXML));
   }
 
+  private void setupLogLevelHandler(RouterBuilder builder) {
+    // for example GET http://localhost:8080/log-level?logger=root&level=DEBUG
+    builder.operation("updateLogLevel").handler(new DynamicLogLevelHandler());
+  }
+
+  private void setUpSchedulersOutgoingApplicationActivities(DispatcherManager dispatcherManager,
+    DispatcherClient dispatcherClient, AuditLogManager auditLogManager) {
+    if (Constants.SCHEDULER_ENABLED.equals(
+      config.getString(Constants.OUTGOING_APPLICATION_ACTIVITIES_ENABLE))) {
+      Integer dispatcherInterval = config.getInteger(
+        Constants.OUTGOING_APPLICATION_ACTIVITIES_INTERVAL);
+      DispatcherScheduledJob dispatcherScheduledJob = new DispatcherScheduledJob(dbHandler, mongoClient, dispatcherManager, auditLogManager);
+      vertx.setPeriodic(dispatcherInterval, id -> {
+        log.debug("Create Message Scheduler successfully launched after {}", dispatcherInterval);
+        dispatcherScheduledJob.sendOutgoingApplicationActivitiesToDispatcher(Constants.OUTGOING_APPLICATION_ACTIVITIES_COLLECTION, dispatcherClient);
+      });
+    } else {
+      log.info("Create Message Scheduler is disabled");
+    }
+  }
+
   private void scheduleCronJobForDataAccessApplication(DispatcherManager dispatcherManager,
-    DispatcherClient dispatcherClient) {
+    DispatcherClient dispatcherClient, AuditLogManager auditLogManager) {
+
     int dataAccessDispatcherInterval = Constants.DATA_ACCESS_DISPATCHER_DEFAULT_INTERVAL;
     if (config.getInteger(Constants.DATA_ACCESS_DISPATCHER_INTERVAL) != null) {
       dataAccessDispatcherInterval = config.getInteger(
         Constants.DATA_ACCESS_DISPATCHER_INTERVAL);
     }
+
+    int dataAccessDispatcherForSentApplicationsInterval = Constants.DATA_ACCESS_DISPATCHER_FOR_SENT_APPLICATIONS_DEFAULT_INTERVAL;
+    if (config.getInteger(Constants.DATA_ACCESS_DISPATCHER_FOR_SENT_APPLICATIONS_INTERVAL) != null) {
+      dataAccessDispatcherForSentApplicationsInterval = config.getInteger(
+        Constants.DATA_ACCESS_DISPATCHER_FOR_SENT_APPLICATIONS_INTERVAL);
+    }
+
     final int dataAccessDispatcherMaxRetries;
     if (config.getInteger(Constants.DATA_ACCESS_DISPATCHER_MAX_RETRIES) != null) {
       dataAccessDispatcherMaxRetries = config.getInteger(
@@ -829,22 +960,42 @@ public class MainVerticle extends AbstractVerticle {
     } else {
       dataAccessDispatcherMaxRetries = Constants.DATA_ACCESS_DISPATCHER_DEFAULT_MAX_RETRIES;
     }
-    DispatcherScheduledJob dataAccessDispatcherScheduledJob = new DispatcherScheduledJob(
+
+    final int dataAccessDispatcherForSentApplicationsMaxRetries;
+    if (config.getInteger(Constants.DATA_ACCESS_DISPATCHER_FOR_SENT_APPLICATIONS_MAX_RETRIES) != null) {
+      dataAccessDispatcherForSentApplicationsMaxRetries = config.getInteger(
+        Constants.DATA_ACCESS_DISPATCHER_FOR_SENT_APPLICATIONS_MAX_RETRIES);
+    } else {
+      dataAccessDispatcherForSentApplicationsMaxRetries = Constants.DATA_ACCESS_DISPATCHER_FOR_SENT_APPLICATIONS_DEFAULT_MAX_RETRIES;
+    }
+
+    DispatcherScheduledJob dataAccessDispatcherScheduledJob = new DispatcherScheduledJob(dbHandler,
       mongoClient,
-      dispatcherManager);
+      dispatcherManager, auditLogManager);
     vertx.setPeriodic(dataAccessDispatcherInterval,
       id -> dataAccessDispatcherScheduledJob.sendApplicationsToDispatcher(
         dataAccessDispatcherMaxRetries,
         dispatcherClient, DATA_ACCESS_APPLICATION_COLLECTION));
+    vertx.setPeriodic(dataAccessDispatcherForSentApplicationsInterval,
+      id -> dataAccessDispatcherScheduledJob.retrieveSentApplications(
+        DATA_ACCESS_APPLICATION_COLLECTION, dataAccessDispatcherForSentApplicationsMaxRetries));
   }
 
   private void scheduleCronJobForDataRequestApplication(DispatcherManager dispatcherManager,
-    DispatcherClient dispatcherClient) {
+    DispatcherClient dispatcherClient, AuditLogManager auditLogManager) {
+
     int dataRequestDispatcherInterval = Constants.DATA_REQUEST_DISPATCHER_DEFAULT_INTERVAL;
     if (config.getInteger(Constants.DATA_REQUEST_DISPATCHER_INTERVAL) != null) {
       dataRequestDispatcherInterval = config.getInteger(
         Constants.DATA_REQUEST_DISPATCHER_INTERVAL);
     }
+
+    int dataRequestDispatcherForSentApplicationsInterval = Constants.DATA_REQUEST_DISPATCHER_FOR_SENT_APPLICATIONS_DEFAULT_INTERVAL;
+    if (config.getInteger(Constants.DATA_REQUEST_DISPATCHER_FOR_SENT_APPLICATIONS_INTERVAL) != null) {
+      dataRequestDispatcherForSentApplicationsInterval = config.getInteger(
+        Constants.DATA_REQUEST_DISPATCHER_FOR_SENT_APPLICATIONS_INTERVAL);
+    }
+
     final int dataRequestDispatcherMaxRetries;
     if (config.getInteger(Constants.DATA_REQUEST_DISPATCHER_MAX_RETRIES) != null) {
       dataRequestDispatcherMaxRetries = config.getInteger(
@@ -852,13 +1003,26 @@ public class MainVerticle extends AbstractVerticle {
     } else {
       dataRequestDispatcherMaxRetries = Constants.DATA_REQUEST_DISPATCHER_DEFAULT_MAX_RETRIES;
     }
-    DispatcherScheduledJob dataRequestDispatcherScheduledJob = new DispatcherScheduledJob(
-      mongoClient,
-      dispatcherManager);
+
+    final int dataRequestDispatcherForSentApplicationsMaxRetries;
+    if (config.getInteger(Constants.DATA_REQUEST_DISPATCHER_FOR_SENT_APPLICATIONS_MAX_RETRIES) != null) {
+      dataRequestDispatcherForSentApplicationsMaxRetries = config.getInteger(
+        Constants.DATA_REQUEST_DISPATCHER_FOR_SENT_APPLICATIONS_MAX_RETRIES);
+    } else {
+      dataRequestDispatcherForSentApplicationsMaxRetries = Constants.DATA_REQUEST_DISPATCHER_FOR_SENT_APPLICATIONS_DEFAULT_MAX_RETRIES;
+    }
+
+    DispatcherScheduledJob dataRequestDispatcherScheduledJob = new DispatcherScheduledJob(dbHandler,
+      mongoClient, dispatcherManager, auditLogManager);
+
     vertx.setPeriodic(dataRequestDispatcherInterval,
       id -> dataRequestDispatcherScheduledJob.sendApplicationsToDispatcher(
         dataRequestDispatcherMaxRetries,
         dispatcherClient, DATA_REQUEST_APPLICATION_COLLECTION));
+
+    vertx.setPeriodic(dataRequestDispatcherForSentApplicationsInterval,
+      id -> dataRequestDispatcherScheduledJob.retrieveSentApplications(
+        DATA_REQUEST_APPLICATION_COLLECTION, dataRequestDispatcherForSentApplicationsMaxRetries));
   }
 
   private void scheduleTranslationRetryJob(
@@ -905,7 +1069,7 @@ public class MainVerticle extends AbstractVerticle {
           if (StringUtils.isNotBlank(src)) {
             cvManager.refreshBySource(src, doc)
               .onSuccess(v -> log.debug("Refreshed controlled vocabulary '{}'", src))
-              .onFailure(err -> log.warn("Failed to refresh controlled vocabulary '{}'", src, err));
+              .onFailure(err -> log.error("Failed to refresh controlled vocabulary '{}'", src, err));
           }
         }
       })

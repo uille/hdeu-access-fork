@@ -30,6 +30,8 @@ public enum SchemaFiles {
   COUNTRIES_RDF("countries/countries-skos.rdf"),
   USER_SCHEMA_FILE ("userSchema.json"),
   DISPATCHER_DECISION_SCHEMA_FILE("dispatcherDecisionSchema.json"),
+  DISPATCHER_STATUS_SCHEMA_FILE("dispatcherStatusSchema.json"),
+  PERMIT_STATUS_SCHEMA_FILE("dispatcherPermitSchema.json"),
   CATALOGUE_FORM_RDF("catalogues/catalogue-form.rdf"),
   CATALOGUE_SEARCH("catalogueForSearch.json");
 

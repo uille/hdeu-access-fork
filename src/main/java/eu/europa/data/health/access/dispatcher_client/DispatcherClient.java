@@ -17,11 +17,15 @@ package eu.europa.data.health.access.dispatcher_client;
 
 import static eu.europa.data.health.access.Constants.APPLICATION;
 import static eu.europa.data.health.access.Constants.CATALOGUE_ID;
+import static eu.europa.data.health.access.Constants.DISPATCHER_COLLECTION;
 import static eu.europa.data.health.access.Constants.DOMIBUS_ID;
+import static eu.europa.data.health.access.Constants.OPERATION;
+import static eu.europa.data.health.access.Constants.OUTGOING_APPLICATION_ACTIVITIES_COLLECTION;
 import static eu.europa.data.health.access.Constants.STATUS;
 
 import eu.europa.data.health.access.CommonClientUtils;
 import eu.europa.data.health.access.Constants;
+import eu.europa.data.health.access.OperationStatus;
 import eu.europa.data.health.access.dto.CatalogueStatusEnum;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.AsyncResult;
@@ -48,9 +52,17 @@ public class DispatcherClient {
 
   public static final String INPUT_LANGUAGE = "inputLanguage";
   public static final String TITLE = "title";
+  public static final String DISPATCHER_CLIENT = "DISPATCHER_CLIENT";
+  public static final String DATA_PERMIT_CREATE_APPLICATION_REQUEST = "/data-permit/create/application";
+  public static final String OUTGOING_APPLICATION_ACTIVITY_REQUEST = "/application/activity";
+  public static final String ERROR_CODE = "errorCode";
+  public static final String ERROR_DETAILS = "errorDetails";
+  private static final String DATA_PERMIT_DELETE_APPLICATIONS_REQUEST = "/data-permit/delete";
+  private static final String CATALOGUE_MAP_REQUEST = "/catalogs";
+  private static final String CATALOGUE_MAP_REQUEST_BY_CATALOG_ID = "/catalog/catalogId/";
   private final String url;
   private final String xApiKey;
-
+  private final Logger log = LoggerFactory.getLogger(getClass());
   WebClient vertxClient;
 
   public DispatcherClient(String url, String xApiKey, WebClient client) {
@@ -58,17 +70,6 @@ public class DispatcherClient {
     this.xApiKey = xApiKey;
     this.vertxClient = client;
   }
-
-
-  private final Logger log = LoggerFactory.getLogger(getClass());
-
-  public static final String DISPATCHER_CLIENT = "DISPATCHER_CLIENT";
-  public static final String DATA_PERMIT_CREATE_APPLICATION_REQUEST = "/data-permit/create/application";
-  private static final String DATA_PERMIT_DELETE_APPLICATIONS_REQUEST = "/data-permit/delete";
-  private static final String CATALOGUE_MAP_REQUEST ="/catalogs";
-  private static final String CATALOGUE_MAP_REQUEST_BY_CATALOG_ID ="/catalog/catalogId/";
-  public static final String ERROR_CODE = "errorCode";
-  public static final String ERROR_DETAILS = "errorDetails";
 
   private void addXApiKey(MultiMap headers) {
 
@@ -85,7 +86,7 @@ public class DispatcherClient {
     return headers;
   }
 
-  private MultiMap createHeaderWithoutType(){
+  private MultiMap createHeaderWithoutType() {
     MultiMap headers = MultiMap.caseInsensitiveMultiMap();
     addXApiKey(headers);
     return headers;
@@ -93,25 +94,29 @@ public class DispatcherClient {
 
   /**
    * Create a catalogue map.
+   *
    * @param context The data to create the catalogue map.
    * @return The created catalogue map.
    */
-  public Future<String> createCatalogueMap(RoutingContext context){
+  public Future<String> createCatalogueMap(RoutingContext context) {
     Promise<String> promise = Promise.promise();
 
     Buffer buffer = createCatalogueJsonObject(context).toBuffer();
     MultiMap headers = createHeader(buffer);
 
-    vertxClient.postAbs(this.url + CATALOGUE_MAP_REQUEST)
-      .putHeaders(headers).sendBuffer(buffer, ar -> {
+    vertxClient.postAbs(this.url + CATALOGUE_MAP_REQUEST).putHeaders(headers)
+      .sendBuffer(buffer, ar -> {
         if (ar.succeeded()) {
           if (HttpResponseStatus.CREATED.code() == ar.result().statusCode()) {
-            logAndPromiseSuccess(promise, context, ar, DISPATCHER_CLIENT + " Successfully created the map for catalogue: {} to dispatcher");
+            logAndPromiseSuccess(promise, context, ar,
+              DISPATCHER_CLIENT + " Successfully created the map for catalogue: {} to dispatcher");
           } else {
-            logAndPromiseFail(promise, context, ar, DISPATCHER_CLIENT + " Dispatcher failed to create catalogue: {}, with error code: {} and message: {}");
+            logAndPromiseFail(promise, context, ar, DISPATCHER_CLIENT
+              + " Dispatcher failed to create catalogue: {}, with error code: {} and message: {}");
           }
         } else {
-          logAndPromiseFail(promise, context, ar, DISPATCHER_CLIENT + " Failed to create catalogue: {} to dispatcher, with error message: {}");
+          logAndPromiseFail(promise, context, ar, DISPATCHER_CLIENT
+            + " Failed to create catalogue: {} to dispatcher, with error message: {}");
         }
       });
     return promise.future();
@@ -119,6 +124,7 @@ public class DispatcherClient {
 
   /**
    * Update catalogue map.
+   *
    * @param context The data to update the catalogue map.
    * @return The updated catalogue map.
    */
@@ -133,59 +139,63 @@ public class DispatcherClient {
       .putHeaders(headers).sendBuffer(buffer, ar -> {
         if (ar.succeeded()) {
           if (HttpResponseStatus.OK.code() == ar.result().statusCode()) {
-            logAndPromiseSuccess(promise, context, ar, DISPATCHER_CLIENT + " Successfully updated the map for catalogue: {} to dispatcher");
+            logAndPromiseSuccess(promise, context, ar,
+              DISPATCHER_CLIENT + " Successfully updated the map for catalogue: {} to dispatcher");
           } else {
-            logAndPromiseFail(promise, context, ar, DISPATCHER_CLIENT + " Dispatcher failed to update catalogue: {}, with error code: {} and message: {}");
+            logAndPromiseFail(promise, context, ar, DISPATCHER_CLIENT
+              + " Dispatcher failed to update catalogue: {}, with error code: {} and message: {}");
           }
         } else {
-          logAndPromiseFail(promise, context, ar, DISPATCHER_CLIENT + " Failed failed to update catalogue: {} to dispatcher, with error message: {}");
+          logAndPromiseFail(promise, context, ar, DISPATCHER_CLIENT
+            + " Failed failed to update catalogue: {} to dispatcher, with error message: {}");
         }
       });
     return promise.future();
   }
 
-  private void logAndPromiseFail(Promise<String> promise, @NotNull RoutingContext context, AsyncResult<HttpResponse<Buffer>> result, String message) {
+  private void logAndPromiseFail(Promise<String> promise, @NotNull RoutingContext context,
+    AsyncResult<HttpResponse<Buffer>> result, String message) {
 
-    if(log.isErrorEnabled()){
-      log.error(message,
-        context.body().asJsonObject().getString(CATALOGUE_ID),
+    if (log.isErrorEnabled()) {
+      log.error(message, context.body().asJsonObject().getString(CATALOGUE_ID),
         CommonClientUtils.extractedErrorMessage(result));
     }
 
     promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(result))
       .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(result)).encode());
   }
-  private void logAndPromiseSuccess(Promise<String> promise, @NotNull RoutingContext context, AsyncResult<HttpResponse<Buffer>> result, String message){
 
-    if(log.isInfoEnabled()){
-      log.info(message,
-        context.body().asJsonObject().getString(CATALOGUE_ID));
+  private void logAndPromiseSuccess(Promise<String> promise, @NotNull RoutingContext context,
+    AsyncResult<HttpResponse<Buffer>> result, String message) {
+
+    if (log.isInfoEnabled()) {
+      log.info(message, context.body().asJsonObject().getString(CATALOGUE_ID));
     }
 
     promise.complete(Jsoup.parse(result.result().bodyAsString()).text());
   }
 
-  private JsonObject createCatalogueJsonObject(@NotNull RoutingContext context){
-    return new JsonObject()
-      .put("catalogIds", new JsonArray().add(context.body().asJsonObject().getString(CATALOGUE_ID)))
-      .put("recipient", context.body().asJsonObject().getString(DOMIBUS_ID))
-      .put("isProduction", CatalogueStatusEnum.LIVE.getValue().
-        equals(context.body().asJsonObject().getJsonObject(STATUS).getString("key")));
+  private JsonObject createCatalogueJsonObject(@NotNull RoutingContext context) {
+    return new JsonObject().put("catalogIds",
+        new JsonArray().add(context.body().asJsonObject().getString(CATALOGUE_ID)))
+      .put("recipient", context.body().asJsonObject().getString(DOMIBUS_ID)).put("isProduction",
+        CatalogueStatusEnum.LIVE.getValue()
+          .equals(context.body().asJsonObject().getJsonObject(STATUS).getString("key")));
   }
 
   /**
    * Get all the catalogue map.
+   *
    * @return The list of catalogue map.
    */
-  public Future<String> getAllCatalogueMap(){
+  public Future<String> getAllCatalogueMap() {
     Promise<String> promise = Promise.promise();
     MultiMap headers = createHeaderWithoutType();
 
-    vertxClient.getAbs(this.url + CATALOGUE_MAP_REQUEST)
-      .putHeaders(headers)
+    vertxClient.getAbs(this.url + CATALOGUE_MAP_REQUEST).putHeaders(headers)
       .sendBuffer(null, ar -> {
         if (ar.succeeded()) {
-          if(ar.result().statusCode() == 404){
+          if (ar.result().statusCode() == 404) {
             promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
               .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
           } else {
@@ -193,7 +203,8 @@ public class DispatcherClient {
             promise.complete(Jsoup.parse(ar.result().body().toString()).text());
           }
         } else {
-          log.error(DISPATCHER_CLIENT + " Failed to get catalogue map list with error {}", CommonClientUtils.extractedErrorMessage(ar));
+          log.error(DISPATCHER_CLIENT + " Failed to get catalogue map list with error {}",
+            CommonClientUtils.extractedErrorMessage(ar));
           promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
             .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
         }
@@ -206,80 +217,99 @@ public class DispatcherClient {
 
     Promise<String> promise = Promise.promise();
 
-    JsonObject application = dispatcherRecord.getJsonObject(APPLICATION);
     // JSON object to send in the POST request body
-    JsonObject jsonObject = new JsonObject()
-      .put("application_id", application.getString("_id"))
-      .put(STATUS, application.getJsonObject(STATUS).getValue(STATUS))
-      .put("datasets", filterDatasetLanguages(application.getJsonArray("datasets"), application.getString(
-        INPUT_LANGUAGE), dispatcherRecord.getJsonArray("targetLanguages")))
-      .put("form", application.getJsonObject("form"))
-      .put(TITLE, application.getString(TITLE))
-      .put(INPUT_LANGUAGE, application.getString(INPUT_LANGUAGE))
-      .put("dateSubmitted", application.getString("date_submitted"))
-      .put(Constants.APPLICATION_TYPE, dispatcherRecord.getJsonObject("configuration").getString(Constants.APPLICATION_TYPE));
+    JsonObject outgoingJsonObject = new JsonObject();
+    String path = "";
+    String operation = dispatcherRecord.getString(OPERATION);
+    String recordId;
+    String collectionName;
 
-    JsonObject formTranslations = application.getJsonObject("form_translations");
-    if (formTranslations != null) {
-      jsonObject.put("form_translations", formTranslations);
+    if (OperationStatus.DECISION.getLabel().equals(operation) ||
+      OperationStatus.STATUS_UPDATE.getLabel().equals(dispatcherRecord.getString(OPERATION)) ||
+      OperationStatus.PERMIT.getLabel().equals(dispatcherRecord.getString(OPERATION))
+      ) {
+
+      recordId = dispatcherRecord.getString("_id");
+
+      outgoingJsonObject = dispatcherRecord.copy();
+      outgoingJsonObject.remove("configuration");
+      path = OUTGOING_APPLICATION_ACTIVITY_REQUEST;
+      collectionName = OUTGOING_APPLICATION_ACTIVITIES_COLLECTION;
+    } else {
+      // Create Application
+      JsonObject application = dispatcherRecord.getJsonObject(APPLICATION);
+      recordId = application.getString("_id");
+      outgoingJsonObject.put("application_id", application.getString("_id"))
+        .put(STATUS, application.getJsonObject(STATUS).getValue(STATUS)).put("datasets",
+          filterDatasetLanguages(application.getJsonArray("datasets"),
+            application.getString(INPUT_LANGUAGE), dispatcherRecord.getJsonArray("targetLanguages")))
+        .put("version", application.getInteger("version"))
+        .put("form", application.getJsonObject("form")).put(TITLE, application.getString(TITLE))
+        .put(INPUT_LANGUAGE, application.getString(INPUT_LANGUAGE))
+        .put("dateSubmitted", application.getString("date_submitted"))
+        .put(Constants.APPLICATION_TYPE,
+          dispatcherRecord.getJsonObject("configuration").getString(Constants.APPLICATION_TYPE));
+
+      JsonObject formTranslations = application.getJsonObject("form_translations");
+      if (formTranslations != null) {
+        outgoingJsonObject.put("form_translations", formTranslations);
+      }
+      path = DATA_PERMIT_CREATE_APPLICATION_REQUEST;
+      collectionName = DISPATCHER_COLLECTION;
     }
 
-    Buffer buffer = jsonObject.toBuffer();
+    Buffer buffer = outgoingJsonObject.toBuffer();
     MultiMap headers = createHeader(buffer);
 
-    vertxClient.postAbs(this.url + DATA_PERMIT_CREATE_APPLICATION_REQUEST)
-      .putHeaders(headers).sendBuffer(buffer, ar -> {
-        if (ar.succeeded()) {
-          if (HttpResponseStatus.CREATED.code() == ar.result().statusCode()) {
-            log.info(DISPATCHER_CLIENT
-                + " Successfully sent application: {} to dispatcher",
-              dispatcherRecord.getJsonObject(APPLICATION).getString("_id"));
-            promise.complete(Jsoup.parse(ar.result().bodyAsString()).text());
-          } else {
-            log.error(DISPATCHER_CLIENT
-                + " Dispatcher failed to process application: {}, with error code: {} and message: {}",
-              dispatcherRecord.getJsonObject(APPLICATION).getString("_id"),
-              extractedErrorCode(ar), CommonClientUtils.extractedErrorMessage(ar));
-            promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
-              .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
-          }
+    vertxClient.postAbs(this.url + path).putHeaders(headers).sendBuffer(buffer, ar -> {
+      if (ar.succeeded()) {
+        if (HttpResponseStatus.CREATED.code() == ar.result().statusCode()) {
+          log.info(DISPATCHER_CLIENT + " Successfully sent {} with {} to dispatcher",
+            collectionName, recordId);
+          promise.complete(Jsoup.parse(ar.result().bodyAsString()).text());
         } else {
           log.error(DISPATCHER_CLIENT
-              + " Failed to sent application: {} to dispatcher, with error message: {}",
-            dispatcherRecord.getJsonObject(APPLICATION).getString("_id"),
+              + " Dispatcher failed to process record with id {}, with error code: {} and "
+              + "message: {}", recordId, extractedErrorCode(ar),
             CommonClientUtils.extractedErrorMessage(ar));
           promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
             .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
         }
-      });
+      } else {
+        log.error(DISPATCHER_CLIENT
+            + " Failed to sent application: {} to dispatcher, with error message: {}", recordId,
+          CommonClientUtils.extractedErrorMessage(ar));
+        promise.fail(new JsonObject().put(ERROR_CODE, extractedErrorCode(ar))
+          .put(ERROR_DETAILS, CommonClientUtils.extractedErrorMessage(ar)).encode());
+      }
+    });
     return promise.future();
   }
 
 
-  private JsonArray filterDatasetLanguages(JsonArray datasets, String inputLanguage, JsonArray targetLanguages) {
+  private JsonArray filterDatasetLanguages(JsonArray datasets, String inputLanguage,
+    JsonArray targetLanguages) {
 
-    if(StringUtils.isNotEmpty(inputLanguage)){
+    if (StringUtils.isNotEmpty(inputLanguage)) {
       targetLanguages.add(inputLanguage);
     }
 
     datasets.forEach(dataset -> {
-      filterLanguages(((JsonObject)dataset).getJsonObject(TITLE), targetLanguages);
-      filterLanguages(((JsonObject)dataset).getJsonObject("provenance"), targetLanguages);
-      ((JsonObject)dataset).getJsonArray("distributions").forEach(distribution -> filterLanguages(((JsonObject)distribution).getJsonObject(
-        TITLE), targetLanguages));
+      filterLanguages(((JsonObject) dataset).getJsonObject(TITLE), targetLanguages);
+      filterLanguages(((JsonObject) dataset).getJsonObject("provenance"), targetLanguages);
+      ((JsonObject) dataset).getJsonArray("distributions").forEach(
+        distribution -> filterLanguages(((JsonObject) distribution).getJsonObject(TITLE),
+          targetLanguages));
     });
     return datasets;
   }
 
   private void filterLanguages(JsonObject source, JsonArray targetLanguages) {
 
-    if(source != null && !source.isEmpty()){
+    if (source != null && !source.isEmpty()) {
       // Normalize target language codes (to lowercase for case-insensitive match)
-      Set<String> allowed =
-        targetLanguages.stream()
-          .map(Object::toString)
-          .map(s -> s.toLowerCase(Locale.ROOT))
-          .collect(Collectors.toSet());
+      Set<String> allowed = targetLanguages.stream().map(Object::toString)
+        .map(s -> s.toLowerCase(Locale.ROOT)).collect(Collectors.toSet());
 
       // Iterate safely and remove disallowed keys
       // removes the key from the source
@@ -294,7 +324,6 @@ public class DispatcherClient {
 
   /**
    * Delete all applications on dispatcher for a specific applicationIds
-
    */
   public Future<String> deleteApplicationOnDispatcher(JsonObject applications) {
 
@@ -306,8 +335,7 @@ public class DispatcherClient {
       .sendBuffer(buffer, ar -> {
         if (ar.succeeded()) {
           if (HttpResponseStatus.NO_CONTENT.code() == ar.result().statusCode()) {
-            log.info(DISPATCHER_CLIENT
-                + " successfully delete applications: {} from dispatcher",
+            log.info(DISPATCHER_CLIENT + " successfully delete applications: {} from dispatcher",
               applications);
             promise.complete();
           } else {
@@ -333,17 +361,15 @@ public class DispatcherClient {
     MultiMap headers = createHeaderWithoutType();
 
     return vertxClient.getAbs(this.url + CATALOGUE_MAP_REQUEST_BY_CATALOG_ID + catalogId)
-      .putHeaders(headers)
-      .send()
-      .compose(response -> {
+      .putHeaders(headers).send().compose(response -> {
         if (response.statusCode() == 200) {
           log.info("Catalog mapping was found for: catalog id={}", catalogId);
           return Future.succeededFuture(response.bodyAsJsonObject());
 
         } else {
           log.error("Failed to get catalog mapping for catalog id: {}", catalogId);
-          return Future.failedFuture(
-            "Failed to get catalog mapping for catalog id: " + catalogId + " with response message: " + response.statusMessage());
+          return Future.failedFuture("Failed to get catalog mapping for catalog id: " + catalogId
+            + " with response message: " + response.statusMessage());
         }
       });
   }
@@ -356,24 +382,24 @@ public class DispatcherClient {
     log.info("Will try to delete catalog mapping with mongo id: {}", catalogMappingMongoId);
 
     return vertxClient.deleteAbs(this.url + CATALOGUE_MAP_REQUEST + "/" + catalogMappingMongoId)
-      .putHeaders(headers)
-      .send()
-      .compose(response -> {
+      .putHeaders(headers).send().compose(response -> {
         if (response.statusCode() == 200) {
-          log.info("Catalog mapping was found and deleted for: catalog mapping with mongo id: {}", catalogMappingMongoId);
+          log.info("Catalog mapping was found and deleted for: catalog mapping with mongo id: {}",
+            catalogMappingMongoId);
           return Future.succeededFuture(response.statusCode());
         } else if (response.statusCode() == 404) {
-          log.info("Catalog mapping was not found for: catalog mapping with mongo id: {}", catalogMappingMongoId);
+          log.info("Catalog mapping was not found for: catalog mapping with mongo id: {}",
+            catalogMappingMongoId);
           return Future.succeededFuture(response.statusCode());
         } else {
           log.error("Failed to delete catalog mapping for catalog id: {}", catalogMappingMongoId);
           return Future.failedFuture(
-            "Failed to delete catalog mapping for catalog id: " + catalogMappingMongoId + " with response message: " + response.statusMessage());
+            "Failed to delete catalog mapping for catalog id: " + catalogMappingMongoId
+              + " with response message: " + response.statusMessage());
         }
-      }).onFailure(failure ->
-        log.error("Failed to delete catalog mapping for catalog id: {} with error: {}",
+      }).onFailure(
+        failure -> log.error("Failed to delete catalog mapping for catalog id: {} with error: {}",
           catalogMappingMongoId, failure.getMessage()));
   }
 
 }
-

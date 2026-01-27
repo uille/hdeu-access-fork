@@ -15,15 +15,19 @@
  */
 package eu.europa.data.health.access.annotations;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import eu.europa.data.health.access.dto.AttachmentDTO;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
-
-public class AttachmentValidatorTest {
+class AttachmentValidatorTest {
 
     @Test
     void testIsValid_NullAttachment_ShouldReturnTrue() {

@@ -17,11 +17,14 @@ package eu.europa.data.health.access;
 
 public enum TranslationStatus {
 
-    PENDING("pending"),
+    NOT_STARTED("not_started"),
+    FILES_PENDING("files_pending"),
+    FILES_COMPLETED("files_completed"),
+    FORM_PENDING("form_pending"),
     COMPLETED("completed"),
     PARTIALLY_COMPLETED("partially_completed"),
-    NOT_REQUIRED("not_required"),
-    FAILED("failed");
+    FAILED("failed"),
+    PENDING("pending");
 
     private final String status;
 

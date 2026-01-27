@@ -201,7 +201,7 @@ public class PayloadManager extends AbstractManager{
 
   public void retrievePayload(@NotNull RoutingContext context){
 
-    log.info("Entered retrievePayload");
+    log.debug("Entered retrievePayload");
 
     String nameValue = context.request().getParam(NAME);
 
@@ -213,7 +213,6 @@ public class PayloadManager extends AbstractManager{
         })
       .onFailure(cause -> setUpMessageContextResponse(context, HttpResponseStatus.NOT_FOUND,
         "Payload with name: " + nameValue + " not found"));
-
   }
 
   public Future<JsonObject> findByFieldWithValue(String collectionName, String fieldName, String fieldValue) {
@@ -325,7 +324,7 @@ public class PayloadManager extends AbstractManager{
       // Recover individual fetch failures to empty lists to avoid failing the entire operation
       fetches.add(
         controlledVocabularyManager.getBySource(src)
-          .onFailure(e -> log.warn("Failed to fetch controlled vocabulary for source {}:", src, e))
+          .onFailure(e -> log.error("Failed to fetch controlled vocabulary for source {}:", src, e))
           .recover(e -> Future.succeededFuture(new JsonArray()))
       );
     }

@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
+  "required": ["type", "operation", "objectId", "payload"],
   "properties": {
     "type": {
       "type": "string",
@@ -16,12 +17,17 @@
     },
     "payload": {
       "type": "object",
+      "required": ["application_type", "status", "decisions", "catalog_id"],
       "properties": {
-        "applicationType": {
+        "application_type": {
           "type": "string",
           "enum": ["DATA_ACCESS_APPLICATION", "DATA_REQUEST_APPLICATION"]
         },
-        "catalogId": {
+        "status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "catalog_id": {
           "type": "string",
           "minLength": 1
         },
@@ -30,22 +36,25 @@
           "minItems": 1,
           "items": {
             "type": "object",
+            "required": ["dataset_id", "decision"],
             "properties": {
-              "publisher": {
+              "dataset_id": {
                 "type": "string",
                 "minLength": 1
               },
               "decision": {
                 "type": "string",
-                "minLength": 1
+                "enum": ["POSITIVE_DECISION_ISSUED", "POSITIVE_DECISION_ACCEPTED", "POSITIVE_DECISION_REJECTED", "NEGATIVE_DECISION_ISSUED", "NEGATIVE_DECISION_ACCEPTED", "NEGATIVE_DECISION_APPEALED", "APPEAL_APPROVED", "APPEAL_REJECTED", "WITHDRAWN"]
+              },
+              "decision_file": {
+                "type": "string",
+                "format": "byte",
+                "description": "Base64-encoded Decision PDF file"
               }
-            },
-            "required": ["publisher", "decision"]
+            }
           }
         }
-      },
-      "required": ["applicationType", "catalogId", "decisions"]
+      }
     }
-  },
-  "required": ["type", "operation", "objectId", "payload"]
+  }
 }

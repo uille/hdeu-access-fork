@@ -17,8 +17,10 @@ package eu.europa.data.health.access.services;
 
 import static eu.europa.data.health.access.Constants.APPLICATIONID;
 import static eu.europa.data.health.access.Constants.DATA;
+import static eu.europa.data.health.access.Constants.FILENAME_ASTERISK_EQUALS;
 import static eu.europa.data.health.access.Constants.PARAMETER_ID;
 import static eu.europa.data.health.access.Constants.PARAMETER_TYPE;
+import static eu.europa.data.health.access.Constants.X_API_KEY;
 
 import eu.europa.data.health.access.utils.SafeHttpResponse;
 import io.vertx.core.CompositeFuture;
@@ -75,7 +77,7 @@ public class HubStoreClient {
     return client.postAbs(apiUrl + "/data")
       .addQueryParam(PARAMETER_TYPE, parameterType)
       .addQueryParam(PARAMETER_ID, parameterId)
-      .putHeader("X-API-Key", apiToken)
+      .putHeader(X_API_KEY, apiToken)
       .putHeader("Content-Type", "multipart/form-data")
       .sendMultipartForm(form)
       .compose(response -> {
@@ -132,7 +134,7 @@ public class HubStoreClient {
   public Future<HttpResponse<Buffer>> deleteFile(String fileId, String parameterType, String parameterId) {
     log.info("Deleting file from hub store: fileId={}, url={}{}{}", fileId, apiUrl, DATA, fileId);
     return client.deleteAbs(apiUrl + DATA + fileId)
-      .putHeader("X-API-Key", apiToken)
+      .putHeader(X_API_KEY, apiToken)
       .addQueryParam(PARAMETER_TYPE, parameterType)
       .addQueryParam(PARAMETER_ID, parameterId)
       .send()
@@ -156,7 +158,7 @@ public class HubStoreClient {
   public Future<HttpResponse<Buffer>> deleteFileByParameter(String parameterType, String parameterId) {
     log.info("Deleting file from hub store: parameterType={}, parameterId{},  url={}{}",parameterType, parameterId, apiUrl, DATA);
     return client.deleteAbs(apiUrl + DATA)
-      .putHeader("X-API-Key", apiToken)
+      .putHeader(X_API_KEY, apiToken)
       .addQueryParam(PARAMETER_TYPE, parameterType)
       .addQueryParam(PARAMETER_ID, parameterId)
       .send()
@@ -189,8 +191,8 @@ public class HubStoreClient {
   }
 
   protected String decodeFilename(String contentDisposition){
-    if (StringUtils.isNotEmpty(contentDisposition) && contentDisposition.contains("filename*=")) {
-      String part = contentDisposition.substring(contentDisposition.indexOf("filename*=") + "filename*=".length()).trim();
+    if (StringUtils.isNotEmpty(contentDisposition) && contentDisposition.contains(FILENAME_ASTERISK_EQUALS)) {
+      String part = contentDisposition.substring(contentDisposition.indexOf(FILENAME_ASTERISK_EQUALS) + FILENAME_ASTERISK_EQUALS.length()).trim();
       if (part.startsWith("UTF-8''")) {
         part = part.substring("UTF-8''".length());
       }

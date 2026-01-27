@@ -166,6 +166,7 @@ public class Section8DTO extends SectionDTO {
   List<SelectObjectDTO> legalBasisForTransferringTheDataOutsideEUOtherOptions;
   @NotBlank
   @Size(max = 500)//field 17
+  @TranslatableField
   String whichOrganizationWillBeTheControllerOfData;
 
   //Go to Section8BindToOtherSections for the next fields 18 and 19

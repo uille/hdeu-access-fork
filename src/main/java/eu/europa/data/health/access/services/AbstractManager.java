@@ -27,6 +27,8 @@ import eu.europa.data.health.access.Context;
 import eu.europa.data.health.access.dto.SearchCriteriaDto;
 import eu.europa.data.health.access.handlers.DBHandler;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -139,7 +141,167 @@ public abstract class AbstractManager {
   /**
    * Get Audit logs
    */
-  public void getAuditLogs(@NotNull RoutingContext context, Integer pageNumber, Integer pageLimit,
+  public void getApplications(@NotNull RoutingContext context, String collectionName, Integer pageNumber, Integer pageLimit,
+    String sortBy, String sortOrder, JsonObject queryOptions) {
+
+    Integer effectiveLimit =
+      (pageLimit != null) ? Math.min(pageLimit, Constants.PAGINATION_LIMIT) : null;
+
+    dbHandler.findApplications(collectionName, pageNumber, effectiveLimit, sortBy, sortOrder,
+      queryOptions).onSuccess(list -> {
+      buildResponseWithPagination(context, collectionName, pageNumber, sortBy, sortOrder, queryOptions,
+        list, effectiveLimit);
+    }).onFailure(
+      cause -> setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+        cause.getMessage()));
+  }
+
+  /**
+   * Get Datasets
+   */
+  public void getDatasets(@NotNull RoutingContext context, String collectionName, Integer pageNumber, Integer pageLimit,
+    String sortBy, String sortOrder, JsonObject queryOptions) {
+
+    Integer effectiveLimit =
+      (pageLimit != null) ? Math.min(pageLimit, Constants.PAGINATION_LIMIT) : null;
+
+    dbHandler.findDatasetsPerApplication(collectionName, pageNumber, effectiveLimit, sortBy, sortOrder,
+      queryOptions).onSuccess(list -> {
+      buildResponseWithPaginationPerDataset(context, collectionName, pageNumber, sortBy, sortOrder, queryOptions,
+        list, effectiveLimit);
+    }).onFailure(
+      cause -> setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+        cause.getMessage()));
+  }
+
+  public void getDecisionIssuedDatasets(@NotNull RoutingContext context, String collectionName, Integer pageNumber, Integer pageLimit,
+    String sortBy, String sortOrder, JsonObject queryOptions, Boolean isPositiveDecision) {
+
+    Integer effectiveLimit =
+      (pageLimit != null) ? Math.min(pageLimit, Constants.PAGINATION_LIMIT) : null;
+
+    dbHandler.findDecisionIssuedDatasetsPerApplication(collectionName, pageNumber, effectiveLimit, sortBy, sortOrder,
+      queryOptions, isPositiveDecision).onSuccess(list -> {
+      buildResponseWithPaginationPerDecisionIssuedDataset(context, collectionName, pageNumber, sortBy, sortOrder, queryOptions,
+        list, effectiveLimit, isPositiveDecision);
+    }).onFailure(
+      cause -> setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+        cause.getMessage()));
+  }
+
+  private void buildResponseWithPaginationPerDecisionIssuedDataset(@NotNull RoutingContext context, String collectionName,
+    Integer pageNumber, String sortBy, String sortOrder, JsonObject queryOptions,
+    List<JsonObject> list, Integer effectiveLimit, Boolean isPositiveDecision) {
+
+    if (pageNumber != null && effectiveLimit != null) {
+      dbHandler.countDecisionIssuedDatasetsPerApplication(collectionName, queryOptions, isPositiveDecision)
+        .map(totalDatasets ->
+          prepareGetEntityResponse(
+            list,
+            new SearchCriteriaDto(
+              totalDatasets,           // total count (datasets) for pagination
+              totalDatasets,           // or a second metric if your DTO expects it
+              pageNumber,
+              effectiveLimit,
+              sortBy,
+              sortOrder,
+              null
+            )
+          )
+        )
+        .onSuccess(response ->
+          setUpContextResponse(context, HttpResponseStatus.OK, response.encode()))
+        .onFailure(err ->
+          setUpContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+            new JsonObject().put("error", err.getMessage()).encode()));
+    } else {
+      JsonObject response = prepareGetEntityResponse(list, sortBy, sortOrder, null);
+      setUpContextResponse(context, HttpResponseStatus.OK, response.encode());
+    }
+  }
+
+
+  public void getDataPermitGrantedDatasets(@NotNull RoutingContext context, String collectionName, Integer pageNumber, Integer pageLimit,
+    String sortBy, String sortOrder, JsonObject queryOptions) {
+
+    Integer effectiveLimit =
+      (pageLimit != null) ? Math.min(pageLimit, Constants.PAGINATION_LIMIT) : null;
+
+    dbHandler.findDataPermitGrantedDatasetsPerApplication(collectionName, pageNumber, effectiveLimit, sortBy, sortOrder,
+      queryOptions).onSuccess(list -> {
+      buildResponseWithPaginationPerDataPermitGrantedDataset(context, collectionName, pageNumber, sortBy, sortOrder, queryOptions,
+        list, effectiveLimit);
+    }).onFailure(
+      cause -> setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+        cause.getMessage()));
+  }
+
+  private void buildResponseWithPaginationPerDataPermitGrantedDataset(@NotNull RoutingContext context, String collectionName,
+    Integer pageNumber, String sortBy, String sortOrder, JsonObject queryOptions,
+    List<JsonObject> list, Integer effectiveLimit) {
+
+    if (pageNumber != null && effectiveLimit != null) {
+      dbHandler.countDatasetsPerDataPermitGrantedDatasetApplication(collectionName, queryOptions)
+        .map(totalDatasets ->
+          prepareGetEntityResponse(
+            list,
+            new SearchCriteriaDto(
+              totalDatasets,           // total count (datasets) for pagination
+              totalDatasets,           // or a second metric if your DTO expects it
+              pageNumber,
+              effectiveLimit,
+              sortBy,
+              sortOrder,
+              null
+            )
+          )
+        )
+        .onSuccess(response ->
+          setUpContextResponse(context, HttpResponseStatus.OK, response.encode()))
+        .onFailure(err ->
+          setUpContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+            new JsonObject().put("error", err.getMessage()).encode()));
+    } else {
+      JsonObject response = prepareGetEntityResponse(list, sortBy, sortOrder, null);
+      setUpContextResponse(context, HttpResponseStatus.OK, response.encode());
+    }
+  }
+
+  private void buildResponseWithPaginationPerDataset(@NotNull RoutingContext context, String collectionName,
+    Integer pageNumber, String sortBy, String sortOrder, JsonObject queryOptions,
+    List<JsonObject> list, Integer effectiveLimit) {
+
+    if (pageNumber != null && effectiveLimit != null) {
+      dbHandler.countDatasetsPerApplication(collectionName, queryOptions)
+        .map(totalDatasets ->
+          prepareGetEntityResponse(
+            list,
+            new SearchCriteriaDto(
+              totalDatasets,           // total count (datasets) for pagination
+              totalDatasets,           // or a second metric if your DTO expects it
+              pageNumber,
+              effectiveLimit,
+              sortBy,
+              sortOrder,
+              null
+            )
+          )
+        )
+        .onSuccess(response ->
+          setUpContextResponse(context, HttpResponseStatus.OK, response.encode()))
+        .onFailure(err ->
+          setUpContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+            new JsonObject().put("error", err.getMessage()).encode()));
+    } else {
+      JsonObject response = prepareGetEntityResponse(list, sortBy, sortOrder, null);
+      setUpContextResponse(context, HttpResponseStatus.OK, response.encode());
+    }
+  }
+
+  /**
+   * Get Audit logs
+   */
+  public void getAuditLogs(@NotNull RoutingContext context, String collectionName, Integer pageNumber, Integer pageLimit,
     String sortBy, String sortOrder, JsonObject queryOptions) {
 
     JsonArray users = queryOptions.containsKey(USERS) ? queryOptions.getJsonArray(USERS) : null;
@@ -151,7 +313,7 @@ public abstract class AbstractManager {
     dbHandler.findAuditLogs(AUDIT_LOG_COLLECTION, pageNumber, effectiveLimit, sortBy, sortOrder,
       queryOptions).onSuccess(list -> {
       enrichAuditLogNames(list, users);
-      buildAuditLogResponseWithPagination(context, pageNumber, sortBy, sortOrder, queryOptions,
+      buildResponseWithPagination(context,collectionName, pageNumber, sortBy, sortOrder, queryOptions,
         list, effectiveLimit);
     }).onFailure(
       cause -> setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
@@ -182,13 +344,13 @@ public abstract class AbstractManager {
     });
   }
 
-  private void buildAuditLogResponseWithPagination(@NotNull RoutingContext context,
+  private void buildResponseWithPagination(@NotNull RoutingContext context, String collectionName,
     Integer pageNumber, String sortBy, String sortOrder, JsonObject queryOptions,
     List<JsonObject> list, Integer effectiveLimit) {
 
     if (pageNumber != null && effectiveLimit != null) {
-      dbHandler.countAllAuditLogs(AUDIT_LOG_COLLECTION, queryOptions).compose(
-          pageCount -> dbHandler.countAllAuditLogs(AUDIT_LOG_COLLECTION,
+      dbHandler.countAll(collectionName, queryOptions).compose(
+          pageCount -> dbHandler.countAll(collectionName,
               queryOptions) // Suggest separate method for filtered count
             .map(pageCountFilter -> prepareGetEntityResponse(list,
               new SearchCriteriaDto(pageCount, pageCountFilter, pageNumber, effectiveLimit, sortBy,
@@ -212,6 +374,35 @@ public abstract class AbstractManager {
         jsonObject -> setUpContextResponse(context, HttpResponseStatus.OK, jsonObject.encode()))
       .onFailure(cause -> {
         int errorCode = ((ServiceException) cause).failureCode();
+        setUpContextResponse(context, HttpResponseStatus.valueOf(errorCode));
+      });
+  }
+
+  /**
+   * find by id without security and additional information in the object
+   */
+  public void findByIdWithoutSecurity(@NotNull RoutingContext context, String collectionName) {
+
+    // Query: match by ID and require ON-GOING application status
+    JsonObject query = new JsonObject()
+      .put("_id", context.pathParam("id"));
+
+    dbHandler.findByField(collectionName, query)
+      .onSuccess(jsonObject -> {
+        if (jsonObject != null) {
+
+          if (jsonObject.containsKey("additionalInformation")) {
+            jsonObject.remove("additionalInformation");
+          }
+        }
+
+        setUpContextResponse(context, HttpResponseStatus.OK, jsonObject.encode());
+      })
+      .onFailure(cause -> {
+        int errorCode = (cause instanceof ServiceException)
+          ? ((ServiceException) cause).failureCode()
+          : HttpResponseStatus.INTERNAL_SERVER_ERROR.code();
+
         setUpContextResponse(context, HttpResponseStatus.valueOf(errorCode));
       });
   }
@@ -407,7 +598,7 @@ public abstract class AbstractManager {
         .encode());
   }
 
-  protected void setUpMessageContextResponse(RoutingContext context, HttpResponseStatus status,
+  static public void setUpMessageContextResponse(RoutingContext context, HttpResponseStatus status,
     String message) {
     if (context.get(ERRORS_PARAM) != null) {
       JsonObject response = new JsonObject();
@@ -421,7 +612,7 @@ public abstract class AbstractManager {
     }
   }
 
-  private String getValidationErrors(RoutingContext context) {
+  static private String getValidationErrors(RoutingContext context) {
     Object errors = context.get(ERRORS_PARAM);
     ObjectMapper objectMapper = new ObjectMapper();
     if (errors == null) {
@@ -434,7 +625,7 @@ public abstract class AbstractManager {
     }
   }
 
-  protected void setUpContextResponse(RoutingContext context, HttpResponseStatus status,
+  static protected void setUpContextResponse(RoutingContext context, HttpResponseStatus status,
     String message) {
     context.response().setStatusCode(status.code()).end(message);
   }
@@ -458,5 +649,26 @@ public abstract class AbstractManager {
     }).onFailure(
       err -> setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
         "Failed to upload file"));
+  }
+
+  public Future<JsonObject> handleDocUpload(RoutingContext context, String parentName, String parentId,
+    HubStoreClient hubStoreClient, Vertx vertx) {
+    Promise<JsonObject> promise = Promise.promise();
+    String contentType = context.request().getHeader(CONTENT_TYPE);
+
+    // Get the uploaded file
+    FileUpload fileUploaded = context.fileUploads().get(0);
+    vertx.fileSystem().readFile(fileUploaded.uploadedFileName()).compose(
+      fileBuffer -> hubStoreClient.uploadFile(parentName, parentId, fileUploaded.fileName(),
+        fileBuffer, contentType)).onSuccess(responseJson -> {
+      context.response().putHeader(CONTENT_TYPE, "application/json");
+      setUpContextResponse(context, HttpResponseStatus.CREATED, responseJson.encode());
+      promise.complete(responseJson);
+    }).onFailure(err -> {
+      setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+        "Failed to upload file");
+      promise.fail(err.getMessage());
+    });
+    return promise.future();
   }
 }

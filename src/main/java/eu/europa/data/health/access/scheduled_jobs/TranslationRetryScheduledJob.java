@@ -17,8 +17,10 @@ package eu.europa.data.health.access.scheduled_jobs;
 
 import static eu.europa.data.health.access.Constants.DATA_ACCESS_APPLICATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.DATA_REQUEST_APPLICATION_COLLECTION;
+import static eu.europa.data.health.access.Constants.TRANSLATION;
 import static eu.europa.data.health.access.TranslationStatus.FAILED;
-import static eu.europa.data.health.access.TranslationStatus.PENDING;
+import static eu.europa.data.health.access.TranslationStatus.FILES_PENDING;
+import static eu.europa.data.health.access.TranslationStatus.FORM_PENDING;
 
 import eu.europa.data.health.access.hub_translation_client.HubTranslationClient;
 import eu.europa.data.health.access.services.DataAccessApplicationManager;
@@ -36,6 +38,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TranslationRetryScheduledJob {
+
+  public static final String TRANSLATION_FILES = "translation.files.";
 
   private final MongoClient mongoClient;
   private final HubTranslationClient hubTranslationClient;
@@ -68,9 +72,12 @@ public class TranslationRetryScheduledJob {
   private Future<List<JsonObject>> findPendingTranslationApplications(String applicationType, int retryInterval) {
     Instant threshold = Instant.now().minusMillis(retryInterval);
 
+    // Find applications that have either FILES_PENDING or FORM_PENDING status
+    // and were submitted before the threshold time
     JsonObject query = new JsonObject()
-            .put("translation.status", PENDING)
-            .put("translation.form.payload", new JsonObject().put("$ne", null))
+            .put("translation.status", new JsonObject().put("$in", new JsonArray()
+                .add(FILES_PENDING)
+                .add(FORM_PENDING)))
             .put("date_submitted", new JsonObject().put("$lte", threshold.toString()));
 
     FindOptions options = new FindOptions();
@@ -84,13 +91,13 @@ public class TranslationRetryScheduledJob {
 
   private void retryTranslationIfNeeded(JsonObject app, String applicationType, int maxAttempts) {
     String appId = app.getString("_id");
-    JsonObject translation = app.getJsonObject("translation");
+    JsonObject translation = app.getJsonObject(TRANSLATION);
 
     // Form translation retry
     JsonObject form = translation != null ? translation.getJsonObject("form") : null;
     JsonObject payload = form != null ? form.getJsonObject("payload") : null;
 
-    if (payload != null && PENDING.name().equals(form.getString("status"))) {
+    if (payload != null && "PENDING".equals(form.getString("status"))) {
       retryFormTranslation(appId, applicationType, form, payload, maxAttempts);
     }
 
@@ -159,12 +166,12 @@ public class TranslationRetryScheduledJob {
    */
   private void retryPendingFileTranslations(JsonObject app, String applicationType, int maxAttempts) {
     String appId = app.getString("_id");
-    JsonObject filesMap = app.getJsonObject("translation", new JsonObject())
+    JsonObject filesMap = app.getJsonObject(TRANSLATION, new JsonObject())
       .getJsonObject("files", new JsonObject());
 
     for (String fileId : filesMap.fieldNames()) {
       JsonObject fileMeta = filesMap.getJsonObject(fileId);
-      if (fileMeta == null || !PENDING.name().equals(fileMeta.getString("status"))) continue;
+      if (fileMeta == null || !"PENDING".equals(fileMeta.getString("status"))) continue;
 
       int attempts = fileMeta.getInteger("attempts", 0);
       if (attempts >= maxAttempts) {
@@ -177,9 +184,17 @@ public class TranslationRetryScheduledJob {
 
       // Increment the retry attempts
       JsonObject preRetryUpdate = new JsonObject()
-        .put("$inc", new JsonObject().put("translation.files." + fileId + ".attempts", 1))
-        .put("$set", new JsonObject().put("translation.files." + fileId + ".lastRetryAt", Instant.now().toString()));
+        .put("$inc", new JsonObject().put(TRANSLATION_FILES + fileId + ".attempts", 1))
+        .put("$set", new JsonObject().put(TRANSLATION_FILES + fileId + ".lastRetryAt", Instant.now().toString()));
+
+      log.info("Incrementing attempts for fileId={}, appId={}, currentAttempts={}, update={}",
+        fileId, appId, attempts, preRetryUpdate.encode());
+
       mongoClient.updateCollection(applicationType, new JsonObject().put("_id", appId), preRetryUpdate)
+        .onSuccess(result -> {
+          log.info("Successfully incremented attempts for fileId={}, appId={}, updatedCount={}",
+            fileId, appId, result.getDocModified());
+        })
         .onFailure(err -> log.error("Failed to increment attempts for fileId={}, appId={}", fileId, appId, err));
 
       hubStoreClient.getFilesAsBase64(List.of(fileId), appId)
@@ -187,7 +202,7 @@ public class TranslationRetryScheduledJob {
           if (files.isEmpty()) throw new RuntimeException("File not found for base64 fetch: " + fileId);
           JsonObject fileObj = files.get(0);
 
-          JsonObject translation = app.getJsonObject("translation", new JsonObject());
+          JsonObject translation = app.getJsonObject(TRANSLATION, new JsonObject());
           List<String> targetLangs = translation.getJsonArray("targetLanguages", new JsonArray())
             .stream().map(Object::toString).toList();
 
@@ -200,7 +215,7 @@ public class TranslationRetryScheduledJob {
 
           if (err.getMessage().contains("base64")) {
             JsonObject failUpdate = new JsonObject()
-              .put("$set", new JsonObject().put("translation.files." + fileId + ".status", FAILED));
+              .put("$set", new JsonObject().put(TRANSLATION_FILES + fileId + ".status", FAILED));
             mongoClient.updateCollection(applicationType, new JsonObject().put("_id", appId), failUpdate)
               .onFailure(e -> log.error("Failed to mark file as FAILED for fileId={}, appId={}, err={}", fileId, appId, e.getMessage()));
           }

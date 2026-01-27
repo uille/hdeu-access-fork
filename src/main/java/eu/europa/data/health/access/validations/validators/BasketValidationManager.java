@@ -32,13 +32,15 @@ import org.jetbrains.annotations.NotNull;
 public class BasketValidationManager extends AbstractSchemaValidator {
 
   public static final String PUBLISHER = "publisher";
+  public static final String CUSTODIAN = "custodian";
   private final HubSearchClient hubSearchClient;
 
 
   public BasketValidationManager(
-     HubSearchClient hubSearchClient) {
-      this.hubSearchClient = hubSearchClient;
+    HubSearchClient hubSearchClient) {
+    this.hubSearchClient = hubSearchClient;
   }
+
   /**
    * A method validating that the json object inside the request body complies to the basket json
    * schema
@@ -55,40 +57,45 @@ public class BasketValidationManager extends AbstractSchemaValidator {
     String distributionId = context.body().asJsonObject().getString(DISTRIBUTION_ID);
 
     hubSearchClient.getDataset(datasetId).onComplete(result -> {
-        if (result.succeeded()) {
-          JsonObject response = result.result();
+      if (result.succeeded()) {
+        JsonObject response = result.result();
 
-            if (response.containsKey("result")) {
+        if (response.containsKey("result")) {
+          JsonObject resultObj = response.getJsonObject("result");
 
-              JsonObject resultObj = response.getJsonObject("result");
+          JsonObject custodianObj = resultObj.getJsonObject(CUSTODIAN);
 
-              if (resultObj.containsKey(PUBLISHER)) {
-                context.put(PUBLISHER, resultObj.getJsonObject(PUBLISHER).getString("name"));
+          // Only proceed if it's a JSON object
+          if (custodianObj != null) {
+            // getString("name", "") = safe fallback to empty string
+            String custodianName = custodianObj.getString("name", "");
+            context.put(PUBLISHER, custodianName);
+          } else {
+            // fallback if it's not an object
+            context.put(PUBLISHER, "");
+          }
 
-                JsonArray distributions = resultObj.getJsonArray("distributions");
-                boolean foundDistributionId = distributions.stream()
-                  .filter(distribution -> distribution instanceof JsonObject)
-                  .map(JsonObject.class::cast)
-                  .anyMatch(
-                    distributionJson -> distributionJson.getString("id").equals(distributionId));
-                if (foundDistributionId) {
-                  context.next();
-                } else {
-                  setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
-                    String.format("Distribution id: %s not found", distributionId));
-                }
-              } else {
-                setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
-                  "Publisher value not found");
-              }
-            } else {
-              setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
-                String.format("Dataset id: %s not found", datasetId));
-            }
+          JsonArray distributions = resultObj.getJsonArray("distributions");
+          boolean foundDistributionId = distributions.stream()
+            .filter(distribution -> distribution instanceof JsonObject)
+            .map(JsonObject.class::cast)
+            .anyMatch(
+              distributionJson -> distributionJson.getString("id").equals(distributionId));
+          if (foundDistributionId) {
+            context.next();
+          } else {
+            setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
+              String.format("Distribution id: %s not found", distributionId));
+          }
+
         } else {
-          setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
-            result.cause().getMessage());
+          setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
+            String.format("Dataset id: %s not found", datasetId));
         }
-      });
+      } else {
+        setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
+          result.cause().getMessage());
+      }
+    });
   }
 }

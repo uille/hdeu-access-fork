@@ -15,28 +15,44 @@
  */
 package eu.europa.data.health.access.services;
 
+import static eu.europa.data.health.access.Constants.DATA_ACCESS_APPLICATION_COLLECTION;
+import static eu.europa.data.health.access.Constants.DATA_REQUEST_APPLICATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.JSON;
 import static eu.europa.data.health.access.Constants.JSON_FILE_FOR;
 import static eu.europa.data.health.access.Constants.NOT_FOUND;
 import static eu.europa.data.health.access.Constants.TRANSLATIONS;
 import static eu.europa.data.health.access.Constants.TRIPLE_LOG_ABBREVIATION;
+import static eu.europa.data.health.access.Constants.USER_ID_PARAM;
 
+import eu.europa.data.health.access.Context;
 import eu.europa.data.health.access.Translations;
+import eu.europa.data.health.access.handlers.DBHandler;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import org.apache.jena.iri.impl.Main;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import io.vertx.serviceproxy.ServiceException;
+import jakarta.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Scanner;
+import org.apache.jena.iri.impl.Main;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TranslationManager {
 
+  private final DBHandler dbHandler;
+
   private final Logger log = LoggerFactory.getLogger(getClass());
+
+  public TranslationManager(DBHandler dbHandler) {
+    this.dbHandler = dbHandler;
+  }
+  public TranslationManager() {
+    this.dbHandler = null;
+  }
 
   /**
    * Method where you give the languish and the section of the form, and you retrieve the
@@ -149,6 +165,52 @@ public class TranslationManager {
         log.info(TRIPLE_LOG_ABBREVIATION, JSON_FILE_FOR, lg, NOT_FOUND);
       }
       return loadJsonFromStream(inputStream);
+    }
+  }
+
+  public void getApplicationTranslation(RoutingContext context) {
+
+    JsonObject query = new JsonObject().put("_id", context.pathParam("applicationId"));
+    query.put(USER_ID_PARAM, Context.getEcasId(context));
+
+    assert dbHandler != null;
+    dbHandler.findByField(DATA_ACCESS_APPLICATION_COLLECTION, query)
+      .onSuccess(accessJsonObject -> {
+        returnTranslation(accessJsonObject, context);
+      })
+      .onFailure(errorAccess -> {
+        int accessErrorCode = ((ServiceException) errorAccess).failureCode();
+        if (404 == accessErrorCode) {
+          dbHandler.findByField(DATA_REQUEST_APPLICATION_COLLECTION, query)
+            .onSuccess(requestJsonObject -> {
+              returnTranslation(requestJsonObject, context);
+            })
+            .onFailure(errorRequest -> {
+              int requestErrorCode = ((ServiceException) errorRequest).failureCode();
+              if (404 == requestErrorCode) {
+                context.response().setStatusCode(HttpResponseStatus.NOT_FOUND.code())
+                  .end("Application not found");
+              } else {
+                context.response().setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code())
+                  .end(errorAccess.getMessage());
+              }
+            });
+        } else {
+          context.response().setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code())
+            .end(errorAccess.getMessage());
+        }
+      });
+  }
+
+  private void returnTranslation(JsonObject applicationObject, @NotNull RoutingContext context){
+    JsonObject translation = new JsonObject();
+    if (Objects.nonNull(applicationObject.getJsonObject("translation"))) {
+      translation = applicationObject.getJsonObject("translation");
+      context.response().setStatusCode(HttpResponseStatus.OK.code()).end(translation.encode());
+    } else {
+      translation.put("message", "Translation not found");
+      context.response().setStatusCode(HttpResponseStatus.NOT_FOUND.code())
+        .end(translation.encode());
     }
   }
 

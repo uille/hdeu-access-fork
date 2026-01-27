@@ -308,7 +308,7 @@ class CatalogueManagerTest {
     mockResult.put("country1", "Country 1");
     mockResult.put("country2", "Country 2");
 
-    when(hubRepoClient.getAllGeographicalCoverage(routingContext))
+    when(hubRepoClient.getAllGeographicalCoverage())
       .thenReturn(Future.succeededFuture(mockResult));
 
     HttpServerResponse mockResponse = mock(HttpServerResponse.class);
@@ -330,7 +330,7 @@ class CatalogueManagerTest {
 
   @Test
   void testGetAllGeographicalCoverage_failure(VertxTestContext testContext) {
-    when(hubRepoClient.getAllGeographicalCoverage(routingContext))
+    when(hubRepoClient.getAllGeographicalCoverage())
       .thenReturn(Future.failedFuture("No countries found."));
 
     HttpServerResponse mockResponse = mock(HttpServerResponse.class);

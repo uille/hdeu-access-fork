@@ -80,7 +80,7 @@ public class ApplicationFormUtils {
    * @return {@code COMPLETED} if all expected translations are received,
    * {@code PARTIALLY_COMPLETED} otherwise.
    */
-  public static TranslationStatus determineTranslationStatus(
+  public static String determineTranslationStatus(
     Collection<String> receivedLangsRaw,
     Collection<String> expectedLangsRaw,
     String typeLabel,
@@ -90,7 +90,7 @@ public class ApplicationFormUtils {
       log.warn(
         "No targetLanguages provided for application {}, cannot validate translation completeness",
         applicationId);
-      return TranslationStatus.FAILED;
+      return TranslationStatus.FAILED.name();
     }
 
     Set<String> receivedLangs = receivedLangsRaw.stream()
@@ -108,10 +108,9 @@ public class ApplicationFormUtils {
       missing.removeAll(receivedLangs);
       log.warn("Some expected {} translations are missing for application {}: {}", typeLabel,
         applicationId, missing);
-      return TranslationStatus.PENDING;
+        return "PENDING";
     }
-
-    return TranslationStatus.COMPLETED;
+    return TranslationStatus.COMPLETED.name();
   }
 
   /**
@@ -129,34 +128,50 @@ public class ApplicationFormUtils {
    */
   public static TranslationStatus determineOverallTranslationStatus(JsonObject translation) {
     if (translation == null) {
-      return TranslationStatus.PENDING;
+      return TranslationStatus.NOT_STARTED;
     }
 
     TranslationStatus formStatus = TranslationStatus.fromStatus(
-      translation.getJsonObject("form", new JsonObject()).getString("status", "PENDING"));
+      translation.getJsonObject("form", new JsonObject()).getString("status", TranslationStatus.NOT_STARTED.name()));
 
-    Map<String, TranslationStatus> fileStatuses = new HashMap<>();
+    Map<String, TranslationStatus> fileStatusesMap = new HashMap<>();
     JsonObject files = translation.getJsonObject("files", new JsonObject());
 
     for (String fileId : files.fieldNames()) {
       JsonObject fileEntry = files.getJsonObject(fileId);
       String statusStr = fileEntry != null ? fileEntry.getString("status", "PENDING") : "PENDING";
-      fileStatuses.put(fileId, TranslationStatus.fromStatus(statusStr));
+      fileStatusesMap.put(fileId, TranslationStatus.fromStatus(statusStr));
     }
+    List<TranslationStatus> fileStatuses = new ArrayList<>(fileStatusesMap.values());
 
     List<TranslationStatus> allStatuses = new ArrayList<>();
     allStatuses.add(formStatus);
-    allStatuses.addAll(fileStatuses.values());
+    allStatuses.addAll(fileStatusesMap.values());
 
     if (allStatuses.stream().anyMatch(s -> s == TranslationStatus.FAILED)) {
       return TranslationStatus.FAILED;
     }
 
-    if (allStatuses.stream().allMatch(s -> s == TranslationStatus.COMPLETED)) {
+    if(fileStatuses.stream().allMatch(s -> s == TranslationStatus.COMPLETED)
+      && formStatus.equals(TranslationStatus.COMPLETED)) {
       return TranslationStatus.COMPLETED;
     }
 
-    return TranslationStatus.PENDING;
+    if(fileStatuses.stream().allMatch(s -> s == TranslationStatus.COMPLETED)
+      && formStatus.equals(TranslationStatus.NOT_STARTED)) {
+      return TranslationStatus.FILES_COMPLETED;
+    }
+
+    if(fileStatuses.stream().allMatch(s -> s == TranslationStatus.COMPLETED)
+      && formStatus.equals(TranslationStatus.PENDING)) {
+      return TranslationStatus.FORM_PENDING;
+    }
+
+    if (fileStatuses.stream().anyMatch(s -> s == TranslationStatus.PENDING)) {
+      return TranslationStatus.FILES_PENDING;
+    }
+
+    return TranslationStatus.FAILED;
   }
 
   /**

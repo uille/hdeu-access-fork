@@ -63,7 +63,7 @@ tags:
     description: Utility endpoints for RDF transformations.
 
 security:
-  - BearerAuth: []
+  - BearerAuth: [ ]
 paths:
 
   ##########
@@ -236,9 +236,382 @@ paths:
         '500':
           description: Internal Server Error
 
+  ############################
+  # Applications Dropdown Data #
+  ############################
+
+  /data-access/getApplicationsHdab:
+    get:
+      tags:
+        - Applications HDAB
+      summary: Get distinct string list with HBAD of every data access application.
+      operationId: getDataAccessApplicationsHbad
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: Returns distinct string list with HBAD of every data access application.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  /data-access/getApplicationsCountries:
+    get:
+      tags:
+        - Applications Geographical Coverage
+      summary: Get distinct geographical coverage list of every data access application.
+      operationId: getDataAccessApplicationsCountries
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: Returns distinct geographical coverage list of every data access application.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  /data-access/getApplicationTitles:
+    get:
+      tags:
+        - Application Title Coverage
+      summary: Get application title list of every data access application.
+      operationId: getDataAccessApplicationTitles
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: Returns application title list of every data access application.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  /data-request/getApplicationTitles:
+    get:
+      tags:
+        - Application Title Coverage
+      summary: Get application title list of every data request application.
+      operationId: getDataRequestApplicationTitles
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: Returns application title list of every data request application.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  /data-request/getApplicationsHdab:
+    get:
+      tags:
+        - Applications HDAB
+      summary: Get distinct string list with HBAD of every application.
+      operationId: getDataRequestApplicationsHbad
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: Returns distinct string list with HBAD of every data access application
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  /data-request/getApplicationsCountries:
+    get:
+      tags:
+        - Applications Geographical Coverage
+      summary: Get distinct geographical coverage list of every application.
+      operationId: getDataRequestApplicationsCountries
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: Returns distinct geographical coverage list of every data request application
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
   ###############
   # Data Access #
   ###############
+  /data-access-registry/application/{id}:
+    get:
+      tags:
+        - Data Access Form
+      summary: Get Data Access Form list for all the users
+      operationId: getEveryDataAccessApplicationById
+      security: [ ]
+      parameters:
+        - name: id
+          in: path
+          description: ID of the resource to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns the data access application form
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  /data-access-registry/decision-issued:
+    post:
+      tags:
+        - Data Access Form
+      summary: Get All Decision Issued Applications in a list
+      operationId: getAllDecisionIssuedDataAccessApplications
+      security: [ ]
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Access Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  /data-access-registry/data-permit-issued:
+    post:
+      tags:
+        - Data Access Form
+      summary: Get All Data Permit Issued Applications in a list
+      operationId: getAllDataPermitIssuedDataAccessApplications
+      security: [ ]
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Access Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  /data-access-registry/on-going-applications:
+    post:
+      tags:
+        - Data Access Form
+      summary: Get All On Going Data Access Applications in a list
+      operationId: getAllOnGoingDataAccessApplications
+      security: [ ]
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Access Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  /data-access-decision/datasets:
+    post:
+      tags:
+        - Data Access Form
+      summary: Get All Data Access Application Datasets in a list
+      operationId: getAllDataAccessDatasets
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Access Application Dataset list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  /data-access/applications:
+    post:
+      tags:
+        - Data Access Form
+      summary: Get All Data Access Applications in a list
+      operationId: getAllDataAccessApplications
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Access Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
 
   /data-access/application/{id}:
     get:
@@ -352,52 +725,6 @@ paths:
             application/json:
               schema:
                 type: object
-        '400':
-          description: Bad request
-        '500':
-          description: Internal Server Error
-    get:
-      tags:
-        - Data Access Form
-      summary: Get All Data Access Applications in a list
-      operationId: getAllDataAccessApplications
-      security:
-        - BearerAuth: [ ]
-      parameters:
-        - name: limit
-          in: query
-          description: the size of the page
-          schema:
-            type: integer
-        - name: page
-          in: query
-          description: the requested page
-          schema:
-            type: integer
-        - name: sortBy
-          in: query
-          description: the requested sorting item
-          schema:
-            type: string
-        - name: sortOrder
-          in: query
-          description: the requested sorting order
-          schema:
-            type: string
-        - name: status
-          in: query
-          description: the status of the application
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Returns a JSON array containing the Data Access Form list
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
         '400':
           description: Bad request
         '500':
@@ -753,6 +1080,135 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
+  /data-access/application/{application_id}/catalog/{catalog_id}/status:
+    put:
+      tags:
+        - Data Access Form
+      summary: Update the status of a catalog
+      operationId: putCatalogStatusDataAccessApplication
+      security:
+        #- BearerAuth: [ ]
+        - ApiKeyAuth: []
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+        - name: catalog_id
+          in: path
+          description: ID of the catalog
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutStatusRequest'
+      responses:
+        '200':
+          description: Updated the provided status for the catalog
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-access/application/{application_id}/catalog/{catalog_id}/dataset/{dataset_id}/status:
+    put:
+      tags:
+        - Data Access Form
+      summary: Update the status of a dataset
+      operationId: putDatasetStatusDataAccessApplication
+      security:
+        #- BearerAuth: [ ]
+        - ApiKeyAuth: []
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+        - name: catalog_id
+          in: path
+          description: ID of the catalog
+          required: true
+          schema:
+            type: string
+        - name: dataset_id
+          in: path
+          description: ID of the dataset
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutStatusRequest'
+      responses:
+        '200':
+          description: Updated the provided status for the dataset
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-access/application/{application_id}/catalog/{catalog_id}/dataset/{dataset_id}/permit:
+    put:
+      tags:
+        - Data Access Form
+      summary: Update the permit of a dataset
+      operationId: putDatasetPermitStatusDataAccessApplication
+      security:
+        #- BearerAuth: [ ]
+        - ApiKeyAuth: [ ]
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+        - name: catalog_id
+          in: path
+          description: ID of the catalog
+          required: true
+          schema:
+            type: string
+        - name: dataset_id
+          in: path
+          description: ID of the dataset
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutStatusRequest'
+      responses:
+        '200':
+          description: Updated the provided status for the dataset
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
   /data-access/application/{application_id}/title:
     put:
       tags:
@@ -785,7 +1241,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-  /data-access/application/{id}/export/{type}/{lg}/{tl}:
+  /data-access/application/{id}/export/{type}/{lg}/{tl}/{version}:
     get:
       tags:
         - Data Access Form
@@ -818,6 +1274,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: version
+          in: path
+          description: selected application version
+          required: true
+          schema:
+            type: integer
+            format: int32
       responses:
         '200':
           description: File download (PDF or DOCX)
@@ -839,6 +1302,243 @@ paths:
   # Data Request #
   ################
 
+  /data-request-registry/application/{id}:
+    get:
+      tags:
+        - Data Request Form
+      summary: Get Data Request Form list for all the users
+      operationId: getEveryDataRequestApplicationById
+      security: []
+      parameters:
+        - name: id
+          in: path
+          description: ID of the resource to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns the data request application form
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  /data-request-registry/decision-issued:
+    post:
+      tags:
+        - Data Request Form
+      summary: Get All Decision Issued Applications in a list
+      operationId: getAllDecisionIssuedDataRequestApplications
+      security: [ ]
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Request Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  /data-request-registry/data-permit-issued:
+    post:
+      tags:
+        - Data Request Form
+      summary: Get All Data Permit Issued Applications in a list
+      operationId: getAllDataPermitIssuedDataRequestApplications
+      security: [ ]
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Request Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  /data-request-registry/on-going-applications:
+    post:
+      tags:
+        - Data Request Form
+      summary: Get All On Going Data Request Applications in a list
+      operationId: getAllOnGoingDataRequestApplications
+      security: [ ]
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Access Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  /data-request-decision/datasets:
+    post:
+      tags:
+        - Data Request Form
+      summary: Get All Data Request Application Datasets in a list
+      operationId: getAllDataRequestDatasets
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Request Application Dataset list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  /data-request/applications:
+    post:
+      tags:
+        - Data Request Form
+      summary: Get All Data Request Applications list
+      operationId: getAllDataRequestApplications
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Data Request Form list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
   /data-request/application/{id}:
     get:
       tags:
@@ -951,52 +1651,6 @@ paths:
             application/json:
               schema:
                 type: object
-        '400':
-          description: Bad request
-        '500':
-          description: Internal Server Error
-    get:
-      tags:
-        - Data Request Form
-      summary: Get All Data Request Applications list
-      operationId: getAllDataRequestApplications
-      security:
-        - BearerAuth: [ ]
-      parameters:
-        - name: limit
-          in: query
-          description: the size of the page
-          schema:
-            type: integer
-        - name: page
-          in: query
-          description: the requested page
-          schema:
-            type: integer
-        - name: sortBy
-          in: query
-          description: the requested sorting item
-          schema:
-            type: string
-        - name: sortOrder
-          in: query
-          description: the requested sorting order
-          schema:
-            type: string
-        - name: status
-          in: query
-          description: the status of the application
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Returns a JSON array containing the Data Request Form list
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
         '400':
           description: Bad request
         '500':
@@ -1323,6 +1977,7 @@ paths:
       operationId: putStatusDataRequestApplication
       security:
         - BearerAuth: [ ]
+      #        - ApiKeyAuth: []
       parameters:
         - name: application_id
           in: path
@@ -1339,6 +1994,90 @@ paths:
       responses:
         '200':
           description: Updated the provided status for the application
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-request/application/{application_id}/catalog/{catalog_id}/status:
+    put:
+      tags:
+        - Data Request Form
+      summary: Update the status of a catalog
+      operationId: putCatalogStatusDataRequestApplication
+      security:
+        #- BearerAuth: [ ]
+        - ApiKeyAuth: []
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+        - name: catalog_id
+          in: path
+          description: ID of the catalog
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutStatusRequest'
+      responses:
+        '200':
+          description: Updated the provided status for the catalog
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-request/application/{application_id}/catalog/{catalog_id}/dataset/{dataset_id}/status:
+    put:
+      tags:
+        - Data Request Form
+      summary: Update the status of a dataset
+      operationId: putDatasetStatusDataRequestApplication
+      security:
+        #- BearerAuth: [ ]
+        - ApiKeyAuth: []
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+        - name: catalog_id
+          in: path
+          description: ID of the catalog
+          required: true
+          schema:
+            type: string
+        - name: dataset_id
+          in: path
+          description: ID of the dataset
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutStatusRequest'
+      responses:
+        '200':
+          description: Updated the provided status for the dataset
           content:
             application/json:
               schema:
@@ -1379,7 +2118,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-  /data-request/application/{id}/export/{type}/{lg}/{tl}:
+  /data-request/application/{id}/export/{type}/{lg}/{tl}/{version}:
     get:
       tags:
         - Data Request Form
@@ -1412,6 +2151,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: version
+          in: path
+          description: selected application version
+          required: true
+          schema:
+            type: integer
+            format: int32
       responses:
         '200':
           description: Returns a Pdf or World containing the Data Request Form list
@@ -1436,8 +2182,7 @@ paths:
         - Country
       summary: Get Countries names list
       operationId: getCountries
-      security:
-        - BearerAuth: [ ]
+      security: []
       parameters:
         - name: lg
           in: path
@@ -1475,7 +2220,7 @@ paths:
         - Country
       summary: Get Countries Translation list only for European Union
       operationId: getCountriesTranslation
-      security: []
+      security: [ ]
       parameters:
         - name: lg
           in: path
@@ -1503,8 +2248,7 @@ paths:
         - Translation
       summary: Get Translation per section
       operationId: getTranslations
-      security:
-        - BearerAuth: [ ]
+      security: []
       parameters:
         - name: lg
           in: path
@@ -1532,6 +2276,34 @@ paths:
         '500':
           description: Internal Server Error
 
+  /translations/{applicationId}:
+    get:
+      tags:
+        - Translation
+      summary: Get Translation for application
+      operationId: getApplicationTranslation
+      security:
+        - BearerAuth: [ ]
+      #        - ApiKeyAuth: []
+      parameters:
+        - name: applicationId
+          in: path
+          description: the applicationId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON object containing the application translation
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not found
+        '500':
+          description: Internal Server Error
+
   #########################
   # Translation Callback  #
   #########################
@@ -1543,7 +2315,7 @@ paths:
       summary: Handle translation service callback
       operationId: postTranslationCallback
       security:
-        - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       requestBody:
         required: true
         content:
@@ -1610,7 +2382,7 @@ paths:
       summary: Delete a user
       operationId: deleteUser
       security:
-        - BearerAuth: []
+        - BearerAuth: [ ]
       responses:
         '204':
           description: Successfully deleted a user
@@ -1621,6 +2393,70 @@ paths:
   #  Dispatcher  #
   ################
 
+  /dispatcher/{applicationId}/{version}:
+    get:
+      tags:
+        - Dispatcher Manager
+      summary: Get dispatcher application by application id and version
+      operationId: getDispatcherApplicationByIdAndVersion
+      security: []
+      parameters:
+        - name: applicationId
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+        - name: version
+          in: path
+          description: Version of the application
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Returns the dispatcher job for the given application id and version
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+        '404':
+          description: Dispatcher job not found
+        '500':
+          description: Internal Server Error
+
+  /dispatcher/{applicationId}:
+    get:
+      tags:
+        - Dispatcher Manager
+      summary: Get dispatcher application versions by application id
+      operationId: getDispatcherApplicationById
+      security: [ ]
+      parameters:
+        - name: applicationId
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: Returns the dispatcher job for the given application id
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+        '404':
+          description: Dispatcher job not found
+        '500':
+          description: Internal Server Error
+
   /dispatcher/status:
     post:
       tags:
@@ -1628,7 +2464,7 @@ paths:
       summary: Update the status of the application
       operationId: postStatusFromDispatcher
       security:
-        - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       requestBody:
         required: true
         content:
@@ -1652,10 +2488,10 @@ paths:
     put:
       tags:
         - Dispatcher
-      summary: Update the status of the application upon decision from NCP
-      operationId: putStatusFromDispatcher
+      summary: Update the decision of the application upon decision from NCP
+      operationId: putDecisionFromDispatcher
       security:
-        - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       requestBody:
         required: true
         content:
@@ -1664,7 +2500,63 @@ paths:
               $ref: '#/components/schemas/dispatcherDecisionRequest'
       responses:
         '200':
-          description: Provided Status has been updated.
+          description: Provided Decision has been updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resultMessage'
+        '400':
+          description: Bad request
+        '404':
+          description: Application Not Found
+        '500':
+          description: Internal Server Error
+
+  /dispatcher/update/status:
+    put:
+      tags:
+        - Dispatcher
+      summary: Update the Status of the application upon status update from NCP
+      operationId: putStatusFromDispatcher
+      security:
+        - ApiKeyAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dispatcherStatusRequest'
+      responses:
+        '200':
+          description: Provided Decision has been updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resultMessage'
+        '400':
+          description: Bad request
+        '404':
+          description: Application Not Found
+        '500':
+          description: Internal Server Error
+
+  /dispatcher/permit:
+    put:
+      tags:
+        - Dispatcher
+      summary: Update the Permit of the application upon update from NCP
+      operationId: putPermitFromDispatcher
+      security:
+        - ApiKeyAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dispatcherPermitRequest'
+      responses:
+        '200':
+          description: Provided Decision has been updated.
           content:
             application/json:
               schema:
@@ -2317,7 +3209,7 @@ paths:
       summary: Delete a user
       operationId: adminDeleteUser
       security:
-        - BearerAuth: []
+        - BearerAuth: [ ]
       parameters:
         - name: username
           in: path
@@ -2347,7 +3239,7 @@ paths:
       summary: Update a user's roles
       operationId: updateUserRole
       security:
-        - BearerAuth: []
+        - BearerAuth: [ ]
       parameters:
         - name: operation
           in: path
@@ -2391,7 +3283,7 @@ paths:
         - Data Permit
       summary: Download data-permit document
       operationId: downloadDataPermitDocument
-      security: []
+      security: [ ]
       responses:
         '200':
           description: A .docx document with the data permit template
@@ -2504,7 +3396,7 @@ paths:
   ##############################
   /dda:
     post:
-      tags: [DDA]
+      tags: [ DDA ]
       summary: Create or update the dataset description for the authenticated user
       operationId: postDda
       security:
@@ -2526,7 +3418,7 @@ paths:
           description: Internal server error
 
     get:
-      tags: [DDA]
+      tags: [ DDA ]
       summary: Get the dataset for the authenticated user
       operationId: getDda
       security:
@@ -2698,6 +3590,64 @@ paths:
           description: Invalid JSON-LD syntax or empty payload
         '500':
           description: Conversion error
+
+  #############
+  # log level #
+  #############
+  /log-level:
+    get:
+      summary: Update log level dynamically
+      description: >
+        Changes the log level for a specific logger at runtime. The logger name and log level
+        must be provided as query parameters.
+      operationId: updateLogLevel
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: logger
+          in: query
+          required: true
+          description: The name of the logger (e.g., `root` or package-specific logger name).
+          schema:
+            type: string
+        - name: level
+          in: query
+          required: true
+          description: The log level to set (e.g., `TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`).
+          schema:
+            type: string
+            enum: [ TRACE, DEBUG, INFO, WARN, ERROR ]
+      responses:
+        '200':
+          description: Log level updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/logLevelResponse'
+        '400':
+          description: Missing or invalid query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/logLevelRequest'
+        '401':
+          description: Unauthorized. API key is missing or invalid.
+        '403':
+          description: Forbidden.
+        '404':
+          description: Logger not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/logLevelErrorResponse'
+        '500':
+          description: Error while updating log level.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/logLevelErrorResponse500'
+
+
 
 components:
   securitySchemes:
@@ -2902,14 +3852,14 @@ components:
         payload:
           type: object
           required:
-            - applicationType
-            - catalogId
+            - application_type
+            - status
             - decisions
           properties:
             applicationType:
               type: string
               enum: [ DATA_ACCESS_APPLICATION, DATA_REQUEST_APPLICATION ]
-            catalogId:
+            status:
               type: string
               minLength: 1
             decisions:
@@ -2918,15 +3868,109 @@ components:
               items:
                 type: object
                 required:
-                  - publisher
+                  - dataset_id
                   - decision
                 properties:
-                  publisher:
+                  dataset_id:
                     type: string
                     minLength: 1
                   decision:
                     type: string
                     minLength: 1
+                  decision_file:
+                    type: string
+                    format: byte
+                    description: "Base64-encoded Decision PDF file"
+
+
+    dispatcherPermitRequest:
+      type: object
+      required:
+        - type
+        - operation
+        - objectId
+        - payload
+      properties:
+        type:
+          type: string
+          enum: [ application ]
+        operation:
+          type: string
+          enum: [ permit ]
+        objectId:
+          type: string
+          minLength: 1
+        payload:
+          type: object
+          required:
+          - application_type
+          - status
+          - permits
+          properties:
+            applicationType:
+              type: string
+              enum: [ DATA_ACCESS_APPLICATION, DATA_REQUEST_APPLICATION ]
+            status:
+              type: string
+              minLength: 1
+            permits:
+              type: array
+              minItems: 1
+              items:
+                type: object
+              required:
+                - dataset_id
+                - permit_status
+              properties:
+                permit_status:
+                  type: string
+                  minLength: 1
+                dataset_id:
+                  type: string
+                  minLength: 1
+                permit_file:
+                  type: string
+                  format: byte
+                  description: "Base64-encoded Decision PDF file"
+                reason:
+                  type: string
+                  minLength: 1
+                  maxLength: 2000
+
+    dispatcherStatusRequest:
+      type: object
+      required:
+        - type
+        - operation
+        - objectId
+        - payload
+      properties:
+        type:
+          type: string
+          enum: [ application ]
+        operation:
+          type: string
+        objectId:
+          type: string
+          minLength: 1
+        payload:
+          type: object
+          required:
+            - application_type
+            - status
+          properties:
+            applicationType:
+              type: string
+              enum: [ DATA_ACCESS_APPLICATION, DATA_REQUEST_APPLICATION ]
+            status:
+              type: string
+              minLength: 1
+            statusPayload:
+              type: object
+            catalog_id:
+              type: string
+              description: ID of the catalogue
+
 
     DispatcherMessage:
       type: object
@@ -3219,7 +4263,7 @@ components:
       type: object
       description: The dataset description assistant payload saved per authenticated user.
       additionalProperties: false
-      required: [datasetDescriptionAssistantAccessLevel, datasetDescriptionAssistantLanguage, datasetDescriptionAssistantFormData]
+      required: [ datasetDescriptionAssistantAccessLevel, datasetDescriptionAssistantLanguage, datasetDescriptionAssistantFormData ]
       properties:
         datasetDescriptionAssistantAccessLevel:
           type: string
@@ -3231,6 +4275,31 @@ components:
           description: Language code (e.g., "en", "el"). May be null.
         datasetDescriptionAssistantFormData:
           type: object
-          default: {}
+          default: { }
           description: Arbitrary object representing the form data.
           additionalProperties: true
+
+    logLevelResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Log level for root changed to DEBUG
+    logLevelRequest:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Missing 'logger' or 'level' parameter"
+    logLevelErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Logger not found: com.example.MyClass"
+    logLevelErrorResponse500:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Error changing log level: Level not recognized"

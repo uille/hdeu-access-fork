@@ -16,6 +16,8 @@
 package eu.europa.data.health.access.services;
 
 import static eu.europa.data.health.access.Constants.DATASET_ASSISTANT_COLLECTION;
+import static eu.europa.data.health.access.Constants.PAYLOAD;
+import static eu.europa.data.health.access.Constants.USER_NAME;
 
 import eu.europa.data.health.access.Context;
 import eu.europa.data.health.access.handlers.DBHandler;
@@ -52,6 +54,10 @@ import org.slf4j.LoggerFactory;
  */
 public class DdaDatasetManager extends AbstractManager {
 
+  private static final String DATASET_DESCRIPTION_ASSISTANT_LANGUAGE = "datasetDescriptionAssistantLanguage";
+  private static final String DATASET_DESCRIPTION_ASSISTANT_FORM_DATA = "datasetDescriptionAssistantFormData";
+  private static final String DATASET_DESCRIPTION_ASSISTANT_ACCESS_LEVEL = "datasetDescriptionAssistantAccessLevel";
+
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final MongoClient mongoClient;
 
@@ -85,7 +91,7 @@ public class DdaDatasetManager extends AbstractManager {
    * </ul>
    */
   public void createOrUpdateDatasetDescription(@NotNull RoutingContext context) {
-    log.info("Entered createOrUpdateDatasetDescription");
+    log.debug("Entered createOrUpdateDatasetDescription");
 
     final JsonObject body = context.body().asJsonObject();
     if (body == null) {
@@ -119,7 +125,7 @@ public class DdaDatasetManager extends AbstractManager {
    * </ul>
    */
   public void getDatasetDescription(@NotNull RoutingContext context) {
-    log.info("Entered getDatasetDescription");
+    log.debug("Entered getDatasetDescription");
 
     final String userName = Context.getEcasId(context);
     if (userName == null || userName.isBlank()) {
@@ -127,7 +133,7 @@ public class DdaDatasetManager extends AbstractManager {
       return;
     }
 
-    final JsonObject query = new JsonObject().put("userName", userName);
+    final JsonObject query = new JsonObject().put(USER_NAME, userName);
 
     mongoClient.findOne(DATASET_ASSISTANT_COLLECTION, query, null)
       .onSuccess(doc -> {
@@ -160,18 +166,18 @@ public class DdaDatasetManager extends AbstractManager {
    * This ensures idempotent updates without modifying immutable fields.
    */
   private void upsertUserPayload(String userName, JsonObject payload, RoutingContext context) {
-    log.info("Entered upsertUserPayload for {}", userName);
+    log.debug("Entered upsertUserPayload for {}", userName);
 
-    final JsonObject query = new JsonObject().put("userName", userName);
+    final JsonObject query = new JsonObject().put(USER_NAME, userName);
     final String now = Instant.now().toString();
 
     final JsonObject update = new JsonObject()
       .put("$set", new JsonObject()
-        .put("payload", payload)
+        .put(PAYLOAD, payload)
         .put("updatedAt", now)
       )
       .put("$setOnInsert", new JsonObject()
-        .put("userName", userName)
+        .put(USER_NAME, userName)
         .put("createdAt", now)
       );
 
@@ -186,8 +192,8 @@ public class DdaDatasetManager extends AbstractManager {
 
         // Minimal response body (no _id)
         final JsonObject response = new JsonObject()
-          .put("userName", userName)
-          .put("payload", payload)
+          .put(USER_NAME, userName)
+          .put(PAYLOAD, payload)
           .put(created ? "createdAt" : "updatedAt", now);
 
         context.response()
@@ -218,20 +224,20 @@ public class DdaDatasetManager extends AbstractManager {
    */
   private JsonObject extractPayload(JsonObject body) {
     // Case A: already nested under "payload"
-    if (body.containsKey("payload") && body.getValue("payload") instanceof JsonObject) {
-      return body.getJsonObject("payload");
+    if (body.containsKey(PAYLOAD) && body.getValue(PAYLOAD) instanceof JsonObject) {
+      return body.getJsonObject(PAYLOAD);
     }
 
     // Case B: compact keys at the root
     if (body.containsKey("accessLevel") || body.containsKey("language") || body.containsKey("formData")) {
       return new JsonObject()
-        .put("datasetDescriptionAssistantAccessLevel", body.getValue("accessLevel"))
-        .put("datasetDescriptionAssistantLanguage", body.getValue("language"))
-        .put("datasetDescriptionAssistantFormData", body.getValue("formData"));
+        .put(DATASET_DESCRIPTION_ASSISTANT_ACCESS_LEVEL, body.getValue("accessLevel"))
+        .put(DATASET_DESCRIPTION_ASSISTANT_LANGUAGE, body.getValue("language"))
+        .put(DATASET_DESCRIPTION_ASSISTANT_FORM_DATA, body.getValue("formData"));
     }
 
     // Case C: current frontend keys (with defensive parsing for formData if stringified)
-    Object fd = body.getValue("datasetDescriptionAssistantFormData");
+    Object fd = body.getValue(DATASET_DESCRIPTION_ASSISTANT_FORM_DATA);
     if (fd instanceof String) {
       try {
         fd = new JsonObject((String) fd);
@@ -241,8 +247,8 @@ public class DdaDatasetManager extends AbstractManager {
     }
 
     return new JsonObject()
-      .put("datasetDescriptionAssistantAccessLevel", body.getValue("datasetDescriptionAssistantAccessLevel"))
-      .put("datasetDescriptionAssistantLanguage", body.getValue("datasetDescriptionAssistantLanguage"))
-      .put("datasetDescriptionAssistantFormData", fd);
+      .put(DATASET_DESCRIPTION_ASSISTANT_ACCESS_LEVEL, body.getValue(DATASET_DESCRIPTION_ASSISTANT_ACCESS_LEVEL))
+      .put(DATASET_DESCRIPTION_ASSISTANT_LANGUAGE, body.getValue(DATASET_DESCRIPTION_ASSISTANT_LANGUAGE))
+      .put(DATASET_DESCRIPTION_ASSISTANT_FORM_DATA, fd);
   }
 }

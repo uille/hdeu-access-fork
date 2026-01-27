@@ -27,24 +27,29 @@ import static eu.europa.data.health.access.Constants.COMPLY_WITH_DATA_MINIMISATI
 import static eu.europa.data.health.access.Constants.CONFIRM_THAT_DATA_PERMIT_HAS_BEEN_GRANTED_FOR_THE_RESEARCH_PROJECT;
 import static eu.europa.data.health.access.Constants.CONTACT_PERSON_EMAIL;
 import static eu.europa.data.health.access.Constants.CONTACT_PERSON_PHONE;
+import static eu.europa.data.health.access.Constants.COUNTRY;
 import static eu.europa.data.health.access.Constants.COUNTRY_OF_PROJECT_LEADER;
 import static eu.europa.data.health.access.Constants.DATA_ACCESS_APPLICATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.DATA_EXTRACTION_FREQUENCY;
 import static eu.europa.data.health.access.Constants.DATA_EXTRACTION_FREQUENCY_RELATIVES;
 import static eu.europa.data.health.access.Constants.DATA_NEEDS_TO_BE_EXTRACTED_EVERY;
 import static eu.europa.data.health.access.Constants.DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES;
+import static eu.europa.data.health.access.Constants.DISPATCHER_COLLECTION;
 import static eu.europa.data.health.access.Constants.FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA;
 import static eu.europa.data.health.access.Constants.FULL_NAME;
 import static eu.europa.data.health.access.Constants.HAS_THE_GROUP_RELATIVES_FORMED_2;
 import static eu.europa.data.health.access.Constants.HAS_THE_GROUP_RELATIVES_FORMED_3;
 import static eu.europa.data.health.access.Constants.HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS;
 import static eu.europa.data.health.access.Constants.HEADING_3;
+import static eu.europa.data.health.access.Constants.HOW_IS_THE_STUDY_COHORT_FORMED;
+import static eu.europa.data.health.access.Constants.HOW_OFTEN_DOES_THE_DATA_NEED_TO_BE_EXTRACTED;
 import static eu.europa.data.health.access.Constants.INCLUSION_CRITERIA;
 import static eu.europa.data.health.access.Constants.INFORMATION_PROVIDER_PHONE;
 import static eu.europa.data.health.access.Constants.INFORMATION_PROVIDER_SAME_AS_CONTACT_PERSON;
 import static eu.europa.data.health.access.Constants.IN_ORDER_TO_APPLY_PSEUDONYMISED_DATA_A;
 import static eu.europa.data.health.access.Constants.IN_ORDER_TO_APPLY_PSEUDONYMISED_DATA_B;
 import static eu.europa.data.health.access.Constants.LABEL;
+import static eu.europa.data.health.access.Constants.LEGAL_BASIS;
 import static eu.europa.data.health.access.Constants.LEGAL_BASIS_FOR_PROCESSING_APPLICATION_DATA;
 import static eu.europa.data.health.access.Constants.LEGAL_BASIS_FOR_PROCESSING_COMBINED_APPLICATION_DATA;
 import static eu.europa.data.health.access.Constants.LEGAL_BASIS_FOR_PROCESSING_COMBINED_DATA;
@@ -59,6 +64,8 @@ import static eu.europa.data.health.access.Constants.NAME;
 import static eu.europa.data.health.access.Constants.NATURAL_PERSON_ADDRESS;
 import static eu.europa.data.health.access.Constants.NATURAL_PERSON_PHONE;
 import static eu.europa.data.health.access.Constants.NEED_FOR_DATA_EXTRACTION_EVERY;
+import static eu.europa.data.health.access.Constants.NEED_FOR_DATA_EXTRACTION_EVERY_DESCRIPTION;
+import static eu.europa.data.health.access.Constants.OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW;
 import static eu.europa.data.health.access.Constants.ORDER_OF_CONTROLS_DATA_EXTRACTION;
 import static eu.europa.data.health.access.Constants.ORDER_OF_RELATIVES_DATA_EXTRACTION;
 import static eu.europa.data.health.access.Constants.OTHER_PERMIT_APPLICATIONS;
@@ -72,8 +79,10 @@ import static eu.europa.data.health.access.Constants.PROTECTION_AND_SECURITY_STA
 import static eu.europa.data.health.access.Constants.PROTECTION_AND_SECURITY_STATEMENTS_E;
 import static eu.europa.data.health.access.Constants.PROVENANCE;
 import static eu.europa.data.health.access.Constants.PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS;
+import static eu.europa.data.health.access.Constants.PROVIDE_INFORMATION_LIST;
 import static eu.europa.data.health.access.Constants.PUBLISHER;
 import static eu.europa.data.health.access.Constants.PURPOSE_FOR_WHICH_DATA_WILL_BE_USED;
+import static eu.europa.data.health.access.Constants.RESULT;
 import static eu.europa.data.health.access.Constants.SAME_AS_CONTACT_PERSON;
 import static eu.europa.data.health.access.Constants.SAMPLE_SIZE;
 import static eu.europa.data.health.access.Constants.SECTION_1;
@@ -111,7 +120,6 @@ import static eu.europa.data.health.access.Constants.WILL_RELATIVES_BE_EXTRACTED
 import static eu.europa.data.health.access.Constants.WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS;
 import static eu.europa.data.health.access.Constants.WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES;
 import static eu.europa.data.health.access.Constants.WILL_THE_DATA_BE_TRANSFERRED;
-import static eu.europa.data.health.access.Constants.OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW;
 
 import eu.europa.data.health.access.handlers.DBHandler;
 import io.vertx.core.buffer.Buffer;
@@ -144,18 +152,63 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     String id = context.pathParam("id");
     String type = context.pathParam("type");
     String tl = context.pathParam("tl");
+    int version;
+    try {
+      version = Integer.parseInt(context.pathParam("version"));
+    } catch (NumberFormatException e) {
+      context.response()
+        .setStatusCode(400)
+        .end("Invalid application version parameter");
+      return;
+    }
 
-    dbHandler.findById(DATA_ACCESS_APPLICATION_COLLECTION, id).onSuccess(jsonObject -> {
-      JsonObject form = tl.equals(jsonObject.getString("inputLanguage"))
-        ? jsonObject.getJsonObject("form")
-        : jsonObject.getJsonObject("form_translations").getJsonObject(tl);
+    JsonObject accessQuery = new JsonObject()
+      .put("_id", id)
+      .put("version", version);
 
-      JsonArray datasets = jsonObject.getJsonArray("datasets");
-      getDatasetsValues(context, datasets, lg, form, type, "DataAccessForm.docx");
-    }).onFailure(cause -> context.response().setStatusCode(500).end());
-
+    dbHandler.findOne(DATA_ACCESS_APPLICATION_COLLECTION, accessQuery)
+      .onSuccess(accessJsonObject -> {
+        if(accessJsonObject != null) {
+          processApplicationForExport(context, accessJsonObject, tl, lg, type);
+        } else {
+          findInDispatcherCollection(context, id, version, tl, lg, type);
+        }
+      })
+      .onFailure(cause -> context.response().setStatusCode(500).end());
   }
 
+  private void findInDispatcherCollection(RoutingContext context, String id, int version, String tl, String lg, String type) {
+    JsonObject dispatcherQuery = new JsonObject()
+      .put("application._id", id)
+      .put("application.version", version);
+
+    dbHandler.findOne(DISPATCHER_COLLECTION, dispatcherQuery)
+      .onSuccess(dispatcherJsonObject -> {
+        if (dispatcherJsonObject != null) {
+          JsonObject dispatcherApplication = dispatcherJsonObject.getJsonObject("application");
+          processApplicationForExport(context, dispatcherApplication, tl, lg, type);
+        } else {
+          context.response()
+            .setStatusCode(404)
+            .end("No application found with ID " + id + " and version " + version);
+        }
+      })
+      .onFailure(cause -> context.response().setStatusCode(500).end("Database error"));
+  }
+
+  private void processApplicationForExport(RoutingContext context, JsonObject application,
+    String tl, String lg, String type) {
+    JsonObject form = tl.equals(application.getString("inputLanguage"))
+      ? application.getJsonObject("form")
+      : application.getJsonObject("form_translations").getJsonObject(tl);
+    JsonArray datasets = application.getJsonArray("datasets", new JsonArray());
+    getDatasetsValues(context, datasets, lg, form, type, "DataAccessForm.docx");
+  }
+
+  /**
+   * Export application form for external use
+   * @param context  RoutingContext
+   */
   public void externalExportApplicationForm(RoutingContext context) {
     JsonObject jsonBody = context.body().asJsonObject();
     JsonArray datasets = jsonBody.getJsonArray("datasets");
@@ -208,7 +261,7 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     addTextToNewParagraph(document,
       languageMap.getJsonObject("applicationCountries").getString(LABEL),
       true, false);
-    writeDatasetsValues(document, datasets, "country", LABEL);
+    writeDatasetsValues(document, datasets, COUNTRY, LABEL);
     addTextToNewParagraph(document,
       languageMap.getJsonObject("applicationDataHolders").getString(LABEL),
       true, false);
@@ -509,11 +562,11 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     // --- CONDITIONAL BLOCK BASED ON PURPOSE OF USE ---
     if (section2 != null) {
       if (purposeOfUse != null && containsKey(purposeOfUse, "b")) {
-        addTextToNewParagraph(document, languageMap.getJsonObject("legalBasis").getString(LABEL),
+        addTextToNewParagraph(document, languageMap.getJsonObject(LEGAL_BASIS).getString(LABEL),
           true, false);
-        addTextToNewParagraph(document, languageMap.getJsonObject("legalBasis").getString(TOOLTIP),
+        addTextToNewParagraph(document, languageMap.getJsonObject(LEGAL_BASIS).getString(TOOLTIP),
           true, false);
-        addTextToNewParagraphWithTable(document, getField(section, "legalBasis"), false, false);
+        addTextToNewParagraphWithTable(document, getField(section, LEGAL_BASIS), false, false);
 
         addTextToNewParagraph(document,
           languageMap.getJsonObject("linkToTheSupportingLegalBasis").getString(LABEL), true, false);
@@ -605,15 +658,15 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     JsonArray datasets) {
     addHeaderToTheText(document,
       languageMap.getString("descriptionSection6_1") + " " + datasets.getJsonObject(0)
-        .getJsonObject("result").getJsonObject("country")
-        .getString("label", null),
+        .getJsonObject(RESULT).getJsonObject(COUNTRY)
+        .getString(LABEL, null),
       HEADING_3);
 
     // --- STUDY COHORT FORMATION ---
     addTextToNewParagraph(document,
-      languageMap.getJsonObject("howIsTheStudyCohortFormed").getString(LABEL), true, false);
-    JsonObject howStudyCohortFormed = getObject(section, "howIsTheStudyCohortFormed");
-    addTextToNewParagraphWithTable(document, getObjectValue(section, "howIsTheStudyCohortFormed"),
+      languageMap.getJsonObject(HOW_IS_THE_STUDY_COHORT_FORMED).getString(LABEL), true, false);
+    JsonObject howStudyCohortFormed = getObject(section, HOW_IS_THE_STUDY_COHORT_FORMED);
+    addTextToNewParagraphWithTable(document, getObjectValue(section, HOW_IS_THE_STUDY_COHORT_FORMED),
       false,
       false);
 
@@ -871,11 +924,11 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     addTextToNewParagraph(document, languageMap.getString("dataExtraction"), true, false);
 
     addTextToNewParagraph(document,
-      languageMap.getJsonObject("howOftenDoesTheDataNeedToBeExtracted").getString(LABEL), true,
+      languageMap.getJsonObject(HOW_OFTEN_DOES_THE_DATA_NEED_TO_BE_EXTRACTED).getString(LABEL), true,
       false);
-    JsonObject howOftenExtracted = getObject(section, "howOftenDoesTheDataNeedToBeExtracted");
+    JsonObject howOftenExtracted = getObject(section, HOW_OFTEN_DOES_THE_DATA_NEED_TO_BE_EXTRACTED);
     addTextToNewParagraphWithTable(document,
-      getObjectValue(section, "howOftenDoesTheDataNeedToBeExtracted"), false,
+      getObjectValue(section, HOW_OFTEN_DOES_THE_DATA_NEED_TO_BE_EXTRACTED), false,
       false);
 
     if (isKey(howOftenExtracted, "b")) {
@@ -902,13 +955,13 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
 
     // --- NEED FOR DATA EXTRACTION EVERY DESCRIPTION ---
     addTextToNewParagraph(document,
-      languageMap.getJsonObject("needForDataExtractionEveryDescription").getString(LABEL), true,
+      languageMap.getJsonObject(NEED_FOR_DATA_EXTRACTION_EVERY_DESCRIPTION).getString(LABEL), true,
       false);
     addTextToNewParagraph(document,
-      languageMap.getJsonObject("needForDataExtractionEveryDescription").getString(TOOLTIP), true,
+      languageMap.getJsonObject(NEED_FOR_DATA_EXTRACTION_EVERY_DESCRIPTION).getString(TOOLTIP), true,
       false);
     addTextToNewParagraphWithTable(document,
-      getField(section, "needForDataExtractionEveryDescription"), false, false);
+      getField(section, NEED_FOR_DATA_EXTRACTION_EVERY_DESCRIPTION), false, false);
 
     addTextToNewParagraph(document,
       languageMap.getJsonObject("orderForDataExtraction").getString(LABEL), true, false);
@@ -921,8 +974,8 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     JsonArray datasets) {
     addHeaderToTheText(document,
       languageMap.getString("definingExtractionCriteria") + " " + datasets.getJsonObject(0)
-        .getJsonObject("result").getJsonObject("country")
-        .getString("label", null),
+        .getJsonObject(RESULT).getJsonObject(COUNTRY)
+        .getString(LABEL, null),
       HEADING_3);
 
     // --- CONTROLS EXTRACTION DETAILS ---
@@ -1097,8 +1150,8 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
     JsonArray datasets) {
     addHeaderToTheText(document,
       languageMap.getString("definingTheExtractionCriteria") + " " + datasets.getJsonObject(0)
-        .getJsonObject("result").getJsonObject("country")
-        .getString("label", null), HEADING_3);
+        .getJsonObject(RESULT).getJsonObject(COUNTRY)
+        .getString(LABEL, null), HEADING_3);
     // --- RELATIVES EXTRACTION DETAILS ---
     addTextToNewParagraph(document,
       languageMap.getJsonObject(WILL_RELATIVES_BE_EXTRACTED).getString(LABEL), true, false);
@@ -1302,11 +1355,11 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
           false, false);
 
         addTextToNewParagraph(document,
-          languageMap.getJsonObject("provideInformationList").getString(LABEL), true, false);
+          languageMap.getJsonObject(PROVIDE_INFORMATION_LIST).getString(LABEL), true, false);
         addTextToNewParagraph(document,
-          languageMap.getJsonObject("provideInformationList").getString(TOOLTIP), false, true);
+          languageMap.getJsonObject(PROVIDE_INFORMATION_LIST).getString(TOOLTIP), false, true);
 
-        JsonArray provideInformationList = getArrayField(section, "provideInformationList");
+        JsonArray provideInformationList = getArrayField(section, PROVIDE_INFORMATION_LIST);
         if (provideInformationList != null && !provideInformationList.isEmpty()) {
           for (Object item : provideInformationList) {
             if (item instanceof JsonObject provideInformation) {
@@ -1976,7 +2029,7 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
 
   public void downloadDataPermitDocument(RoutingContext context) {
 
-    log.info("Will download Data Permit Document");
+    log.debug("Will download Data Permit Document");
 
     try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
       InputStream templateInputStream = getClass().getResourceAsStream(

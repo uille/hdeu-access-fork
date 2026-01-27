@@ -82,6 +82,7 @@ public class Section5BindToOtherSections {
   @TranslatableField
   String legalBasis;
   @Size(max = 500)
+  @TranslatableField
   String linkToTheSupportingLegalBasis;
   @ListOfAttachmentsValidation(allowedExtensions = {"doc", "docx", "pdf", "xls",
     "xlsx", "odt"}, maxSize = 5242880, fieldName = "summaryOfPlanForUsingTheData") // 5MB
@@ -93,10 +94,12 @@ public class Section5BindToOtherSections {
   boolean personResponsibleSameAsContactPerson;
 
   @Size(max = 500)
+  @TranslatableField
   String personResponsibleName;
 
   @NotNull
   boolean personResearchSameAsContactPerson;
   @Size(max = 500)
+  @TranslatableField
   String personResearchName;
 }

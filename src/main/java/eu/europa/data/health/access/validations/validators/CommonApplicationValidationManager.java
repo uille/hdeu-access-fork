@@ -51,12 +51,17 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CommonApplicationValidationManager extends AbstractManager {
 
   private final DBHandler dbHandler;
   private final MongoClient mongoClient;
+
+  private final Logger log = LoggerFactory.getLogger(getClass());
 
   public CommonApplicationValidationManager(DBHandler dbHandler, MongoClient mongoClient) {
     super(dbHandler);
@@ -252,6 +257,10 @@ public class CommonApplicationValidationManager extends AbstractManager {
   }
 
   public void validateFile(RoutingContext context) {
+    log.info("Validating uploaded file...");
+    log.info("file uploads is null {}",  Objects.isNull(context.fileUploads()));
+
+
     if (context.fileUploads().size() == 1) {
       FileUpload fileUploaded = context.fileUploads().get(0);
       String validFileList = (context.pathParam(CATALOGUE_ID) == null)

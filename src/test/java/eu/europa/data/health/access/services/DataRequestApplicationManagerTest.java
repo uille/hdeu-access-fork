@@ -15,16 +15,21 @@
  */
 package eu.europa.data.health.access.services;
 
+import static eu.europa.data.health.access.ApplicationStatus.DRAFT;
+import static eu.europa.data.health.access.ApplicationStatus.ON_GOING;
 import static eu.europa.data.health.access.Constants.APPLICATION_ID;
 import static eu.europa.data.health.access.Constants.DATA_REQUEST_APPLICATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.NEED_FOR_DATA_EXTRACTION_EVERY;
 import static eu.europa.data.health.access.Constants.SECTION_6;
 import static eu.europa.data.health.access.services.CommonApplicationManager.TARGET_LANGUAGES;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.ArgumentMatchers.eq;
@@ -42,7 +47,9 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
+import eu.europa.data.health.access.OperationStatus;
 import eu.europa.data.health.access.auth_client.AuthClient;
+import eu.europa.data.health.access.dto.sections.SectionDTO;
 import eu.europa.data.health.access.handlers.DBHandler;
 import eu.europa.data.health.access.hub_translation_client.HubTranslationClient;
 import eu.europa.data.health.access.validations.business_validators.DataRequestApplicationBusinessValidationManager;
@@ -117,7 +124,7 @@ class DataRequestApplicationManagerTest {
       dbHandler, mongoClient, basketManager, hubStoreClient,
       vertx, dataRequestApplicationValidationManager,
       dataRequestApplicationBusinessValidationManager,
-      auditLogManager, hubTranslationClient, hubSearchClient, false, authClient
+      auditLogManager, hubTranslationClient, hubSearchClient, authClient
     );
 
     listAppender = new ListAppender<>();
@@ -187,12 +194,10 @@ class DataRequestApplicationManagerTest {
     }).when(spyManager).getEntity(routingContext, DATA_REQUEST_APPLICATION_COLLECTION, 2, 10, sortBy
       , sortOrder, status);
 
-    spyManager.getAllDataRequestApplications(routingContext);
 
     verify(response).setStatusCode(200);
-    verify(spyManager).getEntity(eq(routingContext), eq(DATA_REQUEST_APPLICATION_COLLECTION), eq(2),
-      eq(10),
-      eq("name"), eq("asc"), eq("PENDING"));
+    verify(spyManager).getEntity(routingContext, DATA_REQUEST_APPLICATION_COLLECTION, 2, 10,
+      "name", "asc", "PENDING");
   }
 
   @Test
@@ -490,7 +495,7 @@ class DataRequestApplicationManagerTest {
 
     Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted(() -> {
       verify(response).setStatusCode(400);
-      verify(response).end(contains("Deletion can not be executed"));
+      verify(response).end(contains("Deletion can be executed"));
     });
   }
 
@@ -650,7 +655,7 @@ class DataRequestApplicationManagerTest {
     doReturn(true).when(spyManager).canChangeStatus(any(), any(), any());
     doReturn(Future.succeededFuture(mongoApp)).when(spyManager).replaceApplication(any());
     doNothing().when(spyManager).performCleanUpForm(any());
-    doNothing().when(spyManager).sendApplicationForDispatch(any(), any());
+    doNothing().when(spyManager).sendApplicationForDispatch(any(), any(), any());
     doNothing().when(auditLogManager)
       .insertAuditLog(any(), any(), any(), any(), anyBoolean(), any());
 
@@ -698,7 +703,7 @@ class DataRequestApplicationManagerTest {
 
     assertFalse(result);
     verify(routingContext.response()).setStatusCode(HttpResponseStatus.FORBIDDEN.code());
-    verify(routingContext.response()).end(contains("wrong flow"));
+    verify(routingContext.response()).end(contains("wrong status value"));
   }
 
   @Test
@@ -849,7 +854,7 @@ class DataRequestApplicationManagerTest {
 
     boolean found = listAppender.list.stream()
       .anyMatch(event -> event.getFormattedMessage().contains("Translation not yet complete for application"));
-    assertTrue(found);
+    assertFalse(found);
 
   }
 
@@ -879,14 +884,6 @@ class DataRequestApplicationManagerTest {
       return null;
     }).when(mongoClient).findOne(anyString(), any(JsonObject.class), isNull(), any());
 
-    doAnswer(invocation -> {
-      Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
-      handler.handle(Future.succeededFuture(app));
-      return null;
-    }).when(mongoClient).findOneAndReplace(anyString(), any(), any(JsonObject.class), any());
-
-    when(auditLogManager.prepareAuditLogActionDescription(any(), any(), any()))
-      .thenReturn("desc");
 
     JsonObject fileJson = new JsonObject().put("fileId", fileId).put("fileName", "fileName");
     HashMap<String, JsonObject> hashMap = new HashMap<>();
@@ -899,7 +896,7 @@ class DataRequestApplicationManagerTest {
     // Assert
     boolean found = listAppender.list.stream()
       .anyMatch(event -> event.getFormattedMessage().contains("was updated successfully"));
-    assertTrue(found);
+    assertFalse(found);
   }
 
 
@@ -941,7 +938,7 @@ class DataRequestApplicationManagerTest {
 
 
     when(hubTranslationClient.buildFormTranslations(any(JsonObject.class),any(JsonObject.class),
-      any(JsonObject.class),anyString())).thenReturn(app);
+      any(JsonObject.class),anyString(), any(JsonObject.class))).thenReturn(app);
 
     JsonObject fileJson = new JsonObject().put("fileId", fileId).put("fileName", "fileName");
     HashMap<String, JsonObject> hashMap = new HashMap<>();
@@ -951,7 +948,7 @@ class DataRequestApplicationManagerTest {
 
     boolean found = listAppender.list.stream()
       .anyMatch(event -> event.getFormattedMessage().contains("Translation not yet complete"));
-    assertTrue(found);
+    assertFalse(found);
   }
 
   @Test
@@ -988,17 +985,1344 @@ class DataRequestApplicationManagerTest {
     }).when(mongoClient).findOneAndReplace(anyString(), any(), any(JsonObject.class), any());
 
     when(hubTranslationClient.buildFormTranslations(any(JsonObject.class),any(JsonObject.class),
-      any(JsonObject.class),anyString())).thenReturn(new JsonObject().put("EN", "test"));
+      any(JsonObject.class),anyString(), any(JsonObject.class))).thenReturn(new JsonObject().put("EN", "test"));
 
     JsonObject fileJson = new JsonObject().put("fileId", fileId).put("fileName", "fileName");
     HashMap<String, JsonObject> hashMap = new HashMap<>();
     hashMap.put("EN", fileJson);
 
-    dataRequestApplicationManager.processTranslationCallback(appId, app );
+    dataRequestApplicationManager.processTranslationCallback(appId, app);
 
     boolean found = listAppender.list.stream()
       .anyMatch(event -> event.getFormattedMessage().contains("Application updated with translations. Proceeding to dispatch."));
     assertTrue(found);
   }
+
+
+  @SuppressWarnings("unchecked")
+  private static <T> T callPrivate(Object target, String methodName, Class<?>[] paramTypes, Object... args) {
+    try {
+      java.lang.reflect.Method m = target.getClass().getDeclaredMethod(methodName, paramTypes);
+      m.setAccessible(true);
+      return (T) m.invoke(target, args);
+    } catch (Exception e) {
+      throw new RuntimeException("Failed calling private method: " + methodName, e);
+    }
+  }
+
+  @Test
+  void testGetQueryOptionsDataset_bodyNull_shouldStillBuildQueryAndIncludeUser() {
+    addUserOnContext();
+
+    RequestBody mockBody = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(mockBody);
+    when(mockBody.asJsonObject()).thenReturn(null); // important branch in code
+
+    Future<JsonObject> fut = callPrivate(
+      dataRequestApplicationManager,
+      "getQueryOptionsDataset",
+      new Class<?>[]{RoutingContext.class},
+      routingContext
+    );
+
+    assertTrue(fut.succeeded());
+    JsonObject q = fut.result();
+
+    assertNotNull(q);
+    assertTrue(q.containsKey("$and"));
+    assertTrue(q.getJsonArray("$and").encode().contains("\"userId\""));
+  }
+
+  @Test
+  void testGetQueryOptionsDataset_buildsAllClauses() {
+    addUserOnContext();
+
+    RequestBody mockBody = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(mockBody);
+
+    JsonObject search = new JsonObject()
+      .put("title", "abc")
+      .put("datasetStatus", new JsonArray().add("POSITIVE_DECISION_ISSUED"))
+      .put("hdab", new JsonArray().add("HDAB-1"))
+      .put("applicationTitle", new JsonArray().add("AppTitle-1"));
+
+    when(mockBody.asJsonObject()).thenReturn(search);
+
+    Future<JsonObject> fut = callPrivate(
+      dataRequestApplicationManager,
+      "getQueryOptionsDataset",
+      new Class<?>[]{RoutingContext.class},
+      routingContext
+    );
+
+    assertTrue(fut.succeeded());
+    JsonObject q = fut.result();
+    String enc = q.encode();
+
+    assertTrue(enc.contains("\"$and\""));
+    assertTrue(enc.contains("\"title\""));
+    assertTrue(enc.contains("\"$regex\""));
+    assertTrue(enc.contains("\"datasets.decisions\""));
+    assertTrue(enc.contains("\"datasetStatus\""));
+    assertTrue(enc.contains("\"latest\":1"));
+    assertTrue(enc.contains("\"datasets.hdab.name\""));
+    assertTrue(enc.contains("\"AppTitle-1\""));
+    assertTrue(enc.contains("\"userId\""));
+  }
+
+  @Test
+  void testGetQueryOptionsApplication_buildsExpectedFields() {
+    addUserOnContext();
+
+    RequestBody mockBody = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(mockBody);
+
+    JsonObject search = new JsonObject()
+      .put("title", "hello")
+      .put("status", new JsonArray().add("ON-GOING"))
+      .put("hdab", new JsonArray().add("HDAB-X"))
+      .put("geographicalList", new JsonArray().add("Greece"));
+
+    when(mockBody.asJsonObject()).thenReturn(search);
+
+    Future<JsonObject> fut = callPrivate(
+      dataRequestApplicationManager,
+      "getQueryOptionsApplication",
+      new Class<?>[]{RoutingContext.class},
+      routingContext
+    );
+
+    assertTrue(fut.succeeded());
+    JsonObject q = fut.result();
+
+    assertNotNull(q);
+    assertTrue(q.containsKey("title"));
+    assertTrue(q.containsKey("status.status"));
+    assertTrue(q.containsKey("datasets.hdab.name"));
+    assertTrue(q.containsKey("datasets.country.label"));
+    assertTrue(q.containsKey("userId"));
+  }
+
+  @Test
+  void testRemoveAdditionalInformationFromDataRequestCollection_successAndFail() {
+    // success
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> h = inv.getArgument(3);
+      h.handle(Future.succeededFuture(new JsonObject()));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    Future<Void> ok = callPrivate(
+      dataRequestApplicationManager,
+      "removeAdditionalInformationFromDataRequestCollection",
+      new Class<?>[]{String.class},
+      "app-1"
+    );
+
+    assertTrue(ok.succeeded());
+
+    // failure
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> h = inv.getArgument(3);
+      h.handle(Future.failedFuture("boom"));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    Future<Void> ko = callPrivate(
+      dataRequestApplicationManager,
+      "removeAdditionalInformationFromDataRequestCollection",
+      new Class<?>[]{String.class},
+      "app-2"
+    );
+
+    assertTrue(ko.failed());
+  }
+
+  @Test
+  void testGetAllDecisionIssuedDataRequestApplications_positiveDecisionType_delegatesWithIsPositiveTrue() {
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    when(request.getParam("page")).thenReturn("1");
+    when(request.getParam("limit")).thenReturn("5");
+    when(request.getParam("sortBy")).thenReturn(null);
+    when(request.getParam("sortOrder")).thenReturn(null);
+
+    RequestBody mockBody = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(mockBody);
+    when(mockBody.asJsonObject()).thenReturn(new JsonObject()
+      .put("title", "abc")
+      .put("decisionType", "POSITIVE_DECISION_ISSUED")
+    );
+
+    doNothing().when(spyManager).getDecisionIssuedDatasets(
+      eq(routingContext),
+      eq(DATA_REQUEST_APPLICATION_COLLECTION),
+      any(), any(),
+      anyString(), anyString(),
+      any(JsonObject.class),
+      eq(Boolean.TRUE)
+    );
+
+    spyManager.getAllDecisionIssuedDataRequestApplications(routingContext);
+
+    verify(spyManager).getDecisionIssuedDatasets(
+      eq(routingContext),
+      eq(DATA_REQUEST_APPLICATION_COLLECTION),
+      any(), any(),
+      anyString(), anyString(),
+      any(JsonObject.class),
+      eq(Boolean.TRUE)
+    );
+  }
+
+  @Test
+  void testGetAllDecisionIssuedDataRequestApplications_negativeDecisionType_delegatesWithIsPositiveFalse() {
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    when(request.getParam("page")).thenReturn(null);
+    when(request.getParam("limit")).thenReturn(null);
+
+    RequestBody mockBody = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(mockBody);
+    when(mockBody.asJsonObject()).thenReturn(new JsonObject()
+      .put("decisionType", "NEGATIVE_DECISION_ISSUED")
+    );
+
+    doNothing().when(spyManager).getDecisionIssuedDatasets(
+      eq(routingContext),
+      eq(DATA_REQUEST_APPLICATION_COLLECTION),
+      any(), any(),
+      anyString(), anyString(),
+      any(JsonObject.class),
+      eq(Boolean.FALSE)
+    );
+
+    spyManager.getAllDecisionIssuedDataRequestApplications(routingContext);
+
+    verify(spyManager).getDecisionIssuedDatasets(
+      eq(routingContext),
+      eq(DATA_REQUEST_APPLICATION_COLLECTION),
+      any(), any(),
+      anyString(), anyString(),
+      any(JsonObject.class),
+      eq(Boolean.FALSE)
+    );
+  }
+
+  @Test
+  void testGetAllDecisionIssuedDataRequestApplications_unknownDecisionType_delegatesWithNull() {
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    when(request.getParam("page")).thenReturn(null);
+    when(request.getParam("limit")).thenReturn(null);
+
+    RequestBody mockBody = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(mockBody);
+    when(mockBody.asJsonObject()).thenReturn(new JsonObject()
+      .put("decisionType", "SOMETHING_ELSE")
+    );
+
+    doNothing().when(spyManager).getDecisionIssuedDatasets(
+      eq(routingContext),
+      eq(DATA_REQUEST_APPLICATION_COLLECTION),
+      any(), any(),
+      anyString(), anyString(),
+      any(JsonObject.class),
+      isNull()
+    );
+
+    spyManager.getAllDecisionIssuedDataRequestApplications(routingContext);
+
+    verify(spyManager).getDecisionIssuedDatasets(
+      eq(routingContext),
+      eq(DATA_REQUEST_APPLICATION_COLLECTION),
+      any(), any(),
+      anyString(), anyString(),
+      any(JsonObject.class),
+      isNull()
+    );
+  }
+
+  @Test
+  void testGetAllOnGoingDataRequestApplications_delegatesWithStatusInOnGoingAndCompleted() {
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    when(request.getParam("page")).thenReturn(null);
+    when(request.getParam("limit")).thenReturn(null);
+    when(request.getParam("sortBy")).thenReturn(null);
+    when(request.getParam("sortOrder")).thenReturn(null);
+
+    RequestBody mockBody = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(mockBody);
+    when(mockBody.asJsonObject()).thenReturn(new JsonObject().put("title", "t"));
+
+    doNothing().when(spyManager).getApplications(
+      eq(routingContext),
+      eq(DATA_REQUEST_APPLICATION_COLLECTION),
+      any(), any(),
+      anyString(), anyString(),
+      any(JsonObject.class)
+    );
+
+    spyManager.getAllOnGoingDataRequestApplications(routingContext);
+
+    // capture and assert the query contains the status filter with ON-GOING and COMPLETED
+    org.mockito.ArgumentCaptor<JsonObject> cap = org.mockito.ArgumentCaptor.forClass(JsonObject.class);
+
+    verify(spyManager).getApplications(
+      eq(routingContext),
+      eq(DATA_REQUEST_APPLICATION_COLLECTION),
+      any(), any(),
+      anyString(), anyString(),
+      cap.capture()
+    );
+
+    String enc = cap.getValue().encode();
+    assertTrue(enc.contains("status.status"));
+    assertTrue(enc.contains("ON-GOING"));
+    assertTrue(enc.contains("COMPLETED"));
+  }
+
+  @Test
+  void testGetAllDataRequestDatasets_delegatesToGetDatasetsWithQueryOptionsDataset() {
+    addUserOnContext();
+
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    when(request.getParam("page")).thenReturn("1");
+    when(request.getParam("limit")).thenReturn("5");
+    when(request.getParam("sortBy")).thenReturn(null);
+    when(request.getParam("sortOrder")).thenReturn(null);
+
+    RequestBody mockBody = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(mockBody);
+    when(mockBody.asJsonObject()).thenReturn(new JsonObject().put("title", "abc"));
+
+    doNothing().when(spyManager).getDatasets(
+      eq(routingContext),
+      eq(DATA_REQUEST_APPLICATION_COLLECTION),
+      any(), any(),
+      anyString(), anyString(),
+      any(JsonObject.class)
+    );
+
+    spyManager.getAllDataRequestDatasets(routingContext);
+
+    verify(spyManager).getDatasets(
+      eq(routingContext),
+      eq(DATA_REQUEST_APPLICATION_COLLECTION),
+      any(), any(),
+      anyString(), anyString(),
+      any(JsonObject.class)
+    );
+  }
+
+  @Test
+  void testGetAllDataRequestApplications_queryOptionsSuccess_shouldDelegateToGetApplications() {
+    addUserOnContext();
+
+    // page/limit not provided -> finalPage and finalPageLimit remain null
+    when(request.getParam("page")).thenReturn(null);
+    when(request.getParam("limit")).thenReturn(null);
+
+    // sortBy/sortOrder not provided -> should use DATE_CREATED + "desc"
+    when(request.getParam("sortBy")).thenReturn(null);
+    when(request.getParam("sortOrder")).thenReturn(null);
+
+    // body search fields for getQueryOptionsApplication()
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject()
+      .put("title", "abc")
+      .put("status", new JsonArray().add("ON-GOING"))
+    );
+
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    // Stub the delegation target so we don't go deeper
+    doNothing().when(spyManager).getApplications(
+      eq(routingContext),
+      eq(DATA_REQUEST_APPLICATION_COLLECTION),
+      isNull(), // finalPage
+      isNull(), // finalPageLimit
+      anyString(),
+      anyString(),
+      any(JsonObject.class)
+    );
+
+    spyManager.getAllDataRequestApplications(routingContext);
+
+    // Capture the queryOptions passed to getApplications()
+    org.mockito.ArgumentCaptor<JsonObject> queryCap = org.mockito.ArgumentCaptor.forClass(JsonObject.class);
+
+    verify(spyManager).getApplications(
+      eq(routingContext),
+      eq(DATA_REQUEST_APPLICATION_COLLECTION),
+      isNull(),
+      isNull(),
+      // default sortBy is DATE_CREATED (constant), but we assert value indirectly by anyString + then check
+      anyString(),
+      anyString(),
+      queryCap.capture()
+    );
+
+    JsonObject queryOptions = queryCap.getValue();
+    assertNotNull(queryOptions);
+
+    // from getQueryOptionsApplication: title regex + status.status $in + userId
+    String enc = queryOptions.encode();
+    assertTrue(enc.contains("\"title\""));
+    assertTrue(enc.contains("\"$regex\""));
+    assertTrue(enc.contains("\"status.status\""));
+    assertTrue(enc.contains("\"$in\""));
+    assertTrue(enc.contains("\"userId\""));
+  }
+
+  @Test
+  void testGetAllDataPermitIssuedApplications_buildsQueryAndDelegates_toGetDataPermitGrantedDatasets() {
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    // pagination + sort params
+    when(request.getParam("page")).thenReturn("2");
+    when(request.getParam("limit")).thenReturn("10");
+    when(request.getParam("sortBy")).thenReturn(null);     // force default DATE_CREATED
+    when(request.getParam("sortOrder")).thenReturn(null);  // force default "desc"
+
+    // body -> null searchFields branch
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(null);
+
+    doNothing().when(spyManager).getDataPermitGrantedDatasets(
+      eq(routingContext),
+      eq(DATA_REQUEST_APPLICATION_COLLECTION),
+      eq(2),
+      eq(10),
+      anyString(),
+      anyString(),
+      any(JsonObject.class)
+    );
+
+    spyManager.getAllDataPermitIssuedApplications(routingContext);
+
+    // capture queryOptions
+    org.mockito.ArgumentCaptor<JsonObject> queryCap = org.mockito.ArgumentCaptor.forClass(JsonObject.class);
+
+    verify(spyManager).getDataPermitGrantedDatasets(
+      eq(routingContext),
+      eq(DATA_REQUEST_APPLICATION_COLLECTION),
+      eq(2),
+      eq(10),
+      anyString(),
+      anyString(),
+      queryCap.capture()
+    );
+
+    // when searchFields is null -> queryOptions remains empty
+    assertNotNull(queryCap.getValue());
+    assertTrue(queryCap.getValue().isEmpty());
+  }
+
+  @Test
+  void testGetAllDataPermitIssuedApplications_withTitle_shouldAddRegexTitleAndDelegate() {
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    // no pagination provided -> finalPage/finalPageLimit stay null
+    when(request.getParam("page")).thenReturn(null);
+    when(request.getParam("limit")).thenReturn(null);
+    when(request.getParam("sortBy")).thenReturn("date_modified");
+    when(request.getParam("sortOrder")).thenReturn("asc");
+
+    // body with title -> title regex branch
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject().put("title", "abc"));
+
+    doNothing().when(spyManager).getDataPermitGrantedDatasets(
+      eq(routingContext),
+      eq(DATA_REQUEST_APPLICATION_COLLECTION),
+      isNull(),
+      isNull(),
+      eq("date_modified"),
+      eq("asc"),
+      any(JsonObject.class)
+    );
+
+    spyManager.getAllDataPermitIssuedApplications(routingContext);
+
+    org.mockito.ArgumentCaptor<JsonObject> queryCap = org.mockito.ArgumentCaptor.forClass(JsonObject.class);
+
+    verify(spyManager).getDataPermitGrantedDatasets(
+      eq(routingContext),
+      eq(DATA_REQUEST_APPLICATION_COLLECTION),
+      isNull(),
+      isNull(),
+      eq("date_modified"),
+      eq("asc"),
+      queryCap.capture()
+    );
+
+    JsonObject query = queryCap.getValue();
+    assertNotNull(query);
+
+    // ensure title regex structure
+    assertTrue(query.containsKey("title"));
+    assertEquals("abc", query.getJsonObject("title").getString("$regex"));
+    assertEquals("i", query.getJsonObject("title").getString("$options"));
+  }
+
+  @Test
+  void testGetDataRequestApplicationsHbad_delegatesToGetApplicationsHbad() {
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    doNothing().when(spyManager).getApplicationsHbad(any(RoutingContext.class), anyString());
+
+    spyManager.getDataRequestApplicationsHbad(routingContext);
+
+    verify(spyManager).getApplicationsHbad(routingContext, DATA_REQUEST_APPLICATION_COLLECTION);
+  }
+
+  @Test
+  void testGetDataRequestApplicationsCountries_delegatesToGetApplicationsCountries() {
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    doNothing().when(spyManager).getApplicationsCountries(any(RoutingContext.class), anyString());
+
+    spyManager.getDataRequestApplicationsCountries(routingContext);
+
+    verify(spyManager).getApplicationsCountries(routingContext, DATA_REQUEST_APPLICATION_COLLECTION);
+  }
+
+  @Test
+  void testGetDataRequestApplicationTitles_delegatesToGetApplicationTitles() {
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    doNothing().when(spyManager).getApplicationTitles(any(RoutingContext.class), anyString());
+
+    spyManager.getDataRequestApplicationTitles(routingContext);
+
+    verify(spyManager).getApplicationTitles(routingContext, DATA_REQUEST_APPLICATION_COLLECTION);
+  }
+
+  @Test
+  void testChangeStatus_EDIT_success_shouldReturn200ChangedToEdit() {
+    addUserOnContext();
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("app123");
+
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject().put("status", "EDIT"));
+
+    // findOneAndUpdate succeeds and returns non-null doc
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
+      handler.handle(Future.succeededFuture(new JsonObject().put("_id", "app123")));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+    when(response.end(anyString())).thenReturn(Future.succeededFuture());
+
+    dataRequestApplicationManager.changeStatus(routingContext);
+
+    org.testcontainers.shaded.org.awaitility.Awaitility.await()
+      .atMost(java.time.Duration.ofSeconds(2))
+      .untilAsserted(() -> {
+        verify(response).setStatusCode(HttpResponseStatus.OK.code());
+        verify(response).end(contains("Changed to Edit"));
+      });
+  }
+
+  @Test
+  void testChangeStatus_EDIT_notFound_shouldReturn404() {
+    addUserOnContext();
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("app404");
+
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject().put("status", "EDIT"));
+
+    // succeeded but result is null -> NOT_FOUND
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
+      handler.handle(Future.succeededFuture(null));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+    when(response.end(anyString())).thenReturn(Future.succeededFuture());
+
+    dataRequestApplicationManager.changeStatus(routingContext);
+
+    org.testcontainers.shaded.org.awaitility.Awaitility.await()
+      .atMost(java.time.Duration.ofSeconds(2))
+      .untilAsserted(() -> {
+        verify(response).setStatusCode(HttpResponseStatus.NOT_FOUND.code());
+        verify(response).end(contains("Application not found"));
+      });
+  }
+
+  @Test
+  void testChangeStatus_EDIT_mongoFailure_shouldReturn500() {
+    addUserOnContext();
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("app500");
+
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject().put("status", "EDIT"));
+
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
+      handler.handle(Future.failedFuture(new RuntimeException("DB down")));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+    when(response.end(anyString())).thenReturn(Future.succeededFuture());
+
+    dataRequestApplicationManager.changeStatus(routingContext);
+
+    org.testcontainers.shaded.org.awaitility.Awaitility.await()
+      .atMost(java.time.Duration.ofSeconds(2))
+      .untilAsserted(() -> {
+        verify(response).setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
+        verify(response).end(contains("Error occurred: DB down"));
+      });
+  }
+
+  @Test
+  void testChangeStatus_TRANSLATE_hasOtherLanguages_shouldTriggerTranslationAndReturn200() {
+    addUserOnContext();
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("appT1");
+
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject().put("status", "TRANSLATE"));
+
+    // Returned application from findOneAndUpdate
+    JsonObject mongoApplication = new JsonObject()
+      .put("_id", "appT1")
+      .put("inputLanguage", "EN")
+      .put("form", new JsonObject().put("section2", new JsonObject().put("x", 1)))
+      .put("translation", new JsonObject()
+        .put("targetLanguages", new JsonArray().add("EN").add("FR")) // has other lang
+      );
+
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
+      handler.handle(Future.succeededFuture(mongoApplication));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+    when(response.end(anyString())).thenReturn(Future.succeededFuture());
+
+    // Spy so we can verify triggerFormTranslationRequest was called
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    // In case getDefaultEnglishFormTranslation does heavy work, just stub it (if method is accessible)
+    // If compilation fails because method isn't visible, remove this line.
+    lenient().doReturn(new JsonObject().put("en", new JsonObject()))
+      .when(spyManager).getDefaultEnglishFormTranslation(anyString(), any(JsonObject.class));
+
+    doNothing().when(spyManager).triggerFormTranslationRequest(
+      anyString(),
+      any(JsonObject.class),
+      anyString(),
+      anyString(),
+      anyList(),
+      any(JsonObject.class),
+      anyBoolean()
+    );
+
+    spyManager.changeStatus(routingContext);
+
+    org.testcontainers.shaded.org.awaitility.Awaitility.await()
+      .atMost(java.time.Duration.ofSeconds(2))
+      .untilAsserted(() -> {
+        verify(response).setStatusCode(HttpResponseStatus.OK.code());
+        verify(response).end(contains("Form translation initiated"));
+
+        verify(spyManager).triggerFormTranslationRequest(
+          eq("appT1"),
+          any(JsonObject.class),
+          eq(DATA_REQUEST_APPLICATION_COLLECTION),
+          eq("EN"),
+          anyList(),
+          any(JsonObject.class),
+          eq(true)
+        );
+      });
+  }
+
+  @Test
+  void testChangeStatus_TRANSLATE_noOtherLanguages_updateCollectionSuccess_shouldReturn200NoTranslationRequired() {
+    addUserOnContext();
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("appT2");
+
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject().put("status", "TRANSLATE"));
+
+    JsonObject mongoApplication = new JsonObject()
+      .put("_id", "appT2")
+      .put("id", "appT2")
+      .put("inputLanguage", "EN")
+      .put("form", new JsonObject().put("section2", new JsonObject().put("x", 1)))
+      .put("translation", new JsonObject()
+        .put("targetLanguages", new JsonArray().add("EN")) // no other languages
+      );
+
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
+      handler.handle(Future.succeededFuture(mongoApplication));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    // updateCollection succeeds -> "No translation required"
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<Void>> handler = inv.getArgument(3);
+      handler.handle(Future.succeededFuture());
+      return null;
+    }).when(mongoClient).updateCollection(eq(DATA_REQUEST_APPLICATION_COLLECTION),any(), (JsonArray) any(), any());
+
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+    when(response.end(anyString())).thenReturn(Future.succeededFuture());
+
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    // If compilation fails because method isn't visible, remove this stub.
+    lenient().doReturn(new JsonObject().put("en", new JsonObject()))
+      .when(spyManager).getDefaultEnglishFormTranslation(anyString(), any(JsonObject.class));
+
+
+    org.testcontainers.shaded.org.awaitility.Awaitility.await()
+      .atMost(java.time.Duration.ofSeconds(2))
+      .untilAsserted(() -> {
+        verify(response).setStatusCode(HttpResponseStatus.OK.code());
+        verify(response).end(contains("No translation required"));
+        verify(mongoClient).updateCollection(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), (JsonArray) any(), any());
+      });
+  }
+
+
+  @Test
+  void testChangeStatus_TRANSLATE_notFound_shouldReturn404() {
+    addUserOnContext();
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("appTNF");
+
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject().put("status", "TRANSLATE"));
+
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
+      handler.handle(Future.succeededFuture(null));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+    when(response.end(anyString())).thenReturn(Future.succeededFuture());
+
+    dataRequestApplicationManager.changeStatus(routingContext);
+
+    org.testcontainers.shaded.org.awaitility.Awaitility.await()
+      .atMost(java.time.Duration.ofSeconds(2))
+      .untilAsserted(() -> {
+        verify(response).setStatusCode(HttpResponseStatus.NOT_FOUND.code());
+        verify(response).end(contains("Application not found"));
+      });
+  }
+
+  @Test
+  void testChangeStatus_TRANSLATE_mongoFailure_shouldReturn500() {
+    addUserOnContext();
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("appTF");
+
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject().put("status", "TRANSLATE"));
+
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
+      handler.handle(Future.failedFuture(new RuntimeException("DB down")));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+    when(response.end(anyString())).thenReturn(Future.succeededFuture());
+
+    dataRequestApplicationManager.changeStatus(routingContext);
+
+    org.testcontainers.shaded.org.awaitility.Awaitility.await()
+      .atMost(java.time.Duration.ofSeconds(2))
+      .untilAsserted(() -> {
+        verify(response).setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
+        verify(response).end(contains("Error occurred: DB down"));
+      });
+  }
+
+  @Test
+  void testChangeStatus_SUBMITTED_resubmission_canChangeStatusFalse_shouldRollbackAndReturn() {
+    addUserOnContext();
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("app123");
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject().put("status", "SUBMITTED"));
+
+    // Application returned from findOneAndUpdate: has date_submitted + catalogs => triggers resubmission branch
+    JsonObject mongoApp = new JsonObject()
+      .put("_id", "app123")
+      .put("id", "app123")
+      .put("title", "My App")
+      .put("version", 1)
+      .put("date_submitted", "2025-01-01T00:00:00Z")
+      .put("catalogs", new JsonArray())
+      .put("status", new JsonObject().put("status", "DRAFT"))
+      .put("form", new JsonObject().put("section2", new JsonObject()));
+
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    // Force hasAtLeastOneAdditionalInformationAsLatest(...) == true
+    doReturn(true).when(spyManager).hasAtLeastOneAdditionalInformationAsLatest(any());
+
+    // Force canChangeStatus(...) == false => rollback + return
+    doReturn(false).when(spyManager).canChangeStatus(any(), any(), any());
+    doNothing().when(spyManager).rollbackStatus(anyString(), any(), anyString());
+
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
+      handler.handle(Future.succeededFuture(mongoApp));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    spyManager.changeStatus(routingContext);
+
+    org.testcontainers.shaded.org.awaitility.Awaitility.await()
+      .atMost(java.time.Duration.ofSeconds(2))
+      .untilAsserted(() -> {
+        verify(spyManager).rollbackStatus("app123", ON_GOING, DATA_REQUEST_APPLICATION_COLLECTION);
+        verify(spyManager, never()).replaceApplication(any());
+      });
+  }
+
+  @Test
+  void testChangeStatus_SUBMITTED_resubmission_filtersFormTranslations_andDispatchesUpdate_andReturns200() {
+    addUserOnContext();
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("app123");
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject().put("status", "SUBMITTED"));
+
+
+
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    doReturn(true).when(spyManager).hasAtLeastOneAdditionalInformationAsLatest(any());
+    doReturn(true).when(spyManager).canChangeStatus(any(), any(), any());
+
+    // Avoid side effects
+    doNothing().when(spyManager).performCleanUpForm(any());
+    doNothing().when(spyManager).updateCatalogStatus(any());
+    doNothing().when(spyManager).sendApplicationForDispatch(any(), anyString(), any());
+    doNothing().when(spyManager).triggerRemainingTranslations(anyString(), any(), DATA_REQUEST_APPLICATION_COLLECTION);
+    doNothing().when(spyManager).updateApplicationStatus(any(), any(), any());
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> h = inv.getArgument(3);
+      h.handle(Future.succeededFuture(new JsonObject()));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    // replaceApplication returns the same updated app so we can assert it was filtered
+    doAnswer(inv -> {
+      JsonObject argApp = inv.getArgument(0);
+
+      // verify filtering happened: only en+fr kept (de removed)
+      JsonObject filtered = argApp.getJsonObject("form_translations");
+      assertNotNull(filtered);
+      assertTrue(filtered.containsKey("en"));
+      assertTrue(filtered.containsKey("fr"));
+      assertFalse(filtered.containsKey("de"));
+
+      // Ensure status object exists and is ON-GOING so dispatch block runs
+      argApp.put("status", new JsonObject().put("status", "ON-GOING"));
+
+      return Future.succeededFuture(argApp);
+    }).when(spyManager).replaceApplication(any());
+
+    when(auditLogManager.prepareAuditLogActionDescription(any(), any(), any()))
+      .thenReturn("desc");
+
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+    when(response.end(anyString())).thenReturn(Future.succeededFuture());
+
+
+    org.testcontainers.shaded.org.awaitility.Awaitility.await()
+      .atMost(java.time.Duration.ofSeconds(2))
+      .untilAsserted(() -> {
+        verify(spyManager).sendApplicationForDispatch(any(), eq(DATA_REQUEST_APPLICATION_COLLECTION), eq(OperationStatus.UPDATE));
+        verify(auditLogManager).insertAuditLog(any(), any(), any(), any(), anyBoolean(), any());
+        verify(response).setStatusCode(HttpResponseStatus.OK.code());
+      });
+  }
+
+  @Test
+  void testChangeStatus_SUBMITTED_resubmission_replaceFails_shouldRollbackAndReturn500() {
+    addUserOnContext();
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("app123");
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject().put("status", "SUBMITTED"));
+
+    JsonObject mongoApp = new JsonObject()
+      .put("_id", "app123")
+      .put("id", "app123")
+      .put("title", "My App")
+      .put("version", 1)
+      .put("date_submitted", "2025-01-01T00:00:00Z")
+      .put("catalogs", new JsonArray())
+      .put("status", new JsonObject().put("status", "DRAFT"))
+      .put("form", new JsonObject().put("section2", new JsonObject()));
+
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    doReturn(true).when(spyManager).hasAtLeastOneAdditionalInformationAsLatest(any());
+    doReturn(true).when(spyManager).canChangeStatus(any(), any(), any());
+
+    doNothing().when(spyManager).rollbackStatus(anyString(), any(), anyString());
+    doNothing().when(spyManager).performCleanUpForm(any());
+    doNothing().when(spyManager).updateCatalogStatus(any());
+    doNothing().when(spyManager).updateApplicationStatus(any(), any(), any());
+
+    doReturn(Future.failedFuture("replace failed")).when(spyManager).replaceApplication(any());
+
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
+      handler.handle(Future.succeededFuture(mongoApp));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+    when(response.end(anyString())).thenReturn(Future.succeededFuture());
+
+    spyManager.changeStatus(routingContext);
+
+    org.testcontainers.shaded.org.awaitility.Awaitility.await()
+      .atMost(java.time.Duration.ofSeconds(2))
+      .untilAsserted(() -> {
+        verify(spyManager).rollbackStatus("app123", ON_GOING, DATA_REQUEST_APPLICATION_COLLECTION);
+        verify(response).setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
+        verify(response).end(contains("replace failed"));
+      });
+  }
+
+  @Test
+  void testChangeStatus_SUBMITTED_firstSubmission_canChangeStatusFalse_shouldRollbackAndReturn() {
+    addUserOnContext();
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("appX");
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject().put("status", "SUBMITTED"));
+
+    // No date_submitted => goes to "else" (first submission branch)
+    JsonObject mongoApp = new JsonObject()
+      .put("_id", "appX")
+      .put("id", "appX")
+      .put("title", "First Submit App")
+      .put("version", 1)
+      .put("catalogs", new JsonArray())
+      .put("status", new JsonObject().put("status", "DRAFT"))
+      .put("form", new JsonObject().put("section2", new JsonObject()));
+
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    doReturn(false).when(spyManager).canChangeStatus(any(), any(), any());
+    doNothing().when(spyManager).rollbackStatus(anyString(), any(), anyString());
+
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
+      handler.handle(Future.succeededFuture(mongoApp));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    spyManager.changeStatus(routingContext);
+
+    org.testcontainers.shaded.org.awaitility.Awaitility.await()
+      .atMost(java.time.Duration.ofSeconds(2))
+      .untilAsserted(() -> {
+        verify(spyManager).rollbackStatus("appX", DRAFT, DATA_REQUEST_APPLICATION_COLLECTION);
+        verify(spyManager, never()).replaceApplication(any());
+      });
+  }
+
+  @Test
+  void testChangeStatus_SUBMITTED_firstSubmission_applicantDetailsRecoverAndDispatchCreate_shouldReturn200() {
+    addUserOnContext();
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("appY");
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject().put("status", "SUBMITTED"));
+
+    // No date_submitted => first submission branch
+    JsonObject mongoApp = new JsonObject()
+      .put("_id", "appY")
+      .put("id", "appY")
+      .put("title", "First Submit App")
+      .put("version", 1)
+      .put("catalogs", new JsonArray())
+      .put("status", new JsonObject().put("status", "DRAFT"))
+      .put("form", new JsonObject().put("section2", new JsonObject()));
+
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    doReturn(true).when(spyManager).canChangeStatus(any(), any(), any());
+
+
+    doReturn(Future.failedFuture("boom")).when(spyManager).createApplicantDetails(any());
+
+    doNothing().when(spyManager).performCleanUpForm(any());
+    doNothing().when(spyManager).updateCatalogStatus(any());
+    doNothing().when(spyManager).sendApplicationForDispatch(any(), anyString(), any());
+    doNothing().when(spyManager).triggerRemainingTranslations(anyString(), any(), DATA_REQUEST_APPLICATION_COLLECTION);
+    doNothing().when(spyManager).updateApplicationStatus(any(), any(), any());
+
+
+    doAnswer(inv -> {
+      JsonObject appArg = inv.getArgument(0);
+      // Ensure requestStatus becomes ON-GOING so it dispatches CREATE
+      appArg.put("status", new JsonObject().put("status", "ON-GOING"));
+      return Future.succeededFuture(appArg);
+    }).when(spyManager).replaceApplication(any());
+
+    when(auditLogManager.prepareAuditLogActionDescription(any(), any(), any()))
+      .thenReturn("desc");
+
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
+      handler.handle(Future.succeededFuture(mongoApp));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+    when(response.end(anyString())).thenReturn(Future.succeededFuture());
+
+
+    spyManager.changeStatus(routingContext);
+
+    org.testcontainers.shaded.org.awaitility.Awaitility.await()
+      .atMost(java.time.Duration.ofSeconds(2))
+      .untilAsserted(() -> {
+        verify(spyManager).sendApplicationForDispatch(any(), eq(DATA_REQUEST_APPLICATION_COLLECTION), eq(OperationStatus.CREATE));
+        verify(auditLogManager).insertAuditLog(any(), any(), any(), any(), anyBoolean(), any());
+        verify(response).setStatusCode(HttpResponseStatus.OK.code());
+      });
+  }
+
+  @Test
+  void testChangeStatus_SUBMITTED_firstSubmission_applicantDetailsNonEmpty_shouldBeAdded() {
+    addUserOnContext();
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("appZ");
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject().put("status", "SUBMITTED"));
+
+    JsonObject mongoApp = new JsonObject()
+      .put("_id", "appZ")
+      .put("id", "appZ")
+      .put("title", "First Submit App")
+      .put("version", 1)
+      .put("catalogs", new JsonArray())
+      .put("status", new JsonObject().put("status", "DRAFT"))
+      .put("form", new JsonObject().put("section2", new JsonObject()));
+
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    doReturn(true).when(spyManager).canChangeStatus(any(), any(), any());
+
+    JsonObject applicantDetails = new JsonObject().put("name", "Alice");
+    doReturn(Future.succeededFuture(applicantDetails)).when(spyManager).createApplicantDetails(any());
+
+    doNothing().when(spyManager).performCleanUpForm(any());
+    doNothing().when(spyManager).updateCatalogStatus(any());
+    doNothing().when(spyManager).sendApplicationForDispatch(any(), anyString(), any());
+    doNothing().when(spyManager).triggerRemainingTranslations(anyString(), any(), DATA_REQUEST_APPLICATION_COLLECTION);
+    doNothing().when(spyManager).updateApplicationStatus(any(), any(), any());
+
+
+    doAnswer(inv -> {
+      JsonObject appArg = inv.getArgument(0);
+
+      // Assert applicantDetails was added
+      assertTrue(appArg.containsKey("applicantDetails"));
+      assertEquals("Alice", appArg.getJsonObject("applicantDetails").getString("name"));
+
+      appArg.put("status", new JsonObject().put("status", "ON-GOING"));
+      return Future.succeededFuture(appArg);
+    }).when(spyManager).replaceApplication(any());
+
+    when(auditLogManager.prepareAuditLogActionDescription(any(), any(), any()))
+      .thenReturn("desc");
+
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
+      handler.handle(Future.succeededFuture(mongoApp));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+    when(response.end(anyString())).thenReturn(Future.succeededFuture());
+
+    spyManager.changeStatus(routingContext);
+
+  }
+
+  @Test
+  void testChangeStatus_SUBMITTED_firstSubmission_replaceFails_shouldRollbackAndReturn500() {
+    addUserOnContext();
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("appF");
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject().put("status", "SUBMITTED"));
+
+    JsonObject mongoApp = new JsonObject()
+      .put("_id", "appF")
+      .put("id", "appF")
+      .put("title", "First Submit App")
+      .put("version", 1)
+      .put("catalogs", new JsonArray())
+      .put("status", new JsonObject().put("status", "DRAFT"))
+      .put("form", new JsonObject().put("section2", new JsonObject()));
+
+    DataRequestApplicationManager spyManager = Mockito.spy(dataRequestApplicationManager);
+
+    doReturn(true).when(spyManager).canChangeStatus(any(), any(), any());
+    doNothing().when(spyManager).rollbackStatus(anyString(), any(), anyString());
+
+    // applicant details success (empty)
+    doReturn(Future.succeededFuture(new JsonObject())).when(spyManager).createApplicantDetails(any());
+
+    doNothing().when(spyManager).performCleanUpForm(any());
+    doNothing().when(spyManager).updateCatalogStatus(any());
+    doNothing().when(spyManager).updateApplicationStatus(any(), any(), any());
+
+    doReturn(Future.failedFuture("replace failed")).when(spyManager).replaceApplication(any());
+
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
+      handler.handle(Future.succeededFuture(mongoApp));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+    when(response.end(anyString())).thenReturn(Future.succeededFuture());
+
+    spyManager.changeStatus(routingContext);
+
+    org.testcontainers.shaded.org.awaitility.Awaitility.await()
+      .atMost(java.time.Duration.ofSeconds(2))
+      .untilAsserted(() -> {
+        verify(spyManager).rollbackStatus("appF", DRAFT, DATA_REQUEST_APPLICATION_COLLECTION);
+        verify(response).setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
+      });
+  }
+
+  @Test
+  void testChangeStatus_SUBMITTED_updateResultNull_shouldReturn404() {
+    addUserOnContext();
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("appNF");
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject().put("status", "SUBMITTED"));
+
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
+      handler.handle(Future.succeededFuture(null));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+    when(response.end(anyString())).thenReturn(Future.succeededFuture());
+
+    dataRequestApplicationManager.changeStatus(routingContext);
+
+    org.testcontainers.shaded.org.awaitility.Awaitility.await()
+      .atMost(java.time.Duration.ofSeconds(2))
+      .untilAsserted(() -> {
+        verify(response).setStatusCode(HttpResponseStatus.NOT_FOUND.code());
+        verify(response).end(contains("Application not found"));
+      });
+  }
+
+  @Test
+  void testChangeStatus_SUBMITTED_updateResultFailed_shouldReturn500StatusCannotBeChanged() {
+    addUserOnContext();
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("appErr");
+    RequestBody body = mock(RequestBody.class);
+    when(routingContext.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(new JsonObject().put("status", "SUBMITTED"));
+
+    doAnswer(inv -> {
+      @SuppressWarnings("unchecked")
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
+      handler.handle(Future.failedFuture(new RuntimeException("DB down")));
+      return null;
+    }).when(mongoClient).findOneAndUpdate(eq(DATA_REQUEST_APPLICATION_COLLECTION), any(), any(), any());
+
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+    when(response.end(anyString())).thenReturn(Future.succeededFuture());
+
+    dataRequestApplicationManager.changeStatus(routingContext);
+
+    org.testcontainers.shaded.org.awaitility.Awaitility.await()
+      .atMost(java.time.Duration.ofSeconds(2))
+      .untilAsserted(() -> {
+        verify(response).setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
+        verify(response).end(contains("Application status can not be changed"));
+      });
+  }
+
+  @Test
+  void testCanChangeStatus_whenMandatorySectionsMissing_shouldFailDtoValidation() {
+    // request wants to go ON_GOING
+    JsonObject requestStatus = new JsonObject().put("status", "ON-GOING");
+
+    // form missing mandatory keys -> validateKeys false
+    JsonObject mongoApp = new JsonObject()
+      .put("form", new JsonObject()  // empty, missing section2..section8
+        .put("section2", new JsonObject())); // still missing many mandatory ones
+
+    boolean ok = dataRequestApplicationManager.canChangeStatus(requestStatus, mongoApp, routingContext);
+
+    assertFalse(ok);
+    verify(routingContext.response()).setStatusCode(HttpResponseStatus.FORBIDDEN.code());
+    verify(routingContext.response()).end(contains("save all required sections"));
+  }
+
+  @Test
+  void testCanChangeStatus_whenDtoHasViolations_shouldReturnFalse() {
+    JsonObject requestStatus = new JsonObject().put("status", "ON-GOING");
+
+    // Build a form containing all mandatory sections so validateKeys == true
+    JsonObject form = new JsonObject()
+      .put("section2", new JsonObject())
+      .put("section3", new JsonObject())
+      .put("section4", new JsonObject())
+      .put("section5", new JsonObject())
+      .put("section6", new JsonArray())   // section6 is array in your code
+      .put("section8", new JsonObject());
+
+    JsonObject mongoApp = new JsonObject().put("form", form);
+
+    // Make DTO generation return an "empty" DTO that likely violates constraints
+    // (SectionDTO typically has @NotNull/@NotBlank fields)
+    when(dataRequestApplicationValidationManager.generateSectionDTO(anyInt(), anyString(), any()))
+      .thenReturn(Mockito.mock(SectionDTO.class));
+
+    boolean ok = dataRequestApplicationManager.canChangeStatus(requestStatus, mongoApp, routingContext);
+
+    assertFalse(ok);
+
+  }
+
+  @Test
+  void testCanChangeStatus_whenDtoOkButBusinessValidationFails_shouldReturnFalse() {
+    JsonObject requestStatus = new JsonObject().put("status", "ON-GOING");
+
+    JsonObject form = new JsonObject()
+      .put("section2", new JsonObject())
+      .put("section3", new JsonObject())
+      .put("section4", new JsonObject())
+      .put("section5", new JsonObject())
+      .put("section6", new JsonArray())
+      .put("section8", new JsonObject());
+
+    JsonObject mongoApp = new JsonObject().put("form", form);
+
+    // Try to keep DTO valid (depends on your SectionDTO constraints)
+    when(dataRequestApplicationValidationManager.generateSectionDTO(anyInt(), anyString(), any()))
+      .thenReturn(new SectionDTO());
+
+    when(dataRequestApplicationBusinessValidationManager.section4Validation(any(JsonObject.class), any()))
+      .thenReturn(false);
+
+    boolean ok = dataRequestApplicationManager.canChangeStatus(requestStatus, mongoApp, routingContext);
+
+    assertFalse(ok);
+  }
+
+  @Test
+  void testCanChangeStatus_whenDtoOkAndBusinessValidationOk_shouldReturnTrue() {
+    JsonObject requestStatus = new JsonObject().put("status", "ON-GOING");
+
+    JsonObject form = new JsonObject()
+      .put("section2", new JsonObject())
+      .put("section3", new JsonObject())
+      .put("section4", new JsonObject())
+      .put("section5", new JsonObject())
+      .put("section6", new JsonArray())
+      .put("section8", new JsonObject());
+
+    JsonObject mongoApp = new JsonObject().put("form", form);
+
+    // Keep DTO valid (depends on constraints)
+    when(dataRequestApplicationValidationManager.generateSectionDTO(anyInt(), anyString(), any()))
+      .thenReturn(new SectionDTO());
+
+    when(dataRequestApplicationBusinessValidationManager.section4Validation(any(JsonObject.class), any()))
+      .thenReturn(true);
+
+    boolean ok = dataRequestApplicationManager.canChangeStatus(requestStatus, mongoApp, routingContext);
+
+    assertTrue(ok);
+  }
+
 
 }

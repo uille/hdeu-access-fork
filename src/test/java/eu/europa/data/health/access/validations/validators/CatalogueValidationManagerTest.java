@@ -53,14 +53,13 @@ import io.vertx.ext.web.RequestBody;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.WebClient;
+import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Collections;
 
 @ExtendWith(MockitoExtension.class)
 class CatalogueValidationManagerTest {
@@ -174,7 +173,7 @@ class CatalogueValidationManagerTest {
     jsonArray.add(selectObjectDTO);
     mockResult.put("geographicalCoverageList", jsonArray);
 
-    when(hubRepoClient.getAllGeographicalCoverage(routingContext)).thenReturn(
+    when(hubRepoClient.getAllGeographicalCoverage()).thenReturn(
       Future.succeededFuture(mockResult));
 
     when(routingContext.fileUploads()).thenReturn(Collections.singletonList(fileUpload));
@@ -241,7 +240,7 @@ class CatalogueValidationManagerTest {
     jsonArray.add(selectObjectDTO);
     mockResult.put("geographicalCoverageList", jsonArray);
 
-    when(hubRepoClient.getAllGeographicalCoverage(routingContext)).thenReturn(
+    when(hubRepoClient.getAllGeographicalCoverage()).thenReturn(
       Future.succeededFuture(mockResult));
 
     when(routingContext.fileUploads()).thenReturn(Collections.singletonList(fileUpload));

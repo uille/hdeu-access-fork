@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "type",
+    "operation",
+    "objectId",
+    "payload"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "application"
+      ]
+    },
+    "operation": {
+      "type": "string",
+      "enum": [
+        "permit"
+      ]
+    },
+    "objectId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "application_type",
+        "status",
+        "permits"
+      ],
+      "properties": {
+        "application_type": {
+          "type": "string",
+          "enum": [
+            "DATA_ACCESS_APPLICATION",
+            "DATA_REQUEST_APPLICATION"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["DATA_PERMIT"]
+        },
+        "permits": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "dataset_id",
+              "permit_status"
+            ],
+            "properties": {
+              "dataset_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "permit_status": {
+                "type": "string",
+                "minLength": 1,
+                "enum": ["GRANTED", "RENEWAL_REQUESTED", "RENEWED", "RENEWAL_REJECTED",
+                  "EXPIRED", "AMENDMENT_REQUESTED", "AMENDED", "AMENDMENT_REJECTED", "REVOKED",
+                  "REVOKE_APPEALED","APPEAL_APPROVED","APPEAL_REJECTED"]
+              },
+              "permit_file": {
+                "type": "string",
+                "format": "byte",
+                "description": "Base64-encoded Permit PDF file"
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

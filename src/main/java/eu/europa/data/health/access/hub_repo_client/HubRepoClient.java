@@ -21,9 +21,9 @@ import static eu.europa.data.health.access.Constants.CATALOGUE_NAME;
 import static eu.europa.data.health.access.Constants.DESCRIPTION;
 import static eu.europa.data.health.access.Constants.DISPATCHER_COLLECTION;
 import static eu.europa.data.health.access.Constants.DOMIBUS_ID;
-import static eu.europa.data.health.access.Constants.GEOGRAPHICAL_COVERAGE;
 import static eu.europa.data.health.access.Constants.PUBLISHER_HOMEPAGE_URL;
 import static eu.europa.data.health.access.Constants.PUBLISHER_NAME;
+import static eu.europa.data.health.access.Constants.TITLE;
 import static eu.europa.data.health.access.Constants.UPLOAD_RDF;
 import static eu.europa.data.health.access.SchemaFiles.CATALOGUE_FORM_RDF;
 
@@ -54,6 +54,7 @@ import io.vertx.ext.web.client.WebClient;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -76,6 +77,11 @@ public class HubRepoClient extends AbstractManager {
   public static final String CATALOGUE_REQUEST = "/catalogues";
   public static final String ERROR_CODE = "errorCode";
   public static final String ERROR_DETAILS = "errorDetails";
+  public static final String RDF_CONTENT = "rdfContent";
+  public static final String VALUE_TYPE = "valueType";
+  public static final String METADATA = "metadata";
+  public static final String SUCCESSFULLY_GOT_ALL_CATALOGUES = " Successfully got all catalogues";
+  public static final String GEOGRAPHICAL_COVERAGE = "geographicalCoverage";
 
   WebClient vertxClient;
   private final DispatcherClient dispatcherClient;
@@ -177,8 +183,8 @@ public class HubRepoClient extends AbstractManager {
 
     processRDF(context, catalogueId).onSuccess(result ->{
 
-      String catalogue = result.get("rdfContent");
-      String title = result.get("title");
+      String catalogue = result.get(RDF_CONTENT);
+      String title = result.get(TITLE);
 
       MultiMap headers = createHeader(catalogue);
 
@@ -266,18 +272,27 @@ public class HubRepoClient extends AbstractManager {
     return promise.future();
   }
 
-  public Future<JsonObject> getAllGeographicalCoverage(@NotNull RoutingContext context){
+  public Future<JsonObject> getAllGeographicalCoverage(){
     MultiMap headers = createHeaderWithoutType();
     Promise<JsonObject> promise = Promise.promise();
 
     vertxClient.getAbs(this.url + CATALOGUE_REQUEST)
       .putHeaders(headers)
-      .addQueryParam("valueType", "metadata")
+      .addQueryParam(VALUE_TYPE, METADATA)
       .sendBuffer(null, ar -> {
         if (ar.succeeded()) {
-          log.info(HUB_REPO_CLIENT + " Successfully got all catalogues");
+          log.debug(HUB_REPO_CLIENT + SUCCESSFULLY_GOT_ALL_CATALOGUES);
 
-          JsonObject catalogueList = CatalogueMapper.mapGeographicalCoverageList(ar.result().body().toJsonObject(),countriesManager);
+          JsonObject hubRepoJson = ar.result().bodyAsJsonObject();
+          // if hub repo has no catalogues, skip dispatcher call and mapping
+          if (hubRepoJson == null || hubRepoJson.isEmpty()) {
+            log.debug("{} Hub repo returned empty catalogue list -> skipping mapping to geographical coverage", HUB_REPO_CLIENT);
+
+            promise.complete(null);
+            return;
+          }
+
+          JsonObject catalogueList = CatalogueMapper.mapGeographicalCoverageList(hubRepoJson,countriesManager);
           promise.complete(catalogueList);
         } else {
           log.error(HUB_REPO_CLIENT +
@@ -297,21 +312,29 @@ public class HubRepoClient extends AbstractManager {
    * @return The list of catalogues filtered by the criteria
    */
   public Future<JsonObject> getAllCatalogue(@NotNull RoutingContext context) {
-    long startTime;
+
     MultiMap headers = createHeaderWithoutType();
     Promise<JsonObject> promise = Promise.promise();
-    // TODO to be removed it is for performance investigation.
-    startTime = System.currentTimeMillis();
-    log.warn((HUB_REPO_CLIENT+ "------------start of get all catalogues"));
+    log.debug((HUB_REPO_CLIENT+ "------------start of get all catalogues"));
     vertxClient.getAbs(this.url + CATALOGUE_REQUEST)
       .putHeaders(headers)
-      .addQueryParam("valueType", "metadata")
+      .addQueryParam(VALUE_TYPE, METADATA)
       .sendBuffer(null, ar -> {
         if (ar.succeeded()) {
-          log.info(HUB_REPO_CLIENT + " Successfully got all catalogues");
-          // TODO to be removed it is for performance investigation.
-          long test = System.currentTimeMillis();
-          log.info((HUB_REPO_CLIENT+ "------------get all catalogues from hub repo: " + (test- startTime)));
+          log.debug(HUB_REPO_CLIENT + SUCCESSFULLY_GOT_ALL_CATALOGUES);
+
+          JsonObject hubRepoJson = ar.result().bodyAsJsonObject();
+
+          // if hub repo has no catalogues, skip dispatcher call and mapping
+          if (hubRepoJson == null || hubRepoJson.isEmpty()) {
+            log.debug("{} Hub repo returned empty catalogue list -> skipping dispatcher", HUB_REPO_CLIENT);
+            JsonObject emptyResponse = prepareGetEntityResponse(
+              Collections.emptyList(),
+              new SearchCriteriaDto(1, 0, 1, 0, null, null, null)
+            );
+            promise.complete(emptyResponse);
+            return;
+          }
 
           String pageString = context.request().getParam("page");
           String limitString = context.request().getParam("limit");
@@ -321,26 +344,26 @@ public class HubRepoClient extends AbstractManager {
 
           dispatcherClient.getAllCatalogueMap().onComplete(actionRes -> {
             if (actionRes.succeeded()) {
-              // TODO to be removed it is for performance investigation.
-              long test2 = System.currentTimeMillis();
-              log.info((HUB_REPO_CLIENT+ "------------get all catalogues map from dispatcher: " + (test2- startTime)));
+              log.info((HUB_REPO_CLIENT+ "Got all catalogues map from dispatcher"));
 
-              CatalogueMapper.map(ar.result().body().toJsonObject(), new JsonObject(actionRes.result()), context, countriesManager, hubSearchClient)
+              CatalogueMapper.map(hubRepoJson, new JsonObject(actionRes.result()), context, countriesManager, hubSearchClient)
                 .onSuccess(catalogueList -> {
-
                   if(catalogueList == null){
                     promise.complete(new JsonObject());
                   }
 
-
                   JsonObject response =
-                    prepareGetEntityResponse(catalogueList.getJsonArray("catalogueList").getList(),new SearchCriteriaDto(
-                      Integer.parseInt(pageString) , catalogueList.getInteger("sizeOfCatalogueList") ,
-                      Integer.parseInt(pageString) , Integer.parseInt(limitString) , sortByString,
-                      sortOrderString, null));
-                  // TODO to be removed it is for performance investigation.
-                  long test3 = System.currentTimeMillis();
-                  log.info((HUB_REPO_CLIENT+ "------------finished all catalogues fetch: " + (test3-startTime)));
+                    prepareGetEntityResponse(catalogueList.getJsonArray("catalogueList").getList(),
+                      new SearchCriteriaDto(
+                      Integer.parseInt(pageString),
+                      catalogueList.getInteger("sizeOfCatalogueList"),
+                      Integer.parseInt(pageString),
+                      Integer.parseInt(limitString) ,
+                      sortByString,
+                      sortOrderString,
+                      null)
+                    );
+                  log.info((HUB_REPO_CLIENT+ " Finished all catalogues fetch"));
                   promise.complete(response);
 
                 })
@@ -412,8 +435,6 @@ public class HubRepoClient extends AbstractManager {
     return promise.future();
   }
 
-
-
   public Future<JsonObject> existsCatalogueByDomibusIdOrCatalogueIdOrCountry(RoutingContext context) {
     MultiMap headers = createHeaderWithoutType();
     Promise<JsonObject> promise = Promise.promise();
@@ -426,10 +447,10 @@ public class HubRepoClient extends AbstractManager {
 
     vertxClient.getAbs(this.url + CATALOGUE_REQUEST)
       .putHeaders(headers)
-      .addQueryParam("valueType", "metadata")
+      .addQueryParam(VALUE_TYPE, METADATA)
       .sendBuffer(null, ar -> {
         if (ar.succeeded()) {
-          log.info(HUB_REPO_CLIENT + " Successfully got all catalogues");
+          log.debug(HUB_REPO_CLIENT + SUCCESSFULLY_GOT_ALL_CATALOGUES);
 
           dispatcherClient.getAllCatalogueMap().onComplete(actionRes -> {
             if (actionRes.succeeded()) {
@@ -471,8 +492,8 @@ public class HubRepoClient extends AbstractManager {
       selectedValue = uploadRDF.getString("key");
     }
 
-    if(context.body().asJsonObject().getJsonObject("geographicalCoverage") != null && "b".equals(selectedValue)){
-      uniqueFields.put(GEOGRAPHICAL_COVERAGE,context.body().asJsonObject().getJsonObject("geographicalCoverage").getString("key"));
+    if(context.body().asJsonObject().getJsonObject(GEOGRAPHICAL_COVERAGE) != null && "b".equals(selectedValue)){
+      uniqueFields.put(GEOGRAPHICAL_COVERAGE,context.body().asJsonObject().getJsonObject(GEOGRAPHICAL_COVERAGE).getString("key"));
     }
     promise.complete(uniqueFields);
 
@@ -542,8 +563,8 @@ public class HubRepoClient extends AbstractManager {
 
     if(fieldNameContent != null && "a".equals(selectedValue)){
        getCatalogueFile(catalogueId, context).onSuccess(res -> {
-         result.put("rdfContent", res);
-         result.put("title", rdfTitleExtractor(res));
+         result.put(RDF_CONTENT, res);
+         result.put(TITLE, rdfTitleExtractor(res));
          promise.complete(result);
        });
     } else if ("b".equals(selectedValue)) {
@@ -556,15 +577,15 @@ public class HubRepoClient extends AbstractManager {
             .replace("{title}", context.body().asJsonObject().getString(CATALOGUE_NAME))
             .replace("{description}", context.body().asJsonObject().getString(DESCRIPTION))
             .replace("{lang}", context.body().asJsonObject().getString(CATALOGUE_LANGUAGE))
-            .replace("{countryISO}", context.body().asJsonObject().getJsonObject("geographicalCoverage").getString("key"))
+            .replace("{countryISO}", context.body().asJsonObject().getJsonObject(GEOGRAPHICAL_COVERAGE).getString("key"))
             .replace("{homepageURL}", context.body().asJsonObject().getString(PUBLISHER_HOMEPAGE_URL))
             .replace("{name}", context.body().asJsonObject().getString(PUBLISHER_NAME));
 
           // Upload the produced rdf file to hub store.
           uploadTheRDFFile(context, rdfContent, context.body().asJsonObject().getString(CATALOGUE_NAME));
 
-          result.put("rdfContent", rdfContent);
-          result.put("title", context.body().asJsonObject().getString(CATALOGUE_NAME));
+          result.put(RDF_CONTENT, rdfContent);
+          result.put(TITLE, context.body().asJsonObject().getString(CATALOGUE_NAME));
           promise.complete(result);
         } catch (IOException e) {
           log.info("RDF file not found.", e);

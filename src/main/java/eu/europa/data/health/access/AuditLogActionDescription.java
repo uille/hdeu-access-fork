@@ -24,7 +24,15 @@ public enum AuditLogActionDescription {
   USER_ACCOUNT_DELETED("User with EU Login ID: {} has deleted their account"),
 
   DATA_ACCESS_APPLICATION_CREATED("Data Access application {} : {} has been created"),
+  DATA_ACCESS_APPLICATION_UPDATED("Data Access application {} : {} has been updated to status: {}"),
+  DATA_ACCESS_APPLICATION_HDAB_UPDATED("Data Access application {} : {} has been updated to HDAB status: {} for catalog id: {}"),
+  DATA_ACCESS_APPLICATION_HDAB_AND_DECISION_UPDATED("Data Access application {} : {} has been updated to HDAB status: {} for catalog id: {} and dataset status: {} for dataset id: {}"),
+  DATA_ACCESS_APPLICATION_PERMIT_UPDATED("Data Access application {} : {} for catalog id: {} and dataset id: {} has been updated to permit status: {}"),
+
+  DATA_ACCESS_APPLICATION_AND_CATALOG_UPDATED("Data Access application {} : {} has been updated to status: {} and catalog status: {} for catalog id: {}"),
+  DATA_ACCESS_APPLICATION_DATASET_UPDATED("Data Access application {} : {} has been updated to dataset status: {} for dataset id: {}"),
   DATA_ACCESS_APPLICATION_SUBMITTED("Data Access application {} : {} has been submitted"),
+  DATA_ACCESS_APPLICATION_RESUBMITTED("Data Access application {} : {} has been re-submitted"),
   DATA_ACCESS_APPLICATION_DELETED("Data Access application {} : {} has been deleted"),
   DATA_ACCESS_APPLICATION_DISCARDED("Data Access application {} : {} has been discarded by removing the last Dataset with id: {} and distribution(s): {}"),
   DATA_ACCESS_APPLICATION_DATASET_DELETED("Dataset with id: {} and distribution(s): {} for Data Access application {} : {} has been deleted"),
@@ -32,7 +40,14 @@ public enum AuditLogActionDescription {
   DATA_ACCESS_APPLICATION_TRANSLATION_FAILED("Data Access application {} : {} translation failed: {}"),
 
   DATA_REQUEST_APPLICATION_CREATED("Data Request application {} : {} has been created"),
+  DATA_REQUEST_APPLICATION_UPDATED("Data Request application {} : {} has been updated to status: {}"),
+  DATA_REQUEST_APPLICATION_HDAB_UPDATED("Data Request application {} : {} has been updated to HDAB status: {} for catalog id: {}"),
+  DATA_REQUEST_APPLICATION_HDAB_AND_DECISION_UPDATED("Data Request application {} : {} has been updated to HDAB status: {} for catalog id: {} and dataset status: {} for dataset id: {}"),
+
+  DATA_REQUEST_APPLICATION_AND_CATALOG_UPDATED("Data Request application {} : {} has been updated to status: {} and catalog status: {} for catalog id: {}"),
+  DATA_REQUEST_APPLICATION_DATASET_UPDATED("Data Request application {} : {} has been updated to dataset status: {} for dataset id: {}"),
   DATA_REQUEST_APPLICATION_SUBMITTED("Data Request application {} : {} has been submitted"),
+  DATA_REQUEST_APPLICATION_RESUBMITTED("Data Request application {} : {} has been re-submitted"),
   DATA_REQUEST_APPLICATION_DELETED("Data Request application {} : {} has been deleted"),
   DATA_REQUEST_APPLICATION_DISCARDED("Data Request application {} : {} has been discarded by removing the last Dataset with id: {} and distribution(s): {}"),
   DATA_REQUEST_APPLICATION_DATASET_DELETED("Dataset with id: {} and distribution(s): {} for Data Request application {} : {} has been deleted"),

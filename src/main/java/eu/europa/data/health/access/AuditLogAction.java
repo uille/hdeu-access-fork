@@ -24,16 +24,26 @@ public enum AuditLogAction {
   USER_ACCOUNT("User Account deletion"),
 
   DATA_ACCESS_APPLICATION_CREATED("Data Access application created"),
+  DATA_ACCESS_APPLICATION_UPDATED("Data Access application updated"),
   DATA_ACCESS_APPLICATION_SUBMITTED("Data Access application submitted"),
   DATA_ACCESS_APPLICATION_DELETED("Data Access application deleted"),
   DATA_ACCESS_APPLICATION_DISCARDED("Data Access application discarded"),
   DATA_ACCESS_APPLICATION_TRANSLATION_FAILED("Data Access application translation failed"),
 
   DATA_REQUEST_APPLICATION_CREATED("Data Request application created"),
+  DATA_REQUEST_APPLICATION_UPDATED("Data Request application updated"),
   DATA_REQUEST_APPLICATION_SUBMITTED("Data Request application submitted"),
   DATA_REQUEST_APPLICATION_DELETED("Data Request application deleted"),
   DATA_REQUEST_APPLICATION_DISCARDED("Data Request application discarded"),
   DATA_REQUEST_APPLICATION_TRANSLATION_FAILED("Data Request application translation failed"),
+
+  DATA_ACCESS_HDAB_STATUS_UPDATED("Data Access HDAB status updated"),
+  DATA_REQUEST_HDAB_STATUS_UPDATED("Data Request HDAB status updated"),
+
+  DATA_ACCESS_DATASET_STATUS_UPDATED("Data Access dataset status updated"),
+  DATA_REQUEST_DATASET_STATUS_UPDATED("Data Request dataset status updated"),
+
+  DATA_ACCESS_PERMIT_STATUS_UPDATED("Data Access permit status updated"),
 
   DATASET_DELETED("Dataset deleted"),
   DISTRIBUTION_DELETED("Distribution deleted"),

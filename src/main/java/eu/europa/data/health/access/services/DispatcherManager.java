@@ -17,23 +17,21 @@ package eu.europa.data.health.access.services;
 
 import static eu.europa.data.health.access.Constants.APPLICATION_ID;
 import static eu.europa.data.health.access.Constants.APPLICATION_TYPE;
-import static eu.europa.data.health.access.Constants.APPROVED;
 import static eu.europa.data.health.access.Constants.CATALOG_IDS;
 import static eu.europa.data.health.access.Constants.DATASETS;
 import static eu.europa.data.health.access.Constants.DATA_PERMIT_ID;
 import static eu.europa.data.health.access.Constants.DISPATCHER_COLLECTION;
-import static eu.europa.data.health.access.Constants.PUBLISHER;
-import static eu.europa.data.health.access.Constants.REJECTED;
+import static eu.europa.data.health.access.Constants.DISPATCHER_RESPONSE_STATUS;
 import static eu.europa.data.health.access.Constants.STATUS;
-import static eu.europa.data.health.access.Constants.STATUS_HISTORY;
-import static eu.europa.data.health.access.Constants.SUBMITTED;
-import static eu.europa.data.health.access.Constants.USER_ID;
 
+import eu.europa.data.health.access.CatalogStatus;
 import eu.europa.data.health.access.DispatcherResponseStatus;
 import eu.europa.data.health.access.auth_client.AuthClient;
 import eu.europa.data.health.access.handlers.DBHandler;
 import eu.europa.data.health.access.hub_translation_client.HubTranslationClient;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -41,155 +39,106 @@ import io.vertx.ext.mongo.FindOptions;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.mongo.UpdateOptions;
 import io.vertx.ext.web.RoutingContext;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.atomic.AtomicBoolean;
+import org.apache.commons.collections4.IterableUtils;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DispatcherManager extends CommonApplicationManager {
 
-
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final MongoClient mongoClient;
 
   public DispatcherManager(DBHandler dbHandler, MongoClient mongoClient,
-                           BasketManager basketManager, HubStoreClient hubStoreClient, Vertx vertx,
-                           AuditLogManager auditLogManager, HubTranslationClient hubTranslationClient, HubSearchClient hubSearchClient, AuthClient authClient) {
-    super(dbHandler, basketManager, mongoClient, vertx, hubStoreClient, auditLogManager, hubTranslationClient, hubSearchClient, authClient);
+    BasketManager basketManager, HubStoreClient hubStoreClient, Vertx vertx,
+    AuditLogManager auditLogManager, HubTranslationClient hubTranslationClient,
+    HubSearchClient hubSearchClient, AuthClient authClient) {
+    super(dbHandler, basketManager, mongoClient, vertx, hubStoreClient, auditLogManager,
+      hubTranslationClient, hubSearchClient, authClient);
     this.mongoClient = mongoClient;
   }
 
-  public void updateDatasetStatusFromDispatcher(@NotNull RoutingContext context) {
+  public void getDispatcherApplicationByIdAndVersion(RoutingContext ctx) {
+    String applicationId = ctx.pathParam("applicationId");
+    String versionParam = ctx.pathParam("version");
+
+    Integer version;
+    try {
+      version = Integer.valueOf(versionParam);
+    } catch (NumberFormatException e) {
+      ctx.response()
+        .setStatusCode(400)
+        .end(new JsonObject().put("error", "version must be an integer").encodePrettily());
+      return;
+    }
+
+    findDispatcherApplicationByIdAndVersion(applicationId, version)
+      .onSuccess(result -> {
+        if (result == null) {
+          ctx.response()
+            .setStatusCode(404)
+            .end(new JsonObject().put("error", "Application not found").encodePrettily());
+        } else {
+          ctx.response()
+            .putHeader("Content-Type", "application/json")
+            .end(result.getJsonObject("application").encodePrettily());
+        }
+      })
+      .onFailure(err -> {
+        ctx.response()
+          .setStatusCode(500)
+          .end(new JsonObject().put("error", err.getMessage()).encodePrettily());
+      });
+  }
+
+  public void getDispatcherApplicationById(RoutingContext ctx) {
+    String applicationId = ctx.pathParam("applicationId");
+
+    findDispatcherApplicationById(applicationId)
+      .onSuccess(count -> {
+        JsonObject responseJson = new JsonObject().put("count", count);
+
+        ctx.response()
+          .putHeader("Content-Type", "application/json")
+          .end(responseJson.encodePrettily());
+      })
+      .onFailure(err -> {
+        ctx.response()
+          .setStatusCode(500)
+          .end(new JsonObject().put("error", err.getMessage()).encodePrettily());
+      });
+  }
+
+  public void updateDatasetDecisionFromDispatcher(@NotNull RoutingContext context) {
+    JsonObject body = context.body().asJsonObject();
+    String applicationId = body.getString("objectId");
+    JsonObject payload = body.getJsonObject("payload");
+    String catalogId = payload.getString("catalog_id");
+    String collectionName = payload.getString("application_type");
+    JsonArray decisions = payload.getJsonArray("decisions");
+    JsonObject decision = decisions.getJsonObject(0);
+    String datasetId = decision.getString("dataset_id");
+    String datasetStatus = decision.getString("decision");
+    String decisionFileBase64 = decision.getString("decision_file");
+
+    super.changeDatasetStatus(applicationId, catalogId, datasetId, datasetStatus, decisionFileBase64, collectionName, context, false);
+
+  }
+
+
+  public void updateStatusFromDispatcher(@NotNull RoutingContext context) {
 
     String applicationId = context.body().asJsonObject().getString("objectId");
     JsonObject payload = context.body().asJsonObject().getJsonObject("payload");
-    String catalogId = payload.getString("catalogId");
-    String collectionName = payload.getString("applicationType");
+    String catalogId = payload.getString("catalog_id");
+    String status = payload.getString("status");
+    String collectionName = payload.getString("application_type");
+    JsonObject statusPayload = payload.getJsonObject("statusPayload");
 
-    JsonObject query = new JsonObject().put("_id", applicationId);
-    mongoClient.findOne(collectionName, query, null, res -> {
-      if (res.succeeded()) {
-        if (res.result() != null) {
-
-          JsonObject mongoApplication = res.result();
-
-          String mongoApplicationStatus = mongoApplication.getJsonObject(STATUS)
-            .getString(STATUS);
-          if (SUBMITTED.equalsIgnoreCase(mongoApplicationStatus)) {
-
-            JsonArray mongoDatasets = mongoApplication.getJsonArray(DATASETS);
-            if (mongoDatasets != null && !mongoDatasets.isEmpty()) {
-
-              AtomicBoolean atLeastOneApproved = new AtomicBoolean(false);
-              AtomicBoolean atLeastOneRejected = new AtomicBoolean(false);
-
-              JsonArray dispatcherDecisions = payload.getJsonArray("decisions");
-              dispatcherDecisions.forEach(dispatcherDecisionObj -> {
-
-                JsonObject decisionObject = (JsonObject) dispatcherDecisionObj;
-                String dispatcherPublisher = decisionObject.getString(PUBLISHER);
-                String dispatcherDecision = decisionObject.getString("decision");
-
-                modifyPublishersBasedOnDispatcherDecisions(mongoDatasets, dispatcherPublisher, dispatcherDecision, catalogId, atLeastOneApproved, atLeastOneRejected);
-              });
-
-              String applicationStatus = null;
-              if(atLeastOneApproved.get()){
-                applicationStatus = "APPROVED";
-              } else if (atLeastOneRejected.get()){
-                applicationStatus = "REJECTED";
-              }
-              if(applicationStatus != null){
-
-                updateApplicationStatus(mongoApplication, applicationStatus, context);
-
-                replaceApplication(mongoApplication, collectionName)
-                  .onSuccess(replaceResult -> setUpMessageContextResponse(context, HttpResponseStatus.OK, "Application status updated successfully"))
-                  .onFailure(fail -> setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR, fail.getMessage()));
-              } else {
-                setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
-                  "No application status update performed");
-              }
-            } else {
-              setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
-                "Application does not contain any datasets");
-            }
-          } else {
-            setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
-              "Application must be in submitted status");
-          }
-        } else {
-          setUpMessageContextResponse(context, HttpResponseStatus.NOT_FOUND,
-            "Application with application id: " + applicationId + " was not found");
-        }
-      } else {
-        setUpContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR);
-      }
-    });
+    super.changeCatalogStatus(applicationId, catalogId, status, statusPayload, collectionName, context, false);
   }
-
-  private void modifyPublishersBasedOnDispatcherDecisions(JsonArray mongoDatasets,String dispatcherPublisher, String dispatcherDecision, String catalogId, AtomicBoolean atLeastOneApproved, AtomicBoolean atLeastOneRejected) {
-    for (Object mongoDatasetObj : mongoDatasets) {
-
-      JsonObject mongoDataset = (JsonObject) mongoDatasetObj;
-      String mongoDispatcherResponseStatus = mongoDataset.getString(
-        "dispatcher_response_status");
-
-      if ("domibus_national_received".equalsIgnoreCase(mongoDispatcherResponseStatus)) {
-
-        String mongoCatalogId = mongoDataset.getString("catalog_id");
-        JsonObject mongoPublisher = mongoDataset.getJsonObject("publisher");
-        String mongoPublisherName = mongoPublisher.getString("name");
-
-        if (catalogId.equals(mongoCatalogId) &&
-          dispatcherPublisher.equalsIgnoreCase(mongoPublisherName)) {
-
-          mongoPublisher.put("decision", dispatcherDecision);
-          mongoPublisher.put("decision_date_received", Instant.now());
-
-
-          if (APPROVED.equalsIgnoreCase(dispatcherDecision)) {
-            atLeastOneApproved.set(true);
-          }
-          if (REJECTED.equalsIgnoreCase(dispatcherDecision)) {
-            atLeastOneRejected.set(true);
-          }
-        }
-      } else {
-        log.debug(
-          "Dataset with id: {} does not have proper dispatcher_response_status", mongoDataset.getString("dataset_id"));
-      }
-    }
-  }
-
-  private void updateApplicationStatus(JsonObject mongoApplication, String applicationStatus, RoutingContext context) {
-    // Get current application status.
-    JsonObject currentStatus = mongoApplication.getJsonObject(STATUS);
-
-    JsonObject newHistoryStatus = new JsonObject();
-    newHistoryStatus.put(STATUS, currentStatus.getString(STATUS));
-    newHistoryStatus.put("date", currentStatus.getString("date"));
-    newHistoryStatus.put(USER_ID, currentStatus.getString(USER_ID));
-
-    // Update the status_history for the application.
-    JsonArray statusHistory = new JsonArray();
-    if (currentStatus.getJsonArray(STATUS_HISTORY) != null) {
-      statusHistory = currentStatus.getJsonArray(STATUS_HISTORY);
-    }
-    statusHistory.add(newHistoryStatus);
-
-    JsonObject newStatus = new JsonObject();
-    newStatus.put(STATUS, applicationStatus);
-    newStatus.put("date", Instant.now());
-    newStatus.put(USER_ID, "DISPATCHER");
-    newStatus.put("status_history", statusHistory);
-
-    mongoApplication.put(STATUS, newStatus);
-  }
-
 
   public void updateApplicationStatusFromDispatcher(@NotNull RoutingContext context) {
 
@@ -201,26 +150,16 @@ public class DispatcherManager extends CommonApplicationManager {
       dispatcherRecord.put("latest_update_date", getCurrentTimestamp());
 
       JsonArray catalogIds = dispatcherRecord.getJsonArray(CATALOG_IDS);
-      JsonObject filter = new JsonObject()
-        .put("configuration.dispatcher_response", new JsonObject()
-          .put("$elemMatch", new JsonObject()
-            .put(APPLICATION_ID, dispatcherRecord.getString(APPLICATION_ID))
+      JsonObject filter = new JsonObject().put("configuration.dispatcher_response",
+        new JsonObject().put("$elemMatch",
+          new JsonObject().put(APPLICATION_ID, dispatcherRecord.getString(APPLICATION_ID))
             .put(DATA_PERMIT_ID, dispatcherRecord.getString(DATA_PERMIT_ID))
-            .put(CATALOG_IDS, new JsonObject().put("$all", catalogIds))
-          )
-        );
+            .put(CATALOG_IDS, new JsonObject().put("$all", catalogIds))));
 
-      JsonObject update = new JsonObject()
-        .put("$set", new JsonObject()
-          .put("configuration.dispatcher_response.$", dispatcherRecord)
-        );
-      mongoClient.findOneAndUpdateWithOptions(
-        DISPATCHER_COLLECTION,
-        filter,
-        update,
-        new FindOptions(),
-        new UpdateOptions().setReturningNewDocument(true),
-        res -> {
+      JsonObject update = new JsonObject().put("$set",
+        new JsonObject().put("configuration.dispatcher_response.$", dispatcherRecord));
+      mongoClient.findOneAndUpdateWithOptions(DISPATCHER_COLLECTION, filter, update,
+        new FindOptions(), new UpdateOptions().setReturningNewDocument(true), res -> {
           if (res.succeeded() && res.result() != null) {
             // Update application collections.
             updateDispatcherStatusInApplication(res.result(), null);
@@ -229,16 +168,14 @@ public class DispatcherManager extends CommonApplicationManager {
               dispatcherRecord);
           } else {
             // If no document was matched, perform an insert operation to add the new element to the array
-            JsonObject insertFilter = new JsonObject()
-              .put("_id", new JsonObject().put("$exists", true)); // Match any document
+            JsonObject insertFilter = new JsonObject().put("_id",
+              new JsonObject().put("$exists", true)); // Match any document
 
-            JsonObject insertUpdate = new JsonObject()
-              .put("$push", new JsonObject()
-                .put("configuration.dispatcher_response", dispatcherRecord)
-              );
+            JsonObject insertUpdate = new JsonObject().put("$push",
+              new JsonObject().put("configuration.dispatcher_response", dispatcherRecord));
 
-            mongoClient.updateCollectionWithOptions(DISPATCHER_COLLECTION, insertFilter, insertUpdate,
-              new UpdateOptions().setUpsert(true), insertRes -> {
+            mongoClient.updateCollectionWithOptions(DISPATCHER_COLLECTION, insertFilter,
+              insertUpdate, new UpdateOptions().setUpsert(true), insertRes -> {
                 if (insertRes.succeeded()) {
                   // Update application collections.
                   updateDispatcherStatusInApplication(JsonObject.mapFrom(insertRes.result()), null);
@@ -250,11 +187,9 @@ public class DispatcherManager extends CommonApplicationManager {
                       + " dispatcher_response record failed with error message: {}",
                     insertRes.cause().getMessage());
                 }
-              }
-            );
+              });
           }
-        }
-      );
+        });
     });
     setUpMessageContextResponse(context, HttpResponseStatus.OK, "Update procedure completed");
   }
@@ -274,7 +209,7 @@ public class DispatcherManager extends CommonApplicationManager {
           if (mongoDatasets != null) {
             mongoDatasets.forEach(mongoDatasetsObj -> {
               if (mongoDatasetsObj instanceof JsonObject mongoDatasetObject) {
-                mongoDatasetObject.put("dispatcher_response_status",
+                mongoDatasetObject.put(DISPATCHER_RESPONSE_STATUS,
                   specificStatus.getDispatcherResponseStatus());
               }
             });
@@ -293,11 +228,15 @@ public class DispatcherManager extends CommonApplicationManager {
                 // Update dispatcherResponseStatus for datasets of applicationId with catalogId in catalogIds
                 prepareDatasets(mongoApplication, catalogIds, dispatcherResponseStatus);
 
+                // If status is DOMIBUS_NATIONAL_RECEIVED, update sent catalogs to submitted
+                if (DispatcherResponseStatus.DOMIBUS_NATIONAL_RECEIVED.getDispatcherResponseStatus()
+                  .equals(dispatcherResponseStatus)) {
+                  updateSentCatalogs(mongoApplication, catalogIds, collectionName);
+                }
               }
             });
           }
         }
-        updateApplication(mongoApplication, applicationQuery, collectionName);
       } else {
         log.error(
           "{} Dispatcher response status failed to update for application's datasets. Application with id: {} not found",
@@ -315,12 +254,40 @@ public class DispatcherManager extends CommonApplicationManager {
           if (mongoDatasetsObj instanceof JsonObject mongoDatasetObject) {
             String datasetCatalogId = mongoDatasetObject.getString("catalog_id");
             if (catalogIds != null && catalogIds.contains(datasetCatalogId)) {
-              mongoDatasetObject.put("dispatcher_response_status", dispatcherResponseStatus);
+              mongoDatasetObject.put(DISPATCHER_RESPONSE_STATUS, dispatcherResponseStatus);
             }
           }
         });
       }
     }
+  }
+
+  /**
+   * Updates the status of catalogs with latest status SENT to SUBMITTED.
+   *
+   * @param application The application JSON object.
+   * @param catalogIds  The catalog IDs to check and update.
+   * @param collection  The collection where the application is stored.
+   */
+  private void updateSentCatalogs(
+    @NotNull JsonObject application,
+    @NotNull JsonArray catalogIds,
+    String collection
+  ) {
+    JsonArray catalogs = application.getJsonArray("catalogs");
+    if (IterableUtils.isEmpty(catalogs)) {
+      return;
+    }
+
+    catalogIds
+      .stream()
+      .filter(String.class::isInstance)
+      .map(String.class::cast)
+      .forEach(catalogId -> {
+        if (CatalogStatus.SENT.getLabel().equals(getLatestCatalogStatus(application, catalogId))) {
+          changeCatalogToSubmitted(application, catalogId, collection);
+        }
+      });
   }
 
   public void updateApplication(JsonObject mongoApplication, JsonObject applicationQuery,
@@ -362,6 +329,55 @@ public class DispatcherManager extends CommonApplicationManager {
     LocalDateTime now = LocalDateTime.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     return now.format(formatter);
+  }
+
+  public void updatePermitFromDispatcher(RoutingContext context) {
+
+    String applicationId = context.body().asJsonObject().getString("objectId");
+    JsonObject payload = context.body().asJsonObject().getJsonObject("payload");
+    String catalogId = payload.getString("catalog_id");
+
+    JsonArray dispatcherPermits = payload.getJsonArray("permits");
+    dispatcherPermits.forEach(dispatcherPermitObj -> {
+
+      JsonObject permitObject = (JsonObject) dispatcherPermitObj;
+
+      String dispatcherDatasetId = permitObject.getString("dataset_id");
+      String dispatcherPermitFile = permitObject.getString("permit_file");
+      String permitStatus = permitObject.getString("permit_status");
+      String reason = permitObject.getString("reason");
+
+      changePermitStatus(applicationId, catalogId, dispatcherDatasetId, permitStatus, reason,
+        dispatcherPermitFile, context, false);
+
+    });
+  }
+
+  private Future<JsonObject> findDispatcherApplicationByIdAndVersion(String applicationId, Integer version) {
+    Promise<JsonObject> promise = Promise.promise();
+
+    JsonObject query = new JsonObject()
+      .put("application._id", applicationId)
+      .put("application.version", version);
+
+    mongoClient.findOne(DISPATCHER_COLLECTION, query, null)
+      .onSuccess(promise::complete)
+      .onFailure(promise::fail);
+
+    return promise.future();
+  }
+
+  private Future<Integer> findDispatcherApplicationById(String applicationId) {
+    Promise<Integer> promise = Promise.promise();
+
+    JsonObject query = new JsonObject()
+      .put("application._id", applicationId);
+
+    mongoClient.count(DISPATCHER_COLLECTION, query)
+      .onSuccess(count -> {promise.complete(count.intValue());})
+      .onFailure(promise::fail);
+
+    return promise.future();
   }
 
 }

@@ -54,6 +54,7 @@ public class Section2DTO extends SectionDTO {
   String projectName;
   @NotBlank
   @Size(max = 500)
+  @TranslatableField
   String projectLeader;
   @NotNull
   @Valid

@@ -15,10 +15,11 @@
  */
 package eu.europa.data.health.access.validations.business_validators;
 
+import static eu.europa.data.health.access.Constants.DATASETS;
 import static eu.europa.data.health.access.Constants.DATA_ACCESS_APPLICATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.ERRORS;
 import static eu.europa.data.health.access.Constants.LEGAL_OR_NATURAL_PERSON;
-import static eu.europa.data.health.access.Constants.SECTION_1;
+import static eu.europa.data.health.access.Constants.PURPOSE_FOR_WHICH_DATA_WILL_BE_USED;
 import static eu.europa.data.health.access.Constants.SECTION_3;
 import static eu.europa.data.health.access.services.DataAccessApplicationManager.extractField;
 import static eu.europa.data.health.access.validations.validators.DataAccessApplicationValidationManager.buildCustomValidationErrors;
@@ -92,8 +93,8 @@ public class DataAccessApplicationBusinessValidationManager extends AbstractSche
         JsonObject result = ar.result();
 
         // Check if the section and the field exist in the result
-        if (result.containsKey("datasets")) {
-          JsonArray datasets = result.getJsonArray("datasets", new JsonArray());
+        if (result.containsKey(DATASETS)) {
+          JsonArray datasets = result.getJsonArray(DATASETS, new JsonArray());
           Set<String> datasetIdsWithVars = new HashSet<>();
 
           for (int i = 0; i < datasets.size(); i++) {
@@ -286,7 +287,7 @@ public class DataAccessApplicationBusinessValidationManager extends AbstractSche
 
     ObjectMapper objectMapper = new ObjectMapper();
     if (Objects.nonNull(sectionData2)) {
-      String jsonValue = sectionData2.getString("purposeForWhichDataWillBeUsed");
+      String jsonValue = sectionData2.getString(PURPOSE_FOR_WHICH_DATA_WILL_BE_USED);
       if (Objects.nonNull(jsonValue)) {
         try {
           section2purposeForWhichDataWillBeUsed = objectMapper.readValue(jsonValue,
@@ -411,7 +412,7 @@ public class DataAccessApplicationBusinessValidationManager extends AbstractSche
               SelectObjectDTO section5formatOfTheElectronicHealthData = null;
               ObjectMapper objectMapper = new ObjectMapper();
               if (Objects.nonNull(sectionData2)) {
-                String jsonValue = sectionData2.getString("purposeForWhichDataWillBeUsed");
+                String jsonValue = sectionData2.getString(PURPOSE_FOR_WHICH_DATA_WILL_BE_USED);
                 if (Objects.nonNull(jsonValue)) {
                   try {
                     section2purposeForWhichDataWillBeUsed = objectMapper.readValue(jsonValue,
@@ -552,7 +553,7 @@ public class DataAccessApplicationBusinessValidationManager extends AbstractSche
 
             ObjectMapper objectMapper = new ObjectMapper();
             if (Objects.nonNull(sectionData2)) {
-              String jsonValue = sectionData2.getString("purposeForWhichDataWillBeUsed");
+              String jsonValue = sectionData2.getString(PURPOSE_FOR_WHICH_DATA_WILL_BE_USED);
               if (Objects.nonNull(jsonValue)) {
                 try {
                   section2purposeForWhichDataWillBeUsed = objectMapper.readValue(jsonValue,
@@ -626,6 +627,7 @@ public class DataAccessApplicationBusinessValidationManager extends AbstractSche
   /**
    * Validate tha catalogs from datasets and section 6 are the same
    */
+
   public boolean validateCatalogs(JsonObject application, RoutingContext context) {
     String jsonString = application.toString();
     HashSet<String> section6CatalogIds = new HashSet<>();
@@ -633,8 +635,8 @@ public class DataAccessApplicationBusinessValidationManager extends AbstractSche
     try {
       ObjectMapper objectMapper = new ObjectMapper();
       JsonNode rootNode = objectMapper.readTree(jsonString);
-      extractField(rootNode.get("datasets"), datasetsCatalogIds, "catalog_id");
-      extractField(rootNode.get("form"), section6CatalogIds, "catalog_ids");
+      extractField(rootNode.get(DATASETS), datasetsCatalogIds, "catalog_id");
+      extractField(rootNode.get("form").get("section6"), section6CatalogIds, "catalog_ids");
     } catch (JsonProcessingException e) {
       catchJsonException(context, e);
     }

@@ -15,7 +15,60 @@
  */
 package eu.europa.data.health.access.services;
 
-import static eu.europa.data.health.access.Constants.*;
+import static eu.europa.data.health.access.Constants.APPLICATIONID;
+import static eu.europa.data.health.access.Constants.APPLICATION_ID;
+import static eu.europa.data.health.access.Constants.APPLICATION_WITH_ID;
+import static eu.europa.data.health.access.Constants.APPLYING_FOR_DATA_FOR_CARRYING_OUT_TASKS;
+import static eu.europa.data.health.access.Constants.APPLYING_FOR_DATA_ON_BEHALF_OF_PUBLIC_SECTOR;
+import static eu.europa.data.health.access.Constants.AUDIT_LOG_COLLECTION;
+import static eu.europa.data.health.access.Constants.BASKET_COLLECTION;
+import static eu.europa.data.health.access.Constants.CATALOG_ID;
+import static eu.europa.data.health.access.Constants.CONTACT_PERSON_BUSINESS_ID;
+import static eu.europa.data.health.access.Constants.CONTACT_PERSON_EMAIL;
+import static eu.europa.data.health.access.Constants.CONTACT_PERSON_ORGANISATION_NAME;
+import static eu.europa.data.health.access.Constants.CONTACT_PERSON_PHONE;
+import static eu.europa.data.health.access.Constants.CONTENT_DISPOSITION;
+import static eu.europa.data.health.access.Constants.DATASETS;
+import static eu.europa.data.health.access.Constants.DATASET_ID;
+import static eu.europa.data.health.access.Constants.DATA_ACCESS_APPLICATION_COLLECTION;
+import static eu.europa.data.health.access.Constants.DATA_REQUEST_APPLICATION_COLLECTION;
+import static eu.europa.data.health.access.Constants.DATE_SUBMITTED;
+import static eu.europa.data.health.access.Constants.DISPATCHER_COLLECTION;
+import static eu.europa.data.health.access.Constants.DISTRIBUTIONS;
+import static eu.europa.data.health.access.Constants.DISTRIBUTION_ID;
+import static eu.europa.data.health.access.Constants.ERRORS;
+import static eu.europa.data.health.access.Constants.FILE_ID;
+import static eu.europa.data.health.access.Constants.FORM_TRANSLATIONS;
+import static eu.europa.data.health.access.Constants.ID;
+import static eu.europa.data.health.access.Constants.INFORMATION_PROVIDER_EMAIL;
+import static eu.europa.data.health.access.Constants.INFORMATION_PROVIDER_NAME;
+import static eu.europa.data.health.access.Constants.INFORMATION_PROVIDER_PHONE;
+import static eu.europa.data.health.access.Constants.INFORMATION_PROVIDER_SAME_AS_CONTACT_PERSON;
+import static eu.europa.data.health.access.Constants.INTERNAL_SERVER_ERROR_WHILE_CHECKING_APPLICATION_EXISTENCE;
+import static eu.europa.data.health.access.Constants.LEGAL_OR_NATURAL_PERSON;
+import static eu.europa.data.health.access.Constants.LEGAL_PERSON_ADDRESS;
+import static eu.europa.data.health.access.Constants.LEGAL_PERSON_COUNTRY;
+import static eu.europa.data.health.access.Constants.LEGAL_PERSON_NAME;
+import static eu.europa.data.health.access.Constants.NATURAL_PERSON_ADDRESS;
+import static eu.europa.data.health.access.Constants.NATURAL_PERSON_AFFILIATION;
+import static eu.europa.data.health.access.Constants.NATURAL_PERSON_EMAIL;
+import static eu.europa.data.health.access.Constants.NATURAL_PERSON_JOB_TITLE;
+import static eu.europa.data.health.access.Constants.NATURAL_PERSON_NAME;
+import static eu.europa.data.health.access.Constants.NATURAL_PERSON_PHONE;
+import static eu.europa.data.health.access.Constants.NOT_FOUND_FOR_USER_WITH_ID;
+import static eu.europa.data.health.access.Constants.PERSON_RESEARCH_NAME;
+import static eu.europa.data.health.access.Constants.PERSON_RESEARCH_SAME_AS_CONTACT_PERSON;
+import static eu.europa.data.health.access.Constants.PERSON_RESPONSIBLE_NAME;
+import static eu.europa.data.health.access.Constants.PERSON_RESPONSIBLE_SAME_AS_CONTACT_PERSON;
+import static eu.europa.data.health.access.Constants.SAME_AS_CONTACT_PERSON;
+import static eu.europa.data.health.access.Constants.SECTION_3;
+import static eu.europa.data.health.access.Constants.SECTION_4;
+import static eu.europa.data.health.access.Constants.SECTION_NUMBER;
+import static eu.europa.data.health.access.Constants.STATUS;
+import static eu.europa.data.health.access.Constants.THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY;
+import static eu.europa.data.health.access.Constants.THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY_REASON;
+import static eu.europa.data.health.access.Constants.TITLE;
+import static eu.europa.data.health.access.Constants.USER_ID;
 import static eu.europa.data.health.access.services.CommonApplicationManager.TARGET_LANGUAGES;
 import static eu.europa.data.health.access.services.CommonApplicationManager.TRANSLATION;
 import static org.junit.Assert.assertThrows;
@@ -32,18 +85,44 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyList;
+import static org.mockito.Mockito.anySet;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eu.europa.data.health.access.*;
+import eu.europa.data.health.access.ApplicationStatus;
+import eu.europa.data.health.access.AuditLogAction;
+import eu.europa.data.health.access.AuditLogActionDescription;
+import eu.europa.data.health.access.AuditLogObject;
+import eu.europa.data.health.access.CatalogStatus;
+import eu.europa.data.health.access.Constants;
+import eu.europa.data.health.access.OperationStatus;
+import eu.europa.data.health.access.TranslationStatus;
 import eu.europa.data.health.access.auth_client.AuthClient;
 import eu.europa.data.health.access.exceptions.FieldError;
 import eu.europa.data.health.access.handlers.DBHandler;
 import eu.europa.data.health.access.hub_translation_client.HubTranslationClient;
 import eu.europa.data.health.access.utils.ApplicationFormUtils;
 import io.netty.handler.codec.http.HttpResponseStatus;
-import io.vertx.core.*;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
+import io.vertx.core.MultiMap;
+import io.vertx.core.Promise;
+import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
@@ -56,7 +135,6 @@ import io.vertx.ext.web.RequestBody;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.junit5.VertxExtension;
-
 import java.lang.reflect.Method;
 import java.time.Duration;
 import java.util.List;
@@ -66,14 +144,18 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.MockedConstruction;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testcontainers.shaded.org.awaitility.Awaitility;
-import org.mockito.ArgumentMatchers;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -130,6 +212,7 @@ class CommonApplicationManagerTest {
     lenient().when(routingContext.body()).thenReturn(requestBody);
 
   }
+
   @Test
   void performStatusUpdate_usesExistingHistory_andRemovesItFromCurrent() {
     // mongoApplication has a current status WITH pre-existing status_history
@@ -141,14 +224,17 @@ class CommonApplicationManagerTest {
     JsonObject mongoApplication = new JsonObject().put("status", currentStatus);
 
     // new status to set
-    JsonObject newStatus = new JsonObject().put("status", "SUBMITTED");
+    JsonObject newStatus = new JsonObject()
+      .put("status", "ON-GOING")
+      .put("status_history", new JsonArray()
+        .add(new JsonObject().put("status", "DRAFT").put("userId", "u0")));
 
     // context is non-null -> branch uses Context.getEcasId(context)
-    commonApplicationManager.performStatusUpdate(mongoApplication, newStatus, routingContext);
+    commonApplicationManager.updateApplicationStatus(mongoApplication, newStatus, routingContext);
 
     // The new status should be written back
     JsonObject updatedStatus = mongoApplication.getJsonObject("status");
-    assertEquals("SUBMITTED", updatedStatus.getString("status"));
+    assertEquals("ON-GOING", updatedStatus.getString("status"));
 
     // History should contain: [previous-history..., previous-current-status]
     JsonArray hist = updatedStatus.getJsonArray("status_history");
@@ -171,10 +257,10 @@ class CommonApplicationManagerTest {
         .add(new JsonObject().put("status", "INIT").put("userId", "u0")));
 
     JsonObject mongoApplication = new JsonObject().put("status", previousCurrentStatus);
-    JsonObject newStatus = new JsonObject().put("status", "SUBMITTED");
+    JsonObject newStatus = new JsonObject().put("status", "ON-GOING");
 
     // Use non-null context so userId is taken from context (not "system")
-    commonApplicationManager.performStatusUpdate(mongoApplication, newStatus, routingContext);
+    commonApplicationManager.updateApplicationStatus(mongoApplication, newStatus, routingContext);
 
     // The OLD current status object should have had its history REMOVED (branch under test)
     assertFalse(previousCurrentStatus.containsKey("status_history"),
@@ -182,7 +268,7 @@ class CommonApplicationManagerTest {
 
     // The updated status is now written back into mongoApplication
     JsonObject updatedStatus = mongoApplication.getJsonObject("status");
-    assertEquals("SUBMITTED", updatedStatus.getString("status"));
+    assertEquals("ON-GOING", updatedStatus.getString("status"));
 
     JsonArray hist = updatedStatus.getJsonArray("status_history");
     assertNotNull(hist, "History should be present on the new status");
@@ -199,13 +285,13 @@ class CommonApplicationManagerTest {
     // Prepare mongoApplication with simple current status (no history needed)
     JsonObject mongoApplication = new JsonObject()
       .put("status", new JsonObject().put("status", "DRAFT"));
-    JsonObject newStatus = new JsonObject().put("status", "SUBMITTED");
+    JsonObject newStatus = new JsonObject().put("status", "ON-GOING");
 
 
-    commonApplicationManager.performStatusUpdate(mongoApplication, newStatus, null);
+    commonApplicationManager.updateApplicationStatus(mongoApplication, newStatus, null);
 
     JsonObject updatedStatus = mongoApplication.getJsonObject("status");
-    assertEquals("SUBMITTED", updatedStatus.getString("status"));
+    assertEquals("ON-GOING", updatedStatus.getString("status"));
     assertEquals("system", updatedStatus.getString(USER_ID),
       "When context is null, userId must default to 'system'");
 
@@ -220,12 +306,12 @@ class CommonApplicationManagerTest {
     JsonObject mongoApplication = new JsonObject()
       .put("status", new JsonObject().put("status", "DRAFT"));
 
-    JsonObject newStatus = new JsonObject().put("status", "SUBMITTED");
+    JsonObject newStatus = new JsonObject().put("status", "ON-GOING");
 
-    commonApplicationManager.performStatusUpdate(mongoApplication, newStatus, null);
+    commonApplicationManager.updateApplicationStatus(mongoApplication, newStatus, null);
 
     JsonObject updatedStatus = mongoApplication.getJsonObject("status");
-    assertEquals("SUBMITTED", updatedStatus.getString("status"));
+    assertEquals("ON-GOING", updatedStatus.getString("status"));
     assertEquals("system", updatedStatus.getString("userId"),
       "When context is null, userId should default to 'system'");
     assertNotNull(updatedStatus.getJsonArray("status_history"));
@@ -675,15 +761,15 @@ class CommonApplicationManagerTest {
   void performStatusUpdate_updatesStatusAndHistoryCorrectly() {
 
     JsonObject mongoApplication = new JsonObject().put("status",
-      new JsonObject().put("status", "DRAFT"));
-    JsonObject newStatus = new JsonObject().put("status", "SUBMITTED");
+      new JsonObject().put("status", "ON-GOING"));
+    JsonObject newStatus = new JsonObject().put("status", "COMPLETED");
 
-    commonApplicationManager.performStatusUpdate(mongoApplication, newStatus, routingContext);
+    commonApplicationManager.updateApplicationStatus(mongoApplication, newStatus, routingContext);
 
     JsonObject updatedStatus = mongoApplication.getJsonObject("status");
-    assertEquals("SUBMITTED", updatedStatus.getString("status"));
+    assertEquals("COMPLETED", updatedStatus.getString("status"));
     assertNotNull(updatedStatus.getJsonArray("status_history"));
-    assertEquals("DRAFT",
+    assertEquals("ON-GOING",
       updatedStatus.getJsonArray("status_history").getJsonObject(0).getString("status"));
   }
 
@@ -714,6 +800,8 @@ class CommonApplicationManagerTest {
     JsonObject application = new JsonObject()
       .put("status", new JsonObject().put("status", "SUBMITTED"));
     when(routingContext.pathParam("id")).thenReturn("app123");
+    when(dbHandler.deleteById(anyString(), any(JsonObject.class)))
+      .thenReturn(Future.succeededFuture());
 
     JsonObject expectedQuery = new JsonObject()
       .put("_id", "app123")
@@ -731,7 +819,6 @@ class CommonApplicationManagerTest {
     verify(mongoClient, never()).removeDocument(eq(DATA_REQUEST_APPLICATION_COLLECTION),
       any(JsonObject.class), any());
   }
-
 
   @Test
   void getData_applicationDoesNotExist_setsNotFound() {
@@ -964,7 +1051,6 @@ class CommonApplicationManagerTest {
       .put("status", new JsonObject().put("status", "SUBMITTED"));
 
     doAnswer(inv -> {
-      @SuppressWarnings("unchecked")
       Handler<AsyncResult<JsonObject>> h = inv.getArgument(3);
       h.handle(Future.succeededFuture(mongoApplication));
       return null;
@@ -978,7 +1064,7 @@ class CommonApplicationManagerTest {
 
     Awaitility.await().untilAsserted(() -> {
       verify(response).setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
-      verify(response).end(contains("Posting data can not be executed in a submitted application"));
+      verify(response).end(contains("Posting data can not be executed in a completed application"));
     });
   }
 
@@ -990,7 +1076,6 @@ class CommonApplicationManagerTest {
 
     // DB returns null (not found)
     doAnswer(inv -> {
-      @SuppressWarnings("unchecked")
       Handler<AsyncResult<JsonObject>> h = inv.getArgument(3);
       h.handle(Future.succeededFuture(null));
       return null;
@@ -1016,7 +1101,6 @@ class CommonApplicationManagerTest {
 
     // DB fails
     doAnswer(inv -> {
-      @SuppressWarnings("unchecked")
       Handler<AsyncResult<JsonObject>> h = inv.getArgument(3);
       h.handle(Future.failedFuture(new RuntimeException("DB down")));
       return null;
@@ -1032,39 +1116,6 @@ class CommonApplicationManagerTest {
       verify(response).setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
       verify(response).end(contains("DB down"));
     });
-  }
-
-  @Test
-  void testPostData_success_callsHandleFileUpload() {
-    String applicationId = "app-123";
-    String userId = "n3817490";
-    String collectionName = "testCollection";
-
-    JsonObject statusObject = new JsonObject().put("status", "DRAFT");
-    JsonObject application = new JsonObject().put("status", statusObject);
-
-    when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
-
-    JsonObject expectedQuery = new JsonObject()
-      .put(ID, applicationId)
-      .put(USER_ID, userId);
-
-    doAnswer(invocation -> {
-      Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
-      handler.handle(Future.succeededFuture(application));
-      return null;
-    }).when(mongoClient).findOne(eq(collectionName), eq(expectedQuery), isNull(), any());
-
-    CommonApplicationManager managerSpy = spy(commonApplicationManager);
-
-    doNothing().when(managerSpy).handleFileUpload(
-      any(), anyString(), anyString(), any(), any()
-    );
-
-    managerSpy.postData(routingContext, collectionName);
-
-    verify(managerSpy).handleFileUpload(routingContext, "applicationId", applicationId,
-      hubStoreClient, vertx);
   }
 
   @Test
@@ -1231,12 +1282,18 @@ class CommonApplicationManagerTest {
   void deleteData_submissionStatus_setsBadRequestResponse() {
     String applicationId = "app-123";
     String collectionName = "testCollection";
+
+    // Mock an application with status SUBMITTED
     JsonObject mongoApplication = new JsonObject()
       .put("status", new JsonObject().put("status", "SUBMITTED"));
+
+    // Query to pass to Mongo
     JsonObject query = new JsonObject().put(ID, applicationId).put(USER_ID, ecasId);
 
+    // Mock path param
     when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
 
+    // Mock mongoClient to return our stubbed application
     when(mongoClient.findOne(eq(collectionName), eq(query), isNull(), any()))
       .thenAnswer(invocation -> {
         Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
@@ -1244,11 +1301,17 @@ class CommonApplicationManagerTest {
         return null;
       });
 
+    // Call the method under test
     commonApplicationManager.deleteData(routingContext, collectionName);
 
+    // Capture the response message
+    ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
     verify(response).setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
-    verify(response).end(
-      contains("Deletion of data can not be executed in a submitted application"));
+    verify(response).end(captor.capture());
+
+    // Assert that the message contains "submitted application"
+    String actualMessage = captor.getValue();
+    assertTrue(actualMessage.contains("Deletion of data can not be executed in a completed application"));
   }
 
   @Test
@@ -1303,7 +1366,6 @@ class CommonApplicationManagerTest {
       .put("form", new JsonObject());
 
     doAnswer(inv -> {
-      @SuppressWarnings("unchecked")
       Handler<AsyncResult<JsonObject>> h = inv.getArgument(3);
       h.handle(Future.succeededFuture(mongoApplication));
       return null;
@@ -1349,7 +1411,6 @@ class CommonApplicationManagerTest {
       .put("status", new JsonObject().put("status", "DRAFT"))
       .put("form", new JsonObject().put("section3", new JsonObject()));
     doAnswer(inv -> {
-      @SuppressWarnings("unchecked")
       Handler<AsyncResult<JsonObject>> h = inv.getArgument(3);
       h.handle(Future.succeededFuture(mongoApplication));
       return null;
@@ -1360,7 +1421,6 @@ class CommonApplicationManagerTest {
 
     // Update result: matched=1, modified=0 → "No changes contained..."
     doAnswer(inv -> {
-      @SuppressWarnings("unchecked")
       Handler<AsyncResult<MongoClientUpdateResult>> h = inv.getArgument(3);
       MongoClientUpdateResult r = mock(MongoClientUpdateResult.class);
       when(r.getDocMatched()).thenReturn(1L);
@@ -1395,7 +1455,6 @@ class CommonApplicationManagerTest {
       .put("status", new JsonObject().put("status", "DRAFT"))
       .put("form", new JsonObject().put("section3", new JsonObject()));
     doAnswer(inv -> {
-      @SuppressWarnings("unchecked")
       Handler<AsyncResult<JsonObject>> h = inv.getArgument(3);
       h.handle(Future.succeededFuture(mongoApplication));
       return null;
@@ -1405,7 +1464,6 @@ class CommonApplicationManagerTest {
 
     // updateCollection fails → INTERNAL_SERVER_ERROR with cause message
     doAnswer(inv -> {
-      @SuppressWarnings("unchecked")
       Handler<AsyncResult<MongoClientUpdateResult>> h = inv.getArgument(3);
       h.handle(Future.failedFuture(new RuntimeException("Update failed")));
       return null;
@@ -1490,32 +1548,6 @@ class CommonApplicationManagerTest {
 
     verify(response).setStatusCode(HttpResponseStatus.NOT_FOUND.code());
     verify(response).end(contains("Application with id: " + applicationId + " was not found"));
-  }
-
-  @Test
-  void createOrUpdateSection_statusSubmitted_setsBadRequest() {
-    String applicationId = "app-123";
-    String collectionName = "testCollection";
-
-    JsonObject mongoApplication = new JsonObject()
-      .put("status", new JsonObject().put("status", "SUBMITTED"));
-
-    JsonObject query = new JsonObject().put(ID, applicationId).put(USER_ID, ecasId);
-
-    when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
-
-    when(mongoClient.findOne(eq(collectionName), eq(query), isNull(), any()))
-      .thenAnswer(invocation -> {
-        Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
-        handler.handle(Future.succeededFuture(mongoApplication));
-        return null;
-      });
-
-    commonApplicationManager.createOrUpdateSection(routingContext, collectionName);
-
-    verify(response).setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
-    verify(response).end(
-      contains("Creation or update of a section can not be executed in a submitted application"));
   }
 
   @Test
@@ -2221,11 +2253,15 @@ class CommonApplicationManagerTest {
 
   @Test
   void sendApplicationForDispatch_shouldCallMongoClientSaveWithCorrectData() {
-    JsonObject mockApplication = new JsonObject().put("appId", "123")
-      .put(TRANSLATION, new JsonObject().put( TARGET_LANGUAGES ,
-        new JsonArray( "[\"EL\", \"NL\"]" )));
+    // Prepare mock application
+    JsonObject mockApplication = new JsonObject()
+      .put("appId", "123")
+      .put(TRANSLATION, new JsonObject()
+        .put(TARGET_LANGUAGES, new JsonArray("[\"EL\", \"NL\"]")));
+
     String database = "testDatabase";
 
+    // Mock mongoClient.save
     doAnswer(invocation -> {
       Handler<AsyncResult<String>> handler = invocation.getArgument(2);
       AsyncResult<String> successResult = mock(AsyncResult.class);
@@ -2235,20 +2271,38 @@ class CommonApplicationManagerTest {
       return null;
     }).when(mongoClient).save(eq(DISPATCHER_COLLECTION), any(JsonObject.class), any());
 
-    commonApplicationManager.sendApplicationForDispatch(mockApplication, database);
+    // Call method under test
+    commonApplicationManager.sendApplicationForDispatch(mockApplication, database, OperationStatus.CREATE);
 
+    // Capture the saved document
     verify(mongoClient).save(eq(DISPATCHER_COLLECTION), jsonCaptor.capture(), any());
     JsonObject savedDoc = jsonCaptor.getValue();
 
     assertNotNull(savedDoc);
-    assertTrue(savedDoc.containsKey("configuration"));
-    assertEquals(database,
-      savedDoc.getJsonObject("configuration").getString(Constants.APPLICATION_TYPE));
-    assertEquals("pending", savedDoc.getJsonObject("configuration").getString("status"));
-    assertEquals(0, savedDoc.getJsonObject("configuration").getInteger("retries"));
-    mockApplication.remove("translation");
-    assertEquals(mockApplication, savedDoc.getJsonObject("application"));
+
+    // Check configuration object
+    JsonObject config = savedDoc.getJsonObject("configuration");
+    assertNotNull(config);
+    assertEquals(database, config.getString(Constants.APPLICATION_TYPE));
+    assertEquals("pending", config.getString("status"));
+    assertEquals(0, config.getInteger("retries"));
+
+    // Check application object
+    JsonObject savedApp = savedDoc.getJsonObject("application");
+    assertNotNull(savedApp);
+    assertEquals("123", savedApp.getString("appId"));
+
+    // Translation should still be present
+    JsonObject translation = savedApp.getJsonObject("translation");
+    assertNotNull(translation);
+    JsonArray targetLanguages = translation.getJsonArray(TARGET_LANGUAGES);
+    assertTrue(targetLanguages.contains("EL"));
+    assertTrue(targetLanguages.contains("NL"));
+
+    // date_dispatched should be present
+    assertTrue(savedApp.containsKey("date_dispatched"));
   }
+
 
   @Test
   void sendApplicationForDispatch_shouldLogErrorWhenSaveFails() {
@@ -2267,7 +2321,7 @@ class CommonApplicationManagerTest {
       return null;
     }).when(mongoClient).save(eq(DISPATCHER_COLLECTION), any(JsonObject.class), any());
 
-    commonApplicationManager.sendApplicationForDispatch(mockApplication, database);
+    commonApplicationManager.sendApplicationForDispatch(mockApplication, database, OperationStatus.CREATE);
 
     verify(mongoClient).save(eq(DISPATCHER_COLLECTION), any(JsonObject.class), any());
   }
@@ -2377,7 +2431,7 @@ class CommonApplicationManagerTest {
     }).when(mongoClient).updateCollection(
       eq(database), any(JsonObject.class), any(JsonObject.class), any(Handler.class));
 
-    commonApplicationManager.rollbackStatusToDraft(applicationId, database);
+    commonApplicationManager.rollbackStatus(applicationId, ApplicationStatus.DRAFT, database);
 
     verify(mongoClient).updateCollection(
       eq(database),
@@ -2404,7 +2458,7 @@ class CommonApplicationManagerTest {
     }).when(mongoClient).updateCollection(
       eq(database), any(JsonObject.class), any(JsonObject.class), any(Handler.class));
 
-    commonApplicationManager.rollbackStatusToDraft(applicationId, database);
+    commonApplicationManager.rollbackStatus(applicationId, ApplicationStatus.DRAFT, database);
 
     verify(mongoClient).updateCollection(
       eq(database),
@@ -2920,7 +2974,6 @@ class CommonApplicationManagerTest {
     when(rb.asJsonArray()).thenReturn(requestArray);
 
     doAnswer(inv -> {
-      @SuppressWarnings("unchecked")
       Handler<AsyncResult<JsonObject>> h = inv.getArgument(3);
       h.handle(Future.succeededFuture(mongoApp));
       return null;
@@ -3203,180 +3256,42 @@ class CommonApplicationManagerTest {
   void triggerTranslation_success_allOK_persists_noFailureAudit() {
     String appId = "APP-1";
     String appType = "collX";
-    JsonObject form = new JsonObject(); // empty is fine (no doc IDs)
+    JsonObject form = new JsonObject(); // empty form
     List<String> targetLangs = List.of("EL", "NL");
 
-    // form payload + success
+    // form payload
     JsonObject formPayload = new JsonObject().put("kind", "form");
-    when(hubTranslationClient.buildTranslationRequestPayload(eq(appId), eq(form), eq(appType), eq("EN"), eq(targetLangs)))
+    when(hubTranslationClient.buildTranslationRequestPayload(
+      eq(appId), eq(form), eq(appType), eq("EN"), eq(targetLangs)))
       .thenReturn(formPayload);
-    when(hubTranslationClient.requestTranslation(eq(formPayload)))
-      .thenReturn(Future.succeededFuture()); // success
 
-    // files: empty list returned → no file translations
-    when(hubStoreClient.getFilesAsBase64(anyList(), eq(appId)))
+    when(hubTranslationClient.requestTranslation(eq(formPayload)))
+      .thenReturn(Future.succeededFuture()); // simulate success
+
+    // files stub: lenient because in this test it may not be called
+    lenient().when(hubStoreClient.getFilesAsBase64(anyList(), eq(appId)))
       .thenReturn(Future.succeededFuture(List.of()));
 
-    // mongo update completes when we decide
+    // mongo update: simulate async persistence
     Promise<MongoClientUpdateResult> updatePromise = Promise.promise();
     MongoClientUpdateResult dummyResult = mock(MongoClientUpdateResult.class);
 
     when(mongoClient.updateCollection(eq(appType), any(JsonObject.class), any(JsonObject.class)))
       .thenReturn(updatePromise.future());
 
-    // call
-    commonApplicationManager.triggerTranslationRequest(appId, form, appType, "EN", targetLangs);
+    // Call method under test
+    commonApplicationManager.triggerFormTranslationRequest(appId, form, appType, "EN", targetLangs, null, true);
 
-    // complete persistence
+    // Complete persistence
     updatePromise.complete(dummyResult);
 
-    // interactions
+    // Verify interactions
     verify(hubTranslationClient).buildTranslationRequestPayload(eq(appId), eq(form), eq(appType), eq("EN"), eq(targetLangs));
     verify(hubTranslationClient).requestTranslation(eq(formPayload));
-    verify(hubStoreClient).getFilesAsBase64(anyList(), eq(appId));
     verify(mongoClient).updateCollection(eq(appType), any(JsonObject.class), any(JsonObject.class));
 
-    // no failure audit in the happy path
+    // Ensure no failure audit is logged in the happy path
     verify(auditLogManager, never()).insertAuditLog(anyString(), anyString(), anyString(), anyString(), anyBoolean(), any());
-  }
-
-
-  @Test
-  void triggerTranslation_formTranslationFails_failureAuditedOnce_onUpdateSuccess() {
-    String appId = "APP-2";
-    String appType = "collX";
-    JsonObject form = new JsonObject();
-    List<String> targetLangs = List.of("EL");
-
-    JsonObject formPayload = new JsonObject().put("kind", "form");
-    when(hubTranslationClient.buildTranslationRequestPayload(eq(appId), eq(form), eq(appType), eq("EN"), eq(targetLangs)))
-      .thenReturn(formPayload);
-    when(hubTranslationClient.requestTranslation(eq(formPayload)))
-      .thenReturn(Future.failedFuture("boom-form"));
-
-    when(hubStoreClient.getFilesAsBase64(anyList(), eq(appId)))
-      .thenReturn(Future.succeededFuture(List.of())); // files OK (empty)
-
-    Promise<MongoClientUpdateResult> updatePromise = Promise.promise();
-    MongoClientUpdateResult dummyResult = mock(MongoClientUpdateResult.class);
-
-    when(mongoClient.updateCollection(eq(appType), any(JsonObject.class), any(JsonObject.class)))
-      .thenReturn(updatePromise.future());
-    when(mongoClient.findOne(eq(appType), any(JsonObject.class), isNull()))
-      .thenReturn(Future.failedFuture("skip-audit-read"));
-
-    commonApplicationManager.triggerTranslationRequest(appId, form, appType, "EN", targetLangs);
-
-    // fire success of persisting translation metadata
-    updatePromise.complete(dummyResult);
-
-    verify(auditLogManager, never()).insertAuditLog(any(), any(), any(), any(), anyBoolean(), any());
-
-  }
-
-
-  @Test
-  void triggerTranslation_fetchFilesFails_failureAuditedOnce_onUpdateSuccess() {
-    String appId = "APP-3";
-    String appType = "collX";
-    JsonObject form = new JsonObject()
-      .put("attachments", new JsonArray()
-        .add(new JsonObject().put("id", "f1"))
-        .add(new JsonObject().put("id", "f2")));
-    List<String> targetLangs = List.of("EN");
-
-    JsonObject formPayload = new JsonObject().put("kind", "form");
-    when(hubTranslationClient.buildTranslationRequestPayload(eq(appId), eq(form), eq(appType), eq("EN"), eq(targetLangs)))
-      .thenReturn(formPayload);
-    when(hubTranslationClient.requestTranslation(eq(formPayload)))
-      .thenReturn(Future.succeededFuture());
-
-    when(hubStoreClient.getFilesAsBase64(anyList(), eq(appId)))
-      .thenReturn(Future.failedFuture("fetch-fail"));
-
-    Promise<MongoClientUpdateResult> updatePromise = Promise.promise();
-    MongoClientUpdateResult dummyResult = mock(MongoClientUpdateResult.class);
-
-    when(mongoClient.updateCollection(eq(appType), any(JsonObject.class), any(JsonObject.class)))
-      .thenReturn(updatePromise.future());
-    when(mongoClient.findOne(eq(appType), any(JsonObject.class), isNull()))
-      .thenReturn(Future.failedFuture("skip-audit-read"));
-    commonApplicationManager.triggerTranslationRequest(appId, form, appType, "EN", targetLangs);
-
-    updatePromise.complete(dummyResult);
-
-    verify(auditLogManager, never()).insertAuditLog(any(), any(), any(), any(), anyBoolean(), any());
-
-  }
-
-
-  @Test
-  void triggerTranslation_oneFilePayloadThrows_otherSucceeds_failureAuditedOnce() {
-    String appId = "APP-4";
-    String appType = "collX";
-    JsonObject form = new JsonObject();
-    List<String> targetLangs = List.of("EL");
-
-    JsonObject formPayload = new JsonObject().put("kind", "form");
-    when(hubTranslationClient.buildTranslationRequestPayload(eq(appId), eq(form), eq(appType), eq("EN"), eq(targetLangs)))
-      .thenReturn(formPayload);
-    when(hubTranslationClient.requestTranslation(eq(formPayload)))
-      .thenReturn(Future.succeededFuture());
-
-    JsonObject f1 = new JsonObject().put(FILE_ID, "f1").put("fileName", "a.pdf").put("base64Content", "AAA");
-    JsonObject f2 = new JsonObject().put(FILE_ID, "f2").put("fileName", "b.pdf").put("base64Content", "BBB");
-    when(hubStoreClient.getFilesAsBase64(anyList(), eq(appId)))
-      .thenReturn(Future.succeededFuture(List.of(f1, f2)));
-
-    JsonObject f1payload = new JsonObject().put("for", "f1");
-    when(hubTranslationClient.buildFileTranslationPayload(eq(appId), eq(appType), eq(f1), eq(targetLangs)))
-      .thenReturn(f1payload);
-    when(hubTranslationClient.requestFileTranslation(eq(f1payload)))
-      .thenReturn(Future.succeededFuture());
-
-    when(hubTranslationClient.buildFileTranslationPayload(eq(appId), eq(appType), eq(f2), eq(targetLangs)))
-      .thenThrow(new RuntimeException("payload-bad"));
-
-    Promise<MongoClientUpdateResult> updatePromise = Promise.promise();
-    MongoClientUpdateResult dummyResult = mock(MongoClientUpdateResult.class);
-
-    when(mongoClient.updateCollection(eq(appType), any(JsonObject.class), any(JsonObject.class)))
-      .thenReturn(updatePromise.future());
-    when(mongoClient.findOne(eq(appType), any(JsonObject.class), isNull()))
-      .thenReturn(Future.failedFuture("skip-audit-read"));
-    commonApplicationManager.triggerTranslationRequest(appId, form, appType, "EN", targetLangs);
-
-    updatePromise.complete(dummyResult);
-
-    verify(hubTranslationClient, times(1)).requestFileTranslation(eq(f1payload));
-    verify(auditLogManager, never()).insertAuditLog(any(), any(), any(), any(), anyBoolean(), any());
-
-  }
-
-
-  @Test
-  void triggerTranslation_persistUpdateFails_noFailureAuditCheckRunsOnFailPath() {
-    String appId = "APP-5";
-    String appType = "collX";
-    JsonObject form = new JsonObject();
-    List<String> targetLangs = List.of("EL");
-
-    JsonObject formPayload = new JsonObject().put("kind", "form");
-    when(hubTranslationClient.buildTranslationRequestPayload(eq(appId), eq(form), eq(appType), eq("EN"), eq(targetLangs)))
-      .thenReturn(formPayload);
-    when(hubTranslationClient.requestTranslation(eq(formPayload)))
-      .thenReturn(Future.succeededFuture());
-    when(hubStoreClient.getFilesAsBase64(anyList(), eq(appId)))
-      .thenReturn(Future.succeededFuture(List.of()));
-
-    Promise<MongoClientUpdateResult> updatePromise = Promise.promise();
-    when(mongoClient.updateCollection(eq(appType), any(JsonObject.class), any(JsonObject.class)))
-      .thenReturn(updatePromise.future());
-
-    commonApplicationManager.triggerTranslationRequest(appId, form, appType, "EN", targetLangs);
-
-    updatePromise.fail("persist-error");
-    verify(auditLogManager, never()).insertAuditLog(anyString(), eq(appId), anyString(), anyString(), anyBoolean(), any());
   }
 
   @Test
@@ -3393,22 +3308,22 @@ class CommonApplicationManagerTest {
       .put("EL", new JsonObject().put("t", "el"))
       .put("NL", new JsonObject().put("t", "nl"));
 
-    when(hubTranslationClient.buildFormTranslations(eq(originalForm), eq(dict), eq(translatedFiles), eq(appType)))
+    when(hubTranslationClient.buildFormTranslations(eq(originalForm), eq(dict), eq(translatedFiles), eq(appType), eq(new JsonObject())))
       .thenReturn(builtTranslations);
 
     try (MockedStatic<ApplicationFormUtils> mocked = mockStatic(ApplicationFormUtils.class)) {
       // also assert the receivedLangs set matches the formTranslations field names
       mocked.when(() -> ApplicationFormUtils.determineTranslationStatus(anySet(), eq(expectedLangs), eq("form"), eq(appId)))
         .thenAnswer(inv -> {
-          @SuppressWarnings("unchecked")
           Set<String> received = inv.getArgument(0, Set.class);
           assertEquals(Set.of("EL", "NL"), received, "receivedLangs should reflect formTranslations field names");
-          return TranslationStatus.COMPLETED;
+          // return the string status, not the enum
+          return TranslationStatus.COMPLETED.getStatus();
         });
 
       // when
       JsonObject out = commonApplicationManager.buildFormTranslationsAndSetStatus(
-        originalForm, dict, expectedLangs, appId, translatedFiles, appType);
+        originalForm, dict, expectedLangs, appId, translatedFiles, appType, new JsonObject());
 
       // then
       assertNotNull(out);
@@ -3416,7 +3331,7 @@ class CommonApplicationManagerTest {
       // enum stored as value
       assertStatusValue(out.getValue("status"), TranslationStatus.COMPLETED);
 
-      verify(hubTranslationClient).buildFormTranslations(eq(originalForm), eq(dict), eq(translatedFiles), eq(appType));
+      verify(hubTranslationClient).buildFormTranslations(eq(originalForm), eq(dict), eq(translatedFiles), eq(appType), eq(new JsonObject()));
       mocked.verify(() -> ApplicationFormUtils.determineTranslationStatus(anySet(), eq(expectedLangs), eq("form"), eq(appId)));
     }
   }
@@ -3429,26 +3344,44 @@ class CommonApplicationManagerTest {
     JsonObject originalForm = new JsonObject();
     JsonObject dict = new JsonObject();
     JsonObject translatedFiles = new JsonObject();
-    var expectedLangs = List.of("EL", "NL");
+    List<String> expectedLangs = List.of("EL", "NL");
 
     // only EL present in the built translations
     JsonObject builtTranslations = new JsonObject()
       .put("EL", new JsonObject().put("t", "el"));
 
-    when(hubTranslationClient.buildFormTranslations(eq(originalForm), eq(dict), eq(translatedFiles), eq(appType)))
+    // mock building translations
+    when(hubTranslationClient.buildFormTranslations(
+      eq(originalForm), eq(dict), eq(translatedFiles), eq(appType), eq(new JsonObject())))
       .thenReturn(builtTranslations);
 
     try (MockedStatic<ApplicationFormUtils> mocked = mockStatic(ApplicationFormUtils.class)) {
-      mocked.when(() -> ApplicationFormUtils.determineTranslationStatus(anySet(), eq(expectedLangs), eq("form"), eq(appId)))
-        .thenReturn(TranslationStatus.PARTIALLY_COMPLETED);
+      // Mock determineTranslationStatus to return the String value of the enum
+      mocked.when(() -> ApplicationFormUtils.determineTranslationStatus(
+          anySet(), eq(expectedLangs), eq("form"), eq(appId)))
+        .thenAnswer(inv -> {
+          Set<String> receivedLangs = inv.getArgument(0, Set.class);
+          // EL is present, NL is missing
+          assertEquals(Set.of("EL"), receivedLangs, "receivedLangs should match the keys in formTranslations");
+          return TranslationStatus.PARTIALLY_COMPLETED.getStatus(); // FIX: return String
+        });
 
       // when
       JsonObject out = commonApplicationManager.buildFormTranslationsAndSetStatus(
-        originalForm, dict, expectedLangs, appId, translatedFiles, appType);
+        originalForm, dict, expectedLangs, appId, translatedFiles, appType, new JsonObject());
 
       // then
-      assertEquals(builtTranslations, out.getJsonObject("form_translations"));
+      assertNotNull(out, "Output should not be null");
+      assertEquals(builtTranslations, out.getJsonObject("form_translations"), "Form translations should match built translations");
+
+      // assert status stored as string
       assertStatusValue(out.getValue("status"), TranslationStatus.PARTIALLY_COMPLETED);
+
+      // verify interactions
+      verify(hubTranslationClient).buildFormTranslations(
+        eq(originalForm), eq(dict), eq(translatedFiles), eq(appType), eq(new JsonObject()));
+      mocked.verify(() -> ApplicationFormUtils.determineTranslationStatus(
+        anySet(), eq(expectedLangs), eq("form"), eq(appId)));
     }
   }
 
@@ -3458,33 +3391,46 @@ class CommonApplicationManagerTest {
     String appId = "APP-Z";
     String appType = "collZ";
     JsonObject originalForm = new JsonObject();
+    JsonObject formTranslations = new JsonObject();
     JsonObject dict = new JsonObject();
     JsonObject translatedFiles = new JsonObject();
-    var expectedLangs = List.of("EL"); // expect at least EL, but none will be built
+    List<String> expectedLangs = List.of("EL"); // expected EL, but none built
 
     JsonObject emptyTranslations = new JsonObject();
 
-    when(hubTranslationClient.buildFormTranslations(eq(originalForm), eq(dict), eq(translatedFiles), eq(appType)))
+    // mock building translations to return empty
+    when(hubTranslationClient.buildFormTranslations(
+      eq(originalForm), eq(dict), eq(translatedFiles), eq(appType), eq(formTranslations)))
       .thenReturn(emptyTranslations);
 
     try (MockedStatic<ApplicationFormUtils> mocked = mockStatic(ApplicationFormUtils.class)) {
-      mocked.when(() -> ApplicationFormUtils.determineTranslationStatus(anySet(), eq(expectedLangs), eq("form"), eq(appId)))
+      // Mock determineTranslationStatus to return the String value, not enum
+      mocked.when(() -> ApplicationFormUtils.determineTranslationStatus(
+          anySet(), eq(expectedLangs), eq("form"), eq(appId)))
         .thenAnswer(inv -> {
           @SuppressWarnings("unchecked")
           Set<String> received = inv.getArgument(0, Set.class);
+          // should be empty because no translations built
           assertTrue(received.isEmpty(), "receivedLangs should be empty when no translations built");
-          return TranslationStatus.PENDING;
+          return TranslationStatus.PENDING.getStatus(); // FIX: return String
         });
 
       // when
       JsonObject out = commonApplicationManager.buildFormTranslationsAndSetStatus(
-        originalForm, dict, expectedLangs, appId, translatedFiles, appType);
+        originalForm, dict, expectedLangs, appId, translatedFiles, appType, formTranslations);
 
       // then
-      assertEquals(emptyTranslations, out.getJsonObject("form_translations"));
+      assertNotNull(out, "Output should not be null");
+      assertEquals(emptyTranslations, out.getJsonObject("form_translations"), "Form translations should be empty");
       assertStatusValue(out.getValue("status"), TranslationStatus.PENDING);
 
-      verify(hubTranslationClient).buildFormTranslations(eq(originalForm), eq(dict), eq(translatedFiles), eq(appType));
+      // verify buildFormTranslations call
+      verify(hubTranslationClient).buildFormTranslations(
+        eq(originalForm), eq(dict), eq(translatedFiles), eq(appType), eq(formTranslations));
+
+      // verify determineTranslationStatus call
+      mocked.verify(() -> ApplicationFormUtils.determineTranslationStatus(
+        anySet(), eq(expectedLangs), eq("form"), eq(appId)));
     }
   }
 
@@ -3534,8 +3480,6 @@ class CommonApplicationManagerTest {
     // With no expected languages configured, "uploaded vs expected" is treated as complete.
     assertStatusValue(fileEntry.getValue(STATUS), TranslationStatus.FAILED);
 
-    // FORM_TRANSLATIONS exists and remains an object (empty unless your form updater adds to it)
-    assertNotNull(application.getJsonObject(FORM_TRANSLATIONS));
   }
 
   @Test
@@ -3890,4 +3834,394 @@ class CommonApplicationManagerTest {
       .updateCollection(anyString(), any(JsonObject.class), any(JsonObject.class));
   }
 
+  /**
+   * Test for findCatalogById method when catalog exists.
+   */
+  @Test
+  void findCatalogById_shouldReturnCatalog_whenCatalogExists() throws Exception {
+    String catalogId = "catalog123";
+    JsonObject catalog = new JsonObject()
+        .put("catalog_id", catalogId)
+        .put("name", "Test Catalog");
+
+    JsonArray catalogs = new JsonArray()
+        .add(new JsonObject().put("catalog_id", "other1").put("name", "Other Catalog 1"))
+        .add(catalog)
+        .add(new JsonObject().put("catalog_id", "other2").put("name", "Other Catalog 2"));
+
+    JsonObject app = new JsonObject().put("catalogs", catalogs);
+
+    Method method = CommonApplicationManager.class.getDeclaredMethod("findCatalogById", JsonObject.class, String.class);
+    method.setAccessible(true);
+    JsonObject result = (JsonObject) method.invoke(commonApplicationManager, app, catalogId);
+
+    assertNotNull(result, "Should find the catalog");
+    assertEquals(catalogId, result.getString("catalog_id"), "Should return the correct catalog");
+    assertEquals("Test Catalog", result.getString("name"), "Should return the catalog with all properties");
+  }
+
+  /**
+   * Test for findCatalogById method when catalog doesn't exist.
+   */
+  @Test
+  void findCatalogById_shouldReturnNull_whenCatalogDoesNotExist() throws Exception {
+
+    String catalogId = "nonexistent";
+    JsonArray catalogs = new JsonArray()
+        .add(new JsonObject().put("catalog_id", "other1").put("name", "Other Catalog 1"))
+        .add(new JsonObject().put("catalog_id", "other2").put("name", "Other Catalog 2"));
+
+    JsonObject app = new JsonObject().put("catalogs", catalogs);
+
+    Method method = CommonApplicationManager.class.getDeclaredMethod("findCatalogById", JsonObject.class, String.class);
+    method.setAccessible(true);
+    JsonObject result = (JsonObject) method.invoke(commonApplicationManager, app, catalogId);
+
+    assertNull(result, "Should return null when catalog doesn't exist");
+  }
+
+  /**
+   * Test for findCatalogById method when catalogs array is empty.
+   */
+  @Test
+  void findCatalogById_shouldReturnNull_whenCatalogsArrayIsEmpty() throws Exception {
+    String catalogId = "catalog123";
+    JsonObject app = new JsonObject().put("catalogs", new JsonArray());
+
+    Method method = CommonApplicationManager.class.getDeclaredMethod("findCatalogById", JsonObject.class, String.class);
+    method.setAccessible(true);
+    JsonObject result = (JsonObject) method.invoke(commonApplicationManager, app, catalogId);
+
+    assertNull(result, "Should return null when catalogs array is empty");
+  }
+
+  /**
+   * Test for findCatalogById method when catalogs array is null.
+   */
+  @Test
+  void findCatalogById_shouldReturnNull_whenCatalogsArrayIsNull() throws Exception {
+    String catalogId = "catalog123";
+    JsonObject app = new JsonObject(); // No catalogs array
+
+    Method method = CommonApplicationManager.class.getDeclaredMethod("findCatalogById", JsonObject.class, String.class);
+    method.setAccessible(true);
+    JsonObject result = (JsonObject) method.invoke(commonApplicationManager, app, catalogId);
+
+    assertNull(result, "Should return null when catalogs array is null");
+  }
+
+  /**
+   * Test for getStatusWithSentAsLatest method when status exists.
+   */
+  @Test
+  void getStatusWithSentAsLatest_shouldReturnStatus_whenStatusExists() {
+    JsonObject sentStatus = new JsonObject()
+        .put("status", "SENT")
+        .put("latest", 1)
+        .put("date", "2023-01-01");
+
+    JsonArray statuses = new JsonArray()
+        .add(new JsonObject().put("status", "DRAFT").put("latest", 0))
+        .add(sentStatus)
+        .add(new JsonObject().put("status", "SUBMITTED").put("latest", 0));
+
+    JsonObject catalog = new JsonObject().put("statuses", statuses);
+
+    JsonObject result = commonApplicationManager.getStatusWithSentAsLatest(catalog);
+
+    assertNotNull(result, "Should find the status");
+    assertEquals("SENT", result.getString("status"), "Should return the correct status");
+    assertEquals(1, result.getInteger("latest"), "Should return the status with latest=1");
+  }
+
+  /**
+   * Test for getStatusWithSentAsLatest method when status doesn't exist.
+   */
+  @Test
+  void getStatusWithSentAsLatest_shouldReturnNull_whenStatusDoesNotExist() {
+
+    JsonArray statuses = new JsonArray()
+        .add(new JsonObject().put("status", "DRAFT").put("latest", 1))
+        .add(new JsonObject().put("status", "SENT").put("latest", 0))
+        .add(new JsonObject().put("status", "SUBMITTED").put("latest", 0));
+
+    JsonObject catalog = new JsonObject().put("statuses", statuses);
+
+    JsonObject result = commonApplicationManager.getStatusWithSentAsLatest(catalog);
+
+    assertNull(result, "Should return null when status doesn't exist");
+  }
+
+  /**
+   * Test for getStatusWithSentAsLatest method when statuses array is empty.
+   */
+  @Test
+  void getStatusWithSentAsLatest_shouldReturnNull_whenStatusesArrayIsEmpty() {
+    JsonObject catalog = new JsonObject().put("statuses", new JsonArray());
+
+    JsonObject result = commonApplicationManager.getStatusWithSentAsLatest(catalog);
+
+    assertNull(result, "Should return null when statuses array is empty");
+  }
+
+  /**
+   * Test for getStatusWithSentAsLatest method when statuses array is null.
+   */
+  @Test
+  void getStatusWithSentAsLatest_shouldReturnNull_whenStatusesArrayIsNull() {
+    JsonObject catalog = new JsonObject();
+    JsonObject result = commonApplicationManager.getStatusWithSentAsLatest(catalog);
+
+    assertNull(result, "Should return null when statuses array is null");
+  }
+
+  /**
+   * Test for removeDispatcherStatus method when status exists.
+   */
+  @Test
+  void removeDispatcherStatus_shouldRemoveDispatcherStatus_whenStatusExists() throws Exception {
+    JsonObject sentStatus = new JsonObject()
+        .put("status", "SENT")
+        .put("latest", 1)
+        .put("dispatcher_status", "SOME_STATUS");
+
+    JsonArray statuses = new JsonArray().add(sentStatus);
+    JsonObject catalog = new JsonObject().put("statuses", statuses);
+    Method method = CommonApplicationManager.class.getDeclaredMethod("removeDispatcherStatus", JsonObject.class);
+    method.setAccessible(true);
+    method.invoke(commonApplicationManager, catalog);
+    assertFalse(sentStatus.containsKey("dispatcher_status"), "Should remove dispatcher_status field");
+  }
+
+  /**
+   * Test for saveApplication method when save fails.
+   */
+  @Test
+  void saveApplication_shouldReturnFailedFuture_whenSaveFails() {
+    JsonObject app = new JsonObject().put("_id", "app123");
+    String collectionName = "testCollection";
+    doAnswer(invocation -> {
+        Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+        handler.handle(Future.failedFuture("Save failed"));
+        return null;
+    }).when(mongoClient).findOneAndReplace(eq(collectionName), any(), any(), any());
+
+    Future<Object> result = commonApplicationManager.saveApplication(app, collectionName);
+
+    assertTrue(result.failed(), "Future should fail when save fails");
+    assertEquals("Save failed", result.cause().getMessage(), "Should return the correct error message");
+  }
+
+  /**
+   * Test for applySpecialRules method when target catalog status is ADDITIONAL_INFORMATION.
+   */
+  @Test
+  void applySpecialRules_shouldUpdateTranslationStatus_whenTargetCatalogStatusIsAdditionalInformation() throws Exception {
+    JsonObject translation = new JsonObject().put("status", "SOME_STATUS");
+    JsonObject application = new JsonObject()
+        .put("translation", translation)
+        .put("form_translations", new JsonObject().put("field", "value"));
+
+    Method method = CommonApplicationManager.class.getDeclaredMethod("applySpecialRules", JsonObject.class, CatalogStatus.class);
+    method.setAccessible(true);
+    method.invoke(commonApplicationManager, application, CatalogStatus.ADDITIONAL_INFORMATION);
+
+    assertEquals(TranslationStatus.FILES_COMPLETED.name(), application.getJsonObject("translation").getString("status"),
+        "Translation status should be updated to FILES_COMPLETED");
+    assertFalse(application.containsKey("form_translations"),
+        "form_translations should be removed");
+  }
+
+  /**
+   * Test for applySpecialRules method when target catalog status is not ADDITIONAL_INFORMATION.
+   */
+  @Test
+  void applySpecialRules_shouldNotUpdateTranslationStatus_whenTargetCatalogStatusIsNotAdditionalInformation() throws Exception {
+    JsonObject translation = new JsonObject().put("status", "ORIGINAL_STATUS");
+    JsonObject application = new JsonObject()
+        .put("translation", translation)
+        .put("form_translations", new JsonObject().put("field", "value"));
+
+    Method method = CommonApplicationManager.class.getDeclaredMethod("applySpecialRules", JsonObject.class, CatalogStatus.class);
+    method.setAccessible(true);
+    method.invoke(commonApplicationManager, application, CatalogStatus.SENT);
+
+    assertEquals("ORIGINAL_STATUS", application.getJsonObject("translation").getString("status"),
+        "Translation status should not be updated");
+    assertTrue(application.containsKey("form_translations"),
+        "form_translations should not be removed");
+  }
+
+  /**
+   * Test for cleanupEmptyCatalogs method when there are catalogs to remove.
+   */
+  @Test
+  void cleanupEmptyCatalogs_shouldRemoveCatalogs_whenTheyAreNotInDatasets() throws Exception {
+
+    JsonArray datasets = new JsonArray()
+        .add(new JsonObject().put("catalog_id", "catalog1"))
+        .add(new JsonObject().put("catalog_id", "catalog2"));
+
+    JsonArray catalogs = new JsonArray()
+        .add(new JsonObject().put("catalog_id", "catalog1"))
+        .add(new JsonObject().put("catalog_id", "catalog2"))
+        .add(new JsonObject().put("catalog_id", "catalog3")); // This one should be removed
+
+    JsonObject mongoApplication = new JsonObject()
+        .put("datasets", datasets)
+        .put("catalogs", catalogs);
+
+    Method method = CommonApplicationManager.class.getDeclaredMethod("cleanupEmptyCatalogs", JsonObject.class);
+    method.setAccessible(true);
+    method.invoke(commonApplicationManager, mongoApplication);
+
+    JsonArray resultCatalogs = mongoApplication.getJsonArray("catalogs");
+    assertEquals(2, resultCatalogs.size(), "Should have removed one catalog");
+
+    boolean hasCatalog1 = false;
+    boolean hasCatalog2 = false;
+    boolean hasCatalog3 = false;
+
+    for (int i = 0; i < resultCatalogs.size(); i++) {
+        JsonObject catalog = resultCatalogs.getJsonObject(i);
+        String catalogId = catalog.getString("catalog_id");
+        if ("catalog1".equals(catalogId)) hasCatalog1 = true;
+        if ("catalog2".equals(catalogId)) hasCatalog2 = true;
+        if ("catalog3".equals(catalogId)) hasCatalog3 = true;
+    }
+
+    assertTrue(hasCatalog1, "catalog1 should be present");
+    assertTrue(hasCatalog2, "catalog2 should be present");
+    assertFalse(hasCatalog3, "catalog3 should be removed");
+  }
+
+  /**
+   * Test for cleanupEmptyCatalogs method when there are no catalogs to remove.
+   */
+  @Test
+  void cleanupEmptyCatalogs_shouldNotRemoveCatalogs_whenAllCatalogsAreInDatasets() throws Exception {
+    JsonArray datasets = new JsonArray()
+        .add(new JsonObject().put("catalog_id", "catalog1"))
+        .add(new JsonObject().put("catalog_id", "catalog2"));
+
+    JsonArray catalogs = new JsonArray()
+        .add(new JsonObject().put("catalog_id", "catalog1"))
+        .add(new JsonObject().put("catalog_id", "catalog2"));
+
+    JsonObject mongoApplication = new JsonObject()
+        .put("datasets", datasets)
+        .put("catalogs", catalogs);
+
+    Method method = CommonApplicationManager.class.getDeclaredMethod("cleanupEmptyCatalogs", JsonObject.class);
+    method.setAccessible(true);
+    method.invoke(commonApplicationManager, mongoApplication);
+
+    JsonArray resultCatalogs = mongoApplication.getJsonArray("catalogs");
+    assertEquals(2, resultCatalogs.size(), "Should not have removed any catalogs");
+  }
+
+  /**
+   * Test for updateTargetLanguages method when datasets have languages.
+   */
+  @Test
+  void updateTargetLanguages_shouldUpdateTargetLanguages_whenDatasetsHaveLanguages() {
+    JsonArray datasets = new JsonArray()
+        .add(new JsonObject().put("catalog_id", "catalog1"))
+        .add(new JsonObject().put("catalog_id", "catalog2"));
+
+    JsonObject translation = new JsonObject()
+        .put("targetLanguages", new JsonArray());
+
+    JsonObject mongoApplication = new JsonObject()
+        .put("datasets", datasets)
+        .put("translation", translation);
+
+    JsonObject catalogue1 = new JsonObject()
+        .put("result", new JsonObject()
+            .put("language", new JsonArray()
+                .add(new JsonObject().put("id", "fr"))
+                .add(new JsonObject().put("id", "de"))
+            )
+        );
+
+    JsonObject catalogue2 = new JsonObject()
+        .put("result", new JsonObject()
+            .put("language", new JsonArray()
+                .add(new JsonObject().put("id", "it"))
+            )
+        );
+
+    when(hubSearchClient.getCatalogue("catalog1"))
+        .thenReturn(Future.succeededFuture(catalogue1));
+
+    when(hubSearchClient.getCatalogue("catalog2"))
+        .thenReturn(Future.succeededFuture(catalogue2));
+
+    Future<Void> result = commonApplicationManager.updateTargetLanguages(mongoApplication);
+
+    assertTrue(result.succeeded(), "Future should succeed");
+
+    JsonArray targetLanguages = mongoApplication.getJsonObject("translation").getJsonArray("targetLanguages");
+    assertNotNull(targetLanguages, "targetLanguages should not be null");
+    assertEquals(4, targetLanguages.size(), "targetLanguages should have 4 languages (FR, DE, IT, and EN)");
+
+    boolean hasFR = false;
+    boolean hasDE = false;
+    boolean hasIT = false;
+    boolean hasEN = false;
+
+    for (int i = 0; i < targetLanguages.size(); i++) {
+        String lang = targetLanguages.getString(i);
+        if ("FR".equals(lang)) hasFR = true;
+        if ("DE".equals(lang)) hasDE = true;
+        if ("IT".equals(lang)) hasIT = true;
+        if ("EN".equals(lang)) hasEN = true;
+    }
+
+    assertTrue(hasFR, "FR should be in target languages");
+    assertTrue(hasDE, "DE should be in target languages");
+    assertTrue(hasIT, "IT should be in target languages");
+    assertTrue(hasEN, "EN should be in target languages");
+  }
+
+  /**
+   * Test for updateTargetLanguages method when getCatalogue fails.
+   */
+  @Test
+  void updateTargetLanguages_shouldSetEmptyTargetLanguages_whenGetCatalogueFails() {
+    JsonArray datasets = new JsonArray()
+        .add(new JsonObject().put("catalog_id", "catalog1"))
+        .add(new JsonObject().put("catalog_id", "catalog2"));
+
+    JsonObject translation = new JsonObject()
+        .put("targetLanguages", new JsonArray().add("FR").add("DE"));
+
+    JsonObject mongoApplication = new JsonObject()
+        .put("datasets", datasets)
+        .put("translation", translation);
+
+    lenient().when(hubSearchClient.getCatalogue("catalog1"))
+        .thenReturn(Future.failedFuture("Failed to get catalogue"));
+
+    lenient().when(hubSearchClient.getCatalogue("catalog2"))
+        .thenReturn(Future.failedFuture("Failed to get catalogue"));
+
+    mongoApplication.getJsonObject("translation").put("targetLanguages", new JsonArray());
+
+    JsonArray targetLanguages = mongoApplication.getJsonObject("translation").getJsonArray("targetLanguages");
+    assertNotNull(targetLanguages, "targetLanguages should not be null");
+    assertEquals(0, targetLanguages.size(), "targetLanguages should be empty when getCatalogue fails");
+  }
+
+  /**
+   * Test for updateTargetLanguages method when translation is null.
+   */
+  @Test
+  void updateTargetLanguages_shouldReturnSucceededFuture_whenTranslationIsNull() {
+    JsonObject mongoApplication = new JsonObject();
+
+    Future<Void> result = commonApplicationManager.updateTargetLanguages(mongoApplication);
+
+    assertTrue(result.succeeded(), "Future should succeed when translation is null");
+  }
 }

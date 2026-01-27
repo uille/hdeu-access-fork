@@ -101,6 +101,7 @@ public class Section6CountryDTO extends SectionDTO {
   @JsonProperty("catalog_ids")
   List<String> catalogIds;
   @Size(max = 2000)
+  @TranslatableField
   String hdabContacts;
   @NotBlank
   @Size(max = 2000)
@@ -129,6 +130,7 @@ public class Section6CountryDTO extends SectionDTO {
 
   @NotBlank
   @Size(max = 500)
+  @TranslatableField
   String timePeriodOfDataExtraction;
 
   @NotNull

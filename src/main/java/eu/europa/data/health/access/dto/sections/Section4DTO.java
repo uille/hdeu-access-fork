@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import eu.europa.data.health.access.annotations.CheckEnumValue;
 import eu.europa.data.health.access.annotations.EmailFormat;
 import eu.europa.data.health.access.annotations.RequiredFieldBasedOnObjectValue;
+import eu.europa.data.health.access.annotations.TranslatableField;
 import eu.europa.data.health.access.dto.PhoneNumberDTO;
 import eu.europa.data.health.access.dto.SelectObjectDTO;
 import eu.europa.data.health.access.validation_groups.PhoneNumberGroups.NotBlankValidationGroup;
@@ -58,9 +59,11 @@ public class Section4DTO extends SectionDTO {
   boolean sameAsContactPerson;
   @NotBlank
   @Size(max=500)
+  @TranslatableField
   String fullName;
   @NotBlank
   @Size(max=2000)
+  @TranslatableField
   String address;
   @NotNull
   @Valid
@@ -74,8 +77,10 @@ public class Section4DTO extends SectionDTO {
   SelectObjectDTO invoiceType;
   @NotBlank
   @Size(max=250)
+  @TranslatableField
   String invoiceReferenceNumber;
   @Size(max=250)
+  @TranslatableField
   String invoiceAddress;
   @NotNull
   @CheckEnumValue(fieldName = "yesOrNoOptions" , sectionNumber = "commonFields")

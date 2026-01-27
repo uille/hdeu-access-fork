@@ -33,12 +33,14 @@ ENV XDG_CONFIG_HOME $VERTICLE_HOME
 
 EXPOSE 8080
 
-RUN mkdir -p "$VERTICLE_HOME" && groupadd vertx && useradd -g vertx vertx && chown -R vertx "$VERTICLE_HOME" && chmod -R g+w "$VERTICLE_HOME"
+RUN mkdir -p "$VERTICLE_HOME" "$LOG_HOME" "$VERTICLE_HOME/file-uploads" \
+    && chown -R 1000:1000 "$VERTICLE_HOME" \
+    && chmod -R u+rwX,g+rwX "$VERTICLE_HOME"
 
 # Copy your fat jar to the container
-COPY --from=build /usr/src/app/target/$VERTICLE_FILE $VERTICLE_HOME/
+COPY --from=build --chown=1000:1000 /usr/src/app/target/$VERTICLE_FILE $VERTICLE_HOME/
 
-USER vertx
+USER 1000:1000
 
 # Launch the verticle
 WORKDIR $VERTICLE_HOME

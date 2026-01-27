@@ -15,29 +15,48 @@
  */
 package eu.europa.data.health.access;
 
+import static eu.europa.data.health.access.services.AbstractManager.setUpMessageContextResponse;
+
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.RoutingContext;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+
+@Getter
 public enum ApplicationStatus {
 
-  DRAFT("draft"),
-  SUBMITTED("submitted"),
-  WITHDRAWN("withdrawn");
-
-    public static boolean isValid(String label) {
-    for (ApplicationStatus status : ApplicationStatus.values()) {
-      if (status.name().equalsIgnoreCase(label)) {
-        return true;
-      }
-    }
-    return false;
-  }
+  DRAFT("DRAFT"),
+  ON_GOING("ON-GOING"),
+  COMPLETED("COMPLETED", Set.of(CatalogStatus.REJECTED, CatalogStatus.WITHDRAWN, CatalogStatus.DECISION_ISSUED));
 
   private final String status;
+  private Set<ApplicationStatus> allowedNextStatuses = Set.of();
+  private final Set<CatalogStatus> catalogStatuses;
 
-  ApplicationStatus(final String status) {
+  ApplicationStatus(String status) {
     this.status = status;
+    this.catalogStatuses = Set.of();
   }
 
-  public String getStatus() {
-    return status;
+  ApplicationStatus(String status, Set<CatalogStatus> catalogStatuses) {
+    this.status = status;
+    this.catalogStatuses = catalogStatuses;
+  }
+
+  static {
+    DRAFT.allowedNextStatuses = Set.of(
+      ON_GOING
+    );
+
+    ON_GOING.allowedNextStatuses = Set.of(
+      COMPLETED
+    );
   }
 
   public static boolean isValidStatus(String statusStr) {
@@ -57,5 +76,71 @@ public enum ApplicationStatus {
     }
     throw new IllegalArgumentException("No enum constant with status " + statusStr);
   }
+
+  public boolean canChangeTo(ApplicationStatus next, JsonObject application, @NotNull RoutingContext context) {
+
+    if(this.equals(next)) {
+      return false;
+    }
+
+    if (!allowedNextStatuses.contains(next)) {
+      setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
+        "Invalid application transition status from: " + this.getStatus() + " to: " + next.getStatus());
+      throw new IllegalStateException("Invalid application transition from: " + this.getStatus() + " to: " + next.getStatus());
+    }
+
+    return allLatestStatusesAreInCompletedStatus(application.getJsonArray("catalogs"));
+
+  }
+
+  public boolean allLatestStatusesAreInCompletedStatus(JsonArray catalogs) {
+
+    Set<String> completedCatalogStatusValues = ApplicationStatus.COMPLETED
+      .getCatalogStatuses()
+      .stream()
+      .map(CatalogStatus::getLabel)
+      .map(String::toUpperCase)
+      .collect(Collectors.toSet());
+
+    List<String> latestStatuses = new ArrayList<>();
+
+    for (Object catalogObj : catalogs) {
+      JsonObject catalog = (JsonObject) catalogObj;
+
+      JsonArray statuses = catalog.getJsonArray("statuses");
+      if (statuses == null || statuses.isEmpty()) {
+        return false;
+      }
+
+      String latestStatus = null;
+
+      for (Object statusObj : statuses) {
+        JsonObject status = (JsonObject) statusObj;
+        Integer latest = status.getInteger("latest", 0);
+
+        if (latest == 1) {
+          latestStatus = status.getString("status");
+          break;
+        }
+      }
+
+      if (latestStatus == null) {
+        return false;
+      }
+
+      latestStatuses.add(latestStatus.toUpperCase());
+    }
+
+    return completedCatalogStatusValues.containsAll(latestStatuses);
+  }
+
+  public void validatePermitChange(@NotNull RoutingContext context){
+    if (!this.equals(COMPLETED) && !this.equals(ON_GOING)) {
+      setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
+        "Invalid application status, a permit status change can only come from application status: " + COMPLETED.getStatus());
+      throw new IllegalStateException("Invalid application status, a permit status change can only come from application status: " + COMPLETED.getStatus());
+    }
+  }
+
 
 }

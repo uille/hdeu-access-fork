@@ -46,10 +46,21 @@ import static eu.europa.data.health.access.Constants.MORE_INFO_ON_EXTRACTION_PER
 import static eu.europa.data.health.access.Constants.NATURAL_PERSON_ADDRESS;
 import static eu.europa.data.health.access.Constants.NATURAL_PERSON_PHONE;
 import static eu.europa.data.health.access.Constants.NEED_FOR_DATA_EXTRACTION_EVERY;
+import static eu.europa.data.health.access.Constants.OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW;
 import static eu.europa.data.health.access.Constants.ORDER_OF_CONTROLS_DATA_EXTRACTION;
 import static eu.europa.data.health.access.Constants.OTHER_PERMIT_APPLICATIONS;
+import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_DATE_2;
+import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_DATE_3;
+import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_ISSUER_2;
+import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_ISSUER_3;
+import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_NUMBER_2;
+import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_NUMBER_3;
 import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM;
+import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM_3;
+import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_2;
+import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_3;
 import static eu.europa.data.health.access.Constants.PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS;
+import static eu.europa.data.health.access.Constants.PROVIDED_JUSTIFICATION_EXCEPTION;
 import static eu.europa.data.health.access.Constants.RELATIONSHIP_TO_STUDY_COHORT;
 import static eu.europa.data.health.access.Constants.RESULT_MESSAGE;
 import static eu.europa.data.health.access.Constants.SPECIFY_OTHER;
@@ -76,8 +87,6 @@ import static eu.europa.data.health.access.Constants.WILL_RELATIVES_BE_EXTRACTED
 import static eu.europa.data.health.access.Constants.WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS;
 import static eu.europa.data.health.access.Constants.WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES;
 import static eu.europa.data.health.access.Constants.WILL_THE_DATA_BE_TRANSFERRED;
-import static eu.europa.data.health.access.Constants.OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW;
-import static eu.europa.data.health.access.Constants.PROVIDED_JUSTIFICATION_EXCEPTION;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -484,15 +493,15 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
       if (Objects.nonNull(willControlsBeExtracted) && !Objects.equals(
         willControlsBeExtracted.getString("key"), "a")) {
         section.remove(HAS_THE_GROUP_RELATIVES_FORMED_2);
-        section.remove("previouslyIssuedPermitDate2");
-        section.remove("previouslyIssuedPermitValidityPeriodFrom2");
-        section.remove("previouslyIssuedPermitValidityPeriodTo2");
-        section.remove("previouslyIssuedPermitNumber2");
-        section.remove("previouslyIssuedPermitIssuer2");
-        section.remove("previouslyIssuedPermitDate2");
-        section.remove("previouslyIssuedPermitValidityPeriodFrom2");
-        section.remove("previouslyIssuedPermitValidityPeriodTo2");
-        section.remove("previouslyIssuedPermitNumber2");
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_DATE_2);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_2);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_NUMBER_2);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_ISSUER_2);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_DATE_2);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_2);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_NUMBER_2);
         section.remove(WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS);
         section.remove(VARIABLES_FOR_DATA_EXTRACTION_ATTACHMENTS);
         section.remove(TIME_PERIOD_FOR_DATA_EXTRACTION);
@@ -515,11 +524,11 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
         if (Objects.nonNull(hasTheGroupRelativesFormed2) && !Objects.equals(
           hasTheGroupRelativesFormed2.getString("key"),
           "a")) {
-          section.remove("previouslyIssuedPermitIssuer2");
-          section.remove("previouslyIssuedPermitDate2");
-          section.remove("previouslyIssuedPermitValidityPeriodFrom2");
-          section.remove("previouslyIssuedPermitValidityPeriodTo2");
-          section.remove("previouslyIssuedPermitNumber2");
+          section.remove(PREVIOUSLY_ISSUED_PERMIT_ISSUER_2);
+          section.remove(PREVIOUSLY_ISSUED_PERMIT_DATE_2);
+          section.remove(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM);
+          section.remove(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_2);
+          section.remove(PREVIOUSLY_ISSUED_PERMIT_NUMBER_2);
         }
 
         JsonObject willSameDataBeExtractedForControls = section.getJsonObject(
@@ -567,11 +576,11 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
         willRelativesBeExtracted.getString("key"),
         "a")) {
         section.remove(HAS_THE_GROUP_RELATIVES_FORMED_3);
-        section.remove("previouslyIssuedPermitIssuer3");
-        section.remove("previouslyIssuedPermitDate3");
-        section.remove("previouslyIssuedPermitValidityPeriodFrom3");
-        section.remove("previouslyIssuedPermitValidityPeriodTo3");
-        section.remove("previouslyIssuedPermitNumber3");
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_ISSUER_3);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_DATE_3);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM_3);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_3);
+        section.remove(PREVIOUSLY_ISSUED_PERMIT_NUMBER_3);
         section.remove(WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES);
         section.remove(VARIABLES_FOR_DATA_EXTRACTION_RELATIVES_ATTACHMENTS);
         section.remove(TIME_PERIOD_FOR_DATA_EXTRACTION_RELATIVES);
@@ -592,11 +601,11 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
         if (Objects.nonNull(hasTheGroupRelativesFormed3) && !Objects.equals(
           hasTheGroupRelativesFormed3.getString("key"),
           "a")) {
-          section.remove("previouslyIssuedPermitIssuer3");
-          section.remove("previouslyIssuedPermitDate3");
-          section.remove("previouslyIssuedPermitValidityPeriodFrom3");
-          section.remove("previouslyIssuedPermitValidityPeriodTo3");
-          section.remove("previouslyIssuedPermitNumber3");
+          section.remove(PREVIOUSLY_ISSUED_PERMIT_ISSUER_3);
+          section.remove(PREVIOUSLY_ISSUED_PERMIT_DATE_3);
+          section.remove(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM_3);
+          section.remove(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_3);
+          section.remove(PREVIOUSLY_ISSUED_PERMIT_NUMBER_3);
         }
 
         JsonObject willSameDataBeExtractedForRelatives = section.getJsonObject(
@@ -1008,11 +1017,11 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
       || fieldName.equals("sizeOfControlGroupEstimationOrExact")
       || fieldName.equals("controlsPerPersonInStudyCohort")
       || fieldName.equals("exclusionCriteriaForControls")
-      || fieldName.equals("previouslyIssuedPermitIssuer2")
-      || fieldName.equals("previouslyIssuedPermitDate2")
+      || fieldName.equals(PREVIOUSLY_ISSUED_PERMIT_ISSUER_2)
+      || fieldName.equals(PREVIOUSLY_ISSUED_PERMIT_DATE_2)
       || fieldName.equals(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM)
-      || fieldName.equals("previouslyIssuedPermitValidityPeriodTo2")
-      || fieldName.equals("previouslyIssuedPermitNumber2")
+      || fieldName.equals(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_2)
+      || fieldName.equals(PREVIOUSLY_ISSUED_PERMIT_NUMBER_2)
       || fieldName.equals(WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY)
       || fieldName.equals(DATA_EXTRACTION_FREQUENCY_MULTIPLE_TIMES_INFORMATION)
       || fieldName.equals(DATA_EXTRACTION_FREQUENCY)
@@ -1041,11 +1050,11 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
       || fieldName.equals("orderOfRelativesDataExtraction")
       || fieldName.equals("extractionPhasesRelatives")
       || fieldName.equals("hasTheGroupRelativesFormed3")
-      || fieldName.equals("previouslyIssuedPermitIssuer3")
-      || fieldName.equals("previouslyIssuedPermitDate3")
-      || fieldName.equals("previouslyIssuedPermitValidityPeriodFrom3")
-      || fieldName.equals("previouslyIssuedPermitValidityPeriodTo3")
-      || fieldName.equals("previouslyIssuedPermitNumber3"))) {
+      || fieldName.equals(PREVIOUSLY_ISSUED_PERMIT_ISSUER_3)
+      || fieldName.equals(PREVIOUSLY_ISSUED_PERMIT_DATE_3)
+      || fieldName.equals(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM_3)
+      || fieldName.equals(PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_3)
+      || fieldName.equals(PREVIOUSLY_ISSUED_PERMIT_NUMBER_3))) {
       return "6.3";
     } else {
       return "6.1";

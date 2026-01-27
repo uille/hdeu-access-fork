@@ -35,12 +35,31 @@ public class Constants {
   public static final String COUNTRY_EU = "euCountry";
   public static final String DATA_ACCESS_DISPATCHER_MAX_RETRIES = "DATA_ACCESS_DISPATCHER_MAX_RETRIES";
   public static final String DATA_REQUEST_DISPATCHER_MAX_RETRIES = "DATA_ACCESS_DISPATCHER_MAX_RETRIES";
+  public static final String DATA_ACCESS_DISPATCHER_FOR_SENT_APPLICATIONS_MAX_RETRIES = "DATA_ACCESS_DISPATCHER_FOR_SENT_APPLICATIONS_MAX_RETRIES";
+  public static final String DATA_REQUEST_DISPATCHER_FOR_SENT_APPLICATIONS_MAX_RETRIES = "DATA_REQUEST_DISPATCHER_FOR_SENT_APPLICATIONS_MAX_RETRIES";
+  public static final String WITHDRAW_DISPATCHER_MAX_RETRIES = "WITHDRAW_DISPATCHER_MAX_RETRIES";
   public static final String DATA_ACCESS_DISPATCHER_INTERVAL = "DATA_ACCESS_DISPATCHER_INTERVAL";
   public static final String DATA_REQUEST_DISPATCHER_INTERVAL = "DATA_REQUEST_DISPATCHER_INTERVAL";
+  public static final String DATA_ACCESS_DISPATCHER_FOR_SENT_APPLICATIONS_INTERVAL = "DATA_ACCESS_DISPATCHER_FOR_SENT_APPLICATIONS_INTERVAL";
+  public static final String DATA_REQUEST_DISPATCHER_FOR_SENT_APPLICATIONS_INTERVAL = "DATA_REQUEST_DISPATCHER_FOR_SENT_APPLICATIONS_INTERVAL";
+  public static final String WITHDRAW_DISPATCHER_INTERVAL = "WITHDRAW_DISPATCHER_INTERVAL";
+
+  public static final String OUTGOING_APPLICATION_ACTIVITIES_INTERVAL = "OUTGOING_APPLICATION_ACTIVITIES_INTERVAL";
+  public static final String OUTGOING_APPLICATION_ACTIVITIES_ENABLE = "OUTGOING_APPLICATION_ACTIVITIES_ENABLE";
+  public static final String SCHEDULER_ENABLED = "1";
+
+
   public static final int DATA_ACCESS_DISPATCHER_DEFAULT_MAX_RETRIES = 5;
   public static final int DATA_REQUEST_DISPATCHER_DEFAULT_MAX_RETRIES = 5;
+  public static final int DATA_ACCESS_DISPATCHER_FOR_SENT_APPLICATIONS_DEFAULT_MAX_RETRIES = 10;
+  public static final int DATA_REQUEST_DISPATCHER_FOR_SENT_APPLICATIONS_DEFAULT_MAX_RETRIES = 10;
+  public static final int WITHDRAW_DISPATCHER_DEFAULT_MAX_RETRIES = 5;
   public static final int DATA_ACCESS_DISPATCHER_DEFAULT_INTERVAL = 300000;
   public static final int DATA_REQUEST_DISPATCHER_DEFAULT_INTERVAL = 300000;
+  public static final int DATA_ACCESS_DISPATCHER_FOR_SENT_APPLICATIONS_DEFAULT_INTERVAL = 120000;
+  public static final int DATA_REQUEST_DISPATCHER_FOR_SENT_APPLICATIONS_DEFAULT_INTERVAL = 120000;
+  public static final int WITHDRAW_DEFAULT_INTERVAL = 300000;
+
   public static final String TRANSLATION_RETRY_INTERVAL = "TRANSLATION_RETRY_INTERVAL";
   public static final String TRANSLATION_RETRY_MAX_ATTEMPTS = "TRANSLATION_RETRY_MAX_ATTEMPTS";
   public static final int TRANSLATION_RETRY_DEFAULT_INTERVAL = 18_000_000; // 5 hours
@@ -72,9 +91,10 @@ public class Constants {
   public static final String FILE_UPLOAD_VALID_TYPES = ".*\\.(pdf|doc|docx|xls|xlsx|odt)$";
   public static final String APPLICATION = "application";
   public static final String STATUS = "status";
+  public static final String STATUSES = "statuses";
+  public static final String ERROR = "error";
   public static final String CONTENT_TYPE = "Content-Type";
   public static final String CONTENT_DISPOSITION = "Content-Disposition";
-
   public static final String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
   public static final String CLIENT_ID = "client_id";
   public static final String CLIENT_SECRET = "client_secret";
@@ -105,7 +125,7 @@ public class Constants {
   public static final String NOT_FOUND_FOR_USER_WITH_ID = " not found for user with id ";
   public static final String ERROR_CHECKING_DOCUMENT_EXISTENCE = "Error checking document existence: ";
   public static final String INTERNAL_SERVER_ERROR_WHILE_CHECKING_APPLICATION_EXISTENCE = "Internal server error while checking application existence";
-  public static final String DELETION_CAN_NOT_BE_EXECUTED = "Deletion can not be executed in a submitted application";
+  public static final String DELETION_CAN_NOT_BE_EXECUTED = "Deletion can be executed only in a draft application";
   public static final String PROVIDED_APPLICATION_ID = "Provided application id: ";
   public static final String WAS_NOT_FOUND_IN_THE_DATABASE = " was not found in the database";
   public static final String ERRORS = "errors";
@@ -197,6 +217,7 @@ public class Constants {
   public static final String WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_C_OPT = "whyWillDataBeTransferredOutsideEUArticle48cOpt";
   public static final String WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B_OPT = "whyWillDataBeTransferredOutsideEUArticle48bOptions";
   public static final String DISPATCHER_COLLECTION = "DISPATCHER";
+  public static final String OUTGOING_APPLICATION_ACTIVITIES_COLLECTION = "OUTGOING_APPLICATION_ACTIVITIES";
   public static final String DATA_PERMIT_ID = "data_permit_id";
   public static final String CATALOG_IDS = "catalog_ids";
   public static final String LABEL = "label";
@@ -304,8 +325,7 @@ public class Constants {
   public static final String DESC = "desc";
   public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
   public static final String SUBMITTED = "SUBMITTED";
-  public static final String APPROVED = "APPROVED";
-  public static final String REJECTED = "REJECTED";
+  public static final String SENDING = "SENDING";
   public static final String PARAMETER_TYPE ="parameterType";
   public static final String PARAMETER_ID ="parameterId";
   public static final String AUDIT_LOG_DATASET_SEARCH_INTERVAL = "AUDIT_LOG_SEARCH_INTERVAL";
@@ -324,12 +344,40 @@ public class Constants {
   public static final String OPTIONS = "$options";
   public static final String ACTION = "action";
   public static final String FILE_ID = "fileId";
+  public static final String FILE_NAME = "fileName";
   public static final String NOTATION = "notation";
   public static final String TRANSLATION = "translation";
   public static final String COUNTRY = "country";
+  public static final String TARGET_LANGUAGES = "targetLanguages";
+  public static final String SOURCE_LANGUAGE = "sourceLanguage";
   public static final String CONFIGURATION_COLLECTION = "CONFIGURATION";
   public static final String CONTROLLED_VOCABULARY_COLLECTION = "CONTROLLED_VOCABULARY";
   public static final String DATASET_ASSISTANT_COLLECTION = "DDA_DATASET";
+  public static final String LEGAL_BASIS = "legalBasis";
+  public static final String NEED_FOR_DATA_EXTRACTION_EVERY_DESCRIPTION = "needForDataExtractionEveryDescription";
+  public static final String PAYLOAD = "payload";
+  public static final String USER_NAME = "userName";
+  public static final String DISPATCHER_RESPONSE_STATUS = "dispatcher_response_status";
+  public static final String HOW_IS_THE_STUDY_COHORT_FORMED = "howIsTheStudyCohortFormed";
+  public static final String HOW_OFTEN_DOES_THE_DATA_NEED_TO_BE_EXTRACTED = "howOftenDoesTheDataNeedToBeExtracted";
+  public static final String PROVIDE_INFORMATION_LIST = "provideInformationList";
+  public static final String PROJECT_LEADER = "projectLeader";
+  public static final String VARIABLES = "variables";
+  public static final String IS_THE_PROJECT_FINANCIALLY_COVERED = "isTheProjectFinanciallyCovered";
+  public static final String INVOICE_TYPE = "invoiceType";
+  public static final String X_API_KEY = "X-API-Key";
+  public static final String OPERATION = "operation";
+  public static final String UNKNOWN_APPLICATION_TYPE = "Unknown application type";
+  public static final String PREVIOUSLY_ISSUED_PERMIT_DATE_2 = "previouslyIssuedPermitDate2";
+  public static final String PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM_2 = "previouslyIssuedPermitValidityPeriodFrom2";
+  public static final String PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_2 = "previouslyIssuedPermitValidityPeriodTo2";
+  public static final String PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_3 = "previouslyIssuedPermitValidityPeriodTo3";
+  public static final String PREVIOUSLY_ISSUED_PERMIT_NUMBER_2 = "previouslyIssuedPermitNumber2";
+  public static final String PREVIOUSLY_ISSUED_PERMIT_NUMBER_3 = "previouslyIssuedPermitNumber3";
+  public static final String PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM_3 = "previouslyIssuedPermitValidityPeriodFrom3";
+  public static final String PREVIOUSLY_ISSUED_PERMIT_ISSUER_2 = "previouslyIssuedPermitIssuer2";
+  public static final String PREVIOUSLY_ISSUED_PERMIT_ISSUER_3 = "previouslyIssuedPermitIssuer3";
+  public static final String PREVIOUSLY_ISSUED_PERMIT_DATE_3 = "previouslyIssuedPermitDate3";
   public static final Set<String> SUPPORTED_LANGUAGES = Set.of(
     "bg", "cs", "da", "de", "el", "en", "es", "et", "fi", "fr", "ga", "hr", "hu", "is", "it", "lt",
     "lv", "mt", "nb", "nl", "nn", "pl", "pt", "ro", "sk", "sl", "sv"
@@ -394,4 +442,7 @@ public class Constants {
     COUNTRY_SCHEME + "/ESP", // Spain
     COUNTRY_SCHEME + "/SWE"  // Sweden
   );
+
+  public static final String PUBLISHER_TYPE_SCHEME = "http://13.81.34.152:1101/resource/authority/publisher-type";
+
 }

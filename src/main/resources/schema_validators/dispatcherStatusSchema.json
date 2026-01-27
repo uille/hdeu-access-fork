@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["type", "operation", "objectId", "payload"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["application"]
+    },
+    "operation": {
+      "type": "string"
+    },
+    "objectId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "payload": {
+      "type": "object",
+      "required": ["application_type", "status"],
+      "properties": {
+        "application_type": {
+          "type": "string",
+          "enum": ["DATA_ACCESS_APPLICATION", "DATA_REQUEST_APPLICATION"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["DRAFT", "SENT", "SUBMITTED", "PRE_SCREEN", "PROCESSING", "ADDITIONAL_INFORMATION", "REJECTED", "WITHDRAWN", "DECISION_ISSUED"]
+        },
+        "statusPayload": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}
