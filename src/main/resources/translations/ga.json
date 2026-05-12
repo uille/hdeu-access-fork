@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Ainm cheannaire an tionscadail (eagraíocht, institiúid, eintiteas san earnáil phríobháideach, nó duine nádúrtha)",
-            "tooltip": "Is é seo an duine atá freagrach as úsáid sonraí"
+            "tooltip": "Is é sin an t-eintiteas atá freagrach as úsáid sonraí."
         },
         "countryOfProjectLeader": {
             "label": "Sainchónaí oifigiúil (tír) an eintitis atá freagrach as an tionscadal"
@@ -122,6 +122,7 @@
             ],
             "info": "(Má roghnaíonn tú an rogha seo, deimhníonn tú go ndéanann tú iarratas ar shonraí mar dhuine príobháideach gan aon chleamhnacht.)"
         },
+        "participatingEntitiesInstruction": "Má tá iarratas á dhéanamh agat thar ceann cuibhreannais, ainmnigh anseo na heintitis rannpháirteacha go léir.",
         "legalPerson": "Duine dlítheanach",
         "naturalPerson": "Duine nádúrtha",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Cleamhnacht"
+        },
+        "otherContactPerson": {
+            "label": "Daoine teagmhála eile",
+            "tooltip": "Má tá níos mó ná teagmhálaí amháin i do thionscadal, ainmnigh anseo iad mar aon le faisnéis faoina gcleamhnachtaí."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "Is éard a bheidh sa chohórt daonra iomlán tíre/tíortha a shonrófar ag tús na foirme seo."
+                    "value": "Daonra iomlán tíre/tíortha nó foinse sonraí a luaitear ag tús na foirme seo a bheidh sa chohórt."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Tabhair tuairisc ar an gcaoi a bhfuarthas an cohórt agus ar na cúiseanna leis an easpa ceada/toilithe sonraí."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Ar chuir tú faisnéis maidir le húsáid sonraí ar fáil do na hábhair chomhfhreagracha? E.g. faisnéis chomhroinnte maidir le húsáid sonraí ar shuíomh gréasáin tionscadail.",
-            "tooltip": "Chun tuilleadh faisnéise a fháil, féach Airteagal 13 agus Airteagal 14 den Rialachán Ginearálta maidir le Cosaint Sonraí: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "↑ Féach Airteagal 13 agus Airteagal 14 den Rialachán Ginearálta maidir le Cosaint Sonraí, <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">."
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Conas?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Cén fáth?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Cé a chuirfidh an t-eolas ar an gcohórt ar fáil don chomhlacht rochtana sonraí sláinte? Gheobhaidh an duine sin treoracha maidir le conas na sonraí a sheachadadh trí thairseach choiteann EHDS."
@@ -612,7 +606,7 @@
             "label": "Tabhair an t-údar atá leis an eisceacht sin."
         },
         "needForDataExtractionEvery": {
-            "label": "Ní mór na sonraí a bhaint gach",
+            "label": "Ní mór na sonraí a asbhaint",
             "tooltip": "Más mian leat na sonraí a bhaint arís agus arís eile thar thréimhse áirithe ama, tabhair faoi deara go bhféadfadh na sainmhínithe agus an modh bailithe sonraí athrú le linn na tréimhse athbhreithnithe i gcásanna áirithe. Tabhair faoi deara gurb é uasmhinicíocht na hasbhainte sonraí gach ráithe"
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "I gcás asbhaint thréimhsiúil, tabhair faisnéis ar leithligh maidir le gach próiseas asbhainte sonraí sna treoracha ordaithe"
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Ní mór na sonraí a bhaint gach",
+            "label": "Ní mór na sonraí a asbhaint",
             "tooltip": "Más mian leat na sonraí a bhaint arís agus arís eile thar thréimhse áirithe ama, tabhair faoi deara go bhféadfadh na sainmhínithe agus an modh bailithe sonraí athrú le linn na tréimhse athbhreithnithe i gcásanna áirithe. Tabhair faoi deara gurb é uasmhinicíocht na hasbhainte sonraí gach ráithe"
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "Cé chomh minic is gá na sonraí a bhaint?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Ní mór na sonraí a bhaint gach",
+            "label": "Ní mór na sonraí a asbhaint",
             "tooltip": "Más mian leat na sonraí a bhaint arís agus arís eile thar thréimhse áirithe ama, tabhair faoi deara go bhféadfadh na sainmhínithe agus an modh bailithe sonraí athrú le linn na tréimhse athbhreithnithe i gcásanna áirithe. Tabhair faoi deara gurb é uasmhinicíocht na hasbhainte sonraí gach ráithe"
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "I gcás asbhaint thréimhsiúil, tabhair faisnéis ar leithligh maidir le gach próiseas asbhainte sonraí sna treoracha ordaithe"
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Ní mór na sonraí a bhaint gach",
+            "label": "Ní mór na sonraí a asbhaint",
             "tooltip": "Más mian leat na sonraí a bhaint arís agus arís eile thar thréimhse áirithe ama, tabhair faoi deara go bhféadfadh na sainmhínithe agus an modh bailithe sonraí athrú le linn na tréimhse athbhreithnithe i gcásanna áirithe. Tabhair faoi deara gurb é uasmhinicíocht na hasbhainte sonraí gach ráithe"
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Sonraí eile atá le comhcheangal",
-        "section7Description": "Is féidir sonraí pearsanta eile, amhail sonraí atá i do sheilbh cheana féin nó sonraí a fuarthas ó áiteanna eile, a chomhcheangal le cead eile, leis na sonraí a ndearnadh iarratas orthu leis an iarratas seo. Liostaigh an fhaisnéis maidir leis na sonraí breise uile a dhéanfar a chomhcheangal leis na sonraí arna n-údarú ag an gcomhlacht rochtana sonraí sláinte. Más mian leat ina dhiaidh sin sonraí pearsanta eile a chomhcheangal leis na sonraí atá údaraithe ag an gcomhlacht rochtana sonraí sláinte, ní mór duit iarratas ar leasú a chur isteach chuig an gcomhlacht rochtana sonraí sláinte céanna. Má tá aon chohórt eile agat ar mhaith leat go ndéanfadh an comhlacht rochtana sonraí sláinte é a chomhcheangal leis na sonraí a bhfuil tú ag cur isteach orthu, gheobhaidh tú treoracha maidir le conas na sonraí a sholáthar go slán tar éis an cead a bheith deonaithe.",
+        "section7Description": "Is féidir sonraí eile ar an leibhéal pearsanta, amhail sonraí atá i do sheilbh cheana féin nó sonraí a fuarthas ó áiteanna eile, a chomhcheangal le cead eile, leis na sonraí a ndéantar iarratas orthu in éineacht leis an iarratas seo. Liostaigh an fhaisnéis le haghaidh na sonraí breise uile a chomhcheanglófar leis na sonraí arna n-údarú ag an gcomhlacht rochtana sonraí sláinte. Más mian leat sonraí eile ar an leibhéal pearsanta a chomhcheangal níos déanaí leis na sonraí atá údaraithe ag an gcomhlacht rochtana sonraí sláinte, ní mór duit iarratas ar leasú a chur isteach chuig an gcomhlacht rochtana sonraí sláinte céanna. Má tá aon chohórt eile agat ar mhaith leat go gcomhcheanglódh an comhlacht rochtana sonraí sláinte é leis na sonraí a bhfuil iarratas á dhéanamh agat orthu, gheobhaidh tú treoracha maidir le conas na sonraí a sheachadadh go slán tar éis an cead a dheonú.",
         "addDataPermit": "Cuir cead sonraí leis",
         "addInfo": "Cuir faisnéis leis",
         "removeDataPermit": "Bain cead sonraí",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Cad iad dátaí tosaigh agus deiridh measta na tréimhse ina bhfuil gá leis na ríomhshonraí sláinte le haghaidh próiseála?",
-            "tooltip": "Is féidir an tréimhse seo a bheith cúig bliana. Le cead breise, is féidir an cead bunaidh a shíneadh go ceann cúig bliana eile"
+            "tooltip": "Is féidir 10 mbliana a bheith i gceist leis an tréimhse sin. Le cead breise, is féidir síneadh 10 mbliana eile a chur leis an gcead bunaidh"
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Ón"
@@ -1168,13 +1162,13 @@
             "tooltip": "EHDS article 71(4) “Mar eisceacht ar an gceart maidir le rogha gan a bheith páirteach dá bhforáiltear i mír 1, féadfaidh Ballstát foráil a dhéanamh ina dhlí náisiúnta maidir le sásra chun sonraí, ar feidhmíodh ceart maidir le rogha gan a bheith páirteach ina leith a chur ar fáil, ar choinníoll go gcomhlíontar na coinníollacha uile seo a leanas: (féach an t-airteagal le haghaidh coinníollacha iomlána)’"
         },
         "providedJustificationException": {
-            "label": "Tabhair an t-údar atá leis an eisceacht sin."
+            "label": "Tabhair an t-údar atá leis an eisceacht sin agus cuir san áireamh i d’údar an chaoi a gcomhlíontar coinníollacha Airteagal 71(4)(a-c)."
         },
         "protectionAndSecurityStatements": {
             "label": "Chun leanúint ar aghaidh leis an iarratas seo, ní mór duit na ráitis seo a leanas a dheimhniú (ráitis cosanta sonraí agus ráitis a bhaineann le slándáil):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Dearbhaím, má dheonaíonn an comhlacht rochtana sonraí sláinte dom na sonraí a bhfuil iarratas á dhéanamh agam ina leith, nach n-úsáidfidh mé iad ach amháin chun na críche nó chun na gcríoch a luaitear san fhoirm iarratais seo."
+            "label": "1. Dearbhaím, má dheonaíonn an comhlacht rochtana sonraí sláinte na sonraí a bhfuil iarratas á dhéanamh agam orthu dom, nach n-úsáidfidh mé iad ach amháin chun na críche/na gcríoch a luaitear san fhoirm iarratais seo agus nach n-úsáidfidh mé iad chun aon chríoch atá toirmiscthe."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Tuigim go bhfuil cosc ar chóipeáil na sonraí ón timpeallacht shlán phróiseála."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Má theastaíonn cead taighde ó d’eagraíocht chleamhnachta le haghaidh do chuid taighde, ceangail an cead taighde"
+        },
+        "hdabToRetain": {
+            "label": "An mian leat go gcoinneoidh an HDAB an fhoirmle a úsáidtear chun an tacar sonraí a iarradh a chruthú? ",
+            "tooltip": "Airteagal 68(12) EHDS: (--) Arna iarraidh sin don úsáideoir sonraí sláinte, féadfaidh an comhlacht rochtana sonraí sláinte an fhoirmle maidir le cruthú an tacair sonraí iarrtha a stóráil."
         }
     },
     "section9": {
         "section9h5": "Faisnéis bhreise",
-        "section9Description": "Is féidir leat tuilleadh eolais a thabhairt anseo faoi aon cheann de na ranna i d’iarratas. Sonraigh líon na roinne agus an cheist dá dtagraíonn do bharúil.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Tuilleadh eolais nó aon nótaí breise",
-            "tooltip": "Is féidir leat tuilleadh faisnéise a fháil anseo faoi aon cheann de na rannáin i d’iarratas. Cuir in iúl uimhir na roinne agus an cheist dá dtagraíonn do bharúil. Moladh maidir leis an gcur chun feidhme teicniúil: De rogha air sin, d’fhéadfadh bealach a bheith ann chun ligean don iarratasóir faisnéis a nascadh le codanna sonracha den fhoirm chun post HDABanna a éascú."
+            "tooltip": "Anseo is féidir leat tuilleadh eolais a thabhairt faoi aon cheann de na rannáin i d’iarratas. Luaigh uimhir na roinne agus an cheist lena mbaineann do bharúil. Tabhair aon fhaisnéis rúnda i d’iarratas agus tabhair údar gairid leis an rúndacht, agus sonraigh uimhir agus ceist ábhartha na rannóige."
         },
         "additionalAttachment": {
             "label": "Ceangaltán breise. Ná ceangail sonraí sláinte ná pearsanta leis an bhfeidhmchlár seo.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Leathbhliain"
+                    "value": "Gach leathbhliain"
                 },
                 {
                     "key": "c",
-                    "value": "Ráithe"
+                    "value": "Gach ráithe"
                 },
                 {
                     "key": "d",

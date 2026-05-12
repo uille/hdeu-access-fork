@@ -113,22 +113,6 @@ public class DataAccessApplicationBusinessValidationManager extends AbstractSche
               hasVars = true;
             }
 
-            // case B: dataset.distributions_sample[*].variables
-            if (!hasVars) {
-              JsonArray samples = ds.getJsonArray("distributions_sample");
-              if (samples != null) {
-                for (int s = 0; s < samples.size(); s++) {
-                  Object so = samples.getValue(s);
-                  if (!(so instanceof JsonObject)) continue;
-                  JsonArray sampleVars = ((JsonObject) so).getJsonArray("variables");
-                  if (sampleVars != null && !sampleVars.isEmpty()) {
-                    hasVars = true;
-                    break;
-                  }
-                }
-              }
-            }
-
             if (hasVars) {
               datasetIdsWithVars.add(dsId);
             }

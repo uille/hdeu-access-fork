@@ -15,19 +15,17 @@
  */
 package eu.europa.data.health.access.validations.validators;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
-import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.RequestBody;
 import io.vertx.ext.web.RoutingContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -76,29 +74,34 @@ class UserValidationManagerTest {
   }
 
   @Test
+  void testValidateCreateOrUpdateUser_MissingEmail_ShouldReturn400() {
+    JsonObject invalidJson = validNaturalUserJson().copy();
+    invalidJson.remove("email");
+
+    RequestBody body = mock(RequestBody.class);
+    when(context.body()).thenReturn(body);
+    when(body.asJsonObject()).thenReturn(invalidJson);
+
+    when(context.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+    when(response.end(anyString())).thenReturn(null);
+
+    manager.validateCreateOrUpdateUser(context);
+
+    verify(response).setStatusCode(400);
+    ArgumentCaptor<String> responseBodyCaptor = ArgumentCaptor.forClass(String.class);
+    verify(response).end(responseBodyCaptor.capture());
+    assertTrue(responseBodyCaptor.getValue().contains("\"field\":\"email\""));
+    verify(response).setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
+  }
+
+  @Test
   void testValidateCreateOrUpdateUser_ValidInput_ShouldCallNext() {
-    JsonObject validJson = new JsonObject()
+    JsonObject validJson = validNaturalUserJson();
 
-      .put("legalOrNaturalPerson", new JsonObject().put("key", "b"))
-      .put("naturalPersonJobTitle", "Researcher")
-      .put("naturalPersonAffiliation", "Health Institute")
-      .put("naturalPersonAddress", "123 Main St")
-      .put("naturalPersonZipCode", "12345")
-      .put("naturalPersonCity", "Helsinki")
-      .put("naturalPersonCountry",  new JsonObject().put("key", "FI")
-        .put("value", "Finland"))
-      .put("naturalPersonPhone", new JsonObject().
-        put("countryCode", "+358")
-      .put("number", "123456789"));
-
-    var body = mock(io.vertx.ext.web.RequestBody.class);
+    RequestBody body = mock(RequestBody.class);
     when(context.body()).thenReturn(body);
     when(body.asJsonObject()).thenReturn(validJson);
-
-    manager = spy(manager);
-    doNothing().when(context).next();
-
-
 
     manager.validateCreateOrUpdateUser(context);
 
@@ -106,27 +109,46 @@ class UserValidationManagerTest {
   }
 
   @Test
-  void testValidateBasketJsonSchema_ValidJson_ShouldCallNext() {
-    Buffer buffer = Buffer.buffer("{\"exampleField\":\"exampleValue\"}");
+  void testValidateCreateOrUpdateUserJsonSchema_MissingEmail_ShouldCallNext() {
+    JsonObject validJsonWithoutEmail = validNaturalUserJson().copy();
+    validJsonWithoutEmail.remove("email");
 
-    var body = mock(io.vertx.ext.web.RequestBody.class);
-
-
-
-    when(context.response()).thenReturn(response);
-
+    RequestBody body = mock(RequestBody.class);
     when(context.body()).thenReturn(body);
-    when(context.body().asString()).thenReturn(buffer.toString());
-    when(context.body().asString().trim()).thenReturn(buffer.toString());
-
-    when(context.response()).thenReturn(response);
-    when(context.response().setStatusCode(anyInt())).thenReturn(response);
+    when(body.isEmpty()).thenReturn(false);
+    when(body.asString()).thenReturn(validJsonWithoutEmail.encode());
+    when(body.asJsonObject()).thenReturn(validJsonWithoutEmail);
 
     manager.validateCreateOrUpdateUserJsonSchema(context);
 
-
-    verify(context, never()).next();
-
+    verify(context).next();
   }
 
+  @Test
+  void testValidateCreateOrUpdateUserJsonSchema_ValidJson_ShouldCallNext() {
+    JsonObject validJson = validNaturalUserJson();
+
+    RequestBody body = mock(RequestBody.class);
+    when(context.body()).thenReturn(body);
+    when(body.isEmpty()).thenReturn(false);
+    when(body.asString()).thenReturn(validJson.encode());
+    when(body.asJsonObject()).thenReturn(validJson);
+
+    manager.validateCreateOrUpdateUserJsonSchema(context);
+
+    verify(context).next();
+  }
+
+  private JsonObject validNaturalUserJson() {
+    return new JsonObject()
+      .put("email", "user@example.com")
+      .put("legalOrNaturalPerson", new JsonObject().put("key", "b").put("value", "Natural person"))
+      .put("naturalPersonJobTitle", "Researcher")
+      .put("naturalPersonAffiliation", "Health Institute")
+      .put("naturalPersonAddress", "123 Main St")
+      .put("naturalPersonZipCode", "12345")
+      .put("naturalPersonCity", "Helsinki")
+      .put("naturalPersonCountry", new JsonObject().put("key", "FI").put("value", "Finland"))
+      .put("naturalPersonPhone", new JsonObject().put("countryCode", "+358").put("number", "123456789"));
+  }
 }

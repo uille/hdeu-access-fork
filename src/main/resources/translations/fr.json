@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Nom du chef de projet (organisation, institution, entité du secteur privé ou personne physique)",
-            "tooltip": "Il s’agit de la personne responsable de l’utilisation des données."
+            "tooltip": "Il s’agit de l’entité responsable de l’utilisation des données."
         },
         "countryOfProjectLeader": {
             "label": "Domicile officiel (pays) de l’entité responsable du projet"
@@ -122,6 +122,7 @@
             ],
             "info": "(Si vous choisissez cette option, vous confirmez que vous demandez des données en tant que personne privée sans aucune affiliation.)"
         },
+        "participatingEntitiesInstruction": "Si vous soumettez votre candidature au nom d’un consortium, veuillez indiquer ici le nom de toutes les entités participantes.",
         "legalPerson": "Personne morale",
         "naturalPerson": "Personne physique",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Affiliation"
+        },
+        "otherContactPerson": {
+            "label": "Autres personnes de contact",
+            "tooltip": "Si votre projet compte plusieurs personnes de contact, veuillez les nommer ici et fournir des informations sur leurs affiliations."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "La cohorte sera l’ensemble de la population d’un ou de plusieurs pays indiqués au début du présent formulaire."
+                    "value": "La cohorte sera l’ensemble de la population d’un ou de plusieurs pays ou une source de données indiquée au début du présent formulaire."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Décrivez la manière dont la cohorte a été obtenue et les raisons de l’absence d’autorisation/de consentement pour les données."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Avez-vous fourni des informations sur l’utilisation des données aux sujets correspondants? Par exemple, des informations partagées sur l’utilisation des données sur un site web consacré au projet.",
-            "tooltip": "Pour de plus amples informations, voir les articles 13 et 14 du règlement général sur la protection des données: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "Pour de plus amples informations, voir les articles 13 et 14 du règlement général de la <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\"> sur la protection des données."
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Comment?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Pourquoi pas?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Qui fournira les informations relatives à la cohorte à l’organisme responsable de l’accès aux données de santé? Cette personne recevra des instructions sur la manière de fournir les données par l’intermédiaire du portail commun de l’EHDS."
@@ -612,7 +606,7 @@
             "label": "Fournir la justification de cette exception."
         },
         "needForDataExtractionEvery": {
-            "label": "Toutes les données doivent être extraites",
+            "label": "Les données doivent être extraites",
             "tooltip": "Si vous souhaitez que les données soient extraites plusieurs fois sur une certaine période, veuillez noter que les définitions et la méthode de collecte des données peuvent, dans certains cas, changer au cours de la période de réexamen. Il convient de noter que la fréquence maximale d’extraction des données est trimestrielle."
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "En cas d’extraction récurrente, fournir des informations sur chaque processus d’extraction de données séparément dans les instructions d’ordre"
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Toutes les données doivent être extraites",
+            "label": "Les données doivent être extraites",
             "tooltip": "Si vous souhaitez que les données soient extraites plusieurs fois sur une certaine période, veuillez noter que les définitions et la méthode de collecte des données peuvent, dans certains cas, changer au cours de la période de réexamen. Il convient de noter que la fréquence maximale d’extraction des données est trimestrielle."
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "À quelle fréquence les données doivent-elles être extraites?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Toutes les données doivent être extraites",
+            "label": "Les données doivent être extraites",
             "tooltip": "Si vous souhaitez que les données soient extraites plusieurs fois sur une certaine période, veuillez noter que les définitions et la méthode de collecte des données peuvent, dans certains cas, changer au cours de la période de réexamen. Il convient de noter que la fréquence maximale d’extraction des données est trimestrielle."
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "En cas d’extraction récurrente, fournir des informations sur chaque processus d’extraction de données séparément dans les instructions d’ordre"
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Toutes les données doivent être extraites",
+            "label": "Les données doivent être extraites",
             "tooltip": "Si vous souhaitez que les données soient extraites plusieurs fois sur une certaine période, veuillez noter que les définitions et la méthode de collecte des données peuvent, dans certains cas, changer au cours de la période de réexamen. Il convient de noter que la fréquence maximale d’extraction des données est trimestrielle."
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Autres données à combiner",
-        "section7Description": "Il est possible de combiner d’autres données à caractère personnel, telles que des données déjà en votre possession ou des données obtenues d’ailleurs avec un autre permis, avec les données demandées dans le cadre de la présente demande. Énumérez les informations relatives à toutes les données supplémentaires qui seront combinées aux données autorisées par l’organisme responsable de l’accès aux données de santé. Si vous souhaitez ensuite combiner d’autres données à caractère personnel avec les données autorisées par l’organisme responsable de l’accès aux données de santé, vous devez introduire une demande de modification auprès du même organisme responsable de l’accès aux données de santé. Si vous avez une autre cohorte que vous souhaitez que l’organisme responsable de l’accès aux données de santé combine avec les données pour lesquelles vous demandez, vous recevrez des instructions sur la manière de fournir les données en toute sécurité après l’octroi de l’autorisation.",
+        "section7Description": "Il est possible de combiner d’autres données à caractère personnel, telles que des données déjà en votre possession ou des données obtenues par ailleurs avec une autre autorisation, avec les données demandées dans le cadre de la présente demande. Énumérez les informations pour toutes les données supplémentaires qui seront combinées avec les données autorisées par l’organisme responsable de l’accès aux données de santé. Si vous souhaitez par la suite combiner d’autres données à caractère personnel avec les données autorisées par l’organisme responsable de l’accès aux données de santé, vous devez introduire une demande de modification auprès de ce même organisme responsable de l’accès aux données de santé. Si vous disposez d’une autre cohorte que vous souhaiteriez que l’organisme responsable de l’accès aux données de santé combine avec les données que vous demandez, vous recevrez des instructions sur la manière de fournir les données en toute sécurité après l’octroi de l’autorisation.",
         "addDataPermit": "Ajouter une autorisation de traitement de données",
         "addInfo": "Ajouter des informations",
         "removeDataPermit": "Supprimer l’autorisation de traitement de données",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Quelles sont les dates estimées de début et de fin de la période pendant laquelle les données de santé électroniques sont nécessaires au traitement?",
-            "tooltip": "Cette période peut être de cinq ans. Avec un permis supplémentaire, le permis initial peut être prolongé de cinq ans supplémentaires."
+            "tooltip": "Cette période peut être de 10 ans. Avec un permis supplémentaire, le permis initial peut être prolongé pour une nouvelle période de 10 ans."
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Depuis"
@@ -1168,13 +1162,13 @@
             "tooltip": "EHDS article 71(4) “Par dérogation au droit de refus prévu au paragraphe 1, un État membre peut prévoir, dans son droit national, un mécanisme permettant de mettre à disposition des données pour lesquelles un droit de refus a été exercé, à condition que toutes les conditions suivantes soient remplies: (voir l’article pour les conditions complètes)»"
         },
         "providedJustificationException": {
-            "label": "Fournir la justification de cette exception."
+            "label": "Veuillez justifier cette exception et indiquer dans votre justification comment les conditions de l’article 71(4)(a-c) sont remplies."
         },
         "protectionAndSecurityStatements": {
             "label": "Pour procéder à cette demande, vous devez confirmer les déclarations suivantes (déclarations relatives à la protection des données et à la sécurité):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Je confirme que si l’organisme responsable de l’accès aux données de santé m’accorde les données pour lesquelles je demande, je les utiliserai uniquement aux fins indiquées dans le présent formulaire de demande."
+            "label": "1. Je confirme que si l’organisme responsable de l’accès aux données de santé m’accorde les données pour lesquelles je demande l’accès, je les utiliserai uniquement aux fins indiquées dans le présent formulaire de demande et ne les utiliserai à aucune fin interdite."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Je comprends qu’il est interdit de copier les données de l’environnement de traitement sécurisé."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Si votre recherche nécessite un permis de recherche de votre organisme d’affiliation, joignez le permis de recherche"
+        },
+        "hdabToRetain": {
+            "label": "Voulez-vous que le HDAB conserve la formule utilisée pour la création de l’ensemble de données demandé? ",
+            "tooltip": "Article 68, paragraphe 12, de l’EHDS: (--) À la demande de l’utilisateur de données de santé, la formule de création de l’ensemble de données demandé peut être conservée par l’organisme responsable de l’accès aux données de santé."
         }
     },
     "section9": {
         "section9h5": "Complément d’informations",
-        "section9Description": "Vous pouvez ici fournir de plus amples informations sur n’importe laquelle des sections de votre candidature. Indiquez le numéro de la section et la question à laquelle vous faites référence.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Informations complémentaires ou notes complémentaires",
-            "tooltip": "Vous pouvez ici fournir de plus amples informations sur n’importe laquelle des sections de votre candidature. Indiquez le numéro de la section et la question à laquelle vous faites référence. Proposition de mise en œuvre technique: À titre subsidiaire, il pourrait y avoir un moyen de permettre au demandeur de lier des informations à des parties spécifiques du formulaire afin de faciliter l’emploi des HDAB."
+            "tooltip": "Vous pouvez fournir ici de plus amples informations sur n’importe laquelle des sections de votre candidature. Indiquez le numéro de la section et la question à laquelle se rapporte votre commentaire. Indiquez toute information confidentielle dans votre demande et justifiez brièvement la confidentialité, en précisant le numéro de la section concernée et la question."
         },
         "additionalAttachment": {
             "label": "Une pièce jointe supplémentaire. Ne joignez pas de données relatives à la santé ou à caractère personnel à la présente demande.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Six mois"
+                    "value": "Tous les six mois"
                 },
                 {
                     "key": "c",
-                    "value": "Trimestre"
+                    "value": "Tous les trimestres"
                 },
                 {
                     "key": "d",

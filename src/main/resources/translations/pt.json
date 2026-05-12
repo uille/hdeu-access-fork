@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Nome do chefe de projeto (organização, instituição, entidade do setor privado ou pessoa singular)",
-            "tooltip": "Esta é a pessoa responsável pela utilização dos dados"
+            "tooltip": "Esta é a entidade responsável pela utilização dos dados."
         },
         "countryOfProjectLeader": {
             "label": "Domicílio oficial (país) da entidade responsável pelo projeto"
@@ -122,6 +122,7 @@
             ],
             "info": "(Se escolher esta opção, confirma que se candidata a dados na qualidade de pessoa privada sem qualquer inscrição.)"
         },
+        "participatingEntitiesInstruction": "Se se candidatar em nome de um consórcio, indique aqui todas as entidades participantes.",
         "legalPerson": "Pessoa coletiva",
         "naturalPerson": "Pessoa singular",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Afiliação"
+        },
+        "otherContactPerson": {
+            "label": "Outras pessoas de contacto",
+            "tooltip": "Se houver várias pessoas de contacto no seu projeto, queira indicá-las aqui, juntamente com informações sobre as respetivas filiações."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "A coorte será a totalidade da população de um (s) país (es) indicado (s) no início do presente formulário."
+                    "value": "A coorte será toda a população de um ou mais países ou uma fonte de dados indicada no início do presente formulário."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Descrever a forma como a coorte foi obtida e as razões para a falta de autorização/consentimento de dados."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Forneceu informações sobre a utilização dos dados aos temas correspondentes? Por exemplo, partilha de informações sobre a utilização dos dados num sítio Web do projeto.",
-            "tooltip": "Para mais informações, consultar os artigos 13.º e 14.º do Regulamento Geral sobre a Proteção de Dados: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "Para mais informações, ver os artigos 13.º e 14.º do Regulamento Geral sobre a Proteção de Dados <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">"
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Mas como?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Porque não?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Quem fornecerá as informações sobre a coorte ao organismo responsável pelo acesso aos dados de saúde? Esta pessoa receberá instruções sobre a forma de fornecer os dados através do portal comum do EEDS."
@@ -612,7 +606,7 @@
             "label": "Justificar esta exceção."
         },
         "needForDataExtractionEvery": {
-            "label": "Os dados devem ser extraídos todos",
+            "label": "É necessário extrair os dados",
             "tooltip": "Se pretender que os dados sejam extraídos várias vezes ao longo de um determinado período, note-se que, em alguns casos, as definições e o método de recolha de dados podem mudar durante o período de análise. Note-se que a frequência máxima de extração de dados é trimestral"
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "Em caso de extração recorrente, fornecer informações sobre cada processo de extração de dados separadamente nas instruções de encomenda."
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Os dados devem ser extraídos todos",
+            "label": "É necessário extrair os dados",
             "tooltip": "Se pretender que os dados sejam extraídos várias vezes ao longo de um determinado período, note-se que, em alguns casos, as definições e o método de recolha de dados podem mudar durante o período de análise. Note-se que a frequência máxima de extração de dados é trimestral"
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "Com que frequência é necessário extrair os dados?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Os dados devem ser extraídos todos",
+            "label": "É necessário extrair os dados",
             "tooltip": "Se pretender que os dados sejam extraídos várias vezes ao longo de um determinado período, note-se que, em alguns casos, as definições e o método de recolha de dados podem mudar durante o período de análise. Note-se que a frequência máxima de extração de dados é trimestral"
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "Em caso de extração recorrente, fornecer informações sobre cada processo de extração de dados separadamente nas instruções de encomenda."
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Os dados devem ser extraídos todos",
+            "label": "É necessário extrair os dados",
             "tooltip": "Se pretender que os dados sejam extraídos várias vezes ao longo de um determinado período, note-se que, em alguns casos, as definições e o método de recolha de dados podem mudar durante o período de análise. Note-se que a frequência máxima de extração de dados é trimestral"
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Outros dados a combinar",
-        "section7Description": "É possível combinar outros dados pessoais, tais como dados já na sua posse ou dados obtidos de outra forma com outra autorização, com os dados solicitados com este pedido. Enumerar as informações relativas a todos os dados adicionais que serão combinados com os dados autorizados pelo organismo responsável pelo acesso aos dados de saúde. Se posteriormente pretender combinar outros dados pessoais com os dados autorizados pelo organismo responsável pelo acesso aos dados de saúde, tem de apresentar um pedido de alteração ao mesmo organismo responsável pelo acesso aos dados de saúde. Se tiver outra coorte que gostaria que o organismo responsável pelo acesso aos dados de saúde combinasse com os dados que solicita, receberá instruções sobre a forma de fornecer os dados de forma segura após a concessão da licença.",
+        "section7Description": "É possível combinar outros dados pessoais, tais como dados já na sua posse ou dados obtidos de outra forma com outra autorização, com os dados solicitados com esta aplicação. Enumerar as informações relativas a todos os dados adicionais que serão combinados com os dados autorizados pelo organismo responsável pelo acesso aos dados de saúde. Se, mais tarde, pretender combinar outros dados pessoais com os dados autorizados pelo organismo responsável pelo acesso aos dados de saúde, tem de apresentar um pedido de alteração ao mesmo organismo responsável pelo acesso aos dados de saúde. Se tiver qualquer outra coorte que gostaria que o organismo responsável pelo acesso aos dados de saúde combinasse com os dados a que se candidata, receberá instruções sobre a forma de fornecer os dados de forma segura após a concessão da autorização.",
         "addDataPermit": "Adicionar autorização de introdução de dados",
         "addInfo": "Acrescentar informações",
         "removeDataPermit": "Retirar autorização de tratamento de dados",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Quais são as datas previstas de início e de termo do período durante o qual os dados de saúde eletrónicos são necessários para o tratamento?",
-            "tooltip": "Este período pode ser de cinco anos. Com uma licença adicional, a licença original pode ser prorrogada por mais cinco anos."
+            "tooltip": "Este período pode ser de 10 anos. Com uma licença adicional, a licença original pode ser prorrogada por mais 10 anos"
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "De"
@@ -1168,13 +1162,13 @@
             "tooltip": "Artigo 71.º(4) EHDS “Em derrogação do direito de oposição previsto no n.º 1, os Estados-Membros podem prever no seu direito nacional um mecanismo para disponibilizar os dados relativamente aos quais tenha sido exercido o direito de oposição, desde que estejam preenchidas as seguintes condições: (consultar o artigo relativo às condições completas)»"
         },
         "providedJustificationException": {
-            "label": "Justificar esta exceção."
+            "label": "Apresente a justificação para esta exceção e inclua na sua justificação a forma como estão preenchidas as condições do artigo 71(4)(a-c)"
         },
         "protectionAndSecurityStatements": {
             "label": "Para prosseguir com este pedido, é necessário confirmar as seguintes declarações (declarações relacionadas com a proteção de dados e a segurança):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Confirmo que, se o organismo responsável pelo acesso aos dados de saúde me conceder os dados que solicito, utilizá-los-ei apenas para a (s) finalidade (s) indicada (s) no presente formulário de pedido."
+            "label": "1. Confirmo que, se o organismo responsável pelo acesso aos dados de saúde me conceder os dados que solicito, utilizá-los-ei apenas para a (s) finalidade (s) indicada (s) no presente formulário de pedido e não os utilizarei para quaisquer fins proibidos."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Compreendo que é proibido copiar os dados do ambiente de tratamento seguro."
@@ -1286,6 +1280,10 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Se a sua investigação exigir uma autorização de investigação da sua organização afiliada, anexar a licença de investigação"
+        },
+        "hdabToRetain": {
+            "label": "Pretende que o HDAB mantenha a fórmula utilizada para a criação do conjunto de dados solicitado? ",
+            "tooltip": "Artigo 68.º, n.º 12, do EEDS: (--) A pedido do utilizador dos dados de saúde, a fórmula para a criação do conjunto de dados solicitado pode ser armazenada pelo organismo responsável pelo acesso aos dados de saúde."
         }
     },
     "section9": {
@@ -1293,7 +1291,7 @@
         "section9Description": "Pode fornecer mais informações sobre qualquer uma das secções da sua candidatura. Indique o número da secção e a pergunta a que se refere o comentário.",
         "additionalInformation": {
             "label": "Informações complementares ou notas complementares",
-            "tooltip": "Pode fornecer mais informações sobre qualquer uma das secções da sua candidatura. Indique o número da secção e a pergunta a que se refere o comentário. "
+            "tooltip": "Pode fornecer aqui mais informações sobre qualquer uma das secções da sua candidatura. Indique o número da secção e a pergunta a que se refere o seu comentário. Indique quaisquer informações confidenciais na sua candidatura e justifique sucintamente a confidencialidade, especificando o número da secção e a pergunta pertinentes."
         },
         "additionalAttachment": {
             "label": "Um anexo adicional. Não anexar dados de saúde ou pessoais a este pedido.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Meio ano"
+                    "value": "De meio em meio ano"
                 },
                 {
                     "key": "c",
-                    "value": "Trimestre"
+                    "value": "Todos os trimestres"
                 },
                 {
                     "key": "d",

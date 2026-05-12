@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Isem il-mexxej tal-proġett (organizzazzjoni, istituzzjoni, entità tas-settur privat, jew persuna fiżika)",
-            "tooltip": "Din hija l-persuna responsabbli għall-użu tad-data"
+            "tooltip": "Din hija l-entità responsabbli għall-użu tad-data."
         },
         "countryOfProjectLeader": {
             "label": "Domiċilju uffiċjali (pajjiż) tal-entità responsabbli għall-proġett"
@@ -122,6 +122,7 @@
             ],
             "info": "(Jekk tagħżel din l-għażla, tikkonferma li tapplika għad-data bħala persuna privata mingħajr ebda affiljazzjoni.)"
         },
+        "participatingEntitiesInstruction": "Jekk qed tapplika f’isem konsorzju, jekk jogħġbok semmi hawnhekk l-entitajiet parteċipanti kollha.",
         "legalPerson": "Il-persuna ġuridika",
         "naturalPerson": "Persuna fiżika",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Affiljazzjoni"
+        },
+        "otherContactPerson": {
+            "label": "Persuni ta’ kuntatt oħrajn",
+            "tooltip": "Jekk hemm diversi persuni ta’ kuntatt fil-proġett tiegħek, jekk jogħġbok semmihom hawnhekk flimkien ma’ informazzjoni dwar l-affiljazzjonijiet tagħhom."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "Il-koorti se tkun il-popolazzjoni kollha ta’ pajjiż (i) indikat (i) fil-bidu ta’ din il-formola."
+                    "value": "Il-koorti se jkun il-popolazzjoni kollha ta’ pajjiż/pajjiżi jew sors ta’ data indikat fil-bidu ta’ din il-formola."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Iddeskrivi kif inkiseb il-koorti u r-raġunijiet għan-nuqqas ta’ permess/kunsens tad-data."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Ipprovdejt informazzjoni dwar l-użu tad-data lis-suġġetti korrispondenti? Eż. informazzjoni kondiviża dwar l-użu tad-data fuq sit web tal-proġett.",
-            "tooltip": "Għal aktar informazzjoni, ara l-Artikoli 13 u 14 tar-Regolament Ġenerali dwar il-Protezzjoni tad-Data: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "Għal aktar informazzjoni, ara l-Artikoli 13 u 14 tar-Regolament Ġenerali dwar il-Protezzjoni tad-Data ta’ <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">"
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Kif?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Għaliex le?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Min se jwassal l-informazzjoni dwar il-koorti lill-korp tal-aċċess għad-data dwar is-saħħa? Din il-persuna se tirċievi struzzjonijiet dwar kif twassal id-data permezz tal-portal komuni tal-EHDS."
@@ -612,7 +606,7 @@
             "label": "Ipprovdi l-ġustifikazzjoni għal din l-eċċezzjoni."
         },
         "needForDataExtractionEvery": {
-            "label": "Id-data jeħtieġ li tiġi estratta kull",
+            "label": "Jeħtieġ li d-data tiġi estratta",
             "tooltip": "Jekk tixtieq li d-data tiġi estratta diversi drabi matul ċertu perjodu ta’ żmien, innota li d-definizzjonijiet u l-metodu tal-ġbir tad-data jistgħu jinbidlu matul il-perjodu ta’ rieżami f’xi każijiet. Innota li l-frekwenza massima tal-estrazzjoni tad-data hija kull tliet xhur"
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "Fil-każ ta’ estrazzjoni rikorrenti, ipprovdi informazzjoni dwar kull proċess ta’ estrazzjoni tad-data separatament fl-istruzzjonijiet tal-ordni"
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Id-data jeħtieġ li tiġi estratta kull",
+            "label": "Jeħtieġ li d-data tiġi estratta",
             "tooltip": "Jekk tixtieq li d-data tiġi estratta diversi drabi matul ċertu perjodu ta’ żmien, innota li d-definizzjonijiet u l-metodu tal-ġbir tad-data jistgħu jinbidlu matul il-perjodu ta’ rieżami f’xi każijiet. Innota li l-frekwenza massima tal-estrazzjoni tad-data hija kull tliet xhur"
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "Kemm-il darba jeħtieġ li tiġi estratta d-data?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Id-data jeħtieġ li tiġi estratta kull",
+            "label": "Jeħtieġ li d-data tiġi estratta",
             "tooltip": "Jekk tixtieq li d-data tiġi estratta diversi drabi matul ċertu perjodu ta’ żmien, innota li d-definizzjonijiet u l-metodu tal-ġbir tad-data jistgħu jinbidlu matul il-perjodu ta’ rieżami f’xi każijiet. Innota li l-frekwenza massima tal-estrazzjoni tad-data hija kull tliet xhur"
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "Fil-każ ta’ estrazzjoni rikorrenti, ipprovdi informazzjoni dwar kull proċess ta’ estrazzjoni tad-data separatament fl-istruzzjonijiet tal-ordni"
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Id-data jeħtieġ li tiġi estratta kull",
+            "label": "Jeħtieġ li d-data tiġi estratta",
             "tooltip": "Jekk tixtieq li d-data tiġi estratta diversi drabi matul ċertu perjodu ta’ żmien, innota li d-definizzjonijiet u l-metodu tal-ġbir tad-data jistgħu jinbidlu matul il-perjodu ta’ rieżami f’xi każijiet. Innota li l-frekwenza massima tal-estrazzjoni tad-data hija kull tliet xhur"
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Data oħra li għandha tiġi kkombinata",
-        "section7Description": "Huwa possibbli li tiġi kkombinata data personali oħra, bħal data diġà fil-pussess tiegħek jew data miksuba minn xi mkien ieħor ma’ permess ieħor, mad-data li għaliha saret applikazzjoni ma’ din l-applikazzjoni. Elenka l-informazzjoni għad-data addizzjonali kollha li se tiġi kkombinata mad-data awtorizzata mill-korp tal-aċċess għad-data dwar is-saħħa. Jekk aktar tard trid tikkombina data personali oħra mad-data awtorizzata mill-korp tal-aċċess għad-data dwar is-saħħa, trid tissottometti applikazzjoni għal emenda lill-istess korp tal-aċċess għad-data dwar is-saħħa. Jekk għandek xi koorti oħra li tixtieq li l-korp tal-aċċess għad-data dwar is-saħħa jikkombina mad-data li qed tapplika għaliha, se tirċievi struzzjonijiet dwar kif twassal id-data b’mod sigur wara li jkun ingħata l-permess.",
+        "section7Description": "Huwa possibbli li tikkombina data oħra ta’ livell personali, bħal data diġà fil-pussess tiegħek jew data miksuba minn xi mkien ieħor ma’ permess ieħor, mad-data li għaliha saret l-applikazzjoni ma’ din l-applikazzjoni. Elenka l-informazzjoni għad-data addizzjonali kollha li se tiġi kkombinata mad-data awtorizzata mill-korp tal-aċċess għad-data dwar is-saħħa. Jekk aktar tard tkun trid tikkombina data oħra fil-livell personali mad-data awtorizzata mill-korp tal-aċċess għad-data dwar is-saħħa, jeħtieġ li tissottometti applikazzjoni għal emenda lill-istess korp tal-aċċess għad-data dwar is-saħħa. Jekk għandek xi koorti ieħor li tixtieq li l-korp tal-aċċess għad-data dwar is-saħħa jikkombina mad-data li qed tapplika għaliha, se tirċievi struzzjonijiet dwar kif tibgħat id-data b’mod sigur wara li jkun ingħata l-permess.",
         "addDataPermit": "Żid permess tad-data",
         "addInfo": "Żid Informazzjoni",
         "removeDataPermit": "Neħħi l-permess tad-data",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "X’inhuma d-dati stmati tal-bidu u tat-tmiem tal-perjodu li matulu d-data elettronika dwar is-saħħa hija meħtieġa għall-ipproċessar?",
-            "tooltip": "Dan il-perjodu jista’ jkun ta’ ħames snin. B’permess addizzjonali, il-permess oriġinali jista’ jiġi estiż għal ħames snin oħra"
+            "tooltip": "Dan il-perjodu jista’ jkun ta’ 10 snin. B’permess addizzjonali, il-permess oriġinali jista’ jiġi estiż għal 10 snin oħra"
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Mingħand"
@@ -1168,13 +1162,13 @@
             "tooltip": "Artikolu 71(4) EHDS “B’eċċezzjoni mid-dritt ta’ nonparteċipazzjoni previst fil-paragrafu 1, Stat Membru jista’ jipprevedi fil-liġi nazzjonali tiegħu mekkaniżmu biex jagħmel id-data li għaliha ikun ġie eżerċitat id-dritt ta’ nonparteċipazzjoni disponibbli, dment li l-kundizzjonijiet kollha li ġejjin ikunu ssodisfati: (irreferi għall-artikolu għall-kundizzjonijiet sħaħ)”"
         },
         "providedJustificationException": {
-            "label": "Ipprovdi l-ġustifikazzjoni għal din l-eċċezzjoni."
+            "label": "Ipprovdi l-ġustifikazzjoni għal din l-eċċezzjoni u inkludi fil-ġustifikazzjoni tiegħek kif il-kundizzjonijiet tal-Artikolu 71(4)(a-c) huma ssodisfati."
         },
         "protectionAndSecurityStatements": {
             "label": "Biex tipproċedi b’din l-applikazzjoni, trid tikkonferma d-dikjarazzjonijiet li ġejjin (dikjarazzjonijiet relatati mal-protezzjoni tad-data u mas-sigurtà):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Nikkonferma li jekk il-korp tal-aċċess għad-data dwar is-saħħa jagħtini d-data li qed napplika għaliha, se nużaha biss għall-iskop (ijiet) iddikjarat (i) f’din il-formola ta’ applikazzjoni."
+            "label": "1. Nikkonferma li jekk il-korp tal-aċċess għad-data dwar is-saħħa jagħtini d-data li qed napplika għaliha, se nużaha biss għall-iskop (ijiet) iddikjarat (i) f’din il-formola ta’ applikazzjoni u mhux se nużaha għal kwalunkwe skop ipprojbit."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Nifhem li l-ikkupjar tad-data mill-ambjent tal-ipproċessar sigur huwa pprojbit."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Jekk ir-riċerka tiegħek teħtieġ permess tar-riċerka mill-organizzazzjoni ta’ affiljazzjoni tiegħek, ehmeż il-permess tar-riċerka"
+        },
+        "hdabToRetain": {
+            "label": "Trid li l-HDAB iżomm il-formula użata għall-ħolqien tas-sett tad-data mitlub? ",
+            "tooltip": "L-Artikolu 68(12) tal-EHDS: (--) Fuq talba tal-utent tad-data dwar is-saħħa, il-formula għall-ħolqien tas-sett tad-data mitlub tista’ tinħażen mill-korp tal-aċċess għad-data dwar is-saħħa."
         }
     },
     "section9": {
         "section9h5": "Informazzjoni addizzjonali",
-        "section9Description": "Hawnhekk tista’ tipprovdi aktar informazzjoni dwar kwalunkwe waħda mit-taqsimiet fl-applikazzjoni tiegħek. Indika n-numru tat-taqsima u l-mistoqsija li għaliha jirreferi l-kumment tiegħek.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Aktar informazzjoni jew noti addizzjonali",
-            "tooltip": "Hawnhekk tista’ tipprovdi aktar informazzjoni dwar kwalunkwe waħda mit-taqsimiet fl-applikazzjoni tiegħek. Indika n-numru tat-taqsima u l-mistoqsija li għaliha jirreferi l-kumment tiegħek. Suġġeriment għall-implimentazzjoni teknika: Alternattivament, jista’ jkun hemm mod kif l-applikant ikun jista’ jorbot l-informazzjoni ma’ partijiet speċifiċi tal-formola biex jiffaċilita l-impjieg tal-HDABs."
+            "tooltip": "Hawnhekk tista’ tipprovdi aktar informazzjoni dwar kwalunkwe waħda mit-taqsimiet fl-applikazzjoni tiegħek. Indika n-numru tat-taqsima u l-mistoqsija li jirreferi għaliha l-kumment tiegħek. Indika kwalunkwe informazzjoni kunfidenzjali fl-applikazzjoni tiegħek u ġġustifika fil-qosor il-kunfidenzjalità, filwaqt li tispeċifika n-numru tat-taqsima u l-mistoqsija rilevanti."
         },
         "additionalAttachment": {
             "label": "Hemża addizzjonali. Tehmeż data dwar is-saħħa jew data personali ma’ din l-applikazzjoni.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Nofs sena"
+                    "value": "Kull sitt xhur"
                 },
                 {
                     "key": "c",
-                    "value": "Ir-raba’ trimestru"
+                    "value": "Kull tliet xhur"
                 },
                 {
                     "key": "d",

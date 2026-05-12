@@ -44,8 +44,8 @@ class ApplicationStatusTest {
   @Test
   void testIsValidStatus() {
     assertTrue(ApplicationStatus.isValidStatus("draft"));
-    assertTrue(ApplicationStatus.isValidStatus("submitted"));
-    assertTrue(ApplicationStatus.isValidStatus("withdrawn"));
+    assertTrue(ApplicationStatus.isValidStatus("on-going"));
+    assertTrue(ApplicationStatus.isValidStatus("completed"));
     assertFalse(ApplicationStatus.isValidStatus("unknown"));
     assertFalse(ApplicationStatus.isValidStatus(null));
   }
@@ -72,7 +72,7 @@ class ApplicationStatusTest {
     assertTrue(ApplicationStatus.isValidStatus("On-GoinG"));
     assertEquals(ApplicationStatus.ON_GOING, ApplicationStatus.fromStatus("ON-gOiNg"));
 
-    assertTrue(ApplicationStatus.isValidStatus("WiThDrAwN"));
+    assertTrue(ApplicationStatus.isValidStatus("CoMpLeTeD"));
   }
 
 

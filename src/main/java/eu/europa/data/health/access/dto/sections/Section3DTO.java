@@ -247,6 +247,9 @@ public class Section3DTO extends SectionDTO {
   @Size(max = 500)
   @TranslatableField
   String contactPersonRelationship;
+  @Size(max = 2000)
+  @TranslatableField
+  String otherContactPerson;
   @Size(max = 500)
   @TranslatableField
   String naturalPersonName;

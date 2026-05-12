@@ -8,6 +8,17 @@
     },
     "comment": {
       "type": "string"
+    },
+    "decision_file": {
+      "type": "string",
+      "format": "byte",
+      "description": "Base64-encoded Decision PDF file"
+    },
+    "decision_reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000,
+      "description": "The reason for the decision taken by the reviewer."
     }
   },
   "required": ["status"]

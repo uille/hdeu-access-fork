@@ -23,6 +23,15 @@ metadata:
   labels:
     {{- include "health-data-access.labels" . | nindent 4 }}
 spec:
+  strategy:
+  {{- if .Values.deploymentStrategy }}
+  {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{- else }}
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  {{- end }}
   {{- if not .Values.autoscaling.enabled }}
   # The number of replicas (pods) to run, defined in the values file, if autoscaling is not enabled
   replicas: {{ .Values.replicaCount }}
@@ -56,6 +65,13 @@ spec:
         - name: wait-for-keycloak-pod
           image: busybox
           command: ['sh', '-c', 'until nc -z -v -w30 healthdataeu-health-data-auth-keycloak 8080; do echo waiting for keycloak pod; sleep 30; done']
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -64,6 +80,11 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           # The image pull policy (e.g., Always, IfNotPresent)
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.lifecycle }}
+          # Lifecycle hooks for the container, defined in the values file
+          lifecycle:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           # The port exposed by the container
           ports:
             - name: http
@@ -76,17 +97,23 @@ spec:
             httpGet:
               path: /health
               port: http
-            initialDelaySeconds: 60
-            timeoutSeconds: 10
-            periodSeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 20
+            failureThreshold: 6
           readinessProbe:
             httpGet:
               path: /health
               port: http
-            initialDelaySeconds: 60
-            timeoutSeconds: 10
-            periodSeconds: 10
+            timeoutSeconds: 20
+            periodSeconds: 30
+            failureThreshold: 3
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
             failureThreshold: 10
+            timeoutSeconds: 2
+            periodSeconds: 10
           # envFrom allows you to expose all the ConfigMap keys as environment variables
           envFrom:
             - configMapRef:
@@ -102,17 +129,27 @@ spec:
                   key: {{ $secretKey }}
                   name: {{ include "health-data-access.name" $rootChart }}-secrets
           {{- end }}
-          # This volumeMounts section mounts the secrets to the container under the /etc/{{ include "health-data-access.name" . }}-secrets directory, if the AWS secret manager is enabled
+      {{- end }}
           volumeMounts:
+          {{- if .Values.aws.enabled }}
+            # This volumeMounts section mounts the secrets to the container under the /etc/{{ include "health-data-access.name" . }}-secrets directory, if the AWS secret manager is enabled
             - mountPath: /etc/{{ include "health-data-access.name" . }}-secrets
               name: {{ include "health-data-access.name" . }}-secrets
               readOnly: true
-      # We store all the secrets defined in the secretProviderClass with the name health-data-access-spc, that in its turn, loads the secrets from the AWS Secret Manager, if the AWS secret manager is enabled
+          {{- end }}
+          {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       volumes:
+      {{- if .Values.aws.enabled }}
+        # We store all the secrets defined in the secretProviderClass with the name health-data-access-spc, that in its turn, loads the secrets from the AWS Secret Manager, if the AWS secret manager is enabled
         - name: {{ include "health-data-access.name" . }}-secrets
           csi:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
               secretProviderClass: {{ include "health-data-access.name" . }}-spc
-    {{- end }}
+      {{- end }}
+      {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

@@ -24,7 +24,7 @@
         },
         "status": {
           "type": "string",
-          "enum": ["DRAFT", "SENT", "SUBMITTED", "PRE_SCREEN", "PROCESSING", "ADDITIONAL_INFORMATION", "REJECTED", "WITHDRAWN", "DECISION_ISSUED"]
+          "enum": ["DRAFT", "SENT", "SUBMITTED", "PRE_SCREEN", "PROCESSING", "PROCESSING_EXTENDED", "ADDITIONAL_INFORMATION", "REJECTED", "WITHDRAWN", "DECISION_ISSUED"]
         },
         "statusPayload": {
           "type": "object"

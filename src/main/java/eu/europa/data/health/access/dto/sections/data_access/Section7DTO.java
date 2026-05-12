@@ -40,6 +40,7 @@ import lombok.NoArgsConstructor;
   mandatoryField = "combinedCountries",
   message = "combinedCountries must be provided when willDataBeCombinedWithDataObtained is 'Yes'"
 )
+
 @RequiredFieldBasedOnObjectValue(
   objectName = "willDataBeCombinedWithDataObtained",
   baseField = "key",
@@ -63,6 +64,14 @@ import lombok.NoArgsConstructor;
   mandatoryFieldType = "string",
   mandatoryField = "combinedDatasetsRegistries",
   message = "combinedDatasetsRegistries must be provided when willDataBeCombinedWithDataObtained is 'Yes'"
+)
+@RequiredFieldBasedOnObjectValue(
+  objectName = "willDataBeCombinedWithDataObtained",
+  baseField = "key",
+  baseFieldValue = "a",
+  mandatoryFieldType = "listOfAttachment",
+  mandatoryField = "attachmentOfPermitDocuments",
+  message = "attachmentOfPermitDocuments must be provided when willDataBeCombinedWithDataObtained is 'Yes'"
 )
 @RequiredFieldBasedOnObjectValue(
   objectName = "otherPermitApplications",

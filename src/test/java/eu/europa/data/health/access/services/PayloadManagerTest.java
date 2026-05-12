@@ -32,6 +32,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import eu.europa.data.health.access.Constants;
+import eu.europa.data.health.access.handlers.DBHandler;
 import eu.europa.data.health.access.hub_translation_client.HubTranslationClient;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -47,11 +49,15 @@ import io.vertx.ext.web.RoutingContext;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
+@MockitoSettings(strictness = Strictness.LENIENT)
 class PayloadManagerTest {
+
+  @Mock
+  private DBHandler dbHandler;
 
   @Mock
   private MongoClient mongoClient;
@@ -71,12 +77,22 @@ class PayloadManagerTest {
   @Mock
   private RequestBody requestBody;
 
-  @InjectMocks
   private PayloadManager payloadManager;
+
+  private PayloadManager createPayloadManager(JsonObject config) {
+    return new PayloadManager(
+      dbHandler,
+      mongoClient,
+      controlledVocabularyManager,
+      hubTranslationClient,
+      translationService,
+      config
+    );
+  }
 
   @BeforeEach
   void setup() {
-    MockitoAnnotations.openMocks(this);
+    payloadManager = createPayloadManager(new JsonObject());
   }
 
   @Test
@@ -95,6 +111,7 @@ class PayloadManagerTest {
 
   @Test
   void testUpsertByName_success_withPayload_triggersTranslation() {
+    payloadManager = createPayloadManager(new JsonObject().put(Constants.ENABLE_TRANSLATION, true));
     JsonObject upsertData = new JsonObject()
       .put("name", "health-dcat-ap-schema")
       .put("payload", new JsonObject().put("foo", "bar"));
@@ -132,6 +149,48 @@ class PayloadManagerTest {
     payloadManager.upsertByName(mongoClient, "health-dcat-ap-schema", upsertData, routingContext);
 
     verify(hubTranslationClient).requestTranslation(any(JsonObject.class));
+  }
+
+  @Test
+  void testUpsertByName_success_withPayload_andTranslationDisabled_skipsTranslation() {
+    payloadManager = createPayloadManager(
+      new JsonObject().put(Constants.ENABLE_TRANSLATION, false)
+    );
+    JsonObject upsertData = new JsonObject()
+      .put("name", "health-dcat-ap-schema")
+      .put("payload", new JsonObject().put("foo", "bar"));
+    JsonObject docWithId = new JsonObject().put("_id", "12345");
+
+    doAnswer(inv -> {
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(3);
+      handler.handle(Future.succeededFuture(null));
+      return null;
+    })
+      .when(mongoClient)
+      .findOne(anyString(), any(JsonObject.class), any(), any());
+
+    doAnswer(inv -> {
+      Handler<AsyncResult<JsonObject>> handler = inv.getArgument(5);
+      handler.handle(Future.succeededFuture(docWithId));
+      return null;
+    })
+      .when(mongoClient)
+      .findOneAndUpdateWithOptions(
+        anyString(),
+        any(JsonObject.class),
+        any(JsonObject.class),
+        any(FindOptions.class),
+        any(UpdateOptions.class),
+        any()
+      );
+
+    HttpServerResponse response = mock(HttpServerResponse.class);
+    when(routingContext.response()).thenReturn(response);
+    when(response.setStatusCode(anyInt())).thenReturn(response);
+
+    payloadManager.upsertByName(mongoClient, "health-dcat-ap-schema", upsertData, routingContext);
+
+    verify(hubTranslationClient, never()).requestTranslation(any());
   }
 
   @Test
@@ -214,8 +273,8 @@ class PayloadManagerTest {
     var future = payloadManager.findByFieldWithValue("collection", "name", "doc");
 
     future.onComplete(ar -> {
-      assert(ar.succeeded());
-      assert(ar.result().getString("name").equals("doc"));
+      assertTrue(ar.succeeded());
+      assertEquals("doc", ar.result().getString("name"));
     });
   }
 

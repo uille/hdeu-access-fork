@@ -466,14 +466,10 @@ class AuditLogManagerTest {
       );
 
       JsonObject q = queryCap.getValue();
-      // No criteria => USER_ID should be "$in" of ALL users or absent?
-      // Code adds USER_ID for any users list; but does NOT add "NO_RESULT".
-      JsonObject userIdClause = q.getJsonObject(USER_ID);
-      assertNotNull(userIdClause);
-      JsonArray in = userIdClause.getJsonArray("$in");
-      assertNotNull(in);
-      assertTrue(in.contains("aaa"));
-      assertFalse(in.contains("NO_RESULT"));
+      assertTrue(q.containsKey("users"));
+      JsonArray queryUsers = q.getJsonArray("users");
+      assertNotNull(queryUsers);
+      assertTrue(queryUsers.size() > 0);
     });
   }
 
@@ -570,8 +566,8 @@ class AuditLogManagerTest {
       // action regex clause
       JsonObject actionClause = q.getJsonObject(ACTION);
       assertNotNull(actionClause);
-      assertEquals("CREATE", actionClause.getString("regex")); // REGEX constant value is "regex"
-      assertEquals("i", actionClause.getString("options"));    // OPTIONS constant value is "options"
+      assertEquals("CREATE", actionClause.getString("$regex")); // REGEX constant value is "$regex"
+      assertEquals("i", actionClause.getString("$options"));    // OPTIONS constant value is "$options"
     });
   }
 

@@ -25,7 +25,10 @@ public enum OperationStatus {
   DECISION("decision"),
   CREATE("create"),
   UPDATE("update"),
-  PERMIT("permit");
+  PERMIT("permit"),
+  ACTIVITY_RESPONSE("activityResponse"),
+  ACTIVITY_TRANSLATION("activityTranslation");
+
 
   /**
    * -- GETTER --

@@ -38,37 +38,37 @@ public class RoutingContextMocker {
     // Mock the RequestBody
     RequestBody requestBody = Mockito.mock(RequestBody.class);
     HttpServerRequest request = Mockito.mock(HttpServerRequest.class);
-    Mockito.when(context.request()).thenReturn(request);
+    Mockito.lenient().when(context.request()).thenReturn(request);
     // When context.body() is called, return the mocked RequestBody object
-    Mockito.when(context.body()).thenReturn(requestBody);
+    Mockito.lenient().when(context.body()).thenReturn(requestBody);
     // When context.body().asString() is called on the requestBody, return the provided string
     // object
-    Mockito.when(context.body().asString()).thenReturn(body.toString());
+    Mockito.lenient().when(context.body().asString()).thenReturn(body.toString());
     // When asJsonObject() is called on the requestBody, return the provided JSON object
-    Mockito.when(requestBody.asJsonObject()).thenReturn(body);
+    Mockito.lenient().when(requestBody.asJsonObject()).thenReturn(body);
     // Mock HttpServerResponse's setStatusCode() and end() methods
-    Mockito.when(response.setStatusCode(Mockito.anyInt())).thenAnswer(invocation -> {
+    Mockito.lenient().when(response.setStatusCode(Mockito.anyInt())).thenAnswer(invocation -> {
       int statusCode = invocation.getArgument(0);
-      Mockito.when(response.getStatusCode()).thenReturn(statusCode);
+      Mockito.lenient().when(response.getStatusCode()).thenReturn(statusCode);
       return response;
     });
     // Mock end() to capture the message
-    Mockito.when(response.end(anyString())).thenAnswer(invocation -> {
+    Mockito.lenient().when(response.end(anyString())).thenAnswer(invocation -> {
       String message = invocation.getArgument(0);
-      Mockito.when(response.getStatusMessage()).thenReturn(message);
+      Mockito.lenient().when(response.getStatusMessage()).thenReturn(message);
       return Future.succeededFuture();
     });
     // Mock the response object to return the mock response
-    Mockito.when(context.response()).thenReturn(response);
+    Mockito.lenient().when(context.response()).thenReturn(response);
 
     // Mock the User object from vertx-auth-common
     User mockUser = Mockito.mock(User.class);
     String ecasId = "n3817490";
     // Define rules
-    Mockito.when(context.user()).thenReturn(mockUser);
+    Mockito.lenient().when(context.user()).thenReturn(mockUser);
     JsonObject principal = new JsonObject().put("preferred_username", ecasId);
-    Mockito.when(context.user().principal()).thenReturn(principal);
-    Mockito.when(mockUser.get("preferred_username")).thenReturn(ecasId);
+    Mockito.lenient().when(context.user().principal()).thenReturn(principal);
+    Mockito.lenient().when(mockUser.get("preferred_username")).thenReturn(ecasId);
 
     return context;
   }

@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Numele șefului de proiect (organizație, instituție, entitate din sectorul privat sau persoană fizică)",
-            "tooltip": "Aceasta este persoana responsabilă de utilizarea datelor."
+            "tooltip": "Aceasta este entitatea responsabilă cu utilizarea datelor."
         },
         "countryOfProjectLeader": {
             "label": "Domiciliul oficial (țara) al entității responsabile de proiect"
@@ -122,6 +122,7 @@
             ],
             "info": "(Dacă alegeți această opțiune, confirmați că solicitați date în calitate de persoană privată fără nicio afiliere.)"
         },
+        "participatingEntitiesInstruction": "Dacă depuneți cererea în numele unui consorțiu, vă rugăm să indicați aici toate entitățile participante.",
         "legalPerson": "Persoană juridică",
         "naturalPerson": "Persoană fizică",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Afiliere"
+        },
+        "otherContactPerson": {
+            "label": "Alte persoane de contact",
+            "tooltip": "Dacă în proiectul dumneavoastră există mai multe persoane de contact, vă rugăm să le menționați aici, împreună cu informații privind afilierea lor."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "Cohorta va fi întreaga populație a uneia sau mai multor țări indicate la începutul prezentului formular."
+                    "value": "Cohorta va fi întreaga populație a unei/unor țări sau o sursă de date indicată la începutul acestui formular."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Descrieți modul în care a fost obținută cohorta și motivele lipsei autorizației/consimțământului privind datele."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Ați furnizat informații privind utilizarea datelor subiecților corespunzători? De exemplu, schimbul de informații privind utilizarea datelor pe un site web al unui proiect.",
-            "tooltip": "Pentru informații suplimentare, a se vedea articolele 13 și 14 din Regulamentul general privind protecția datelor: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "Pentru informații suplimentare, a se vedea articolele 13 și 14 din Regulamentul general privind protecția datelor <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">."
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "În ce mod?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "De ce?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Cine va furniza informațiile privind cohorta organismului de acces la datele privind sănătatea? Această persoană va primi instrucțiuni cu privire la modul de transmitere a datelor prin intermediul portalului comun EHDS."
@@ -612,7 +606,7 @@
             "label": "Furnizați justificarea acestei excepții."
         },
         "needForDataExtractionEvery": {
-            "label": "Datele trebuie extrase din fiecare",
+            "label": "Datele trebuie extrase",
             "tooltip": "Dacă doriți ca datele să fie extrase de mai multe ori într-o anumită perioadă de timp, rețineți că definițiile și metoda de colectare a datelor se pot modifica în cursul perioadei de reexaminare în unele cazuri. A se remarca faptul că frecvența maximă de extragere a datelor este trimestrială"
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "În cazul extracției recurente, furnizați informații cu privire la fiecare proces de extragere a datelor separat în instrucțiunile de comandă."
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Datele trebuie extrase din fiecare",
+            "label": "Datele trebuie extrase",
             "tooltip": "Dacă doriți ca datele să fie extrase de mai multe ori într-o anumită perioadă de timp, rețineți că definițiile și metoda de colectare a datelor se pot modifica în cursul perioadei de reexaminare în unele cazuri. A se remarca faptul că frecvența maximă de extragere a datelor este trimestrială"
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "Cât de des trebuie extrase datele?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Datele trebuie extrase din fiecare",
+            "label": "Datele trebuie extrase",
             "tooltip": "Dacă doriți ca datele să fie extrase de mai multe ori într-o anumită perioadă de timp, rețineți că definițiile și metoda de colectare a datelor se pot modifica în cursul perioadei de reexaminare în unele cazuri. A se remarca faptul că frecvența maximă de extragere a datelor este trimestrială"
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "În cazul extracției recurente, furnizați informații cu privire la fiecare proces de extragere a datelor separat în instrucțiunile de comandă."
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Datele trebuie extrase din fiecare",
+            "label": "Datele trebuie extrase",
             "tooltip": "Dacă doriți ca datele să fie extrase de mai multe ori într-o anumită perioadă de timp, rețineți că definițiile și metoda de colectare a datelor se pot modifica în cursul perioadei de reexaminare în unele cazuri. A se remarca faptul că frecvența maximă de extragere a datelor este trimestrială"
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Alte date care trebuie combinate",
-        "section7Description": "Este posibil să se combine alte date cu caracter personal, cum ar fi datele aflate deja în posesia dumneavoastră sau datele obținute din altă parte cu o altă autorizație, cu datele solicitate prin prezenta cerere. Enumerați informațiile pentru toate datele suplimentare care vor fi combinate cu datele autorizate de organismul de acces la datele privind sănătatea. Dacă doriți ulterior să combinați alte date cu caracter personal cu datele autorizate de organismul de acces la datele privind sănătatea, trebuie să depuneți o cerere de modificare la același organism de acces la datele privind sănătatea. Dacă aveți orice altă cohortă pe care ați dori ca organismul de acces la datele privind sănătatea să îl combine cu datele pentru care solicitați, veți primi instrucțiuni cu privire la modul de transmitere a datelor în condiții de siguranță după acordarea autorizației.",
+        "section7Description": "Este posibil să combinați alte date la nivel personal, cum ar fi datele aflate deja în posesia dumneavoastră sau datele obținute din altă parte cu o altă autorizație, cu datele solicitate în prezenta cerere. Enumerați informațiile pentru toate datele suplimentare care vor fi combinate cu datele autorizate de organismul de acces la datele privind sănătatea. Dacă doriți ulterior să combinați alte date la nivel personal cu datele autorizate de organismul de acces la datele privind sănătatea, trebuie să depuneți o cerere de modificare la același organism de acces la datele privind sănătatea. Dacă aveți orice altă cohortă pe care ați dori ca organismul de acces la datele privind sănătatea să o combine cu datele pe care le solicitați, veți primi instrucțiuni cu privire la modul de furnizare a datelor în condiții de siguranță după acordarea autorizației.",
         "addDataPermit": "Adăugare autorizație privind datele",
         "addInfo": "Adaugă informații",
         "removeDataPermit": "Ștergerea autorizației privind datele",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Care sunt datele estimate de începere și de încheiere a perioadei în care datele electronice privind sănătatea sunt necesare pentru prelucrare?",
-            "tooltip": "Această perioadă poate fi de cinci ani. Cu o autorizație suplimentară, permisul inițial poate fi prelungit cu încă cinci ani"
+            "tooltip": "Această perioadă poate fi de 10 ani. Cu un permis suplimentar, permisul inițial poate fi prelungit cu încă 10 ani"
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Din"
@@ -1168,13 +1162,13 @@
             "tooltip": "EHDS articolul 71(4) “Prin derogare de la dreptul de refuz prevăzut la alineatul (1), un stat membru poate prevedea în dreptul său intern un mecanism prin care să pună la dispoziție datele cu privire la care a fost exercitat dreptul de refuz, dacă sunt îndeplinite toate condițiile următoare: (a se vedea articolul pentru condiții complete)”"
         },
         "providedJustificationException": {
-            "label": "Furnizați justificarea acestei excepții."
+            "label": "Furnizați justificarea acestei excepții și includeți în justificarea dumneavoastră modul în care sunt îndeplinite condițiile prevăzute la articolul 71(4)(a-c)."
         },
         "protectionAndSecurityStatements": {
             "label": "Pentru a continua cu această cerere, trebuie să confirmați următoarele declarații (declarații privind protecția datelor și securitate):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Confirm că, în cazul în care organismul de acces la datele privind sănătatea îmi acordă datele solicitate, le voi utiliza numai în scopul (scopurile) menționat (e) în prezentul formular de cerere."
+            "label": "1. Confirm că, în cazul în care organismul de acces la datele privind sănătatea îmi acordă datele pentru care depun cererea, le voi utiliza numai în scopul (scopurile) menționat (e) în prezentul formular de cerere și nu le voi utiliza în scopuri interzise."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Înțelegem că copierea datelor din mediul de prelucrare securizat este interzisă."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "În cazul în care cercetarea dumneavoastră necesită un permis de cercetare din partea organizației dumneavoastră de afiliere, anexați permisul de cercetare"
+        },
+        "hdabToRetain": {
+            "label": "Doriți ca HDAB să păstreze formula utilizată pentru crearea setului de date solicitat? ",
+            "tooltip": "Articolul 68 alineatul (12) din EHDS: (--) La cererea utilizatorului de date privind sănătatea, formula pentru crearea setului de date solicitat poate fi stocată de organismul de acces la datele privind sănătatea."
         }
     },
     "section9": {
         "section9h5": "Informații suplimentare",
-        "section9Description": "Aici puteți furniza informații suplimentare cu privire la oricare dintre secțiunile din candidatura dumneavoastră. Indicați numărul secțiunii și întrebarea la care se referă observația dumneavoastră.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Informații suplimentare sau orice alte note suplimentare",
-            "tooltip": "Aici puteți furniza informații suplimentare cu privire la oricare dintre secțiunile din candidatura dumneavoastră. Indicați numărul secțiunii și întrebarea la care se referă observația dumneavoastră. Sugestie pentru punerea în aplicare din punct de vedere tehnic: În mod alternativ, ar putea exista o modalitate de a permite solicitantului să coreleze informațiile cu anumite părți ale formularului pentru a facilita activitatea HDAB-urilor."
+            "tooltip": "Aici puteți furniza informații suplimentare cu privire la oricare dintre secțiunile formularului dumneavoastră de candidatură. Indicați numărul secțiunii și întrebarea la care se referă observația dumneavoastră. Indicați orice informații confidențiale în cererea dumneavoastră și justificați pe scurt confidențialitatea, specificând numărul secțiunii relevante și întrebarea."
         },
         "additionalAttachment": {
             "label": "O anexă suplimentară. Nu anexați date privind sănătatea sau date cu caracter personal la această aplicație.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "O jumătate de an"
+                    "value": "O dată la jumătate de an"
                 },
                 {
                     "key": "c",
-                    "value": "Trimestru"
+                    "value": "Fiecare trimestru"
                 },
                 {
                     "key": "d",

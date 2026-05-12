@@ -30,6 +30,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.testcontainers.shaded.org.awaitility.Awaitility;
+
+import java.time.Duration;
+import static eu.europa.data.health.access.Constants.DATASET_ID;
+import static eu.europa.data.health.access.Constants.DISTRIBUTION_ID;
+
 
 import static org.mockito.Mockito.*;
 
@@ -58,26 +64,27 @@ class BasketValidationManagerTest {
     String datasetId = "dataset-123";
     String distributionId = "dist-456";
 
-    JsonObject inputBody = new JsonObject().put("datasetId", datasetId)
-        .put("distributionId", distributionId);
+    JsonObject inputBody = new JsonObject()
+      .put(DATASET_ID, datasetId)
+      .put(DISTRIBUTION_ID, distributionId);
+
     when(context.body()).thenReturn(body);
     when(body.asJsonObject()).thenReturn(inputBody);
 
-    JsonObject publisher = new JsonObject().put("name", "My Publisher");
-    JsonArray distributions = new JsonArray().add(new JsonObject().put("id", distributionId));
-    JsonObject datasetResult = new JsonObject().put("publisher", publisher)
-        .put("distributions", distributions);
-    JsonObject dataset = new JsonObject().put("result", datasetResult);
+    JsonObject dataset = new JsonObject().put("result", new JsonObject()
+      .put(BasketValidationManager.CUSTODIAN, new JsonObject().put("name", "My Publisher"))
+      .put("distributions", new JsonArray().add(new JsonObject().put("id", distributionId)))
+    );
 
-    when(hubSearchClient.getDataset(any())).thenReturn(Future.succeededFuture(dataset));
-    BasketValidationManager spyManager = Mockito.spy(validationManager);
-    when(context.response()).thenReturn(response);
-    when(context.response().setStatusCode(anyInt())).thenReturn(response);
-    spyManager.validateDatasetAndDistributionExist(context);
+    when(hubSearchClient.getDataset(eq(datasetId))).thenReturn(Future.succeededFuture(dataset));
 
-    verify(context).put("publisher", "My Publisher");
+    validationManager.validateDatasetAndDistributionExist(context);
+
+    Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted(() -> {
+      verify(context).put(BasketValidationManager.PUBLISHER, "My Publisher");
+      verify(context).next();
+    });
   }
-
 
   @Test
   void testValidateDatasetAndDistribution_PublisherNotFound() {

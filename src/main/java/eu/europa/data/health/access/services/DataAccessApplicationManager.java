@@ -31,9 +31,12 @@ import static eu.europa.data.health.access.Constants.DATA_NEEDS_TO_BE_EXTRACTED_
 import static eu.europa.data.health.access.Constants.DATA_NEEDS_TO_BE_EXTRACTED_EVERY_RELATIVES;
 import static eu.europa.data.health.access.Constants.DATE_CREATED;
 import static eu.europa.data.health.access.Constants.DATE_MODIFIED;
+import static eu.europa.data.health.access.Constants.DATE_SUBMITTED;
+import static eu.europa.data.health.access.Constants.DESC;
 import static eu.europa.data.health.access.Constants.EXTRACTION_CRITERIA_FOR_CONTROLS;
 import static eu.europa.data.health.access.Constants.FORM;
 import static eu.europa.data.health.access.Constants.FORMAT_OF_THE_ELECTRONIC_HEALTH_DATA;
+import static eu.europa.data.health.access.Constants.FORM_TRANSLATIONS;
 import static eu.europa.data.health.access.Constants.HAS_THE_GROUP_RELATIVES_FORMED_2;
 import static eu.europa.data.health.access.Constants.HAS_THE_GROUP_RELATIVES_FORMED_3;
 import static eu.europa.data.health.access.Constants.HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS;
@@ -52,11 +55,11 @@ import static eu.europa.data.health.access.Constants.NEED_FOR_DATA_EXTRACTION_EV
 import static eu.europa.data.health.access.Constants.OPTIONS;
 import static eu.europa.data.health.access.Constants.ORDER_OF_CONTROLS_DATA_EXTRACTION;
 import static eu.europa.data.health.access.Constants.OTHER_PERMIT_APPLICATIONS;
+import static eu.europa.data.health.access.Constants.PENDING_FILE_TRANSLATIONS;
 import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_DATE_2;
 import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_NUMBER_2;
 import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM_2;
 import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_2;
-import static eu.europa.data.health.access.Constants.PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS;
 import static eu.europa.data.health.access.Constants.PURPOSE_FOR_WHICH_DATA_WILL_BE_USED;
 import static eu.europa.data.health.access.Constants.REGEX;
 import static eu.europa.data.health.access.Constants.RELATIONSHIP_TO_STUDY_COHORT;
@@ -74,6 +77,7 @@ import static eu.europa.data.health.access.Constants.SENDING;
 import static eu.europa.data.health.access.Constants.SPECIFY_OTHER;
 import static eu.europa.data.health.access.Constants.SPECIFY_OTHER_RELATIVES;
 import static eu.europa.data.health.access.Constants.STATUS;
+import static eu.europa.data.health.access.Constants.SUPPORTED_LANGUAGES;
 import static eu.europa.data.health.access.Constants.TIME_PERIOD_FOR_DATA_EXTRACTION;
 import static eu.europa.data.health.access.Constants.TIME_PERIOD_FOR_DATA_EXTRACTION_RELATIVES;
 import static eu.europa.data.health.access.Constants.TITLE;
@@ -101,7 +105,9 @@ import eu.europa.data.health.access.ApplicationStatus;
 import eu.europa.data.health.access.AuditLogAction;
 import eu.europa.data.health.access.AuditLogActionDescription;
 import eu.europa.data.health.access.AuditLogObject;
+import eu.europa.data.health.access.Constants;
 import eu.europa.data.health.access.Context;
+import eu.europa.data.health.access.NotificationCode;
 import eu.europa.data.health.access.OperationStatus;
 import eu.europa.data.health.access.Sections;
 import eu.europa.data.health.access.TranslationStatus;
@@ -152,6 +158,12 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
   private final AuditLogManager auditLogManager;
 
+  /**
+   * Section lock manager used to enforce write-time lock checks.
+   * Injected after construction via {@link #setSectionLockManager(SectionLockManager)}.
+   */
+  private SectionLockManager sectionLockManager;
+
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   private final String dataAccessManagerClassName = this.getClass().getSimpleName() + " - ";
@@ -163,9 +175,9 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     BasketManager basketManager, HubStoreClient hubStoreClient, Vertx vertx,
     DataAccessApplicationValidationManager dataAccessApplicationValidationManager,
     DataAccessApplicationBusinessValidationManager dataAccessApplicationBusinessValidationManager,
-                                      AuditLogManager auditLogManager, HubTranslationClient hubTranslationClient, HubSearchClient hubSearchClient,
+                                      AuditLogManager auditLogManager, NotificationManager notificationManager, HubTranslationClient hubTranslationClient, HubSearchClient hubSearchClient,
                                       AuthClient authClient) {
-    super(dbHandler, basketManager, mongoClient, vertx, hubStoreClient, auditLogManager, hubTranslationClient, hubSearchClient, authClient);
+    super(dbHandler, basketManager, mongoClient, vertx, hubStoreClient, auditLogManager, notificationManager, hubTranslationClient, hubSearchClient, authClient);
     this.mongoClient = mongoClient;
     this.dataAccessApplicationValidationManager = dataAccessApplicationValidationManager;
     this.dataAccessApplicationBusinessValidationManager = dataAccessApplicationBusinessValidationManager;
@@ -173,10 +185,26 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
   }
 
   /**
-   * Get a Document by field ID for the Data Access Application collection.
+   * Injects the {@link SectionLockManager} for write-time lock enforcement.
+   * Called from {@code MainVerticle} after construction.
+   *
+   * @param sectionLockManager the section lock manager instance
+   */
+  public void setSectionLockManager(SectionLockManager sectionLockManager) {
+    this.sectionLockManager = sectionLockManager;
+  }
+
+  /**
+   * Fetches a Data Access Application by ID.
+   *
+   * <p>Unlike the default {@code findById} (which restricts to owner only),
+   * this method also allows access for <strong>accepted collaborators</strong>
+   * so that the application form loads correctly after a collaboration invite is accepted.
    */
   public void getApplicationById(RoutingContext context) {
-    super.findById(context, DATA_ACCESS_APPLICATION_COLLECTION);
+    findByIdForUserOrCollaborator(context,
+        DATA_ACCESS_APPLICATION_COLLECTION,
+        Constants.DATA_ACCESS_APPLICATION_COLLECTION);
   }
 
   /**
@@ -213,9 +241,16 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
     getQueryOptionsApplication(context).onSuccess(queryOptions -> {
       log.debug("{}Retrieved query options ", dataAccessManagerClassName);
-      super.getApplications(context, DATA_ACCESS_APPLICATION_COLLECTION, finalPage, finalPageLimit,
+      super.getEntities(
+        context,
+        DATA_ACCESS_APPLICATION_COLLECTION,
+        finalPage,
+        finalPageLimit,
         StringUtils.isNotEmpty(sortByString) ? sortByString : DATE_CREATED,
-        StringUtils.isNotEmpty(sortOrderString) ? sortOrderString : "desc", queryOptions);
+        StringUtils.isNotEmpty(sortOrderString) ? sortOrderString : DESC,
+        queryOptions,
+        buildApplicationListProjection()
+      );
     }).onFailure(err -> {
       log.error("{}Error building query options, will proceed without them",
         dataAccessManagerClassName);
@@ -268,14 +303,35 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     log.debug("{}Using query options for ongoing applications: {}",
       dataAccessManagerClassName, queryOptions.encode());
 
-    super.getApplications(
+    // Projection: only the fields consumed by the registry "Submitted" list view
+    JsonObject projection = new JsonObject()
+      .put(ID, 1)
+      .put(TITLE, 1)
+      .put(STATUS, 1)
+      .put(DATE_SUBMITTED, 1)
+      .put("applicantDetails.firstName", 1)
+      .put("applicantDetails.lastName", 1)
+      .put(FORM + String.join(".", SECTION_2, PURPOSE_FOR_WHICH_DATA_WILL_BE_USED), 1)
+      .put("form.section2.summaryOfTheProject", 1);
+
+    for (String lang : SUPPORTED_LANGUAGES) {
+      projection
+        .put(
+          String.join(".", FORM_TRANSLATIONS, lang, SECTION_2, PURPOSE_FOR_WHICH_DATA_WILL_BE_USED),
+          1
+        )
+        .put(String.join(".", FORM_TRANSLATIONS, lang, SECTION_2, "summaryOfTheProject"), 1);
+    }
+
+    super.getEntities(
       context,
       DATA_ACCESS_APPLICATION_COLLECTION,
       finalPage,
       finalPageLimit,
       StringUtils.isNotEmpty(sortByString) ? sortByString : DATE_CREATED,
       StringUtils.isNotEmpty(sortOrderString) ? sortOrderString : "desc",
-      queryOptions
+      queryOptions,
+      projection
     );
   }
 
@@ -412,10 +468,11 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
       log.debug("{}Retrieved query options ", dataAccessManagerClassName);
       super.getDatasets(context, DATA_ACCESS_APPLICATION_COLLECTION, finalPage, finalPageLimit,
         StringUtils.isNotEmpty(sortByString) ? sortByString : DATE_CREATED,
-        StringUtils.isNotEmpty(sortOrderString) ? sortOrderString : "desc", queryOptions);
+        StringUtils.isNotEmpty(sortOrderString) ? sortOrderString : "desc", queryOptions,
+        getHubStoreClient());
     }).onFailure(err -> {
       log.error("{}Error building query options, will proceed without them",
-        dataAccessManagerClassName);
+        dataAccessManagerClassName, err.getMessage());
       setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
         "Could not construct query options");
     });
@@ -460,40 +517,72 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     deleteDistributions(context, DATA_ACCESS_APPLICATION_COLLECTION);
   }
 
+  /**
+   * Creates or updates a section of a Data Access Application.
+   *
+   * <p><strong>Lock enforcement:</strong> If a {@link SectionLockManager} is configured,
+   * this method first verifies that the calling user holds a valid section lock
+   * for the requested section.  If the lock check fails (lock held by another user,
+   * expired, etc.) a {@code 409 Conflict} is returned immediately.
+   *
+   * <p>This prevents concurrent edits even if a user bypasses the UI lock indicators
+   * and calls the API directly.
+   *
+   * @param context the Vert.x routing context
+   */
   public void createOrUpdateSection(@NotNull RoutingContext context) {
-    createOrUpdateSection(context, DATA_ACCESS_APPLICATION_COLLECTION);
+    if (sectionLockManager != null) {
+      String applicationId = context.pathParam(APPLICATION_ID);
+      String sectionId     = SECTION + context.pathParam(SECTION_NUMBER);
+      String ecasId        = Context.getEcasId(context);
+      // Read the per-tab session ID sent by the frontend in the X-Session-Id header.
+      // This must match the sessionId used when acquiring the lock.
+      String sessionId     = context.request().getHeader("X-Session-Id");
+
+      sectionLockManager.assertLockHeld(
+          Constants.DATA_ACCESS_APPLICATION_COLLECTION, applicationId, sectionId, sessionId)
+        .onSuccess(v ->
+          createOrUpdateSection(context, DATA_ACCESS_APPLICATION_COLLECTION))
+        .onFailure(err -> {
+          log.warn("[DAA] Write rejected — lock not held: applicationId='{}' section='{}' user='{}': {}",
+            applicationId, sectionId, ecasId, err.getMessage());
+          setUpMessageContextResponse(context,
+            io.netty.handler.codec.http.HttpResponseStatus.CONFLICT,
+            err.getMessage());
+        });
+    } else {
+      createOrUpdateSection(context, DATA_ACCESS_APPLICATION_COLLECTION);
+    }
   }
 
   public void getSection(@NotNull RoutingContext context) {
-
-    JsonObject query = new JsonObject().put(ID, context.pathParam(APPLICATION_ID));
-    query.put(USER_ID, Context.getEcasId(context));
+    String applicationId = context.pathParam(APPLICATION_ID);
+    String ecasId        = Context.getEcasId(context);
     String sectionNumber = SECTION + context.pathParam(SECTION_NUMBER);
 
     JsonObject sectionToRetrieve = new JsonObject().put(FORM + sectionNumber, 1);
     FindOptions options = new FindOptions().setFields(sectionToRetrieve);
 
-    // Search in database based on the provided application id
-    mongoClient.findWithOptions(DATA_ACCESS_APPLICATION_COLLECTION, query, options, ar -> {
-      if (ar.succeeded()) {
-        if (ar.result() != null && ar.result().get(0) != null
-          && ar.result().get(0).getJsonObject("form") != null && !ar.result().get(0)
-          .getJsonObject("form").isEmpty()) {
-
-          List<JsonObject> responseList = ar.result();
-          Object mongoSection = ((JsonObject) responseList.get(0).getValue("form")).getValue(
-            sectionNumber);
-
+    // Allow both owner and accepted collaborators to read sections
+    buildUserAccessFilter(ecasId, Constants.DATA_ACCESS_APPLICATION_COLLECTION)
+      .compose(accessFilter -> {
+        JsonObject query = new JsonObject()
+            .put(ID, applicationId)
+            .mergeIn(accessFilter);
+        return mongoClient.findWithOptions(DATA_ACCESS_APPLICATION_COLLECTION, query, options);
+      })
+      .onSuccess(ar -> {
+        if (ar != null && !ar.isEmpty() && ar.get(0) != null
+          && ar.get(0).getJsonObject("form") != null && !ar.get(0).getJsonObject("form").isEmpty()) {
+          Object mongoSection = ar.get(0).getJsonObject("form").getValue(sectionNumber);
           setUpContextResponse(context, HttpResponseStatus.OK, mongoSection.toString());
         } else {
           setUpMessageContextResponse(context, HttpResponseStatus.NOT_FOUND,
             "No information found for provided input");
         }
-      } else {
-        setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
-          ar.cause().getMessage());
-      }
-    });
+      })
+      .onFailure(err -> setUpMessageContextResponse(context,
+        HttpResponseStatus.INTERNAL_SERVER_ERROR, err.getMessage()));
   }
 
   public void changeCatalogStatus(@NotNull RoutingContext context) {
@@ -669,6 +758,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
                 updateCatalogStatus(mongoApplication);
                 int currentVersion = mongoApplication.getInteger("version") + 1;
                 mongoApplication.put("version", currentVersion);
+                mongoApplication.put("date_submitted", Instant.now());
 
                 if (currentVersion > 1) {
                   // 1) Read target languages from mongoApplication.translation.targetLanguages
@@ -717,6 +807,9 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
                     removeAdditionalInformationFromDataAccessCollection(applicationId)
                       .onFailure(err -> log.warn("Failed to unset additional_information for {}: {}", applicationId, err.getMessage()));
+
+                    //Add Notification
+                    addNotificationsForMultipleCatalogsPerApplication(NotificationCode.APPLICATION_RESUBMIT, mongoApplication, DATA_ACCESS_APPLICATION_COLLECTION);
 
                     //Audit Log
                     String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
@@ -775,6 +868,10 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
 
                         removeAdditionalInformationFromDataAccessCollection(applicationId)
                           .onFailure(err -> log.warn("Failed to unset additional_information for {}: {}", applicationId, err.getMessage()));
+
+                        //Add Notification
+                        addNotificationsForMultipleCatalogsPerApplication(NotificationCode.APPLICATION_SUBMIT, mongoApplication, DATA_ACCESS_APPLICATION_COLLECTION);
+
                         //Audit Log
                         String auditLogActionDescription = auditLogManager.prepareAuditLogActionDescription(
                           AuditLogActionDescription.DATA_ACCESS_APPLICATION_SUBMITTED.toString(),
@@ -824,48 +921,65 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
     return p.future();
   }
 
+  /**
+   * Builds the MongoDB query options for the "My Data Access Applications" list endpoint.
+   *
+   * <p>The user-access filter is an {@code $or} that covers two cases:
+   * <ol>
+   *   <li>The user is the <strong>owner</strong> ({@code userId = ecasId}).</li>
+   *   <li>The user is an <strong>accepted collaborator</strong> on the application
+   *       (looked up from {@code APPLICATION_COLLABORATOR} collection).</li>
+   * </ol>
+   *
+   * <p>This ensures that after a collaborator accepts an invitation, the shared
+   * application appears in their "My Data Access Applications" list.
+   *
+   * @param context the Vert.x routing context (provides auth + filter params)
+   * @return a {@link Future} resolving to the complete Mongo query {@link JsonObject}
+   */
   private Future<JsonObject> getQueryOptionsApplication(@NotNull RoutingContext context) {
-    Promise<JsonObject> promise = Promise.promise();
-
     JsonObject searchFields = context.body().asJsonObject();
+    if (searchFields == null) searchFields = new JsonObject();
 
-    String title = searchFields.getString("title");
-    JsonArray statusList = searchFields.getJsonArray("status");
-    JsonArray hdabList = searchFields.getJsonArray("hdab");
+    String title           = searchFields.getString("title");
+    JsonArray statusList   = searchFields.getJsonArray("status");
+    JsonArray hdabList     = searchFields.getJsonArray("hdab");
     JsonArray geographicalList = searchFields.getJsonArray("geographicalList");
+    JsonArray roleList = searchFields.getJsonArray("role");
 
-    // Collect AND clauses
-    JsonObject query = new JsonObject();
-
-    // title (top-level string) -> case-insensitive regex
-    if (title != null && !title.isBlank()) {
-      query.put("title", new JsonObject().put(REGEX, title).put(OPTIONS, "i"));
-      ;
-    }
-
-    if (statusList != null && !statusList.isEmpty()) {
-      query.put("status.status",
-        new JsonObject().put("$in", statusList));
-    }
-
-    if (hdabList != null && !hdabList.isEmpty()) {
-      query.put("datasets.hdab.name",
-        new JsonObject().put("$in", hdabList));
-    }
-
-    if (geographicalList != null && !geographicalList.isEmpty()) {
-      query.put("datasets.country.label",
-        new JsonObject().put("$in", geographicalList));
-    }
+    // Capture filter values for use inside the async callback
+    final String titleFinal           = title;
+    final JsonArray statusListFinal   = statusList;
+    final JsonArray hdabListFinal     = hdabList;
+    final JsonArray geoListFinal      = geographicalList;
 
     String userId = Context.getEcasId(context);
 
-    if (StringUtils.isNotEmpty(userId)) {
-      query.put("userId", userId);
-    }
+    // Build the owner-or-collaborator filter asynchronously, then merge with other filters
+    return buildUserAccessFilter(userId, Constants.DATA_ACCESS_APPLICATION_COLLECTION, roleList)
+        .map(userAccessFilter -> {
+          JsonObject query = new JsonObject();
 
-    promise.complete(query);
-    return promise.future();
+          if (titleFinal != null && !titleFinal.isBlank()) {
+            query.put("title", new JsonObject().put(REGEX, titleFinal).put(OPTIONS, "i"));
+          }
+          if (statusListFinal != null && !statusListFinal.isEmpty()) {
+            query.put("status.status", new JsonObject().put("$in", statusListFinal));
+          }
+          if (hdabListFinal != null && !hdabListFinal.isEmpty()) {
+            query.put("datasets.hdab.name", new JsonObject().put("$in", hdabListFinal));
+          }
+          if (geoListFinal != null && !geoListFinal.isEmpty()) {
+            query.put("datasets.country.label", new JsonObject().put("$in", geoListFinal));
+          }
+
+          // Merge $or (owner + collaborator) into the query
+          if (StringUtils.isNotEmpty(userId)) {
+            query.mergeIn(userAccessFilter);
+          }
+
+          return query;
+        });
   }
 
   private Future<JsonObject> getQueryOptionsDataset(@NotNull RoutingContext context) {
@@ -1091,6 +1205,7 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
         (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(
           howIsTheStudyCohortFormed.getString("key"), "c"))) {
         section.remove(HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS);
+        section.remove("hasTheCohortBeenBasedOnADataPermit");
       }
 
       JsonObject hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants = section.getJsonObject(
@@ -1119,28 +1234,13 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
       }
 
       if ((Objects.nonNull(howIsTheStudyCohortFormed) && !Objects.equals(
-        howIsTheStudyCohortFormed.getString("key"), "b")) || (
+        howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(
+        howIsTheStudyCohortFormed.getString("key"), "c")) || (
         Objects.nonNull(hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants)
           && !Objects.equals(
           hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants.getString("key"),
           "b"))) {
         section.remove("howTheStudyCohortWasObtained");
-      }
-
-      JsonObject providedInformationOfTheDataUseToCorrespondingSubjects = section.getJsonObject(
-        PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS);
-
-      if (Objects.nonNull(providedInformationOfTheDataUseToCorrespondingSubjects)
-        && !Objects.equals(
-        providedInformationOfTheDataUseToCorrespondingSubjects.getString("key"),
-        "a")) {
-        section.remove("howProvidedInformationOfTheDataUseToCorrespondingSubjects");
-      }
-
-      if (Objects.nonNull(providedInformationOfTheDataUseToCorrespondingSubjects)
-        && !Objects.equals(providedInformationOfTheDataUseToCorrespondingSubjects.getString("key"),
-        "b")) {
-        section.remove("whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects");
       }
 
       if (Objects.nonNull(howIsTheStudyCohortFormed) && (
@@ -1827,6 +1927,15 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
           application.getJsonObject(TRANSLATION).remove("errorType");
         }
 
+        boolean pendingFileTranslations = application
+          .getJsonObject(TRANSLATION, new JsonObject())
+          .getBoolean(PENDING_FILE_TRANSLATIONS, false);
+
+        // Clear the flag — form translation is the final step of the remaining-translations flow.
+        if (pendingFileTranslations) {
+          application.getJsonObject(TRANSLATION).put(PENDING_FILE_TRANSLATIONS, false);
+        }
+
         replaceApplication(application)
           .onSuccess(replaceResult -> {
             log.info("Application updated with translations. Proceeding to dispatch.");
@@ -1865,6 +1974,11 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
         if (TranslationStatus.FILES_COMPLETED.equals(overallStatus)) {
           application.getJsonObject(TRANSLATION).remove("errorType");
         }
+
+        boolean pendingFileTranslations = application
+          .getJsonObject(TRANSLATION, new JsonObject())
+          .getBoolean(PENDING_FILE_TRANSLATIONS, false);
+
         log.info("File Translation completed for application id: {} and file id : {}",
           applicationId, originalFileId);
 
@@ -1872,6 +1986,23 @@ public class DataAccessApplicationManager extends CommonApplicationManager {
           .onSuccess(replaceResult -> {
             log.info("Application [{}] updated with translated file references for [{}]",
               applicationId, originalFileId);
+            // When all files are done, and we are in the remaining-translations flow,
+            // trigger form translations now that translated files are available.
+            if (
+              pendingFileTranslations &&
+                (TranslationStatus.FILES_COMPLETED.equals(overallStatus) ||
+                  TranslationStatus.COMPLETED.equals(overallStatus))
+            ) {
+              log.info(
+                "All file translations complete for {} (pendingFileTranslations=true); triggering remaining form translations.",
+                applicationId
+              );
+              triggerRemainingFormTranslations(
+                applicationId,
+                application,
+                DATA_ACCESS_APPLICATION_COLLECTION
+              );
+            }
           }).onFailure(
             err -> log.error("Failed to replace application with file translation updates", err));
 

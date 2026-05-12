@@ -219,7 +219,7 @@ public class DispatcherClient {
 
     // JSON object to send in the POST request body
     JsonObject outgoingJsonObject = new JsonObject();
-    String path = "";
+    String path;
     String operation = dispatcherRecord.getString(OPERATION);
     String recordId;
     String collectionName;
@@ -227,6 +227,8 @@ public class DispatcherClient {
     if (OperationStatus.DECISION.getLabel().equals(operation) ||
       OperationStatus.STATUS_UPDATE.getLabel().equals(dispatcherRecord.getString(OPERATION)) ||
       OperationStatus.PERMIT.getLabel().equals(dispatcherRecord.getString(OPERATION))
+      || OperationStatus.ACTIVITY_RESPONSE.getLabel().equals(dispatcherRecord.getString(OPERATION))
+      || OperationStatus.ACTIVITY_TRANSLATION.getLabel().equals(dispatcherRecord.getString(OPERATION))
       ) {
 
       recordId = dispatcherRecord.getString("_id");

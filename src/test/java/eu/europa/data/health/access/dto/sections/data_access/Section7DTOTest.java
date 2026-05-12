@@ -85,7 +85,7 @@ class Section7DTOTest {
 
     Set<ConstraintViolation<Section7DTO>> violations = validator.validate(section7DTO);
 
-    assertEquals(6, violations.size(), "There should be 6 validation errors for 'combinedCountries' when 'willDataBeCombinedWithDataObtained' is 'a'.");
+    assertEquals(7, violations.size(), "There should be 7 validation errors for 'combinedCountries' when 'willDataBeCombinedWithDataObtained' is 'a'.");
   }
 
   @Test

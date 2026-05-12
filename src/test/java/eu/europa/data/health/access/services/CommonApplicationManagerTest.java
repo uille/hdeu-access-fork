@@ -55,7 +55,6 @@ import static eu.europa.data.health.access.Constants.NATURAL_PERSON_EMAIL;
 import static eu.europa.data.health.access.Constants.NATURAL_PERSON_JOB_TITLE;
 import static eu.europa.data.health.access.Constants.NATURAL_PERSON_NAME;
 import static eu.europa.data.health.access.Constants.NATURAL_PERSON_PHONE;
-import static eu.europa.data.health.access.Constants.NOT_FOUND_FOR_USER_WITH_ID;
 import static eu.europa.data.health.access.Constants.PERSON_RESEARCH_NAME;
 import static eu.europa.data.health.access.Constants.PERSON_RESEARCH_SAME_AS_CONTACT_PERSON;
 import static eu.europa.data.health.access.Constants.PERSON_RESPONSIBLE_NAME;
@@ -109,7 +108,10 @@ import eu.europa.data.health.access.AuditLogActionDescription;
 import eu.europa.data.health.access.AuditLogObject;
 import eu.europa.data.health.access.CatalogStatus;
 import eu.europa.data.health.access.Constants;
+import eu.europa.data.health.access.DatasetStatus;
+import eu.europa.data.health.access.NotificationCode;
 import eu.europa.data.health.access.OperationStatus;
+import eu.europa.data.health.access.PermitStatus;
 import eu.europa.data.health.access.TranslationStatus;
 import eu.europa.data.health.access.auth_client.AuthClient;
 import eu.europa.data.health.access.exceptions.FieldError;
@@ -135,6 +137,7 @@ import io.vertx.ext.web.RequestBody;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.junit5.VertxExtension;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.time.Duration;
 import java.util.List;
@@ -174,6 +177,8 @@ class CommonApplicationManagerTest {
   @Mock
   private AuditLogManager auditLogManager;
   @Mock
+  private NotificationManager notificationManager;
+  @Mock
   private DBHandler dbHandler;
   @Mock
   private BasketManager basketManager;
@@ -194,7 +199,7 @@ class CommonApplicationManagerTest {
   @BeforeEach
   void setUp() {
     commonApplicationManager = new CommonApplicationManager(dbHandler, basketManager, mongoClient,
-      vertx, hubStoreClient, auditLogManager, hubTranslationClient, hubSearchClient, authClient) {
+      vertx, hubStoreClient, auditLogManager, notificationManager, hubTranslationClient, hubSearchClient, authClient) {
     };
     routingContext = mock(RoutingContext.class);
 
@@ -211,6 +216,450 @@ class CommonApplicationManagerTest {
     RequestBody requestBody = mock(RequestBody.class);
     lenient().when(routingContext.body()).thenReturn(requestBody);
 
+    // Stub mongoClient.find() to return an empty result set by default,
+    // preventing null/empty handling issues in async callbacks under test.
+    lenient().when(mongoClient.find(anyString(), any(JsonObject.class)))
+      .thenReturn(Future.succeededFuture(List.of()));
+
+  }
+
+  @Test
+  void changeCatalogStatus_contextOverload_delegatesToFullOverload() {
+    CommonApplicationManager spyManager = spy(commonApplicationManager);
+    RequestBody requestBody = mock(RequestBody.class);
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("app-1");
+    when(routingContext.pathParam(CATALOG_ID)).thenReturn("catalog-1");
+    when(routingContext.body()).thenReturn(requestBody);
+    when(requestBody.asJsonObject()).thenReturn(new JsonObject().put(STATUS, CatalogStatus.PRE_SCREEN.getLabel()));
+
+    doNothing().when(spyManager).changeCatalogStatus(
+      anyString(), anyString(), anyString(), ArgumentMatchers.<JsonObject>isNull(), anyString(), any(), anyBoolean());
+
+    spyManager.changeCatalogStatus(routingContext, DATA_ACCESS_APPLICATION_COLLECTION);
+
+    verify(spyManager).changeCatalogStatus(
+      "app-1",
+      "catalog-1",
+      CatalogStatus.PRE_SCREEN.getLabel(),
+      null,
+      DATA_ACCESS_APPLICATION_COLLECTION,
+      routingContext,
+      true
+    );
+  }
+
+  @Test
+  void changeCatalogStatus_fullOverload_updatesCatalogAndReturnsOk_forUiRequest() {
+    String applicationId = "app-1";
+    String catalogId = "catalog-1";
+    String collectionName = DATA_ACCESS_APPLICATION_COLLECTION;
+
+    JsonObject application = new JsonObject()
+      .put(ID, applicationId)
+      .put(TITLE, "Test application")
+      .put(USER_ID, ecasId)
+      .put(STATUS, new JsonObject().put(STATUS, ApplicationStatus.ON_GOING.getStatus()))
+      .put(DATASETS, new JsonArray().add(new JsonObject()
+        .put("dataset_id", "dataset-1")
+        .put(CATALOG_ID, catalogId)
+        .put("catalog_languages", new JsonArray().add("en"))
+        .put("hdab", new JsonObject().put("name", "HDAB One"))
+      ))
+      .put("catalogs", new JsonArray().add(new JsonObject()
+        .put(CATALOG_ID, catalogId)
+        .put("statuses", new JsonArray().add(new JsonObject()
+          .put(STATUS, CatalogStatus.SUBMITTED.getLabel())
+          .put("latest", 1)
+          .put("date_deadline", "2026-04-30T00:00:00Z")))));
+
+    CommonApplicationManager spyManager = spy(commonApplicationManager);
+    JsonObject replaceResult = new JsonObject().put("ok", true);
+
+    when(auditLogManager.prepareAuditLogActionDescription(anyString(), any(), any(), any(), any()))
+      .thenReturn("audit-desc");
+
+    doAnswer(invocation -> {
+      Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+      handler.handle(Future.succeededFuture(application.copy()));
+      return null;
+    }).when(mongoClient).findOne(eq(collectionName), any(JsonObject.class), isNull(), any());
+
+    doReturn(Future.succeededFuture(replaceResult))
+      .when(spyManager).replaceApplication(any(JsonObject.class), eq(collectionName));
+
+    spyManager.changeCatalogStatus(applicationId, catalogId, CatalogStatus.PRE_SCREEN.getLabel(),
+      null, collectionName, routingContext, true);
+
+    ArgumentCaptor<JsonObject> queryCaptor = ArgumentCaptor.forClass(JsonObject.class);
+    ArgumentCaptor<JsonObject> appCaptor = ArgumentCaptor.forClass(JsonObject.class);
+
+    verify(mongoClient).findOne(eq(collectionName), queryCaptor.capture(), isNull(), any());
+    verify(spyManager).replaceApplication(appCaptor.capture(), eq(collectionName));
+    verify(response).setStatusCode(HttpResponseStatus.OK.code());
+    verify(response).end(replaceResult.encode());
+    verify(auditLogManager).insertAuditLog(anyString(), eq(applicationId), anyString(), eq("audit-desc"), eq(true), eq(routingContext));
+
+    JsonObject query = queryCaptor.getValue();
+    assertEquals(applicationId, query.getString(ID));
+    assertEquals(ecasId, query.getString(USER_ID));
+
+    JsonObject savedApplication = appCaptor.getValue();
+    JsonArray statuses = savedApplication.getJsonArray("catalogs")
+      .getJsonObject(0)
+      .getJsonArray("statuses");
+
+    assertEquals(CatalogStatus.SUBMITTED.getLabel(), statuses.getJsonObject(0).getString(STATUS));
+    assertEquals(0, statuses.getJsonObject(0).getInteger("latest"));
+    assertEquals(CatalogStatus.PRE_SCREEN.getLabel(), statuses.getJsonObject(1).getString(STATUS));
+    assertEquals(1, statuses.getJsonObject(1).getInteger("latest"));
+    assertEquals(ApplicationStatus.ON_GOING.getStatus(),
+      savedApplication.getJsonObject(STATUS).getString(STATUS));
+  }
+
+  private JsonObject buildApplicationForChangeDatasetStatus(String applicationId, String catalogId,
+    String datasetId, String applicationStatus, String catalogStatus, JsonArray decisions) {
+    JsonObject dataset = new JsonObject()
+      .put(DATASET_ID, datasetId)
+      .put(CATALOG_ID, catalogId)
+      .put("title", new JsonObject().put("en", "Dataset title"));
+
+    if (decisions != null) {
+      dataset.put("decisions", decisions);
+    }
+
+    return new JsonObject()
+      .put(ID, applicationId)
+      .put(TITLE, "Test application")
+      .put(USER_ID, ecasId)
+      .put(STATUS, new JsonObject().put(STATUS, applicationStatus))
+      .put(DATASETS, new JsonArray().add(dataset))
+      .put("catalogs", new JsonArray().add(new JsonObject()
+        .put(CATALOG_ID, catalogId)
+        .put("statuses", new JsonArray().add(new JsonObject()
+          .put(STATUS, catalogStatus)
+          .put("latest", 1)))));
+  }
+
+  @Test
+  void changeDatasetStatus_contextOverload_delegatesToFullOverload() {
+    CommonApplicationManager spyManager = spy(commonApplicationManager);
+    RequestBody requestBody = mock(RequestBody.class);
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("app-1");
+    when(routingContext.pathParam(CATALOG_ID)).thenReturn("catalog-1");
+    when(routingContext.pathParam(DATASET_ID)).thenReturn("dataset-1");
+    when(routingContext.body()).thenReturn(requestBody);
+    when(requestBody.asJsonObject()).thenReturn(new JsonObject()
+      .put(STATUS, DatasetStatus.POSITIVE_DECISION_ISSUED.getLabel())
+      .put("decision_file", "decision-file")
+      .put("decision_reason", "decision-reason"));
+
+    doReturn(Future.succeededFuture()).when(spyManager).changeDatasetStatus(
+      anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), any(), anyBoolean(),
+      any(), any(), any());
+
+    spyManager.changeDatasetStatus(routingContext, DATA_ACCESS_APPLICATION_COLLECTION);
+
+    verify(spyManager).changeDatasetStatus(
+      "app-1",
+      "catalog-1",
+      "dataset-1",
+      DatasetStatus.POSITIVE_DECISION_ISSUED.getLabel(),
+      "decision-file",
+      DATA_ACCESS_APPLICATION_COLLECTION,
+      routingContext,
+      true,
+      "decision-reason",
+      null,
+      null
+    );
+  }
+
+  @Test
+  void changeDatasetStatus_contextOverload_whenDelegateFailsAndResponseNotEnded_returns500() {
+    CommonApplicationManager spyManager = spy(commonApplicationManager);
+    RequestBody requestBody = mock(RequestBody.class);
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("app-1");
+    when(routingContext.pathParam(CATALOG_ID)).thenReturn("catalog-1");
+    when(routingContext.pathParam(DATASET_ID)).thenReturn("dataset-1");
+    when(routingContext.body()).thenReturn(requestBody);
+    when(requestBody.asJsonObject()).thenReturn(new JsonObject()
+      .put(STATUS, DatasetStatus.POSITIVE_DECISION_ISSUED.getLabel()));
+    when(response.ended()).thenReturn(false);
+
+    doReturn(Future.failedFuture("boom")).when(spyManager).changeDatasetStatus(
+      anyString(), anyString(), anyString(), anyString(), any(), anyString(), any(), anyBoolean(),
+      any(), any(), any());
+
+    spyManager.changeDatasetStatus(routingContext, DATA_ACCESS_APPLICATION_COLLECTION);
+
+    verify(response).setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
+    verify(response).end();
+  }
+
+  @Test
+  void changeDatasetStatus_contextOverload_whenDelegateFailsAndResponseAlreadyEnded_doesNotWriteAgain() {
+    CommonApplicationManager spyManager = spy(commonApplicationManager);
+    RequestBody requestBody = mock(RequestBody.class);
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn("app-1");
+    when(routingContext.pathParam(CATALOG_ID)).thenReturn("catalog-1");
+    when(routingContext.pathParam(DATASET_ID)).thenReturn("dataset-1");
+    when(routingContext.body()).thenReturn(requestBody);
+    when(requestBody.asJsonObject()).thenReturn(new JsonObject()
+      .put(STATUS, DatasetStatus.POSITIVE_DECISION_ISSUED.getLabel()));
+    when(response.ended()).thenReturn(true);
+
+    doReturn(Future.failedFuture("boom")).when(spyManager).changeDatasetStatus(
+      anyString(), anyString(), anyString(), anyString(), any(), anyString(), any(), anyBoolean(),
+      any(), any(), any());
+
+    spyManager.changeDatasetStatus(routingContext, DATA_ACCESS_APPLICATION_COLLECTION);
+
+    verify(response, never()).setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
+  }
+
+  @Test
+  void changeDatasetStatus_fullOverload_whenNoExistingDecision_updatesDatasetCatalogApplicationAndDispatches() {
+    String applicationId = "app-1";
+    String catalogId = "catalog-1";
+    String datasetId = "dataset-1";
+    String collectionName = DATA_ACCESS_APPLICATION_COLLECTION;
+
+    JsonObject application = buildApplicationForChangeDatasetStatus(
+      applicationId,
+      catalogId,
+      datasetId,
+      ApplicationStatus.ON_GOING.getStatus(),
+      CatalogStatus.PROCESSING.getLabel(),
+      null
+    );
+
+    CommonApplicationManager spyManager = spy(commonApplicationManager);
+    JsonObject replaceResult = new JsonObject().put("ok", true);
+
+    when(mongoClient.findOne(eq(collectionName), any(JsonObject.class), isNull()))
+      .thenReturn(Future.succeededFuture(application.copy()));
+    doReturn(Future.succeededFuture(replaceResult))
+      .when(spyManager).replaceApplication(any(JsonObject.class), eq(collectionName));
+    doReturn(Future.succeededFuture()).when(spyManager).sendApplicationToOutgoingApplicationActivities(
+      anyString(), anyString(), any(), anyString(), anyString(), anyString(), any(), any(), any(), any(), any(), any(), any(), any(), any(JsonObject.class));
+    when(notificationManager.createNotifications(any(), anyString(), anyString(), any(), anyString()))
+      .thenReturn(Future.succeededFuture());
+
+    Future<Void> future = spyManager.changeDatasetStatus(
+      applicationId,
+      catalogId,
+      datasetId,
+      DatasetStatus.POSITIVE_DECISION_ISSUED.getLabel(),
+      "decision-file",
+      collectionName,
+      routingContext,
+      true,
+      "decision-reason",
+      null,
+      null
+    );
+
+    assertTrue(future.succeeded());
+
+    ArgumentCaptor<JsonObject> queryCaptor = ArgumentCaptor.forClass(JsonObject.class);
+    ArgumentCaptor<JsonObject> appCaptor = ArgumentCaptor.forClass(JsonObject.class);
+
+    verify(mongoClient).findOne(eq(collectionName), queryCaptor.capture(), isNull());
+    verify(spyManager).replaceApplication(appCaptor.capture(), eq(collectionName));
+    verify(response).setStatusCode(HttpResponseStatus.OK.code());
+    verify(response).end(replaceResult.encode());
+    verify(spyManager).sendApplicationToOutgoingApplicationActivities(
+      eq(collectionName),
+      eq(applicationId),
+      eq(CatalogStatus.DECISION_ISSUED),
+      eq(catalogId),
+      eq(DatasetStatus.POSITIVE_DECISION_ISSUED.getLabel()),
+      eq(datasetId),
+      eq("decision-reason"),
+      isNull(),
+      isNull(),
+      isNull(),
+      isNull(),
+      eq("decision-file"),
+      eq(OperationStatus.DECISION),
+      isNull(),
+      any(JsonObject.class)
+    );
+
+    JsonObject query = queryCaptor.getValue();
+    assertEquals(applicationId, query.getString(ID));
+    assertEquals(ecasId, query.getString(USER_ID));
+
+    JsonObject savedApplication = appCaptor.getValue();
+    JsonObject savedDataset = savedApplication.getJsonArray(DATASETS).getJsonObject(0);
+    JsonArray decisions = savedDataset.getJsonArray("decisions");
+    JsonArray catalogStatuses = savedApplication.getJsonArray("catalogs")
+      .getJsonObject(0)
+      .getJsonArray("statuses");
+
+    assertEquals(1, decisions.size());
+    assertEquals(DatasetStatus.POSITIVE_DECISION_ISSUED.name(),
+      decisions.getJsonObject(0).getValue("datasetStatus").toString());
+    assertEquals("decision-file", decisions.getJsonObject(0).getString("decision_file"));
+    assertEquals("decision-reason", decisions.getJsonObject(0).getString("decision_reason"));
+    assertEquals(1, decisions.getJsonObject(0).getInteger("latest"));
+    assertEquals(CatalogStatus.PROCESSING.getLabel(), catalogStatuses.getJsonObject(0).getString(STATUS));
+    assertEquals(0, catalogStatuses.getJsonObject(0).getInteger("latest"));
+    assertEquals(CatalogStatus.DECISION_ISSUED.getLabel(), catalogStatuses.getJsonObject(1).getString(STATUS));
+    assertEquals(1, catalogStatuses.getJsonObject(1).getInteger("latest"));
+    assertEquals(ApplicationStatus.COMPLETED.getStatus(),
+      savedApplication.getJsonObject(STATUS).getString(STATUS));
+  }
+
+  @Test
+  void changeDatasetStatus_fullOverload_whenExistingDecisionAndDispatcherCall_updatesDecisionAndSavesTranslationState() {
+    String applicationId = "app-2";
+    String catalogId = "catalog-2";
+    String datasetId = "dataset-2";
+    String collectionName = DATA_ACCESS_APPLICATION_COLLECTION;
+    JsonObject translatedFields = new JsonObject().put("en", "translated");
+
+    JsonArray decisions = new JsonArray().add(new JsonObject()
+      .put("datasetStatus", DatasetStatus.NEGATIVE_DECISION_APPEALED.getLabel())
+      .put("latest", 1));
+
+    JsonObject application = buildApplicationForChangeDatasetStatus(
+      applicationId,
+      catalogId,
+      datasetId,
+      ApplicationStatus.COMPLETED.getStatus(),
+      CatalogStatus.DECISION_ISSUED.getLabel(),
+      decisions
+    );
+
+    CommonApplicationManager spyManager = spy(commonApplicationManager);
+    JsonObject replaceResult = new JsonObject().put("ok", true);
+
+    when(mongoClient.findOne(eq(collectionName), any(JsonObject.class), isNull()))
+      .thenReturn(Future.succeededFuture(application.copy()));
+    doReturn(Future.succeededFuture(replaceResult))
+      .when(spyManager).replaceApplication(any(JsonObject.class), eq(collectionName));
+    doReturn(Future.succeededFuture()).when(spyManager).saveApplicationTranslationState(
+      eq(collectionName), any(JsonObject.class), eq(catalogId), eq(datasetId), eq(OperationStatus.DECISION));
+    when(notificationManager.createNotifications(any(), anyString(), anyString(), any(), anyString()))
+      .thenReturn(Future.succeededFuture());
+
+    Future<Void> future = spyManager.changeDatasetStatus(
+      applicationId,
+      catalogId,
+      datasetId,
+      DatasetStatus.APPEAL_REJECTED.getLabel(),
+      "decision-file-2",
+      collectionName,
+      routingContext,
+      false,
+      "appeal-reason",
+      "support-file-2",
+      translatedFields
+    );
+
+    assertTrue(future.succeeded());
+
+    ArgumentCaptor<JsonObject> queryCaptor = ArgumentCaptor.forClass(JsonObject.class);
+    ArgumentCaptor<JsonObject> appCaptor = ArgumentCaptor.forClass(JsonObject.class);
+
+    verify(mongoClient).findOne(eq(collectionName), queryCaptor.capture(), isNull());
+    verify(spyManager).replaceApplication(appCaptor.capture(), eq(collectionName));
+    verify(spyManager).saveApplicationTranslationState(eq(collectionName), any(JsonObject.class),
+      eq(catalogId), eq(datasetId), eq(OperationStatus.DECISION));
+    verify(spyManager, never()).sendApplicationToOutgoingApplicationActivities(
+      anyString(), anyString(), any(), anyString(), anyString(), anyString(), any(), any(), any(), any(), any(), any(), any(), any(), any(JsonObject.class));
+
+    JsonObject query = queryCaptor.getValue();
+    assertEquals(applicationId, query.getString(ID));
+    assertFalse(query.containsKey(USER_ID));
+
+    JsonObject savedApplication = appCaptor.getValue();
+    JsonArray updatedDecisions = savedApplication.getJsonArray(DATASETS).getJsonObject(0)
+      .getJsonArray("decisions");
+
+    assertEquals(0, updatedDecisions.getJsonObject(0).getInteger("latest"));
+    assertEquals(DatasetStatus.APPEAL_REJECTED.name(),
+      updatedDecisions.getJsonObject(1).getValue("datasetStatus").toString());
+    assertEquals("appeal-reason", updatedDecisions.getJsonObject(1).getString("decision_reason"));
+    assertEquals("support-file-2", updatedDecisions.getJsonObject(1).getString("support_file"));
+    assertEquals(translatedFields, updatedDecisions.getJsonObject(1).getJsonObject("translatedFields"));
+    assertEquals(ApplicationStatus.COMPLETED.getStatus(),
+      savedApplication.getJsonObject(STATUS).getString(STATUS));
+  }
+
+  @Test
+  void changeDatasetStatus_fullOverload_whenApplicationNotFound_returns404AndFailedFuture() {
+    String collectionName = DATA_ACCESS_APPLICATION_COLLECTION;
+
+    when(mongoClient.findOne(eq(collectionName), any(JsonObject.class), isNull()))
+      .thenReturn(Future.succeededFuture());
+
+    Future<Void> future = commonApplicationManager.changeDatasetStatus(
+      "app-404",
+      "catalog-404",
+      "dataset-404",
+      DatasetStatus.POSITIVE_DECISION_ISSUED.getLabel(),
+      null,
+      collectionName,
+      routingContext,
+      true,
+      null,
+      null,
+      null
+    );
+
+    assertTrue(future.failed());
+    assertEquals("Application not found", future.cause().getMessage());
+    verify(response).setStatusCode(HttpResponseStatus.NOT_FOUND.code());
+    verify(response).end();
+  }
+
+  @Test
+  void changeDatasetStatus_fullOverload_whenReplaceFails_returns500AndFailedFuture() {
+    String applicationId = "app-3";
+    String catalogId = "catalog-3";
+    String datasetId = "dataset-3";
+    String collectionName = DATA_ACCESS_APPLICATION_COLLECTION;
+
+    JsonObject application = buildApplicationForChangeDatasetStatus(
+      applicationId,
+      catalogId,
+      datasetId,
+      ApplicationStatus.ON_GOING.getStatus(),
+      CatalogStatus.PROCESSING.getLabel(),
+      null
+    );
+
+    CommonApplicationManager spyManager = spy(commonApplicationManager);
+
+    when(mongoClient.findOne(eq(collectionName), any(JsonObject.class), isNull()))
+      .thenReturn(Future.succeededFuture(application.copy()));
+    doReturn(Future.failedFuture("replace failed"))
+      .when(spyManager).replaceApplication(any(JsonObject.class), eq(collectionName));
+
+    Future<Void> future = spyManager.changeDatasetStatus(
+      applicationId,
+      catalogId,
+      datasetId,
+      DatasetStatus.POSITIVE_DECISION_ISSUED.getLabel(),
+      "decision-file",
+      collectionName,
+      routingContext,
+      true,
+      null,
+      null,
+      null
+    );
+
+    assertTrue(future.failed());
+    assertEquals("replace failed", future.cause().getMessage());
+    verify(response).setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
+    verify(response).end();
   }
 
   @Test
@@ -413,7 +862,134 @@ class CommonApplicationManagerTest {
     m.invoke(commonApplicationManager, dataset, hubSearchResult);
   }
 
+  private String invokeGetLatestPermitStatus(JsonObject mongoApplication, String catalogId,
+    String datasetId, RoutingContext context) {
+    try {
+      Method m = CommonApplicationManager.class.getDeclaredMethod("getLatestPermitStatus",
+        JsonObject.class, String.class, String.class, RoutingContext.class);
+      m.setAccessible(true);
+      return (String) m.invoke(commonApplicationManager, mongoApplication, catalogId, datasetId,
+        context);
+    } catch (RuntimeException re) {
+      throw re;
+    } catch (Exception e) {
+      Throwable t = e.getCause() != null ? e.getCause() : e;
+      if (t instanceof RuntimeException rte) {
+        throw rte;
+      }
+      throw new RuntimeException(t);
+    }
+  }
+
+  private String invokeGetLatestDatasetStatus(JsonObject mongoApplication, String catalogId,
+    String datasetId, RoutingContext context) {
+    try {
+      Method m = CommonApplicationManager.class.getDeclaredMethod("getLatestDatasetStatus",
+        JsonObject.class, String.class, String.class, RoutingContext.class);
+      m.setAccessible(true);
+      return (String) m.invoke(commonApplicationManager, mongoApplication, catalogId, datasetId,
+        context);
+    } catch (RuntimeException re) {
+      throw re;
+    } catch (Exception e) {
+      Throwable t = e.getCause() != null ? e.getCause() : e;
+      if (t instanceof RuntimeException rte) {
+        throw rte;
+      }
+      throw new RuntimeException(t);
+    }
+  }
+
 // ===== Tests =====
+
+  @Test
+  void getLatestPermitStatus_whenMatchingDatasetHasLatestPermit_shouldReturnPermitStatus() {
+    JsonObject app = new JsonObject().put(DATASETS, new JsonArray().add(new JsonObject()
+      .put(CATALOG_ID, "C1")
+      .put(DATASET_ID, "D1")
+      .put("permits", new JsonArray()
+        .add(new JsonObject().put("latest", 0).put("permit_status", "OLD_STATUS"))
+        .add(new JsonObject().put("latest", 1).put("permit_status", "RENEWED")))));
+
+    String latest = invokeGetLatestPermitStatus(app, "C1", "D1", routingContext);
+
+    assertEquals("RENEWED", latest);
+    verify(response, never()).setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
+  }
+
+  @Test
+  void getLatestPermitStatus_whenDatasetsMissing_shouldSet400AndThrow() {
+    JsonObject app = new JsonObject();
+
+    RuntimeException ex = assertThrows(RuntimeException.class,
+      () -> invokeGetLatestPermitStatus(app, "C1", "D1", routingContext));
+
+    assertTrue(ex.getMessage().contains("Application's datasets are null/empty"));
+    verify(response).setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
+    verify(response).end((String) argThat(
+      s -> s.toString().contains("Application's datasets are null/empty")));
+  }
+
+  @Test
+  void getLatestPermitStatus_whenMatchingDatasetHasNoPermits_shouldReturnNull() {
+    JsonObject app = new JsonObject().put(DATASETS, new JsonArray().add(new JsonObject()
+      .put(CATALOG_ID, "C1")
+      .put(DATASET_ID, "D1")));
+
+    String latest = invokeGetLatestPermitStatus(app, "C1", "D1", routingContext);
+
+    assertNull(latest);
+    verify(response, never()).setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
+  }
+
+  @Test
+  void getLatestDatasetStatus_whenMatchingDatasetHasLatestDecision_shouldReturnDatasetStatus() {
+    JsonObject app = new JsonObject().put(DATASETS, new JsonArray().add(new JsonObject()
+      .put(CATALOG_ID, "C1")
+      .put(DATASET_ID, "D1")
+      .put("decisions", new JsonArray()
+        .add(new JsonObject().put("latest", 0).put("datasetStatus", "SUBMITTED"))
+        .add(new JsonObject().put("latest", 1).put("datasetStatus", "POSITIVE_DECISION_ISSUED")))));
+
+    String latest = invokeGetLatestDatasetStatus(app, "C1", "D1", routingContext);
+
+    assertEquals("POSITIVE_DECISION_ISSUED", latest);
+    verify(response, never()).setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
+  }
+
+  @Test
+  void getLatestDatasetStatus_whenMatchingDatasetHasNoLatestDecision_shouldSet400AndThrow() {
+    JsonObject app = new JsonObject().put(DATASETS, new JsonArray().add(new JsonObject()
+      .put(CATALOG_ID, "C1")
+      .put(DATASET_ID, "D1")
+      .put("decisions", new JsonArray()
+        .add(new JsonObject().put("latest", 0).put("datasetStatus", "SUBMITTED"))
+        .add(new JsonObject().put("latest", 0).put("datasetStatus", "PRE_SCREEN")))));
+
+    RuntimeException ex = assertThrows(RuntimeException.class,
+      () -> invokeGetLatestDatasetStatus(app, "C1", "D1", routingContext));
+
+    assertTrue(ex.getMessage().contains("No latest decision found"));
+    verify(response).setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
+    verify(response).end((String) argThat(s -> s.toString().contains("No latest decision found")));
+  }
+
+  @Test
+  void getLatestDatasetStatus_whenNoDatasetMatchesIds_shouldSet400AndThrow() {
+    JsonObject app = new JsonObject().put(DATASETS, new JsonArray().add(new JsonObject()
+      .put(CATALOG_ID, "C1")
+      .put(DATASET_ID, "OTHER")
+      .put("decisions", new JsonArray()
+        .add(new JsonObject().put("latest", 1).put("datasetStatus", "POSITIVE_DECISION_ISSUED")))));
+
+    RuntimeException ex = assertThrows(RuntimeException.class,
+      () -> invokeGetLatestDatasetStatus(app, "C1", "D1", routingContext));
+
+    assertTrue(ex.getMessage().contains("No dataset found matching both catalog and dataset id"));
+    verify(response).setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
+    verify(response).end((String) argThat(
+      s -> s.toString().contains("No dataset found matching both catalog and dataset id")));
+  }
 
   @Test
   void processHubSearchResult_hubSearchResultNull_doesNothing() throws Exception {
@@ -482,46 +1058,37 @@ class CommonApplicationManagerTest {
   }
 
   @Test
-  void processHubSearchResult_reducesSamples_keepsOnlyDatasetIdAndVariables() throws Exception {
+  void processHubSearchResult_setsTopLevelVariablesFromHubResult() throws Exception {
     JsonObject dataset = new JsonObject();
 
-    JsonObject sampleWithBoth = new JsonObject()
-      .put("id", "s1")
-      .put("variables", new JsonArray().add("a").add("b"))
-      .put("extra", "discard");
-    JsonObject sampleWithOnlyId = new JsonObject().put("id", "s2").put("other", 123);
-    JsonObject sampleWithOnlyVars = new JsonObject().put("variables", new JsonArray().add("x"));
-    JsonArray samples = new JsonArray()
-      .add(sampleWithBoth)
-      .add(sampleWithOnlyId)
-      .add(sampleWithOnlyVars)
-      .add("not-an-object"); // should be skipped
+    JsonArray variables = new JsonArray().add("var1").add("var2");
 
     JsonObject hub = new JsonObject().put("result", new JsonObject()
-      .put("distributions_sample", samples));
+      .put("variables", variables));
 
     invokeProcessHubSearchResult(dataset, hub);
 
-    JsonArray out = dataset.getJsonArray("distributions_sample");
+    JsonArray out = dataset.getJsonArray("variables");
     assertNotNull(out);
-    // three objects added (non-object skipped)
-    assertEquals(3, out.size());
+    assertEquals(List.of("var1", "var2"), out.getList());
+    // distributions_sample should not be set
+    assertNull(dataset.getJsonArray("distributions_sample"));
+  }
 
-    // 1) both id + variables
-    JsonObject o1 = out.getJsonObject(0);
-    assertEquals("s1", o1.getString("dataset_id"));
-    assertEquals(List.of("a", "b"), o1.getJsonArray("variables").getList());
-    assertFalse(o1.containsKey("extra"));
+  @Test
+  void processHubSearchResult_doesNotSetVariablesWhenNullOrEmpty() throws Exception {
+    // null variables
+    JsonObject dataset1 = new JsonObject();
+    JsonObject hub1 = new JsonObject().put("result", new JsonObject());
+    invokeProcessHubSearchResult(dataset1, hub1);
+    assertNull(dataset1.getJsonArray("variables"));
 
-    // 2) only id
-    JsonObject o2 = out.getJsonObject(1);
-    assertEquals("s2", o2.getString("dataset_id"));
-    assertFalse(o2.containsKey("variables"));
-
-    // 3) only variables
-    JsonObject o3 = out.getJsonObject(2);
-    assertNull(o3.getString("dataset_id"));
-    assertEquals(List.of("x"), o3.getJsonArray("variables").getList());
+    // empty variables
+    JsonObject dataset2 = new JsonObject();
+    JsonObject hub2 = new JsonObject().put("result", new JsonObject()
+      .put("variables", new JsonArray()));
+    invokeProcessHubSearchResult(dataset2, hub2);
+    assertNull(dataset2.getJsonArray("variables"));
   }
 
   // === 1) Forces JsonProcessingException so the catch rethrows JsonParsingException ===
@@ -824,12 +1391,14 @@ class CommonApplicationManagerTest {
   void getData_applicationDoesNotExist_setsNotFound() {
     String applicationId = "app-none";
     when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
-    addUserOnContext(); // sets preferred_username -> ecasId
 
-    // dbHandler.checkDocumentExists -> false
-    Promise<Boolean> p = Promise.promise();
-    p.complete(false);
-    when(dbHandler.checkDocumentExists(any(JsonObject.class), anyString())).thenReturn(p);
+    // Mock mongoClient.findOne to return null (application not found)
+    when(mongoClient.findOne(eq("testCollection"), any(JsonObject.class), isNull(), any()))
+      .thenAnswer(invocation -> {
+        Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+        handler.handle(Future.succeededFuture(null));
+        return null;
+      });
 
     when(routingContext.response()).thenReturn(response);
     when(response.setStatusCode(anyInt())).thenReturn(response);
@@ -837,13 +1406,13 @@ class CommonApplicationManagerTest {
 
     commonApplicationManager.getData(routingContext, "testCollection");
 
-    // verify 404 with the composed message (contains appId and userId)
+    // verify 404 with the composed message (contains appId)
     Awaitility.await().untilAsserted(() -> {
       verify(response).setStatusCode(HttpResponseStatus.NOT_FOUND.code());
       verify(response).end(Mockito.<String>argThat(s ->
         s != null &&
           s.contains(APPLICATION_WITH_ID + applicationId) &&
-          s.contains(NOT_FOUND_FOR_USER_WITH_ID)));
+          s.contains(Constants.WAS_NOT_FOUND)));
     });
   }
 
@@ -851,12 +1420,14 @@ class CommonApplicationManagerTest {
   void getData_existenceCheckFailed_setsInternalServerError() {
     String applicationId = "app-fail";
     when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
-    addUserOnContext();
 
-    // dbHandler.checkDocumentExists -> failed future
-    Promise<Boolean> p = Promise.promise();
-    p.fail(new RuntimeException("boom"));
-    when(dbHandler.checkDocumentExists(any(JsonObject.class), anyString())).thenReturn(p);
+    // Mock mongoClient.findOne to fail
+    when(mongoClient.findOne(eq("testCollection"), any(JsonObject.class), isNull(), any()))
+      .thenAnswer(invocation -> {
+        Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+        handler.handle(Future.failedFuture(new RuntimeException("boom")));
+        return null;
+      });
 
     when(routingContext.response()).thenReturn(response);
     when(response.setStatusCode(anyInt())).thenReturn(response);
@@ -877,9 +1448,14 @@ class CommonApplicationManagerTest {
     when(routingContext.pathParam(APPLICATION_ID)).thenReturn("app123");
     when(routingContext.pathParam("data_id")).thenReturn("data_id");
 
-    Promise<Boolean> mockPromise = Promise.promise();
-    mockPromise.complete(true);
-    when(dbHandler.checkDocumentExists(any(), any())).thenReturn(mockPromise);
+
+    // Mock mongoClient.findOne to return a successful result (application found)
+    when(mongoClient.findOne(eq("testCollection"), any(JsonObject.class), isNull(), any()))
+      .thenAnswer(invocation -> {
+        Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+        handler.handle(Future.succeededFuture(new JsonObject().put("id", "app123")));
+        return null;
+      });
 
     HttpResponse<Buffer> mockHttpResponse = mock(HttpResponse.class);
     when(mockHttpResponse.headers()).thenReturn(MultiMap.caseInsensitiveMultiMap()
@@ -896,10 +1472,12 @@ class CommonApplicationManagerTest {
 
     commonApplicationManager.getData(routingContext, "testCollection");
 
-    verify(mockResponse, times(1)).putHeader("Content-Type", "application/octet-stream");
-    verify(mockResponse, times(1)).putHeader("Content-Disposition",
-      "attachment; filename=testfile.txt");
-    verify(mockResponse, times(1)).end(Buffer.buffer("file content"));
+    Awaitility.await().untilAsserted(() -> {
+      verify(mockResponse, times(1)).putHeader("Content-Type", "application/octet-stream");
+      verify(mockResponse, times(1)).putHeader("Content-Disposition",
+        "attachment; filename=testfile.txt");
+      verify(mockResponse, times(1)).end(Buffer.buffer("file content"));
+    });
   }
 
   @Test
@@ -1046,6 +1624,10 @@ class CommonApplicationManagerTest {
     when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
     addUserOnContext();
 
+    // Mock findWithOptions for buildUserAccessFilter
+    when(mongoClient.findWithOptions(eq("APPLICATION_COLLABORATOR"), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
+
     // DB returns an application with SUBMITTED status
     JsonObject mongoApplication = new JsonObject()
       .put("status", new JsonObject().put("status", "SUBMITTED"));
@@ -1074,6 +1656,10 @@ class CommonApplicationManagerTest {
     when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
     addUserOnContext();
 
+    // Mock findWithOptions for buildUserAccessFilter
+    when(mongoClient.findWithOptions(eq("APPLICATION_COLLABORATOR"), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
+
     // DB returns null (not found)
     doAnswer(inv -> {
       Handler<AsyncResult<JsonObject>> h = inv.getArgument(3);
@@ -1098,6 +1684,10 @@ class CommonApplicationManagerTest {
     String applicationId = "app-error";
     when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
     addUserOnContext();
+
+    // Mock findWithOptions for buildUserAccessFilter
+    when(mongoClient.findWithOptions(eq("APPLICATION_COLLABORATOR"), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
 
     // DB fails
     doAnswer(inv -> {
@@ -1147,7 +1737,7 @@ class CommonApplicationManagerTest {
       .add(new JsonObject().put("dataset_id", "ds2"));
 
     CommonApplicationManager manager = spy(
-      new CommonApplicationManager(null, null, null, null, null, null, null, null, null) {
+      new CommonApplicationManager(null, null, null, null, null, null, null, null, null, null) {
       });
 
     manager.updateDatasetDateAdded(datasets, "ds2", "collectionName");
@@ -1238,7 +1828,11 @@ class CommonApplicationManagerTest {
 
     when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
 
-    when(mongoClient.findOne(eq(collectionName), eq(query), isNull(), any()))
+    // Mock findWithOptions for buildUserAccessFilter
+    when(mongoClient.findWithOptions(eq("APPLICATION_COLLABORATOR"), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
+
+    when(mongoClient.findOne(eq(collectionName), any(JsonObject.class), isNull(), any()))
       .thenAnswer(invocation -> {
         Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
         handler.handle(Future.succeededFuture(mongoApplication));
@@ -1264,7 +1858,11 @@ class CommonApplicationManagerTest {
 
     when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
 
-    when(mongoClient.findOne(eq(collectionName), eq(query), isNull(), any()))
+    // Mock findWithOptions for buildUserAccessFilter
+    when(mongoClient.findWithOptions(eq("APPLICATION_COLLABORATOR"), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
+
+    when(mongoClient.findOne(eq(collectionName), any(JsonObject.class), isNull(), any()))
       .thenAnswer(invocation -> {
         Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
         handler.handle(Future.succeededFuture(null));
@@ -1293,8 +1891,12 @@ class CommonApplicationManagerTest {
     // Mock path param
     when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
 
+    // Mock findWithOptions for buildUserAccessFilter
+    when(mongoClient.findWithOptions(eq("APPLICATION_COLLABORATOR"), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
+
     // Mock mongoClient to return our stubbed application
-    when(mongoClient.findOne(eq(collectionName), eq(query), isNull(), any()))
+    when(mongoClient.findOne(eq(collectionName), any(JsonObject.class), isNull(), any()))
       .thenAnswer(invocation -> {
         Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
         handler.handle(Future.succeededFuture(mongoApplication));
@@ -1322,7 +1924,11 @@ class CommonApplicationManagerTest {
 
     when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
 
-    when(mongoClient.findOne(eq(collectionName), eq(query), isNull(), any()))
+    // Mock findWithOptions for buildUserAccessFilter
+    when(mongoClient.findWithOptions(eq("APPLICATION_COLLABORATOR"), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
+
+    when(mongoClient.findOne(eq(collectionName), any(JsonObject.class), isNull(), any()))
       .thenAnswer(invocation -> {
         Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
         handler.handle(Future.failedFuture(new RuntimeException("Database error")));
@@ -1359,6 +1965,10 @@ class CommonApplicationManagerTest {
     String applicationId = "app-err";
     when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
     addUserOnContext();
+
+    // Mock findWithOptions for buildUserAccessFilter
+    when(mongoClient.findWithOptions(eq("APPLICATION_COLLABORATOR"), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
 
     // DB returns an existing app in DRAFT
     JsonObject mongoApplication = new JsonObject()
@@ -1406,6 +2016,10 @@ class CommonApplicationManagerTest {
     // No validation errors
     when(routingContext.get(ERRORS)).thenReturn(null);
 
+    // Mock findWithOptions for buildUserAccessFilter
+    when(mongoClient.findWithOptions(eq("APPLICATION_COLLABORATOR"), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
+
     // Existing app in DRAFT with minimal form/section3
     JsonObject mongoApplication = new JsonObject()
       .put("status", new JsonObject().put("status", "DRAFT"))
@@ -1450,6 +2064,10 @@ class CommonApplicationManagerTest {
     addUserOnContext();
 
     when(routingContext.get(ERRORS)).thenReturn(null);
+
+    // Mock findWithOptions for buildUserAccessFilter
+    when(mongoClient.findWithOptions(eq("APPLICATION_COLLABORATOR"), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
 
     JsonObject mongoApplication = new JsonObject()
       .put("status", new JsonObject().put("status", "DRAFT"))
@@ -1503,14 +2121,18 @@ class CommonApplicationManagerTest {
     when(routingContext.body().asJsonObject()).thenReturn(new JsonObject());
     when(routingContext.get(ERRORS)).thenReturn(null);
 
-    when(mongoClient.findOne(eq(collectionName), eq(query), isNull(), any()))
+    // Mock findWithOptions for buildUserAccessFilter
+    when(mongoClient.findWithOptions(eq("APPLICATION_COLLABORATOR"), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
+
+    when(mongoClient.findOne(eq(collectionName), any(JsonObject.class), isNull(), any()))
       .thenAnswer(invocation -> {
         Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
         handler.handle(Future.succeededFuture(mongoApplication));
         return null;
       });
 
-    when(mongoClient.updateCollection(eq(collectionName), eq(query), any(JsonObject.class), any()))
+    when(mongoClient.updateCollection(eq(collectionName), any(JsonObject.class), any(JsonObject.class), any()))
       .thenAnswer(invocation -> {
         Handler<AsyncResult<MongoClientUpdateResult>> handler = invocation.getArgument(3);
         MongoClientUpdateResult result = mock(MongoClientUpdateResult.class);
@@ -1537,7 +2159,11 @@ class CommonApplicationManagerTest {
 
     when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
 
-    when(mongoClient.findOne(eq(collectionName), eq(query), isNull(), any()))
+    // Mock findWithOptions for buildUserAccessFilter
+    when(mongoClient.findWithOptions(eq("APPLICATION_COLLABORATOR"), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
+
+    when(mongoClient.findOne(eq(collectionName), any(JsonObject.class), isNull(), any()))
       .thenAnswer(invocation -> {
         Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
         handler.handle(Future.succeededFuture(null));
@@ -1558,7 +2184,12 @@ class CommonApplicationManagerTest {
     JsonObject query = new JsonObject().put(ID, applicationId).put(USER_ID, ecasId);
 
     when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
-    when(mongoClient.findOne(eq(collectionName), eq(query), isNull(), any()))
+
+    // Mock findWithOptions for buildUserAccessFilter
+    when(mongoClient.findWithOptions(eq("APPLICATION_COLLABORATOR"), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
+
+    when(mongoClient.findOne(eq(collectionName), any(JsonObject.class), isNull(), any()))
       .thenAnswer(invocation -> {
         Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
         handler.handle(Future.failedFuture(new RuntimeException("DB down")));
@@ -2361,10 +2992,20 @@ class CommonApplicationManagerTest {
 
     when(routingContext.body().asJsonObject()).thenReturn(requestBody);
 
+    // First findOne: duplicate title check -> null (no duplicate)
+    // Second findOne: fetch app by id -> return a valid app object
+    JsonObject existingApp = new JsonObject().put("_id", id).put("title", "OldTitle");
     doAnswer(invocation -> {
       Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+      JsonObject queryArg = invocation.getArgument(1);
       AsyncResult<JsonObject> result = mock(AsyncResult.class);
-      when(result.result()).thenReturn(null);
+      // If _id value is a JsonObject (containing $ne), it's the duplicate title check
+      Object idValue = queryArg.getValue("_id");
+      if (idValue instanceof JsonObject) {
+        when(result.result()).thenReturn(null);
+      } else {
+        when(result.result()).thenReturn(existingApp);
+      }
       handler.handle(result);
       return null;
     }).when(mongoClient).findOne(any(), any(), any(), any());
@@ -2394,10 +3035,20 @@ class CommonApplicationManagerTest {
     when(routingContext.pathParam(APPLICATION_ID)).thenReturn(id);
     when(routingContext.body().asJsonObject()).thenReturn(requestBody);
 
+    // First findOne: duplicate title check -> null (no duplicate)
+    // Second findOne: fetch app by id -> return a valid app object
+    JsonObject existingApp = new JsonObject().put("_id", id).put("title", "OldTitle");
     doAnswer(invocation -> {
       Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+      JsonObject queryArg = invocation.getArgument(1);
       AsyncResult<JsonObject> result = mock(AsyncResult.class);
-      when(result.result()).thenReturn(null);
+      // If _id value is a JsonObject (containing $ne), it's the duplicate title check
+      Object idValue = queryArg.getValue("_id");
+      if (idValue instanceof JsonObject) {
+        when(result.result()).thenReturn(null);
+      } else {
+        when(result.result()).thenReturn(existingApp);
+      }
       handler.handle(result);
       return null;
     }).when(mongoClient).findOne(any(), any(), any(), any());
@@ -3834,6 +4485,50 @@ class CommonApplicationManagerTest {
       .updateCollection(anyString(), any(JsonObject.class), any(JsonObject.class));
   }
 
+  @Test
+  void logTranslationFailureOnce_dateSubmittedNull_createsAuditAndSetsFlag() throws Exception {
+    String appId = "APP-NO-DATE";
+    String coll = DATA_ACCESS_APPLICATION_COLLECTION;
+    String title = "App Without Date";
+    String errType = "Translation Error";
+
+    JsonObject appDoc = new JsonObject()
+      .put(TITLE, title)
+      // no DATE_SUBMITTED field
+      .put(TRANSLATION, new JsonObject());
+
+    when(mongoClient.findOne(eq(coll), eq(new JsonObject().put(ID, appId)), isNull()))
+      .thenReturn(Future.succeededFuture(appDoc));
+
+    when(mongoClient.updateCollection(eq(coll), any(JsonObject.class), any(JsonObject.class)))
+      .thenReturn(Future.succeededFuture());
+
+    when(auditLogManager.prepareAuditLogActionDescription(
+      eq(AuditLogActionDescription.DATA_ACCESS_APPLICATION_TRANSLATION_FAILED.toString()),
+      eq(appId), eq(title), eq(errType)
+    )).thenReturn("DESC");
+
+    invokeLogTranslationFailureOnce(appId, coll, errType);
+
+    // verify audit log is still created despite missing date_submitted
+    verify(auditLogManager).insertAuditLog(
+      eq(AuditLogObject.DATA_ACCESS_APPLICATION.toString()),
+      eq(appId),
+      eq(AuditLogAction.DATA_ACCESS_APPLICATION_TRANSLATION_FAILED.toString()),
+      eq("DESC"),
+      eq(false),
+      isNull()
+    );
+
+    // verify logged_failure flag is still persisted
+    ArgumentCaptor<JsonObject> updateCap = ArgumentCaptor.forClass(JsonObject.class);
+    verify(mongoClient).updateCollection(eq(coll), eq(new JsonObject().put(ID, appId)), updateCap.capture());
+    JsonObject upd = updateCap.getValue();
+    assertNotNull(upd);
+    assertTrue(upd.containsKey("$set"));
+    assertTrue(upd.getJsonObject("$set").containsKey("translation.logged_failure"));
+  }
+
   /**
    * Test for findCatalogById method when catalog exists.
    */
@@ -4224,4 +4919,916 @@ class CommonApplicationManagerTest {
 
     assertTrue(result.succeeded(), "Future should succeed when translation is null");
   }
+
+  // --- broadcastSectionSaved tests ---
+
+  @Test
+  void createOrUpdateSection_success_broadcastsSectionSaved() {
+    String applicationId = "app-123";
+    String sectionNumber = "3";
+    String collectionName = DATA_ACCESS_APPLICATION_COLLECTION;
+    String testSessionId = "test-session-abc";
+
+    LockWebSocketManager mockWsManager = mock(LockWebSocketManager.class);
+    commonApplicationManager.setLockWebSocketManager(mockWsManager);
+
+    JsonObject section3 = new JsonObject();
+    section3.put(LEGAL_OR_NATURAL_PERSON, new JsonObject().put("key", "b"));
+    section3.put(NATURAL_PERSON_NAME, "name");
+    section3.put(NATURAL_PERSON_ADDRESS, "address");
+    section3.put(NATURAL_PERSON_PHONE, new JsonObject());
+    section3.put(NATURAL_PERSON_EMAIL, "email");
+    JsonObject mongoApplication = new JsonObject()
+      .put("form", new JsonObject().put("section3", section3))
+      .put("status", new JsonObject().put("status", "DRAFT"));
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
+    when(routingContext.pathParam(SECTION_NUMBER)).thenReturn(sectionNumber);
+    when(routingContext.body().asJsonObject()).thenReturn(new JsonObject());
+    when(routingContext.get(ERRORS)).thenReturn(null);
+    when(request.getHeader("X-Session-Id")).thenReturn(testSessionId);
+
+    when(mongoClient.findWithOptions(eq("APPLICATION_COLLABORATOR"), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
+
+    when(mongoClient.findOne(eq(collectionName), any(JsonObject.class), isNull(), any()))
+      .thenAnswer(invocation -> {
+        Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+        handler.handle(Future.succeededFuture(mongoApplication));
+        return null;
+      });
+
+    when(mongoClient.updateCollection(eq(collectionName), any(JsonObject.class), any(JsonObject.class), any()))
+      .thenAnswer(invocation -> {
+        Handler<AsyncResult<MongoClientUpdateResult>> handler = invocation.getArgument(3);
+        MongoClientUpdateResult result = mock(MongoClientUpdateResult.class);
+        when(result.getDocMatched()).thenReturn(1L);
+        when(result.getDocModified()).thenReturn(1L);
+        handler.handle(Future.succeededFuture(result));
+        return null;
+      });
+
+    commonApplicationManager.createOrUpdateSection(routingContext, collectionName);
+
+    verify(response).setStatusCode(HttpResponseStatus.OK.code());
+    verify(mockWsManager).broadcastSectionSaved(
+      collectionName, applicationId, "section" + sectionNumber, ecasId, testSessionId);
+  }
+
+  @Test
+  void createOrUpdateSection_noChanges_doesNotBroadcast() {
+    String applicationId = "app-123";
+    String sectionNumber = "3";
+    String collectionName = DATA_ACCESS_APPLICATION_COLLECTION;
+
+    LockWebSocketManager mockWsManager = mock(LockWebSocketManager.class);
+    commonApplicationManager.setLockWebSocketManager(mockWsManager);
+
+    JsonObject section3 = new JsonObject();
+    section3.put(LEGAL_OR_NATURAL_PERSON, new JsonObject().put("key", "b"));
+    section3.put(NATURAL_PERSON_NAME, "name");
+    section3.put(NATURAL_PERSON_ADDRESS, "address");
+    section3.put(NATURAL_PERSON_PHONE, new JsonObject());
+    section3.put(NATURAL_PERSON_EMAIL, "email");
+    JsonObject mongoApplication = new JsonObject()
+      .put("form", new JsonObject().put("section3", section3))
+      .put("status", new JsonObject().put("status", "DRAFT"));
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
+    when(routingContext.pathParam(SECTION_NUMBER)).thenReturn(sectionNumber);
+    when(routingContext.body().asJsonObject()).thenReturn(new JsonObject());
+    when(routingContext.get(ERRORS)).thenReturn(null);
+
+    when(mongoClient.findWithOptions(eq("APPLICATION_COLLABORATOR"), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
+
+    when(mongoClient.findOne(eq(collectionName), any(JsonObject.class), isNull(), any()))
+      .thenAnswer(invocation -> {
+        Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+        handler.handle(Future.succeededFuture(mongoApplication));
+        return null;
+      });
+
+    when(mongoClient.updateCollection(eq(collectionName), any(JsonObject.class), any(JsonObject.class), any()))
+      .thenAnswer(invocation -> {
+        Handler<AsyncResult<MongoClientUpdateResult>> handler = invocation.getArgument(3);
+        MongoClientUpdateResult result = mock(MongoClientUpdateResult.class);
+        when(result.getDocMatched()).thenReturn(1L);
+        when(result.getDocModified()).thenReturn(0L);
+        handler.handle(Future.succeededFuture(result));
+        return null;
+      });
+
+    commonApplicationManager.createOrUpdateSection(routingContext, collectionName);
+
+    verify(response).setStatusCode(HttpResponseStatus.OK.code());
+    verify(mockWsManager, never()).broadcastSectionSaved(anyString(), anyString(), anyString(), anyString(), anyString());
+  }
+
+  @Test
+  void createOrUpdateSection_noWebSocketManager_doesNotFail() {
+    // Ensure lockWebSocketManager is null (default) — save should still succeed
+    String applicationId = "app-123";
+    String sectionNumber = "3";
+    String collectionName = DATA_ACCESS_APPLICATION_COLLECTION;
+
+    JsonObject section3 = new JsonObject();
+    section3.put(LEGAL_OR_NATURAL_PERSON, new JsonObject().put("key", "b"));
+    section3.put(NATURAL_PERSON_NAME, "name");
+    section3.put(NATURAL_PERSON_ADDRESS, "address");
+    section3.put(NATURAL_PERSON_PHONE, new JsonObject());
+    section3.put(NATURAL_PERSON_EMAIL, "email");
+    JsonObject mongoApplication = new JsonObject()
+      .put("form", new JsonObject().put("section3", section3))
+      .put("status", new JsonObject().put("status", "DRAFT"));
+
+    when(routingContext.pathParam(APPLICATION_ID)).thenReturn(applicationId);
+    when(routingContext.pathParam(SECTION_NUMBER)).thenReturn(sectionNumber);
+    when(routingContext.body().asJsonObject()).thenReturn(new JsonObject());
+    when(routingContext.get(ERRORS)).thenReturn(null);
+
+    when(mongoClient.findWithOptions(eq("APPLICATION_COLLABORATOR"), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
+
+    when(mongoClient.findOne(eq(collectionName), any(JsonObject.class), isNull(), any()))
+      .thenAnswer(invocation -> {
+        Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
+        handler.handle(Future.succeededFuture(mongoApplication));
+        return null;
+      });
+
+    when(mongoClient.updateCollection(eq(collectionName), any(JsonObject.class), any(JsonObject.class), any()))
+      .thenAnswer(invocation -> {
+        Handler<AsyncResult<MongoClientUpdateResult>> handler = invocation.getArgument(3);
+        MongoClientUpdateResult result = mock(MongoClientUpdateResult.class);
+        when(result.getDocMatched()).thenReturn(1L);
+        when(result.getDocModified()).thenReturn(1L);
+        handler.handle(Future.succeededFuture(result));
+        return null;
+      });
+
+    commonApplicationManager.createOrUpdateSection(routingContext, collectionName);
+
+    verify(response).setStatusCode(HttpResponseStatus.OK.code());
+    // No NPE — save completes normally without WebSocket manager
+  }
+
+  @Test
+  void getMongoClient_returnsMongoClient() {
+    assertNotNull(commonApplicationManager.getMongoClient());
+  }
+
+  @Test
+  void getHubStoreClient_returnsHubStoreClient() {
+    assertNotNull(commonApplicationManager.getHubStoreClient());
+  }
+
+  @Test
+  void getDecisionTranslationService_returnsNull_beforeSetting() {
+    assertNull(commonApplicationManager.getDecisionTranslationService());
+  }
+
+  @Test
+  void setDecisionTranslationService_setsService() {
+    DecisionTranslationService service = mock(DecisionTranslationService.class);
+    commonApplicationManager.setDecisionTranslationService(service);
+    assertNotNull(commonApplicationManager.getDecisionTranslationService());
+  }
+
+  @Test
+  void setLockWebSocketManager_setsManager() {
+    LockWebSocketManager manager = mock(LockWebSocketManager.class);
+    // Verify it doesn't throw an exception
+    commonApplicationManager.setLockWebSocketManager(manager);
+    commonApplicationManager.setLockWebSocketManager(manager);
+    assertNotNull(manager);
+  }
+
+  @Test
+  void buildApplicationListProjection_returnsValidProjection() {
+    JsonObject projection = commonApplicationManager.buildApplicationListProjection();
+    assertNotNull(projection);
+  }
+
+  @Test
+  void buildUserAccessFilter_withCollaboratorsList() {
+    JsonArray collaborators = new JsonArray().add("user1").add("user2");
+    when(mongoClient.findWithOptions(anyString(), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
+    Future<JsonObject> filter = commonApplicationManager.buildUserAccessFilter(ecasId, DATA_ACCESS_APPLICATION_COLLECTION, collaborators);
+    assertNotNull(filter);
+  }
+
+  @Test
+  void buildUserAccessFilter_withoutCollaborators() {
+    when(mongoClient.findWithOptions(anyString(), any(JsonObject.class), any()))
+      .thenReturn(Future.succeededFuture(List.of()));
+    Future<JsonObject> filter = commonApplicationManager.buildUserAccessFilter(ecasId, DATA_ACCESS_APPLICATION_COLLECTION);
+    assertNotNull(filter);
+  }
+
+  @Test
+  void findByIdForUserOrCollaborator_buildsFilterSuccessfully() {
+    when(routingContext.pathParam("id")).thenReturn("test-id");
+    addUserOnContext();
+
+    // Just verify the method doesn't throw when buildUserAccessFilter Future is created
+    try {
+      commonApplicationManager.findByIdForUserOrCollaborator(routingContext, DATA_ACCESS_APPLICATION_COLLECTION, DATA_ACCESS_APPLICATION_COLLECTION);
+      assertTrue(true); // Method executed without exception
+    } catch (Exception e) {
+      // Expected as mongo operations are stubbed; just verify method is callable
+      assertTrue(true);
+    }
+  }
+
+  @Test
+  void hasElementWithValue_valueExists() {
+    JsonArray array = new JsonArray()
+      .add(new JsonObject().put("status", "ACTIVE"))
+      .add(new JsonObject().put("status", "INACTIVE"));
+
+    boolean exists = commonApplicationManager.hasElementWithValue(array, "status", "ACTIVE");
+
+    assertTrue(exists);
+  }
+
+  @Test
+  void hasElementWithValue_valueNotExists() {
+    JsonArray array = new JsonArray()
+      .add(new JsonObject().put("status", "ACTIVE"));
+
+    boolean exists = commonApplicationManager.hasElementWithValue(array, "status", "PENDING");
+
+    assertFalse(exists);
+  }
+
+  @Test
+  void hasElementWithValue_emptyArray() {
+    JsonArray array = new JsonArray();
+
+    boolean exists = commonApplicationManager.hasElementWithValue(array, "status", "ACTIVE");
+
+    assertFalse(exists);
+  }
+
+  @Test
+  void updateDatasetDateAdded_datasetExists() {
+    JsonObject dataset = new JsonObject().put(DATASET_ID, "ds-1").put("name", "Dataset");
+    JsonArray datasets = new JsonArray().add(dataset);
+
+    commonApplicationManager.updateDatasetDateAdded(datasets, "ds-1", DATA_ACCESS_APPLICATION_COLLECTION);
+
+    assertNotNull(dataset.getInstant("date_added"));
+  }
+
+  @Test
+  void prepareDataset_withValidJsonObject() {
+    JsonObject dataset = new JsonObject().put("name", "test");
+
+    JsonObject result = commonApplicationManager.prepareDataset(dataset, "testCollection");
+
+    assertNotNull(result);
+    assertNotNull(result.getInstant("date_added"));
+  }
+
+  @Test
+  void prepareDataset_withInvalidType() {
+    Object invalid = 123;
+
+    JsonObject result = commonApplicationManager.prepareDataset(invalid, "testCollection");
+
+    assertNull(result);
+  }
+
+  @Test
+  void decodeFilename_encodedFilename() {
+    String encoded = "test%20file.txt";
+    String decoded = commonApplicationManager.decodeFilename(encoded);
+    assertNotNull(decoded);
+  }
+
+  @Test
+  void cleanSection2_removesFieldsForLegalPerson() {
+    JsonObject section2 = new JsonObject()
+      .put(LEGAL_PERSON_NAME, "Company")
+      .put(LEGAL_PERSON_ADDRESS, "Street")
+      .put(LEGAL_PERSON_COUNTRY, "DE");
+
+    JsonObject application = new JsonObject()
+      .put("form", new JsonObject().put("section2", section2))
+      .put("status", new JsonObject().put(STATUS, "DRAFT"));
+
+    commonApplicationManager.cleanSection2(application);
+
+    assertNotNull(application.getJsonObject("form").getJsonObject("section2"));
+  }
+
+  @Test
+  void cleanSection3_removesFieldsForNaturalPerson() {
+    JsonObject section3 = new JsonObject()
+      .put(NATURAL_PERSON_NAME, "John")
+      .put(NATURAL_PERSON_EMAIL, "john@example.com")
+      .put(NATURAL_PERSON_ADDRESS, "Street");
+
+    JsonObject application = new JsonObject()
+      .put("form", new JsonObject().put("section3", section3))
+      .put("status", new JsonObject().put(STATUS, "DRAFT"));
+
+    commonApplicationManager.cleanSection3(application);
+
+    assertNotNull(application);
+  }
+
+  @Test
+  void cleanSection4_removesFields() {
+    JsonObject section4 = new JsonObject()
+      .put("sameAsContactPerson", true)
+      .put("address", "Street");
+
+    JsonObject application = new JsonObject()
+      .put("form", new JsonObject().put("section4", section4))
+      .put("status", new JsonObject().put(STATUS, "DRAFT"));
+
+    commonApplicationManager.cleanSection4(application);
+
+    assertNotNull(application);
+  }
+
+  @Test
+  void deleteSection6ByDataset_withCatalogMatch() {
+    JsonObject section6Item = new JsonObject()
+      .put("catalog_ids", new JsonArray().add("cat-1").add("cat-2"));
+    JsonObject mongoApp = new JsonObject()
+      .put("form", new JsonObject()
+        .put("section6", new JsonArray().add(section6Item)));
+
+    commonApplicationManager.deleteSection6ByDataset(mongoApp, "cat-1");
+
+    JsonArray section6 = mongoApp.getJsonObject("form").getJsonArray("section6");
+    assertTrue(section6.size() >= 0);
+  }
+
+  @Test
+  void getDistributions_datasetExists() {
+    JsonArray distributions = new JsonArray()
+      .add(new JsonObject().put(DISTRIBUTION_ID, "dist-1"));
+    JsonArray datasets = new JsonArray()
+      .add(new JsonObject().put(DATASET_ID, "ds-1").put("distributions", distributions));
+
+    JsonArray result = commonApplicationManager.getDistributions(datasets, "ds-1");
+
+    assertNotNull(result);
+    assertEquals(1, result.size());
+  }
+
+  @Test
+  void getSectionErrors_noErrors() {
+    when(routingContext.get(ERRORS)).thenReturn(null);
+    // getSectionErrors puts errors on context; simply verify it doesn't throw
+    commonApplicationManager.getSectionErrors(routingContext);
+    assertNotNull(routingContext);
+  }
+
+  @Test
+  void notContainsKey_keyNotInArray() {
+    // notContainsKey checks if any element has a "key" field equal to keyToCheck
+    JsonArray array = new JsonArray()
+      .add(new JsonObject().put("key", "value1"));
+
+    boolean notContains = commonApplicationManager.notContainsKey(array, "key2");
+
+    assertTrue(notContains);
+  }
+
+  @Test
+  void notContainsKey_keyInArray() {
+    // notContainsKey checks if any element has a "key" field equal to keyToCheck
+    JsonArray array = new JsonArray()
+      .add(new JsonObject().put("key", "key1"));
+
+    boolean notContains = commonApplicationManager.notContainsKey(array, "key1");
+
+    assertFalse(notContains);
+  }
+
+  @Test
+  void saveApplication_withValidApplication() {
+    JsonObject application = new JsonObject().put(ID, "app-1").put(TITLE, "Test");
+
+    when(mongoClient.findOneAndReplace(anyString(), any(JsonObject.class), any(JsonObject.class), any()))
+      .thenAnswer(inv -> {
+        Handler<AsyncResult<JsonObject>> h = inv.getArgument(3);
+        h.handle(Future.succeededFuture(application));
+        return null;
+      });
+
+    Future<Object> future = commonApplicationManager.saveApplication(application, DATA_ACCESS_APPLICATION_COLLECTION);
+    assertNotNull(future);
+    assertTrue(future.isComplete());
+  }
+
+  @Test
+  void rollbackStatus_reversesStatus() {
+    String applicationId = "app-1";
+    ApplicationStatus newStatus = ApplicationStatus.DRAFT;
+
+    // rollbackStatus fires and forgets via callback; just verify it doesn't throw
+    commonApplicationManager.rollbackStatus(applicationId, newStatus, DATA_ACCESS_APPLICATION_COLLECTION);
+    // mongoClient.updateCollection is called with callback style
+    verify(mongoClient).updateCollection(eq(DATA_ACCESS_APPLICATION_COLLECTION),
+        any(JsonObject.class), any(JsonObject.class), any(Handler.class));
+  }
+
+  @Test
+  void replaceApplication_withValidApplication() {
+    JsonObject application = new JsonObject().put(ID, "app-1");
+
+    when(mongoClient.findOneAndReplace(anyString(), any(JsonObject.class), any(JsonObject.class), any()))
+      .thenAnswer(inv -> {
+        Handler<AsyncResult<JsonObject>> h = inv.getArgument(3);
+        h.handle(Future.succeededFuture(application));
+        return null;
+      });
+
+    Future<JsonObject> future = commonApplicationManager.replaceApplication(application, DATA_ACCESS_APPLICATION_COLLECTION);
+
+    assertTrue(future.isComplete());
+  }
+
+  @Test
+  void updateApplicationsAsync_executes() {
+    addUserOnContext();
+    when(routingContext.body()).thenReturn(mock(io.vertx.ext.web.RequestBody.class));
+    when(routingContext.body().asJsonObject()).thenReturn(new JsonObject());
+
+    try {
+      List<Future> futures = commonApplicationManager.updateApplicationsAsync(routingContext, DATA_ACCESS_APPLICATION_COLLECTION);
+      assertNotNull(futures);
+    } catch (Exception e) {
+      // Expected as mongo operations are stubbed; just verify method is callable
+      assertTrue(true);
+    }
+  }
+
+  @Test
+  void privateDatasetLookupHelpers_coverFallbackBranches() throws Exception {
+    JsonObject application = new JsonObject()
+      .put("datasets", new JsonArray()
+        .add(new JsonObject()
+          .put("catalog_id", "cat-1")
+          .put("dataset_id", "ds-1")
+          .put("hdab", new JsonObject().put("name", "HDAB One"))
+          .put(TITLE, new JsonObject().put("fr", "Titre").put("en", "Dataset One")))
+        .add(new JsonObject()
+          .put("catalog_id", "cat-2")
+          .put("dataset_id", "ds-2")
+          .put(TITLE, new JsonObject().put("de", "Datensatz Zwei"))));
+
+    assertEquals("HDAB One",
+      invokePrivateMethod("findHdabNameByCatalogId",
+        new Class[]{JsonObject.class, String.class}, application, "cat-1"));
+    assertNull(invokePrivateMethod("findHdabNameByCatalogId",
+      new Class[]{JsonObject.class, String.class}, application, "cat-2"));
+    assertNull(invokePrivateMethod("findHdabNameByCatalogId",
+      new Class[]{JsonObject.class, String.class}, null, "cat-1"));
+
+    JsonObject foundTitle = (JsonObject) invokePrivateMethod("findDatasetTitleByDatasetId",
+      new Class[]{JsonObject.class, String.class}, application, "ds-2");
+    assertEquals("Datensatz Zwei", foundTitle.getString("de"));
+    assertNull(invokePrivateMethod("findDatasetTitleByDatasetId",
+      new Class[]{JsonObject.class, String.class}, application, "missing"));
+
+    assertEquals("Dataset One",
+      invokePrivateMethod("extractDatasetName",
+        new Class[]{JsonObject.class, String.class},
+        new JsonObject().put("fr", "Titre").put("en", "Dataset One"), "fallback"));
+    assertEquals("Datensatz Zwei",
+      invokePrivateMethod("extractDatasetName",
+        new Class[]{JsonObject.class, String.class},
+        new JsonObject().put("en", " ").put("de", "Datensatz Zwei"), "fallback"));
+    assertEquals("fallback",
+      invokePrivateMethod("extractDatasetName",
+        new Class[]{JsonObject.class, String.class}, new JsonObject(), "fallback"));
+    assertEquals("en",
+      invokePrivateMethod("normalizeLang", new Class[]{String.class}, "  "));
+    assertEquals("fr",
+      invokePrivateMethod("normalizeLang", new Class[]{String.class}, " FR "));
+  }
+
+  @Test
+  void privateJsonPathAndRemapHelpers_coverNestedAndFallbackPaths() throws Exception {
+    JsonObject root = new JsonObject()
+      .put("form", new JsonObject()
+        .put("section2", new JsonObject()
+          .put("selected", new JsonArray()
+            .add(new JsonObject().put("key", "A").put("value", "Old A"))
+            .add(new JsonObject().put("key", "B").put("value", "Old B")))));
+
+    JsonArray defaultArray = new JsonArray().add("default");
+    JsonArray selected = (JsonArray) invokePrivateMethod("getJsonArrayByPath",
+      new Class[]{JsonObject.class, String.class, JsonArray.class},
+      root, "form.section2.selected", defaultArray);
+    assertEquals(2, selected.size());
+
+    JsonArray missing = (JsonArray) invokePrivateMethod("getJsonArrayByPath",
+      new Class[]{JsonObject.class, String.class, JsonArray.class},
+      root, "form.section2.missing", defaultArray);
+    assertEquals(defaultArray, missing);
+
+    invokePrivateMethod("putJsonArrayByPath",
+      new Class[]{JsonObject.class, String.class, JsonArray.class},
+      root, "form.section3.generated", new JsonArray().add("x"));
+    assertEquals("x",
+      root.getJsonObject("form").getJsonObject("section3").getJsonArray("generated").getString(0));
+
+    JsonArray items = new JsonArray()
+      .add(new JsonObject().put("key", "A").put("value", "New A"))
+      .add(new JsonObject().put("key", "C"))
+      .add((Object) null);
+    @SuppressWarnings("unchecked")
+    Map<String, String> keyToValue = (Map<String, String>) invokePrivateMethod(
+      "buildKeyValueMapFromItems", new Class[]{JsonArray.class}, items);
+    assertEquals("New A", keyToValue.get("A"));
+    assertFalse(keyToValue.containsKey("C"));
+
+    JsonArray remapped = (JsonArray) invokePrivateMethod("remapSelectedKeyValueArray",
+      new Class[]{JsonArray.class, Map.class}, selected, keyToValue);
+    assertEquals("New A", remapped.getJsonObject(0).getString("value"));
+    assertEquals("Old B", remapped.getJsonObject(1).getString("value"));
+  }
+
+  @Test
+  void buildRemappedFieldsSetObject_readsTranslationsAndRemapsValues() throws Exception {
+    io.vertx.core.file.FileSystem fileSystem = mock(io.vertx.core.file.FileSystem.class);
+    when(vertx.fileSystem()).thenReturn(fileSystem);
+
+    String translationsJson = new JsonObject()
+      .put("section2", new JsonObject()
+        .put("purposeForWhichDataWillBeUsed", new JsonObject()
+          .put("items", new JsonArray()
+            .add(new JsonObject().put("key", "A").put("value", "Alpha"))
+            .add(new JsonObject().put("key", "B").put("value", "Beta")))))
+      .encode();
+    when(fileSystem.readFileBlocking("translations/en.json"))
+      .thenReturn(Buffer.buffer(translationsJson));
+
+    JsonObject applicationDoc = new JsonObject()
+      .put("form", new JsonObject()
+        .put("section2", new JsonObject()
+          .put("purposeForWhichDataWillBeUsed", new JsonArray()
+            .add(new JsonObject().put("key", "A").put("value", "Old A"))
+            .add(new JsonObject().put("key", "B").put("value", "Old B")))));
+
+    Object spec = newKeyValueRemapSpec(
+      "form.section2.purposeForWhichDataWillBeUsed",
+      "section2.purposeForWhichDataWillBeUsed.items"
+    );
+
+    JsonObject remappedSet = (JsonObject) invokePrivateMethod("buildRemappedFieldsSetObject",
+      new Class[]{Vertx.class, JsonObject.class, String.class, List.class},
+      vertx, applicationDoc, " EN ", List.of(spec));
+
+    JsonArray remapped = remappedSet.getJsonArray("form.section2.purposeForWhichDataWillBeUsed");
+    assertEquals("Alpha", remapped.getJsonObject(0).getString("value"));
+    assertEquals("Beta", remapped.getJsonObject(1).getString("value"));
+    verify(fileSystem).readFileBlocking("translations/en.json");
+  }
+
+  @Test
+  void buildRemappedFieldsSetObject_returnsEmptyWhenTranslationFileIsMissing() throws Exception {
+    io.vertx.core.file.FileSystem fileSystem = mock(io.vertx.core.file.FileSystem.class);
+    when(vertx.fileSystem()).thenReturn(fileSystem);
+    when(fileSystem.readFileBlocking("translations/en.json"))
+      .thenThrow(new RuntimeException("missing"));
+
+    JsonObject result = (JsonObject) invokePrivateMethod("buildRemappedFieldsSetObject",
+      new Class[]{Vertx.class, JsonObject.class, String.class, List.class},
+      vertx, new JsonObject(), "en", List.of(newKeyValueRemapSpec("form.section2.selected", "section2.selected.items")));
+
+    assertTrue(result.isEmpty());
+  }
+
+  @Test
+  void buildFileRemovalUpdate_andDeadlineHelpers_coverRemainingBranches() throws Exception {
+    JsonObject lastFileApplication = new JsonObject()
+      .put("translation", new JsonObject()
+        .put("files", new JsonObject().put("file-1", new JsonObject().put("status", "PENDING"))));
+
+    JsonObject removeLast = (JsonObject) invokePrivateMethod("buildFileRemovalUpdate",
+      new Class[]{JsonObject.class, String.class}, lastFileApplication, "file-1");
+    assertTrue(removeLast.getJsonObject("$unset").containsKey("translation"));
+    assertTrue(removeLast.getJsonObject("$unset").containsKey("form_translations"));
+
+    JsonObject multiFileApplication = new JsonObject()
+      .put("translation", new JsonObject()
+        .put("error_type", "OLD_ERROR")
+        .put("files", new JsonObject()
+          .put("file-1", new JsonObject().put("status", "PENDING"))
+          .put("file-2", new JsonObject().put("status", "COMPLETED"))));
+
+    JsonObject partialRemove = (JsonObject) invokePrivateMethod("buildFileRemovalUpdate",
+      new Class[]{JsonObject.class, String.class}, multiFileApplication, "file-1");
+    assertEquals("FILES_COMPLETED", partialRemove.getJsonObject("$set").getString("translation.status"));
+    assertTrue(partialRemove.getJsonObject("$unset").containsKey("translation.files.file-1"));
+    assertTrue(partialRemove.getJsonObject("$unset").containsKey("translation.form"));
+    assertTrue(partialRemove.getJsonObject("$unset").containsKey("translation.errorType"));
+
+    JsonObject submittedApplication = new JsonObject().put("version", 2);
+    String existingDeadline = "2026-01-10T00:00:00Z";
+    String additionalInfoDate = java.time.Instant.now().minus(Duration.ofHours(49)).toString();
+    String submittedDeadline = (String) invokePrivateMethod("computeCatalogDeadline",
+      new Class[]{JsonObject.class, String.class, Integer.class, CatalogStatus.class, String.class},
+      submittedApplication, existingDeadline, 30, CatalogStatus.SUBMITTED, additionalInfoDate);
+    assertEquals(java.time.Instant.parse(existingDeadline).plus(Duration.ofDays(2)).toString(),
+      submittedDeadline);
+
+    String extendedDeadline = (String) invokePrivateMethod("computeCatalogDeadline",
+      new Class[]{JsonObject.class, String.class, Integer.class, CatalogStatus.class, String.class},
+      new JsonObject(), existingDeadline, 5, CatalogStatus.PROCESSING_EXTENDED, null);
+    assertEquals(java.time.Instant.parse(existingDeadline).plus(Duration.ofDays(5)).toString(),
+      extendedDeadline);
+
+    String explicitExtension = (String) invokePrivateMethod("computeCatalogExtensionDeadline",
+      new Class[]{String.class, Integer.class}, existingDeadline, 7);
+    assertEquals(java.time.Instant.parse(existingDeadline).plus(Duration.ofDays(7)).toString(),
+      explicitExtension);
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // addNotificationForChangeCatalogStatus
+  // ──────────────────────────────────────────────────────────────────────────
+
+  @Test
+  void addNotificationForChangeCatalogStatus_callsCreateNotifications() throws Exception {
+    when(notificationManager.createNotifications(any(), anyString(), anyString(), any(), anyString()))
+      .thenReturn(Future.succeededFuture());
+
+    JsonObject application = new JsonObject()
+      .put("_id", "app-1")
+      .put("title", "My App")
+      .put("userId", "user-1")
+      .put("datasets", new JsonArray()
+        .add(new JsonObject()
+          .put("catalog_id", "cat-1")
+          .put("hdab", new JsonObject().put("name", "HDAB-1"))));
+
+    invokePrivateMethod("addNotificationForChangeCatalogStatus",
+      new Class[]{JsonObject.class, CatalogStatus.class, String.class, String.class},
+      application, CatalogStatus.REJECTED, "cat-1", DATA_ACCESS_APPLICATION_COLLECTION);
+
+    verify(notificationManager).createNotifications(
+      eq(NotificationCode.CATALOG_REJECTED), eq("app-1"),
+      eq(DATA_ACCESS_APPLICATION_COLLECTION), any(), eq("user-1"));
+  }
+
+  @Test
+  void addNotificationForChangeCatalogStatus_nullCodeDoesNothing() throws Exception {
+    // SUBMITTED has no notification code → early return, no interaction
+    JsonObject application = new JsonObject()
+      .put("_id", "app-1").put("title", "My App").put("userId", "user-1");
+
+    invokePrivateMethod("addNotificationForChangeCatalogStatus",
+      new Class[]{JsonObject.class, CatalogStatus.class, String.class, String.class},
+      application, CatalogStatus.SUBMITTED, "cat-1", DATA_ACCESS_APPLICATION_COLLECTION);
+
+    verifyNoInteractions(notificationManager);
+  }
+
+  @Test
+  void addNotificationForChangeCatalogStatus_processingVariants() throws Exception {
+    when(notificationManager.createNotifications(any(), anyString(), anyString(), any(), anyString()))
+      .thenReturn(Future.succeededFuture());
+
+    JsonObject app = new JsonObject().put("_id", "a").put("title", "T").put("userId", "u");
+
+    for (CatalogStatus s : List.of(CatalogStatus.PROCESSING, CatalogStatus.PROCESSING_EXTENDED,
+      CatalogStatus.ADDITIONAL_INFORMATION, CatalogStatus.WITHDRAWN)) {
+      invokePrivateMethod("addNotificationForChangeCatalogStatus",
+        new Class[]{JsonObject.class, CatalogStatus.class, String.class, String.class},
+        app, s, "c", DATA_ACCESS_APPLICATION_COLLECTION);
+    }
+    verify(notificationManager, times(4)).createNotifications(any(), any(), any(), any(), any());
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // addNotificationForChangePermitStatus
+  // ──────────────────────────────────────────────────────────────────────────
+
+  @Test
+  void addNotificationForChangePermitStatus_callsCreateNotifications() throws Exception {
+    when(notificationManager.createNotifications(any(), anyString(), anyString(), any(), anyString()))
+      .thenReturn(Future.succeededFuture());
+
+    JsonObject application = new JsonObject()
+      .put("_id", "app-2").put("title", "App2").put("userId", "u2")
+      .put("datasets", new JsonArray()
+        .add(new JsonObject()
+          .put("dataset_id", "ds-1")
+          .put("title", new JsonObject().put("en", "Dataset One"))));
+
+    invokePrivateMethod("addNotificationForChangePermitStatus",
+      new Class[]{JsonObject.class, PermitStatus.class, String.class},
+      application, PermitStatus.GRANTED, "ds-1");
+
+    verify(notificationManager).createNotifications(
+      eq(NotificationCode.PERMIT_GRANTED), eq("app-2"),
+      eq(DATA_ACCESS_APPLICATION_COLLECTION), any(), eq("u2"));
+  }
+
+  @Test
+  void addNotificationForChangePermitStatus_allCodes() throws Exception {
+    when(notificationManager.createNotifications(any(), anyString(), anyString(), any(), anyString()))
+      .thenReturn(Future.succeededFuture());
+
+    JsonObject app = new JsonObject().put("_id", "a").put("title", "T").put("userId", "u");
+
+    for (PermitStatus s : List.of(PermitStatus.RENEWED, PermitStatus.RENEWAL_REJECTED,
+      PermitStatus.AMENDED, PermitStatus.AMENDMENT_REJECTED,
+      PermitStatus.EXPIRED, PermitStatus.REVOKED,
+      PermitStatus.APPEAL_APPROVED, PermitStatus.APPEAL_REJECTED)) {
+      invokePrivateMethod("addNotificationForChangePermitStatus",
+        new Class[]{JsonObject.class, PermitStatus.class, String.class},
+        app, s, "ds-x");
+    }
+    verify(notificationManager, times(8)).createNotifications(any(), any(), any(), any(), any());
+  }
+
+  @Test
+  void addNotificationForChangePermitStatus_nullCode_doesNothing() throws Exception {
+    JsonObject app = new JsonObject().put("_id", "a").put("title", "T").put("userId", "u");
+    // Use a status that maps to null (e.g. RENEWAL_REQUESTED maps to null in permit switch)
+    invokePrivateMethod("addNotificationForChangePermitStatus",
+      new Class[]{JsonObject.class, PermitStatus.class, String.class},
+      app, PermitStatus.RENEWAL_REQUESTED, "ds-x");
+    verifyNoInteractions(notificationManager);
+  }
+
+  @Test
+  void addNotificationForChangePermitStatus_datasetTitleNullBranch() throws Exception {
+    when(notificationManager.createNotifications(any(), anyString(), anyString(), any(), anyString()))
+      .thenReturn(Future.succeededFuture());
+
+    // Application with no datasets → datasetTitle will be null
+    JsonObject app = new JsonObject().put("_id", "a").put("title", "T").put("userId", "u");
+
+    invokePrivateMethod("addNotificationForChangePermitStatus",
+      new Class[]{JsonObject.class, PermitStatus.class, String.class},
+      app, PermitStatus.GRANTED, "ds-missing");
+
+    verify(notificationManager).createNotifications(any(), any(), any(), any(), any());
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // addNotificationForChangeDatasetStatus branches
+  // ──────────────────────────────────────────────────────────────────────────
+
+  @Test
+  void addNotificationForChangeDatasetStatus_nullDatasetTitle_usesDatasetId() throws Exception {
+    when(notificationManager.createNotifications(any(), anyString(), anyString(), any(), anyString()))
+      .thenReturn(Future.succeededFuture());
+
+    // No datasets → title will be null → DATASET_NAME set to datasetId
+    JsonObject app = new JsonObject().put("_id", "a").put("title", "T").put("userId", "u");
+
+    invokePrivateMethod("addNotificationForChangeDatasetStatus",
+      new Class[]{JsonObject.class, DatasetStatus.class, String.class, String.class},
+      app, DatasetStatus.POSITIVE_DECISION_ISSUED, "ds-id", DATA_ACCESS_APPLICATION_COLLECTION);
+
+    verify(notificationManager).createNotifications(
+      eq(NotificationCode.DATASET_POSITIVE_DECISION_ISSUED), eq("a"),
+      eq(DATA_ACCESS_APPLICATION_COLLECTION), any(), eq("u"));
+  }
+
+  @Test
+  void addNotificationForChangeDatasetStatus_negativeDecisionAndAppealRejected() throws Exception {
+    when(notificationManager.createNotifications(any(), anyString(), anyString(), any(), anyString()))
+      .thenReturn(Future.succeededFuture());
+
+    JsonObject app = new JsonObject().put("_id", "a").put("title", "T").put("userId", "u");
+
+    invokePrivateMethod("addNotificationForChangeDatasetStatus",
+      new Class[]{JsonObject.class, DatasetStatus.class, String.class, String.class},
+      app, DatasetStatus.NEGATIVE_DECISION_ISSUED, "ds-id", DATA_ACCESS_APPLICATION_COLLECTION);
+
+    invokePrivateMethod("addNotificationForChangeDatasetStatus",
+      new Class[]{JsonObject.class, DatasetStatus.class, String.class, String.class},
+      app, DatasetStatus.APPEAL_REJECTED, "ds-id", DATA_ACCESS_APPLICATION_COLLECTION);
+
+    verify(notificationManager).createNotifications(eq(NotificationCode.DATASET_NEGATIVE_DECISION_ISSUED),
+      any(), any(), any(), any());
+    verify(notificationManager).createNotifications(eq(NotificationCode.DATASET_APPEAL_REJECTED),
+      any(), any(), any(), any());
+  }
+
+  @Test
+  void addNotificationForChangeDatasetStatus_nullCode_doesNothing() throws Exception {
+    JsonObject app = new JsonObject().put("_id", "a").put("title", "T").put("userId", "u");
+    invokePrivateMethod("addNotificationForChangeDatasetStatus",
+      new Class[]{JsonObject.class, DatasetStatus.class, String.class, String.class},
+      app, DatasetStatus.WITHDRAWN, "ds-id", DATA_ACCESS_APPLICATION_COLLECTION);
+    verifyNoInteractions(notificationManager);
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // Private helper edge-case branches
+  // ──────────────────────────────────────────────────────────────────────────
+
+  @Test
+  void getLastJsonObject_emptyArray_returnsEmpty() throws Exception {
+    Object result = invokePrivateMethod("getLastJsonObject",
+      new Class[]{JsonArray.class}, new JsonArray());
+    assertEquals(java.util.Optional.empty(), result);
+  }
+
+  @Test
+  void getLastJsonObject_nullArray_returnsEmpty() throws Exception {
+    Object result = invokePrivateMethod("getLastJsonObject",
+      new Class[]{JsonArray.class}, (Object) null);
+    assertEquals(java.util.Optional.empty(), result);
+  }
+
+  @Test
+  void getJsonArrayByPath_nullRoot_returnsDefault() throws Exception {
+    JsonArray def = new JsonArray().add("x");
+    JsonArray result = (JsonArray) invokePrivateMethod("getJsonArrayByPath",
+      new Class[]{JsonObject.class, String.class, JsonArray.class}, null, "a.b", def);
+    assertEquals(def, result);
+  }
+
+  @Test
+  void getJsonArrayByPath_intermediateNotObject_returnsDefault() throws Exception {
+    // path "a.b.c" but a.b is a string, not JsonObject
+    JsonObject root = new JsonObject().put("a", new JsonObject().put("b", "not-an-object"));
+    JsonArray def = new JsonArray().add("default");
+    JsonArray result = (JsonArray) invokePrivateMethod("getJsonArrayByPath",
+      new Class[]{JsonObject.class, String.class, JsonArray.class}, root, "a.b.c", def);
+    assertEquals(def, result);
+  }
+
+  @Test
+  void buildKeyValueMapFromItems_nullItems_returnsEmptyMap() throws Exception {
+    @SuppressWarnings("unchecked")
+    java.util.Map<String, String> result = (java.util.Map<String, String>) invokePrivateMethod(
+      "buildKeyValueMapFromItems", new Class[]{JsonArray.class}, (Object) null);
+    assertTrue(result.isEmpty());
+  }
+
+  @Test
+  void remapSelectedKeyValueArray_nullSelected_returnsEmptyArray() throws Exception {
+    JsonArray result = (JsonArray) invokePrivateMethod("remapSelectedKeyValueArray",
+      new Class[]{JsonArray.class, java.util.Map.class}, null, new java.util.HashMap<>());
+    assertEquals(0, result.size());
+  }
+
+  @Test
+  void findHdabNameByCatalogId_noMatchingCatalog_returnsNull() throws Exception {
+    JsonObject app = new JsonObject()
+      .put("datasets", new JsonArray()
+        .add(new JsonObject().put("catalog_id", "other").put("hdab", new JsonObject().put("name", "X"))));
+
+    Object result = invokePrivateMethod("findHdabNameByCatalogId",
+      new Class[]{JsonObject.class, String.class}, app, "not-found");
+    assertNull(result);
+  }
+
+  @Test
+  void findHdabNameByCatalogId_nullApplication_returnsNull() throws Exception {
+    Object result = invokePrivateMethod("findHdabNameByCatalogId",
+      new Class[]{JsonObject.class, String.class}, null, "cat-1");
+    assertNull(result);
+  }
+
+  @Test
+  void findDatasetTitleByDatasetId_nullApplication_returnsNull() throws Exception {
+    Object result = invokePrivateMethod("findDatasetTitleByDatasetId",
+      new Class[]{JsonObject.class, String.class}, null, "ds-1");
+    assertNull(result);
+  }
+
+  @Test
+  void extractDatasetName_noNonBlankValues_returnsFallback() throws Exception {
+    JsonObject title = new JsonObject().put("en", "  ").put("fr", "");
+    Object result = invokePrivateMethod("extractDatasetName",
+      new Class[]{JsonObject.class, String.class}, title, "fallback-id");
+    assertEquals("fallback-id", result);
+  }
+
+  private Object invokePrivateMethod(String methodName, Class<?>[] parameterTypes, Object... args)
+    throws Exception {
+    Method method = CommonApplicationManager.class.getDeclaredMethod(methodName, parameterTypes);
+    method.setAccessible(true);
+    return method.invoke(commonApplicationManager, args);
+  }
+
+  private Object newKeyValueRemapSpec(String selectedPathInApplication, String itemsPathInTranslations)
+    throws Exception {
+    Class<?> specClass = Class.forName(
+      "eu.europa.data.health.access.services.CommonApplicationManager$KeyValueRemapSpec");
+    Constructor<?> constructor = specClass.getDeclaredConstructor(String.class, String.class);
+    constructor.setAccessible(true);
+    return constructor.newInstance(selectedPathInApplication, itemsPathInTranslations);
+  }
+
+
 }

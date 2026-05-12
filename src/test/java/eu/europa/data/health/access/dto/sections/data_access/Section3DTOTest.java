@@ -18,6 +18,7 @@ package eu.europa.data.health.access.dto.sections.data_access;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -133,6 +134,7 @@ class Section3DTOTest {
     assertNotNull(dto);
     assertEquals("b", dto.getLegalOrNaturalPerson().getKey());
     assertEquals("John Doe", dto.getNaturalPersonName());
+    assertNull(dto.getOtherContactPerson());
   }
 
   @Test

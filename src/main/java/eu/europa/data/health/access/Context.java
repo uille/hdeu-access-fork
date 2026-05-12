@@ -15,7 +15,9 @@
  */
 package eu.europa.data.health.access;
 
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import org.apache.commons.lang3.StringUtils;
 
 public class Context {
 
@@ -25,6 +27,27 @@ public class Context {
 
   public static String getEcasId(RoutingContext context) {
     return context.user().principal().getString("preferred_username");
+  }
+
+  public static String getEcasEmail(RoutingContext context) {
+    return context.user().principal().getString("email");
+  }
+
+  public static String getUserName(RoutingContext context) {
+    JsonObject principal = context.user().principal();
+    String givenName = StringUtils.trimToNull(principal.getString("given_name"));
+    String familyName = StringUtils.trimToNull(principal.getString("family_name"));
+
+    if (givenName != null && familyName != null) {
+      return givenName + " " + familyName;
+    }
+    if (givenName != null) {
+      return givenName;
+    }
+    if (familyName != null) {
+      return familyName;
+    }
+    return principal.getString("preferred_username");
   }
 
 }

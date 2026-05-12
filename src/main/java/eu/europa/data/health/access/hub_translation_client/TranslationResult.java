@@ -21,12 +21,12 @@ import static eu.europa.data.health.access.Constants.STATUS;
 import eu.europa.data.health.access.TranslationStatus;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
-
 
 public class TranslationResult {
   @Getter
@@ -36,10 +36,48 @@ public class TranslationResult {
   @Getter
   private boolean failed = false;
 
+  /**
+   * Marks the form translation as PENDING and stores the translation payload.
+   * <p>
+   * <b>Important:</b> This initializes the form translation metadata with retry-enabling fields:
+   * <ul>
+   *   <li><b>status:</b> Set to PENDING to indicate translation is awaiting processing</li>
+   *   <li><b>payload:</b> Stores the complete translation request payload for retry attempts</li>
+   *   <li><b>createdAt:</b> Timestamp used by scheduler to determine retry timing (independent of application dates)</li>
+   *   <li><b>attempts:</b> Initialized to 0, incremented on each retry, checked against maxAttempts</li>
+   * </ul>
+   * </p>
+   *
+   * <h3>Why Initialize These Fields?</h3>
+   * <ul>
+   *   <li><b>createdAt:</b> Scheduler uses this instead of date_submitted/date_modified to isolate translation timing from application updates</li>
+   *   <li><b>attempts:</b> Enables retry limit tracking - when attempts >= maxAttempts (default: 3), translation is marked FAILED</li>
+   *   <li><b>payload:</b> Stored for retry attempts - scheduler can resend same payload without rebuilding</li>
+   * </ul>
+   *
+   * <h3>Resulting Database Structure:</h3>
+   * <pre>
+   * {
+   *   "translation": {
+   *     "form": {
+   *       "status": "PENDING",
+   *       "payload": { ...form translation request... },
+   *       "createdAt": "2026-01-27T13:00:00Z",
+   *       "attempts": 0
+   *     }
+   *   }
+   * }
+   * </pre>
+   *
+   * @param payload The complete translation request payload to store for retries
+   * @see eu.europa.data.health.access.scheduled_jobs.TranslationRetryScheduledJob
+   */
   public void markFormPending(JsonObject payload) {
     this.formStatus = new JsonObject()
       .put(STATUS, TranslationStatus.PENDING.name())
-      .put("payload", payload);
+      .put("payload", payload)
+      .put("createdAt", Instant.now().toString())
+      .put("attempts", 0);  // Initialize for retry tracking
   }
 
   public void markFormSuccess() {
@@ -59,20 +97,6 @@ public class TranslationResult {
       .put(ERROR, err.getMessage());
   }
 
-  public void addFileStatus(String fileId, String status, Throwable error) {
-    if (fileId == null) return;
-
-    JsonObject existing = this.fileStatuses.getOrDefault(fileId, new JsonObject());
-    existing.put(STATUS, status);
-
-    if (error != null) {
-      existing.put(ERROR, error.getMessage());
-      this.failed = true;
-    }
-
-    this.fileStatuses.put(fileId, existing);
-  }
-
   public void addFileStatus(String fileId, TranslationStatus status, Throwable error) {
     if (fileId == null) return;
 
@@ -86,14 +110,6 @@ public class TranslationResult {
 
     this.fileStatuses.put(fileId, existing);
   }
-
-  public void addFileStatus(String fileId, String status) {
-    addFileStatus(fileId, status, null);
-  }
-
-//  public void addFileStatus(String fileId, TranslationStatus status) {
-//    addFileStatus(fileId, status, null);
-//  }
 
   public void markFilesFailure(Throwable err, List<String> fileIds) {
     this.failed = true;

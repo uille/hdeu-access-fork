@@ -24,6 +24,7 @@ import eu.europa.data.health.access.services.HubStoreClient;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
+import io.vertx.ext.mongo.MongoClientUpdateResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -149,7 +150,7 @@ class TranslationRetryScheduledJobTest {
       Future.succeededFuture(List.of(app)));
 
     when(mongoClient.updateCollection(eq(appType), any(JsonObject.class),
-      any(JsonObject.class))).thenReturn(Future.succeededFuture());
+      any(JsonObject.class))).thenReturn(Future.succeededFuture(mock(MongoClientUpdateResult.class)));
 
     JsonObject fileObj = new JsonObject().put("id", fileId).put("base64", "abc123");
 
@@ -309,7 +310,7 @@ class TranslationRetryScheduledJobTest {
                 .thenReturn(Future.succeededFuture());
 
         when(mongoClient.updateCollection(eq(appType), any(JsonObject.class), any(JsonObject.class)))
-                .thenReturn(Future.succeededFuture());
+                .thenReturn(Future.succeededFuture(mock(MongoClientUpdateResult.class)));
 
         // Act
         translationRetryScheduledJob.retryPendingTranslations(appType, 3, 1000);
@@ -323,4 +324,3 @@ class TranslationRetryScheduledJobTest {
     }
 
 }
-

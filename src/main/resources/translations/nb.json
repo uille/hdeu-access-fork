@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Prosjektledernavn (organisasjon, institusjon, enhet i privat sektor eller en fysisk person)",
-            "tooltip": "Dette er personen som er ansvarlig for databruken"
+            "tooltip": "Dette er enheten som er ansvarlig for bruk av data."
         },
         "countryOfProjectLeader": {
             "label": "Offisielt bosted (land) til enheten som er ansvarlig for prosjektet"
@@ -122,6 +122,7 @@
             ],
             "info": "(Hvis du velger dette alternativet, bekrefter du at du søker om data som privatperson uten tilknytning.)"
         },
+        "participatingEntitiesInstruction": "Hvis du søker på vegne av et konsortium, vennligst oppgi alle deltakende enheter her.",
         "legalPerson": "Juridisk person",
         "naturalPerson": "Naturlig person",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Tilknytning"
+        },
+        "otherContactPerson": {
+            "label": "Andre kontaktpersoner",
+            "tooltip": "Hvis det er flere kontaktpersoner i prosjektet ditt, kan du navngi dem her sammen med informasjon om deres tilknytninger."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "Kohorten vil være hele befolkningen i et land/land som er angitt i begynnelsen av dette skjemaet."
+                    "value": "Kohorten vil være hele befolkningen i et land / land eller en datakilde som er angitt i begynnelsen av dette skjemaet."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Beskriv hvordan kohorten ble innhentet og årsakene til manglende datatillatelse/samtykke."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Har du gitt informasjon om dataene som brukes til de tilsvarende emnene? F.eks. delt informasjon om databruken på et prosjektnettsted.",
-            "tooltip": "For ytterligere informasjon, se personvernforordningen artikkel 13 og 14: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "For mer informasjon, se <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\"> Personvernforordningen artikkel 13 og 14 </a>"
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Hvordan gjør du det?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Hvorfor ikke gjøre det?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Hvem skal levere informasjonen på kohorten til helsedatatilgangsorganet? Denne personen vil motta instruksjoner om hvordan du leverer dataene gjennom den felles EHDS-portalen."
@@ -612,7 +606,7 @@
             "label": "Gi begrunnelsen for dette unntaket."
         },
         "needForDataExtractionEvery": {
-            "label": "Dataene må hentes ut hver",
+            "label": "Dataene må hentes ut",
             "tooltip": "Hvis du vil at dataene skal trekkes ut flere ganger over en viss tidsperiode, må du være oppmerksom på at definisjonene og datainnsamlingsmetoden kan endres i løpet av gjennomgangsperioden i noen tilfeller. Vær oppmerksom på at den maksimale frekvensen av datautvinning er hvert kvartal"
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "Ved gjentatt ekstraksjon, gi opplysninger om hver uttrekkingsprosess separat i ordreinstruksen"
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Dataene må hentes ut hver",
+            "label": "Dataene må hentes ut",
             "tooltip": "Hvis du vil at dataene skal trekkes ut flere ganger over en viss tidsperiode, må du være oppmerksom på at definisjonene og datainnsamlingsmetoden kan endres i løpet av gjennomgangsperioden i noen tilfeller. Vær oppmerksom på at den maksimale frekvensen av datautvinning er hvert kvartal"
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "Hvor ofte må dataene hentes ut?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Dataene må hentes ut hver",
+            "label": "Dataene må hentes ut",
             "tooltip": "Hvis du vil at dataene skal trekkes ut flere ganger over en viss tidsperiode, må du være oppmerksom på at definisjonene og datainnsamlingsmetoden kan endres i løpet av gjennomgangsperioden i noen tilfeller. Vær oppmerksom på at den maksimale frekvensen av datautvinning er hvert kvartal"
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "Ved gjentatt ekstraksjon, gi opplysninger om hver uttrekkingsprosess separat i ordreinstruksen"
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Dataene må hentes ut hver",
+            "label": "Dataene må hentes ut",
             "tooltip": "Hvis du vil at dataene skal trekkes ut flere ganger over en viss tidsperiode, må du være oppmerksom på at definisjonene og datainnsamlingsmetoden kan endres i løpet av gjennomgangsperioden i noen tilfeller. Vær oppmerksom på at den maksimale frekvensen av datautvinning er hvert kvartal"
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Andre data som skal kombineres",
-        "section7Description": "Det er mulig å kombinere andre personopplysninger, for eksempel data som allerede er i din besittelse eller data innhentet fra andre steder med en annen tillatelse, med dataene som er søkt med denne applikasjonen. Oppgi opplysningene for alle tilleggsopplysninger som vil bli kombinert med dataene som er godkjent av helsedatatilgangsorganet. Hvis du senere ønsker å kombinere andre personopplysninger med dataene som er godkjent av helsedatatilgangsorganet, må du sende inn en endringssøknad til samme helsedatatilgangsorgan. Hvis du har en annen kohort som du vil at helsedatatilgangsorganet skal kombinere med dataene du søker om, vil du motta instruksjoner om hvordan du leverer dataene sikkert etter at tillatelsen er gitt.",
+        "section7Description": "Det er mulig å kombinere andre personlige nivådata, for eksempel data som allerede er i din besittelse eller data hentet fra andre steder med en annen tillatelse, med dataene som er søkt om med denne søknaden. Oppgi opplysningene for alle tilleggsopplysninger som skal kombineres med opplysningene som er godkjent av tilgangsorganet for helseopplysninger. Hvis du senere ønsker å kombinere andre personopplysninger med de opplysningene som er godkjent av helsedatatilgangsorganet, må du sende inn en endringssøknad til samme helsedatatilgangsorgan. Hvis du har en annen kohort som du vil at helsedatatilgangsorganet skal kombinere med dataene du søker om, vil du motta instruksjoner om hvordan du leverer dataene sikkert etter at tillatelsen er gitt.",
         "addDataPermit": "Legg til datatillatelse",
         "addInfo": "Legg til informasjon",
         "removeDataPermit": "Fjerne datatillatelse",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Hva er de estimerte start- og sluttdatoene for perioden da de elektroniske helseopplysningene er nødvendige for behandling?",
-            "tooltip": "Denne perioden kan bli fem år. Med ytterligere tillatelse kan den opprinnelige tillatelsen forlenges med ytterligere fem år."
+            "tooltip": "Denne perioden kan være opptil 10 år. Med ytterligere tillatelse kan den opprinnelige tillatelsen forlenges i ytterligere 10 år"
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Fra"
@@ -1168,13 +1162,13 @@
             "tooltip": "EHDS artikkel 71(4) «Med unntak fra retten til å nekte adgang til nr. 1 kan en medlemsstat i sin nasjonale lovgivning fastsette en mekanisme for å gjøre data som det er utøvet retten til å nekte adgang til, forutsatt at alle følgende vilkår er oppfylt: (se artikkelen for fullstendige betingelser)»"
         },
         "providedJustificationException": {
-            "label": "Gi begrunnelsen for dette unntaket."
+            "label": "Gi begrunnelsen for dette unntaket og inkluder i begrunnelsen hvordan betingelsene i artikkel 71(4)(a-c) er oppfylt."
         },
         "protectionAndSecurityStatements": {
             "label": "For å fortsette med dette programmet, må du bekrefte følgende uttalelser (databeskyttelse og sikkerhetsrelaterte uttalelser):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Jeg bekrefter at hvis helsedatatilgangsorganet gir meg dataene jeg søker om, vil jeg bare bruke dem til de formål som er angitt i dette søknadsskjemaet."
+            "label": "1. Jeg bekrefter at hvis helsedatatilgangsorganet gir meg dataene jeg søker om, vil jeg bare bruke dem til de formål som er angitt i dette søknadsskjemaet, og vil ikke bruke dem til forbudte formål."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Jeg forstår at det er forbudt å kopiere dataene fra det sikre behandlingsmiljøet."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Hvis forskningen din krever forskningstillatelse fra din tilknytningsorganisasjon, legg ved forskningstillatelsen"
+        },
+        "hdabToRetain": {
+            "label": "Vil du at HDAB skal beholde formelen som brukes til å opprette det forespurte datasettet? ",
+            "tooltip": "EHDS artikkel 68(12): (--) På anmodning fra helsedatabrukeren kan formelen for opprettelse av det forespurte datasettet lagres av helsedatatilgangsorganet."
         }
     },
     "section9": {
         "section9h5": "Ytterligere informasjon",
-        "section9Description": "Her kan du gi ytterligere informasjon om noen av seksjonene i søknaden din. Angi antall seksjoner og spørsmålet som kommentaren din refererer til.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Ytterligere informasjon eller ytterligere notater",
-            "tooltip": "Her kan du gi ytterligere informasjon om noen av seksjonene i søknaden din. Angi antall seksjoner og spørsmålet som kommentaren din refererer til. Forslag til teknisk gjennomføring: Alternativt kan det være en måte å tillate søkeren å knytte informasjon til bestemte deler av skjemaet for å lette HDABs jobb."
+            "tooltip": "Her kan du gi ytterligere informasjon om noen av delene i søknaden din. Angi antall seksjoner og spørsmålet som kommentaren din refererer til. Angi all konfidensiell informasjon i søknaden din og begrunne konfidensialiteten kort, og spesifiser det aktuelle seksjonsnummeret og spørsmålet."
         },
         "additionalAttachment": {
             "label": "Et ekstra vedlegg. Ikke legg ved helse- eller personopplysninger til denne applikasjonen.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Et halvt år"
+                    "value": "Hvert halvår"
                 },
                 {
                     "key": "c",
-                    "value": "Kvartalet"
+                    "value": "Hvert kvartal"
                 },
                 {
                     "key": "d",

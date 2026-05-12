@@ -2,6 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "required": ["type", "operation", "objectId", "payload"],
+  "additionalProperties": false,
   "properties": {
     "type": {
       "type": "string",
@@ -15,9 +16,14 @@
       "type": "string",
       "minLength": 1
     },
+    "itbId": {
+      "type": "string",
+      "description": "ITB Identifier"
+    },
     "payload": {
       "type": "object",
       "required": ["application_type", "status", "decisions", "catalog_id"],
+      "additionalProperties": false,
       "properties": {
         "application_type": {
           "type": "string",
@@ -37,6 +43,7 @@
           "items": {
             "type": "object",
             "required": ["dataset_id", "decision"],
+            "additionalProperties": false,
             "properties": {
               "dataset_id": {
                 "type": "string",
@@ -50,6 +57,20 @@
                 "type": "string",
                 "format": "byte",
                 "description": "Base64-encoded Decision PDF file"
+              },
+              "decision_reason": {
+                "type": "string",
+                "maxLength": 2000,
+                "description": "The reason for the decision taken by the reviewer."
+              },
+              "support_file": {
+                "type": "string",
+                "format": "byte",
+                "description": "Base64-encoded Support PDF file"
+              },
+              "translatedFields": {
+                "type": "object",
+                "description": "Translated fields data"
               }
             }
           }

@@ -108,7 +108,8 @@ class DispatcherClientTest {
 
     assertTrue(result.succeeded());
     List<String> logMessages = testAppender.getLogMessages();
-    assertTrue(logMessages.stream().anyMatch(msg -> msg.contains("Successfully sent application")));
+    assertTrue(logMessages.stream()
+      .anyMatch(msg -> msg.contains("Successfully sent DISPATCHER")));
   }
 
   @Test
@@ -140,7 +141,8 @@ class DispatcherClientTest {
     assertFalse(result.succeeded());
     List<String> logMessages = testAppender.getLogMessages();
     assertTrue(logMessages.stream()
-      .anyMatch(msg -> msg.contains("Dispatcher failed to process application:")));
+      .anyMatch(msg -> msg.contains("Dispatcher failed to process record with id")
+        && msg.contains("error code: 401")));
   }
 
   @Test

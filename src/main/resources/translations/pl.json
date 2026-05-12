@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Nazwa kierownika projektu (organizacja, instytucja, podmiot sektora prywatnego lub osoba fizyczna)",
-            "tooltip": "Jest to osoba odpowiedzialna za wykorzystanie danych"
+            "tooltip": "Jest to podmiot odpowiedzialny za wykorzystanie danych."
         },
         "countryOfProjectLeader": {
             "label": "Oficjalne miejsce zamieszkania (państwo) podmiotu odpowiedzialnego za projekt"
@@ -122,6 +122,7 @@
             ],
             "info": "(Jeśli wybierzesz tę opcję, potwierdzasz, że ubiegasz się o dane jako osoba prywatna bez przynależności.)"
         },
+        "participatingEntitiesInstruction": "Jeśli składają Państwo wniosek w imieniu konsorcjum, proszę wymienić w tym miejscu wszystkie uczestniczące podmioty.",
         "legalPerson": "Osoba prawna",
         "naturalPerson": "Osoba fizyczna:",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Przynależność"
+        },
+        "otherContactPerson": {
+            "label": "Inne osoby, z którymi należy się kontaktować",
+            "tooltip": "Jeżeli w projekcie uczestniczy wiele osób wyznaczonych do kontaktów, proszę je wymienić w tym miejscu wraz z informacjami na temat ich powiązań."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "Kohorta będzie stanowić całą populację państwa/państw wskazanych na początku niniejszego formularza."
+                    "value": "Kohorta będzie obejmować całą populację państwa/państw lub źródło danych wskazane na początku niniejszego formularza."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Proszę opisać, w jaki sposób pozyskano kohortę, oraz powody braku zezwolenia/zgody na dostęp do danych."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Czy przekazali Państwo odpowiednim podmiotom informacje na temat wykorzystania danych? Np. wymiana informacji na temat wykorzystania danych na stronie internetowej projektu.",
-            "tooltip": "Więcej informacji można znaleźć w art. 13 i 14 ogólnego rozporządzenia o ochronie danych: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "Więcej informacji znajduje się w art. 13 i 14 </a> ogólnego rozporządzenia o ochronie danych <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">."
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Jaki?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Dlaczego?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Kto przekaże informacje na temat kohorty organowi ds. dostępu do danych dotyczących zdrowia? Osoba ta otrzyma instrukcje dotyczące sposobu dostarczania danych za pośrednictwem wspólnego portalu europejskiej przestrzeni danych dotyczących zdrowia."
@@ -612,7 +606,7 @@
             "label": "Należy przedstawić uzasadnienie tego wyjątku."
         },
         "needForDataExtractionEvery": {
-            "label": "Dane należy pobrać z każdego",
+            "label": "Dane muszą zostać pobrane",
             "tooltip": "Jeżeli chcesz, aby dane były pobierane wielokrotnie przez określony czas, należy pamiętać, że definicje i metoda gromadzenia danych mogą w niektórych przypadkach ulec zmianie w okresie objętym przeglądem. Należy zauważyć, że maksymalna częstotliwość pobierania danych wynosi co kwartał."
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "W przypadku okresowego pobierania danych podać informacje na temat każdego procesu pobierania danych oddzielnie w instrukcjach dotyczących zamówienia."
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Dane należy pobrać z każdego",
+            "label": "Dane muszą zostać pobrane",
             "tooltip": "Jeżeli chcesz, aby dane były pobierane wielokrotnie przez określony czas, należy pamiętać, że w niektórych przypadkach definicje i metoda gromadzenia danych mogą ulec zmianie w okresie objętym przeglądem. Należy zauważyć, że maksymalna częstotliwość pobierania danych wynosi co kwartał."
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "Jak często należy pobierać dane?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Dane należy pobrać z każdego",
+            "label": "Dane muszą zostać pobrane",
             "tooltip": "Jeżeli chcesz, aby dane były pobierane wielokrotnie przez określony czas, należy pamiętać, że definicje i metoda gromadzenia danych mogą w niektórych przypadkach ulec zmianie w okresie objętym przeglądem. Należy zauważyć, że maksymalna częstotliwość pobierania danych wynosi co kwartał."
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "W przypadku okresowego pobierania danych podać informacje na temat każdego procesu pobierania danych oddzielnie w instrukcjach dotyczących zamówienia."
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Dane należy pobrać z każdego",
+            "label": "Dane muszą zostać pobrane",
             "tooltip": "Jeżeli chcesz, aby dane były pobierane wielokrotnie przez określony czas, należy pamiętać, że definicje i metoda gromadzenia danych mogą w niektórych przypadkach ulec zmianie w okresie objętym przeglądem. Należy zauważyć, że maksymalna częstotliwość pobierania danych wynosi co kwartał."
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Inne dane, które mają być połączone",
-        "section7Description": "Możliwe jest połączenie innych danych osobowych, takich jak dane już posiadane lub dane uzyskane z innych źródeł, z innym zezwoleniem, z danymi, o które wystąpiono z niniejszym wnioskiem. Wymienić informacje dotyczące wszystkich dodatkowych danych, które zostaną połączone z danymi zatwierdzonymi przez organ ds. dostępu do danych dotyczących zdrowia. Jeżeli później chcesz połączyć inne dane osobowe z danymi zatwierdzonymi przez organ ds. dostępu do danych dotyczących zdrowia, musisz złożyć wniosek o zmianę do tego samego organu ds. dostępu do danych dotyczących zdrowia. Jeżeli masz jakąkolwiek inną kohortę, którą chciałbyś połączyć z danymi, o które ubiegasz się organ ds. dostępu do danych dotyczących zdrowia, otrzymasz instrukcje dotyczące bezpiecznego dostarczania danych po udzieleniu zezwolenia.",
+        "section7Description": "Istnieje możliwość połączenia innych danych osobowych, takich jak dane już posiadane lub uzyskane z innego źródła, z danymi, o które wystąpiono w niniejszym wniosku. Proszę wymienić informacje dotyczące wszystkich dodatkowych danych, które zostaną połączone z danymi zatwierdzonymi przez organ ds. dostępu do danych dotyczących zdrowia. Jeśli później chcesz połączyć inne dane osobowe z danymi zatwierdzonymi przez organ ds. dostępu do danych dotyczących zdrowia, musisz złożyć wniosek o zmianę do tego samego organu ds. dostępu do danych dotyczących zdrowia. Jeśli masz inną kohortę, którą chcesz, aby organ ds. dostępu do danych dotyczących zdrowia połączył z danymi, o które się ubiegasz, otrzymasz instrukcje, jak bezpiecznie dostarczyć dane po udzieleniu zezwolenia.",
         "addDataPermit": "Dodaj zezwolenie na dostęp do danych",
         "addInfo": "Dodaj informacje",
         "removeDataPermit": "Usuń zezwolenie na dostęp do danych",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Jakie są szacunkowe daty rozpoczęcia i zakończenia okresu, w którym elektroniczne dane dotyczące zdrowia są potrzebne do przetwarzania?",
-            "tooltip": "Okres ten może wynosić pięć lat. W przypadku dodatkowego zezwolenia pierwotne zezwolenie może zostać przedłużone o kolejne pięć lat."
+            "tooltip": "Okres ten może wynosić 10 lat. Dzięki dodatkowemu zezwoleniu pierwotne zezwolenie może zostać przedłużone o kolejne 10 lat."
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Od"
@@ -1168,13 +1162,13 @@
             "tooltip": "W drodze wyjątku od prawa do wyłączenia danych, o którym mowa w ust. 1 państwo członkowskie może przewidzieć w swoim prawie krajowym mechanizm udostępniania danych, w odniesieniu do których skorzystano z prawa do wyłączenia danych, o którym mowa w ust. 1, o ile zostały spełnione wszystkie następujące warunki: (pełne warunki – zob. artykuł)”"
         },
         "providedJustificationException": {
-            "label": "Należy przedstawić uzasadnienie tego wyjątku."
+            "label": "Należy podać uzasadnienie tego wyjątku i opisać w uzasadnieniu, w jaki sposób spełnione są warunki określone w art. 71(4)(a-c)."
         },
         "protectionAndSecurityStatements": {
             "label": "Aby kontynuować rozpatrywanie wniosku, należy potwierdzić następujące oświadczenia (oświadczenia dotyczące ochrony danych i bezpieczeństwa):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Potwierdzam, że jeżeli organ ds. dostępu do danych dotyczących zdrowia udzieli mi danych, o które się ubiegam, wykorzystam je wyłącznie do celów określonych w niniejszym formularzu wniosku."
+            "label": "1. Potwierdzam, że jeżeli organ ds. dostępu do danych dotyczących zdrowia przyzna mi dane, o które się ubiegam, wykorzystam je wyłącznie do celów określonych w niniejszym formularzu wniosku i nie wykorzystam ich do żadnych zakazanych celów."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Rozumiem, że kopiowanie danych z bezpiecznego środowiska przetwarzania jest zabronione."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Jeżeli badania naukowe wymagają pozwolenia na prowadzenie badań wydanego przez organizację należącą do Państwa organizacji, należy załączyć pozwolenie na prowadzenie badań naukowych."
+        },
+        "hdabToRetain": {
+            "label": "Czy chcą Państwo, aby HDAB zachował wzór wykorzystany do utworzenia żądanego zbioru danych? ",
+            "tooltip": "Art. 68 ust. 12 europejskiej przestrzeni danych dotyczących zdrowia: (--) Na wniosek użytkownika danych dotyczących zdrowia wzór na utworzenie żądanego zbioru danych może być przechowywany przez organ ds. dostępu do danych dotyczących zdrowia."
         }
     },
     "section9": {
         "section9h5": "Informacje dodatkowe",
-        "section9Description": "W tym miejscu możesz podać więcej informacji na temat którejkolwiek z sekcji zgłoszenia. Proszę podać numer sekcji i pytanie, do którego odnosi się uwaga.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Dalsze informacje lub wszelkie dodatkowe uwagi",
-            "tooltip": "W tym miejscu możesz podać więcej informacji na temat którejkolwiek z sekcji zgłoszenia. Proszę podać numer sekcji i pytanie, do którego odnosi się uwaga. Propozycja wdrożenia technicznego: Alternatywnie może istnieć sposób na umożliwienie wnioskodawcy powiązania informacji z określonymi częściami formularza, aby ułatwić pracę HDAB."
+            "tooltip": "Tutaj możesz podać więcej informacji na temat dowolnej sekcji zgłoszenia. Proszę podać numer sekcji i pytanie, do którego odnosi się Państwa uwaga. Proszę wskazać w swoim wniosku wszelkie informacje poufne i pokrótce uzasadnić poufność, podając odpowiedni numer sekcji i pytanie."
         },
         "additionalAttachment": {
             "label": "Dodatkowy załącznik. Nie załączaj do niniejszego wniosku danych dotyczących zdrowia ani danych osobowych.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Pół roku"
+                    "value": "Co pół roku"
                 },
                 {
                     "key": "c",
-                    "value": "Kwartał"
+                    "value": "Co kwartał"
                 },
                 {
                     "key": "d",

@@ -53,6 +53,9 @@ public class UserProfileDTO {
   String euLoginID;
 
   @NotNull
+  String email;
+
+  @NotNull
   @CheckEnumValue(fieldName = "legalOrNaturalPerson", sectionNumber = "section3")
   SelectObjectDTO legalOrNaturalPerson;
 
@@ -107,4 +110,8 @@ public class UserProfileDTO {
 
   @JsonProperty("date_modified")
   String dateModified;
-}
+
+  @Valid
+  EmailNotificationPreferencesDTO emailNotificationPreferences;
+
+  }

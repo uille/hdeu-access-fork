@@ -59,7 +59,6 @@ import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_VA
 import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_FROM_3;
 import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_2;
 import static eu.europa.data.health.access.Constants.PREVIOUSLY_ISSUED_PERMIT_VALIDITY_PERIOD_TO_3;
-import static eu.europa.data.health.access.Constants.PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS;
 import static eu.europa.data.health.access.Constants.PROVIDED_JUSTIFICATION_EXCEPTION;
 import static eu.europa.data.health.access.Constants.RELATIONSHIP_TO_STUDY_COHORT;
 import static eu.europa.data.health.access.Constants.RESULT_MESSAGE;
@@ -396,6 +395,7 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
       if (Objects.nonNull(howIsTheStudyCohortFormed) &&
         (!Objects.equals(howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(howIsTheStudyCohortFormed.getString("key"), "c"))) {
         section.remove(HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS);
+        section.remove("hasTheCohortBeenBasedOnADataPermit");
       }
 
       JsonObject hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants = section.getJsonObject(
@@ -421,28 +421,13 @@ public class DataAccessApplicationValidationManager extends AbstractSchemaValida
       }
 
       if ((Objects.nonNull(howIsTheStudyCohortFormed) && !Objects.equals(
-        howIsTheStudyCohortFormed.getString("key"), "b")) || (
+        howIsTheStudyCohortFormed.getString("key"), "b") && !Objects.equals(
+        howIsTheStudyCohortFormed.getString("key"), "c")) || (
         Objects.nonNull(hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants)
           && !Objects.equals(
           hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants.getString("key"),
           "b"))) {
         section.remove("howTheStudyCohortWasObtained");
-      }
-
-      JsonObject providedInformationOfTheDataUseToCorrespondingSubjects = section.getJsonObject(
-        PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS);
-
-      if (Objects.nonNull(providedInformationOfTheDataUseToCorrespondingSubjects)
-        && !Objects.equals(
-        providedInformationOfTheDataUseToCorrespondingSubjects.getString("key"),
-        "a")) {
-        section.remove("howProvidedInformationOfTheDataUseToCorrespondingSubjects");
-      }
-
-      if (Objects.nonNull(providedInformationOfTheDataUseToCorrespondingSubjects)
-        && !Objects.equals(providedInformationOfTheDataUseToCorrespondingSubjects.getString("key"),
-        "b")) {
-        section.remove("whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects");
       }
 
       if (Objects.nonNull(howIsTheStudyCohortFormed) && (

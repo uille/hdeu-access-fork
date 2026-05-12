@@ -15,6 +15,8 @@
  */
 package eu.europa.data.health.access.handlers;
 
+import static org.apache.jena.http.auth.AuthEnv.LOG;
+
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -29,7 +31,9 @@ import io.vertx.serviceproxy.ServiceException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +53,20 @@ public class DBHandler {
   private static final String EXIT_DELETE_BY_ID_MESSAGE = "DBHandler Exiting deleteById method";
   private static final String ENTERED_DELETE_ALL_MESSAGE = "DBHandler Entered deleteAll method";
   private static final String EXIT_DELETE_ALL_MESSAGE = "DBHandler Exiting deleteAll method";
+
+
+
+  private static final String CLASS_NAME = DBHandler.class.getSimpleName();
+  private static final String MSG_FORMAT = "{} - {}";
+  private static final String EXITING_FIND_BY_FIELD = "Exiting findByField method";
+  private static final String ENTERED_FIND_BY_FIELD = "Entered findByField method";
+  private static final String ENTERED_SAVE = "Entered save method";
+  private static final String EXITING_SAVE = "Exiting save method";
+  public static final String JSON_OBJECT_RETRIEVED_SUCCESSFULLY = "{} - JsonObject retrieved successfully";
+  public static final String RETRIEVED_JSON_OBJECT_IS_EMPTY = "{} - Retrieved JsonObject is empty";
+  public static final String FAILED_TO_RETRIEVE_JSON_OBJECT = "{} - Failed to retrieve JsonObject";
+  public static final String SAVED_SUCCESSFULLY = "{} - Saved successfully: {}";
+  public static final String FAILED_TO_SAVE = "{} - Failed to save: ";
 
   public DBHandler(MongoClient mongoClient) {
     this.mongoClient = mongoClient;
@@ -254,9 +272,16 @@ public class DBHandler {
     return promise.future();
   }
 
-  public Future<List<JsonObject>> findApplications(String collectionName, Integer pageNumber,
-    Integer pageLimit, String sortBy, String sortOrder, JsonObject queryOptions) {
-    log.debug("{} Entered findApplications method", dbHandlerClassName);
+  public Future<List<JsonObject>> findEntities(
+    String collectionName,
+    Integer pageNumber,
+    Integer pageLimit,
+    String sortBy,
+    String sortOrder,
+    JsonObject queryOptions,
+    JsonObject projection
+  ) {
+    log.debug("{} Entered findEntities method", dbHandlerClassName);
 
     Promise<List<JsonObject>> promise = Promise.promise();
 
@@ -271,6 +296,11 @@ public class DBHandler {
       options.setSort(new JsonObject().put(sortBy, sortOrder.equalsIgnoreCase("asc") ? 1 : -1));
     }
 
+    // Apply projection if provided
+    if (!IterableUtils.isEmpty(projection)) {
+      options.setFields(projection);
+    }
+
     mongoClient.findWithOptions(collectionName, queryOptions, options, listAsyncResult -> {
       if (listAsyncResult.succeeded()) {
         log.debug("{} Found documents: {}", dbHandlerClassName, listAsyncResult.result());
@@ -281,7 +311,7 @@ public class DBHandler {
         promise.fail(listAsyncResult.cause());
       }
     });
-    log.debug("{} Exiting findApplications method", dbHandlerClassName);
+    log.debug("{} Exiting findEntities method", dbHandlerClassName);
 
     return promise.future();
   }
@@ -300,75 +330,6 @@ public class DBHandler {
     final int limit = (pageLimit == null || pageLimit < 1) ? 5 : pageLimit;
     final int skip  = (page - 1) * limit;
 
-    JsonArray pipeline = new JsonArray();
-
-    // 1) Application-level filters
-    if (queryOptions != null && !queryOptions.isEmpty()) {
-      pipeline.add(new JsonObject().put("$match", queryOptions));
-    }
-
-    // 2) Keep full application for later projection of form
-    pipeline.add(new JsonObject().put("$addFields",
-      new JsonObject().put("application", "$$ROOT")
-    ));
-
-    // 3) One row per dataset
-    pipeline.add(new JsonObject().put("$unwind", "$datasets"));
-
-    // 4) Ensure permits exist
-    pipeline.add(new JsonObject().put("$match",
-      new JsonObject().put("datasets.permits",
-        new JsonObject().put("$exists", true).put("$ne", null)
-      )
-    ));
-
-    // 5) Filter permits ONLY by status (NO latest)
-    JsonObject filterGranted = new JsonObject()
-      .put("input", "$datasets.permits")
-      .put("as", "p")
-      .put("cond", new JsonObject().put("$eq",
-        new JsonArray().add("$$p.permit_status").add("GRANTED")
-      ));
-
-    pipeline.add(new JsonObject().put("$addFields",
-      new JsonObject().put("grantedPermits", new JsonObject().put("$filter", filterGranted))
-    ));
-
-    // 6) Keep only datasets where at least one granted permit exists
-    pipeline.add(new JsonObject().put("$match",
-      new JsonObject().put("grantedPermits.0", new JsonObject().put("$exists", true))
-    ));
-
-    // 7) Take first matching granted permit as "grantedPermit"
-    pipeline.add(new JsonObject().put("$addFields",
-      new JsonObject().put("grantedPermit",
-        new JsonObject().put("$arrayElemAt", new JsonArray().add("$grantedPermits").add(0))
-      )
-    ));
-
-    // 8) Project final result
-    pipeline.add(new JsonObject().put("$project", new JsonObject()
-      .put("applicationId", "$_id")
-      .put("applicationTitle", "$title")
-      .put("applicationStatus", "$status.status")
-      .put("dateSubmitted", "$date_submitted")
-
-      .put("dataset", "$datasets")
-      .put("hdab", "$datasets.hdab")
-      .put("country", "$datasets.country")
-
-      .put("grantedPermit", "$grantedPermit")
-
-      // keep original permits array if you want
-      .put("permits", "$datasets.permits")
-
-      .put("form", "$application.form")
-
-      .put("date_created", "$date_created")
-      .put("date_modified", "$date_modified")
-    ));
-
-    // 9) Sort + pagination
     String effectiveSortKey =
       (sortBy == null || sortBy.isBlank() || "date_created".equalsIgnoreCase(sortBy))
         ? "date_created"
@@ -376,12 +337,60 @@ public class DBHandler {
 
     int sortDir = ("asc".equalsIgnoreCase(sortOrder)) ? 1 : -1;
 
+    JsonArray pipeline = new JsonArray();
+
+    // 1) Apply application-level filters (uses indexes)
+    if (queryOptions != null && !queryOptions.isEmpty()) {
+      pipeline.add(new JsonObject().put("$match", queryOptions));
+    }
+
+    // 2) Unwind datasets (one row per dataset)
+    pipeline.add(new JsonObject().put("$unwind", "$datasets"));
+
+    // 3) Keep only datasets that have at least one GRANTED permit
+    pipeline.add(new JsonObject().put("$match",
+      new JsonObject().put("datasets.permits",
+        new JsonObject().put("$elemMatch",
+          new JsonObject().put("permit_status", "GRANTED")
+        )
+      )
+    ));
+
+    // 4) Project only required fields + filter ONLY granted permits
+    pipeline.add(new JsonObject().put("$project", new JsonObject()
+      .put("applicationId", "$_id")
+      .put("applicationTitle", "$title")
+      .put("applicationStatus", "$status.status")
+      .put("hdab", "$datasets.hdab")
+      .put("projectName", "$form.section2.projectName")
+      .put("permits", new JsonObject().put("$filter", new JsonObject()
+        .put("input", "$datasets.permits")
+        .put("as", "p")
+        .put("cond", new JsonObject().put("$eq", new JsonArray()
+          .add("$$p.permit_status")
+          .add("GRANTED")
+        ))
+      ))
+      .put(effectiveSortKey, 1) // keep for sorting
+    ));
+
+    // 5) Sort + pagination
     pipeline
       .add(new JsonObject().put("$sort", new JsonObject().put(effectiveSortKey, sortDir)))
       .add(new JsonObject().put("$skip", skip))
       .add(new JsonObject().put("$limit", limit));
 
-    // 10) Execute aggregation
+    // 6) Final projection (remove sort helper field)
+    pipeline.add(new JsonObject().put("$project", new JsonObject()
+      .put("applicationId", 1)
+      .put("applicationTitle", 1)
+      .put("applicationStatus", 1)
+      .put("permits", 1)
+      .put("hdab", 1)
+      .put("projectName", 1)
+    ));
+
+    // 7) Execute aggregation
     ReadStream<JsonObject> stream = mongoClient.aggregate(collectionName, pipeline);
     List<JsonObject> items = new ArrayList<>();
 
@@ -393,7 +402,6 @@ public class DBHandler {
     return promise.future();
   }
 
-
   public Future<List<JsonObject>> findDecisionIssuedDatasetsPerApplication(
     String collectionName,
     Integer pageNumber,
@@ -401,72 +409,99 @@ public class DBHandler {
     String sortBy,
     String sortOrder,
     JsonObject queryOptions,
-    Boolean isPositive // true = positive issued, false = negative issued
+    Boolean isPositive
   ) {
     Promise<List<JsonObject>> promise = Promise.promise();
 
-    // --- Pagination defaults ---
     final int page  = (pageNumber == null || pageNumber < 1) ? 1 : pageNumber;
     final int limit = (pageLimit == null || pageLimit < 1) ? 5 : pageLimit;
     final int skip  = (page - 1) * limit;
 
-    // --- Status filter ---
     final String wantedStatus = Boolean.TRUE.equals(isPositive)
       ? "POSITIVE_DECISION_ISSUED"
       : "NEGATIVE_DECISION_ISSUED";
 
-    // --- Sorting defaults ---
     final String effectiveSortBy =
       (sortBy == null || sortBy.isBlank()) ? "updatedAt" : sortBy;
 
     final int effectiveSortOrder =
-      (sortOrder == null || sortOrder.isBlank() || "desc".equalsIgnoreCase(sortOrder)) ? -1 : 1;
+      ("asc".equalsIgnoreCase(sortOrder)) ? 1 : -1;
 
     JsonArray pipeline = new JsonArray();
 
-    // 1) Application-level filters (title, owner, etc.)
+    // 1) Application-level filters
     if (queryOptions != null && !queryOptions.isEmpty()) {
       pipeline.add(new JsonObject().put("$match", queryOptions));
     }
 
-    // 2) One row per dataset
+    // 2) Unwind datasets
     pipeline.add(new JsonObject().put("$unwind", "$datasets"));
 
-    // 3) Keep only datasets that have ANY decision with the wanted status
+    // 3) Keep only datasets with desired decision status
     pipeline.add(new JsonObject().put("$match", new JsonObject()
       .put("datasets.decisions", new JsonObject().put("$elemMatch",
         new JsonObject().put("datasetStatus", wantedStatus)
       ))
     ));
 
-    // 4) Convert "datasets" (now an object due to unwind) into "dataset"
-    pipeline.add(new JsonObject().put("$addFields", new JsonObject()
-      .put("dataset", "$datasets")
-    ));
-
-    // 5) Remove old field "datasets" (DocumentDB-safe: use exclusion-only project)
+    // 4) Project + compute latestDecision using optimized $reduce
     pipeline.add(new JsonObject().put("$project", new JsonObject()
-      .put("datasets", 0)
+      .put("applicationId", "$_id")
+      .put("applicationTitle", "$title")
+      .put("applicationStatus", "$status.status")
+      .put("hdab", "$datasets.hdab")
+      .put(effectiveSortBy, 1)
+
+      // Compute latestDecision directly (no temp arrays!)
+      .put("latestDecision", new JsonObject().put("$reduce", new JsonObject()
+        .put("input", "$datasets.decisions")
+        .put("initialValue", new JsonObject())
+        .put("in", new JsonObject().put("$cond", new JsonObject()
+          .put("if", new JsonObject().put("$and", new JsonArray()
+            // only consider matching status
+            .add(new JsonObject().put("$eq", new JsonArray()
+              .add("$$this.datasetStatus")
+              .add(wantedStatus)
+            ))
+            // compare dates
+            .add(new JsonObject().put("$gt", new JsonArray()
+              .add("$$this.decision_date_received")
+              .add("$$value.decision_date_received")
+            ))
+          ))
+          .put("then", "$$this")
+          .put("else", "$$value")
+        ))
+      ))
     ));
 
-    // 6) Sort (NOTE: if you want to sort by dataset fields, pass sortBy like "dataset.updatedAt"
-    //    Otherwise application-level fields like "updatedAt" are fine.)
-    pipeline.add(new JsonObject().put("$sort", new JsonObject()
-      .put(effectiveSortBy, effectiveSortOrder)
+    // 5) Sort + pagination
+    pipeline
+      .add(new JsonObject().put("$sort", new JsonObject().put(effectiveSortBy, effectiveSortOrder)))
+      .add(new JsonObject().put("$skip", skip))
+      .add(new JsonObject().put("$limit", limit));
+
+    // 6) Final projection
+    pipeline.add(new JsonObject().put("$project", new JsonObject()
+      .put("applicationId", 1)
+      .put("applicationTitle", 1)
+      .put("applicationStatus", 1)
+      .put("hdab", 1)
+      .put("latestDecision", 1)
     ));
 
-    // 7) Pagination
-    pipeline.add(new JsonObject().put("$skip", skip));
-    pipeline.add(new JsonObject().put("$limit", limit));
+    // 7) Execute
+    ReadStream<JsonObject> stream = mongoClient.aggregate(collectionName, pipeline);
+    List<JsonObject> items = new ArrayList<>();
 
-    mongoClient
-      .aggregate(collectionName, pipeline)
-      .collect(Collectors.toList())
-      .onSuccess(promise::complete)
-      .onFailure(promise::fail);
+    stream
+      .handler(items::add)
+      .exceptionHandler(promise::fail)
+      .endHandler(v -> promise.complete(items));
 
     return promise.future();
   }
+
   public Future<List<JsonObject>> findDatasetsPerApplication(
     String collectionName,
     Integer pageNumber,
@@ -544,25 +579,6 @@ public class DBHandler {
       .endHandler(v -> promise.complete(items));
 
     return promise.future();
-  }
-
-  private boolean hasClause(JsonObject queryOptions, String key) {
-    if (queryOptions == null) {
-      return false;
-    }
-
-    JsonArray and = queryOptions.getJsonArray("$and");
-    if (and != null) {
-      for (int i = 0; i < and.size(); i++) {
-        JsonObject clause = and.getJsonObject(i);
-        if (clause != null && clause.containsKey(key)) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    return queryOptions.containsKey(key);
   }
 
   private JsonObject extractLatestDecisionMatch(JsonObject queryOptions) {
@@ -992,4 +1008,105 @@ public class DBHandler {
 
     return promise.future();
   }
+
+  public Future<Object> updateMany(String collectionName, JsonObject query, JsonObject update) {
+    Promise<Object> promise = Promise.promise();
+
+    UpdateOptions options = new UpdateOptions().setMulti(true);
+    mongoClient.updateCollectionWithOptions(collectionName, query, update, options, res -> {
+      if (res.succeeded()) {
+        promise.complete(res.result());
+      } else {
+        promise.fail(res.cause());
+      }
+    });
+
+    return promise.future();
+  }
+
+  /**
+   * Update Document for Specific Collection
+   *
+   * @param collectionName the collection
+   * @param updateQuery the query with the fields that they will going to update
+   * change it to _id)
+   */
+  public Future<JsonObject> updateByField(String collectionName, JsonObject updateQuery,
+    String fieldName, String fieldValue) {
+    log.debug(MSG_FORMAT, CLASS_NAME, ENTERED_SAVE);
+    //Define the query to find the document to update
+    //on database level it is generated with name _id
+    JsonObject query = new JsonObject().put(fieldName, fieldValue);
+    Promise<JsonObject> promise = Promise.promise();
+    //Remove the "id" field from the request body to prevent create a new field with it
+    //wee need keep only the _id of mongoDb
+    updateQuery.remove(fieldName);
+    mongoClient.updateCollection(collectionName, query, new JsonObject().put("$set", updateQuery),
+      asyncResult -> {
+        if (asyncResult.succeeded()) {
+          log.debug(SAVED_SUCCESSFULLY, CLASS_NAME, asyncResult.result());
+          promise.complete(JsonObject.mapFrom(asyncResult.result()));
+        } else {
+          log.error(FAILED_TO_SAVE, CLASS_NAME, asyncResult.cause());
+          promise.fail(asyncResult.cause());
+        }
+      });
+    log.debug(MSG_FORMAT, CLASS_NAME, EXITING_SAVE);
+
+    return promise.future();
+  }
+
+
+  private void logQuery(JsonObject providedQuery) {
+    if (LOG.isDebugEnabled() && providedQuery != null) {
+      log.debug(MSG_FORMAT, CLASS_NAME, providedQuery.encodePrettily());
+    }
+  }
+
+  /**
+   * Find a Document by field for the provided collection.
+   *
+   * @param collectionName the collection
+   * @param jsonObject     the object to retrieve
+   * @param exactMatch     if the match should be exact or work as a like
+   */
+  public Future<List<JsonObject>> findAllByField(String collectionName, JsonObject jsonObject,
+    boolean exactMatch) {
+    if (LOG.isDebugEnabled()) {
+      log.debug(MSG_FORMAT, CLASS_NAME, ENTERED_FIND_BY_FIELD);
+      logQuery(jsonObject);
+    }
+
+    JsonObject query = new JsonObject();
+    if (exactMatch) {
+      query = jsonObject;
+    } else {
+      Map.Entry<String, Object> firstEntry = jsonObject.stream().findFirst().orElse(null);
+
+      if (firstEntry != null) {
+        query.put(firstEntry.getKey(),
+          new JsonObject().put("$regex", firstEntry.getValue()).put("$options", "i"));
+      }
+    }
+
+    Promise<List<JsonObject>> promise = Promise.promise();
+    mongoClient.find(collectionName, query, asyncResult -> {
+      if (asyncResult.succeeded()) {
+        if (asyncResult.result() != null && !asyncResult.result().isEmpty()) {
+          log.debug(JSON_OBJECT_RETRIEVED_SUCCESSFULLY, CLASS_NAME);
+          promise.complete(asyncResult.result());
+        } else {
+          log.debug(RETRIEVED_JSON_OBJECT_IS_EMPTY, CLASS_NAME);
+          promise.fail(new ServiceException(404, HttpResponseStatus.NOT_FOUND.reasonPhrase()));
+        }
+      } else {
+        log.debug(FAILED_TO_RETRIEVE_JSON_OBJECT, CLASS_NAME);
+        promise.fail(asyncResult.cause());
+      }
+    });
+    log.debug(MSG_FORMAT, CLASS_NAME, EXITING_FIND_BY_FIELD);
+
+    return promise.future();
+  }
+
 }

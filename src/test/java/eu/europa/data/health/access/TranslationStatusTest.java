@@ -38,13 +38,13 @@ class TranslationStatusTest {
     assertTrue(TranslationStatus.isValidStatus("pending"));
     assertTrue(TranslationStatus.isValidStatus("completed"));
     assertTrue(TranslationStatus.isValidStatus("partially_completed"));
-    assertTrue(TranslationStatus.isValidStatus("not_required"));
+    assertTrue(TranslationStatus.isValidStatus("not_started"));
     assertTrue(TranslationStatus.isValidStatus("failed"));
     // upper
     assertTrue(TranslationStatus.isValidStatus("PENDING"));
     assertTrue(TranslationStatus.isValidStatus("COMPLETED"));
     assertTrue(TranslationStatus.isValidStatus("PARTIALLY_COMPLETED"));
-    assertTrue(TranslationStatus.isValidStatus("NOT_REQUIRED"));
+    assertTrue(TranslationStatus.isValidStatus("NOT_STARTED"));
     assertTrue(TranslationStatus.isValidStatus("FAILED"));
     // mixed
     assertTrue(TranslationStatus.isValidStatus("PeNdInG"));

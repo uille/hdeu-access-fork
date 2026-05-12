@@ -25,12 +25,23 @@ import org.slf4j.LoggerFactory;
 
 public class PermissionValidator implements Handler<RoutingContext> {
 
+  public enum MatchMode {
+    ALL,
+    ANY
+  }
+
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   private final List<String> scopes;
+  private final MatchMode matchMode;
 
   public PermissionValidator(List<String> scopes) {
+    this(scopes, MatchMode.ALL);
+  }
+
+  public PermissionValidator(List<String> scopes, MatchMode matchMode) {
     this.scopes = scopes;
+    this.matchMode = matchMode;
   }
 
   @Override
@@ -42,13 +53,18 @@ public class PermissionValidator implements Handler<RoutingContext> {
         context.user().principal().encodePrettily());
     }
 
-    if (scopes.stream().allMatch(scope -> PiveauAuth.userHasRole(context.user(), scope))
-      || scopes.stream().allMatch(scope -> PiveauAuth.userHasPermission(context.user(), resource, scope))){
+    boolean hasRequiredRoles = matchMode == MatchMode.ANY
+      ? scopes.stream().anyMatch(scope -> PiveauAuth.userHasRole(context.user(), scope))
+      : scopes.stream().allMatch(scope -> PiveauAuth.userHasRole(context.user(), scope));
+
+    boolean hasRequiredPermissions = matchMode == MatchMode.ANY
+      ? scopes.stream().anyMatch(scope -> PiveauAuth.userHasPermission(context.user(), resource, scope))
+      : scopes.stream().allMatch(scope -> PiveauAuth.userHasPermission(context.user(), resource, scope));
+
+    if (hasRequiredRoles || hasRequiredPermissions) {
       context.next();
     } else {
       context.fail(403);
     }
   }
 }
-
-

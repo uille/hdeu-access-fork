@@ -55,7 +55,23 @@ import java.util.List;
   baseFieldValue = "c",
   mandatoryFieldType = "object",
   mandatoryField = "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants",
-  message = "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants must be provided when howIsTheStudyCohortFormed is '2'"
+  message = "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants must be provided when howIsTheStudyCohortFormed is '3'"
+)
+@RequiredFieldBasedOnObjectValue(
+  objectName = "howIsTheStudyCohortFormed",
+  baseField = "key",
+  baseFieldValue = "b",
+  mandatoryFieldType = "object",
+  mandatoryField = "hasTheCohortBeenBasedOnADataPermit",
+  message = "hasTheCohortBeenBasedOnADataPermit must be provided when howIsTheStudyCohortFormed is '2'"
+)
+@RequiredFieldBasedOnObjectValue(
+  objectName = "howIsTheStudyCohortFormed",
+  baseField = "key",
+  baseFieldValue = "c",
+  mandatoryFieldType = "object",
+  mandatoryField = "hasTheCohortBeenBasedOnADataPermit",
+  message = "hasTheCohortBeenBasedOnADataPermit must be provided when howIsTheStudyCohortFormed is '3'"
 )
 @RequiredFieldBasedOnObjectValue(
   objectName = "hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants",
@@ -108,22 +124,6 @@ import java.util.List;
   mandatoryFieldType = "string",
   mandatoryField = "howTheStudyCohortWasObtained",
   message = "howTheStudyCohortWasObtained must be provided when hasTheStudyCohortBeenFormedBasedOnInformationOfStudyParticipants is 'Yes'"
-)
-@RequiredFieldBasedOnObjectValue(
-  objectName = "providedInformationOfTheDataUseToCorrespondingSubjects",
-  baseField = "key",
-  baseFieldValue = "a",
-  mandatoryFieldType = "string",
-  mandatoryField = "howProvidedInformationOfTheDataUseToCorrespondingSubjects",
-  message = "howProvidedInformationOfTheDataUseToCorrespondingSubjects must be provided when providedInformationOfTheDataUseToCorrespondingSubjects is 'Yes'"
-)
-@RequiredFieldBasedOnObjectValue(
-  objectName = "providedInformationOfTheDataUseToCorrespondingSubjects",
-  baseField = "key",
-  baseFieldValue = "b",
-  mandatoryFieldType = "string",
-  mandatoryField = "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects",
-  message = "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects must be provided when providedInformationOfTheDataUseToCorrespondingSubjects is 'Yes'"
 )
 @RequiredFieldBasedOnObjectValue(
   objectName = "howIsTheStudyCohortFormed",
@@ -197,6 +197,14 @@ import java.util.List;
   mandatoryFieldType = "string",
   mandatoryField = "needForDataExtractionEveryOther",
   message = "needForDataExtractionEveryOther must be provided when needForDataExtractionEvery is 'other'"
+)
+@RequiredFieldBasedOnObjectValue(
+  objectName = "needForDataExtractionEvery",
+  baseField = "key",
+  baseFieldValue = "d",
+  mandatoryFieldType = "string",
+  mandatoryField = "needForDataExtractionEveryDescription",
+  message = "needForDataExtractionEveryDescription must be provided when needForDataExtractionEvery is 'other'"
 )
 @RequiredFieldBasedOnObjectValue(
   objectName = "extractionMethod",
@@ -312,12 +320,12 @@ import java.util.List;
   message = "specifyOther must be provided when dataNeedsToBeExtractedEvery is 'Other'"
 )
 @RequiredFieldBasedOnObjectValue(
-  objectName = "willDataForControlsBeExtractedSimultaneously",
+  objectName = "dataNeedsToBeExtractedEvery",
   baseField = "key",
-  baseFieldValue = "b",
+  baseFieldValue = "d",
   mandatoryFieldType = "string",
   mandatoryField = "moreInfoOnExtractionPeriods",
-  message = "moreInfoOnExtractionPeriods must be provided when willDataForControlsBeExtractedSimultaneously is 'No'"
+  message = "moreInfoOnExtractionPeriods must be provided when dataNeedsToBeExtractedEvery is 'Other'"
 )
 // Section 6.3
 @RequiredFieldBasedOnObjectValue(
@@ -401,12 +409,12 @@ import java.util.List;
   message = "specifyOtherRelatives must be provided when willDataForRelativesBeExtractedSimultaneously is 'Multiple times'"
 )
 @RequiredFieldBasedOnObjectValue(
-  objectName = "willRelativesBeExtracted",
+  objectName = "dataNeedsToBeExtractedEveryRelatives",
   baseField = "key",
-  baseFieldValue = "a",
+  baseFieldValue = "d",
   mandatoryFieldType = "string",
   mandatoryField = "moreInfoOnExtractionPeriodsRelatives",
-  message = "moreInfoOnExtractionPeriodsRelatives must be provided when willRelativesBeExtracted is 'Yes'"
+  message = "moreInfoOnExtractionPeriodsRelatives must be provided when willDataForRelativesBeExtractedSimultaneously is 'Multiple times'"
 )
 @RequiredFieldBasedOnObjectValue(
   objectName = "willRelativesBeExtracted",
@@ -625,7 +633,6 @@ public class Section6CountryDTO extends SectionDTO {
     "odt"}, maxSize = 5242880, fieldName = "consentAndInformationLetterAttachment") // 5MB
     List<AttachmentDTO> consentAndInformationLetterAttachment;
 
-  @NotNull
   @CheckEnumValue(fieldName = "yesOrNoOptions", sectionNumber = "commonFields")
   SelectObjectDTO hasTheCohortBeenBasedOnADataPermit;
 
@@ -648,15 +655,6 @@ public class Section6CountryDTO extends SectionDTO {
   @Size(max = 2000) //field 9
   @TranslatableField
   String howTheStudyCohortWasObtained;
-  @NotNull
-  @CheckEnumValue(fieldName = "yesOrNoOptions", sectionNumber = "commonFields")
-  SelectObjectDTO providedInformationOfTheDataUseToCorrespondingSubjects;
-  @Size(max = 500)
-  @TranslatableField
-  String howProvidedInformationOfTheDataUseToCorrespondingSubjects;
-  @Size(max = 500)
-  @TranslatableField
-  String whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects;
   @Size(max = 500)
   @TranslatableField
   String informationProviderName;
@@ -713,7 +711,6 @@ public class Section6CountryDTO extends SectionDTO {
   @Size(max = 2000)
   @TranslatableField
   String needForDataExtractionEveryOther;
-  @NotBlank
   @Size(max = 2000)
   @TranslatableField
   String needForDataExtractionEveryDescription;

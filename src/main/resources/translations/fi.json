@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Hankkeen vetäjän nimi (organisaatio, laitos, yksityisen sektorin yhteisö tai luonnollinen henkilö)",
-            "tooltip": "Tämä on tietojen käytöstä vastaava henkilö."
+            "tooltip": "Tämä on datan käytöstä vastaava taho."
         },
         "countryOfProjectLeader": {
             "label": "Hankkeesta vastaavan yksikön virallinen kotipaikka (maa)"
@@ -122,6 +122,7 @@
             ],
             "info": "(Jos valitset tämän vaihtoehdon, vahvistat, että haet tietoja yksityishenkilönä ilman yhteyttä mihinkään organisaatioon.)"
         },
+        "participatingEntitiesInstruction": "Jos haet rahoitusta konsortion puolesta, nimeä tässä kaikki osallistuvat yhteisöt.",
         "legalPerson": "Oikeushenkilö",
         "naturalPerson": "yksityishenkilö",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Lähiyhtiö"
+        },
+        "otherContactPerson": {
+            "label": "Muut yhteyshenkilöt",
+            "tooltip": "Jos hankkeessasi on useita yhteyshenkilöitä, nimetkää heidät tässä ja antakaa tiedot heidän yhteyksistään."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "kohdejoukko on lomakkeen alussa ilmoitetun maan/maiden koko populaatio."
+                    "value": "Kohortti on maan/maiden koko väestö tai tämän lomakkeen alussa ilmoitettu tietolähde."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Kuvailkaa, miten kohdejoukko on saatu ja miksi tietolupaa tai -hyväksyntää ei ole."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Oletko toimittanut tietoja tietojen käytöstä tutkittaville? Esimerkiksi jakamalla tietoa datan käytöstä hankkeen verkkosivustolla.",
-            "tooltip": "Lisätietoja on yleisen tietosuoja-asetuksen 13 ja 14 artiklassa: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "Lisätietoja on <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\"> yleisen tietosuoja-asetuksen 13 ja 14 artiklassa."
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Kuinka?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Miksi ei?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Kuka toimittaa kohdejoukkoa koskevat tiedot terveystietoihin pääsystä vastaavalle elimelle? Tämä henkilö saa ohjeet siitä, miten tiedot toimitetaan yhteisen eurooppalaisen terveysdata-avaruuden portaalin kautta."
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Muut koottavat tiedot",
-        "section7Description": "Muita henkilötietoja, kuten hallussanne jo olevia tietoja tai muualta saatuja tietoja, voidaan yhdistää tällä hakemuksella haettuihin tietoihin. Luettele tiedot kaikista sellaisista aineistoista, jotka yhdistetään terveystietoihin pääsystä vastaavan elimen luvittamiin tietoihin. Jos haluat myöhemmin yhdistää muita henkilötietoja terveystietoihin pääsystä vastaavan elimen luvittamiin tietoihin, sinun on toimitettava muutoshakemus samalle terveystietoihin pääsystä vastaavalle elimelle. Jos sinulla on jokin muu kohdejoukko, jonka haluat yhdistää terveystietoihin pääsystä vastaavan elimen luvittamiin tietoihin, saat ohjeet siitä, miten tiedot toimitetaan turvallisesti luvan myöntämisen jälkeen.",
+        "section7Description": "Muut henkilötietotason tiedot, kuten hallussasi jo olevat tiedot tai muualta saadut tiedot, voidaan yhdistää tässä hakemuksessa haettuihin tietoihin. Luetelkaa tiedot kaikista lisätiedoista, jotka yhdistetään terveystietoihin pääsystä vastaavan elimen hyväksymiin tietoihin. Jos myöhemmin haluat yhdistää muita henkilötietotason tietoja terveystietoihin pääsystä vastaavan elimen hyväksymiin tietoihin, sinun on toimitettava muutoshakemus samalle terveystietoihin pääsystä vastaavalle elimelle. Jos sinulla on jokin muu kohortti, jonka haluat terveystietoihin pääsystä vastaavan elimen yhdistävän hakemiisi tietoihin, saat ohjeet siitä, miten tiedot toimitetaan turvallisesti luvan myöntämisen jälkeen.",
         "addDataPermit": "Lisää tietolupa",
         "addInfo": "Lisää tietoa",
         "removeDataPermit": "Poista tietolupa",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Mitkä ovat sen ajanjakson arvioidut alkamis- ja päättymispäivät, jonka aikana sähköisiä terveystietoja tarvitaan käsittelyä varten?",
-            "tooltip": "Tämä ajanjakso voi olla viisi vuotta. Lisäluvalla alkuperäistä lupaa voidaan jatkaa viidellä vuodella."
+            "tooltip": "Tämä ajanjakso voi olla 10 vuotta. Lisäluvalla alkuperäistä lupaa voidaan jatkaa vielä 10 vuodella."
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Alkaen"
@@ -1168,13 +1162,13 @@
             "tooltip": "EHDS artikkeli 71(4) ”Edellä 1 kohdassa säädetystä kielto-oikeudesta poiketen, jäsenvaltiot voivat säätää kansallisessa lainsäädännössään mekanismista sellaisten tietojen asettamiseksi saataville, joiden osalta on käytetty 1 kohdassa tarkoitettua kielto-oikeutta, jos kaikki seuraavat edellytykset täyttyvät: (katso artikla täydet ehdot)”"
         },
         "providedJustificationException": {
-            "label": "Esittäkää perustelut tälle poikkeukselle."
+            "label": "Perustelkaa tämä poikkeus ja antakaa perustelut sille, miten 71(4)(a-c) artiklan edellytykset täyttyvät."
         },
         "protectionAndSecurityStatements": {
             "label": "Hakemuksen käsittelyä varten sinun on vahvistettava seuraavat lausumat (tietosuojaan ja turvallisuuteen liittyvät lausumat):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Vahvistan, että jos terveystietoihin pääsystä vastaava elin myöntää minulle hakemani tiedot, käytän niitä ainoastaan tässä hakulomakkeessa ilmoitettuihin tarkoituksiin."
+            "label": "1. Vahvistan, että jos terveystietoihin pääsystä vastaava elin antaa minulle pyytämäni tiedot, käytän niitä ainoastaan tässä hakemuslomakkeessa ilmoitettuihin tarkoituksiin enkä mihinkään kiellettyihin tarkoituksiin."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Ymmärrän, että tietojen kopiointi turvatusta käsittely-ympäristöstä on kiellettyä."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Jos tutkimus edellyttää tutkimuslupaa organisaatioltasi, liittäkää mukaan tutkimuslupa."
+        },
+        "hdabToRetain": {
+            "label": "Haluatko HDAB:n säilyttävän pyydetyn tietoaineiston luomisessa käytetyn kaavan? ",
+            "tooltip": "Eurooppalaisen terveysdata-avaruuden 68 artiklan 12 kohta: (---) Terveystietoihin pääsystä vastaava elin voi terveystietojen käyttäjän pyynnöstä tallentaa pyydetyn tietoaineiston luomiseen käytettävän kaavan."
         }
     },
     "section9": {
         "section9h5": "Lisätiedot",
-        "section9Description": "Tässä voit antaa lisätietoja mistä tahansa hakemuksen osiosta. Ilmoita osion numero ja kysymys, johon kommenttisi liittyy. ",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Lisätietoja tai lisähuomautuksia",
-            "tooltip": "Tässä voit antaa lisätietoja mistä tahansa hakemuksen osiosta. Ilmoita osion numero ja kysymys, johon kommenttisi liittyy. "
+            "tooltip": "Tässä voit antaa lisätietoja mistä tahansa hakemuksen osiosta. Ilmoita osion numero ja kysymys, johon kommenttisi liittyy. Ilmoittakaa hakemuksessanne mahdollisesti olevat luottamukselliset tiedot ja perustelkaa lyhyesti niiden luottamuksellisuus sekä mainitkaa asianomaisen osion numero ja kysymys."
         },
         "additionalAttachment": {
             "label": "Lisäliite. Älä liitä tähän sovellukseen terveys- tai henkilötietoja.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Puoli vuotta"
+                    "value": "Puolivuosittain"
                 },
                 {
                     "key": "c",
-                    "value": "Neljännes"
+                    "value": "Neljännesvuosittain"
                 },
                 {
                     "key": "d",

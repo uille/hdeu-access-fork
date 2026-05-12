@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Heiti verkefnisstjóra (stofnun, stofnun, aðili í einkageiranum eða einstaklingur)",
-            "tooltip": "Þetta er sá sem ber ábyrgð á gagnanotkun"
+            "tooltip": "Þetta er sá aðili sem ber ábyrgð á gagnanotkun."
         },
         "countryOfProjectLeader": {
             "label": "Opinbert lögheimili (land) aðilans sem ber ábyrgð á verkefninu"
@@ -122,6 +122,7 @@
             ],
             "info": "(Ef þú velur þennan valkost staðfestir þú að þú sækir um gögn sem einstaklingur án tengsla.)"
         },
+        "participatingEntitiesInstruction": "Ef þú sækir um fyrir hönd samtaka, vinsamlegast nefndu hér alla þá aðila sem taka þátt.",
         "legalPerson": "Lögaðili",
         "naturalPerson": "Einstaklingur",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Tengsl"
+        },
+        "otherContactPerson": {
+            "label": "Aðrir tengiliðir",
+            "tooltip": "Ef það eru margir tengiliðir í verkefninu þínu, vinsamlegast nefndu þá hér ásamt upplýsingum um tengsl þeirra."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "Þýðið verður allt íbúafjöldi lands/landa sem tilgreint er í upphafi þessa eyðublaðs."
+                    "value": "Hópur skal vera allur íbúafjöldi lands/landa eða gagnalind sem tilgreind er í upphafi þessa eyðublaðs."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Lýsið hvernig þýðið var aflað og ástæðurnar fyrir skorti á leyfi/samþykki til gagna."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Hefur þú veitt samsvarandi einstaklingum upplýsingar um gögnin? T.d. samnýttar upplýsingar um gagnanotkun á vefsetri verkefnis.",
-            "tooltip": "Nánari upplýsingar er að finna í 13. og 14. gr. almennu persónuverndarreglugerðarinnar: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "Nánari upplýsingar er að finna í <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\"> Almenna persónuverndarreglugerðin, 13. og 14. gr. </a>."
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Hvernig?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Af hverju ekki?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Hver mun afhenda upplýsingar um aldurshópinn til heilbrigðisgagnaaðgangsaðilans? Þessi einstaklingur mun fá leiðbeiningar um hvernig á að afhenda gögnin í gegnum sameiginlegu EHDS gáttina."
@@ -612,7 +606,7 @@
             "label": "Leggið fram rökstuðning fyrir þessari undantekningu."
         },
         "needForDataExtractionEvery": {
-            "label": "Gögnin þurfa að vera dregin hvert",
+            "label": "Gögnin þurfa að vera dregin út",
             "tooltip": "Ef þú vilt að gögnin séu dregin út mörgum sinnum yfir ákveðinn tíma skaltu hafa í huga að skilgreiningar og gagnasöfnunaraðferð geta breyst á endurskoðunartímabilinu í sumum tilvikum. Athugið að hámarkstíðni gagnaútdráttar er á hverjum ársfjórðungi"
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "Ef um er að ræða endurtekinn útdrátt skal veita upplýsingar um hvert gagnaútdráttarferli sérstaklega í pöntunarleiðbeiningunum."
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Gögnin þurfa að vera dregin hvert",
+            "label": "Gögnin þurfa að vera dregin út",
             "tooltip": "Ef þú vilt að gögnin séu dregin út mörgum sinnum yfir ákveðinn tíma skaltu hafa í huga að skilgreiningar og gagnasöfnunaraðferð geta breyst á endurskoðunartímabilinu í sumum tilvikum. Athugið að hámarkstíðni gagnaútdráttar er á hverjum ársfjórðungi"
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "Hversu oft þarf að draga gögnin út?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Gögnin þurfa að vera dregin hvert",
+            "label": "Gögnin þurfa að vera dregin út",
             "tooltip": "Ef þú vilt að gögnin séu dregin út mörgum sinnum yfir ákveðinn tíma skaltu hafa í huga að skilgreiningar og gagnasöfnunaraðferð geta breyst á endurskoðunartímabilinu í sumum tilvikum. Athugið að hámarkstíðni gagnaútdráttar er á hverjum ársfjórðungi"
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "Ef um er að ræða endurtekinn útdrátt skal veita upplýsingar um hvert gagnaútdráttarferli sérstaklega í pöntunarleiðbeiningunum."
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Gögnin þurfa að vera dregin hvert",
+            "label": "Gögnin þurfa að vera dregin út",
             "tooltip": "Ef þú vilt að gögnin séu dregin út mörgum sinnum yfir ákveðinn tíma skaltu hafa í huga að skilgreiningar og gagnasöfnunaraðferð geta breyst á endurskoðunartímabilinu í sumum tilvikum. Athugið að hámarkstíðni gagnaútdráttar er á hverjum ársfjórðungi"
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Önnur gögn sem á að sameina",
-        "section7Description": "Það er hægt að sameina aðrar persónuupplýsingar, svo sem gögn sem þegar eru í vörslu þinni eða gögn sem fengin eru annars staðar með öðru leyfi, við gögnin sem sótt er um með þessu forriti. Skrá skal upplýsingar um öll viðbótargögn sem verða sameinuð þeim gögnum sem aðilinn um aðgang að heilbrigðisgögnum heimilar. Ef þú vilt síðar sameina aðrar persónuupplýsingar og þau gögn sem stofnunin hefur heimilað að fá aðgang að heilbrigðisgögnum þarftu að senda inn umsókn um breytingu til sama aðila um aðgang að heilbrigðisgögnum. Ef þú ert með einhvern annan hóp sem þú vilt fá aðgang að heilbrigðisgögnum til að sameina þeim gögnum sem þú sækir um færðu leiðbeiningar um hvernig eigi að afhenda gögnin á öruggan hátt eftir að leyfið hefur verið veitt.",
+        "section7Description": "Það er hægt að sameina önnur persónuleg gögn, svo sem gögn sem þegar eru í eigu þinni eða gögn sem fengin eru annars staðar með öðru leyfi, með þeim gögnum sem sótt er um með þessu forriti. Skráið upplýsingar um öll viðbótargögn sem verða sameinuð gögnunum sem heilbrigðisgagnaaðgangsaðilinn heimilar. Ef þú vilt síðar sameina önnur persónuleg gögn við gögnin sem heilbrigðisgagnaaðgangsaðilinn heimilar þarftu að leggja fram breytingaumsókn til sama heilbrigðisgagnaaðgangsaðila. Ef þú ert með einhvern annan hóp sem þú vilt að heilbrigðisgagnaaðgangsaðilinn sameinist þeim gögnum sem þú sækir um færðu leiðbeiningar um hvernig á að afhenda gögnin á öruggan hátt eftir að leyfið hefur verið veitt.",
         "addDataPermit": "Add data permit",
         "addInfo": "Bæta við upplýsingum",
         "removeDataPermit": "Fjarlægja gagnaleyfi",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Hverjar eru áætlaðar upphafs- og lokadagsetningar þess tímabils sem rafrænar heilbrigðisupplýsingar eru nauðsynlegar til vinnslu?",
-            "tooltip": "Þetta tímabil getur verið fimm ár. Með viðbótarleyfi er hægt að framlengja upphaflega leyfið um fimm ár til viðbótar."
+            "tooltip": "Þessi tími getur verið 10 ár. Með viðbótarleyfi er hægt að framlengja upphaflega leyfið um 10 ár til viðbótar"
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Frá"
@@ -1168,13 +1162,13 @@
             "tooltip": "Í 4. mgr. 71. gr. EHDS er aðildarríki heimilt að kveða á um í landslögum sínum kerfi til að veita aðgang að gögnum sem réttur til að hafna þátttöku hefur verið gerður aðgengilegur, að því tilskildu að öll eftirfarandi skilyrði séu uppfyllt: (sjá greinina fyrir fullum skilyrðum)“"
         },
         "providedJustificationException": {
-            "label": "Leggið fram rökstuðning fyrir þessari undantekningu."
+            "label": "* Veita rökstuðning fyrir þessari undantekningu og fela í rökstuðningi þínum hvernig skilyrði greinar 71(4)(a-c) eru uppfyllt."
         },
         "protectionAndSecurityStatements": {
             "label": "Til að halda áfram með þetta forrit þarftu að staðfesta eftirfarandi yfirlýsingar (gagnavernd og öryggistengdar yfirlýsingar):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Ég staðfesti að ef heilbrigðisgögnin veita mér þær upplýsingar sem ég sæki um mun ég aðeins nota þær í þeim tilgangi sem fram kemur á þessu umsóknareyðublaði."
+            "label": "1. Ég staðfesti að ef heilbrigðisgagnaaðgangsaðilinn veitir mér gögnin sem ég er að sækja um mun ég aðeins nota þau í þeim tilgangi sem fram kemur á þessu umsóknareyðublaði og mun ekki nota þau í neinum bönnuðum tilgangi."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Ég skil að afrita gögnin úr öruggu vinnslu umhverfi er bönnuð."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Ef rannsóknir þínar krefjast rannsóknarleyfis frá aðildarstofnun þinni skaltu láta rannsóknarleyfið fylgja með"
+        },
+        "hdabToRetain": {
+            "label": "Viltu að HDAB haldi formúlunni sem notuð er til að búa til umbeðið gagnasafn? ",
+            "tooltip": "EHDS, 68. gr. (12): (--) Að beiðni notanda heilbrigðisgagnanna getur aðgangsaðilinn að heilbrigðisgögnunum geymt formúluna til að búa til umbeðið gagnasafn."
         }
     },
     "section9": {
         "section9h5": "Viðbótarupplýsingar",
-        "section9Description": "Hér getur þú veitt frekari upplýsingar um hvaða hluta sem er í umsókn þinni. Tilgreina skal fjölda hluta og spurninguna sem athugasemdin vísar til.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Frekari upplýsingar eða fleiri athugasemdir",
-            "tooltip": "Hér getur þú veitt frekari upplýsingar um hvaða hluta sem er í umsókn þinni. Tilgreina skal fjölda hluta og spurninguna sem athugasemdin vísar til. Tillaga að tæknilegri framkvæmd: Að öðrum kosti gæti verið leið til að gera umsækjanda kleift að tengja upplýsingar við tiltekna hluta eyðublaðsins til að auðvelda störf HDAB."
+            "tooltip": "Hér getur þú veitt frekari upplýsingar um hvaða hluta sem er í umsókninni. Tilgreinið fjölda hluta og spurninguna sem athugasemdin þín vísar til. Tilgreina skal allar trúnaðarupplýsingar í umsókn þinni og rökstyðja trúnaðarkvöðina í stuttu máli og tilgreina viðeigandi hlutanúmer og spurningu."
         },
         "additionalAttachment": {
             "label": "Viðbótarviðhengi. Ekki hengja heilsu eða persónuupplýsingar við þetta forrit.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Hálft ár"
+                    "value": "Á hverju hálfu ári"
                 },
                 {
                     "key": "c",
-                    "value": "Ársfjórðungur"
+                    "value": "Hver ársfjórðungur"
                 },
                 {
                     "key": "d",

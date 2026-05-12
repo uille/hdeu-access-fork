@@ -93,7 +93,8 @@ public class UserValidationManager extends AbstractSchemaValidator{
     validateJsonSchema(context, SchemaFiles.USER_SCHEMA_FILE.getValue());
   }
 
+  public void validateEmailPreferencesJsonSchema(@NotNull RoutingContext context) {
+    validateJsonSchema(context, SchemaFiles.EMAIL_PREFERENCES_SCHEMA_FILE.getValue());
+  }
+
 }
-
-
-

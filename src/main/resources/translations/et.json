@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Projektijuhi nimi (organisatsioon, institutsioon, erasektori üksus või füüsiline isik)",
-            "tooltip": "See on andmete kasutamise eest vastutav isik."
+            "tooltip": "See on andmete kasutamise eest vastutav üksus."
         },
         "countryOfProjectLeader": {
             "label": "Projekti eest vastutava üksuse ametlik elukoht (riik)"
@@ -122,6 +122,7 @@
             ],
             "info": "(Kui valite selle variandi, kinnitate, et taotlete andmeid eraisikuna ilma igasuguse kuuluvuseta.)"
         },
+        "participatingEntitiesInstruction": "Kui esitate taotluse konsortsiumi nimel, nimetage siin kõik osalevad üksused.",
         "legalPerson": "Juriidiline isik",
         "naturalPerson": "Füüsiline isik",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Liitumine"
+        },
+        "otherContactPerson": {
+            "label": "Muud kontaktisikud",
+            "tooltip": "Kui teie projektis on mitu kontaktisikut, nimetage need siin koos teabega nende seotuse kohta."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "Kohort on vormi alguses märgitud riigi/riikide kogu populatsioon."
+                    "value": "Kohort on riigi/riikide kogu populatsioon või käesoleva vormi alguses märgitud andmeallikas."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Kirjeldage, kuidas kohort saadi ja miks andmeluba/nõusolek puudus."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Kas olete esitanud asjaomastele isikutele teavet andmete kasutamise kohta? Nt jagas projekti veebisaidil teavet andmete kasutamise kohta.",
-            "tooltip": "Lisateabe saamiseks vt isikuandmete kaitse üldmääruse artiklid 13 ja 14: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "Lisateabe saamiseks vt <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\"> isikuandmete kaitse üldmääruse artiklid 13 ja 14 </a>."
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Kuidas?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Miks mitte?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Kes edastab kohordi kohta teabe terviseandmetele juurdepääsu asutusele? See isik saab ühtse ühtse Euroopa terviseandmeruumi portaali kaudu juhiseid selle kohta, kuidas andmeid edastada."
@@ -612,7 +606,7 @@
             "label": "Põhjendage seda erandit."
         },
         "needForDataExtractionEvery": {
-            "label": "Andmed tuleb teha igast järgmisest:",
+            "label": "Andmed tuleb välja võtta",
             "tooltip": "Kui soovite, et andmeid tehtaks teatava ajavahemiku jooksul mitu korda, pange tähele, et määratlused ja andmekogumismeetod võivad mõnel juhul läbivaatamisperioodi jooksul muutuda. Pange tähele, et andmete väljavõtmise maksimaalne sagedus on igas kvartalis."
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "Korduva väljavõtte korral esitage tellimuses eraldi teave iga andmeväljavõtmise protsessi kohta."
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Andmed tuleb teha igast järgmisest:",
+            "label": "Andmed tuleb välja võtta",
             "tooltip": "Kui soovite, et andmeid tehtaks teatava ajavahemiku jooksul mitu korda, pange tähele, et mõnel juhul võivad määratlused ja andmekogumismeetod läbivaatamisperioodi jooksul muutuda. Pange tähele, et andmete väljavõtmise maksimaalne sagedus on igas kvartalis."
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "Kui sageli tuleb andmetest väljavõtteid teha?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Andmed tuleb teha igast järgmisest:",
+            "label": "Andmed tuleb välja võtta",
             "tooltip": "Kui soovite, et andmeid tehtaks teatava ajavahemiku jooksul mitu korda, pange tähele, et määratlused ja andmekogumismeetod võivad mõnel juhul läbivaatamisperioodi jooksul muutuda. Pange tähele, et andmete väljavõtmise maksimaalne sagedus on igas kvartalis."
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "Korduva väljavõtte korral esitage tellimuses eraldi teave iga andmeväljavõtmise protsessi kohta."
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Andmed tuleb teha igast järgmisest:",
+            "label": "Andmed tuleb välja võtta",
             "tooltip": "Kui soovite, et andmeid tehtaks teatava ajavahemiku jooksul mitu korda, pange tähele, et määratlused ja andmekogumismeetod võivad mõnel juhul läbivaatamisperioodi jooksul muutuda. Pange tähele, et andmete väljavõtmise maksimaalne sagedus on igas kvartalis."
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Muud kombineeritavad andmed",
-        "section7Description": "Muid isikuandmeid, näiteks teie valduses olevaid andmeid või mujalt saadud andmeid, on võimalik kombineerida muu loaga käesoleva taotlusega taotletud andmetega. Loetlege teave kõigi lisaandmete kohta, mida kombineeritakse terviseandmetele juurdepääsu asutuse poolt lubatud andmetega. Kui soovite hiljem kombineerida muid isikuandmeid terviseandmetele juurdepääsu asutuse poolt lubatud andmetega, peate esitama samale terviseandmetele juurdepääsu asutusele muutmistaotluse. Kui teil on mõni muu kohort, mida soovite terviseandmetele juurdepääsu asutusel kombineerida taotletavate andmetega, saate juhised selle kohta, kuidas edastada andmeid turvaliselt pärast loa andmist.",
+        "section7Description": "Käesoleva taotlusega taotletavate andmetega on võimalik kombineerida muid isiku tasandi andmeid, näiteks juba teie valduses olevaid andmeid või mujalt saadud andmeid, muu loaga. Loetlege teave kõigi lisaandmete kohta, mis kombineeritakse terviseandmetele juurdepääsu asutuse poolt lubatud andmetega. Kui soovite hiljem kombineerida muid isiku tasandi andmeid terviseandmetele juurdepääsu asutuse poolt lubatud andmetega, peate esitama samale terviseandmetele juurdepääsu asutusele muutmistaotluse. Kui teil on mõni muu rühm, keda soovite, et terviseandmetele juurdepääsu asutus ühendaks need andmetega, mida te taotlete, saate juhised selle kohta, kuidas andmed pärast loa andmist turvaliselt edastada.",
         "addDataPermit": "Lisa andmeluba",
         "addInfo": "Lisa teave",
         "removeDataPermit": "Andmeloa eemaldamine",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Millised on selle ajavahemiku hinnangulised algus- ja lõppkuupäevad, mille jooksul elektroonilisi terviseandmeid töötlemiseks vajatakse?",
-            "tooltip": "See ajavahemik võib olla viis aastat. Täiendava loaga võib algset luba pikendada veel viieks aastaks."
+            "tooltip": "See ajavahemik võib olla 10 aastat. Täiendava loa korral võib algset luba pikendada veel 10 aasta võrra."
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Alates"
@@ -1168,13 +1162,13 @@
             "tooltip": "EHDS artikkel 71(4)“Erandina lõikes 1 sätestatud loobumisõigusest võib liikmesriik oma õiguses ette näha mehhanismi, millega tehakse andmed, mille suhtes on kasutatud loobumisõigust, kättesaadavaks, kui täidetud on kõik järgmised tingimused: (vt artiklit täistingimuste kohta)“"
         },
         "providedJustificationException": {
-            "label": "Põhjendage seda erandit."
+            "label": "Põhjendage seda erandit ja lisage oma põhjendusse, kuidas on täidetud artikli 71(4)(a-c) tingimused."
         },
         "protectionAndSecurityStatements": {
             "label": "Taotluse menetlemiseks peate kinnitama järgmised avaldused (andmekaitse ja turvalisusega seotud avaldused):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Kinnitan, et kui terviseandmetele juurdepääsu asutus annab mulle taotletud andmed, kasutan neid ainult käesolevas taotlusvormis märgitud eesmärgil (eesmärkidel)."
+            "label": "1. Kinnitan, et kui terviseandmetele juurdepääsu asutus annab mulle andmed, mida ma taotlen, kasutan neid ainult käesolevas taotlusvormis märgitud eesmärgil (eesmärkidel) ega kasuta neid keelatud eesmärkidel."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Saan aru, et andmete kopeerimine turvalisest töötlemiskeskkonnast on keelatud."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Kui teie uuringuks on vaja oma liituva organisatsiooni uurimisluba, lisage uuringuluba."
+        },
+        "hdabToRetain": {
+            "label": "Kas soovite, et HDAB säilitaks taotletud andmekogumi loomiseks kasutatud valemi? ",
+            "tooltip": "Ühtse Euroopa terviseandmeruumi määruse artikli 68 lõige 12: (---) Terviseandmete kasutaja taotlusel võib terviseandmetele juurdepääsu asutus säilitada taotletud andmestiku loomise valemi."
         }
     },
     "section9": {
         "section9h5": "Täiendav teave",
-        "section9Description": "Siin saate esitada lisateavet oma kandideerimisavalduse mis tahes osa kohta. Märkige jaotise number ja küsimus, millele Teie märkus viitab.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Lisateave või lisamärkused",
-            "tooltip": "Siin saate esitada lisateavet oma kandideerimisavalduse mis tahes osa kohta. Märkige jaotise number ja küsimus, millele Teie märkus viitab. Tehnilise rakendamise soovitus: Teise võimalusena võiks taotlejal olla võimalus siduda teave vormi konkreetsete osadega, et hõlbustada HDAB-de tööd."
+            "tooltip": "Siin saate esitada lisateavet oma taotluse mis tahes osa kohta. Märkige selle osa number ja küsimus, millele teie kommentaar viitab. Märkige oma taotluses mis tahes konfidentsiaalne teave ja põhjendage lühidalt selle konfidentsiaalsust, märkides ära asjakohase jaotise numbri ja küsimuse."
         },
         "additionalAttachment": {
             "label": "Täiendav manus. Ärge lisage taotlusele tervise- ega isikuandmeid.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Pool aastat"
+                    "value": "Iga poole aasta tagant"
                 },
                 {
                     "key": "c",
-                    "value": "Nõuded"
+                    "value": "Kord kvartalis"
                 },
                 {
                     "key": "d",

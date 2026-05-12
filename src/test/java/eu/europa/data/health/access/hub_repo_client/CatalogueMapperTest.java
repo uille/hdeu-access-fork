@@ -142,6 +142,27 @@ class CatalogueMapperTest {
   }
 
   @Test
+  void testMapToCatalogueList_withStringTitleAndDescription() {
+    JsonObject item = new JsonObject()
+      .put("dct:title", "Catalogue Title")
+      .put("dct:description", "Catalogue Description");
+    JsonObject catalogueWithStringValues = new JsonObject().put(
+      "@graph",
+      new JsonArray().add(item)
+    );
+
+    CatalogueDTO result = CatalogueMapper.mapToCatalogueList(
+      catalogueWithStringValues,
+      catalogueMapList,
+      countriesManager
+    );
+
+    assertNotNull(result);
+    assertEquals("Catalogue Title", result.getCatalogueName());
+    assertEquals("Catalogue Description", result.getDescription());
+  }
+
+  @Test
   void testDispatcherMapToCatalogue_success() {
     CatalogueDTO catalogueDTO = new CatalogueDTO();
     catalogueDTO.setCatalogueId("4507af72-fb13-4cde-ad71-f7b715a44262");

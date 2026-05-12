@@ -20,6 +20,7 @@ import static eu.europa.data.health.access.Constants.CONFIGURATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.CONTROLLED_VOCABULARY_COLLECTION;
 import static eu.europa.data.health.access.Constants.DATA_ACCESS_APPLICATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.DATA_REQUEST_APPLICATION_COLLECTION;
+import static eu.europa.data.health.access.Constants.TRANSLATIONS_STATE_COLLECTION;
 import static eu.europa.data.health.access.Constants.UNKNOWN_APPLICATION_TYPE;
 
 import io.vertx.core.CompositeFuture;
@@ -51,17 +52,20 @@ public class TranslationCallbackManager {
   private final ControlledVocabularyManager controlledVocabularyManager;
   private final PayloadManager payloadManager;
   private final HubStoreClient hubStoreClient;
+  private final DecisionTranslationService decisionTranslationService;
 
   public TranslationCallbackManager(DataRequestApplicationManager dataRequestManager,
     DataAccessApplicationManager dataAccessManager,
     ControlledVocabularyManager controlledVocabularyManager,
     PayloadManager payloadManager,
-    HubStoreClient hubStoreClient) {
+    HubStoreClient hubStoreClient,
+    DecisionTranslationService decisionTranslationService) {
     this.dataRequestManager = dataRequestManager;
     this.dataAccessManager = dataAccessManager;
     this.controlledVocabularyManager = controlledVocabularyManager;
     this.payloadManager = payloadManager;
     this.hubStoreClient = hubStoreClient;
+    this.decisionTranslationService = decisionTranslationService;
   }
 
   /**
@@ -94,30 +98,32 @@ public class TranslationCallbackManager {
     log.debug("Handling translation callback");
 
     JsonObject body = context.body().asJsonObject();
-
-    String applicationId = body.getJsonObject("data").getString("applicationId", "");
     JsonObject data = body.getJsonObject("data");
     JsonObject dict = body.getJsonObject("dict");
 
-    if (data == null || applicationId == null || dict == null) {
+    if (data == null || dict == null) {
       log.warn("Missing required fields in callback");
       context.response().setStatusCode(400).end(MISSING_REQUIRED_FIELDS);
       return;
     }
 
-    String applicationType = data.getString("applicationType");
-    if (applicationType == null) {
+    String targetId = data.getString("id", data.getString("applicationId"));
+    String targetType = data.getString("type", data.getString("applicationType"));
+
+    if (targetId == null || targetType == null) {
       log.warn("Missing required fields in callback");
       context.response().setStatusCode(400).end(MISSING_REQUIRED_FIELDS);
       return;
     }
+
+    boolean isTranslationStateCallback = TRANSLATIONS_STATE_COLLECTION.equals(targetType);
 
     // Check for errors in payload
     Set<Integer> errorCodes = getAllTranslationErrorCodes(dict);
     boolean hasTimeoutError = errorCodes.remove(TIMEOUT_ERROR_CODE);
-    if (!errorCodes.isEmpty()) {
+    if (!errorCodes.isEmpty() && !isTranslationStateCallback) {
       log.warn("Detected translation errors {} in callback for application {}", errorCodes,
-        applicationId);
+        targetId);
 
       String errorMessage = "Translation error code(s): " + errorCodes;
 
@@ -128,13 +134,13 @@ public class TranslationCallbackManager {
         fileId = fileSection.fieldNames().iterator().next();
       }
 
-      switch (applicationType) {
+      switch (targetType) {
         case DATA_REQUEST_APPLICATION_COLLECTION ->
-          dataRequestManager.incrementTranslationAttempts(applicationId, errorMessage, fileId);
+          dataRequestManager.incrementTranslationAttempts(targetId, errorMessage, fileId);
         case DATA_ACCESS_APPLICATION_COLLECTION ->
-          dataAccessManager.incrementTranslationAttempts(applicationId, errorMessage, fileId);
+          dataAccessManager.incrementTranslationAttempts(targetId, errorMessage, fileId);
         case CONTROLLED_VOCABULARY_COLLECTION ->
-          controlledVocabularyManager.processTranslationCallback(applicationId, dict);
+          controlledVocabularyManager.processTranslationCallback(targetId, dict);
         case CONFIGURATION_COLLECTION -> {
           String documentName = data.getString("documentName");
           if (documentName == null) {
@@ -145,7 +151,7 @@ public class TranslationCallbackManager {
           payloadManager.processTranslationCallback(documentName, dict);
         }
         default -> {
-          log.warn("Unknown application type while handling translation error: {}", applicationType);
+          log.warn("Unknown application type while handling translation error: {}", targetType);
           context.response().setStatusCode(400).end(UNKNOWN_APPLICATION_TYPE);
           return;
         }
@@ -154,12 +160,18 @@ public class TranslationCallbackManager {
       return;
     } else if (
       hasTimeoutError &&
-        (applicationType.equals(DATA_REQUEST_APPLICATION_COLLECTION) ||
-          applicationType.equals(DATA_ACCESS_APPLICATION_COLLECTION))
+        (targetType.equals(DATA_REQUEST_APPLICATION_COLLECTION) ||
+          targetType.equals(DATA_ACCESS_APPLICATION_COLLECTION))
     ) {
       // Ignore timeout errors for applications in order to retry translating them later
-      log.warn("Detected translation timeout in callback for application {}", applicationId);
+      log.warn("Detected translation timeout in callback for application {}", targetId);
       context.response().setStatusCode(200).end("Translation timeout handled");
+      return;
+    }
+
+    if (isTranslationStateCallback) {
+      decisionTranslationService.processTranslationCallback(targetId, dict);
+      context.response().setStatusCode(200).end(CALLBACK_RECEIVED);
       return;
     }
 
@@ -170,22 +182,22 @@ public class TranslationCallbackManager {
       // Extract the single fileId from the file section (first and only key)
       String fileId = fileSection.fieldNames().iterator().next();
 
-      handleFileTranslationCallback(applicationId, fileId, dict)
+      handleFileTranslationCallback(targetId, fileId, dict)
               .onSuccess(translatedFiles -> {
                 log.debug("Translation callback successful for file {}", fileId);
 
                 // Now update MongoDB metadata with uploaded file references
-                switch (applicationType) {
+                switch (targetType) {
                   case DATA_REQUEST_APPLICATION_COLLECTION -> {
-                    dataRequestManager.processFileTranslationCallback(applicationId, fileId, translatedFiles);
+                    dataRequestManager.processFileTranslationCallback(targetId, fileId, translatedFiles);
                     context.response().setStatusCode(200).end("File callback processed");
                   }
                   case DATA_ACCESS_APPLICATION_COLLECTION -> {
-                    dataAccessManager.processFileTranslationCallback(applicationId, fileId, translatedFiles);
+                    dataAccessManager.processFileTranslationCallback(targetId, fileId, translatedFiles);
                     context.response().setStatusCode(200).end("File callback processed");
                   }
                   default -> {
-                    log.warn("Unknown application type while handling file translation callback: {}", applicationType);
+                    log.warn("Unknown application type while handling file translation callback: {}", targetType);
                     context.response().setStatusCode(400).end(UNKNOWN_APPLICATION_TYPE);
                   }
                 }
@@ -198,17 +210,17 @@ public class TranslationCallbackManager {
       return;
     }
 
-    switch (applicationType) {
+    switch (targetType) {
       case DATA_REQUEST_APPLICATION_COLLECTION -> {
-        dataRequestManager.processTranslationCallback(applicationId, dict);
+        dataRequestManager.processTranslationCallback(targetId, dict);
         context.response().setStatusCode(200).end(CALLBACK_RECEIVED);
       }
       case DATA_ACCESS_APPLICATION_COLLECTION -> {
-        dataAccessManager.processTranslationCallback(applicationId, dict);
+        dataAccessManager.processTranslationCallback(targetId, dict);
         context.response().setStatusCode(200).end(CALLBACK_RECEIVED);
       }
       case CONTROLLED_VOCABULARY_COLLECTION -> {
-        controlledVocabularyManager.processTranslationCallback(applicationId, dict);
+        controlledVocabularyManager.processTranslationCallback(targetId, dict);
         context.response().setStatusCode(200).end(CALLBACK_RECEIVED);
       }
       case CONFIGURATION_COLLECTION -> {
@@ -222,7 +234,7 @@ public class TranslationCallbackManager {
         context.response().setStatusCode(200).end(CALLBACK_RECEIVED);
       }
       default -> {
-        log.warn("Unknown application type while handling form translation callback: {}", applicationType);
+        log.warn("Unknown application type while handling form translation callback: {}", targetType);
         context.response().setStatusCode(400).end(UNKNOWN_APPLICATION_TYPE);
       }
     }

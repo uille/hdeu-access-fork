@@ -33,10 +33,10 @@
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
     <exec-maven-plugin.version>3.0.0</exec-maven-plugin.version>
 
-    <vertx.version>4.5.23</vertx.version>
+    <vertx.version>4.5.26</vertx.version>
     <junit-jupiter.version>5.9.1</junit-jupiter.version>
     <query-dsl.version>5.0.0</query-dsl.version>
-    <testcontainers.version>1.20.1</testcontainers.version>
+    <testcontainers.version>1.21.4</testcontainers.version>
 
     <main.verticle>eu.europa.data.health.access.MainVerticle</main.verticle>
     <launcher.class>io.vertx.core.Launcher</launcher.class>
@@ -61,6 +61,13 @@
         <artifactId>commons-beanutils</artifactId>
         <version>1.11.0</version>
       </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>2.18.6</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -80,7 +87,7 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.5.24</version>
+      <version>1.5.32</version>
     </dependency>
 
 
@@ -285,6 +292,11 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>3.20.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-text</artifactId>
+      <version>1.11.0</version>
     </dependency>
     <dependency>
       <groupId>org.docx4j</groupId>

@@ -242,7 +242,7 @@ public class CatalogueMapper {
           throw new RuntimeException("Error during sorting", e);
         }
       })
-      .collect(Collectors.toList());
+      .toList();
   }
 
   private static List<CatalogueDTO> filterCatalogueListPageAndItems(RoutingContext context,
@@ -455,14 +455,14 @@ public class CatalogueMapper {
     for (int i = 0; i < graph.size(); i++) {
       JsonObject item = graph.getJsonObject(i);
 
-      // Set catalogue values
-      if (item.getJsonObject("dct:title") != null) {
-        dto.setCatalogueName(item.getJsonObject("dct:title").getString(VALUE));
+      String title = getLiteralValue(item, "dct:title");
+      if (title != null) {
+        dto.setCatalogueName(title);
       }
 
-      // Set catalogue values
-      if (item.getJsonObject("dct:description") != null) {
-        dto.setDescription(item.getJsonObject("dct:description").getString(VALUE));
+      String description = getLiteralValue(item, "dct:description");
+      if (description != null) {
+        dto.setDescription(description);
       }
 
       // Set geographical coverage
@@ -506,5 +506,16 @@ public class CatalogueMapper {
     }
 
     return dto;
+  }
+
+  private static String getLiteralValue(JsonObject item, String field) {
+    Object rawValue = item.getValue(field);
+    if (rawValue instanceof JsonObject object) {
+      return object.getString(VALUE);
+    }
+    if (rawValue instanceof String value) {
+      return value;
+    }
+    return null;
   }
 }

@@ -78,7 +78,6 @@ import static eu.europa.data.health.access.Constants.PROTECTION_AND_SECURITY_STA
 import static eu.europa.data.health.access.Constants.PROTECTION_AND_SECURITY_STATEMENTS_D;
 import static eu.europa.data.health.access.Constants.PROTECTION_AND_SECURITY_STATEMENTS_E;
 import static eu.europa.data.health.access.Constants.PROVENANCE;
-import static eu.europa.data.health.access.Constants.PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS;
 import static eu.europa.data.health.access.Constants.PROVIDE_INFORMATION_LIST;
 import static eu.europa.data.health.access.Constants.PUBLISHER;
 import static eu.europa.data.health.access.Constants.PURPOSE_FOR_WHICH_DATA_WILL_BE_USED;
@@ -490,6 +489,11 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
         addTextToNewParagraphWithTable(document, getField(section, "naturalPersonAffiliation"),
           false, false);
       }
+
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("otherContactPerson").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "otherContactPerson"), false,
+        false);
     }
   }
 
@@ -678,18 +682,21 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
         HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS);
       addTextToNewParagraphWithTable(document,
         (formedBasedOnInfo != null) ? formedBasedOnInfo.getString(VALUE, "") : "", false, false);
+
+      addTextToNewParagraph(document, languageMap.getJsonObject(
+          "hasTheCohortBeenBasedOnADataPermit")
+        .getString(LABEL), true, false);
+      JsonObject hasTheCohortBeenBasedOnADataPermit = getObject(section,
+        "hasTheCohortBeenBasedOnADataPermit");
+      addTextToNewParagraphWithTable(document,
+        (hasTheCohortBeenBasedOnADataPermit != null) ? hasTheCohortBeenBasedOnADataPermit.getString(VALUE, "") : "", false, false);
     }
 
     JsonObject formedBasedOnInfo = getObject(section,
       HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS);
 
-    addTextToNewParagraph(document, languageMap.getJsonObject(
-        "hasTheCohortBeenBasedOnADataPermit")
-      .getString(LABEL), true, false);
     JsonObject hasTheCohortBeenBasedOnADataPermit = getObject(section,
       "hasTheCohortBeenBasedOnADataPermit");
-    addTextToNewParagraphWithTable(document,
-      (hasTheCohortBeenBasedOnADataPermit != null) ? hasTheCohortBeenBasedOnADataPermit.getString(VALUE, "") : "", false, false);
 
     if ((isKey(howStudyCohortFormed, "b") || isKey(howStudyCohortFormed, "c")) && isKey(formedBasedOnInfo,
       "a")) {
@@ -768,38 +775,6 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
         languageMap.getJsonObject("howTheStudyCohortWasObtained").getString(LABEL), true, false);
       addTextToNewParagraphWithTable(document, getField(section, "howTheStudyCohortWasObtained"),
         false, false);
-    }
-
-    // --- INFORMATION PROVIDED TO SUBJECTS ---
-    addTextToNewParagraph(document,
-      languageMap.getJsonObject(PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS)
-        .getString(LABEL), true, false);
-    addTextToNewParagraph(document,
-      languageMap.getJsonObject(PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS)
-        .getString(TOOLTIP), false, true);
-    addTextToNewParagraphWithTable(document, getObjectValue(section,
-        PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS), false,
-      false);
-
-    JsonObject infoProvidedSubjects = getObject(section,
-      PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS);
-
-    if (infoProvidedSubjects != null) {
-      if (isKey(infoProvidedSubjects, "a")) {
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("howProvidedInformationOfTheDataUseToCorrespondingSubjects")
-            .getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document,
-          getField(section, "howProvidedInformationOfTheDataUseToCorrespondingSubjects"), false,
-          false);
-      } else {
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject("whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects")
-            .getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document,
-          getField(section, "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects"), false,
-          false);
-      }
     }
 
     // --- INFORMATION PROVIDER DETAILS ---
@@ -1017,8 +992,8 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
             getField(section, "previouslyIssuedPermitValidityPeriodFrom2"), false, false);
 
           addTextToNewParagraph(document,
-            languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodTo2").getString(LABEL),
-            true, false);
+            languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodTo2").getString(LABEL), true,
+            false);
           addTextToNewParagraphWithTable(document,
             getField(section, "previouslyIssuedPermitValidityPeriodTo2"), false, false);
 
@@ -1127,14 +1102,14 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
                 languageMap.getJsonObject("specifyOther").getString(LABEL), true, false);
               addTextToNewParagraphWithTable(document, getField(section, "specifyOther"), false,
                 false);
+
+              addTextToNewParagraph(document,
+                languageMap.getJsonObject(MORE_INFO_ON_EXTRACTION_PERIODS).getString(LABEL), true, false);
+              addTextToNewParagraphWithTable(document, getField(section, MORE_INFO_ON_EXTRACTION_PERIODS),
+                false, false);
             }
           }
         }
-
-        addTextToNewParagraph(document,
-          languageMap.getJsonObject(MORE_INFO_ON_EXTRACTION_PERIODS).getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, getField(section, MORE_INFO_ON_EXTRACTION_PERIODS),
-          false, false);
 
         addTextToNewParagraph(document,
           languageMap.getJsonObject(ORDER_OF_CONTROLS_DATA_EXTRACTION).getString(LABEL), true,
@@ -1191,8 +1166,8 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
               getField(section, "previouslyIssuedPermitValidityPeriodFrom3"), false, false);
 
             addTextToNewParagraph(document,
-              languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodTo3").getString(LABEL),
-              true, false);
+              languageMap.getJsonObject("previouslyIssuedPermitValidityPeriodTo3").getString(LABEL), true,
+              false);
             addTextToNewParagraphWithTable(document,
               getField(section, "previouslyIssuedPermitValidityPeriodTo3"), false, false);
 
@@ -1262,8 +1237,8 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
           addTextToNewParagraph(document,
             languageMap.getJsonObject(DATA_EXTRACTION_FREQUENCY_RELATIVES).getString(LABEL), true,
             false);
-          addTextToNewParagraphWithTable(document,
-            getObjectValue(section, DATA_EXTRACTION_FREQUENCY_RELATIVES), false, false);
+          addTextToNewParagraphWithTable(document, getObjectValue(section, DATA_EXTRACTION_FREQUENCY_RELATIVES),
+            false, false);
 
           JsonObject extractionFrequencyRelatives = getObject(section,
             DATA_EXTRACTION_FREQUENCY_RELATIVES);
@@ -1293,13 +1268,14 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
                   languageMap.getJsonObject("specifyOtherRelatives").getString(LABEL), true, false);
                 addTextToNewParagraphWithTable(document, getField(section, "specifyOtherRelatives"),
                   false, false);
+
+                addTextToNewParagraph(document,
+                  languageMap.getJsonObject(MORE_INFO_ON_EXTRACTION_PERIODS_RELATIVES).getString(LABEL),
+                  true, false);
               }
             }
           }
 
-          addTextToNewParagraph(document,
-            languageMap.getJsonObject(MORE_INFO_ON_EXTRACTION_PERIODS_RELATIVES).getString(LABEL),
-            true, false);
           addTextToNewParagraphWithTable(document,
             getField(section, MORE_INFO_ON_EXTRACTION_PERIODS_RELATIVES), false, false);
 
@@ -1895,6 +1871,11 @@ public class DocumentExportDataAccessManager extends DocumentExportUtility {
         JsonArray attachResearchPermit = getArrayField(section, "attachResearchPermitIfRequired");
         generatedJsonArrayValues(document, attachResearchPermit, NAME);
       }
+    }
+
+    JsonObject hdabToRetain = getObject(section, "hdabToRetain");
+    if (hdabToRetain != null) {
+      addTextToNewParagraphWithTable(document, hdabToRetain.getString(VALUE, ""), false, false);
     }
   }
 

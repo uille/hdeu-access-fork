@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Naam projectleider (organisatie, instelling, entiteit uit de particuliere sector of een natuurlijke persoon)",
-            "tooltip": "Dit is de persoon die verantwoordelijk is voor het gebruik van de gegevens."
+            "tooltip": "Dit is de entiteit die verantwoordelijk is voor het gebruik van de gegevens."
         },
         "countryOfProjectLeader": {
             "label": "Officiële woonplaats (land) van de voor het project verantwoordelijke entiteit"
@@ -122,6 +122,7 @@
             ],
             "info": "(Als u voor deze optie kiest, bevestigt u dat u gegevens aanvraagt als particulier zonder enige band.)"
         },
+        "participatingEntitiesInstruction": "Als u namens een consortium een aanvraag indient, vermeld dan hier alle deelnemende entiteiten.",
         "legalPerson": "Rechtspersoon,",
         "naturalPerson": "Natuurlijke persoon",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Aansluiting"
+        },
+        "otherContactPerson": {
+            "label": "Andere contactpersonen",
+            "tooltip": "Als er in uw project meerdere contactpersonen zijn, vermeld deze dan hier, samen met informatie over hun banden."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "Het cohort is de gehele bevolking van een land/landen dat/die aan het begin van dit formulier is/worden vermeld."
+                    "value": "De cohort is de gehele bevolking van een land/landen of een gegevensbron die aan het begin van dit formulier wordt vermeld."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Beschrijf hoe het cohort is verkregen en de redenen voor het ontbreken van een gegevensvergunning/toestemming."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Hebt u de betrokkenen informatie verstrekt over het gebruik van de gegevens? Bv. gedeelde informatie over het gegevensgebruik op een projectwebsite.",
-            "tooltip": "Zie voor meer informatie de artikelen 13 en 14 van de algemene verordening gegevensbescherming: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "Zie voor meer informatie de artikelen 13 en 14 van de algemene verordening gegevensbescherming van de <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">."
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Hoe?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Waarom niet?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Wie zal de informatie over het cohort verstrekken aan de instantie voor toegang tot gezondheidsgegevens? Deze persoon ontvangt instructies over de wijze waarop de gegevens via het gemeenschappelijke EHDS-portaal kunnen worden verstrekt."
@@ -612,7 +606,7 @@
             "label": "Geef een motivering voor deze uitzondering."
         },
         "needForDataExtractionEvery": {
-            "label": "De gegevens moeten elk worden geëxtraheerd",
+            "label": "De gegevens moeten worden geëxtraheerd",
             "tooltip": "Als u wilt dat de gegevens gedurende een bepaalde periode meerdere malen worden geëxtraheerd, moet worden opgemerkt dat de definities en de methode voor het verzamelen van gegevens in sommige gevallen tijdens de evaluatieperiode kunnen veranderen. Let op: de maximale frequentie van de gegevensextractie is elk kwartaal."
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "In geval van periodieke extractie, informatie over elk gegevensextractieproces afzonderlijk verstrekken in de orderinstructies"
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "De gegevens moeten elk worden geëxtraheerd",
+            "label": "De gegevens moeten worden geëxtraheerd",
             "tooltip": "Als u wilt dat de gegevens gedurende een bepaalde periode meerdere malen worden geëxtraheerd, moet worden opgemerkt dat de definities en de methode voor het verzamelen van gegevens in sommige gevallen tijdens de evaluatieperiode kunnen veranderen. Let op: de maximale frequentie van de gegevensextractie is elk kwartaal."
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "Hoe vaak moeten de gegevens worden geëxtraheerd?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "De gegevens moeten elk worden geëxtraheerd",
+            "label": "De gegevens moeten worden geëxtraheerd",
             "tooltip": "Als u wilt dat de gegevens gedurende een bepaalde periode meerdere malen worden geëxtraheerd, moet worden opgemerkt dat de definities en de methode voor het verzamelen van gegevens in sommige gevallen tijdens de evaluatieperiode kunnen veranderen. Let op: de maximale frequentie van de gegevensextractie is elk kwartaal."
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "In geval van periodieke extractie, informatie over elk gegevensextractieproces afzonderlijk verstrekken in de orderinstructies"
         },
         "needForDataExtractionEveryOptions": {
-            "label": "De gegevens moeten elk worden geëxtraheerd",
+            "label": "De gegevens moeten worden geëxtraheerd",
             "tooltip": "Als u wilt dat de gegevens gedurende een bepaalde periode meerdere malen worden geëxtraheerd, moet worden opgemerkt dat de definities en de methode voor het verzamelen van gegevens in sommige gevallen tijdens de evaluatieperiode kunnen veranderen. Let op: de maximale frequentie van de gegevensextractie is elk kwartaal."
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Andere te combineren gegevens",
-        "section7Description": "Het is mogelijk om andere persoonsgegevens, zoals gegevens die u reeds in uw bezit heeft of gegevens uit andere bronnen, met een andere vergunning te combineren met de gegevens die bij deze aanvraag worden aangevraagd. Vermeld de informatie voor alle aanvullende gegevens die zullen worden gecombineerd met de gegevens waarvoor de instantie voor toegang tot gezondheidsgegevens toestemming heeft verleend. Als u later andere persoonsgegevens wilt combineren met de gegevens die zijn toegestaan door de instantie voor toegang tot gezondheidsgegevens, moet u een wijzigingsaanvraag indienen bij dezelfde instantie voor toegang tot gezondheidsgegevens. Als u een andere cohort hebt die u wilt dat de instantie voor toegang tot gezondheidsgegevens wordt gecombineerd met de gegevens waarvoor u een aanvraag indient, ontvangt u instructies over hoe de gegevens veilig kunnen worden verstrekt nadat de vergunning is verleend.",
+        "section7Description": "Het is mogelijk om andere persoonsgegevens, zoals gegevens die u reeds in uw bezit heeft of gegevens die van elders zijn verkregen, te combineren met een andere vergunning, met de gegevens die bij deze aanvraag worden aangevraagd. Vermeld de informatie voor alle aanvullende gegevens die zullen worden gecombineerd met de door de instantie voor toegang tot gezondheidsgegevens gemachtigde gegevens. Als u later andere persoonsgegevens wilt combineren met de door de instantie voor toegang tot gezondheidsgegevens gemachtigde gegevens, moet u een wijzigingsaanvraag indienen bij dezelfde instantie voor toegang tot gezondheidsgegevens. Als u een andere cohort hebt die de instantie voor toegang tot gezondheidsgegevens zou willen combineren met de gegevens die u aanvraagt, ontvangt u instructies over de wijze waarop de gegevens veilig kunnen worden verstrekt nadat de vergunning is verleend.",
         "addDataPermit": "Gegevensvergunning toevoegen",
         "addInfo": "Informatie toevoegen",
         "removeDataPermit": "Gegevensvergunning verwijderen",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Wat zijn de geschatte begin- en einddatum van de periode waarin de elektronische gezondheidsgegevens nodig zijn voor de verwerking?",
-            "tooltip": "Deze periode kan vijf jaar bedragen. Met aanvullende vergunning kan de oorspronkelijke vergunning met nog eens vijf jaar worden verlengd."
+            "tooltip": "Deze periode kan 10 jaar bedragen. Met aanvullende vergunning kan de oorspronkelijke vergunning met nog eens 10 jaar worden verlengd."
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Vanaf"
@@ -1168,13 +1162,13 @@
             "tooltip": "EHDS artikel 71(4) “Bij wijze van uitzondering op het in lid 1 bedoelde opt-out-recht, kan een lidstaat in zijn nationale recht voorzien in een mechanisme om gegevens beschikbaar te stellen waarvoor een opt-out-recht is uitgeoefend, mits aan al de volgende voorwaarden is voldaan: (zie artikel voor volledige voorwaarden)”"
         },
         "providedJustificationException": {
-            "label": "Geef een motivering voor deze uitzondering."
+            "label": "Motiveer deze uitzondering en vermeld in uw motivering hoe aan de voorwaarden van artikel 71(4)(a-c) is voldaan."
         },
         "protectionAndSecurityStatements": {
             "label": "Om deze aanvraag in te dienen, moet u de volgende verklaringen bevestigen (verklaringen met betrekking tot gegevensbescherming en beveiliging):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Ik bevestig dat als de instantie voor toegang tot gezondheidsgegevens mij de gegevens verstrekt waarvoor ik een aanvraag heb ingediend, ik deze alleen zal gebruiken voor de in dit aanvraagformulier vermelde doeleinden."
+            "label": "1. Ik bevestig dat als de instantie voor toegang tot gezondheidsgegevens mij de gegevens verleent waarvoor ik een aanvraag heb ingediend, ik deze alleen zal gebruiken voor het (de) in dit aanvraagformulier vermelde doel (en) en niet voor verboden doeleinden."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Ik begrijp dat het kopiëren van de gegevens uit de beveiligde verwerkingsomgeving verboden is."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Als uw onderzoek een onderzoeksvergunning van uw aangesloten organisatie vereist, voeg dan de onderzoeksvergunning bij."
+        },
+        "hdabToRetain": {
+            "label": "Wilt u dat de HDAB de formule behoudt die wordt gebruikt voor het aanmaken van de gevraagde dataset? ",
+            "tooltip": "EHDS artikel 68, lid 12: (--) Op verzoek van de gebruiker van gezondheidsgegevens kan de formule voor het aanmaken van de gevraagde dataset door de instantie voor toegang tot gezondheidsgegevens worden opgeslagen."
         }
     },
     "section9": {
         "section9h5": "Aanvullende informatie",
-        "section9Description": "Hier kunt u meer informatie geven over alle rubrieken in uw sollicitatie. Vermeld het nummer van de rubriek en de vraag waarop uw opmerking betrekking heeft.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Nadere informatie of eventuele aanvullende aantekeningen",
-            "tooltip": "Hier kunt u meer informatie geven over alle rubrieken in uw sollicitatie. Vermeld het nummer van de rubriek en de vraag waarop uw opmerking betrekking heeft. Voorstel voor de technische uitvoering: Als alternatief zou er een manier kunnen zijn om de aanvrager in staat te stellen informatie te koppelen aan specifieke delen van het formulier om het werk van HDAB’s te vergemakkelijken."
+            "tooltip": "Hier kunt u meer informatie geven over alle onderdelen van uw sollicitatie. Vermeld het nummer van de rubriek en de vraag waarop uw opmerking betrekking heeft. Vermeld eventuele vertrouwelijke informatie in uw aanvraag en motiveer kort de vertrouwelijkheid, met vermelding van het relevante onderdeelnummer en de desbetreffende vraag."
         },
         "additionalAttachment": {
             "label": "Een aanvullende bijlage. Voeg geen gezondheids- of persoonsgegevens bij deze aanvraag.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Een half jaar"
+                    "value": "Halfjaarlijks"
                 },
                 {
                     "key": "c",
-                    "value": "Kwartaal"
+                    "value": "Elk kwartaal"
                 },
                 {
                     "key": "d",

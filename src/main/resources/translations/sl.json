@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Ime vodje projekta (organizacija, institucija, subjekt zasebnega sektorja ali fizična oseba)",
-            "tooltip": "To je oseba, odgovorna za uporabo podatkov."
+            "tooltip": "To je subjekt, odgovoren za uporabo podatkov."
         },
         "countryOfProjectLeader": {
             "label": "Uradni sedež (država) subjekta, odgovornega za projekt"
@@ -122,6 +122,7 @@
             ],
             "info": "(Če izberete to možnost, potrdite, da se prijavite za podatke kot fizična oseba brez kakršne koli povezave.)"
         },
+        "participatingEntitiesInstruction": "Če se prijavljate v imenu konzorcija, tukaj navedite vse sodelujoče subjekte.",
         "legalPerson": "Pravna oseba",
         "naturalPerson": "Fizična oseba",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Pripadnost"
+        },
+        "otherContactPerson": {
+            "label": "Druge kontaktne osebe",
+            "tooltip": "Če je v vašem projektu več kontaktnih oseb, jih navedite tukaj skupaj z informacijami o njihovih povezavah."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "Kohorta bo celotna populacija države/držav, navedene na začetku tega obrazca."
+                    "value": "Kohorta bo celotna populacija države/držav ali vir podatkov, naveden na začetku tega obrazca."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Opišite, kako je bila kohorta pridobljena in zakaj ni bilo dovoljenja/soglasja za obdelavo podatkov."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Ali ste ustreznim subjektom zagotovili informacije o uporabi podatkov? Npr. izmenjava informacij o uporabi podatkov na spletišču projekta.",
-            "tooltip": "Za več informacij glej člena 13 in 14 Splošne uredbe o varstvu podatkov: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "Za več informacij glej člena 13 in 14 </a> Splošne uredbe o varstvu podatkov <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">."
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Kako?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Zakaj ne?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Kdo bo organu za dostop do zdravstvenih podatkov posredoval informacije o kohorti? Ta oseba bo prek skupnega portala evropskega zdravstvenega podatkovnega prostora prejela navodila za posredovanje podatkov."
@@ -612,7 +606,7 @@
             "label": "Utemeljite to izjemo."
         },
         "needForDataExtractionEvery": {
-            "label": "Podatke je treba pridobiti vsako",
+            "label": "Podatke je treba pridobiti",
             "tooltip": "Če želite, da se podatki v določenem časovnem obdobju pridobijo večkrat, upoštevajte, da se lahko opredelitve in metoda zbiranja podatkov v obdobju pregleda v nekaterih primerih spremenijo. Upoštevajte, da je največja pogostost ekstrakcije podatkov vsako četrtletje."
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "V primeru ponavljajočega se ekstrakcije navedite informacije o vsakem postopku pridobivanja podatkov ločeno v navodilih za vrstni red."
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Podatke je treba pridobiti vsako",
+            "label": "Podatke je treba pridobiti",
             "tooltip": "Če želite, da se podatki v določenem časovnem obdobju pridobijo večkrat, upoštevajte, da se lahko opredelitve in metoda zbiranja podatkov v obdobju pregleda v nekaterih primerih spremenijo. Upoštevajte, da je največja pogostost ekstrakcije podatkov vsako četrtletje."
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "Kako pogosto je treba pridobiti podatke?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Podatke je treba pridobiti vsako",
+            "label": "Podatke je treba pridobiti",
             "tooltip": "Če želite, da se podatki v določenem časovnem obdobju pridobijo večkrat, upoštevajte, da se lahko opredelitve in metoda zbiranja podatkov v obdobju pregleda v nekaterih primerih spremenijo. Upoštevajte, da je največja pogostost ekstrakcije podatkov vsako četrtletje."
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "V primeru ponavljajočega se ekstrakcije navedite informacije o vsakem postopku pridobivanja podatkov ločeno v navodilih za vrstni red."
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Podatke je treba pridobiti vsako",
+            "label": "Podatke je treba pridobiti",
             "tooltip": "Če želite, da se podatki v določenem časovnem obdobju pridobijo večkrat, upoštevajte, da se lahko opredelitve in metoda zbiranja podatkov v obdobju pregleda v nekaterih primerih spremenijo. Upoštevajte, da je največja pogostost ekstrakcije podatkov vsako četrtletje."
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Drugi podatki, ki se kombinirajo",
-        "section7Description": "Druge osebne podatke, kot so podatki, ki jih že imate, ali podatki, pridobljeni od drugod, je mogoče združiti z drugim dovoljenjem s podatki, za katere ste zaprosili v tej vlogi. Navedite informacije za vse dodatne podatke, ki bodo združeni s podatki, ki jih je odobril organ za dostop do zdravstvenih podatkov. Če želite pozneje združiti druge osebne podatke s podatki, ki jih je odobril organ za dostop do zdravstvenih podatkov, morate pri istem organu za dostop do zdravstvenih podatkov vložiti vlogo za spremembo. Če imate katero koli drugo kohorto, za katero želite, da se organ za dostop do zdravstvenih podatkov združi s podatki, za katere vlagate vlogo, boste prejeli navodila o varni dostavi podatkov po izdaji dovoljenja.",
+        "section7Description": "Druge osebne podatke, kot so podatki, ki jih že imate, ali podatki, pridobljeni od drugod, je mogoče združiti z drugim dovoljenjem, skupaj s podatki, za katere ste zaprosili s to vlogo. Navedite informacije za vse dodatne podatke, ki bodo združeni s podatki, ki jih je odobril organ za dostop do zdravstvenih podatkov. Če želite pozneje združiti druge osebne podatke s podatki, ki jih je odobril organ za dostop do zdravstvenih podatkov, morate pri istem organu za dostop do zdravstvenih podatkov vložiti vlogo za spremembo. Če želite, da organ za dostop do zdravstvenih podatkov podatke, za katere prosite, združi s katero koli drugo kohorto, boste prejeli navodila o tem, kako varno dostaviti podatke po izdaji dovoljenja.",
         "addDataPermit": "Dodaj dovoljenje za obdelavo podatkov",
         "addInfo": "Dodaj informacije",
         "removeDataPermit": "Izbriši dovoljenje za obdelavo podatkov",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Kateri so predvideni začetni in končni datumi obdobja, v katerem so elektronski zdravstveni podatki potrebni za obdelavo?",
-            "tooltip": "To obdobje je lahko pet let. Z dodatnim dovoljenjem se lahko prvotno dovoljenje podaljša za nadaljnjih pet let."
+            "tooltip": "To obdobje lahko traja 10 let. Z dodatnim dovoljenjem se lahko prvotno dovoljenje podaljša za nadaljnjih 10 let."
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Iz"
@@ -1168,13 +1162,13 @@
             "tooltip": "EHDS člen 71(4)“Z odstopanjem od pravice do odklonitve iz odstavka 1 lahko država članica v svojem nacionalnem pravu določi mehanizem, s katerim se dajo na voljo podatki, v zvezi s katerimi je bila uveljavljena pravica do odklonitve, če so izpolnjeni vsi naslednji pogoji: (za vse pogoje glej člen)“"
         },
         "providedJustificationException": {
-            "label": "Utemeljite to izjemo."
+            "label": "Utemeljite to izjemo in v svojo utemeljitev vključite, kako so izpolnjeni pogoji iz člena 71(4)(a-c)."
         },
         "protectionAndSecurityStatements": {
             "label": "Če želite nadaljevati s to aplikacijo, morate potrditi naslednje izjave (izjave v zvezi z varstvom podatkov in varnostjo):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Potrjujem, da bom, če mi organ za dostop do zdravstvenih podatkov odobri podatke, za katere prosim, te podatke uporabil le za namene, navedene v tem obrazcu vloge."
+            "label": "1. Potrjujem, da bom podatke, za katere prosim, uporabil samo za namene, navedene v tem obrazcu vloge, in jih ne bom uporabljal za nobene prepovedane namene, če mi jih bo organ za dostop do zdravstvenih podatkov odobril."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Razumem, da je kopiranje podatkov iz varnega okolja za obdelavo prepovedano."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Če vaša raziskava zahteva raziskovalno dovoljenje organizacije, ki je v vaši pridruženi organizaciji, priložite dovoljenje za raziskovanje."
+        },
+        "hdabToRetain": {
+            "label": "Ali želite, da HDAB ohrani formulo, ki se uporablja za oblikovanje zahtevanega nabora podatkov? ",
+            "tooltip": "Člen 68(12) evropskega zdravstvenega podatkovnega prostora: (--) Organ za dostop do zdravstvenih podatkov lahko na zahtevo uporabnika zdravstvenih podatkov shrani formulo za oblikovanje zahtevanega podatkovnega nabora."
         }
     },
     "section9": {
         "section9h5": "Dodatni podatki",
-        "section9Description": "Tukaj lahko navedete dodatne informacije o katerem koli oddelku v svoji prijavi. Navedite število oddelkov in vprašanje, na katerega se nanaša vaša pripomba.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Dodatne informacije ali dodatne opombe",
-            "tooltip": "Tukaj lahko navedete dodatne informacije o katerem koli oddelku v svoji prijavi. Navedite število oddelkov in vprašanje, na katerega se nanaša vaša pripomba. Predlog za tehnično izvedbo: Druga možnost je, da se prosilcu omogoči, da informacije poveže s posebnimi deli obrazca, da se olajša delo HDAB."
+            "tooltip": "Tukaj lahko navedete dodatne informacije o katerem koli oddelku svoje prijave. Navedite številko oddelka in vprašanje, na katero se nanaša vaša pripomba. V prijavi navedite vse zaupne informacije in na kratko utemeljite zaupnost ter navedite ustrezno številko oddelka in vprašanje."
         },
         "additionalAttachment": {
             "label": "Dodatna priloga. Tej vlogi ne priložite zdravstvenih ali osebnih podatkov.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Pol leta"
+                    "value": "Vsakih pol leta"
                 },
                 {
                     "key": "c",
-                    "value": "Četrtina"
+                    "value": "Vsako četrtletje"
                 },
                 {
                     "key": "d",

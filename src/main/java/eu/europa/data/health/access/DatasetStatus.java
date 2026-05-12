@@ -33,7 +33,6 @@ public enum DatasetStatus {
   NEGATIVE_DECISION_ISSUED("NEGATIVE_DECISION_ISSUED"),
   NEGATIVE_DECISION_ACCEPTED("NEGATIVE_DECISION_ACCEPTED"),
   NEGATIVE_DECISION_APPEALED("NEGATIVE_DECISION_APPEALED"),
-  APPEAL_APPROVED("APPEAL_APPROVED"),
   APPEAL_REJECTED("APPEAL_REJECTED"),
   WITHDRAWN("WITHDRAWN");
 
@@ -62,8 +61,8 @@ public enum DatasetStatus {
     );
 
     NEGATIVE_DECISION_APPEALED.allowedNextStatuses = Set.of(
-      APPEAL_APPROVED,
-      APPEAL_REJECTED
+      APPEAL_REJECTED,
+      POSITIVE_DECISION_ISSUED
     );
   }
 
@@ -92,15 +91,17 @@ public enum DatasetStatus {
 
   public CatalogStatus computeCatalogStatus() {
     return switch (this) {
-      case POSITIVE_DECISION_ISSUED, POSITIVE_DECISION_ACCEPTED, POSITIVE_DECISION_REJECTED, NEGATIVE_DECISION_ISSUED, NEGATIVE_DECISION_ACCEPTED, NEGATIVE_DECISION_APPEALED, APPEAL_APPROVED, APPEAL_REJECTED, WITHDRAWN -> CatalogStatus.DECISION_ISSUED;
+      case POSITIVE_DECISION_ISSUED, POSITIVE_DECISION_ACCEPTED, POSITIVE_DECISION_REJECTED, NEGATIVE_DECISION_ISSUED, NEGATIVE_DECISION_ACCEPTED, NEGATIVE_DECISION_APPEALED, APPEAL_REJECTED, WITHDRAWN -> CatalogStatus.DECISION_ISSUED;
     };
   }
 
-  public boolean canChangeTo(DatasetStatus next, String collectionName, @NotNull RoutingContext context) {
+  public boolean canChangeTo(DatasetStatus next, String collectionName, String decisionReason, @NotNull RoutingContext context) {
 
-    if(Constants.DATA_REQUEST_APPLICATION_COLLECTION.equals(collectionName)) {
-      if(this.equals(APPEAL_APPROVED) && next.equals(POSITIVE_DECISION_ISSUED)){
-        return true;
+    if(next.equals(POSITIVE_DECISION_REJECTED) || next.equals(NEGATIVE_DECISION_APPEALED)) {
+      if(StringUtils.isEmpty(decisionReason)) {
+        setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
+          "A decision reason must be provided when changing dataset status to: " + next.getLabel());
+        throw new IllegalStateException("A decision reason must be provided when changing dataset status to: " + next.getLabel());
       }
     }
 
@@ -124,10 +125,10 @@ public enum DatasetStatus {
   }
 
   public void validatePermitChange(@NotNull RoutingContext context){
-    if (!this.equals(POSITIVE_DECISION_ACCEPTED) && !this.equals(APPEAL_APPROVED)){
+    if (!this.equals(POSITIVE_DECISION_ACCEPTED)){
       setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
-        "Invalid dataset status, a permit status change can only come from catalog status: " + POSITIVE_DECISION_ACCEPTED.getLabel() + " or: " + APPEAL_APPROVED.getLabel());
-      throw new IllegalStateException("Invalid catalog status, a permit status change can only come from catalog status: " + POSITIVE_DECISION_ACCEPTED.getLabel() + " or: " + APPEAL_APPROVED.getLabel());
+        "Invalid dataset status, a permit status change can only come from catalog status: " + POSITIVE_DECISION_ACCEPTED.getLabel());
+      throw new IllegalStateException("Invalid catalog status, a permit status change can only come from catalog status: " + POSITIVE_DECISION_ACCEPTED.getLabel());
     }
   }
 }

@@ -176,6 +176,7 @@ class Section8DTOTest {
     dto.setPeopleWhoWillBeProcessingTheData(Collections.singletonList(person));
     SelectObjectDTO selectObject8 = new SelectObjectDTO("b", "No");
     dto.setOptOutOfTheMechanismProvidedInTheNationalLaw(selectObject8);
+    dto.setHdabToRetain(createSelectObject("b", "No"));
     return dto;
   }
 

@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Ime voditelja projekta (organizacija, institucija, subjekt iz privatnog sektora ili fizička osoba)",
-            "tooltip": "To je osoba odgovorna za uporabu podataka."
+            "tooltip": "To je subjekt odgovoran za uporabu podataka."
         },
         "countryOfProjectLeader": {
             "label": "Službeno sjedište (država) subjekta odgovornog za projekt"
@@ -122,6 +122,7 @@
             ],
             "info": "(Ako odaberete ovu opciju, potvrđujete da se prijavljujete za podatke kao privatna osoba bez ikakve veze.)"
         },
+        "participatingEntitiesInstruction": "Ako se prijavljujete u ime konzorcija, ovdje navedite sve subjekte koji sudjeluju.",
         "legalPerson": "Pravna osoba",
         "naturalPerson": "Fizička osoba",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Pripadnost"
+        },
+        "otherContactPerson": {
+            "label": "Druge osobe za kontakt",
+            "tooltip": "Ako u vašem projektu ima više osoba za kontakt, navedite ih ovdje zajedno s informacijama o njihovim vezama."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "Kohorta će biti cijela populacija zemlje/zemalja navedena na početku ovog obrasca."
+                    "value": "Ta će skupina biti cijela populacija zemlje/zemalja ili izvor podataka naveden na početku ovog obrasca."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Opišite kako je kohorta dobivena i razloge za nedostatak dozvole/privole za podatke."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Jeste li odgovarajućim ispitanicima pružili informacije o uporabi podataka? Npr. razmijenjene su informacije o upotrebi podataka na internetskim stranicama projekta.",
-            "tooltip": "Za dodatne informacije vidjeti članke 13. i 14. Opće uredbe o zaštiti podataka: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "Za dodatne informacije vidjeti članke 13. i 14. Opće uredbe o zaštiti podataka <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">-a"
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Kako?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Zašto ne?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Tko će tijelu za pristup zdravstvenim podacima dostaviti informacije o kohorti? Ta će osoba dobiti upute o tome kako dostaviti podatke putem zajedničkog portala europskog prostora za zdravstvene podatke."
@@ -612,7 +606,7 @@
             "label": "Navedite obrazloženje za tu iznimku."
         },
         "needForDataExtractionEvery": {
-            "label": "Podatke je potrebno izdvojiti svakim",
+            "label": "Potrebno je izdvojiti podatke",
             "tooltip": "Ako želite da se podaci izvlače više puta tijekom određenog razdoblja, u nekim se slučajevima definicije i metoda prikupljanja podataka mogu promijeniti tijekom razdoblja preispitivanja. Imajte na umu da je maksimalna učestalost ekstrakcije podataka svaka tri mjeseca"
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "U slučaju opetovanog izdvajanja, navedite informacije o svakom postupku ekstrakcije podataka zasebno u uputama za redoslijed."
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Podatke je potrebno izdvojiti svakim",
+            "label": "Potrebno je izdvojiti podatke",
             "tooltip": "Ako želite da se podaci izvlače više puta tijekom određenog razdoblja, u nekim se slučajevima definicije i metoda prikupljanja podataka mogu promijeniti tijekom razdoblja preispitivanja. Imajte na umu da je maksimalna učestalost ekstrakcije podataka svaka tri mjeseca"
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "Koliko često treba izdvajati podatke?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Podatke je potrebno izdvojiti svakim",
+            "label": "Potrebno je izdvojiti podatke",
             "tooltip": "Ako želite da se podaci izvlače više puta tijekom određenog razdoblja, u nekim se slučajevima definicije i metoda prikupljanja podataka mogu promijeniti tijekom razdoblja preispitivanja. Imajte na umu da je maksimalna učestalost ekstrakcije podataka svaka tri mjeseca"
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "U slučaju opetovanog izdvajanja, navedite informacije o svakom postupku ekstrakcije podataka zasebno u uputama za redoslijed."
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Podatke je potrebno izdvojiti svakim",
+            "label": "Potrebno je izdvojiti podatke",
             "tooltip": "Ako želite da se podaci izvlače više puta tijekom određenog razdoblja, u nekim se slučajevima definicije i metoda prikupljanja podataka mogu promijeniti tijekom razdoblja preispitivanja. Imajte na umu da je maksimalna učestalost ekstrakcije podataka svaka tri mjeseca"
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Ostali podaci koje treba kombinirati",
-        "section7Description": "Drugi osobni podaci, kao što su podaci koje već posjedujete ili podaci dobiveni iz drugih izvora, mogu se kombinirati s drugom dozvolom s podacima za koje ste podnijeli zahtjev. Navedite informacije za sve dodatne podatke koji će se kombinirati s podacima koje je odobrilo tijelo za pristup zdravstvenim podacima. Ako kasnije želite kombinirati druge osobne podatke s podacima koje je odobrilo tijelo za pristup zdravstvenim podacima, morate podnijeti zahtjev za izmjenu istom tijelu za pristup zdravstvenim podacima. Ako imate neku drugu kohortu za koju biste željeli da se tijelo za pristup zdravstvenim podacima kombinira s podacima za koje podnosite zahtjev, dobit ćete upute o tome kako sigurno dostaviti podatke nakon izdavanja dozvole.",
+        "section7Description": "Moguće je kombinirati druge osobne podatke, kao što su podaci koje već posjedujete ili podaci dobiveni iz drugih izvora, s drugom dozvolom s podacima za koje je podnesen zahtjev uz ovaj zahtjev. Navesti informacije za sve dodatne podatke koji će se kombinirati s podacima koje je odobrilo tijelo za pristup zdravstvenim podacima. Ako kasnije želite kombinirati druge osobne podatke s podacima koje je odobrilo tijelo za pristup zdravstvenim podacima, morate podnijeti zahtjev za izmjenu istom tijelu za pristup zdravstvenim podacima. Ako imate bilo koju drugu skupinu za koju biste htjeli da se tijelo za pristup zdravstvenim podacima kombinira s podacima za koje podnosite zahtjev, dobit ćete upute o tome kako sigurno dostaviti podatke nakon izdavanja dozvole.",
         "addDataPermit": "Dodaj dozvolu za podatke",
         "addInfo": "Dodaj informacije",
         "removeDataPermit": "Uklanjanje dozvole za podatke",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Koji su predviđeni datumi početka i završetka razdoblja tijekom kojeg su elektronički zdravstveni podaci potrebni za obradu?",
-            "tooltip": "To razdoblje može trajati pet godina. Uz dodatnu dozvolu izvorna dozvola može se produljiti za dodatnih pet godina."
+            "tooltip": "To razdoblje može trajati 10 godina. Uz dodatnu dozvolu izvorna dozvola može se produljiti za dodatnih 10 godina."
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Od"
@@ -1168,13 +1162,13 @@
             "tooltip": "Kao iznimku od prava na izuzeće predviđenog u stavku 1., država članica može svojim nacionalnim pravom predvidjeti mehanizam za stavljanje na raspolaganje podataka u pogledu kojih je iskorišteno pravo na izuzeće, ako su ispunjeni svi sljedeći uvjeti: (vidjeti članak za potpune uvjete)”"
         },
         "providedJustificationException": {
-            "label": "Navedite obrazloženje za tu iznimku."
+            "label": "Obrazložite tu iznimku i navedite u svojem obrazloženju kako su ispunjeni uvjeti iz članka 71(4)(a-c)."
         },
         "protectionAndSecurityStatements": {
             "label": "Kako biste nastavili s podnošenjem zahtjeva, morate potvrditi sljedeće izjave (izjave o zaštiti podataka i sigurnosti):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Potvrđujem da, ako mi tijelo za pristup zdravstvenim podacima odobri podatke za koje podnosim zahtjev, upotrijebit ću ih samo u svrhe navedene u ovom obrascu zahtjeva."
+            "label": "1. Potvrđujem da ću podatke za koje podnosim zahtjev, ako mi ih tijelo za pristup zdravstvenim podacima odobri, upotrebljavati samo u svrhe navedene u ovom obrascu zahtjeva i neće ih upotrebljavati u zabranjene svrhe."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Razumijem da je umnožavanje podataka iz sigurnog okruženja za obradu zabranjeno."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Ako je za vaše istraživanje potrebna istraživačka dozvola organizacije kojoj pripadate, priložite dozvolu za istraživanje."
+        },
+        "hdabToRetain": {
+            "label": "Želite li da HDAB zadrži formulu koja se upotrebljava za izradu traženog skupa podataka? ",
+            "tooltip": "Članak 68. stavak 12. europskog prostora za zdravstvene podatke: (--) Tijelo za pristup zdravstvenim podacima može na zahtjev korisnika zdravstvenih podataka pohraniti formulu za stvaranje zatraženog skupa podataka."
         }
     },
     "section9": {
         "section9h5": "Dodatne informacije",
-        "section9Description": "Ovdje možete navesti dodatne informacije o bilo kojem odjeljku prijave. Navedite broj odjeljka i pitanje na koje se odnosi vaš komentar.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Dodatne informacije ili dodatne napomene",
-            "tooltip": "Ovdje možete navesti dodatne informacije o bilo kojem odjeljku prijave. Navedite broj odjeljka i pitanje na koje se odnosi vaš komentar. Prijedlog za tehničku provedbu: Druga je mogućnost da se podnositelju zahtjeva omogući povezivanje informacija s određenim dijelovima obrasca kako bi se olakšao rad HDAB-ova."
+            "tooltip": "Ovdje možete navesti dodatne informacije o bilo kojem odjeljku svoje prijave. Navedite broj odjeljka i pitanje na koje se vaša primjedba odnosi. U svojem zahtjevu navedite sve povjerljive informacije i ukratko obrazložite povjerljivost te navedite odgovarajući broj odjeljka i pitanje."
         },
         "additionalAttachment": {
             "label": "Dodatni prilog. Ovom zahtjevu nemojte prilagati zdravstvene ili osobne podatke.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Pola godine"
+                    "value": "Svakih pola godine"
                 },
                 {
                     "key": "c",
-                    "value": "Četvrtinu"
+                    "value": "Svako tromjesečje"
                 },
                 {
                     "key": "d",

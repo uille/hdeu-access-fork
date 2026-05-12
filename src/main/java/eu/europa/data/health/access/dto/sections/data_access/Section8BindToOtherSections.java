@@ -16,7 +16,14 @@
 package eu.europa.data.health.access.dto.sections.data_access;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import eu.europa.data.health.access.annotations.*;
+import eu.europa.data.health.access.annotations.CheckEnumValue;
+import eu.europa.data.health.access.annotations.DateHigherOrEqual;
+import eu.europa.data.health.access.annotations.ListContainsSpecificValue;
+import eu.europa.data.health.access.annotations.ListOfAttachmentsValidation;
+import eu.europa.data.health.access.annotations.RequiredFieldBasedOnAndOrObjectValue;
+import eu.europa.data.health.access.annotations.RequiredFieldBasedOnObjectValue;
+import eu.europa.data.health.access.annotations.RequiredFieldBasedOnTwoObjectValue;
+import eu.europa.data.health.access.annotations.TranslatableField;
 import eu.europa.data.health.access.dto.AttachmentDTO;
 import eu.europa.data.health.access.dto.SelectObjectDTO;
 import jakarta.validation.Valid;
@@ -163,14 +170,6 @@ import lombok.NoArgsConstructor;
     mandatoryField = "otherLegalBasisForProcessingCombinedApplicationData",
     message = "otherLegalBasisForProcessingCombinedApplicationData must be provided when "
       + "legalBasisForProcessingCombinedApplicationData is 2. other"
-  )
-  @ListContainsSpecificValue(
-    listField = "section2purposeForWhichDataWillBeUsed",
-    baseField = "key",
-    baseFieldValue = "e",
-    mandatoryField = "attachResearchPermitIfRequired",
-    message = "attachResearchPermitIfRequired must be provided when "
-      + "from section 2 is selected the option e"
   )
   @ListContainsSpecificValue(
     listField = "legalBasisForProcessingApplicationData",

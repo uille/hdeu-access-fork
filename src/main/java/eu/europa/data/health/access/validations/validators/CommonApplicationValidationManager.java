@@ -193,9 +193,15 @@ public class CommonApplicationValidationManager extends AbstractManager {
           );
 
           if (!validDistributions.isEmpty()) {
+
+            JsonArray languageIds = extractLanguageIds(
+              requestDataset.getJsonArray("catalog_languages")
+            );
+
             JsonObject datasetToStore = new JsonObject()
               .put(DATASET_ID, requestDatasetId)
               .put(CATALOG_ID, requestDataset.getString(CATALOG_ID))
+              .put("catalog_languages", languageIds)
               .put(DISTRIBUTIONS, validDistributions);
 
             updatedDatasets.add(datasetToStore);
@@ -204,6 +210,19 @@ public class CommonApplicationValidationManager extends AbstractManager {
     });
 
     return updatedDatasets;
+  }
+
+  private JsonArray extractLanguageIds(JsonArray languages) {
+    JsonArray ids = new JsonArray();
+
+    if (languages != null) {
+      languages.forEach(lang -> {
+        JsonObject obj = (JsonObject) lang;
+        ids.add(obj.getString("id"));
+      });
+    }
+
+    return ids;
   }
 
   private JsonArray filterValidDistributions(JsonArray requestDistributions,

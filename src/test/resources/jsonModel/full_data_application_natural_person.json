@@ -132,11 +132,6 @@
           "key": "b",
           "value": "The study cohort will be formed based on the criteria given below."
         },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-          "key": "a",
-          "value": "Yes"
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": "Fix",
         "sizeOfTheStudyCohort": "Fix",
         "sizeOfTheStudyCohortEstimationOrExact": {
           "key": "a",
@@ -430,11 +425,6 @@
             "key": "b",
             "value": "The study cohort will be formed based on the criteria given below."
           },
-          "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "key": "a",
-            "value": "Yes"
-          },
-          "howProvidedInformationOfTheDataUseToCorrespondingSubjects": "Fix",
           "sizeOfTheStudyCohort": "Fix",
           "sizeOfTheStudyCohortEstimationOrExact": {
             "key": "a",

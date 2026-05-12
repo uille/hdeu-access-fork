@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Name des Projektleiters (Organisation, Einrichtung, Einrichtung, Einrichtung oder natürliche Person)",
-            "tooltip": "Dies ist die für die Datennutzung verantwortliche Person."
+            "tooltip": "Dies ist die für die Datennutzung zuständige Stelle."
         },
         "countryOfProjectLeader": {
             "label": "Offizieller Wohnsitz (Land) der für das Projekt zuständigen Stelle"
@@ -122,6 +122,7 @@
             ],
             "info": "(Wenn Sie diese Option wählen, bestätigen Sie, dass Sie Daten als Privatperson ohne Zugehörigkeit beantragen.)"
         },
+        "participatingEntitiesInstruction": "Wenn Sie sich im Namen eines Konsortiums bewerben, nennen Sie hier bitte alle teilnehmenden Einrichtungen.",
         "legalPerson": "Juristischen Person",
         "naturalPerson": "Natürliche Person",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Mitgliedschaft"
+        },
+        "otherContactPerson": {
+            "label": "Weitere Kontaktpersonen",
+            "tooltip": "Falls es in Ihrem Projekt mehrere Kontaktpersonen gibt, nennen Sie diese bitte hier zusammen mit Angaben zu ihrer Zugehörigkeit."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "Die Kohorte ist die gesamte Bevölkerung eines Landes/der Länder, das/die zu Beginn dieses Formulars angegeben ist/sind."
+                    "value": "Die Kohorte ist die gesamte Population eines Landes/von Ländern oder eine am Anfang dieses Formulars angegebene Datenquelle."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Beschreiben Sie, wie die Kohorte gewonnen wurde und warum keine Datengenehmigung/Zustimmung erteilt wurde."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Haben Sie den entsprechenden Probanden Informationen über die Verwendung der Daten zur Verfügung gestellt? Z. B. Austausch von Informationen über die Datennutzung auf einer Projektwebsite.",
-            "tooltip": "Weitere Informationen sind den Artikeln 13 und 14 der Datenschutz-Grundverordnung zu entnehmen: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "Weitere Informationen sind den Artikeln 13 und 14 der <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">-Datenschutz-Grundverordnung zu entnehmen."
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Wie"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Warum nicht?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Wer wird die Informationen über die Kohorte an die Zugangsstelle für Gesundheitsdaten übermitteln? Diese Person erhält über das gemeinsame EHDS-Portal Anweisungen zur Bereitstellung der Daten."
@@ -612,7 +606,7 @@
             "label": "Bitte begründen Sie diese Ausnahme."
         },
         "needForDataExtractionEvery": {
-            "label": "Die Daten müssen in jedem Fall extrahiert werden.",
+            "label": "Die Daten müssen extrahiert werden.",
             "tooltip": "Wenn Sie wünschen, dass die Daten über einen bestimmten Zeitraum mehrfach extrahiert werden, weisen Sie darauf hin, dass sich die Definitionen und die Datenerhebungsmethode in einigen Fällen während des Überprüfungszeitraums ändern können. Es sei darauf hingewiesen, dass die maximale Häufigkeit der Datenextraktion vierteljährlich ist."
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "Bei wiederholter Extraktion sind Angaben zu jedem Datenextraktionsprozess getrennt in den Auftragsanweisungen zu machen."
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Die Daten müssen in jedem Fall extrahiert werden.",
+            "label": "Die Daten müssen extrahiert werden.",
             "tooltip": "Wenn Sie wünschen, dass die Daten über einen bestimmten Zeitraum mehrfach extrahiert werden, weisen Sie darauf hin, dass sich die Definitionen und die Datenerhebungsmethode in einigen Fällen während des Überprüfungszeitraums ändern können. Es sei darauf hingewiesen, dass die maximale Häufigkeit der Datenextraktion vierteljährlich ist."
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "Wie oft müssen die Daten extrahiert werden?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Die Daten müssen in jedem Fall extrahiert werden.",
+            "label": "Die Daten müssen extrahiert werden.",
             "tooltip": "Wenn Sie wünschen, dass die Daten über einen bestimmten Zeitraum mehrfach extrahiert werden, weisen Sie darauf hin, dass sich die Definitionen und die Datenerhebungsmethode in einigen Fällen während des Überprüfungszeitraums ändern können. Es sei darauf hingewiesen, dass die maximale Häufigkeit der Datenextraktion vierteljährlich ist."
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "Bei wiederholter Extraktion sind Angaben zu jedem Datenextraktionsprozess getrennt in den Auftragsanweisungen zu machen."
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Die Daten müssen in jedem Fall extrahiert werden.",
+            "label": "Die Daten müssen extrahiert werden.",
             "tooltip": "Wenn Sie wünschen, dass die Daten über einen bestimmten Zeitraum mehrfach extrahiert werden, weisen Sie darauf hin, dass sich die Definitionen und die Datenerhebungsmethode in einigen Fällen während des Überprüfungszeitraums ändern können. Es sei darauf hingewiesen, dass die maximale Häufigkeit der Datenextraktion vierteljährlich ist."
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Sonstige zu kombinierende Daten",
-        "section7Description": "Es ist möglich, andere personenbezogene Daten, z. B. Daten, die sich bereits in Ihrem Besitz befinden, oder Daten, die von anderen Orten erlangt wurden, mit einer anderen Genehmigung zu kombinieren, mit den mit diesem Antrag beantragten Daten. Führen Sie die Informationen für alle zusätzlichen Daten auf, die mit den von der Zugangsstelle für Gesundheitsdaten genehmigten Daten kombiniert werden. Wenn Sie später andere personenbezogene Daten mit den von der Zugangsstelle für Gesundheitsdaten autorisierten Daten kombinieren möchten, müssen Sie bei derselben Zugangsstelle für Gesundheitsdaten einen Änderungsantrag stellen. Wenn Sie über eine andere Kohorte verfügen, die die Zugangsstelle für Gesundheitsdaten mit den Daten, für die Sie sich bewerben, kombinieren möchten, erhalten Sie nach Erteilung der Genehmigung Anweisungen, wie die Daten sicher bereitgestellt werden können.",
+        "section7Description": "Es ist möglich, andere personenbezogene Daten, z. B. Daten, die sich bereits in Ihrem Besitz befinden oder aus anderen Quellen stammen, mit den mit diesem Antrag beantragten Daten zu kombinieren. Führen Sie die Informationen für alle zusätzlichen Daten auf, die mit den von der Zugangsstelle für Gesundheitsdaten genehmigten Daten kombiniert werden. Wenn Sie später andere personenbezogene Daten mit den von der Zugangsstelle für Gesundheitsdaten genehmigten Daten kombinieren möchten, müssen Sie bei derselben Zugangsstelle für Gesundheitsdaten einen Änderungsantrag stellen. Wenn Sie über eine andere Kohorte verfügen, die die Zugangsstelle für Gesundheitsdaten mit den Daten, für die Sie einen Antrag stellen, kombinieren möchte, erhalten Sie nach Erteilung der Genehmigung Anweisungen, wie Sie die Daten sicher übermitteln können.",
         "addDataPermit": "Datengenehmigung hinzufügen",
         "addInfo": "Info hinzufügen",
         "removeDataPermit": "Datengenehmigung löschen",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Welches sind Anfangs- und Enddatum des Zeitraums, in dem die elektronischen Gesundheitsdaten für die Verarbeitung benötigt werden?",
-            "tooltip": "Dieser Zeitraum kann fünf Jahre betragen. Mit einer zusätzlichen Genehmigung kann die ursprüngliche Genehmigung um weitere fünf Jahre verlängert werden."
+            "tooltip": "Dieser Zeitraum kann 10 Jahre betragen. Mit einer zusätzlichen Genehmigung kann die ursprüngliche Genehmigung um weitere 10 Jahre verlängert werden."
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Von"
@@ -1168,13 +1162,13 @@
             "tooltip": "Abweichend vom Recht zum Widerspruch gemäß Absatz 1 kann ein Mitgliedstaat nach seinem nationalen Recht einen Mechanismus vorsehen, um Daten, für die das Recht zum Widerspruch in Anspruch genommen wurde, zur Verfügung zu stellen, sofern alle folgenden Bedingungen erfüllt sind: (siehe Artikel für die vollständigen Bedingungen)“"
         },
         "providedJustificationException": {
-            "label": "Bitte begründen Sie diese Ausnahme."
+            "label": "Begründen Sie diese Ausnahme und geben Sie in Ihrer Begründung an, wie die Bedingungen des Artikels 71(4)(a-c) erfüllt sind."
         },
         "protectionAndSecurityStatements": {
             "label": "Um mit dieser Anwendung fortzufahren, müssen Sie die folgenden Erklärungen (Datenschutz- und sicherheitsrelevante Erklärungen) bestätigen:"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Ich bestätige, dass ich die Daten, die ich beantrage, nur für den/die in diesem Antragsformular angegebenen Zweck(e) verwenden werde, wenn die Zugangsstelle für Gesundheitsdaten mir die Daten, für die ich beantrage, zur Verfügung stellt."
+            "label": "1. Ich bestätige, dass ich, wenn mir die Zugangsstelle für Gesundheitsdaten die Daten, für die ich mich beantrage, zur Verfügung stellt, diese nur für die in diesem Antragsformular angegebenen Zwecke und nicht für verbotene Zwecke verwenden werde."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Mir ist bekannt, dass es verboten ist, die Daten aus der sicheren Verarbeitungsumgebung zu kopieren."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Falls für Ihre Forschung eine Forschungsgenehmigung Ihrer Mitgliedsorganisation erforderlich ist, fügen Sie die Forschungsgenehmigung bei."
+        },
+        "hdabToRetain": {
+            "label": "Möchten Sie, dass der HDAB die Formel behält, die für die Erstellung des angeforderten Datensatzes verwendet wurde? ",
+            "tooltip": "EHDS-Artikel 68 Absatz 12: (--) Auf Antrag des Gesundheitsdatennutzers kann die Formel für die Erstellung des angeforderten Datensatzes von der Zugangsstelle für Gesundheitsdaten gespeichert werden."
         }
     },
     "section9": {
         "section9h5": "Zusätzliche Informationen",
-        "section9Description": "Hier können Sie weitere Informationen zu den Abschnitten Ihres Antrags machen. Geben Sie die Nummer des Abschnitts und die Frage an, auf die sich Ihr Kommentar bezieht.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Weitere Informationen oder zusätzliche Anmerkungen",
-            "tooltip": "Hier können Sie weitere Informationen zu den Abschnitten Ihres Antrags machen. Geben Sie die Nummer des Abschnitts und die Frage an, auf die sich Ihr Kommentar bezieht. Vorschlag für die technische Durchführung: Alternativ könnte es möglich sein, dem Antragsteller die Möglichkeit zu geben, Informationen mit bestimmten Teilen des Formulars zu verknüpfen, um den HDAB-Stellen die Arbeit zu erleichtern."
+            "tooltip": "Hier können Sie weitere Informationen zu einem der Abschnitte in Ihrem Antrag angeben. Geben Sie die Nummer des Abschnitts und die Frage an, auf die sich Ihr Kommentar bezieht. Geben Sie in Ihrem Antrag alle vertraulichen Informationen an und begründen Sie kurz die Vertraulichkeit unter Angabe der entsprechenden Abschnittsnummer und der entsprechenden Frage."
         },
         "additionalAttachment": {
             "label": "Eine zusätzliche Anlage. Fügen Sie diesem Antrag keine Gesundheitsdaten oder personenbezogenen Daten bei.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Ein halbes Jahr"
+                    "value": "Alle sechs Monate"
                 },
                 {
                     "key": "c",
-                    "value": "Viertel"
+                    "value": "Vierteljährlich"
                 },
                 {
                     "key": "d",

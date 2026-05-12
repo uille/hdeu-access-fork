@@ -41,5 +41,49 @@ class ContextTest {
     String result = Context.getEcasId(routingContext);
     assertEquals("ecas_user123", result);
   }
-}
 
+  @Test void testGetUserNameReturnsGivenAndFamilyName() {
+    RoutingContext routingContext = mock(RoutingContext.class);
+    User user = mock(User.class);
+    JsonObject principal = new JsonObject()
+      .put("given_name", "Maria")
+      .put("family_name", "Papadopoulou")
+      .put("preferred_username", "mpapa");
+
+    when(routingContext.user()).thenReturn(user);
+    when(user.principal()).thenReturn(principal);
+
+    String result = Context.getUserName(routingContext);
+    assertEquals("Maria Papadopoulou", result);
+  }
+
+  @Test void testGetUserNameFallsBackToSingleAvailableNamePart() {
+    RoutingContext routingContext = mock(RoutingContext.class);
+    User user = mock(User.class);
+    JsonObject principal = new JsonObject()
+      .put("given_name", "Maria")
+      .put("family_name", "   ")
+      .put("preferred_username", "mpapa");
+
+    when(routingContext.user()).thenReturn(user);
+    when(user.principal()).thenReturn(principal);
+
+    String result = Context.getUserName(routingContext);
+    assertEquals("Maria", result);
+  }
+
+  @Test void testGetUserNameFallsBackToPreferredUsername() {
+    RoutingContext routingContext = mock(RoutingContext.class);
+    User user = mock(User.class);
+    JsonObject principal = new JsonObject()
+      .put("given_name", "   ")
+      .put("family_name", null)
+      .put("preferred_username", "ecas_user123");
+
+    when(routingContext.user()).thenReturn(user);
+    when(user.principal()).thenReturn(principal);
+
+    String result = Context.getUserName(routingContext);
+    assertEquals("ecas_user123", result);
+  }
+}

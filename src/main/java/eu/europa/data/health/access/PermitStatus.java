@@ -19,6 +19,7 @@ import static eu.europa.data.health.access.services.AbstractManager.setUpMessage
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.ext.web.RoutingContext;
+import java.time.Instant;
 import java.util.Set;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
@@ -132,7 +133,7 @@ public enum PermitStatus {
     }
   }
 
-  public boolean canChangeTo(PermitStatus next, @NotNull RoutingContext context) {
+  public boolean canChangeTo(PermitStatus next, String permitExpirationDateStr, @NotNull RoutingContext context) {
 
     if(this.equals(next)) {
       setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
@@ -145,17 +146,52 @@ public enum PermitStatus {
         "Invalid permit transition status from: " + this.getLabel() + " to: " + next.getLabel());
       throw new IllegalStateException("Invalid permit transition from: " + this.getLabel() + " to: " + next.getLabel());
     }
+    if(RENEWED.equals(next)) {
+      if(StringUtils.isNotEmpty(permitExpirationDateStr)){
+        Instant permitExpirationDate = Instant.parse(permitExpirationDateStr);
+        if(permitExpirationDate.isAfter(Instant.now()))
+          return true;
+        else {
+          setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
+            "Invalid permit transition of status: " + this.getLabel() + ", permit expiration date should be a future date");
+          throw new IllegalStateException("Invalid permit transition of status: " + this.getLabel() + ", permit expiration date should be a future date");
+        }
+      } else {
+        setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
+          "Invalid permit transition of status: " + this.getLabel() + ", permit expiration date should not be empty");
+        throw new IllegalStateException("Invalid permit transition of status: " + this.getLabel() + ", permit expiration date should not be empty");
+      }
+    }
     return true;
   }
 
-  public void validateInitialization(@NotNull RoutingContext context) {
+  public void validateInitialization(boolean comingFromUI, String permitStartDateStr, String permitExpirationDateStr, String permitReferenceNumber, String permitContactDetails, @NotNull RoutingContext context) {
 
-    if (this.equals(GRANTED)) {
-      return;
+    if (!comingFromUI && this.equals(GRANTED)) {
+      if(StringUtils.isNotEmpty(permitStartDateStr)
+      && StringUtils.isNotEmpty(permitExpirationDateStr)
+      && StringUtils.isNotEmpty(permitReferenceNumber)
+      && StringUtils.isNotEmpty(permitContactDetails)){
+
+        Instant permitStartDate = Instant.parse(permitStartDateStr);
+        Instant permitExpirationDate = Instant.parse(permitExpirationDateStr);
+        if(permitExpirationDate.isAfter(Instant.now())
+        && permitExpirationDate.isAfter(permitStartDate))
+          return;
+        else {
+          setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
+            "Invalid initialization of permit status: " + this.getLabel() + ", permit expiration date should be a future date and permit expiration date should be after permit start date");
+          throw new IllegalStateException("Invalid initialization of permit status: " + this.getLabel() + ", permit expiration date should be a future date and permit expiration date should be after permit start date");
+        }
+      } else {
+        setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
+          "Invalid initialization of permit status: " + this.getLabel() + ", mandatory field/s are null/empty");
+        throw new IllegalStateException("Invalid initialization of permit status: " + this.getLabel() + ", mandatory field/s are null/empty");
+      }
+    } else {
+      setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
+        "Invalid initialization of permit status: " + this.getLabel());
+      throw new IllegalStateException("Invalid initialization of permit status: " + this.getLabel());
     }
-
-    setUpMessageContextResponse(context, HttpResponseStatus.BAD_REQUEST,
-      "Invalid initialization of permit status: " + this.getLabel());
-    throw new IllegalStateException("Invalid initialization of permit status: " + this.getLabel());
   }
 }

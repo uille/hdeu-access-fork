@@ -27,7 +27,6 @@ import static eu.europa.data.health.access.Constants.HAS_THE_GROUP_RELATIVES_FOR
 import static eu.europa.data.health.access.Constants.HAS_THE_STUDY_COHORT_BEEN_FORMED_BASED_ON_INFORMATION_OF_STUDY_PARTICIPANTS;
 import static eu.europa.data.health.access.Constants.NEED_FOR_DATA_EXTRACTION_EVERY;
 import static eu.europa.data.health.access.Constants.OTHER_PERMIT_APPLICATIONS;
-import static eu.europa.data.health.access.Constants.PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS;
 import static eu.europa.data.health.access.Constants.THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY;
 import static eu.europa.data.health.access.Constants.UPLOAD_RDF;
 import static eu.europa.data.health.access.Constants.WHEN_DATA_NEEDED;
@@ -357,8 +356,6 @@ class DataAccessApplicationValidationManagerTest {
       .put(WILL_RELATIVES_BE_EXTRACTED, new JsonObject().put("key", "b"))
       .put(HAS_THE_GROUP_RELATIVES_FORMED_3, new JsonObject().put("key", "b"))
       .put(HAS_THE_GROUP_RELATIVES_FORMED_2, new JsonObject().put("key", "b"))
-      .put(PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS,
-        new JsonObject().put("key", "b"))
       .put(WILL_SAME_DATA_BE_EXTRACTED_FOR_RELATIVES, new JsonObject().put("key", "b"))
       .put(WILL_DATA_FOR_CONTROLS_BE_EXTRACTED_SIMULTANEOUSLY, new JsonObject().put("key", "b"))
       .put(DATA_EXTRACTION_FREQUENCY_RELATIVES, new JsonObject().put("key", "a"));

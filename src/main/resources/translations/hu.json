@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "A projektvezető neve (szervezet, intézmény, magánszektorbeli szervezet vagy természetes személy)",
-            "tooltip": "Ez a személy felelős az adatfelhasználásért."
+            "tooltip": "Ez az adatfelhasználásért felelős szervezet."
         },
         "countryOfProjectLeader": {
             "label": "A projektért felelős szervezet hivatalos székhelye (országa)"
@@ -122,6 +122,7 @@
             ],
             "info": "(Ha ezt a lehetőséget választja, erősítse meg, hogy magánszemélyként, biztosítás nélkül kérelmezi az adatokat.)"
         },
+        "participatingEntitiesInstruction": "Ha konzorcium nevében pályázik, kérjük, itt nevezze meg az összes részt vevő szervezetet.",
         "legalPerson": "Jogi személy",
         "naturalPerson": "Természetes személy",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Hovatartozás"
+        },
+        "otherContactPerson": {
+            "label": "Egyéb kapcsolattartók",
+            "tooltip": "Ha a projektben több kapcsolattartó is részt vesz, kérjük, nevezze meg őket itt, a hovatartozásukra vonatkozó információkkal együtt."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "A kohort az e formanyomtatvány elején feltüntetett ország(ok) teljes népessége."
+                    "value": "A kohorsz az ország(ok) teljes népessége vagy az e formanyomtatvány elején megjelölt adatforrás."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Ismertesse a kohort megszerzésének módját és az adatengedély/-hozzájárulás hiányának okait."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Nyújtott-e tájékoztatást az adatok felhasználásáról a megfelelő alanyok számára? Pl. az adatfelhasználásra vonatkozó megosztott információk a projekt weboldalán.",
-            "tooltip": "További információkért lásd az általános adatvédelmi rendelet 13. és 14. cikkét: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "További információkért lásd az <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\"> általános adatvédelmi rendelet 13. és 14. cikkét </a>."
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Hogyan?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Miért nem?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Ki továbbítja a kohortra vonatkozó információkat az egészségügyi adatokhoz való hozzáférés tekintetében illetékes szervnek? Ez a személy utasításokat kap arra vonatkozóan, hogy a közös európai egészségügyi adattér portálján keresztül hogyan kell továbbítani az adatokat."
@@ -612,7 +606,7 @@
             "label": "Indokolja meg ezt a kivételt."
         },
         "needForDataExtractionEvery": {
-            "label": "Az adatokat minden esetben ki kell nyerni.",
+            "label": "Az adatokat ki kell nyerni",
             "tooltip": "Ha azt szeretné, hogy az adatokat egy bizonyos időszakon belül többször is kinyerjék, vegye figyelembe, hogy a fogalommeghatározások és az adatgyűjtési módszer bizonyos esetekben változhat a felülvizsgálati időszak alatt. Felhívjuk a figyelmet arra, hogy az adatkinyerés maximális gyakorisága negyedévente lehetséges."
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "Ismétlődő adatkinyerés esetén külön-külön adja meg az egyes adatkinyerési eljárásokra vonatkozó információkat a megrendelési utasításokban."
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Az adatokat minden esetben ki kell nyerni.",
+            "label": "Az adatokat ki kell nyerni",
             "tooltip": "Ha azt szeretné, hogy az adatokat egy bizonyos időszakon belül többször is kinyerjék, vegye figyelembe, hogy a fogalommeghatározások és az adatgyűjtési módszer bizonyos esetekben változhat a felülvizsgálati időszak alatt. Felhívjuk a figyelmet arra, hogy az adatkinyerés maximális gyakorisága negyedévente lehetséges."
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "Milyen gyakran kell kinyerni az adatokat?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Az adatokat minden esetben ki kell nyerni.",
+            "label": "Az adatokat ki kell nyerni",
             "tooltip": "Ha azt szeretné, hogy az adatokat egy bizonyos időszakon belül többször is kinyerjék, vegye figyelembe, hogy a fogalommeghatározások és az adatgyűjtési módszer bizonyos esetekben változhat a felülvizsgálati időszak alatt. Felhívjuk a figyelmet arra, hogy az adatkinyerés maximális gyakorisága negyedévente lehetséges."
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "Ismétlődő adatkinyerés esetén külön-külön adja meg az egyes adatkinyerési eljárásokra vonatkozó információkat a megrendelési utasításokban."
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Az adatokat minden esetben ki kell nyerni.",
+            "label": "Az adatokat ki kell nyerni",
             "tooltip": "Ha azt szeretné, hogy az adatokat egy bizonyos időszakon belül többször is kinyerjék, vegye figyelembe, hogy a fogalommeghatározások és az adatgyűjtési módszer bizonyos esetekben változhat a felülvizsgálati időszak alatt. Felhívjuk a figyelmet arra, hogy az adatkinyerés maximális gyakorisága negyedévente lehetséges."
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Egyéb kombinálandó adatok",
-        "section7Description": "Más személyes adatok, például az Ön birtokában lévő vagy máshol szerzett adatok más engedéllyel kombinálhatók az e kérelemben kért adatokkal. Sorolja fel az összes olyan kiegészítő adatra vonatkozó információkat, amelyeket az egészségügyi adatokhoz való hozzáférés tekintetében illetékes szerv által engedélyezett adatokkal kombinálnak. Ha később más személyes adatokat szeretne kombinálni az egészségügyi adatokhoz való hozzáférés tekintetében illetékes szerv által engedélyezett adatokkal, módosítás iránti kérelmet kell benyújtania ugyanahhoz az egészségügyi adatokhoz való hozzáférés tekintetében illetékes szervhez. Ha van más olyan kohortja, amely azt szeretné, hogy az egészségügyi adatokhoz való hozzáférés tekintetében illetékes szerv kombinálja az Ön által kért adatokkal, utasításokat kap arra vonatkozóan, hogy az engedély megadása után hogyan kell biztonságosan továbbítani az adatokat.",
+        "section7Description": "Más személyes szintű adatok, például a már az Ön birtokában lévő adatok vagy a máshonnan szerzett adatok kombinálhatók a kérelemmel kért adatokkal. Sorolja fel az egészségügyi adatokhoz való hozzáférés tekintetében illetékes szerv által engedélyezett adatokkal kombinálandó valamennyi további adatra vonatkozó információkat. Ha később más személyes szintű adatokat kíván kombinálni az egészségügyi adatokhoz való hozzáférés tekintetében illetékes szerv által engedélyezett adatokkal, módosítási kérelmet kell benyújtania ugyanahhoz az egészségügyi adatokhoz való hozzáférés tekintetében illetékes szervhez. Ha van más kohorsza, amelyet szeretne összekapcsolni az egészségügyi adatokhoz való hozzáférés tekintetében illetékes szervvel, utasításokat kap arra vonatkozóan, hogy az engedély megadását követően hogyan kell biztonságosan továbbítani az adatokat.",
         "addDataPermit": "Adatbeviteli engedély hozzáadása",
         "addInfo": "Információ hozzáadása",
         "removeDataPermit": "Adatengedély eltávolítása",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Melyek annak az időszaknak a becsült kezdő és záró időpontjai, amely alatt az elektronikus egészségügyi adatokra a feldolgozáshoz szükség van?",
-            "tooltip": "Ez az időszak öt év is lehet. További engedély esetén az eredeti engedély további öt évvel meghosszabbítható."
+            "tooltip": "Ez az időszak 10 év lehet. További engedély birtokában az eredeti engedély további 10 évvel meghosszabbítható."
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Tól"
@@ -1168,13 +1162,13 @@
             "tooltip": "Az (1) bekezdésben biztosított kifogásolási jog alól kivételt képezve, egy tagállam a nemzeti jogában rendelkezhet olyan adatok rendelkezésre bocsátására irányuló mechanizmusról, amelyekre vonatkozóan kifogásolási jogot gyakoroltak, feltéve, hogy a következő feltételek mindegyike teljesül: (a teljes feltételeket lásd a cikkben)”"
         },
         "providedJustificationException": {
-            "label": "Indokolja meg ezt a kivételt."
+            "label": "Indokolja meg ezt a kivételt, és indokolja meg, hogyan teljesülnek a 71(4)(a-c) cikkben foglalt feltételek."
         },
         "protectionAndSecurityStatements": {
             "label": "A kérelem folytatásához meg kell erősítenie a következő nyilatkozatokat (adatvédelemmel és biztonsággal kapcsolatos nyilatkozatok):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Megerősítem, hogy ha az egészségügyi adatokhoz való hozzáférés tekintetében illetékes szerv megadja nekem az általam kért adatokat, azokat csak az e jelentkezési lapon megjelölt cél(ok)ra használom fel."
+            "label": "1. Megerősítem, hogy ha az egészségügyi adatokhoz való hozzáférés tekintetében illetékes szerv megadja számomra a kérelmemben szereplő adatokat, azokat csak az e kérelemnyomtatványban megjelölt cél(ok)ra használom fel, és nem használom fel azokat tiltott célokra."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Tudomásom szerint tilos az adatok biztonságos feldolgozási környezetből történő másolása."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Ha a kutatáshoz az Ön szervezetének kutatási engedélye szükséges, csatolja a kutatási engedélyt."
+        },
+        "hdabToRetain": {
+            "label": "Szeretné, ha a HDAB megtartaná a kért adatkészlet létrehozásához használt képletet? ",
+            "tooltip": "Az európai egészségügyi adattér 68. cikkének (12) bekezdése: (---) Az egészségügyiadat-felhasználó kérésére az egészségügyi adatokhoz való hozzáférés tekintetében illetékes szerv tárolhatja a kért adatkészlet létrehozására vonatkozó képletet."
         }
     },
     "section9": {
         "section9h5": "Kiegészítő információk",
-        "section9Description": "Itt további információkkal szolgálhat a jelentkezési lap bármely szakaszáról. Adja meg a rovat számát és azt a kérdést, amelyre megjegyzése vonatkozik.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "További információk vagy kiegészítő megjegyzések",
-            "tooltip": "Itt további információkkal szolgálhat a jelentkezési lap bármely szakaszáról. Adja meg a rovat számát és azt a kérdést, amelyre megjegyzése vonatkozik. Javaslat a technikai végrehajtásra: Alternatív megoldásként lehetővé lehetne tenni a kérelmező számára, hogy a HDAB-k munkájának megkönnyítése érdekében összekapcsolja az információkat a formanyomtatvány meghatározott részeivel."
+            "tooltip": "Itt további információkat adhat meg a pályázat bármely szakaszáról. Adja meg a szakasz számát és azt a kérdést, amelyre az észrevétele vonatkozik. Kérjük, hogy kérelmében tüntessen fel minden bizalmas információt, és röviden indokolja meg a bizalmas kezelést, megjelölve a vonatkozó szakaszszámot és kérdést."
         },
         "additionalAttachment": {
             "label": "Egy kiegészítő csatolmány. Ne csatoljon egészségügyi vagy személyes adatokat ehhez az alkalmazáshoz.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Fél évet"
+                    "value": "Félévente"
                 },
                 {
                     "key": "c",
-                    "value": "Negyed"
+                    "value": "Negyedévente"
                 },
                 {
                     "key": "d",

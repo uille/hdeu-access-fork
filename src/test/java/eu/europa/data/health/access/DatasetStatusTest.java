@@ -39,17 +39,17 @@ class DatasetStatusTest {
         DatasetStatus currentStatus = DatasetStatus.POSITIVE_DECISION_ISSUED;
         DatasetStatus nextStatus = DatasetStatus.POSITIVE_DECISION_ACCEPTED;
 
-        assertTrue(currentStatus.canChangeTo(nextStatus, "someCollectionName", mockContext));
+        assertTrue(currentStatus.canChangeTo(nextStatus, "someCollectionName", null, mockContext));
     }
 
 
     @Test
     void testCanChangeTo_ValidTransitionForSpecialCase() {
         RoutingContext mockContext = mock(RoutingContext.class);
-        DatasetStatus currentStatus = DatasetStatus.APPEAL_APPROVED;
+        DatasetStatus currentStatus = DatasetStatus.NEGATIVE_DECISION_APPEALED;
         DatasetStatus nextStatus = DatasetStatus.POSITIVE_DECISION_ISSUED;
 
-        assertTrue(currentStatus.canChangeTo(nextStatus, Constants.DATA_REQUEST_APPLICATION_COLLECTION, mockContext));
+        assertTrue(currentStatus.canChangeTo(nextStatus, Constants.DATA_REQUEST_APPLICATION_COLLECTION, null, mockContext));
     }
 
 
@@ -122,7 +122,6 @@ class DatasetStatusTest {
     assertEquals(CatalogStatus.DECISION_ISSUED, DatasetStatus.NEGATIVE_DECISION_ISSUED.computeCatalogStatus());
     assertEquals(CatalogStatus.DECISION_ISSUED, DatasetStatus.NEGATIVE_DECISION_ACCEPTED.computeCatalogStatus());
     assertEquals(CatalogStatus.DECISION_ISSUED, DatasetStatus.NEGATIVE_DECISION_APPEALED.computeCatalogStatus());
-    assertEquals(CatalogStatus.DECISION_ISSUED, DatasetStatus.APPEAL_APPROVED.computeCatalogStatus());
     assertEquals(CatalogStatus.DECISION_ISSUED, DatasetStatus.APPEAL_REJECTED.computeCatalogStatus());
     assertEquals(CatalogStatus.DECISION_ISSUED, DatasetStatus.WITHDRAWN.computeCatalogStatus());
   }
@@ -137,9 +136,10 @@ class DatasetStatusTest {
            mockStatic(eu.europa.data.health.access.services.AbstractManager.class)) {
 
       IllegalStateException ex = assertThrows(IllegalStateException.class, () ->
-        DatasetStatus.POSITIVE_DECISION_ISSUED.canChangeTo(
-          DatasetStatus.APPEAL_APPROVED,
+        DatasetStatus.POSITIVE_DECISION_REJECTED.canChangeTo(
+          DatasetStatus.POSITIVE_DECISION_ACCEPTED,
           "someCollectionName",
+          null,
           context
         )
       );
@@ -162,6 +162,7 @@ class DatasetStatusTest {
     assertTrue(DatasetStatus.NEGATIVE_DECISION_ISSUED.canChangeTo(
       DatasetStatus.NEGATIVE_DECISION_APPEALED,
       "any",
+      "anyText",
       context
     ));
   }
@@ -202,7 +203,6 @@ class DatasetStatusTest {
   @Test
   void testValidatePermitChange_whenAllowed_shouldNotThrow() {
     assertDoesNotThrow(() -> DatasetStatus.POSITIVE_DECISION_ACCEPTED.validatePermitChange(ctx()));
-    assertDoesNotThrow(() -> DatasetStatus.APPEAL_APPROVED.validatePermitChange(ctx()));
   }
 
   @Test

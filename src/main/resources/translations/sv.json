@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Projektledarens namn (organisation, institution, enhet i den privata sektorn eller en fysisk person)",
-            "tooltip": "Det är den person som ansvarar för användningen av uppgifterna."
+            "tooltip": "Detta är den enhet som ansvarar för dataanvändningen."
         },
         "countryOfProjectLeader": {
             "label": "Officiell hemvist (land) för den enhet som ansvarar för projektet"
@@ -122,6 +122,7 @@
             ],
             "info": "(Om du väljer detta alternativ bekräftar du att du ansöker om uppgifter som privatperson utan anslutning.)"
         },
+        "participatingEntitiesInstruction": "Om du ansöker för ett konsortiums räkning, ange alla deltagande enheter här.",
         "legalPerson": "Juridiska personer.",
         "naturalPerson": "Fysiska personer",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Tillhörighet"
+        },
+        "otherContactPerson": {
+            "label": "Andra kontaktpersoner",
+            "tooltip": "Om det finns flera kontaktpersoner i ditt projekt, ange dem här tillsammans med information om deras tillhörighet."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "Kohorten kommer att vara hela befolkningen i ett land/de länder som anges i början av detta formulär."
+                    "value": "Kohorten ska vara hela populationen i ett eller flera länder eller en datakälla som anges i början av detta formulär."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Beskriv hur kohorten erhölls och skälen till att datatillstånd/samtycke saknades."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Har du lämnat information om användningen av uppgifterna till motsvarande försökspersoner? T.ex. dela med sig av information om användningen av data på en projektwebbplats.",
-            "tooltip": "För mer information, se artiklarna 13 och 14 i den allmänna dataskyddsförordningen: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "För ytterligare information, se artiklarna 13 och 14 i <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\"> General Data Protection Regulation."
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Hur då?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Varför inte?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Vem kommer att lämna information om kohorten till organet med ansvar för tillgång till hälsodata? Denna person kommer att få instruktioner om hur uppgifterna ska levereras via den gemensamma portalen för det europeiska hälsodataområdet."
@@ -612,7 +606,7 @@
             "label": "Motivera detta undantag."
         },
         "needForDataExtractionEvery": {
-            "label": "Alla uppgifter måste extraheras.",
+            "label": "Uppgifterna måste extraheras",
             "tooltip": "Om du vill att uppgifterna ska extraheras flera gånger under en viss tidsperiod, observera att definitionerna och datainsamlingsmetoden i vissa fall kan ändras under granskningsperioden. Observera att den maximala frekvensen för dataextraktion är varje kvartal."
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "Vid återkommande extraktion, lämna separat information om varje dataextraktionsprocess i orderinstruktionerna."
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Alla uppgifter måste extraheras.",
+            "label": "Uppgifterna måste extraheras",
             "tooltip": "Om du vill att uppgifterna ska extraheras flera gånger under en viss tidsperiod, observera att definitionerna och datainsamlingsmetoden i vissa fall kan ändras under granskningsperioden. Observera att den maximala frekvensen för dataextraktion är varje kvartal."
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "Hur ofta behöver uppgifterna extraheras?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Alla uppgifter måste extraheras.",
+            "label": "Uppgifterna måste extraheras",
             "tooltip": "Om du vill att uppgifterna ska extraheras flera gånger under en viss tidsperiod, observera att definitionerna och datainsamlingsmetoden i vissa fall kan ändras under granskningsperioden. Observera att den maximala frekvensen för dataextraktion är varje kvartal."
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "Vid återkommande extraktion, lämna separat information om varje dataextraktionsprocess i orderinstruktionerna."
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Alla uppgifter måste extraheras.",
+            "label": "Uppgifterna måste extraheras",
             "tooltip": "Om du vill att uppgifterna ska extraheras flera gånger under en viss tidsperiod, observera att definitionerna och datainsamlingsmetoden i vissa fall kan ändras under granskningsperioden. Observera att den maximala frekvensen för dataextraktion är varje kvartal."
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Övriga uppgifter som ska kombineras",
-        "section7Description": "Det är möjligt att kombinera andra personuppgifter, t.ex. uppgifter som du redan förfogar över eller uppgifter som erhållits någon annanstans med ett annat tillstånd, med de uppgifter som ansökan gäller. Ange informationen för alla ytterligare data som kommer att kombineras med de data som godkänts av organet med ansvar för tillgång till hälsodata. Om du senare vill kombinera andra personuppgifter med de data som godkänts av det organ som ansvarar för tillgång till hälsodata måste du lämna in en ansökan om ändring till samma organ med ansvar för tillgång till hälsodata. Om du har någon annan kohort som du vill att organet med ansvar för tillgång till hälsodata ska kombinera med de data du ansöker om får du instruktioner om hur du kan leverera uppgifterna på ett säkert sätt efter det att tillståndet har beviljats.",
+        "section7Description": "Det är möjligt att kombinera andra uppgifter på personnivå, t.ex. uppgifter som du redan har i din besittning eller uppgifter som erhållits från annat håll med ett annat tillstånd, med de uppgifter som ansökan gäller tillsammans med denna ansökan. Förteckna informationen för alla ytterligare data som kommer att kombineras med de data som godkänts av organet med ansvar för tillgång till hälsodata. Om du senare vill kombinera andra uppgifter på personnivå med de uppgifter som godkänts av organet med ansvar för tillgång till hälsodata måste du lämna in en ändringsansökan till samma organ med ansvar för tillgång till hälsodata. Om du har någon annan kohort som du vill att organet med ansvar för tillgång till hälsodata ska kombinera med de data du ansöker om kommer du att få instruktioner om hur uppgifterna ska levereras på ett säkert sätt efter det att tillståndet har beviljats.",
         "addDataPermit": "Lägg till datatillstånd",
         "addInfo": "Lägg till information",
         "removeDataPermit": "Ta bort datatillstånd",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Vilka är de beräknade start- och slutdatum för den period under vilken e-hälsodata behövs för behandlingen?",
-            "tooltip": "Denna period kan vara fem år. Med ytterligare tillstånd kan det ursprungliga tillståndet förlängas med ytterligare fem år."
+            "tooltip": "Denna period kan vara 10 år. Med ytterligare tillstånd kan det ursprungliga tillståndet förlängas med ytterligare 10 år."
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Från"
@@ -1168,13 +1162,13 @@
             "tooltip": "EHDS artikel 71(4) ”Genom undantag från den rätt att motsätta sig som föreskrivs i punkt 1 får en medlemsstat i nationell rätt föreskriva en mekanism för att göra data för vilka rätten att motsätta sig har utövats tillgängliga, förutsatt att samtliga följande villkor är uppfyllda: (se artikeln för fullständiga villkor) ”"
         },
         "providedJustificationException": {
-            "label": "Motivera detta undantag."
+            "label": "Motivera detta undantag och ange i motiveringen hur villkoren i artikel 71(4)(a-c) är uppfyllda."
         },
         "protectionAndSecurityStatements": {
             "label": "För att gå vidare med denna ansökan måste du bekräfta följande påståenden (dataskydds- och säkerhetsrelaterade förklaringar):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Jag bekräftar att om organet med ansvar för tillgång till hälsodata beviljar mig de data jag ansöker om kommer jag att använda dem endast för de ändamål som anges i detta ansökningsformulär."
+            "label": "1. Jag bekräftar att om organet med ansvar för tillgång till hälsodata beviljar mig de data som jag ansöker om kommer jag att använda dem endast för de ändamål som anges i detta ansökningsformulär och inte för några förbjudna ändamål."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Jag förstår att det är förbjudet att kopiera uppgifterna från den säkra behandlingsmiljön."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Om din forskning kräver ett forskningstillstånd från din försäkringsorganisation, bifoga forskningstillståndet."
+        },
+        "hdabToRetain": {
+            "label": "Vill du att HDAB ska behålla den formel som används för att skapa den begärda datauppsättningen? ",
+            "tooltip": "Det europeiska hälsodataområdet, artikel 68.12: (--) På begäran av hälsodataanvändaren får formeln för skapandet av det begärda datasetet lagras av organet med ansvar för tillgång till hälsodata."
         }
     },
     "section9": {
         "section9h5": "Ytterligare uppgifter",
-        "section9Description": "Här kan du lämna ytterligare information om vilket som helst av avsnitten i din ansökan. Ange numret på avsnittet och den fråga som kommentaren avser.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Ytterligare upplysningar eller kompletterande anmärkningar",
-            "tooltip": "Här kan du lämna ytterligare information om vilket som helst av avsnitten i din ansökan. Ange numret på avsnittet och den fråga som kommentaren avser. Förslag till tekniskt genomförande: Alternativt kan det finnas ett sätt att göra det möjligt för den sökande att koppla information till specifika delar av formuläret för att underlätta HDAB:s arbete."
+            "tooltip": "Här kan du lämna ytterligare information om något av avsnitten i din ansökan. Ange antalet avsnitt och den fråga som din kommentar avser. Ange eventuella konfidentiella uppgifter i din ansökan och motivera kortfattat konfidentialiteten, med angivande av relevant avsnittsnummer och fråga."
         },
         "additionalAttachment": {
             "label": "Ytterligare en bilaga. Bifoga inte hälso- eller personuppgifter till denna ansökan.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Ett halvår"
+                    "value": "Var sjätte år"
                 },
                 {
                     "key": "c",
-                    "value": "Kvartal"
+                    "value": "Varje kvartal"
                 },
                 {
                     "key": "d",

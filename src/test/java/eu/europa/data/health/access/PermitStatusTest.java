@@ -146,7 +146,7 @@ class PermitStatusTest {
   void canChangeTo_whenSameStatus_shouldThrow() {
     IllegalStateException ex = assertThrows(
       IllegalStateException.class,
-      () -> PermitStatus.GRANTED.canChangeTo(PermitStatus.GRANTED, ctx())
+      () -> PermitStatus.GRANTED.canChangeTo(PermitStatus.GRANTED,"2026-02-06T11:40:32.487397566Z", ctx())
     );
     assertTrue(ex.getMessage().contains("Invalid permit transition from:"));
   }
@@ -156,27 +156,124 @@ class PermitStatusTest {
     // Example: GRANTED cannot go directly to RENEWED
     IllegalStateException ex = assertThrows(
       IllegalStateException.class,
-      () -> PermitStatus.GRANTED.canChangeTo(PermitStatus.RENEWED, ctx())
+      () -> PermitStatus.GRANTED.canChangeTo(PermitStatus.RENEWED,"2026-02-06T11:40:32.487397566Z", ctx())
     );
     assertTrue(ex.getMessage().contains("Invalid permit transition from:"));
   }
 
   @Test
   void canChangeTo_whenAllowed_shouldReturnTrue() {
-    assertTrue(PermitStatus.GRANTED.canChangeTo(PermitStatus.RENEWAL_REQUESTED, ctx()));
+    assertTrue(PermitStatus.GRANTED.canChangeTo(PermitStatus.RENEWAL_REQUESTED,"2096-02-06T11:40:32.487397566Z", ctx()));
+  }
+
+  @Test
+  void canChangeTo_whenRenewedWithFutureExpiration_shouldReturnTrue() {
+    assertTrue(
+      PermitStatus.RENEWAL_REQUESTED.canChangeTo(
+        PermitStatus.RENEWED,
+        "2096-02-06T11:40:32.487397566Z",
+        ctx()
+      )
+    );
+  }
+
+  @Test
+  void canChangeTo_whenRenewedWithEmptyExpiration_shouldThrow() {
+    IllegalStateException ex = assertThrows(
+      IllegalStateException.class,
+      () -> PermitStatus.RENEWAL_REQUESTED.canChangeTo(PermitStatus.RENEWED, "", ctx())
+    );
+    assertTrue(ex.getMessage().contains("permit expiration date should not be empty"));
+  }
+
+  @Test
+  void canChangeTo_whenRenewedWithPastExpiration_shouldThrow() {
+    IllegalStateException ex = assertThrows(
+      IllegalStateException.class,
+      () -> PermitStatus.RENEWAL_REQUESTED.canChangeTo(
+        PermitStatus.RENEWED,
+        "2020-02-06T11:40:32.487397566Z",
+        ctx()
+      )
+    );
+    assertTrue(ex.getMessage().contains("permit expiration date should be a future date"));
   }
 
   @Test
   void validateInitialization_whenGranted_shouldPass() {
-    assertDoesNotThrow(() -> PermitStatus.GRANTED.validateInitialization(ctx()));
+    assertDoesNotThrow(() -> PermitStatus.GRANTED.validateInitialization(false, "2096-02-06T11:40:32.487397566Z", "2096-02-07T11:40:32.487397566Z", "REF-123", "permit contact info", ctx()));
   }
 
   @Test
   void validateInitialization_whenNotGranted_shouldThrow() {
     IllegalStateException ex = assertThrows(
       IllegalStateException.class,
-      () -> PermitStatus.AMENDED.validateInitialization(ctx())
+      () -> PermitStatus.AMENDED.validateInitialization(false, "2096-02-06T11:40:32.487397566Z", "2096-02-07T11:40:32.487397566Z", "REF-123", "permit contact info", ctx())
     );
     assertTrue(ex.getMessage().contains("Invalid initialization of permit status:"));
+  }
+
+  @Test
+  void validateInitialization_whenGrantedMissingMandatoryFields_shouldThrow() {
+    IllegalStateException ex = assertThrows(
+      IllegalStateException.class,
+      () -> PermitStatus.GRANTED.validateInitialization(
+        false,
+        "2096-02-06T11:40:32.487397566Z",
+        "",
+        "REF-123",
+        "permit contact info",
+        ctx()
+      )
+    );
+    assertTrue(ex.getMessage().contains("mandatory field/s are null/empty"));
+  }
+
+  @Test
+  void validateInitialization_whenGrantedWithPastExpiration_shouldThrow() {
+    IllegalStateException ex = assertThrows(
+      IllegalStateException.class,
+      () -> PermitStatus.GRANTED.validateInitialization(
+        false,
+        "2096-02-06T11:40:32.487397566Z",
+        "2020-02-07T11:40:32.487397566Z",
+        "REF-123",
+        "permit contact info",
+        ctx()
+      )
+    );
+    assertTrue(ex.getMessage().contains("permit expiration date should be a future date"));
+  }
+
+  @Test
+  void validateInitialization_whenGrantedWithExpirationBeforeStart_shouldThrow() {
+    IllegalStateException ex = assertThrows(
+      IllegalStateException.class,
+      () -> PermitStatus.GRANTED.validateInitialization(
+        false,
+        "2096-02-07T11:40:32.487397566Z",
+        "2096-02-06T11:40:32.487397566Z",
+        "REF-123",
+        "permit contact info",
+        ctx()
+      )
+    );
+    assertTrue(ex.getMessage().contains("permit expiration date should be after permit start date"));
+  }
+
+  @Test
+  void validateInitialization_whenComingFromUiEvenIfGranted_shouldThrow() {
+    IllegalStateException ex = assertThrows(
+      IllegalStateException.class,
+      () -> PermitStatus.GRANTED.validateInitialization(
+        true,
+        "2096-02-06T11:40:32.487397566Z",
+        "2096-02-07T11:40:32.487397566Z",
+        "REF-123",
+        "permit contact info",
+        ctx()
+      )
+    );
+    assertTrue(ex.getMessage().contains("Invalid initialization of permit status: GRANTED"));
   }
 }

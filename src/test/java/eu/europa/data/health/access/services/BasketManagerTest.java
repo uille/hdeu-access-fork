@@ -30,52 +30,53 @@ import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
-import org.junit.jupiter.api.AfterEach;
+import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testcontainers.containers.MongoDBContainer;
 
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
 @ExtendWith(VertxExtension.class)
  class BasketManagerTest {
 
   private static final String JUNIT_TEST_DATABASE = "junitTestDatabase";
+  private static final String BASKET_COLLECTION = "BASKET";
   private static MongoDBContainer mongoDBContainer;
+  private static Vertx vertx;
   private static MongoClient mongoClient;
   private static DBHandler dbHandler;
   private static BasketManager basketManager;
 
-  @BeforeEach
-  void setUp(VertxTestContext testContext) {
-    Vertx vertx = Vertx.vertx();
-    mongoDBContainer = new MongoDBContainer("mongo:4.4.2");
+  @BeforeAll
+  static void setUpSuite() {
+    vertx = Vertx.vertx();
+    mongoDBContainer = new MongoDBContainer("mongo:5.0");
     mongoDBContainer.start();
 
-    // Configure MongoClient with the connection string
     JsonObject config = new JsonObject()
       .put("connection_string", mongoDBContainer.getReplicaSetUrl(JUNIT_TEST_DATABASE));
 
     mongoClient = MongoClient.createShared(vertx, config);
-    dbHandler = new DBHandler(mongoClient);
-    basketManager = new BasketManager(dbHandler, mongoClient);
-
-    testContext.completeNow();
   }
 
-  @AfterEach
-  void tearDown(VertxTestContext testContext) {
-    try {
-      mongoClient.close().onComplete(v -> {
-        mongoDBContainer.stop();
-        testContext.completeNow();
-      });
-    } catch (Exception e) {
-      testContext.failNow(e);
-    }
+  @BeforeEach
+  void setUp() throws InterruptedException {
+    cleanupCollections();
+    dbHandler = new DBHandler(mongoClient);
+    basketManager = new BasketManager(dbHandler, mongoClient);
+  }
+
+  @AfterAll
+  static void tearDownSuite() throws InterruptedException {
+    closeMongoClient();
+    closeVertx();
+    mongoDBContainer.stop();
   }
 
   @Test
@@ -499,7 +500,7 @@ import java.util.concurrent.TimeUnit;
           basketManager.deleteDistributionsByDistributionIdList(datasetId, distributionsToDelete);
 
           vertx.setTimer(1000, t2 -> {
-            mongoClient.findOne("BASKET", datasetId, null, ar -> {
+            mongoClient.findOne(BASKET_COLLECTION, datasetId, null, ar -> {
               if (ar.succeeded()) {
                 JsonObject result = ar.result();
                 assertNotNull(result, "Dataset should still exist");
@@ -518,6 +519,67 @@ import java.util.concurrent.TimeUnit;
         });
       })
       .onFailure(testContext::failNow);
+  }
+
+  private void cleanupCollections() throws InterruptedException {
+    cleanupCollection(BASKET_COLLECTION);
+  }
+
+  private void cleanupCollection(String collection) throws InterruptedException {
+    CountDownLatch latch = new CountDownLatch(1);
+    AtomicReference<Throwable> error = new AtomicReference<>();
+
+    mongoClient.removeDocuments(collection, new JsonObject(), result -> {
+      if (result.failed()) {
+        error.set(result.cause());
+      }
+      latch.countDown();
+    });
+
+    if (!latch.await(30, TimeUnit.SECONDS)) {
+      throw new RuntimeException("Timed out cleaning collection: " + collection);
+    }
+    if (error.get() != null) {
+      throw new RuntimeException(error.get());
+    }
+  }
+
+  private static void closeMongoClient() throws InterruptedException {
+    CountDownLatch latch = new CountDownLatch(1);
+    AtomicReference<Throwable> error = new AtomicReference<>();
+
+    mongoClient.close().onComplete(result -> {
+      if (result.failed()) {
+        error.set(result.cause());
+      }
+      latch.countDown();
+    });
+
+    if (!latch.await(30, TimeUnit.SECONDS)) {
+      throw new RuntimeException("Timed out closing Mongo client");
+    }
+    if (error.get() != null) {
+      throw new RuntimeException(error.get());
+    }
+  }
+
+  private static void closeVertx() throws InterruptedException {
+    CountDownLatch latch = new CountDownLatch(1);
+    AtomicReference<Throwable> error = new AtomicReference<>();
+
+    vertx.close(result -> {
+      if (result.failed()) {
+        error.set(result.cause());
+      }
+      latch.countDown();
+    });
+
+    if (!latch.await(30, TimeUnit.SECONDS)) {
+      throw new RuntimeException("Timed out closing Vertx");
+    }
+    if (error.get() != null) {
+      throw new RuntimeException(error.get());
+    }
   }
 
 }

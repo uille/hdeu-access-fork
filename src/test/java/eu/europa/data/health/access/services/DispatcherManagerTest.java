@@ -21,13 +21,23 @@ import static eu.europa.data.health.access.Constants.CATALOG_IDS;
 import static eu.europa.data.health.access.Constants.DATASETS;
 import static eu.europa.data.health.access.Constants.DATA_PERMIT_ID;
 import static eu.europa.data.health.access.Constants.DISPATCHER_COLLECTION;
-import static eu.europa.data.health.access.Constants.DISPATCHER_RESPONSE_STATUS;
 import static eu.europa.data.health.access.Constants.STATUS;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import eu.europa.data.health.access.DispatcherResponseStatus;
 import eu.europa.data.health.access.auth_client.AuthClient;
@@ -68,6 +78,7 @@ class DispatcherManagerTest {
   @Mock HubStoreClient hubStoreClient;
   @Mock Vertx vertx;
   @Mock AuditLogManager auditLogManager;
+  @Mock NotificationManager notificationManager;
   @Mock HubTranslationClient hubTranslationClient;
   @Mock HubSearchClient hubSearchClient;
   @Mock AuthClient authClient;
@@ -88,9 +99,11 @@ class DispatcherManagerTest {
       hubStoreClient,
       vertx,
       auditLogManager,
+      notificationManager,
       hubTranslationClient,
       hubSearchClient,
-      authClient
+      authClient,
+      new JsonObject()
     ));
 
     // IMPORTANT: shared stubs must be lenient to avoid UnnecessaryStubbingException
@@ -214,13 +227,17 @@ class DispatcherManagerTest {
 
   @Test
   void updateDatasetDecisionFromDispatcher_shouldDelegateToChangeDatasetStatus() {
+    // "dGVzdA==" is valid base64 for "test"
+    String validBase64 = java.util.Base64.getEncoder().encodeToString("test-decision".getBytes());
+    String uploadedFileId = "uploaded-file-id-001";
+
     JsonObject payload = new JsonObject()
       .put("catalog_id", "C1")
       .put("application_type", "myCollection")
       .put("decisions", new JsonArray().add(new JsonObject()
         .put("dataset_id", "D1")
         .put("decision", "POSITIVE_DECISION_ISSUED")
-        .put("decision_file", "base64")
+        .put("decision_file", validBase64)
       ));
 
     JsonObject body = new JsonObject()
@@ -229,21 +246,27 @@ class DispatcherManagerTest {
 
     when(requestBody.asJsonObject()).thenReturn(body);
 
-    doNothing().when(dispatcherManager).changeDatasetStatus(
-      anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), any(), anyBoolean()
-    );
+    JsonObject uploadResponse = new JsonObject()
+      .put("result", new JsonObject().put("id", uploadedFileId));
+    when(hubStoreClient.uploadFile(anyString(), anyString(), anyString(), any(), anyString()))
+      .thenReturn(Future.succeededFuture(uploadResponse));
+
+    doReturn(Future.succeededFuture()).when(dispatcherManager).changeDatasetStatus(
+      anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), any(),
+      anyBoolean(), any(), any(), any());
 
     dispatcherManager.updateDatasetDecisionFromDispatcher(routingContext);
 
-    verify(dispatcherManager).changeDatasetStatus(
-      "A1",
-      "C1",
-      "D1",
-      "POSITIVE_DECISION_ISSUED",
-      "base64",
-      "myCollection",
-      routingContext,
-      false
+    Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted(() ->
+      verify(dispatcherManager).changeDatasetStatus(
+        "A1",
+        "C1",
+        "D1",
+        "POSITIVE_DECISION_ISSUED",
+        uploadedFileId,
+        "myCollection",
+        routingContext,
+        false, null, null, null)
     );
   }
 
@@ -293,10 +316,9 @@ class DispatcherManagerTest {
     );
     when(requestBody.asJsonArray()).thenReturn(req);
 
-    doNothing().when(dispatcherManager).updateDispatcherStatusInApplication(any(JsonObject.class), isNull());
+    doNothing().when(dispatcherManager).updateDispatcherStatusInApplication(any(JsonObject.class), any(JsonObject.class));
 
     doAnswer(inv -> {
-      @SuppressWarnings("unchecked")
       Handler<AsyncResult<JsonObject>> h = inv.getArgument(5);
 
       JsonObject dispatcherDoc = new JsonObject()
@@ -319,7 +341,7 @@ class DispatcherManagerTest {
     verify(response).end(contains("Update procedure completed"));
 
     Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted(() ->
-      verify(dispatcherManager).updateDispatcherStatusInApplication(any(JsonObject.class), isNull())
+      verify(dispatcherManager).updateDispatcherStatusInApplication(any(JsonObject.class), any(JsonObject.class))
     );
 
     ArgumentCaptor<JsonObject> updateCaptor = ArgumentCaptor.forClass(JsonObject.class);
@@ -347,11 +369,10 @@ class DispatcherManagerTest {
     );
     when(requestBody.asJsonArray()).thenReturn(req);
 
-    doNothing().when(dispatcherManager).updateDispatcherStatusInApplication(any(JsonObject.class), isNull());
+    doNothing().when(dispatcherManager).updateDispatcherStatusInApplication(any(JsonObject.class), any(JsonObject.class));
 
     // First call: no match (result null)
     doAnswer(inv -> {
-      @SuppressWarnings("unchecked")
       Handler<AsyncResult<JsonObject>> h = inv.getArgument(5);
       h.handle(Future.succeededFuture(null));
       return null;
@@ -366,7 +387,6 @@ class DispatcherManagerTest {
 
     // Insert/upsert call succeeds
     doAnswer(inv -> {
-      @SuppressWarnings("unchecked")
       Handler<AsyncResult<MongoClientUpdateResult>> h = inv.getArgument(4);
       h.handle(Future.succeededFuture(mock(MongoClientUpdateResult.class)));
       return null;
@@ -377,6 +397,18 @@ class DispatcherManagerTest {
       any(UpdateOptions.class),
       any()
     );
+
+    // After upsert, the code fetches the full dispatcher document
+    JsonObject fullDispatcherDoc = new JsonObject()
+      .put("application", new JsonObject().put("_id", "A1"))
+      .put("configuration", new JsonObject().put(APPLICATION_TYPE, "myCollection"));
+    doAnswer(inv -> {
+      Handler<AsyncResult<JsonObject>> h = inv.getArgument(3);
+      h.handle(Future.succeededFuture(fullDispatcherDoc));
+      return null;
+    })
+      .when(mongoClient)
+      .findOne(eq(DISPATCHER_COLLECTION), any(JsonObject.class), isNull(), any());
 
     dispatcherManager.updateApplicationStatusFromDispatcher(routingContext);
 
@@ -391,92 +423,111 @@ class DispatcherManagerTest {
         any(UpdateOptions.class),
         any()
       );
-      verify(dispatcherManager).updateDispatcherStatusInApplication(any(JsonObject.class), isNull());
+      verify(dispatcherManager).updateDispatcherStatusInApplication(any(JsonObject.class), any(JsonObject.class));
     });
   }
 
   // -------------------------------------------------------------------------
-  // updateDispatcherStatusInApplication(...) - specificStatus branch
+  // updateDispatcherStatusInApplication(...) - updatedRecord scoping (prevents duplicates)
   // -------------------------------------------------------------------------
 
   @Test
-  void updateDispatcherStatusInApplication_whenSpecificStatusProvided_shouldSetStatusForAllDatasets() {
-    JsonObject mongoDispatcher = new JsonObject()
-      .put("application", new JsonObject().put("_id", "A1"))
-      .put("configuration", new JsonObject().put(APPLICATION_TYPE, "myCollection"));
-
-    JsonObject app = new JsonObject()
-      .put("_id", "A1")
-      .put(DATASETS, new JsonArray()
-        .add(new JsonObject().put("catalog_id", "C1"))
-        .add(new JsonObject().put("catalog_id", "C2"))
+  void updateDispatcherStatusInApplication_whenUpdatedRecordProvided_shouldOnlyUpdateSentCatalogsForThatRecord() {
+    // Simulate two dispatcher_response entries for different catalogs, both with domibus_national_received
+    JsonArray catalogIds1 = new JsonArray().add("C1");
+    JsonArray catalogIds2 = new JsonArray().add("C2");
+    JsonObject dispatcherResponseObj1 = new JsonObject()
+      .put(CATALOG_IDS, catalogIds1)
+      .put(
+        STATUS,
+        DispatcherResponseStatus.DOMIBUS_NATIONAL_RECEIVED.getDispatcherResponseStatus()
       );
-
-    doAnswer(inv -> {
-      @SuppressWarnings("unchecked")
-      Handler<AsyncResult<JsonObject>> h = inv.getArgument(3);
-      h.handle(Future.succeededFuture(app));
-      return null;
-    }).when(mongoClient).findOne(eq("myCollection"), any(JsonObject.class), isNull(), any());
-
-    dispatcherManager.updateDispatcherStatusInApplication(
-      mongoDispatcher,
-      DispatcherResponseStatus.DOMIBUS_NATIONAL_RECEIVED
-    );
-
-    Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted(() -> {
-      JsonArray ds = app.getJsonArray(DATASETS);
-      assertEquals(
-        DispatcherResponseStatus.DOMIBUS_NATIONAL_RECEIVED.getDispatcherResponseStatus(),
-        ds.getJsonObject(0).getString(DISPATCHER_RESPONSE_STATUS)
+    JsonObject dispatcherResponseObj2 = new JsonObject()
+      .put(CATALOG_IDS, catalogIds2)
+      .put(
+        STATUS,
+        DispatcherResponseStatus.DOMIBUS_NATIONAL_RECEIVED.getDispatcherResponseStatus()
       );
-      assertEquals(
-        DispatcherResponseStatus.DOMIBUS_NATIONAL_RECEIVED.getDispatcherResponseStatus(),
-        ds.getJsonObject(1).getString(DISPATCHER_RESPONSE_STATUS)
-      );
-    });
-  }
-
-  // -------------------------------------------------------------------------
-  // updateDispatcherStatusInApplication(...) - dispatcher_response loop (prepareDatasets)
-  // -------------------------------------------------------------------------
-
-  @Test
-  void updateDispatcherStatusInApplication_whenDispatcherResponseProvided_shouldSetStatusForMatchingCatalogDatasets() {
-    JsonArray catalogIds = new JsonArray().add("C1");
-    JsonObject dispatcherResponseObj = new JsonObject()
-      .put(CATALOG_IDS, catalogIds)
-      .put(STATUS, "some_status");
 
     JsonObject mongoDispatcher = new JsonObject()
       .put("application", new JsonObject().put("_id", "A1"))
-      .put("configuration", new JsonObject()
-        .put(APPLICATION_TYPE, "myCollection")
-        .put("dispatcher_response", new JsonArray().add(dispatcherResponseObj))
+      .put(
+        "configuration",
+        new JsonObject()
+          .put(APPLICATION_TYPE, "myCollection")
+          .put(
+            "dispatcher_response",
+            new JsonArray().add(dispatcherResponseObj1).add(dispatcherResponseObj2)
+          )
       );
 
+    // Application with two catalogs both in SENT status
     JsonObject app = new JsonObject()
       .put("_id", "A1")
-      .put(DATASETS, new JsonArray()
-        .add(new JsonObject().put("catalog_id", "C1"))
-        .add(new JsonObject().put("catalog_id", "C999"))
+      .put(
+        DATASETS,
+        new JsonArray()
+          .add(new JsonObject().put("catalog_id", "C1"))
+          .add(new JsonObject().put("catalog_id", "C2"))
       )
-      .put("catalogs", new JsonArray()); // keep safe for any downstream access
+      .put(
+        "catalogs",
+        new JsonArray()
+          .add(
+            new JsonObject()
+              .put("catalog_id", "C1")
+              .put(
+                "statuses",
+                new JsonArray().add(new JsonObject().put("status", "SENT").put("latest", 1))
+              )
+          )
+          .add(
+            new JsonObject()
+              .put("catalog_id", "C2")
+              .put(
+                "statuses",
+                new JsonArray().add(new JsonObject().put("status", "SENT").put("latest", 1))
+              )
+          )
+      );
 
     doAnswer(inv -> {
-      @SuppressWarnings("unchecked")
       Handler<AsyncResult<JsonObject>> h = inv.getArgument(3);
       h.handle(Future.succeededFuture(app));
       return null;
-    }).when(mongoClient).findOne(eq("myCollection"), any(JsonObject.class), isNull(), any());
+    })
+      .when(mongoClient)
+      .findOne(eq("myCollection"), any(JsonObject.class), isNull(), any());
 
-    dispatcherManager.updateDispatcherStatusInApplication(mongoDispatcher, null);
+    // Only pass updatedRecord for C2 — should NOT trigger updateSentCatalogs for C1
+    JsonObject updatedRecord = new JsonObject()
+      .put(CATALOG_IDS, catalogIds2)
+      .put(
+        STATUS,
+        DispatcherResponseStatus.DOMIBUS_NATIONAL_RECEIVED.getDispatcherResponseStatus()
+      );
 
-    Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted(() -> {
-      JsonArray ds = app.getJsonArray(DATASETS);
-      assertEquals("some_status", ds.getJsonObject(0).getString(DISPATCHER_RESPONSE_STATUS));
-      assertEquals(null, ds.getJsonObject(1).getString(DISPATCHER_RESPONSE_STATUS));
-    });
+    doReturn(Future.succeededFuture())
+      .when(dispatcherManager)
+      .changeCatalogToSubmitted(any(JsonObject.class), anyString(), anyString());
+
+    dispatcherManager.updateDispatcherStatusInApplication(mongoDispatcher, updatedRecord);
+
+    Awaitility.await()
+      .atMost(Duration.ofSeconds(2))
+      .untilAsserted(() -> {
+        // changeCatalogToSubmitted should only be called for C2 (the updatedRecord), not C1
+        verify(dispatcherManager).changeCatalogToSubmitted(
+          any(JsonObject.class),
+          eq("C2"),
+          eq("myCollection")
+        );
+        verify(dispatcherManager, never()).changeCatalogToSubmitted(
+          any(JsonObject.class),
+          eq("C1"),
+          eq("myCollection")
+        );
+      });
   }
 
   // -------------------------------------------------------------------------
@@ -489,7 +540,6 @@ class DispatcherManagerTest {
     JsonObject q = new JsonObject().put("_id", "A1");
 
     doAnswer(inv -> {
-      @SuppressWarnings("unchecked")
       Handler<AsyncResult<JsonObject>> h = inv.getArgument(3);
       h.handle(Future.succeededFuture(app));
       return null;
@@ -509,13 +559,14 @@ class DispatcherManagerTest {
   // -------------------------------------------------------------------------
   // updatePermitFromDispatcher(...) delegation
   // -------------------------------------------------------------------------
-
   @Test
   void updatePermitFromDispatcher_shouldDelegateToChangePermitStatusForEachPermit() {
+    String uploadedPermitFileId = "uploaded-permit-file-id-001";
+
     JsonArray permits = new JsonArray()
       .add(new JsonObject()
         .put("dataset_id", "D1")
-        .put("permit_file", "b64")
+        .put("permit_file", java.util.Base64.getEncoder().encodeToString("test-permit".getBytes()))
         .put("permit_status", "GRANTED")
         .put("reason", "ok")
       );
@@ -530,18 +581,23 @@ class DispatcherManagerTest {
 
     when(requestBody.asJsonObject()).thenReturn(body);
 
+    JsonObject uploadResponse = new JsonObject()
+      .put("result", new JsonObject().put("id", uploadedPermitFileId));
+    when(hubStoreClient.uploadFile(anyString(), anyString(), anyString(), any(), anyString()))
+      .thenReturn(Future.succeededFuture(uploadResponse));
+
     doNothing().when(dispatcherManager).changePermitStatus(
-      anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), any(), anyBoolean()
+      eq("A1"), eq("C1"), eq("D1"), eq("GRANTED"), eq("ok"), eq(uploadedPermitFileId), isNull(), isNull(),
+      isNull(), isNull(), isNull(), isNull(), isNull(), isNull(), any(), eq(false), isNull()
     );
 
     dispatcherManager.updatePermitFromDispatcher(routingContext);
 
-    verify(dispatcherManager).changePermitStatus(
-      "A1", "C1", "D1", "GRANTED",
-      "ok", "b64", routingContext,
-      false
+    Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted(() ->
+      verify(dispatcherManager).changePermitStatus(
+        "A1", "C1", "D1", "GRANTED",
+        "ok", uploadedPermitFileId, null, null, null, null, null, null, null, null,
+        routingContext, false, null)
     );
   }
 }
-
-

@@ -150,11 +150,6 @@
           "key": "a",
           "value": "Yes"
         },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-          "key": "b",
-          "value": "No"
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": "Fix",
         "sizeOfTheStudyCohort": "Fix",
         "sizeOfTheStudyCohortEstimationOrExact": {
           "key": "a",
@@ -441,11 +436,6 @@
             "key": "a",
             "value": "Yes"
           },
-          "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "key": "b",
-            "value": "No"
-          },
-          "howProvidedInformationOfTheDataUseToCorrespondingSubjects": "Fix",
           "sizeOfTheStudyCohort": "Fix",
           "sizeOfTheStudyCohortEstimationOrExact": {
             "key": "a",

@@ -53,7 +53,10 @@ public enum AuditLogAction {
   CATALOGUE_DELETED("Catalogue was deleted"),
 
   USER_UPDATED("User Role was updated"),
-  USER_DELETED("User was deleted");
+  USER_DELETED("User was deleted"),
+
+  /** Generic application updated action — used by the collaboration and locking features. */
+  APPLICATION_UPDATED("Application updated");
 
   private final String action;
 

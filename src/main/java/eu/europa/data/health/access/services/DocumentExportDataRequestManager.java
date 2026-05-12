@@ -104,16 +104,17 @@ public class DocumentExportDataRequestManager extends DocumentExportUtility {
 
     dbHandler.findOne(DATA_REQUEST_APPLICATION_COLLECTION, requestQuery)
       .onSuccess(requestJsonObject -> {
-        if(requestJsonObject != null) {
+        if (requestJsonObject != null) {
           processApplicationForExport(context, requestJsonObject, tl, lg, type);
         } else {
           findInDispatcherCollection(context, id, version, tl, lg, type);
         }
 
-    }).onFailure(cause -> context.response().setStatusCode(500).end());
+      }).onFailure(cause -> context.response().setStatusCode(500).end());
   }
 
-  private void findInDispatcherCollection(RoutingContext context, String id, int version, String tl, String lg, String type) {
+  private void findInDispatcherCollection(RoutingContext context, String id, int version, String tl,
+    String lg, String type) {
     JsonObject dispatcherQuery = new JsonObject()
       .put("application._id", id)
       .put("application.version", version);
@@ -143,7 +144,8 @@ public class DocumentExportDataRequestManager extends DocumentExportUtility {
 
   /**
    * Export application form for external use
-   * @param context  RoutingContext
+   *
+   * @param context RoutingContext
    */
   public void externalExportApplicationForm(RoutingContext context) {
     JsonObject jsonBody = context.body().asJsonObject();
@@ -226,7 +228,7 @@ public class DocumentExportDataRequestManager extends DocumentExportUtility {
     // --- COUNTRY OF PROJECT LEADER ---
     addTextToNewParagraph(document,
       languageMap.getJsonObject(COUNTRY_OF_PROJECT_LEADER).getString(LABEL), true, false);
-    addTextToNewParagraphWithTable(document, getObjectValue(section,COUNTRY_OF_PROJECT_LEADER),
+    addTextToNewParagraphWithTable(document, getObjectValue(section, COUNTRY_OF_PROJECT_LEADER),
       false, false);
 
     // --- PURPOSE FOR WHICH DATA WILL BE USED ---
@@ -421,6 +423,11 @@ public class DocumentExportDataRequestManager extends DocumentExportUtility {
         addTextToNewParagraphWithTable(document, getField(section, "naturalPersonAffiliation"),
           false, false);
       }
+
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("otherContactPerson").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "otherContactPerson"), false,
+        false);
     }
   }
 
@@ -511,7 +518,8 @@ public class DocumentExportDataRequestManager extends DocumentExportUtility {
           languageMap.getJsonObject(SUMMARY_OF_PLAN_FOR_USING_THE_DATA).getString(LABEL), true,
           false);
         addTextToNewParagraph(document,
-          languageMap.getJsonObject(SUMMARY_OF_PLAN_FOR_USING_THE_DATA).getString(TOOLTIP), false, true);
+          languageMap.getJsonObject(SUMMARY_OF_PLAN_FOR_USING_THE_DATA).getString(TOOLTIP), false,
+          true);
 
         JsonArray summaryPlanData = getArrayField(section, SUMMARY_OF_PLAN_FOR_USING_THE_DATA);
         generatedJsonArrayValues(document, summaryPlanData, NAME);
@@ -587,14 +595,20 @@ public class DocumentExportDataRequestManager extends DocumentExportUtility {
     writeDatasetsValues(document, datasets, TITLE, "en");
 
     // --- DATA EXTRACTION AND SAMPLING METHOD ---
-    addTextToNewParagraph(document, languageMap.getJsonObject("variablesToBeUsedInDataExtractionAttachment").getString(LABEL), true, false);
-    JsonArray variablesToBeUsed = getArrayField(section, "variablesToBeUsedInDataExtractionAttachment");
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("variablesToBeUsedInDataExtractionAttachment").getString(LABEL),
+      true, false);
+    JsonArray variablesToBeUsed = getArrayField(section,
+      "variablesToBeUsedInDataExtractionAttachment");
     generatedJsonArrayValues(document, variablesToBeUsed, "name");
 
-    addTextToNewParagraph(document, languageMap.getJsonObject("timePeriodOfDataExtraction").getString(LABEL), true, false);
-    addTextToNewParagraphWithTable(document, getField(section, "timePeriodOfDataExtraction"), false, false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("timePeriodOfDataExtraction").getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "timePeriodOfDataExtraction"), false,
+      false);
 
-    addTextToNewParagraph(document, languageMap.getJsonObject("extractionMethod").getString(LABEL), true, false);
+    addTextToNewParagraph(document, languageMap.getJsonObject("extractionMethod").getString(LABEL),
+      true, false);
     JsonObject extractionMethod = getObject(section, "extractionMethod");
 
     if (extractionMethod != null) {
@@ -602,110 +616,167 @@ public class DocumentExportDataRequestManager extends DocumentExportUtility {
       String key = extractionMethod.getString("key", "");
 
       if ("c".equals(key)) {
-        addTextToNewParagraph(document, languageMap.getJsonObject("samplingMethod").getString(LABEL), true, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("samplingMethod").getString(LABEL), true, false);
         addTextToNewParagraphWithTable(document, getField(section, "samplingMethod"), false, false);
       }
 
       if ("c".equals(key) || "a".equals(key)) {
-        addTextToNewParagraph(document, languageMap.getJsonObject(SAMPLE_SIZE).getString(LABEL), true, false);
-        addTextToNewParagraph(document, languageMap.getJsonObject(SAMPLE_SIZE).getString(TOOLTIP), false, true);
+        addTextToNewParagraph(document, languageMap.getJsonObject(SAMPLE_SIZE).getString(LABEL),
+          true, false);
+        addTextToNewParagraph(document, languageMap.getJsonObject(SAMPLE_SIZE).getString(TOOLTIP),
+          false, true);
         addTextToNewParagraphWithTable(document, getField(section, SAMPLE_SIZE), false, false);
       }
     }
 
-    addTextToNewParagraph(document, languageMap.getJsonObject(INCLUSION_CRITERIA).getString(LABEL), true, false);
-    addTextToNewParagraph(document, languageMap.getJsonObject(INCLUSION_CRITERIA).getString(TOOLTIP), false, true);
+    addTextToNewParagraph(document, languageMap.getJsonObject(INCLUSION_CRITERIA).getString(LABEL),
+      true, false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(INCLUSION_CRITERIA).getString(TOOLTIP), false, true);
     addTextToNewParagraphWithTable(document, getField(section, INCLUSION_CRITERIA), false, false);
 
-    addTextToNewParagraph(document, languageMap.getJsonObject("potentialExclusionCriteria").getString(LABEL), true, false);
-    addTextToNewParagraphWithTable(document, getField(section, "potentialExclusionCriteria"), false, false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject("potentialExclusionCriteria").getString(LABEL), true, false);
+    addTextToNewParagraphWithTable(document, getField(section, "potentialExclusionCriteria"), false,
+      false);
 
     // --- TABULATION PLAN ---
-    addTextToNewParagraph(document, languageMap.getJsonObject(TABULATION_PLAN_ARRAY).getString(LABEL), true, false);
-    addTextToNewParagraph(document, languageMap.getJsonObject(TABULATION_PLAN_ARRAY).getString(TOOLTIP), false, true);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(TABULATION_PLAN_ARRAY).getString(LABEL), true, false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(TABULATION_PLAN_ARRAY).getString(TOOLTIP), false, true);
 
     JsonArray tabulationPlanArray = getArrayField(section, TABULATION_PLAN_ARRAY);
     if (tabulationPlanArray != null && !tabulationPlanArray.isEmpty()) {
       for (Object item : tabulationPlanArray) {
         if (item instanceof JsonObject tabulationItem) {
-          addTextToNewParagraph(document, languageMap.getJsonObject("tabulationRegisteredToBeUsed").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, tabulationItem.getString("tabulationRegisteredToBeUsed", ""), false, false);
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject("tabulationRegisteredToBeUsed").getString(LABEL), true,
+            false);
+          addTextToNewParagraphWithTable(document,
+            tabulationItem.getString("tabulationRegisteredToBeUsed", ""), false, false);
 
-          addTextToNewParagraph(document, languageMap.getJsonObject("tabulationPossibleStudyCohort").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, tabulationItem.getString("tabulationPossibleStudyCohort", ""), false, false);
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject("tabulationPossibleStudyCohort").getString(LABEL), true,
+            false);
+          addTextToNewParagraphWithTable(document,
+            tabulationItem.getString("tabulationPossibleStudyCohort", ""), false, false);
 
-          addTextToNewParagraph(document, languageMap.getJsonObject("tabulationInformationOfRequiredVariables").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, tabulationItem.getString("tabulationInformationOfRequiredVariables", ""), false, false);
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject("tabulationInformationOfRequiredVariables").getString(LABEL),
+            true, false);
+          addTextToNewParagraphWithTable(document,
+            tabulationItem.getString("tabulationInformationOfRequiredVariables", ""), false, false);
 
-          addTextToNewParagraph(document, languageMap.getJsonObject("tabulationFormationVariables").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, tabulationItem.getString("tabulationFormationVariables", ""), false, false);
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject("tabulationFormationVariables").getString(LABEL), true,
+            false);
+          addTextToNewParagraphWithTable(document,
+            tabulationItem.getString("tabulationFormationVariables", ""), false, false);
 
-          addTextToNewParagraph(document, languageMap.getJsonObject("tabulationDesiredDirection").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, tabulationItem.getString("tabulationDesiredDirection", ""), false, false);
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject("tabulationDesiredDirection").getString(LABEL), true, false);
+          addTextToNewParagraphWithTable(document,
+            tabulationItem.getString("tabulationDesiredDirection", ""), false, false);
 
-          addTextToNewParagraph(document, languageMap.getJsonObject("tabulationOrderInWhichTable").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, tabulationItem.getString("tabulationOrderInWhichTable", ""), false, false);
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject("tabulationOrderInWhichTable").getString(LABEL), true, false);
+          addTextToNewParagraphWithTable(document,
+            tabulationItem.getString("tabulationOrderInWhichTable", ""), false, false);
 
-          addTextToNewParagraph(document, languageMap.getJsonObject("tabulationAnyOtherRelevant").getString(LABEL), true, false);
-          addTextToNewParagraphWithTable(document, tabulationItem.getString("tabulationAnyOtherRelevant", ""), false, false);
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject("tabulationAnyOtherRelevant").getString(LABEL), true, false);
+          addTextToNewParagraphWithTable(document,
+            tabulationItem.getString("tabulationAnyOtherRelevant", ""), false, false);
 
-          addTextToNewParagraph(document, languageMap.getJsonObject(TABULATION_PLAN).getString(LABEL), true, false);
-          addTextToNewParagraph(document, languageMap.getJsonObject(TABULATION_PLAN).getString(TOOLTIP), false, true);
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject(TABULATION_PLAN).getString(LABEL), true, false);
+          addTextToNewParagraph(document,
+            languageMap.getJsonObject(TABULATION_PLAN).getString(TOOLTIP), false, true);
 
           JsonObject tabulationPlan = tabulationItem.getJsonObject(TABULATION_PLAN);
           if (tabulationPlan != null) {
-            addTextToNewParagraphWithTable(document, tabulationPlan.getString(NAME, ""), false, false);
+            addTextToNewParagraphWithTable(document, tabulationPlan.getString(NAME, ""), false,
+              false);
           }
         }
       }
     }
 
     // --- EXTRACTION DESCRIPTION AND FREQUENCY ---
-    addTextToNewParagraph(document, languageMap.getJsonObject(EXTRACTION_DESCRIPTION_AND_COMPILATION).getString(LABEL), true, false);
-    addTextToNewParagraph(document, languageMap.getJsonObject(EXTRACTION_DESCRIPTION_AND_COMPILATION).getString(TOOLTIP), false, true);
-
-    addTextToNewParagraph(document, languageMap.getJsonObject(DATA_EXTRACTION_FREQUENCY).getString(LABEL), true, false);
-    JsonObject howOftenExtraction = getObject(section, HOW_OFTEN_DOES_THE_DATA_NEED_TO_BE_EXTRACTED_ONCE_OR_MULTIPLE);
-    addTextToNewParagraphWithTable(document, getObjectValue(section, HOW_OFTEN_DOES_THE_DATA_NEED_TO_BE_EXTRACTED_ONCE_OR_MULTIPLE), false, false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(EXTRACTION_DESCRIPTION_AND_COMPILATION).getString(LABEL), true,
+      false);
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(EXTRACTION_DESCRIPTION_AND_COMPILATION).getString(TOOLTIP), false,
+      true);
 
     addTextToNewParagraph(document,
-      languageMap.getJsonObject(OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW).getString(LABEL),
+      languageMap.getJsonObject(DATA_EXTRACTION_FREQUENCY).getString(LABEL), true, false);
+    JsonObject howOftenExtraction = getObject(section,
+      HOW_OFTEN_DOES_THE_DATA_NEED_TO_BE_EXTRACTED_ONCE_OR_MULTIPLE);
+    addTextToNewParagraphWithTable(document,
+      getObjectValue(section, HOW_OFTEN_DOES_THE_DATA_NEED_TO_BE_EXTRACTED_ONCE_OR_MULTIPLE), false,
+      false);
+
+    addTextToNewParagraph(document,
+      languageMap.getJsonObject(OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW)
+        .getString(LABEL),
       true, false);
     addTextToNewParagraph(document,
-      languageMap.getJsonObject(OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW).getString(TOOLTIP),
+      languageMap.getJsonObject(OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW)
+        .getString(TOOLTIP),
       false, true);
-    addTextToNewParagraphWithTable(document, getObjectValue(section, OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW),
+    addTextToNewParagraphWithTable(document,
+      getObjectValue(section, OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW),
       false,
       false);
 
-    JsonObject mechanismProvidedInNationalLaw = getObject(section,OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW);
+    JsonObject mechanismProvidedInNationalLaw = getObject(section,
+      OPT_OUT_OF_THE_MECHANISM_PROVIDED_IN_THE_NATIONAL_LAW);
     if (isKey(mechanismProvidedInNationalLaw, "a")) {
-      addTextToNewParagraph(document,languageMap.getJsonObject("providedJustificationException").getString(LABEL), true, false);
-      addTextToNewParagraphWithTable(document, getField(section, "providedJustificationException"),false, false);
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("providedJustificationException").getString(LABEL), true, false);
+      addTextToNewParagraphWithTable(document, getField(section, "providedJustificationException"),
+        false, false);
     }
 
     if (howOftenExtraction != null && isKey(howOftenExtraction, "b")) {
-        addTextToNewParagraph(document, languageMap.getJsonObject(NEED_FOR_DATA_EXTRACTION_EVERY).getString(LABEL), true, false);
-        addTextToNewParagraph(document, languageMap.getJsonObject(NEED_FOR_DATA_EXTRACTION_EVERY).getString(TOOLTIP), false, true);
-        addTextToNewParagraphWithTable(document, getObjectValue(section, NEED_FOR_DATA_EXTRACTION_EVERY), false, false);
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject(NEED_FOR_DATA_EXTRACTION_EVERY).getString(LABEL), true, false);
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject(NEED_FOR_DATA_EXTRACTION_EVERY).getString(TOOLTIP), false, true);
+      addTextToNewParagraphWithTable(document,
+        getObjectValue(section, NEED_FOR_DATA_EXTRACTION_EVERY), false, false);
 
-        JsonObject needExtractionEvery = getObject(section, NEED_FOR_DATA_EXTRACTION_EVERY);
-        if (needExtractionEvery != null && isKey(needExtractionEvery, "d")) {
-            addTextToNewParagraph(document, languageMap.getJsonObject("needForDataExtractionEveryOther").getString(LABEL), true, false);
-            addTextToNewParagraphWithTable(document, getField(section, "needForDataExtractionEveryOther"), false, false);
-        }
+      JsonObject needExtractionEvery = getObject(section, NEED_FOR_DATA_EXTRACTION_EVERY);
+      if (needExtractionEvery != null && isKey(needExtractionEvery, "d")) {
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("needForDataExtractionEveryOther").getString(LABEL), true,
+          false);
+        addTextToNewParagraphWithTable(document,
+          getField(section, "needForDataExtractionEveryOther"), false, false);
+      }
+
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("needForDataExtractionEveryDescriptionDR").getString(LABEL), true,
+        false);
+      addTextToNewParagraph(document,
+        languageMap.getJsonObject("needForDataExtractionEveryDescriptionDR").getString(TOOLTIP),
+        false, true);
+      addTextToNewParagraphWithTable(document,
+        getField(section, "needForDataExtractionEveryDescription"), false, false);
     }
-
-    addTextToNewParagraph(document, languageMap.getJsonObject("needForDataExtractionEveryDescriptionDR").getString(LABEL), true, false);
-    addTextToNewParagraph(document, languageMap.getJsonObject("needForDataExtractionEveryDescriptionDR").getString(TOOLTIP), false, true);
-    addTextToNewParagraphWithTable(document, getField(section, "needForDataExtractionEveryDescription"), false, false);
 
     // --- FREQUENCY OF UPDATES (IF APPLICABLE) ---
     if (section2 != null) {
       JsonArray purposeOfUse = getArrayField(section2, "purposeForWhichDataWillBeUsed");
       if (purposeOfUse != null && containsKey(purposeOfUse, "b")) {
-        addTextToNewParagraph(document, languageMap.getJsonObject("whatIsTheFrequencyOfUpdates").getString(LABEL), true, false);
-        addTextToNewParagraphWithTable(document, getField(section, "whatIsTheFrequencyOfUpdates"), false, false);
+        addTextToNewParagraph(document,
+          languageMap.getJsonObject("whatIsTheFrequencyOfUpdates").getString(LABEL), true, false);
+        addTextToNewParagraphWithTable(document, getField(section, "whatIsTheFrequencyOfUpdates"),
+          false, false);
       }
     }
   }

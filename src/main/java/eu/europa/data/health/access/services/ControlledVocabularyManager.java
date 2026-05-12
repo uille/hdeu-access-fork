@@ -20,7 +20,6 @@ import static eu.europa.data.health.access.Constants.COUNTRY_SCHEME;
 import static eu.europa.data.health.access.Constants.DESCRIPTION;
 import static eu.europa.data.health.access.Constants.LABEL;
 import static eu.europa.data.health.access.Constants.LANGUAGE_SCHEME;
-import static eu.europa.data.health.access.Constants.PUBLISHER_TYPE_SCHEME;
 import static eu.europa.data.health.access.Constants.SUPPORTED_COUNTRY_CONCEPTS;
 import static eu.europa.data.health.access.Constants.SUPPORTED_LANGUAGES;
 import static eu.europa.data.health.access.Constants.SUPPORTED_LANGUAGE_CONCEPTS;
@@ -93,6 +92,7 @@ public class ControlledVocabularyManager {
   private static final String ROLE_CODE_SCHEME = "https://standards.iso.org/iso/19115/resources/Codelists/gml/CI_RoleCode.xml";
   private static final String PERSONAL_DATA_SCHEME = "https://raw.githubusercontent.com/w3c/dpv/refs/heads/master/2.2/pd/pd.ttl";
   private static final String PERSONAL_DATA_IN_SCHEME_URI = "https://w3id.org/dpv/pd#extended-classes";
+  private static final String PUBLISHER_TYPE_SCHEME = "/resource/authority/publisher-type";
   private static final String ITEMS = "items";
   private static final String SOURCE = "source";
   private static final String SOURCE_LANG = "en";
@@ -407,19 +407,13 @@ public class ControlledVocabularyManager {
    * @param source The source URL.
    * @return A Future with the vocabulary document.
    */
-  private Future<JsonObject> buildFromSource(String source) {
-    if (CHECKSUM_SCHEME.equals(source)) {
-      return buildFromChecksum(source);
-    }
-    if (ROLE_CODE_SCHEME.equals(source)) {
-      return buildFromRoleCode(source);
-    }
-
-    if (PERSONAL_DATA_SCHEME.equals(source)) {
-      return buildFromPersonalData(source);
-    }
-
-    return buildFromRDF(source);
+  private Future<JsonObject> buildFromSource(@NotNull String source) {
+    return switch (source) {
+      case CHECKSUM_SCHEME -> buildFromChecksum(source);
+      case ROLE_CODE_SCHEME -> buildFromRoleCode(source);
+      case PERSONAL_DATA_SCHEME -> buildFromPersonalData(source);
+      default -> buildFromRDF(source);
+    };
   }
 
   /**
@@ -435,7 +429,7 @@ public class ControlledVocabularyManager {
    * @param url The SPDX terms URL.
    * @return A Future with the vocabulary document.
    */
-  private Future<JsonObject> buildFromChecksum(String url) {
+  private Future<JsonObject> buildFromChecksum(@NotNull String url) {
     Promise<JsonObject> promise = Promise.promise();
 
     client.getAbs(url).send(ar -> {
@@ -496,7 +490,7 @@ public class ControlledVocabularyManager {
    * @param url The ISO CI_RoleCode URL.
    * @return A Future with the vocabulary document.
    */
-  private Future<JsonObject> buildFromRoleCode(String url) {
+  private Future<JsonObject> buildFromRoleCode(@NotNull String url) {
     Promise<JsonObject> promise = Promise.promise();
 
     client.getAbs(url).send(ar -> {
@@ -561,7 +555,7 @@ public class ControlledVocabularyManager {
    * @param url The Personal Data rdf/ttl URL.
    * @return A Future with the vocabulary document.
    */
-  private Future<JsonObject> buildFromPersonalData(String url) {
+  private Future<JsonObject> buildFromPersonalData(@NotNull String url) {
     // Fetch personal data model (async)
     return fetchRDFModel(url, Lang.TTL).map(model -> {
       Set<Resource> conceptResources = new LinkedHashSet<>();
@@ -723,15 +717,15 @@ public class ControlledVocabularyManager {
    * @param url The RDF concept scheme URL.
    * @return A Future with the vocabulary document.
    */
-  private Future<JsonObject> buildFromRDF(String url) {
+  private Future<JsonObject> buildFromRDF(@NotNull String url) {
     final boolean multilingual = !FILE_TYPE_SCHEME.equals(url);
 
     // Fetch scheme model
     return fetchRDFModel(url, Lang.RDFXML).compose(model -> {
       // Extract concept URIs (for publisher type extract all inScheme and not just topConcepts)
-      Set<String> conceptURIs =
-        PUBLISHER_TYPE_SCHEME.equals(url) ? extractAllInSchemeConceptURIs(model, url)
-          : extractTopConceptURIs(model, url);
+      Set<String> conceptURIs = url.endsWith(PUBLISHER_TYPE_SCHEME)
+        ? extractAllInSchemeConceptURIs(model, url)
+        : extractTopConceptURIs(model, url);
 
       // Filter concepts for language and country schemes
       if (LANGUAGE_SCHEME.equals(url)) {

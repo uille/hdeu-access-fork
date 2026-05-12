@@ -35,6 +35,14 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+## Deployment strategy configuration
+## ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
+## @param deploymentStrategy Defines the deployment strategy for rolling updates. If not set, defaults to RollingUpdate with maxUnavailable and maxSurge set to 25%.
+deploymentStrategy: {}
+# Example:
+# deploymentStrategy:
+#   type: Recreate
+
 ## HDEU Access Service Account
 ## ref: https://kubernetes.io/docs/concepts/security/service-accounts/
 ## @param serviceAccount.create Specifies whether a service account should be created
@@ -128,8 +136,7 @@ containerPort: 8080
 ## @param config.HUB_REPO_X_API_KEY API key for hdeu-hub-repo authentication.
 ## @param config.AUTH_URL internal URL for hdeu-auth service.
 ##
-config:
-  {}
+config: {}
   # Example:
   # JAVA_OPTS: "-Xms300m -Xmx1g"
   # MONGO_DB_URI: "mongodb://mongodb.default.svc.cluster.local:27017"
@@ -225,8 +232,7 @@ ingress:
 ## Resources configuration
 ## ref: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
 ##
-resources:
-  {}
+resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -246,13 +252,21 @@ resources:
 ## @param autoscaling.maxReplicas Maximum number of replicas allowed to handle high traffic.
 ## @param autoscaling.targetCPUUtilizationPercentage CPU utilization threshold for scaling. When exceeded, more replicas are created.
 ## @param autoscaling.targetMemoryUtilizationPercentage Memory utilization threshold for scaling (optional, uncomment to enable).
+## @param autoscaling.behavior.scaleDown.stabilizationWindowSeconds Seconds to wait before acting on scale-down decisions.
+## @param autoscaling.behavior.scaleDown.pods Number of pods to remove per periodSeconds.
+## @param autoscaling.behavior.scaleDown.periodSeconds Time window in seconds for the scale-down policy.
 ##
 autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
+  # targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      pods: 1
+      periodSeconds: 60
 
 ## Define node selection criteria.
 ## This setting allows pods to be scheduled on specific nodes that match the given labels.
@@ -284,3 +298,40 @@ tolerations: []
 ##               values:
 ##                 - "example-value"
 affinity: {}
+
+## Extra volume mounts to add to the container.
+## Useful for mounting additional directories such as log or dump paths required by the JVM or application.
+## ref: https://kubernetes.io/docs/concepts/storage/volumes/
+## @param extraVolumeMounts[].name Name of the volume to mount (must match a volume defined in extraVolumes).
+## @param extraVolumeMounts[].mountPath Path inside the container where the volume will be mounted.
+## Example:
+## extraVolumeMounts:
+##   - name: logs
+##     mountPath: /logs
+##   - name: dumps
+##     mountPath: /dumps
+extraVolumeMounts: []
+
+## Lifecycle hooks for the container.
+## ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
+## @param lifecycle Define postStart and/or preStop lifecycle hooks as standard Kubernetes lifecycle spec.
+## Example: Clear stale heap dumps on start (needed because emptyDir persists across container restarts
+## within the same pod, and the JVM with PID 1 cannot overwrite an existing java_pid1.hprof):
+## lifecycle:
+##   postStart:
+##     exec:
+##       command: ["sh", "-c", "rm -f /dumps/*.hprof"]
+lifecycle: {}
+
+## Extra volumes to add to the pod.
+## Used in conjunction with extraVolumeMounts to provide storage for logs, heap dumps, or other ephemeral/persistent data.
+## ref: https://kubernetes.io/docs/concepts/storage/volumes/
+## @param extraVolumes[].name Name of the volume (must match an entry in extraVolumeMounts).
+## @param extraVolumes[].emptyDir Use an emptyDir volume for ephemeral storage (data is lost on pod restart).
+## Example:
+## extraVolumes:
+##   - name: logs
+##     emptyDir: {}
+##   - name: dumps
+##     emptyDir: {}
+extraVolumes: []

@@ -3,7 +3,7 @@ info:
   version: ${project.version}
   title: Data Access Service
   x-logo:
-    url: images/logo
+    url: images/logo.png
 
 
 tags:
@@ -28,9 +28,24 @@ tags:
   - name: User Profile
     x-displayName: "User Profile"
     description: Operations related to a user's profile, like get/create/delete a user profile.
+  - name: Collaboration
+    x-displayName: "Collaboration"
+    description: >
+      Endpoints for managing application collaborators — invite by email, accept/reject invitations,
+      remove collaborators, transfer ownership, and list collaborative applications.
+  - name: Section Locking
+    x-displayName: "Section Locking"
+    description: >
+      Backend-authoritative lease-based section edit locks. Acquire a lock before editing,
+      renew via heartbeat every 30 s, release on navigation away. Lock expires automatically
+      after 2 minutes without renewal (TTL index). Write-time enforcement rejects saves
+      from callers who do not hold a valid lock.
   - name: User
     x-displayName: "User"
     description: Operations related to users, like search a user, delete a user or update a user's role. All these operations can only be performed by an administrator.
+  - name: Favourites
+    x-displayName: "Favourites"
+    description: Operations related to Favourites, like retrieving favourites filtered by user and type.
   - name: Dispatcher
     x-displayName: "Dispatcher"
     description: Operations related to Dispatcher component, like update the status of an application and receive the status of an ncp.
@@ -235,6 +250,8 @@ paths:
                 $ref: '#/components/schemas/distributionCountResponse'
         '500':
           description: Internal Server Error
+
+
 
   ############################
   # Applications Dropdown Data #
@@ -599,6 +616,34 @@ paths:
           description: the requested sorting order
           schema:
             type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                status:
+                  type: array
+                  items:
+                    type: string
+                hdab:
+                  type: array
+                  items:
+                    type: string
+                geographicalList:
+                  type: array
+                  items:
+                    type: string
+                role:
+                  description: Multiselect access-role filter. Send OWNER and/or EDITOR. If both are selected, send ["OWNER", "EDITOR"].
+                  type: array
+                  uniqueItems: true
+                  items:
+                    type: string
+                    enum: [OWNER, EDITOR]
       responses:
         '200':
           description: Returns a JSON array containing the Data Access Form list
@@ -612,7 +657,6 @@ paths:
           description: Bad request
         '500':
           description: Internal Server Error
-
   /data-access/application/{id}:
     get:
       tags:
@@ -920,7 +964,7 @@ paths:
           required: true
           schema:
             type: integer
-            minimum: 2
+            minimum: 1
             maximum: 10
       requestBody:
         required: true
@@ -982,8 +1026,7 @@ paths:
         - Data Access Form
       summary: Retrieve the file based on the provided file id
       operationId: getData
-      security:
-        - BearerAuth: [ ]
+      security: [ ]
       parameters:
         - name: data_id
           in: path
@@ -1526,6 +1569,34 @@ paths:
           description: the requested sorting order
           schema:
             type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                status:
+                  type: array
+                  items:
+                    type: string
+                hdab:
+                  type: array
+                  items:
+                    type: string
+                geographicalList:
+                  type: array
+                  items:
+                    type: string
+                role:
+                  description: Multiselect access-role filter. Send OWNER and/or EDITOR. If both are selected, send ["OWNER", "EDITOR"].
+                  type: array
+                  uniqueItems: true
+                  items:
+                    type: string
+                    enum: [OWNER, EDITOR]
       responses:
         '200':
           description: Returns a JSON array containing the Data Request Form list
@@ -1846,7 +1917,7 @@ paths:
           required: true
           schema:
             type: integer
-            minimum: 2
+            minimum: 1
             maximum: 10
       requestBody:
         required: true
@@ -1908,8 +1979,7 @@ paths:
         - Data Request Form
       summary: Retrieve the file based on the provided data_id
       operationId: getRequestData
-      security:
-        - BearerAuth: [ ]
+      security: [ ]
       parameters:
         - name: data_id
           in: path
@@ -2050,6 +2120,51 @@ paths:
       security:
         #- BearerAuth: [ ]
         - ApiKeyAuth: []
+      parameters:
+        - name: application_id
+          in: path
+          description: ID of the application
+          required: true
+          schema:
+            type: string
+        - name: catalog_id
+          in: path
+          description: ID of the catalog
+          required: true
+          schema:
+            type: string
+        - name: dataset_id
+          in: path
+          description: ID of the dataset
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutStatusRequest'
+      responses:
+        '200':
+          description: Updated the provided status for the dataset
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /data-request/application/{application_id}/catalog/{catalog_id}/dataset/{dataset_id}/permit:
+    put:
+      tags:
+        - Data Request Form
+      summary: Update the permit of a dataset
+      operationId: putDatasetPermitStatusDataRequestApplication
+      security:
+        #- BearerAuth: [ ]
+        - ApiKeyAuth: [ ]
       parameters:
         - name: application_id
           in: path
@@ -2330,10 +2445,610 @@ paths:
         '500':
           description: Internal Server Error
 
+  ###########################
+  #  Collaboration          #
+  ###########################
 
-  #################
-  #  User Profile #
-  #################
+  /application/{applicationId}/collaborators:
+    get:
+      tags:
+        - Collaboration
+      summary: Get all collaborators for an application
+      operationId: getCollaborators
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 5
+        - name: search
+          in: query
+          required: false
+          description: Filter collaborators by email or collaborator name (case-insensitive partial match)
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          required: false
+          description: Field to sort by
+          schema:
+            type: string
+            enum: [invitedEmail, collaboratorUserName, role]
+        - name: sortDirection
+          in: query
+          required: false
+          description: Sort direction
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: asc
+      responses:
+        '200':
+          description: List of collaborators.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CollaboratorEntry'
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+    post:
+      tags:
+        - Collaboration
+      summary: Invite a user as collaborator by email
+      operationId: addCollaborator
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollaboratorInviteRequest'
+      responses:
+        '201':
+          description: Collaborator invite created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+        '400':
+          description: Bad request
+        '403':
+          description: Forbidden - caller is not the owner
+        '409':
+          description: User is already a collaborator
+        '500':
+          description: Internal Server Error
+
+  /application/{applicationId}/collaborators/{collaboratorId}:
+    delete:
+      tags:
+        - Collaboration
+      summary: Remove a collaborator or leave the application
+      operationId: removeCollaborator
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: collaboratorId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Collaborator removed.
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '500':
+          description: Internal Server Error
+
+  /application/{applicationId}/collaborators/{collaboratorId}/accept:
+    put:
+      tags:
+        - Collaboration
+      summary: Accept a collaboration invitation
+      operationId: acceptCollaboratorInvite
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: collaboratorId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Invitation accepted.
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '409':
+          description: Invitation not in PENDING state
+        '500':
+          description: Internal Server Error
+
+  /application/{applicationId}/collaborators/{collaboratorId}/reject:
+    put:
+      tags:
+        - Collaboration
+      summary: Reject a collaboration invitation
+      operationId: rejectCollaboratorInvite
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: collaboratorId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Invitation rejected.
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '500':
+          description: Internal Server Error
+
+  /application/{applicationId}/collaborators/transfer:
+    post:
+      tags:
+        - Collaboration
+      summary: Transfer application ownership to another collaborator
+      operationId: transferOwnership
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newOwnerCollaboratorId:
+                  type: string
+              required:
+                - newOwnerCollaboratorId
+      responses:
+        '200':
+          description: Ownership transferred.
+        '400':
+          description: Bad request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '500':
+          description: Internal Server Error
+  /application/{applicationId}/collaborators/request-ownership:
+    post:
+      tags:
+        - Collaboration
+      summary: Request ownership transfer for an application
+      operationId: requestOwnership
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OwnershipRequestCreateRequest'
+      responses:
+        '201':
+          description: Ownership request created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+        '400':
+          description: Bad request
+        '403':
+          description: Forbidden
+        '409':
+          description: Duplicate pending request
+        '500':
+          description: Internal Server Error
+  /application/{applicationId}/collaborators/ownership-requests:
+    get:
+      tags:
+        - Collaboration
+      summary: Get all ownership requests for an application
+      operationId: getOwnershipRequests
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of ownership requests.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OwnershipRequestEntry'
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /application/{applicationId}/collaborators/ownership-requests/{requestId}/accept:
+    put:
+      tags:
+        - Collaboration
+      summary: Accept an ownership request and transfer ownership
+      operationId: acceptOwnershipRequest
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ownership transferred.
+        '400':
+          description: Bad request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '409':
+          description: Requester is no longer an accepted editor
+        '500':
+          description: Internal Server Error
+  /application/{applicationId}/collaborators/ownership-requests/{requestId}/reject:
+    put:
+      tags:
+        - Collaboration
+      summary: Reject an ownership request
+      operationId: rejectOwnershipRequest
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Ownership request rejected and deleted.
+        '400':
+          description: Bad request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '500':
+          description: Internal Server Error
+
+  /collaborations/mine:
+    get:
+      tags:
+        - Collaboration
+      summary: Get all applications where the authenticated user is a collaborator
+      operationId: getMyCollaborativeApplications
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: List of collaborative application entries.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CollaboratorEntry'
+        '500':
+          description: Internal Server Error
+
+  ###########################
+  #  Section Edit Locking   #
+  ###########################
+
+  /applications/{type}/{id}/sections/{sectionId}/lock/acquire:
+    post:
+      tags:
+        - Section Locking
+      summary: Acquire a section edit lock
+      description: |
+        Atomically acquires a lease lock for the specified section.
+        Returns 200 on success, 409 if the section is locked by another user/session.
+        The same user in a different tab also gets a 409.
+      operationId: acquireSectionLock
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: type
+          in: path
+          required: true
+          description: Application type (DATA_ACCESS_APPLICATION or DATA_REQUEST_APPLICATION)
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          description: Application ID
+          schema:
+            type: string
+        - name: sectionId
+          in: path
+          required: true
+          description: Section identifier (section1 through section10)
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LockRequest'
+      responses:
+        '200':
+          description: Lock acquired.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LockResponse'
+        '400':
+          description: Bad request
+        '409':
+          description: Lock conflict - section is locked by another user or same user in another tab
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LockConflictResponse'
+        '500':
+          description: Internal Server Error
+
+  /applications/{type}/{id}/sections/{sectionId}/lock/heartbeat:
+    post:
+      tags:
+        - Section Locking
+      summary: Renew a section edit lock (heartbeat)
+      description: |
+        Extends the lock expiry. Must be called every 30 seconds by the frontend.
+        Returns 409 if the lock was lost (expired or stolen).
+      operationId: heartbeatSectionLock
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sectionId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LockRequest'
+      responses:
+        '200':
+          description: Lock renewed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  expiresAt:
+                    type: string
+                    format: date-time
+        '400':
+          description: Bad request
+        '409':
+          description: Lock lost
+        '500':
+          description: Internal Server Error
+
+  /applications/{type}/{id}/sections/{sectionId}/lock:
+    delete:
+      tags:
+        - Section Locking
+      summary: Release a section edit lock
+      operationId: releaseSectionLock
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sectionId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LockRequest'
+      responses:
+        '204':
+          description: Lock released.
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  /applications/{type}/{id}/sections/locks:
+    get:
+      tags:
+        - Section Locking
+      summary: Get all active locks for an application (polling fallback)
+      description: |
+        Returns all non-expired locks for the application. Used by the frontend
+        as a polling fallback every 60-120 seconds.
+      operationId: getApplicationSectionLocks
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Array of active lock documents.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SectionLock'
+        '500':
+          description: Internal Server Error
+
+  /applications/{type}/{id}/lock/switch:
+    post:
+      tags:
+        - Section Locking
+      summary: Atomically switch the lock group when navigating between sections
+      description: |
+        Computes the new lock group for newSectionId, diffs against the session's
+        current locks, releases stale sections, keeps overlapping ones (refreshing
+        their expiry), and acquires newly required sections. If any new section is
+        held by another user, returns 409 and keeps existing locks unchanged.
+      operationId: switchSectionLock
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SwitchLockRequest'
+      responses:
+        '200':
+          description: Lock group switched successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SwitchLockResponse'
+        '400':
+          description: Bad Request — missing sessionId or newSectionId.
+        '409':
+          description: Conflict — a section in the new lock group is held by another user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LockConflictResponse'
+        '500':
+          description: Internal Server Error
 
   /user:
     put:
@@ -2388,6 +3103,178 @@ paths:
           description: Successfully deleted a user
         '404':
           description: Not Found
+
+  /user/emailPreferences:
+    put:
+      tags:
+        - User Profile
+      summary: Update user email notification preferences
+      operationId: putUserEmailPreferences
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailNotificationPreferences'
+      responses:
+        '200':
+          description: Email preferences updated successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Bad Request - Invalid input
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+  ##############
+  # Favourites #
+  ##############
+
+  /favourites:
+    get:
+      tags:
+        - Favourites
+      summary: Retrieve all favourites for the authenticated user
+      operationId: getFavourites
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '#/components/parameters/FavouriteTypeParam'
+      responses:
+        '200':
+          description: Returns an array of all favourites matching the filters for the authenticated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavouritesResponse'
+        '400':
+          description: Bad Request - Invalid type
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+    post:
+      tags:
+        - Favourites
+      summary: Create a new favourite entry for the authenticated user
+      operationId: createFavourite
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewFavouriteEntry'
+      responses:
+        '201':
+          description: Favourite created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Favourite'
+        '400':
+          description: Bad Request - Invalid input
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict - Favourite entry already exists
+        '500':
+          description: Internal Server Error
+
+  /favourites/stale:
+    get:
+      tags:
+        - Favourites
+      summary: Retrieve stale favourites for the authenticated user
+      operationId: getStaleFavourites
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '#/components/parameters/FavouriteTypeParam'
+      responses:
+        '200':
+          description: Returns an array of stale favourites for the authenticated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavouritesResponse'
+        '400':
+          description: Bad Request - type must be dataset or distribution
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+
+  /favourites/{id}:
+    put:
+      tags:
+        - Favourites
+      summary: Update a favourite entry by id for the authenticated user
+      operationId: updateFavourite
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '#/components/parameters/MongoID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFavouriteEntry'
+      responses:
+        '200':
+          description: Favourite updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Favourite'
+        '400':
+          description: Bad Request - Invalid input or favourite id format
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Favourite not found
+        '409':
+          description: Conflict - Entry with the same label already exists
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - Favourites
+      summary: Delete a favourite entry by id for the authenticated user
+      operationId: deleteFavourite
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '#/components/parameters/MongoID'
+      responses:
+        '204':
+          description: Favourite deleted successfully
+        '400':
+          description: Bad Request - Invalid favourite id format
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Favourite not found
+        '500':
+          description: Internal Server Error
 
   ################
   #  Dispatcher  #
@@ -2631,6 +3518,94 @@ paths:
   #  Administration Tasks  #
   ##########################
 
+  /admin/applications/search:
+    post:
+      tags:
+        - Administration
+      summary: Search Data Access and Data Request applications for administrators
+      operationId: searchAllApplicationsByAdmin
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: the status of the application. Multiple values can be provided comma-separated.
+          schema:
+            type: string
+        - name: searchTerm
+          in: query
+          description: optional title search term when a request body is not provided
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchTerm:
+                  type: string
+                  description: case-insensitive title search term
+                title:
+                  type: string
+                  description: alias of searchTerm for title-based filtering
+                ownershipFilter:
+                  type: string
+                  description: filter applications by whether they currently have ownership requests
+                  enum:
+                    - all
+                    - pending
+                    - no-pending
+      responses:
+        '200':
+          description: Returns a combined list of data access and data request applications
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        hasOwnershipRequests:
+                          type: boolean
+                          description: true when the application currently has at least one ownership request
+                  metadata:
+                    type: object
+                    properties:
+                      ownershipFilter:
+                        type: string
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
   /admin/resubmit/application/{application_id}:
     put:
       tags:
@@ -3202,6 +4177,34 @@ paths:
           description: Bad request
         '500':
           description: Internal Server Error
+  /admin/users/{userId}:
+    get:
+      tags:
+        - User
+      summary: Get a user profile by userId
+      operationId: getUserById
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: userId
+          in: path
+          description: The identifier of the user stored in the USER collection.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userProfileResponse'
+        '400':
+          description: Bad request.
+        '404':
+          description: User not found.
+        '500':
+          description: Internal Server Error
   /admin/users/deleteUser/{username}/{userId}:
     delete:
       tags:
@@ -3231,7 +4234,7 @@ paths:
         '404':
           description: User not found.
         '500':
-          description: Internal Server Error.
+          description: Internal Server Error
   /admin/users/updateRole/{operation}/{role}/{userId}:
     put:
       tags:
@@ -3326,7 +4329,6 @@ paths:
                 type: string
         '500':
           description: Internal Server Error
-
 
   ################
   # Payload      #
@@ -3646,9 +4648,214 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/logLevelErrorResponse500'
+  #####################
+  #   Notifications   #
+  #####################
+  /notifications/getAll:
+    post:
+      tags:
+        - Notifications
+      summary: Get All Notifications
+      operationId: getAllNotifications
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: limit
+          in: query
+          description: the size of the page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the requested page
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: the requested sorting item
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          description: the requested sorting order
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON array containing the Notification list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
 
+  /notifications/readNotifications:
+    post:
+      tags:
+        - Notifications
+      summary: Mark notifications as read based on list of IDs
+      description: Updates the specified notifications by setting the 'displayed' flag from false to true.
+      operationId: readNotifications
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notificationIds:
+                  type: array
+                  items:
+                    type: string
+              required:
+                - notificationIds
+      responses:
+        '200':
+          description: Notifications successfully marked as read
+        '400':
+          description: Bad request (invalid or empty IDs list)
+        '500':
+          description: Internal Server Error
 
+  /notifications/unreadNotificationCounter:
+    get:
+      tags:
+        - Notifications
+      summary: Retrieve the count of all unread notifications
+      operationId: getUnreadNotificationCount
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: Returns a json object containing the count number of all unread notifications
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unreadNotificationCountResponse'
+        '500':
+          description: Internal Server Error
 
+  /notifications/delete:
+    post:
+      tags:
+        - Notifications
+      summary: Delete Notifications based on a id or all of them
+      operationId: deleteNotifications
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '204':
+          description: Notifications have been deleted
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+
+  # ---------------------------------------------------------------------------
+  # User Bootstrap
+  # ---------------------------------------------------------------------------
+  /me/bootstrap:
+    post:
+      tags:
+        - User Profile
+      summary: Bootstrap user on first login
+      description: >
+        Upserts the USER document with the email from the JWT token claims.
+        Also resolves any pending email-based collaborator invitations for this user.
+        Must be called once after authentication/app init from the frontend.
+        Returns 400 if the token has no email claim (Keycloak mapper must be configured).
+      operationId: bootstrapUser
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: User bootstrapped (existing record updated)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '201':
+          description: User record created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Token has no email claim
+        '401':
+          description: Unauthorized
+
+  /applications/{type}/{id}/sections/{sectionId}/lock/release:
+    post:
+      tags:
+        - Section Locking
+      summary: Release a section lock
+      description: >
+        Explicitly releases the lock. Only the lock owner (same userId + sessionId) can release.
+        If the lock has already expired the release is treated as a no-op (204).
+        Uses POST (not DELETE) so that the request body (sessionId) is reliably transmitted
+        through all HTTP proxies and load-balancers, which may strip DELETE request bodies.
+
+        The sessionId may be provided in the JSON request body OR as the `sessionId` query
+        parameter. The query parameter path is used by `sendBeacon` / `fetch(keepalive)` on
+        browser tab/window close where body Content-Type may be mangled and the OpenAPI
+        body validator would otherwise reject the request before it reaches the handler.
+      operationId: releaseSectionLock
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sectionId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionId
+          in: query
+          required: false
+          description: >
+            Fallback for the JSON body sessionId. Used by browser unload-time requests
+            (sendBeacon / fetch keepalive) where the body Content-Type may be mangled.
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sessionId:
+                  type: string
+      responses:
+        '204':
+          description: Lock released (or already expired — idempotent)
+        '400':
+          description: Missing sessionId in both request body and query parameter
+        '403':
+          description: Caller does not own the lock
 components:
   securitySchemes:
     BearerAuth:
@@ -3663,7 +4870,30 @@ components:
       type: apiKey
       in: header
       name: X-EXPORT-API-Key
+
+  parameters:
+    MongoID:
+      name: id
+      in: path
+      description: ID of the favourite
+      required: true
+      schema:
+        type: string
+
+    FavouriteTypeParam:
+      name: type
+      in: query
+      description: Filter favourites by type
+      required: false
+      schema:
+        $ref: '#/components/schemas/FavouriteType'
+      example: "dataset"
+
   schemas:
+    NonBlankString:
+      type: string
+      minLength: 1
+      pattern: '.*\S.*'
 
     basket:
       type: object
@@ -3738,6 +4968,12 @@ components:
           type: string
           enum: [ asc, desc ]
 
+    unreadNotificationCountResponse:
+      type: object
+      properties:
+        unread_notification_count:
+          type: integer
+
     distributionCountResponse:
       type: object
       properties:
@@ -3801,8 +5037,11 @@ components:
     userProfile:
       type: object
       required:
+        - email
         - legalOrNaturalPerson
       properties:
+        email:
+          type: string
         legalOrNaturalPerson:
           $ref: '#/components/schemas/KeyValue'
         legalPersonOrganisationName:
@@ -3821,6 +5060,8 @@ components:
           $ref: '#/components/schemas/KeyValue'
         legalPersonPhone:
           $ref: '#/components/schemas/Phone'
+        emailNotificationPreferences:
+          $ref: '#/components/schemas/EmailNotificationPreferences'
 
     userProfileResponse:
       allOf:
@@ -3831,6 +5072,301 @@ components:
               type: string
               format: date-time
               description: Last time the profile was modified (ISO 8601 format)
+
+    EmailNotificationPreferences:
+      type: object
+      required: [ enabled, reminders ]
+      properties:
+        enabled:
+          type: boolean
+        reminders:
+          $ref: '#/components/schemas/EmailReminderPreferences'
+
+    EmailReminderPreferences:
+      type: object
+      required: [ enabled ]
+      properties:
+        enabled:
+          type: boolean
+        offsetDays:
+          type: array
+          items:
+            type: integer
+            enum: [ 1, 10 ]
+
+    FavouriteType:
+      type: string
+      description: Type of the entity that is marked as favourite
+      enum:
+        - dataset
+        - distribution
+        - sparqlQuery
+        - datasetFilter
+
+    NewFavouriteBase:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          $ref: '#/components/schemas/FavouriteType'
+
+    FavouriteBase:
+      type: object
+      required:
+        - _id
+        - userId
+        - type
+        - createdAt
+        - updatedAt
+      properties:
+        _id:
+          type: string
+          description: Unique ID of the favourite entry
+          readOnly: true
+        userId:
+          type: string
+          description: ID of the user to whom the favourite belongs
+          readOnly: true
+        type:
+          $ref: '#/components/schemas/FavouriteType'
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the favourite was added
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the favourite was last updated
+          readOnly: true
+
+    FavouriteDatasetBase:
+      type: object
+      additionalProperties: false
+      required:
+        - type
+        - objectId
+      properties:
+        type:
+          type: string
+          enum: [ dataset ]
+          description: Type of the entity that is marked as favourite
+        objectId:
+          type: string
+          format: uuid
+          description: ID of the dataset that is marked as favourite
+        content:
+          $ref: '#/components/schemas/FavouriteSnapshotContent'
+
+    FavouriteDistributionBase:
+      type: object
+      additionalProperties: false
+      required:
+        - type
+        - objectId
+        - parentId
+      properties:
+        type:
+          type: string
+          enum: [ distribution ]
+          description: Type of the entity that is marked as favourite
+        objectId:
+          type: string
+          format: uuid
+          description: ID of the distribution that is marked as favourite
+        parentId:
+          type: string
+          format: uuid
+          description: ID of the dataset this distribution is part of
+        content:
+          $ref: '#/components/schemas/FavouriteSnapshotContent'
+
+    FavouriteSparqlQueryBase:
+      type: object
+      additionalProperties: false
+      required:
+        - type
+        - content
+      properties:
+        type:
+          type: string
+          enum: [ sparqlQuery ]
+          description: Type of the entity that is marked as favourite
+        content:
+          $ref: '#/components/schemas/SparqlQueryContent'
+
+    FavouriteDatasetFilterBase:
+      type: object
+      additionalProperties: false
+      required:
+        - type
+        - content
+      properties:
+        type:
+          type: string
+          enum: [ datasetFilter ]
+          description: Type of the entity that is marked as favourite
+        content:
+          $ref: '#/components/schemas/DatasetFilterContent'
+
+    NewFavouriteDataset:
+      allOf:
+        - $ref: '#/components/schemas/NewFavouriteBase'
+        - $ref: '#/components/schemas/FavouriteDatasetBase'
+
+    NewFavouriteDistribution:
+      allOf:
+        - $ref: '#/components/schemas/NewFavouriteBase'
+        - $ref: '#/components/schemas/FavouriteDistributionBase'
+
+    NewFavouriteSparqlQuery:
+      allOf:
+        - $ref: '#/components/schemas/NewFavouriteBase'
+        - $ref: '#/components/schemas/FavouriteSparqlQueryBase'
+
+    NewFavouriteDatasetFilter:
+      allOf:
+        - $ref: '#/components/schemas/NewFavouriteBase'
+        - $ref: '#/components/schemas/FavouriteDatasetFilterBase'
+
+    NewFavouriteEntry:
+      oneOf:
+        - $ref: '#/components/schemas/NewFavouriteDataset'
+        - $ref: '#/components/schemas/NewFavouriteDistribution'
+        - $ref: '#/components/schemas/NewFavouriteSparqlQuery'
+        - $ref: '#/components/schemas/NewFavouriteDatasetFilter'
+      discriminator:
+        propertyName: type
+        mapping:
+          dataset: '#/components/schemas/NewFavouriteDataset'
+          distribution: '#/components/schemas/NewFavouriteDistribution'
+          sparqlQuery: '#/components/schemas/NewFavouriteSparqlQuery'
+          datasetFilter: '#/components/schemas/NewFavouriteDatasetFilter'
+
+    UpdateFavouriteEntry:
+      oneOf:
+        - $ref: '#/components/schemas/NewFavouriteSparqlQuery'
+        - $ref: '#/components/schemas/NewFavouriteDatasetFilter'
+      discriminator:
+        propertyName: type
+        mapping:
+          sparqlQuery: '#/components/schemas/NewFavouriteSparqlQuery'
+          datasetFilter: '#/components/schemas/NewFavouriteDatasetFilter'
+
+    FavouriteDataset:
+      allOf:
+        - $ref: '#/components/schemas/FavouriteBase'
+        - $ref: '#/components/schemas/FavouriteDatasetBase'
+
+    FavouriteDistribution:
+      allOf:
+        - $ref: '#/components/schemas/FavouriteBase'
+        - $ref: '#/components/schemas/FavouriteDistributionBase'
+
+    FavouriteSparqlQuery:
+      allOf:
+        - $ref: '#/components/schemas/FavouriteBase'
+        - $ref: '#/components/schemas/FavouriteSparqlQueryBase'
+
+    FavouriteDatasetFilter:
+      allOf:
+        - $ref: '#/components/schemas/FavouriteBase'
+        - $ref: '#/components/schemas/FavouriteDatasetFilterBase'
+
+    Favourite:
+      oneOf:
+        - $ref: '#/components/schemas/FavouriteDataset'
+        - $ref: '#/components/schemas/FavouriteDistribution'
+        - $ref: '#/components/schemas/FavouriteSparqlQuery'
+        - $ref: '#/components/schemas/FavouriteDatasetFilter'
+      discriminator:
+        propertyName: type
+        mapping:
+          dataset: '#/components/schemas/FavouriteDataset'
+          distribution: '#/components/schemas/FavouriteDistribution'
+          sparqlQuery: '#/components/schemas/FavouriteSparqlQuery'
+          datasetFilter: '#/components/schemas/FavouriteDatasetFilter'
+
+    FavouriteSnapshotContent:
+      type: object
+      additionalProperties: false
+      properties:
+        label:
+          type: string
+          description: Snapshot label used for display when the real entry is no longer available
+        parentLabel:
+          type: string
+          description: Snapshot parent label used mainly for distribution favourites
+
+    FavouritesResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Favourite'
+
+    SparqlQueryContent:
+      type: object
+      additionalProperties: false
+      required:
+        - endpoint
+        - label
+        - query
+        - tabId
+      properties:
+        endpoint:
+          allOf:
+            - $ref: '#/components/schemas/NonBlankString'
+          description: URL of the SPARQL endpoint
+        label:
+          allOf:
+            - $ref: '#/components/schemas/NonBlankString'
+          maxLength: 500
+          description: A label for the SPARQL query
+        query:
+          allOf:
+            - $ref: '#/components/schemas/NonBlankString'
+          description: The SPARQL query string
+        tabId:
+          allOf:
+            - $ref: '#/components/schemas/NonBlankString'
+          description: ID of the SPARQL editor tab
+
+    DatasetFilterContent:
+      type: object
+      additionalProperties: false
+      required:
+        - label
+        - filters
+      properties:
+        label:
+          allOf:
+            - $ref: '#/components/schemas/NonBlankString'
+          maxLength: 500
+          description: A label for the dataset filters
+        filters:
+          type: object
+          minProperties: 1
+          additionalProperties: false
+          description: The dataset filters
+          properties:
+            facets:
+              type: object
+              minProperties: 1
+              additionalProperties:
+                type: array
+                minItems: 1
+                items:
+                  $ref: '#/components/schemas/NonBlankString'
+              description: A map of categorical facet names to the list of selected string values for each facet.
+            numericFacets:
+              type: object
+              minProperties: 1
+              additionalProperties:
+                type: array
+                minItems: 1
+                items:
+                  type: integer
+              description: A map of numeric facet names to the list of selected integer values for each facet.
 
     dispatcherDecisionRequest:
       type: object
@@ -3849,6 +5385,9 @@ components:
         objectId:
           type: string
           minLength: 1
+        itbId:
+          type: string
+          description: ITB Identifier
         payload:
           type: object
           required:
@@ -3856,7 +5395,7 @@ components:
             - status
             - decisions
           properties:
-            applicationType:
+            application_type:
               type: string
               enum: [ DATA_ACCESS_APPLICATION, DATA_REQUEST_APPLICATION ]
             status:
@@ -3881,6 +5420,17 @@ components:
                     type: string
                     format: byte
                     description: "Base64-encoded Decision PDF file"
+                  decision_reason:
+                    type: string
+                    maxLength: 2000
+                    description: The reason for the decision taken by the reviewer.
+                  support_file:
+                    type: string
+                    format: byte
+                    description: "Base64-encoded Support PDF file"
+                  translatedFields:
+                    type: object
+                    description: Translated fields data
 
 
     dispatcherPermitRequest:
@@ -3900,6 +5450,9 @@ components:
         objectId:
           type: string
           minLength: 1
+        itbId:
+          type: string
+          description: ITB Identifier
         payload:
           type: object
           required:
@@ -3907,12 +5460,16 @@ components:
           - status
           - permits
           properties:
-            applicationType:
+            application_type:
               type: string
               enum: [ DATA_ACCESS_APPLICATION, DATA_REQUEST_APPLICATION ]
             status:
               type: string
               minLength: 1
+            catalog_id:
+              type: string
+              minLength: 1
+              description: Catalog ID
             permits:
               type: array
               minItems: 1
@@ -3936,6 +5493,37 @@ components:
                   type: string
                   minLength: 1
                   maxLength: 2000
+                renew_amend_file:
+                  type: string
+                  format: byte
+                  description: "Base64-encoded Decision PDF file"
+                rejection_file:
+                  type: string
+                  format: byte
+                  description: "Base64-encoded Decision PDF file"
+                rejection_reason:
+                  type: string
+                  minLength: 1
+                  maxLength: 2000
+                revocation_file:
+                  type: string
+                  format: byte
+                  description: "Base64-encoded Decision PDF file"
+                permit_start_date:
+                  type: string
+                  description: Permit start date
+                permit_expiration_date:
+                  type: string
+                  description: Permit expiration date
+                permit_reference_number:
+                  type: string
+                  description: Permit reference number
+                permit_contact_details:
+                  type: string
+                  description: Permit contact details
+                translatedFields:
+                  type: object
+                  description: Translated fields data
 
     dispatcherStatusRequest:
       type: object
@@ -4038,10 +5626,31 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Distribution'
+        catalog_languages:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogLanguageItem'
       required:
         - dataset_id
         - catalog_id
         - distributions
+
+    CatalogLanguageItem:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Language identifier
+        label:
+          type: string
+          description: Human readable language label
+        resource:
+          type: string
+          description: Language authority resource URI
+      required:
+        - id
+        - label
+        - resource
 
     CreateDataRequest:
       type: object
@@ -4105,6 +5714,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UpdateDistribution'
+        catalog_languages:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogLanguageItem'
       required:
         - dataset_id
         - catalog_id
@@ -4192,6 +5805,10 @@ components:
         comment:
           type: string
           description: Optional comment providing additional information
+        renew_amend_file:
+          type: string
+          format: byte
+          description: Optional base64-encoded PDF uploaded by the user for renewal/amendment requests
       required:
         - status
 
@@ -4216,10 +5833,11 @@ components:
           description: Mongo ID of the application
         data:
           type: object
-          required:
-            - applicationId
-            - applicationType
           properties:
+            id:
+              type: string
+            type:
+              type: string
             applicationId:
               type: string
             applicationType:
@@ -4303,3 +5921,217 @@ components:
         error:
           type: string
           example: "Error changing log level: Level not recognized"
+
+    # -------------------------------------------------------------------------
+    # Collaboration schemas
+    # -------------------------------------------------------------------------
+    CollaboratorEntry:
+      type: object
+      description: Represents a collaborator or pending invite on an application.
+      properties:
+        _id:
+          type: string
+          description: MongoDB document ID
+        applicationId:
+          type: string
+        applicationType:
+          type: string
+          enum: [DATA_ACCESS_APPLICATION, DATA_REQUEST_APPLICATION]
+        invitedEmail:
+          type: string
+          format: email
+        collaboratorUserId:
+          type: string
+          description: ECAS ID of the collaborator (null until they log in)
+        collaboratorUserName:
+          type: string
+          description: Persisted collaborator name used for list search and sorting
+        role:
+          type: string
+          enum: [OWNER, EDITOR]
+        invitationStatus:
+          type: string
+          enum: [PENDING, ACCEPTED, REJECTED]
+        invitedBy:
+          type: string
+          description: ECAS ID of the user who sent the invitation
+        createdAt:
+          type: string
+          format: date-time
+        acceptedAt:
+          type: string
+          format: date-time
+        rejectedAt:
+          type: string
+          format: date-time
+
+    CollaboratorInviteRequest:
+      type: object
+      required:
+        - invitedEmail
+        - applicationType
+      properties:
+        invitedEmail:
+          type: string
+          format: email
+          description: Email address of the user to invite
+        applicationType:
+          type: string
+          enum: [DATA_ACCESS_APPLICATION, DATA_REQUEST_APPLICATION]
+          description: Type of the application
+
+    OwnershipRequestCreateRequest:
+      type: object
+      required:
+        - justification
+      properties:
+        justification:
+          type: string
+          description: Justification entered by the editor when requesting ownership
+
+    OwnershipRequestEntry:
+      type: object
+      description: Represents a pending ownership transfer request raised by an editor.
+      properties:
+        _id:
+          type: string
+          description: MongoDB document ID
+        application_id:
+          type: string
+          description: Application identifier
+        applicationType:
+          type: string
+          enum: [DATA_ACCESS_APPLICATION, DATA_REQUEST_APPLICATION]
+        userId:
+          type: string
+          description: ECAS ID of the editor requesting ownership
+        userName:
+          type: string
+          description: Persisted username of the editor requesting ownership
+        justification:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    # -------------------------------------------------------------------------
+    # Section locking schemas
+    # -------------------------------------------------------------------------
+    LockRequest:
+      type: object
+      required:
+        - sessionId
+      properties:
+        sessionId:
+          type: string
+          description: UUID uniquely identifying the browser tab session
+
+    LockResponse:
+      type: object
+      properties:
+        locked:
+          type: boolean
+        lockOwnerUserId:
+          type: string
+        lockOwnerSessionId:
+          type: string
+        primarySectionId:
+          type: string
+          description: The primary section the user is editing (the one they navigated to)
+        acquiredAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+        lockedSections:
+          type: array
+          description: All sections locked as part of the lock group
+          items:
+            $ref: '#/components/schemas/SectionLock'
+
+    LockConflictResponse:
+      type: object
+      properties:
+        locked:
+          type: boolean
+          example: false
+        reason:
+          type: string
+          description: Human-readable reason why acquisition failed
+        lockOwnerUserId:
+          type: string
+          description: ECAS ID of the current lock holder
+        primarySectionId:
+          type: string
+          description: The section that caused the conflict (may be a dependent lock)
+        expiresAt:
+          type: string
+          format: date-time
+
+    SectionLock:
+      type: object
+      description: An active section edit lock document.
+      properties:
+        _id:
+          type: string
+        applicationType:
+          type: string
+        applicationId:
+          type: string
+        sectionId:
+          type: string
+          description: Section identifier (section1 through section10)
+        lockOwnerUserId:
+          type: string
+        lockOwnerSessionId:
+          type: string
+        primarySectionId:
+          type: string
+          description: The primary section that triggered this lock group
+        acquiredAt:
+          type: string
+          format: date-time
+        lastHeartbeatAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+
+    SwitchLockRequest:
+      type: object
+      required:
+        - sessionId
+        - newSectionId
+      properties:
+        sessionId:
+          type: string
+          description: UUID uniquely identifying the browser tab session
+        newSectionId:
+          type: string
+          description: The section to navigate to (e.g. section4)
+
+    SwitchLockResponse:
+      type: object
+      properties:
+        locked:
+          type: boolean
+        primarySectionId:
+          type: string
+          description: The new primary section
+        lockOwnerUserId:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+        lockedSections:
+          type: array
+          description: All sections now locked for this session
+          items:
+            $ref: '#/components/schemas/SectionLock'
+        releasedSections:
+          type: array
+          description: Sections released during the switch
+          items:
+            type: string

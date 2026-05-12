@@ -4,6 +4,8 @@
     {
       "type": "object",
       "properties": {
+        "email": { "type": "string" },
+        "userName": { "type": "string" },
         "legalOrNaturalPerson": {
           "type": "object",
           "required": ["key", "value"],
@@ -33,7 +35,49 @@
             "number": { "type": "string" }
           }
         },
-        "date_modified": { "type": "string", "format": "date-time" }
+        "_id": { "type": "string" },
+        "date_created": { "type": "string", "format": "date-time" },
+        "date_modified": { "type": "string", "format": "date-time" },
+        "lastLoginAt": { "type": "string", "format": "date-time" },
+
+        "emailNotificationPreferences": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["enabled", "reminders"],
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "reminders": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["enabled"],
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "offsetDays": {
+                  "type": "array",
+                  "items": { "type": "integer" },
+                  "uniqueItems": true
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": { "enabled": { "const": true } },
+                    "required": ["enabled"]
+                  },
+                  "then": {
+                    "required": ["offsetDays"],
+                    "properties": {
+                      "offsetDays": { "minItems": 1 }
+                    }
+                  },
+                  "else": {
+                    "not": { "required": ["offsetDays"] }
+                  }
+                }
+              ]
+            }
+          }
+        }
       },
       "additionalProperties": false
     },
@@ -70,7 +114,51 @@
             "number": { "type": "string" }
           }
         },
-        "date_modified": { "type": "string", "format": "date-time" }
+        "_id": { "type": "string" },
+        "date_created": { "type": "string", "format": "date-time" },
+        "date_modified": { "type": "string", "format": "date-time" },
+        "email": { "type": "string", "format": "email" },
+        "userName": { "type": "string" },
+        "lastLoginAt": { "type": "string", "format": "date-time" },
+
+        "emailNotificationPreferences": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["enabled", "reminders"],
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "reminders": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["enabled"],
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "offsetDays": {
+                  "type": "array",
+                  "items": { "type": "integer" },
+                  "uniqueItems": true
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": { "enabled": { "const": true } },
+                    "required": ["enabled"]
+                  },
+                  "then": {
+                    "required": ["offsetDays"],
+                    "properties": {
+                      "offsetDays": { "minItems": 1 }
+                    }
+                  },
+                  "else": {
+                    "not": { "required": ["offsetDays"] }
+                  }
+                }
+              ]
+            }
+          }
+        }
       },
       "additionalProperties": false
     }

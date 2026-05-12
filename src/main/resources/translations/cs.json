@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Jméno vedoucího projektu (organizace, instituce, subjekt soukromého sektoru nebo fyzická osoba)",
-            "tooltip": "Jedná se o osobu odpovědnou za použití údajů."
+            "tooltip": "Jedná se o subjekt odpovědný za využívání dat."
         },
         "countryOfProjectLeader": {
             "label": "Oficiální bydliště (země) subjektu odpovědného za projekt"
@@ -122,6 +122,7 @@
             ],
             "info": "(Pokud zvolíte tuto možnost, potvrďte, že žádáte o údaje jako soukromá osoba bez jakékoli vazby.)"
         },
+        "participatingEntitiesInstruction": "Pokud podáváte žádost jménem konsorcia, uveďte zde všechny zúčastněné subjekty.",
         "legalPerson": "Právnická osoba",
         "naturalPerson": "Fyzická osoba",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Příslušnost"
+        },
+        "otherContactPerson": {
+            "label": "Další kontaktní osoby",
+            "tooltip": "Pokud je ve vašem projektu více kontaktních osob, uveďte je zde spolu s informacemi o jejich přidružení."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "Kohortou bude celá populace země/zemí uvedených na začátku tohoto formuláře."
+                    "value": "Kohorta bude tvořena celým obyvatelstvem země/zemí nebo zdrojem údajů uvedeným na začátku tohoto formuláře."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Popište, jak byla kohorta získána, a důvody chybějícího povolení/souhlasu k datům."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Poskytli jste příslušným subjektům informace o použití údajů? Např. sdílené informace o použití údajů na internetových stránkách projektu.",
-            "tooltip": "Další informace viz články 13 a 14 obecného nařízení o ochraně osobních údajů: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "Další informace viz články 13 a 14 obecného nařízení o ochraně osobních údajů <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">"
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "S jakou?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Proč ne?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Kdo poskytne informace o kohortě subjektu pro přístup ke zdravotním datům? Tato osoba obdrží pokyny, jak údaje poskytovat prostřednictvím společného portálu EHDS."
@@ -612,7 +606,7 @@
             "label": "Uveďte odůvodnění této výjimky."
         },
         "needForDataExtractionEvery": {
-            "label": "Údaje je třeba vytěžit z každého",
+            "label": "Údaje je třeba získat",
             "tooltip": "Chcete-li, aby byly údaje extrahovány několikrát za určité časové období, vezměte prosím na vědomí, že definice a metoda shromažďování údajů se mohou během období přezkumu v některých případech změnit. Upozorňujeme, že maximální četnost extrakce údajů je každé čtvrtletí."
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "V případě opakované extrakce uveďte informace o každém procesu extrakce dat zvlášť v pokynech k objednávce."
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Údaje je třeba vytěžit z každého",
+            "label": "Údaje je třeba získat",
             "tooltip": "Chcete-li, aby byly údaje extrahovány několikrát za určité časové období, vezměte prosím na vědomí, že definice a metoda sběru údajů se v některých případech mohou během období přezkumu změnit. Upozorňujeme, že maximální četnost extrakce údajů je každé čtvrtletí."
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "Jak často je třeba údaje získat?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Údaje je třeba vytěžit z každého",
+            "label": "Údaje je třeba získat",
             "tooltip": "Chcete-li, aby byly údaje extrahovány několikrát za určité časové období, vezměte prosím na vědomí, že definice a metoda shromažďování údajů se mohou během období přezkumu v některých případech změnit. Upozorňujeme, že maximální četnost extrakce údajů je každé čtvrtletí."
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "V případě opakované extrakce uveďte informace o každém procesu extrakce dat zvlášť v pokynech k objednávce."
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Údaje je třeba vytěžit z každého",
+            "label": "Údaje je třeba získat",
             "tooltip": "Chcete-li, aby byly údaje extrahovány několikrát za určité časové období, vezměte prosím na vědomí, že definice a metoda shromažďování údajů se mohou během období přezkumu v některých případech změnit. Upozorňujeme, že maximální četnost extrakce údajů je každé čtvrtletí."
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Další údaje, které je třeba kombinovat",
-        "section7Description": "Je možné kombinovat jiné osobní údaje, jako jsou údaje, které již máte k dispozici, nebo údaje získané z jiných zdrojů s jiným povolením, s údaji požadovanými v této žádosti. Uveďte informace pro všechna další data, která budou kombinována s daty povolenými subjektem pro přístup ke zdravotním datům. Chcete-li později kombinovat další osobní údaje s daty povolenými subjektem pro přístup ke zdravotním datům, musíte podat žádost o změnu u téhož subjektu pro přístup ke zdravotním datům. Pokud máte jinou kohortu, kterou by subjekt pro přístup ke zdravotním datům chtěl kombinovat s daty, o něž žádáte, obdržíte pokyny, jak data bezpečně poskytnout po udělení povolení.",
+        "section7Description": "Je možné kombinovat další osobní údaje, jako jsou údaje, které již máte k dispozici, nebo údaje získané odjinud s jiným povolením, s údaji požadovanými v této žádosti. Uveďte informace o všech dalších datech, která budou kombinována s daty schválenými subjektem pro přístup ke zdravotním datům. Pokud chcete později kombinovat jiná osobní data s daty schválenými subjektem pro přístup ke zdravotním datům, musíte u téhož subjektu pro přístup ke zdravotním datům podat žádost o změnu. Pokud máte jinou kohortu, kterou by subjekt pro přístup ke zdravotním datům chtěl zkombinovat s daty, o která žádáte, obdržíte pokyny, jak data bezpečně předat po udělení povolení.",
         "addDataPermit": "Přidat povolení k datům",
         "addInfo": "Přidat informace",
         "removeDataPermit": "Odstranit povolení k datům",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Jaká jsou odhadovaná počáteční a konečná data období, během něhož jsou elektronická zdravotní data potřebná ke zpracování?",
-            "tooltip": "Toto období může být pět let. S dodatečným povolením může být původní povolení prodlouženo o dalších pět let."
+            "tooltip": "Tato doba může být 10 let. S dodatečným povolením může být původní povolení prodlouženo o dalších 10 let."
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Od"
@@ -1168,13 +1162,13 @@
             "tooltip": "Odchylně od práva odmítnout zpracování stanoveného v odstavci 1, mohou členské státy ve svém vnitrostátním právu zavést mechanismus pro zpřístupnění údajů, u nichž bylo právo odmítnout zpracování uplatněno, za předpokladu, že jsou splněny všechny tyto podmínky: (plné podmínky viz článek)“"
         },
         "providedJustificationException": {
-            "label": "Uveďte odůvodnění této výjimky."
+            "label": "Odůvodněte tuto výjimku a uveďte ve svém odůvodnění, jak jsou splněny podmínky článku 71(4)(a-c)."
         },
         "protectionAndSecurityStatements": {
             "label": "Chcete-li pokračovat v této aplikaci, musíte potvrdit následující prohlášení (prohlášení týkající se ochrany údajů a bezpečnosti):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Potvrzuji, že pokud mi subjekt pro přístup ke zdravotním datům poskytne data, o něž žádám, použijem je pouze pro účely uvedené v tomto formuláři žádosti."
+            "label": "1. Potvrzuji, že pokud mi subjekt pro přístup ke zdravotním datům poskytne data, o která žádám, budu je používat pouze pro účely uvedené v tomto formuláři žádosti a nepoužijem je k žádným zakázaným účelům."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Chápu, že kopírování údajů z bezpečného zpracovatelského prostředí je zakázáno."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Pokud váš výzkum vyžaduje povolení k výzkumu od vaší přidružené organizace, připojte povolení k výzkumu."
+        },
+        "hdabToRetain": {
+            "label": "Přejete si, aby HDAB zachoval vzorec použitý pro vytvoření požadovaného souboru údajů? ",
+            "tooltip": "Čl. 68 odst. 12 EHDS: (--) Na žádost uživatele zdravotních dat může subjekt pro přístup ke zdravotním datům uložit vzorec pro vytvoření požadovaného souboru dat."
         }
     },
     "section9": {
         "section9h5": "Další informace",
-        "section9Description": "Zde můžete poskytnout další informace o kterékoli části vaší přihlášky. Uveďte číslo oddílu a otázku, k níž se vaše připomínka vztahuje.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Další informace nebo jakékoli další poznámky",
-            "tooltip": "Zde můžete poskytnout další informace o kterékoli části vaší přihlášky. Uveďte číslo oddílu a otázku, k níž se vaše připomínka vztahuje. Návrh technického provedení: Alternativně by mohl existovat způsob, jak žadateli umožnit propojit informace s konkrétními částmi formuláře s cílem usnadnit práci HDAB."
+            "tooltip": "Zde můžete uvést další informace o kterékoli části své přihlášky. Uveďte číslo oddílu a otázku, které se vaše připomínka týká. Ve své žádosti uveďte veškeré důvěrné informace a stručně odůvodněte důvěrnost s uvedením čísla příslušného oddílu a otázky."
         },
         "additionalAttachment": {
             "label": "Další příloha. K této žádosti nepřipojujte údaje o zdravotním stavu nebo osobní údaje.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Půl roku"
+                    "value": "Jednou za půl roku"
                 },
                 {
                     "key": "c",
-                    "value": "Čtvrtina"
+                    "value": "Čtvrtletní"
                 },
                 {
                     "key": "d",

@@ -7,6 +7,7 @@
     "objectId",
     "payload"
   ],
+  "additionalProperties": false,
   "properties": {
     "type": {
       "type": "string",
@@ -24,6 +25,10 @@
       "type": "string",
       "minLength": 1
     },
+    "itbId": {
+      "type": "string",
+      "description": "ITB Identifier"
+    },
     "payload": {
       "type": "object",
       "required": [
@@ -31,6 +36,7 @@
         "status",
         "permits"
       ],
+      "additionalProperties": false,
       "properties": {
         "application_type": {
           "type": "string",
@@ -41,7 +47,12 @@
         },
         "status": {
           "type": "string",
-          "enum": ["DATA_PERMIT"]
+          "minLength": 1
+        },
+        "catalog_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Catalog ID"
         },
         "permits": {
           "type": "array",
@@ -52,6 +63,7 @@
               "dataset_id",
               "permit_status"
             ],
+            "additionalProperties": false,
             "properties": {
               "dataset_id": {
                 "type": "string",
@@ -73,6 +85,46 @@
                 "type": "string",
                 "minLength": 1,
                 "maxLength": 2000
+              },
+              "renew_amend_file": {
+                "type": "string",
+                "format": "byte",
+                "description": "Base64-encoded PDF file"
+              },
+              "rejection_reason": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "rejection_file": {
+                "type": "string",
+                "format": "byte",
+                "description": "Base64-encoded PDF file"
+              },
+              "revocation_file": {
+                "type": "string",
+                "format": "byte",
+                "description": "Base64-encoded PDF file"
+              },
+              "permit_start_date": {
+                "type": "string",
+                "description": "Permit start date"
+              },
+              "permit_expiration_date": {
+                "type": "string",
+                "description": "Permit expiration date"
+              },
+              "permit_reference_number": {
+                "type": "string",
+                "description": "Permit reference number"
+              },
+              "permit_contact_details": {
+                "type": "string",
+                "description": "Permit contact details"
+              },
+              "translatedFields": {
+                "type": "object",
+                "description": "Translated fields data"
               }
             }
           }

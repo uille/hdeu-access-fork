@@ -550,4 +550,105 @@ class CatalogueManagerTest {
     // Call the uploadRDFFile method
     catalogueManager.uploadRDFFile(routingContext);
   }
+
+  @Test
+  void testGetCatalogue_success(VertxTestContext testContext) {
+    // Mock the hubRepoClient.getCatalogue call
+    JsonObject catalogueResult = new JsonObject()
+        .put("data", new JsonObject()
+            .put("catalogue", new JsonObject()
+                .put("id", "catalogue-123")
+                .put("title", "Test Catalogue")));
+
+    when(hubRepoClient.getCatalogue(routingContext)).thenReturn(Future.succeededFuture(catalogueResult));
+
+    // Mock the getRDFFileDataForCatalogue call
+    when(routingContext.pathParam(CATALOGUE_ID)).thenReturn("catalogue-123");
+
+    // Mock the hubStoreClient.getFile call
+    MultiMap headers = MultiMap.caseInsensitiveMultiMap();
+    headers.add("catalogueId", "file-456");
+    headers.add("filename", "file.rdf");
+
+    Buffer body = Buffer.buffer("dummy RDF content");
+
+    when(httpResponse.headers()).thenReturn(headers);
+    when(httpResponse.body()).thenReturn(body);
+    when(httpResponse.getHeader("Content-Disposition")).thenReturn("filename*=file.rdf");
+    when(hubStoreClient.getFile(null, CATALOGUE_ID, "catalogue-123")).thenReturn(Future.succeededFuture(httpResponse));
+
+    // Mock the response
+    HttpServerResponse mockResponse = mock(HttpServerResponse.class);
+    when(routingContext.response()).thenReturn(mockResponse);
+    when(mockResponse.putHeader(anyString(), anyString())).thenReturn(mockResponse);
+    when(mockResponse.setStatusCode(anyInt())).thenReturn(mockResponse);
+    when(mockResponse.end(anyString())).thenAnswer(invocation -> {
+      String responseBody = invocation.getArgument(0);
+      JsonObject result = new JsonObject(responseBody);
+
+      // Verify the response contains the expected data
+      assertNotNull(result.getJsonObject("data"));
+      assertNotNull(result.getJsonObject("data").getJsonObject("catalogue"));
+      assertEquals("catalogue-123", result.getJsonObject("data").getJsonObject("catalogue").getString("id"));
+      assertEquals("Test Catalogue", result.getJsonObject("data").getJsonObject("catalogue").getString("title"));
+
+      // Verify the RDF file data was added
+      assertNotNull(result.getJsonObject("data").getJsonObject("uploadRDF"));
+      assertNotNull(result.getJsonObject("data").getJsonObject("rdfTemplate"));
+
+      testContext.completeNow();
+      return null;
+    });
+
+    // Call the method
+    catalogueManager.getCatalogue(routingContext);
+  }
+
+  @Test
+  void testGetRDFFileData_success(VertxTestContext testContext) {
+    String catalogueId = "catalogue-123";
+    when(routingContext.pathParam(CATALOGUE_ID)).thenReturn(catalogueId);
+
+    // Mock file headers and body
+    MultiMap headers = MultiMap.caseInsensitiveMultiMap();
+    headers.add("Content-Disposition", "attachment; filename=test.rdf");
+
+    Buffer body = Buffer.buffer("dummy RDF content");
+
+    when(httpResponse.headers()).thenReturn(headers);
+    when(httpResponse.body()).thenReturn(body);
+    when(httpResponse.bodyAsBuffer()).thenReturn(body);
+    when(httpResponse.getHeader("Content-Disposition")).thenReturn("attachment; filename=test.rdf");
+    when(hubStoreClient.getFile(null, CATALOGUE_ID, catalogueId)).thenReturn(Future.succeededFuture(httpResponse));
+
+    // Mock the response
+    HttpServerResponse mockResponse = mock(HttpServerResponse.class);
+    when(routingContext.response()).thenReturn(mockResponse);
+    when(mockResponse.putHeader(anyString(), anyString())).thenReturn(mockResponse);
+    when(mockResponse.end(any(Buffer.class))).thenAnswer(invocation -> {
+      Buffer responseBody = invocation.getArgument(0);
+      assertEquals("dummy RDF content", responseBody.toString());
+      testContext.completeNow();
+      return null;
+    });
+
+    // Call the method
+    catalogueManager.getRDFFileData(routingContext);
+  }
+
+  @Test
+  void testDecodeFilename() {
+    // Test with filename*=UTF-8''test%20file.rdf
+    String contentDisposition = "attachment; filename*=UTF-8''test%20file.rdf";
+    String result = catalogueManager.decodeFilename(contentDisposition);
+    assertEquals("test file.rdf", result);
+
+    // Test with empty content disposition
+    result = catalogueManager.decodeFilename("");
+    assertEquals("Error_decoding_filename", result);
+
+    // Test with content disposition without filename*=
+    result = catalogueManager.decodeFilename("attachment; filename=test.rdf");
+    assertEquals("Error_decoding_filename", result);
+  }
 }

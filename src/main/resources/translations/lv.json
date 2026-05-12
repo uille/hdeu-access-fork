@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Projekta vadītāja nosaukums (organizācija, iestāde, privātā sektora struktūra vai fiziska persona)",
-            "tooltip": "Tā ir persona, kas ir atbildīga par datu izmantošanu."
+            "tooltip": "Tā ir struktūra, kas atbild par datu izmantošanu."
         },
         "countryOfProjectLeader": {
             "label": "Par projektu atbildīgās struktūras oficiālā dzīvesvieta (valsts)"
@@ -122,6 +122,7 @@
             ],
             "info": "(Ja izvēlaties šo iespēju, jūs apliecināt, ka piesakāties datiem kā privātpersona bez jebkādas piederības.)"
         },
+        "participatingEntitiesInstruction": "Ja piesakāties konsorcija vārdā, šeit norādiet visus līdzdalīgos subjektus.",
         "legalPerson": "Juridiska persona",
         "naturalPerson": "Fiziska persona",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Piederība"
+        },
+        "otherContactPerson": {
+            "label": "Citas kontaktpersonas",
+            "tooltip": "Ja jūsu projektā ir vairākas kontaktpersonas, lūdzu, norādiet tās šeit kopā ar informāciju par to piederību."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "Kohorta būs visi iedzīvotāji valstī/valstīs, kas norādītas šīs veidlapas sākumā."
+                    "value": "Kohorta ir visi valsts/valstu iedzīvotāji vai datu avots, kas norādīts šīs veidlapas sākumā."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Aprakstiet, kā kohorta tika iegūta, un datu atļaujas/piekrišanas trūkuma iemeslus."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Vai esat snieguši informāciju par datu izmantošanu attiecīgajiem subjektiem? Piemēram, kopīgota informācija par datu izmantošanu projekta tīmekļa vietnē.",
-            "tooltip": "Sīkāku informāciju sk. Vispārīgās datu aizsardzības regulas 13. un 14. pantā: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "Sīkāku informāciju sk. <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\"> Vispārīgās datu aizsardzības regulas 13. un 14. pantā </a>."
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Kādas?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Kāpēc nav?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Kas veselības datu piekļuves struktūrai sniegs informāciju par kohortu? Šī persona kopējā EVDT portālā saņems norādījumus par to, kā sniegt datus."
@@ -612,7 +606,7 @@
             "label": "Pamatojiet šo izņēmumu."
         },
         "needForDataExtractionEvery": {
-            "label": "Dati ir jāizgūst katru",
+            "label": "Dati ir jāizgūst",
             "tooltip": "Ja vēlaties, lai datus noteiktā laikposmā izgūtu vairākas reizes, ņemiet vērā, ka dažos gadījumos definīcijas un datu vākšanas metode pārskatīšanas periodā var mainīties. Jāņem vērā, ka maksimālais datu ieguves biežums ir katru ceturksni."
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "Atkārtotas ieguves gadījumā informāciju par katru datu izguves procesu sniedz atsevišķi pasūtījuma instrukcijās."
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Dati ir jāizgūst katru",
+            "label": "Dati ir jāizgūst",
             "tooltip": "Ja vēlaties, lai datus noteiktā laikposmā izgūtu vairākas reizes, ņemiet vērā, ka dažos gadījumos definīcijas un datu vākšanas metode pārskatīšanas periodā var mainīties. Jāņem vērā, ka maksimālais datu ieguves biežums ir katru ceturksni."
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "Cik bieži dati ir jāizgūst?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Dati ir jāizgūst katru",
+            "label": "Dati ir jāizgūst",
             "tooltip": "Ja vēlaties, lai datus noteiktā laikposmā izgūtu vairākas reizes, ņemiet vērā, ka dažos gadījumos definīcijas un datu vākšanas metode pārskatīšanas periodā var mainīties. Jāņem vērā, ka maksimālais datu ieguves biežums ir katru ceturksni."
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "Atkārtotas ieguves gadījumā informāciju par katru datu izguves procesu sniedz atsevišķi pasūtījuma instrukcijās."
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Dati ir jāizgūst katru",
+            "label": "Dati ir jāizgūst",
             "tooltip": "Ja vēlaties, lai datus noteiktā laikposmā izgūtu vairākas reizes, ņemiet vērā, ka dažos gadījumos definīcijas un datu vākšanas metode pārskatīšanas periodā var mainīties. Jāņem vērā, ka maksimālais datu ieguves biežums ir katru ceturksni."
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Citi dati, kas jāapvieno",
-        "section7Description": "Citus personas datus, piemēram, datus, kas jau ir jūsu rīcībā, vai datus, kas iegūti no citām valstīm, var apvienot ar citu atļauju ar datiem, par kuriem iesniegts pieteikums šajā pieteikumā. Uzskaita informāciju par visiem papildu datiem, kas tiks apvienoti ar veselības datu piekļuves struktūras atļautajiem datiem. Ja vēlāk vēlaties apvienot citus persondatus ar veselības datu piekļuves struktūras atļautajiem datiem, jums ir jāiesniedz grozījuma pieteikums tai pašai veselības datu piekļuves struktūrai. Ja jums ir kāda cita kohorta, ko vēlaties, lai veselības datu piekļuves struktūra apvienotu ar datiem, kuriem piesakāties, jūs pēc atļaujas piešķiršanas saņemsiet norādījumus par to, kā droši piegādāt datus.",
+        "section7Description": "Citus personas līmeņa datus, piemēram, datus, kas jau ir jūsu rīcībā, vai datus, kas iegūti no citām vietām, ir iespējams kombinēt ar citiem datiem, par kuriem iesniegts pieteikums šim pieteikumam. Uzskaitiet informāciju par visiem papildu datiem, kas tiks apvienoti ar veselības datu piekļuves struktūras atļautajiem datiem. Ja vēlāk vēlaties apvienot citus personas līmeņa datus ar veselības datu piekļuves struktūras atļautajiem datiem, jums ir jāiesniedz grozījuma pieteikums tai pašai veselības datu piekļuves struktūrai. Ja jums ir kāda cita kohorta, ko jūs vēlētos, lai veselības datu piekļuves struktūra apvienotu ar datiem, par kuriem piesakāties, jūs saņemsiet norādījumus par to, kā droši sniegt datus pēc atļaujas piešķiršanas.",
         "addDataPermit": "Pievienot datu atļauju",
         "addInfo": "Pievienot informāciju",
         "removeDataPermit": "Dzēst datu atļauju",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Kādi ir plānotie tā perioda sākuma un beigu datumi, kurā elektroniskie veselības dati ir vajadzīgi apstrādei?",
-            "tooltip": "Šis periods var būt pieci gadi. Ar papildu atļauju sākotnējo atļauju var pagarināt vēl uz pieciem gadiem."
+            "tooltip": "Šis laikposms var būt 10 gadi. Ar papildu atļauju sākotnējo atļauju var pagarināt vēl par 10 gadiem."
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "No"
@@ -1168,13 +1162,13 @@
             "tooltip": "Izņēmuma kārtā atkāpjoties no 1. punktā paredzētajām atteikuma tiesībām, dalībvalsts savos valsts tiesību aktos var paredzēt mehānismu, lai datus, attiecībā uz kuriem ir izmantotas atteikuma tiesības, darītu pieejamus, ar noteikumu, ka ir izpildīti visi šādi nosacījumi: (pilniem nosacījumiem skatīt pantu)”"
         },
         "providedJustificationException": {
-            "label": "Pamatojiet šo izņēmumu."
+            "label": "Sniedziet šā izņēmuma pamatojumu un savā pamatojumā norādiet, kā ir izpildīti 71(4)(a-c) panta nosacījumi."
         },
         "protectionAndSecurityStatements": {
             "label": "Lai turpinātu šo pieteikumu, jums ir jāapstiprina šādi paziņojumi (ar datu aizsardzību un drošību saistīti paziņojumi):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Apstiprinu, ka tad, ja veselības datu piekļuves struktūra man piešķir datus, kuriem es pieteikšos, es tos izmantošu tikai šajā pieteikuma veidlapā norādītajam(-iem) mērķim(-iem)."
+            "label": "1. Apstiprinu, ka tad, ja veselības datu piekļuves struktūra man piešķirs datus, kuriem piesakos, es tos izmantošu tikai šajā pieteikuma veidlapā norādītajam(-iem) mērķim(-iem) un neizmantošu tos aizliegtiem mērķiem."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Es saprotu, ka datu kopēšana no drošas apstrādes vides ir aizliegta."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Ja jūsu pētījumam ir vajadzīga pētniecības atļauja no jūsu piederības organizācijas, pievienojiet pētniecības atļauju."
+        },
+        "hdabToRetain": {
+            "label": "Vai vēlaties, lai HDAB saglabātu pieprasītās datu kopas izveidei izmantoto formulu? ",
+            "tooltip": "EVDT 68. panta 12. punkts: (--) Pēc veselības datu lietotāja pieprasījuma veselības datu piekļuves struktūra var glabāt pieprasītās datu kopas izveides formulu."
         }
     },
     "section9": {
         "section9h5": "Papildu informācija",
-        "section9Description": "Šeit varat sniegt sīkāku informāciju par jebkuru no jūsu pieteikuma sadaļām. Norādiet sadaļas numuru un jautājumu, uz kuru attiecas jūsu komentārs.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Papildu informācija vai papildu piezīmes",
-            "tooltip": "Šeit varat sniegt sīkāku informāciju par jebkuru no jūsu pieteikuma sadaļām. Norādiet sadaļas numuru un jautājumu, uz kuru attiecas jūsu komentārs. Ierosinājums tehniskai īstenošanai: Alternatīvi varētu būt veids, kā ļaut pieteikuma iesniedzējam sasaistīt informāciju ar konkrētām veidlapas daļām, lai atvieglotu HDAB darbu."
+            "tooltip": "Šeit varat sniegt papildu informāciju par jebkuru no pieteikuma sadaļām. Norādiet iedaļas numuru un jautājumu, uz kuru attiecas jūsu komentārs. Savā pieteikumā norādiet jebkādu konfidenciālu informāciju un īsi pamatojiet konfidencialitāti, norādot attiecīgās iedaļas numuru un jautājumu."
         },
         "additionalAttachment": {
             "label": "Papildu pielikums. Šai lietotnei nepievienojiet veselības datus vai personas datus.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Pusgada laikā"
+                    "value": "Reizi pusgadā"
                 },
                 {
                     "key": "c",
-                    "value": "Ceturkšņa laikā"
+                    "value": "Katrs ceturksnis"
                 },
                 {
                     "key": "d",

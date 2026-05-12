@@ -38,6 +38,7 @@ class UserProfileDTOTest {
   @Test
   void testNaturalPersonValidation() {
     UserProfileDTO dto = new UserProfileDTO();
+    dto.setEmail("natural.person@example.com");
     dto.setLegalOrNaturalPerson(new SelectObjectDTO("b", "Natural person"));
     dto.setNaturalPersonJobTitle("Engineer");
     dto.setNaturalPersonAffiliation("Company A");
@@ -47,13 +48,14 @@ class UserProfileDTOTest {
     dto.setNaturalPersonCountry(new SelectObjectDTO("US", "United States"));
     dto.setNaturalPersonPhone(new PhoneNumberDTO("1", "1234567890"));
 
-    Set violations = validator.validate(dto);
+    Set<ConstraintViolation<UserProfileDTO>> violations = validator.validate(dto);
     assertTrue(violations.isEmpty(), "Expected no validation errors for valid natural person fields.");
   }
 
   @Test
   void testMissingNaturalPersonFields() {
     UserProfileDTO dto = new UserProfileDTO();
+    dto.setEmail("natural.person@example.com");
     dto.setLegalOrNaturalPerson(new SelectObjectDTO("b", "Natural person"));
 
     Set<ConstraintViolation<UserProfileDTO>> violations = validator.validate(dto);
@@ -68,6 +70,7 @@ class UserProfileDTOTest {
   @Test
   void testLegalPersonValidation() {
     UserProfileDTO dto = new UserProfileDTO();
+    dto.setEmail("legal.person@example.com");
     dto.setLegalOrNaturalPerson(new SelectObjectDTO("a", "Legal person"));
     dto.setLegalPersonOrganisationName("Organization A");
     dto.setLegalPersonBusinessID("BUS123");
@@ -85,6 +88,7 @@ class UserProfileDTOTest {
   @Test
   void testMissingLegalPersonFields() {
     UserProfileDTO dto = new UserProfileDTO();
+    dto.setEmail("legal.person@example.com");
     dto.setLegalOrNaturalPerson(new SelectObjectDTO("a", "Legal person"));
 
     Set<ConstraintViolation<UserProfileDTO>> violations = validator.validate(dto);
@@ -97,13 +101,34 @@ class UserProfileDTOTest {
   }
 
   @Test
+  void testMissingEmailValidation() {
+    UserProfileDTO dto = new UserProfileDTO();
+    dto.setLegalOrNaturalPerson(new SelectObjectDTO("a", "Legal person"));
+    dto.setLegalPersonOrganisationName("Organization A");
+    dto.setLegalPersonBusinessID("BUS123");
+    dto.setLegalPersonOperatorID("OP123");
+    dto.setLegalPersonAddress("456 Avenue, City");
+    dto.setLegalPersonZipCode("54321");
+    dto.setLegalPersonCity("Another City");
+    dto.setLegalPersonCountry(new SelectObjectDTO("CA", "Canada"));
+    dto.setLegalPersonPhone(new PhoneNumberDTO("1", "6987654321"));
+
+    Set<ConstraintViolation<UserProfileDTO>> violations = validator.validate(dto);
+
+    assertTrue(violations.stream().anyMatch(v -> "email".equals(v.getPropertyPath().toString())),
+      "Expected validation error for missing email.");
+  }
+
+  @Test
   void testJsonSerialization() throws Exception {
     UserProfileDTO dto = new UserProfileDTO();
+    dto.setEmail("engineer@example.com");
     dto.setLegalOrNaturalPerson(new SelectObjectDTO("b", "Natural person"));
     dto.setNaturalPersonJobTitle("Engineer");
 
     String json = objectMapper.writeValueAsString(dto);
 
+    assertTrue(json.contains("\"email\":\"engineer@example.com\""));
     assertTrue(json.contains("\"legalOrNaturalPerson\":{\"key\":\"b\""));
     assertTrue(json.contains("\"naturalPersonJobTitle\":\"Engineer\""));
   }
@@ -113,6 +138,7 @@ class UserProfileDTOTest {
     String json = """
                 {
                   "euLoginID": "user123",
+                  "email": "user123@example.com",
                   "legalOrNaturalPerson": {"key": "b", "value": "Natural person"},
                   "naturalPersonJobTitle": "Engineer"
                 }
@@ -122,6 +148,7 @@ class UserProfileDTOTest {
 
     assertNotNull(dto);
     assertEquals("user123", dto.getEuLoginID());
+    assertEquals("user123@example.com", dto.getEmail());
     assertEquals("b", dto.getLegalOrNaturalPerson().getKey());
     assertEquals("Engineer", dto.getNaturalPersonJobTitle());
   }
@@ -131,6 +158,7 @@ class UserProfileDTOTest {
     String json = """
                 {
                   "euLoginID": "user123",
+                  "email": "user123@example.com",
                   "legalOrNaturalPerson": {"key": "a", "value": "Legal person"},
                   "extraField": "extraValue"
                 }
@@ -140,7 +168,7 @@ class UserProfileDTOTest {
 
     assertNotNull(dto);
     assertEquals("user123", dto.getEuLoginID());
+    assertEquals("user123@example.com", dto.getEmail());
     assertEquals("a", dto.getLegalOrNaturalPerson().getKey());
   }
 }
-

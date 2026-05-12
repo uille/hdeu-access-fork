@@ -34,11 +34,11 @@ import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
-import eu.europa.data.health.access.DispatcherResponseStatus;
 import eu.europa.data.health.access.dispatcher_client.DispatcherClient;
 import eu.europa.data.health.access.handlers.DBHandler;
 import eu.europa.data.health.access.services.AuditLogManager;
 import eu.europa.data.health.access.services.DispatcherManager;
+import eu.europa.data.health.access.services.NotificationManager;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -72,6 +72,9 @@ class DispatcherScheduledJobTest {
   @Mock
   AuditLogManager auditLogManager;
 
+  @Mock
+  NotificationManager notificationManager;
+
   @InjectMocks
   DispatcherScheduledJob job;
   private final Logger logger = (Logger) LoggerFactory.getLogger(DispatcherScheduledJob.class);
@@ -79,7 +82,8 @@ class DispatcherScheduledJobTest {
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
-    job = new DispatcherScheduledJob(dbHandler, mongoClient, dispatcherManager, auditLogManager);
+    job = new DispatcherScheduledJob(dbHandler, mongoClient, dispatcherManager, auditLogManager,
+      notificationManager, new JsonObject());
   }
 
   @Test
@@ -93,7 +97,8 @@ class DispatcherScheduledJobTest {
       return null;
     });
 
-    job.sendApplicationsToDispatcher(3, dispatcherClient, applicationType);
+    job.sendApplicationsToDispatcher(3, dispatcherClient, applicationType)
+      .onComplete(ar -> assertTrue(ar.succeeded()));
 
     verify(mongoClient, times(1)).find(anyString(), any(JsonObject.class), any());
 
@@ -109,7 +114,8 @@ class DispatcherScheduledJobTest {
       return null;
     });
 
-    job.sendApplicationsToDispatcher(3, dispatcherClient, applicationType);
+    job.sendApplicationsToDispatcher(3, dispatcherClient, applicationType)
+      .onComplete(ar -> assertTrue(ar.succeeded()));
     verify(mongoClient, times(1)).find(anyString(), any(JsonObject.class), any());
   }
 
@@ -127,7 +133,8 @@ class DispatcherScheduledJobTest {
       return null;
     });
 
-    job.sendApplicationsToDispatcher(3, dispatcherClient, applicationType);
+    job.sendApplicationsToDispatcher(3, dispatcherClient, applicationType)
+      .onComplete(ar -> assertTrue(ar.failed()));
     verify(mongoClient, times(1)).find(anyString(), any(JsonObject.class), any());
 
     List<ILoggingEvent> logsList = listAppender.list;
@@ -137,14 +144,14 @@ class DispatcherScheduledJobTest {
     boolean foundError2 = false;
 
     for (ILoggingEvent event : logsList) {
-      if (event.getFormattedMessage().contains("Failed to find pending dispatcher records")) {
+      if (event.getFormattedMessage().contains("Failed to find pending DISPATCHER dispatcher records")) {
         foundError1 = true;
       }
       if (event.getFormattedMessage().contains("Find pending dispatcher records was not successful")) {
         foundError2 = true;
       }
     }
-    assertTrue(foundError1, "Error log for 'Failed to find pending dispatcher records' not found");
+    assertTrue(foundError1, "Error log for 'Failed to find pending DISPATCHER dispatcher records' not found");
     assertTrue(foundError2, "Error log for 'Find pending dispatcher records was not successful' not found");
   }
 
@@ -171,6 +178,7 @@ class DispatcherScheduledJobTest {
   @Test
   void testMarkDispatcherRecordAsCompleted_triggersUpdate() {
     JsonObject updatedResult = new JsonObject().put("_id", "app1")
+      .put("operation", "CREATE")
       .put("configuration", new JsonObject().put("applicationType", "collectionName"));
 
     when(mongoClient.updateCollection(anyString(), any(JsonObject.class), any(JsonObject.class),
@@ -189,7 +197,8 @@ class DispatcherScheduledJobTest {
       return null;
     });
 
-    job.markDispatcherRecordAsCompleted(updatedResult, "[\"message-id\"]");
+    job.markDispatcherRecordAsCompleted(updatedResult, "[\"message-id\"]")
+      .onComplete(ar -> assertTrue(ar.succeeded()));
     verify(mongoClient).updateCollection(eq("DISPATCHER"), any(JsonObject.class),
       any(JsonObject.class), any(Handler.class)
     );
@@ -211,16 +220,9 @@ class DispatcherScheduledJobTest {
       return null;
     });
 
-    when(mongoClient.findOne(anyString(), any(), isNull(), any())).thenAnswer(invocation -> {
-      Handler<AsyncResult<JsonObject>> handler = invocation.getArgument(3);
-      handler.handle(Future.succeededFuture(dispatcherRecord));
-      return null;
-    });
-
     job.retrySendApplicationToDispatcher("app1", dispatcherRecord, 2, "some error",
-      DISPATCHER_COLLECTION);
-    verify(dispatcherManager).updateDispatcherStatusInApplication(any(),
-      eq(DispatcherResponseStatus.FAILED));
+      DISPATCHER_COLLECTION)
+      .onComplete(ar -> assertTrue(ar.succeeded()));
   }
 
   @Test
@@ -251,7 +253,8 @@ class DispatcherScheduledJobTest {
     doReturn(Future.succeededFuture("[\"mocked-msg-id\"]")).when(spyJob)
       .sendRecordToDispatcher(any(JsonObject.class), any(DispatcherClient.class));
 
-    spyJob.sendApplicationsToDispatcher(3, dispatcherClient, applicationType);
+    spyJob.sendApplicationsToDispatcher(3, dispatcherClient, applicationType)
+      .onComplete(ar -> assertTrue(ar.succeeded()));
 
     verify(mongoClient, times(1)).find(anyString(), any(JsonObject.class), any());
     await().atMost(2, TimeUnit.SECONDS).untilAsserted(() -> {

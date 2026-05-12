@@ -101,5 +101,38 @@ class PermissionValidatorTest {
       verify(context).next();
     }
   }
-}
 
+  @Test
+  void shouldProceed_whenUserHasAnyRoleInAnyMode() {
+    List<String> scopes = List.of("data-user", "data-admin");
+
+    try (MockedStatic<PiveauAuth> authMock = Mockito.mockStatic(PiveauAuth.class)) {
+      authMock.when(() -> PiveauAuth.userHasRole(user, "data-user")).thenReturn(false);
+      authMock.when(() -> PiveauAuth.userHasRole(user, "data-admin")).thenReturn(true);
+      authMock.when(() -> PiveauAuth.userHasPermission(user, "test-catalog", "data-user")).thenReturn(false);
+      authMock.when(() -> PiveauAuth.userHasPermission(user, "test-catalog", "data-admin")).thenReturn(false);
+
+      PermissionValidator validator = new PermissionValidator(scopes, PermissionValidator.MatchMode.ANY);
+      validator.handle(context);
+
+      verify(context).next();
+    }
+  }
+
+  @Test
+  void shouldProceed_whenUserHasAnyPermissionInAnyMode() {
+    List<String> scopes = List.of("data-user", "data-admin");
+
+    try (MockedStatic<PiveauAuth> authMock = Mockito.mockStatic(PiveauAuth.class)) {
+      authMock.when(() -> PiveauAuth.userHasRole(user, "data-user")).thenReturn(false);
+      authMock.when(() -> PiveauAuth.userHasRole(user, "data-admin")).thenReturn(false);
+      authMock.when(() -> PiveauAuth.userHasPermission(user, "test-catalog", "data-user")).thenReturn(false);
+      authMock.when(() -> PiveauAuth.userHasPermission(user, "test-catalog", "data-admin")).thenReturn(true);
+
+      PermissionValidator validator = new PermissionValidator(scopes, PermissionValidator.MatchMode.ANY);
+      validator.handle(context);
+
+      verify(context).next();
+    }
+  }
+}

@@ -42,7 +42,7 @@
     },
     "projectLeader": {
       "label": "Project leader name (organisation, institution, private sector entity, or a natural person)",
-      "tooltip": "This is the person responsible for data use"
+      "tooltip": "This is the entity responsible for data use."
     },
     "countryOfProjectLeader": {
       "label": "Official domicile (country) of the entity responsible for the project"
@@ -122,6 +122,7 @@
       ],
       "info": "(If you choose this option, you confirm that you apply for data as a private person without any affiliation.)"
     },
+    "participatingEntitiesInstruction": "If you are applying on behalf of a consortium, please name here all the participating entities.",
     "legalPerson": "Legal person",
     "naturalPerson": "Natural person",
     "legalPersonName": {
@@ -186,6 +187,10 @@
     },
     "naturalPersonAffiliation": {
       "label": "Affiliation"
+    },
+    "otherContactPerson": {
+      "label": "Other contact persons",
+      "tooltip": "If there are multiple contact persons in your project, please name them here along with information on their affiliations."
     }
   },
   "section4": {
@@ -423,7 +428,7 @@
         },
         {
           "key": "d",
-          "value": "The cohort will be the whole population of a country/countries indicated at the beginning of this form."
+          "value": "The cohort will be the whole population of a country/countries or a data source indicated at the beginning of this form."
         }
       ]
     },
@@ -466,17 +471,6 @@
     },
     "howTheStudyCohortWasObtained": {
       "label": "Describe how the cohort was obtained and the reasons for the lack of data permit/consent."
-    },
-    "providedInformationOfTheDataUseToCorrespondingSubjects": {
-      "label": "Have you provided information of the data use to the corresponding subjects? E.g. shared information of the data use on a project website.",
-      "tooltip": "For further information, see the General Data Protection Regulation articles 13 and 14: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-      "tooltipForm": "For further information, see the <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">General Data Protection Regulation articles 13 and 14</a>"
-    },
-    "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-      "label": "How?"
-    },
-    "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-      "label": "Why not?"
     },
     "whoWillDeliverTheInformationOnTheStudy": {
      "label": "Who will deliver the information on the cohort to the health data access body? This person will receive instructions on how to deliver the data through the common EHDS portal."
@@ -612,7 +606,7 @@
       "label": "Provide the justification for this exception."
     },
     "needForDataExtractionEvery": {
-      "label": "The data needs to be extracted every",
+      "label": "The data needs to be extracted",
       "tooltip": "If you want the data to be extracted multiple times over a certain period of time, note that the definitions and the data gathering method may change during the review period in some cases. Note that the maximum frequency of data extraction is every quarter"
     },
     "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
       "label": "In case of recurrent extraction, provide information on each data extraction process separately in the order instructions"
     },
     "dataNeedsToBeExtractedEvery": {
-      "label": "The data needs to be extracted every",
+      "label": "The data needs to be extracted",
       "tooltip": "If you want the data to be extracted multiple times over a certain period of time, note that the definitions and the data collection method may change during the review period in some cases. Note that the maximum frequency of data extraction is every quarter"
     },
     "specifyOther": {
@@ -783,14 +777,14 @@
       "label": "How often does the data need to be extracted?"
     },
     "dataNeedsToBeExtractedEveryRelatives": {
-      "label": "The data needs to be extracted every",
+      "label": "The data needs to be extracted",
       "tooltip": "If you want the data to be extracted multiple times over a certain period of time, note that the definitions and the data gathering method may change during the review period in some cases. Note that the maximum frequency of data extraction is every quarter"
     },
     "dataExtractionFrequencyMultipleTimesInformationRelatives": {
       "label": "In case of recurrent extraction, provide information on each data extraction process separately in the order instructions"
     },
     "needForDataExtractionEveryOptions": {
-      "label": "The data needs to be extracted every",
+      "label": "The data needs to be extracted",
       "tooltip": "If you want the data to be extracted multiple times over a certain period of time, note that the definitions and the data gathering method may change during the review period in some cases. Note that the maximum frequency of data extraction is every quarter"
     },
     "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
   },
   "section7": {
     "section7h5": "Other data to be combined",
-    "section7Description": "It is possible to combine other personal data, such as data already in your possession or data obtained from elsewhere with another permit, with the data applied for with this application. List the information for all additional data that will be combined with the data authorised by the health data access body. If you later want to combine other personal data with the data authorised by the health data access body, you need to submit an amendment application to the same health data access body. If you have any other cohort that you would like the health data access body to combine with the data you are applying for, you will receive instructions on how to deliver the data securely after the permit has been granted.",
+    "section7Description": "It is possible to combine other personal level data, such as data already in your possession or data obtained from elsewhere with another permit, with the data applied for with this application. List the information for all additional data that will be combined with the data authorised by the health data access body. If you later want to combine other personal level data with the data authorised by the health data access body, you need to submit an amendment application to the same health data access body. If you have any other cohort that you would like the health data access body to combine with the data you are applying for, you will receive instructions on how to deliver the data securely after the permit has been granted.",
     "addDataPermit": "Add data permit",
     "addInfo": "Add Info",
     "removeDataPermit": "Remove data permit",
@@ -913,7 +907,7 @@
     },
     "estimatedStartAndEnd": {
       "label": "What are the estimated start and end dates of the period during which the electronic health data is needed for processing?",
-      "tooltip": "This period can be five years. With additional permit, the original permit can be extended for another five years"
+      "tooltip": "This period can be 10 years. With additional permit, the original permit can be extended for another 10 years"
     },
     "estimatedStartDatesForDataProcessing": {
       "label": "From"
@@ -1168,13 +1162,13 @@
       "tooltip": "EHDS article 71(4) “By way of exception from the right to opt out provided for in paragraph 1, a Member State may provide in its national law for a mechanism to make data for which a right to opt out has been exercised available, provided that all the following conditions are fulfilled: (refer to the article for full conditions)”"
     },
     "providedJustificationException": {
-      "label": "Provide the justification for this exception."
+      "label": "Provide the justification for this exception and include in your justification how the conditions of article 71(4)(a-c) are fulfilled."
     },
     "protectionAndSecurityStatements": {
       "label": "To proceed with this application, you need to confirm the following statements (data protection and security related statements):"
     },
     "protectionAndSecurityStatementsA": {
-      "label": "1. I confirm that if the health data access body grants me the data I am applying for, I will use it only for the purpose(s) stated in this application form."
+      "label": "1. I confirm that if the health data access body grants me the data I am applying for, I will use it only for the purpose(s) stated in this application form and will not use it for any prohibited purposes."
     },
     "protectionAndSecurityStatementsB": {
       "label": "2. I understand that copying the data from the secure processing environment is prohibited."
@@ -1286,6 +1280,10 @@
     },
     "attachResearchPermitIfRequired": {
       "label": "If your research requires a research permit from your affiliation organisation, attach the research permit"
+    },
+    "hdabToRetain": {
+      "label": "Do you want the HDAB to retain the formula used for the creation of the requested dataset? ",
+      "tooltip": "EHDS article 68(12): (--) At the request of the health data user, the formula for the creation of the requested dataset may be stored by the health data access body."
     }
   },
   "section9": {
@@ -1293,7 +1291,7 @@
     "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
     "additionalInformation": {
       "label": "Further information or any additional notes",
-      "tooltip": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers."
+      "tooltip": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers. Indicate any confidential information in your application and briefly justify the confidentiality, specifying the relevant section number and question."
     },
     "additionalAttachment": {
       "label": "An additional attachment. Do not attach health or personal data to this application.",
@@ -1351,11 +1349,11 @@
         },
         {
           "key": "b",
-          "value": "Half a year"
+          "value": "Every half a year"
         },
         {
           "key": "c",
-          "value": "Quarter"
+          "value": "Every quarter"
         },
         {
           "key": "d",

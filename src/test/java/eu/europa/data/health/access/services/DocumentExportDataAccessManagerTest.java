@@ -19,15 +19,8 @@ import static eu.europa.data.health.access.Constants.DATA_ACCESS_APPLICATION_COL
 import static eu.europa.data.health.access.UtilityServiceTest.getStringJsonObject;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.contains;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 import eu.europa.data.health.access.Constants;
 import eu.europa.data.health.access.RoutingContextMocker;
@@ -82,8 +75,11 @@ class DocumentExportDataAccessManagerTest {
     lenient().when(routingContext.pathParam("id")).thenReturn("applicationId");
     lenient().when(routingContext.pathParam("type")).thenReturn("docx");
     lenient().when(routingContext.pathParam("tl")).thenReturn("inputLanguage");
+    lenient().when(routingContext.pathParam("version")).thenReturn("1");
+
     lenient().when(routingContext.response()).thenReturn(serverResponse);
     lenient().when(serverResponse.putHeader(anyString(), anyString())).thenReturn(serverResponse);
+    lenient().when(serverResponse.setStatusCode(anyInt())).thenReturn(serverResponse);
   }
 
   @Test
@@ -108,25 +104,24 @@ class DocumentExportDataAccessManagerTest {
     exportApplicationForm(application,"docx");
   }
 
-  void exportApplicationForm(JsonObject application,String type) {
-    Future<JsonObject> future = Future.succeededFuture(application);
-    when(dbHandler.findById(DATA_ACCESS_APPLICATION_COLLECTION, "applicationId")).thenReturn(
-      future);
+  void exportApplicationForm(JsonObject application, String type) {
+
+    when(routingContext.pathParam("type")).thenReturn(type);
+    when(dbHandler.findOne(eq(DATA_ACCESS_APPLICATION_COLLECTION), any(JsonObject.class)))
+      .thenReturn(Future.succeededFuture(application));
 
     // Build the mock JSON response body
     JsonObject mockResponseBody = new JsonObject();
-    JsonObject provenance = new JsonObject()
-      .put("label", "Provenance");
+    JsonObject provenance = new JsonObject().put("label", "Provenance");
     mockResponseBody.put("provenance", provenance);
     mockResponseBody.put("title", new JsonObject().put("en", "title datasheet"));
     mockResponseBody.put("country", new JsonObject().put("label", "GR"));
     mockResponseBody.put("publisher", new JsonObject().put("name", "publisher name"));
     mockResponseBody.put("hdab", new JsonObject().put("name", "hdab name"));
-    mockResponseBody.put("catalog", new JsonObject()
-      .put("id", "726200a0-7940-4446-b5f8-a62e6cc00b1b"));
+    mockResponseBody.put("catalog", new JsonObject().put("id", "726200a0-7940-4446-b5f8-a62e6cc00b1b"));
 
-    JsonObject mockResultsBody = new JsonObject()
-      .put("result", mockResponseBody);
+    JsonObject mockResultsBody = new JsonObject().put("result", mockResponseBody);
+
     when(webClient.getAbs(config.getString(Constants.HUB_SEARCH_DATA_URL) + "/datasets/"
       + "8ddbd740-0c51-4a65-8ae8-0f03bb6fef5e")).thenReturn(httpRequest);
     when(httpRequest.send()).thenReturn(Future.succeededFuture(httpResponse));
@@ -137,14 +132,16 @@ class DocumentExportDataAccessManagerTest {
 
     if(type.equals("pdf")) {
       verify(serverResponse).putHeader("Content-Type", "application/pdf");
-      verify(serverResponse).putHeader(eq("Content-Disposition"), contains("attachment; filename=Form.pdf"));
+      verify(serverResponse).putHeader(eq("Content-Disposition"),
+        contains("attachment; filename=Form.pdf"));
+    } else {
+      verify(serverResponse).putHeader("Content-Type",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+      verify(serverResponse).putHeader(eq("Content-Disposition"),
+        contains("filename=DataAccessForm.docx"));
     }
-    else{
-    verify(serverResponse).putHeader("Content-Type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-    verify(serverResponse).putHeader(eq("Content-Disposition"), contains("filename=DataAccessForm.docx"));
-    }
-    verify(dbHandler, times(1)).findById(DATA_ACCESS_APPLICATION_COLLECTION, "applicationId");
 
+    verify(dbHandler, times(1)).findOne(eq(DATA_ACCESS_APPLICATION_COLLECTION), any(JsonObject.class));
   }
 
   @Test

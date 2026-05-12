@@ -30,10 +30,14 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import eu.europa.data.health.access.CatalogStatus;
 import eu.europa.data.health.access.handlers.DBHandler;
+import eu.europa.data.health.access.OperationStatus;
 import eu.europa.data.health.access.services.AuditLogManager;
 import eu.europa.data.health.access.services.DispatcherManager;
+import eu.europa.data.health.access.services.NotificationManager;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -41,7 +45,9 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -58,6 +64,7 @@ class DispatcherScheduledJobAdditionalTest {
   private MongoClient mongoClient;
   private DispatcherManager dispatcherManager;
   private AuditLogManager auditLogManager;
+  private NotificationManager notificationManager;
 
   private DispatcherScheduledJob job;
 
@@ -67,8 +74,10 @@ class DispatcherScheduledJobAdditionalTest {
     mongoClient = mock(MongoClient.class);
     dispatcherManager = mock(DispatcherManager.class);
     auditLogManager = mock(AuditLogManager.class);
+    notificationManager = mock(NotificationManager.class);
 
-    job = new DispatcherScheduledJob(dbHandler, mongoClient, dispatcherManager, auditLogManager);
+    job = new DispatcherScheduledJob(dbHandler, mongoClient, dispatcherManager, auditLogManager,
+      notificationManager, new JsonObject());
   }
 
   // -------------------------------------------------------------------------
@@ -102,15 +111,18 @@ class DispatcherScheduledJobAdditionalTest {
     final AtomicReference<JsonObject> replacedApp = new AtomicReference<>();
     final AtomicReference<String> replacedCollection = new AtomicReference<>();
     final AtomicInteger changeCatalogToSubmittedCalls = new AtomicInteger();
+    final List<String> withdrawnCatalogIds = new ArrayList<>();
+    final AtomicReference<String> withdrawnCollection = new AtomicReference<>();
+    final AtomicInteger outgoingActivityCalls = new AtomicInteger();
 
     TestableDispatcherScheduledJob(DBHandler dbHandler, MongoClient mongoClient,
-                                   DispatcherManager dispatcherManager, AuditLogManager auditLogManager) {
-      super(dbHandler, mongoClient, dispatcherManager, auditLogManager);
+                                   DispatcherManager dispatcherManager, AuditLogManager auditLogManager, NotificationManager notificationManager) {
+      super(dbHandler, mongoClient, dispatcherManager, auditLogManager, notificationManager, new JsonObject());
     }
 
     // saveApplication(...) calls replaceApplication(...) → we observe persistence via this override
     @Override
-    protected Future<JsonObject> replaceApplication(JsonObject app, String collectionName) {
+    public Future<JsonObject> replaceApplication(JsonObject app, String collectionName) {
       replacedApp.set(app);
       replacedCollection.set(collectionName);
       return Future.succeededFuture(app);
@@ -118,8 +130,27 @@ class DispatcherScheduledJobAdditionalTest {
 
     // handleDispatcherResponse(received) calls changeCatalogToSubmitted(...)
     @Override
-    protected void changeCatalogToSubmitted(JsonObject application, String catalogId, String collectionName) {
+    protected Future<Void> changeCatalogToSubmitted(JsonObject application, String catalogId,
+      String collectionName) {
       changeCatalogToSubmittedCalls.incrementAndGet();
+      return Future.succeededFuture();
+    }
+
+    @Override
+    protected Future<Void> changeCatalogToWithdrawn(JsonObject application, String catalogId,
+      String collectionName) {
+      withdrawnCatalogIds.add(catalogId);
+      withdrawnCollection.set(collectionName);
+      return Future.succeededFuture();
+    }
+
+    @Override
+    public Future<Void> sendApplicationToOutgoingApplicationActivities(String collectionName,
+      String applicationId, CatalogStatus catalogStatus, String catalogId, String status,
+      String datasetId, String reason, String renewAmendFile, String rejectionReason, String rejectionFile, String revocationFile, String decisionFileBase64, OperationStatus operationStatus,
+      String deadlineDate) {
+      outgoingActivityCalls.incrementAndGet();
+      return Future.succeededFuture();
     }
   }
   // -------------------------------------------------------------------------
@@ -380,7 +411,7 @@ class DispatcherScheduledJobAdditionalTest {
   @Test
   void retrieveSentApplications_whenNoApplicationsFound_shouldNotProcessAnything() {
     TestableDispatcherScheduledJob testJob =
-      new TestableDispatcherScheduledJob(dbHandler, mongoClient, dispatcherManager, auditLogManager);
+      new TestableDispatcherScheduledJob(dbHandler, mongoClient, dispatcherManager, auditLogManager, notificationManager);
 
     // findApplicationsWithLatestStatusSent(...) uses mongoClient.find(...)
     doAnswer(inv -> {
@@ -402,7 +433,7 @@ class DispatcherScheduledJobAdditionalTest {
   @Test
   void retrieveSentApplications_whenFindFails_shouldNotQueryDispatcher() {
     TestableDispatcherScheduledJob testJob =
-      new TestableDispatcherScheduledJob(dbHandler, mongoClient, dispatcherManager, auditLogManager);
+      new TestableDispatcherScheduledJob(dbHandler, mongoClient, dispatcherManager, auditLogManager, notificationManager);
 
     doAnswer(inv -> {
       @SuppressWarnings("unchecked")
@@ -489,7 +520,7 @@ class DispatcherScheduledJobAdditionalTest {
   @Test
   void handleDispatcherResponse_whenCatalogReceived_shouldChangeCatalogToSubmitted() {
     TestableDispatcherScheduledJob testJob =
-      new TestableDispatcherScheduledJob(dbHandler, mongoClient, dispatcherManager, auditLogManager);
+      new TestableDispatcherScheduledJob(dbHandler, mongoClient, dispatcherManager, auditLogManager, notificationManager);
 
     JsonObject catalog = new JsonObject().put("catalog_id", "C1");
 
@@ -514,6 +545,167 @@ class DispatcherScheduledJobAdditionalTest {
     );
 
     assertEquals(1, testJob.changeCatalogToSubmittedCalls.get());
+  }
+
+  @Test
+  void sendWithDrawApplicationsToDispatcher_whenAllDatasetsForCatalogWithdrawn_shouldSetCatalogWithdrawn() {
+    TestableDispatcherScheduledJob testJob =
+      new TestableDispatcherScheduledJob(dbHandler, mongoClient, dispatcherManager, auditLogManager, notificationManager);
+
+    JsonObject application = new JsonObject()
+      .put("_id", "A1")
+      .put("catalogs", new JsonArray().add(new JsonObject()
+        .put("catalog_id", "C1")
+        .put("statuses", new JsonArray().add(new JsonObject()
+          .put("status", "DECISION_ISSUED")
+          .put("latest", 1)))))
+      .put("datasets", new JsonArray()
+        .add(dataset("C1", "D1", "POSITIVE_DECISION_ISSUED", Instant.now().minus(35, java.time.temporal.ChronoUnit.DAYS).toString()))
+        .add(dataset("C1", "D2", "NEGATIVE_DECISION_ISSUED", Instant.now().minus(40, java.time.temporal.ChronoUnit.DAYS).toString())));
+
+    when(mongoClient.find(eq("myCollection"), any(JsonObject.class)))
+      .thenReturn(Future.succeededFuture(List.of(application)));
+
+    Future<Void> future = testJob.sendWithDrawApplicationsToDispatcher("myCollection", 28);
+
+    assertTrue(future.succeeded());
+    assertNotNull(testJob.replacedApp.get());
+    assertEquals("myCollection", testJob.replacedCollection.get());
+    assertEquals(2, testJob.outgoingActivityCalls.get());
+
+    JsonObject savedCatalog = testJob.replacedApp.get().getJsonArray("catalogs").getJsonObject(0);
+    JsonObject latestCatalogStatus = latestStatus(savedCatalog.getJsonArray("statuses"));
+    assertEquals("WITHDRAWN", latestCatalogStatus.getString("status"));
+
+    JsonArray savedDatasets = testJob.replacedApp.get().getJsonArray("datasets");
+    assertEquals("WITHDRAWN", latestDecision(savedDatasets.getJsonObject(0)).getValue("datasetStatus").toString());
+    assertEquals("WITHDRAWN", latestDecision(savedDatasets.getJsonObject(1)).getValue("datasetStatus").toString());
+  }
+
+  @Test
+  void sendWithDrawApplicationsToDispatcher_whenCatalogStillHasActiveDataset_shouldNotSetCatalogWithdrawn() {
+    TestableDispatcherScheduledJob testJob =
+      new TestableDispatcherScheduledJob(dbHandler, mongoClient, dispatcherManager, auditLogManager, notificationManager);
+
+    JsonObject application = new JsonObject()
+      .put("_id", "A2")
+      .put("catalogs", new JsonArray().add(new JsonObject()
+        .put("catalog_id", "C1")
+        .put("statuses", new JsonArray().add(new JsonObject()
+          .put("status", "DECISION_ISSUED")
+          .put("latest", 1)))))
+      .put("datasets", new JsonArray()
+        .add(dataset("C1", "D1", "POSITIVE_DECISION_ISSUED", Instant.now().minus(35, java.time.temporal.ChronoUnit.DAYS).toString()))
+        .add(dataset("C1", "D2", "NEGATIVE_DECISION_ISSUED", Instant.now().minus(5, java.time.temporal.ChronoUnit.DAYS).toString())));
+
+    when(mongoClient.find(eq("myCollection"), any(JsonObject.class)))
+      .thenReturn(Future.succeededFuture(List.of(application)));
+
+    Future<Void> future = testJob.sendWithDrawApplicationsToDispatcher("myCollection", 28);
+
+    assertTrue(future.succeeded());
+    assertNotNull(testJob.replacedApp.get());
+    assertEquals(1, testJob.outgoingActivityCalls.get());
+
+    JsonObject savedCatalog = testJob.replacedApp.get().getJsonArray("catalogs").getJsonObject(0);
+    JsonObject latestCatalogStatus = latestStatus(savedCatalog.getJsonArray("statuses"));
+    assertEquals("DECISION_ISSUED", latestCatalogStatus.getString("status"));
+
+    JsonArray savedDatasets = testJob.replacedApp.get().getJsonArray("datasets");
+    assertEquals("WITHDRAWN", latestDecision(savedDatasets.getJsonObject(0)).getValue("datasetStatus").toString());
+    assertEquals("NEGATIVE_DECISION_ISSUED", latestDecision(savedDatasets.getJsonObject(1)).getValue("datasetStatus").toString());
+  }
+
+  @Test
+  void withdrawCatalogsWithExpiredAdditionalInformation_whenNestedRequestingDateExpired_shouldWithdrawCatalog() {
+    TestableDispatcherScheduledJob testJob =
+      new TestableDispatcherScheduledJob(dbHandler, mongoClient, dispatcherManager, auditLogManager, notificationManager);
+
+    JsonObject application = new JsonObject()
+      .put("_id", "A3")
+      .put("catalogs", new JsonArray()
+        .add(catalogWithAdditionalInformation("C1",
+          Instant.now().minus(95, java.time.temporal.ChronoUnit.DAYS).toString(), true))
+        .add(catalogWithAdditionalInformation("C2",
+          Instant.now().minus(10, java.time.temporal.ChronoUnit.DAYS).toString(), true)));
+
+    when(mongoClient.find(eq("myCollection"), any(JsonObject.class)))
+      .thenReturn(Future.succeededFuture(List.of(application)));
+
+    Future<Void> future = testJob.withdrawCatalogsWithExpiredAdditionalInformation("myCollection",
+      90);
+
+    assertTrue(future.succeeded());
+    assertEquals(List.of("C1"), testJob.withdrawnCatalogIds);
+    assertEquals("myCollection", testJob.withdrawnCollection.get());
+  }
+
+  @Test
+  void withdrawCatalogsWithExpiredAdditionalInformation_whenRequestingDateNotExpired_shouldDoNothing() {
+    TestableDispatcherScheduledJob testJob =
+      new TestableDispatcherScheduledJob(dbHandler, mongoClient, dispatcherManager, auditLogManager, notificationManager);
+
+    JsonObject application = new JsonObject()
+      .put("_id", "A4")
+      .put("catalogs", new JsonArray()
+        .add(catalogWithAdditionalInformation("C1",
+          Instant.now().minus(20, java.time.temporal.ChronoUnit.DAYS).toString(), false)));
+
+    when(mongoClient.find(eq("myCollection"), any(JsonObject.class)))
+      .thenReturn(Future.succeededFuture(List.of(application)));
+
+    Future<Void> future = testJob.withdrawCatalogsWithExpiredAdditionalInformation("myCollection",
+      90);
+
+    assertTrue(future.succeeded());
+    assertTrue(testJob.withdrawnCatalogIds.isEmpty());
+  }
+
+  private static JsonObject catalogWithAdditionalInformation(String catalogId,
+    String requestingDate, boolean nestedRequestingDate) {
+    JsonObject statusPayload = nestedRequestingDate
+      ? new JsonObject().put("additionalInformation",
+      new JsonObject().put("requestingDate", requestingDate))
+      : new JsonObject().put("requestingDate", requestingDate);
+
+    return new JsonObject()
+      .put("catalog_id", catalogId)
+      .put("statuses", new JsonArray().add(new JsonObject()
+        .put("status", "ADDITIONAL_INFORMATION")
+        .put("latest", 1)
+        .put("statusPayload", statusPayload)));
+  }
+
+  private static JsonObject dataset(String catalogId, String datasetId, String status,
+    String decisionDateReceived) {
+    return new JsonObject()
+      .put("catalog_id", catalogId)
+      .put("dataset_id", datasetId)
+      .put("decisions", new JsonArray().add(new JsonObject()
+        .put("datasetStatus", status)
+        .put("decision_date_received", decisionDateReceived)
+        .put("latest", 1)));
+  }
+
+  private static JsonObject latestDecision(JsonObject dataset) {
+    JsonArray decisions = dataset.getJsonArray("decisions");
+    for (Object decisionObj : decisions) {
+      JsonObject decision = (JsonObject) decisionObj;
+      if (decision.getInteger("latest", 0) == 1) {
+        return decision;
+      }
+    }
+    throw new IllegalStateException("Latest decision not found");
+  }
+
+  private static JsonObject latestStatus(JsonArray statuses) {
+    for (Object statusObj : statuses) {
+      JsonObject status = (JsonObject) statusObj;
+      if (status.getInteger("latest", 0) == 1) {
+        return status;
+      }
+    }
+    throw new IllegalStateException("Latest status not found");
   }
 
 

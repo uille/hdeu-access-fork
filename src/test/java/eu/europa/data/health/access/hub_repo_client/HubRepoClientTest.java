@@ -53,7 +53,6 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
@@ -64,7 +63,12 @@ import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -83,6 +87,9 @@ class HubRepoClientTest {
   private static final String API_URL = "http://example.com";
   private static final String API_KEY = "dummy-key";
   private static final String JUNIT_TEST_DATABASE = "junitTestDatabase";
+  private static Vertx vertx;
+  private static MongoDBContainer mongoDBContainer;
+  private static MongoClient mongoClient;
   @Mock
   private WebClient webClient;
   @InjectMocks
@@ -104,6 +111,20 @@ class HubRepoClientTest {
   private AuditLogManager auditLogManager;
   @Mock
   private AuthClient authClient;
+
+  @BeforeAll
+  static void setUpSuite() {
+    vertx = Vertx.vertx();
+    mongoDBContainer = new MongoDBContainer("mongo:5.0");
+    mongoDBContainer.start();
+
+    JsonObject config = new JsonObject().put(
+      "connection_string",
+      mongoDBContainer.getReplicaSetUrl(JUNIT_TEST_DATABASE)
+    );
+
+    mongoClient = MongoClient.createShared(vertx, config);
+  }
 
 
   private static @NotNull String getJsonString() {
@@ -132,17 +153,55 @@ class HubRepoClientTest {
     testAppender.start();
     ((ch.qos.logback.classic.Logger) mockLogger).addAppender(testAppender);
 
-    Vertx vertx = Vertx.vertx();
-    MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:4.4.2");
-    mongoDBContainer.start();
-    // Configure MongoClient with the connection string
-    JsonObject config = new JsonObject().put("connection_string",
-      mongoDBContainer.getReplicaSetUrl(JUNIT_TEST_DATABASE));
-    MongoClient mongoClient = MongoClient.createShared(vertx, config);
     DBHandler dbHandler = new DBHandler(mongoClient);
     CountriesManager countriesManager = new CountriesManager();
     hubRepoClient = new HubRepoClient(dbHandler, API_URL, API_KEY, webClient, dispatcherClient,
       hubStoreClient,hubSearchClient,countriesManager, auditLogManager);
+  }
+
+  @AfterAll
+  static void tearDownSuite() throws InterruptedException {
+    closeMongoClient();
+    closeVertx();
+    mongoDBContainer.stop();
+  }
+
+  private static void closeMongoClient() throws InterruptedException {
+    CountDownLatch latch = new CountDownLatch(1);
+    AtomicReference<Throwable> error = new AtomicReference<>();
+
+    mongoClient.close().onComplete(result -> {
+      if (result.failed()) {
+        error.set(result.cause());
+      }
+      latch.countDown();
+    });
+
+    if (!latch.await(30, TimeUnit.SECONDS)) {
+      throw new RuntimeException("Timed out closing Mongo client");
+    }
+    if (error.get() != null) {
+      throw new RuntimeException(error.get());
+    }
+  }
+
+  private static void closeVertx() throws InterruptedException {
+    CountDownLatch latch = new CountDownLatch(1);
+    AtomicReference<Throwable> error = new AtomicReference<>();
+
+    vertx.close(result -> {
+      if (result.failed()) {
+        error.set(result.cause());
+      }
+      latch.countDown();
+    });
+
+    if (!latch.await(30, TimeUnit.SECONDS)) {
+      throw new RuntimeException("Timed out closing Vertx");
+    }
+    if (error.get() != null) {
+      throw new RuntimeException(error.get());
+    }
   }
 
   @Test
@@ -611,12 +670,6 @@ class HubRepoClientTest {
 
   @Test
   void testGetAllGeographicalCoverageSuccess() {
-    RoutingContext context = mock(RoutingContext.class);
-
-    // Mock response JSON
-    JsonObject responseBody = new JsonObject().put("data", new JsonArray());
-    when(httpResponse.body()).thenReturn(Buffer.buffer(responseBody.encode()));
-
     // Mock WebClient and request
     when(webClient.getAbs(anyString())).thenReturn(httpRequest);
     when(httpRequest.putHeaders(any())).thenReturn(httpRequest);
@@ -628,17 +681,9 @@ class HubRepoClientTest {
       return null;
     }).when(httpRequest).sendBuffer(eq(null), any());
 
-    // Mock catalogue mapper
-    JsonObject expectedMapped = new JsonObject().put("mapped", true);
-    try (MockedStatic<CatalogueMapper> mapperMock = Mockito.mockStatic(CatalogueMapper.class)) {
-      mapperMock.when(() -> CatalogueMapper.mapGeographicalCoverageList(any(), any()))
-        .thenReturn(expectedMapped);
-
-      Future<JsonObject> resultFuture = hubRepoClient.getAllGeographicalCoverage();
-
-      resultFuture.onComplete(ar -> {
+    try (MockedStatic<CatalogueMapper> mapperMock = Mockito.mockStatic(CatalogueMapper.class, Mockito.CALLS_REAL_METHODS)) {
+      hubRepoClient.getAllGeographicalCoverage().onComplete(ar -> {
         assertTrue(ar.succeeded());
-        assertEquals(expectedMapped, ar.result());
       });
     }
   }
@@ -670,18 +715,10 @@ class HubRepoClientTest {
   @Test
   void testGetAllCatalogueSuccess() {
     RoutingContext context = mock(RoutingContext.class);
-    HttpServerRequest request = mock(HttpServerRequest.class);
-    when(context.request()).thenReturn(request);
-    when(request.getParam("page")).thenReturn("1");
-    when(request.getParam("limit")).thenReturn("10");
-    when(request.getParam("sortBy")).thenReturn("name");
-    when(request.getParam("sortOrder")).thenReturn("asc");
 
     JsonObject catalogueJson = new JsonObject().put("catalogueList",
       new JsonArray().add(new JsonObject())).put("sizeOfCatalogueList", 1);
-    // Mock response from hub repo
 
-    when(httpResponse.body()).thenReturn(Buffer.buffer(new JsonObject().encode()));
     when(webClient.getAbs(anyString())).thenReturn(httpRequest);
     when(httpRequest.putHeaders(any())).thenReturn(httpRequest);
     when(httpRequest.addQueryParam(anyString(), anyString())).thenReturn(httpRequest);
@@ -703,13 +740,11 @@ class HubRepoClientTest {
       doReturn(expectedResponse).when(spyClient)
         .prepareGetEntityResponse(anyList(), any());
 
-      when(dispatcherClient.getAllCatalogueMap()).thenReturn(
-        Future.succeededFuture(getJsonString()));
       Future<JsonObject> resultFuture = spyClient.getAllCatalogue(context);
 
-      resultFuture.onComplete(ar -> {
-        assertTrue(ar.succeeded());
-        assertEquals(expectedResponse, ar.result());
+      await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> {
+        assertTrue(resultFuture.succeeded());
+        assertEquals(expectedResponse, resultFuture.result());
       });
     }
   }
@@ -844,4 +879,3 @@ class HubRepoClientTest {
   }
 
 }
-

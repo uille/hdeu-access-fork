@@ -29,6 +29,7 @@ public enum SchemaFiles {
   CLASSPATH_SCHEMA_FILE_PATH ("classpath:/schemaValidators/"),
   COUNTRIES_RDF("countries/countries-skos.rdf"),
   USER_SCHEMA_FILE ("userSchema.json"),
+  EMAIL_PREFERENCES_SCHEMA_FILE ("emailPreferencesSchema.json"),
   DISPATCHER_DECISION_SCHEMA_FILE("dispatcherDecisionSchema.json"),
   DISPATCHER_STATUS_SCHEMA_FILE("dispatcherStatusSchema.json"),
   PERMIT_STATUS_SCHEMA_FILE("dispatcherPermitSchema.json"),

@@ -81,38 +81,43 @@ public class AbstractSchemaValidator {
     return false;
   }
 
-  public void validateJsonSchema(@NotNull RoutingContext context, String jsonSchema){
+  public void validateJsonSchema(@NotNull RoutingContext context, String jsonSchema) {
 
     // Validate that the RoutingContext does not contain a null/empty json body
-    if(requestBodyIsEmpty(context))
+    if (requestBodyIsEmpty(context)) {
       return;
+    }
 
     // Validate that the json body complies with the json schema of the item provided
 
     boolean isJsonArray = context.body().asString().trim().startsWith("[");
 
-    SchemaRepository repository = SchemaRepository.create(new JsonSchemaOptions().setDraft(Draft.DRAFT7).setBaseUri(
-      SchemaFiles.CLASSPATH_SCHEMA_FILE_PATH.getValue()));
-    JsonSchema schema = JsonSchema.of(getFileFromResourceAsStream(
-      SchemaFiles.SCHEMA_FILE_PATH.getValue() +jsonSchema));
-    if(schema == null){
+    SchemaRepository repository = SchemaRepository.create(
+      new JsonSchemaOptions().setDraft(Draft.DRAFT7)
+        .setBaseUri(SchemaFiles.CLASSPATH_SCHEMA_FILE_PATH.getValue()));
+    JsonSchema schema = JsonSchema.of(
+      getFileFromResourceAsStream(SchemaFiles.SCHEMA_FILE_PATH.getValue() + jsonSchema));
+    if (schema == null) {
       log.error("{} json schema was not retrieved", CLASS_NAME);
-      context.response()
-        .setStatusCode(400)
-        .end("json schema was not retrieved");
+      context.response().setStatusCode(400).end("json schema was not retrieved");
     }
     // Perform the validation
-    OutputUnit result = repository.validator(schema).validate(isJsonArray? context.body().asJsonArray() : context.body().asJsonObject());
+    OutputUnit result = repository.validator(schema)
+      .validate(isJsonArray ? context.body().asJsonArray() : context.body().asJsonObject());
     if (Boolean.TRUE.equals(result.getValid())) {
       // Successful validation, continue to the next handler
       log.debug("{} Validation was successful", CLASS_NAME);
       context.next();
     } else {
       // Validation failed
-      log.error("{} Validation was not successful, with error message: {}", CLASS_NAME, result.getError());
-      context.response()
-        .setStatusCode(400)
-        .end("Json schema validation for item failed");
+      if (result.getErrors() != null && !result.getErrors().isEmpty()) {
+        log.error("{} Validation was not successful, with error messages: {}", CLASS_NAME,
+          result.getErrors().toString());
+      } else {
+        log.error("{} Validation was not successful, with error message: {}", CLASS_NAME,
+          result.getError());
+      }
+      context.response().setStatusCode(400).end("Json schema validation for item failed");
     }
   }
 

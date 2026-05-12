@@ -46,12 +46,15 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
 import java.lang.reflect.Field;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -64,6 +67,7 @@ class AbstractManagerTest {
   private static MongoDBContainer mongoDBContainer;
   private static final String JUNIT_TEST_DATABASE = "junitTestDatabase";
 
+  private static Vertx vertx;
   private static MongoClient mongoClient;
   private static DBHandler dbHandler;
   static AbstractManager abstractManager;
@@ -74,12 +78,11 @@ class AbstractManagerTest {
 
 
   @BeforeAll
-  static void setUp(VertxTestContext testContext) {
-    Vertx vertx = Vertx.vertx();
-    mongoDBContainer = new MongoDBContainer("mongo:4.4.2");
+  static void setUpSuite() {
+    vertx = Vertx.vertx();
+    mongoDBContainer = new MongoDBContainer("mongo:5.0");
     mongoDBContainer.start();
 
-    // Configure MongoClient with the connection string
     JsonObject config = new JsonObject()
       .put("connection_string", mongoDBContainer.getReplicaSetUrl(JUNIT_TEST_DATABASE));
 
@@ -88,20 +91,20 @@ class AbstractManagerTest {
 
     abstractManager = new AbstractManager(dbHandler) {
     };
+  }
 
-    testContext.completeNow();
+  @BeforeEach
+  void setUp() throws InterruptedException {
+    cleanupCollections();
+    abstractManager = new AbstractManager(dbHandler) {
+    };
   }
 
   @AfterAll
-  static void tearDown(VertxTestContext testContext) {
-    try {
-      mongoClient.close().onComplete(v -> {
-        mongoDBContainer.stop();
-        testContext.completeNow();
-      });
-    } catch (Exception e) {
-      testContext.failNow(e);
-    }
+  static void tearDownSuite() throws InterruptedException {
+    closeMongoClient();
+    closeVertx();
+    mongoDBContainer.stop();
   }
 
   @Test
@@ -477,13 +480,14 @@ class AbstractManagerTest {
     mockResults.add(new JsonObject().put("id", "app2").put("name", "Application 2"));
 
     JsonObject queryOptions = new JsonObject().put("status", "ACTIVE");
-    when(mockDbHandler.findApplications(
+    when(mockDbHandler.findEntities(
       ("applications"),
       (1),
       (10),
       ("name"),
       ("asc"),
-      (queryOptions)
+      (queryOptions),
+      null
     )).thenReturn(Future.succeededFuture(mockResults));
 
     when(mockDbHandler.countAll(eq("applications"), any()))
@@ -491,7 +495,7 @@ class AbstractManagerTest {
 
     RoutingContext context = RoutingContextMocker.mockRoutingContext(new JsonObject());
 
-    testManager.getApplications(context, "applications", 1, 10, "name", "asc", queryOptions);
+    testManager.getEntities(context, "applications", 1, 10, "name", "asc", queryOptions);
 
     vertx.setTimer(500, timerId -> {
       verify(context.response()).setStatusCode(HttpResponseStatus.OK.code());
@@ -710,6 +714,68 @@ class AbstractManagerTest {
 
     verify(response).setStatusCode(HttpResponseStatus.NOT_FOUND.code());
     verify(response).end(contains("Not Found"));
+  }
+
+  private void cleanupCollections() throws InterruptedException {
+    cleanupCollection(ABSTRACT_MANAGER_COLLECTION);
+    cleanupCollection(AUDIT_LOG_COLLECTION);
+  }
+
+  private void cleanupCollection(String collection) throws InterruptedException {
+    CountDownLatch latch = new CountDownLatch(1);
+    AtomicReference<Throwable> error = new AtomicReference<>();
+
+    mongoClient.removeDocuments(collection, new JsonObject(), result -> {
+      if (result.failed()) {
+        error.set(result.cause());
+      }
+      latch.countDown();
+    });
+
+    if (!latch.await(30, TimeUnit.SECONDS)) {
+      throw new RuntimeException("Timed out cleaning collection: " + collection);
+    }
+    if (error.get() != null) {
+      throw new RuntimeException(error.get());
+    }
+  }
+
+  private static void closeMongoClient() throws InterruptedException {
+    CountDownLatch latch = new CountDownLatch(1);
+    AtomicReference<Throwable> error = new AtomicReference<>();
+
+    mongoClient.close().onComplete(result -> {
+      if (result.failed()) {
+        error.set(result.cause());
+      }
+      latch.countDown();
+    });
+
+    if (!latch.await(30, TimeUnit.SECONDS)) {
+      throw new RuntimeException("Timed out closing Mongo client");
+    }
+    if (error.get() != null) {
+      throw new RuntimeException(error.get());
+    }
+  }
+
+  private static void closeVertx() throws InterruptedException {
+    CountDownLatch latch = new CountDownLatch(1);
+    AtomicReference<Throwable> error = new AtomicReference<>();
+
+    vertx.close(result -> {
+      if (result.failed()) {
+        error.set(result.cause());
+      }
+      latch.countDown();
+    });
+
+    if (!latch.await(30, TimeUnit.SECONDS)) {
+      throw new RuntimeException("Timed out closing Vertx");
+    }
+    if (error.get() != null) {
+      throw new RuntimeException(error.get());
+    }
   }
 
 }

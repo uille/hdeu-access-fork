@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Nombre del jefe de proyecto (organización, institución, entidad del sector privado o persona física)",
-            "tooltip": "Esta es la persona responsable del uso de los datos."
+            "tooltip": "Es la entidad responsable del uso de los datos."
         },
         "countryOfProjectLeader": {
             "label": "Domicilio oficial (país) de la entidad responsable del proyecto"
@@ -122,6 +122,7 @@
             ],
             "info": "(Si elige esta opción, confirma que solicita datos como particular sin afiliación.)"
         },
+        "participatingEntitiesInstruction": "Si presenta la solicitud en nombre de un consorcio, indique aquí todas las entidades participantes.",
         "legalPerson": "Persona jurídica,",
         "naturalPerson": "Persona física:",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Afiliación"
+        },
+        "otherContactPerson": {
+            "label": "Otras personas de contacto",
+            "tooltip": "Si hay varias personas de contacto en su proyecto, indíquelas aquí junto con información sobre sus afiliaciones."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "La cohorte será la totalidad de la población de uno o varios países indicados al principio del presente formulario."
+                    "value": "La cohorte será toda la población de un país o países o una fuente de datos indicada al principio de este formulario."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Describa cómo se obtuvo la cohorte y las razones de la falta de permiso o consentimiento de datos."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "¿Ha facilitado información sobre el uso de los datos a los interesados correspondientes? Por ejemplo, información compartida sobre el uso de los datos en un sitio web del proyecto.",
-            "tooltip": "Para más información, véanse los artículos 13 y 14 del Reglamento general de protección de datos: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "Para más información, véanse los artículos 13 y 14 del Reglamento general de protección de datos de <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\">."
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "¿Cómo?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "¿Por qué no?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "¿Quién facilitará la información sobre la cohorte al organismo de acceso a los datos sanitarios? Esta persona recibirá instrucciones sobre cómo entregar los datos a través del portal común del EEDS."
@@ -612,7 +606,7 @@
             "label": "Justificar esta excepción."
         },
         "needForDataExtractionEvery": {
-            "label": "Los datos deben extraerse todos",
+            "label": "Los datos deben extraerse",
             "tooltip": "Si desea que los datos se extraigan varias veces a lo largo de un determinado período de tiempo, tenga en cuenta que las definiciones y el método de recopilación de datos pueden cambiar durante el período de revisión en algunos casos. Obsérvese que la frecuencia máxima de extracción de datos es trimestral."
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "En caso de extracción recurrente, facilítese información sobre cada proceso de extracción de datos por separado en las instrucciones de pedido."
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Los datos deben extraerse todos",
+            "label": "Los datos deben extraerse",
             "tooltip": "Si desea que los datos se extraigan varias veces a lo largo de un determinado período de tiempo, tenga en cuenta que las definiciones y el método de recogida de datos pueden cambiar durante el período de revisión en algunos casos. Obsérvese que la frecuencia máxima de extracción de datos es trimestral."
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "¿Con qué frecuencia deben extraerse los datos?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Los datos deben extraerse todos",
+            "label": "Los datos deben extraerse",
             "tooltip": "Si desea que los datos se extraigan varias veces a lo largo de un determinado período de tiempo, tenga en cuenta que las definiciones y el método de recopilación de datos pueden cambiar durante el período de revisión en algunos casos. Obsérvese que la frecuencia máxima de extracción de datos es trimestral."
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "En caso de extracción recurrente, facilítese información sobre cada proceso de extracción de datos por separado en las instrucciones de pedido."
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Los datos deben extraerse todos",
+            "label": "Los datos deben extraerse",
             "tooltip": "Si desea que los datos se extraigan varias veces a lo largo de un determinado período de tiempo, tenga en cuenta que las definiciones y el método de recopilación de datos pueden cambiar durante el período de revisión en algunos casos. Obsérvese que la frecuencia máxima de extracción de datos es trimestral."
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Otros datos que deben combinarse",
-        "section7Description": "Es posible combinar otros datos personales, como datos que ya obran en su poder o datos obtenidos de otro lugar con otro permiso, con los datos solicitados con esta solicitud. Enumere la información de todos los datos adicionales que se combinarán con los datos autorizados por el organismo de acceso a los datos sanitarios. Si posteriormente desea combinar otros datos personales con los datos autorizados por el organismo de acceso a los datos sanitarios, debe presentar una solicitud de modificación al mismo organismo de acceso a los datos sanitarios. Si tiene alguna otra cohorte que desee que el organismo de acceso a los datos sanitarios combine con los datos que solicita, recibirá instrucciones sobre cómo entregar los datos de forma segura una vez concedido el permiso.",
+        "section7Description": "Es posible combinar otros datos personales, como datos que ya obren en su poder o datos obtenidos en otro lugar con otro permiso, con los datos solicitados con esta solicitud. Enumere la información de todos los datos adicionales que se combinarán con los datos autorizados por el organismo de acceso a los datos sanitarios. Si posteriormente desea combinar otros datos personales con los datos autorizados por el organismo de acceso a los datos sanitarios, debe presentar una solicitud de modificación al mismo organismo de acceso a los datos sanitarios. Si tiene alguna otra cohorte que desee que el organismo de acceso a los datos sanitarios se combine con los datos que solicita, recibirá instrucciones sobre cómo entregar los datos de forma segura una vez concedido el permiso.",
         "addDataPermit": "Añadir permiso de datos",
         "addInfo": "Añadir información",
         "removeDataPermit": "Eliminar el permiso de datos",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "¿Cuáles son las fechas estimadas de inicio y finalización del período durante el cual los datos sanitarios electrónicos son necesarios para el tratamiento?",
-            "tooltip": "Este período puede ser de cinco años. Con un permiso adicional, el permiso original puede prorrogarse por otros cinco años."
+            "tooltip": "Este período puede ser de 10 años. Con un permiso adicional, el permiso original puede prorrogarse otros 10 años."
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Desde"
@@ -1168,13 +1162,13 @@
             "tooltip": "EHDS artículo 71(4) “Como excepción al derecho de autoexclusión dispuesto en el apartado 1, los Estados miembros podrán prever en su Derecho nacional un mecanismo para poner a disposición datos respecto de los cuales se haya ejercido el derecho de autoexclusión, siempre y cuando se cumplan todas las condiciones siguientes: (véase el artículo para condiciones completas)»."
         },
         "providedJustificationException": {
-            "label": "Justificar esta excepción."
+            "label": "Justifique esta excepción e indique en su justificación cómo se cumplen las condiciones del artículo 71(4)(a-c)."
         },
         "protectionAndSecurityStatements": {
             "label": "Para proceder a esta solicitud, debe confirmar las siguientes declaraciones (declaraciones relativas a la protección de datos y la seguridad):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Confirmo que, si el organismo de acceso a los datos sanitarios me concede los datos que solicito, los utilizaré únicamente para los fines indicados en el presente formulario de solicitud."
+            "label": "1. Confirmo que, si el organismo de acceso a los datos sanitarios me concede los datos que solicito, los utilizaré únicamente para los fines indicados en el presente formulario de solicitud y no los utilizaré para ningún fin prohibido."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Entiendo que está prohibido copiar los datos del entorno de tratamiento seguro."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Si tu investigación requiere un permiso de investigación de tu organización afiliada, adjúntese el permiso de investigación"
+        },
+        "hdabToRetain": {
+            "label": "¿Desea que el HDAB mantenga la fórmula utilizada para la creación del conjunto de datos solicitado? ",
+            "tooltip": "Artículo 68, apartado 12, del EEDS: (--) A petición del usuario de datos de salud, el organismo de acceso a datos de salud podrá almacenar la fórmula para la creación del conjunto de datos solicitado."
         }
     },
     "section9": {
         "section9h5": "Información adicional",
-        "section9Description": "Aquí puede facilitar más información sobre cualquiera de las secciones de su solicitud. Indique el número de sección y la pregunta a la que se refiere su comentario.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Información adicional o notas complementarias",
-            "tooltip": "Aquí puede facilitar más información sobre cualquiera de las secciones de su solicitud. Indique el número de sección y la pregunta a la que se refiere su comentario. Sugerencia para la aplicación técnica: Como alternativa, podría existir una forma de permitir al solicitante vincular la información a partes específicas del formulario para facilitar el trabajo de los HDABs."
+            "tooltip": "Aquí puede facilitar más información sobre cualquiera de las secciones de su solicitud. Indique el número de la sección y la pregunta a la que se refiere su comentario. Indique cualquier información confidencial en su solicitud y justifique brevemente la confidencialidad, especificando el número de sección y la pregunta pertinentes."
         },
         "additionalAttachment": {
             "label": "Un documento adjunto adicional. No adjunte datos sanitarios o personales a esta solicitud.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Medio año"
+                    "value": "Cada medio año"
                 },
                 {
                     "key": "c",
-                    "value": "Trimestre"
+                    "value": "Trimestralmente"
                 },
                 {
                     "key": "d",

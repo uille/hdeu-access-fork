@@ -65,8 +65,12 @@ class DynamicLogLevelHandlerTest {
 
     handler.handle(ctx);
 
+    verify(ctx.request()).getParam("logger");
+    verify(ctx.request()).getParam("level");
+
     verify(ctx.response()).setStatusCode(400);
     verify(ctx.response()).end("Missing 'logger' or 'level' parameter");
+
     verifyNoMoreInteractions(ctx.request());
   }
 

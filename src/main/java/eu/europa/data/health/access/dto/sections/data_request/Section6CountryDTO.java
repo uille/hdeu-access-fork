@@ -63,6 +63,14 @@ import lombok.NoArgsConstructor;
     message = "needForDataExtractionEveryOther must be provided when needForDataExtractionEvery is 'other'"
 )
 @RequiredFieldBasedOnObjectValue(
+  objectName = "needForDataExtractionEvery",
+  baseField = "key",
+  baseFieldValue = "d",
+  mandatoryFieldType = "string",
+  mandatoryField = "needForDataExtractionEveryDescription",
+  message = "needForDataExtractionEveryDescription must be provided when needForDataExtractionEvery is 'other'"
+)
+@RequiredFieldBasedOnObjectValue(
     objectName = "extractionMethod",
     baseField = "key",
     baseFieldValue = "c",
@@ -173,7 +181,6 @@ public class Section6CountryDTO extends SectionDTO {
   @TranslatableField
   String needForDataExtractionEveryOther;
 
-  @NotBlank
   @Size(max = 2000)
   @TranslatableField
   String needForDataExtractionEveryDescription;

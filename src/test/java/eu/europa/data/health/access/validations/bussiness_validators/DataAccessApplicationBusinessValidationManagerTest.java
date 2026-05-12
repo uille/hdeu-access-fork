@@ -455,7 +455,7 @@ class DataAccessApplicationBusinessValidationManagerTest {
     // Matching IDs
     JsonObject application = new JsonObject().put("datasets",
             new JsonObject().put("catalog_id", "cat-1"))
-        .put("form", new JsonObject().put("catalog_ids", "cat-1"));
+        .put("form", new JsonObject().put("section6", new JsonObject().put("catalog_ids", "cat-1")));
 
     // Act
     boolean result = validationManager.validateCatalogs(application, context);
@@ -475,7 +475,7 @@ class DataAccessApplicationBusinessValidationManagerTest {
     // Non-matching IDs
     JsonObject application = new JsonObject().put("datasets",
             new JsonObject().put("catalog_id", "cat-1"))
-        .put("form", new JsonObject().put("catalog_ids", "cat-2"));
+        .put("form", new JsonObject().put("section6", new JsonObject().put("catalog_ids", "cat-2")));
 
     // Act
     boolean result = validationManager.validateCatalogs(application, context);

@@ -19,6 +19,7 @@ import static eu.europa.data.health.access.Constants.CONFIGURATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.NAME;
 import static eu.europa.data.health.access.Constants.SUPPORTED_LANGUAGES;
 
+import eu.europa.data.health.access.Constants;
 import eu.europa.data.health.access.handlers.DBHandler;
 import eu.europa.data.health.access.hub_translation_client.HubTranslationClient;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -44,12 +45,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PayloadManager extends AbstractManager{
+public class PayloadManager extends AbstractManager {
 
   private static final String PAYLOAD = "payload";
   private static final String SCHEMA_DOC_NAME = "health-dcat-ap-schema";
@@ -61,19 +63,21 @@ public class PayloadManager extends AbstractManager{
   private final ControlledVocabularyManager controlledVocabularyManager;
   private final HubTranslationClient hubTranslationClient;
   private final SchemaTranslationService translationService;
+  private final JsonObject config;
 
   public PayloadManager(DBHandler dbHandler, MongoClient mongoClient,
     ControlledVocabularyManager controlledVocabularyManager,
     HubTranslationClient hubTranslationClient,
-    SchemaTranslationService translationService) {
+    SchemaTranslationService translationService, JsonObject config) {
     super(dbHandler);
     this.mongoClient = mongoClient;
     this.controlledVocabularyManager = controlledVocabularyManager;
     this.hubTranslationClient = hubTranslationClient;
     this.translationService = translationService;
+    this.config = config;
   }
 
-  public void createOrUpdatePayload(@NotNull RoutingContext context){
+  public void createOrUpdatePayload(@NotNull RoutingContext context) {
 
     log.info("Entered createOrUpdatePayload");
     JsonObject body = context.body().asJsonObject();
@@ -83,7 +87,8 @@ public class PayloadManager extends AbstractManager{
     upsertByName(mongoClient, name, body, context);
   }
 
-  public void upsertByName(MongoClient mongoClient, String name, JsonObject upsertData, @NotNull  RoutingContext context) {
+  public void upsertByName(MongoClient mongoClient, String name, JsonObject upsertData,
+    @NotNull RoutingContext context) {
 
     log.info("Entered upsertByName");
     JsonObject query = new JsonObject().put(NAME, name);
@@ -118,7 +123,7 @@ public class PayloadManager extends AbstractManager{
       // Merge old translations into the new payload if the english text is the same and the
       // translations are missing
       JsonObject newPayload = upsertData.getJsonObject(PAYLOAD);
-      if (newPayload != null && oldPayload != null) {
+      if (ObjectUtils.allNotNull(newPayload, oldPayload)) {
         translationService.mergeExistingTranslations(
           newPayload, oldPayload, SOURCE_LANG, SUPPORTED_LANGUAGES
         );
@@ -138,7 +143,13 @@ public class PayloadManager extends AbstractManager{
           }
 
           String id = res.result().getString("_id");
-          triggerSchemaTranslation(name, newPayload, oldPayload, id);
+
+          // disable additional translations if needed
+          boolean enableTranslation = Boolean.parseBoolean(
+            config.getString(Constants.ENABLE_TRANSLATION, "false"));
+          if (enableTranslation) {
+            triggerSchemaTranslation(name, newPayload, oldPayload, id);
+          }
         });
     });
   }
@@ -199,7 +210,7 @@ public class PayloadManager extends AbstractManager{
     }
   }
 
-  public void retrievePayload(@NotNull RoutingContext context){
+  public void retrievePayload(@NotNull RoutingContext context) {
 
     log.debug("Entered retrievePayload");
 
@@ -215,7 +226,8 @@ public class PayloadManager extends AbstractManager{
         "Payload with name: " + nameValue + " not found"));
   }
 
-  public Future<JsonObject> findByFieldWithValue(String collectionName, String fieldName, String fieldValue) {
+  public Future<JsonObject> findByFieldWithValue(String collectionName, String fieldName,
+    String fieldValue) {
 
     log.debug("Entered findByFieldWithValue method");
 
@@ -229,7 +241,9 @@ public class PayloadManager extends AbstractManager{
           && NAME.equals(fieldName)
           && SCHEMA_DOC_NAME.equals(fieldValue);
         if (result != null) {
-          log.debug("Retrieved record from findByFieldWithValue method with field name: {} and value: {}", fieldName, fieldValue);
+          log.debug(
+            "Retrieved record from findByFieldWithValue method with field name: {} and value: {}",
+            fieldName, fieldValue);
           if (!isSchema) {
             promise.complete(result);
             return;

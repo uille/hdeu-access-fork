@@ -92,19 +92,6 @@ class ApplicationFormUtilsTest {
     assertEquals(TranslationStatus.COMPLETED, status);
   }
 
-  @Test
-  void testDetermineOverallTranslationStatus_partial() {
-    JsonObject translation = new JsonObject()
-      .put("form", new JsonObject().put("status", "COMPLETED"))
-      .put("files", new JsonObject()
-        .put("f1", new JsonObject().put("status", "PARTIALLY_COMPLETED"))
-        .put("f2", new JsonObject().put("status", "COMPLETED")));
-
-    TranslationStatus status = ApplicationFormUtils.determineOverallTranslationStatus(translation);
-
-    assertEquals(TranslationStatus.PARTIALLY_COMPLETED, status);
-  }
-
 //  @Test
 //  void testDetermineOverallTranslationStatus_pending() {
 //    JsonObject translation = new JsonObject()

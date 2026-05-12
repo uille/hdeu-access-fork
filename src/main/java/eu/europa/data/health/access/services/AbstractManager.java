@@ -15,6 +15,7 @@
  */
 package eu.europa.data.health.access.services;
 
+import static eu.europa.data.health.access.Constants.APPLICATIONID;
 import static eu.europa.data.health.access.Constants.AUDIT_LOG_COLLECTION;
 import static eu.europa.data.health.access.Constants.CONTENT_TYPE;
 import static eu.europa.data.health.access.Constants.ERRORS_PARAM;
@@ -35,10 +36,14 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.FileUpload;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.serviceproxy.ServiceException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -46,9 +51,19 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class AbstractManager {
 
+  private static final Logger log = LoggerFactory.getLogger(AbstractManager.class);
+
+  /** Matches a MongoDB ObjectId — exactly 24 lower/upper-case hex characters. */
+  private static final Pattern HUB_STORE_ID_PATTERN = Pattern.compile("^[a-fA-F0-9]{24}$");
+
+  /** Returns {@code true} only when {@code value} looks like a HubStore / MongoDB ObjectId. */
+  private static boolean isHubStoreFileId(String value) {
+    return value != null && HUB_STORE_ID_PATTERN.matcher(value).matches();
+  }
+
   public static final String USERS = "users";
   public static final String ERROR = "error";
-  private final DBHandler dbHandler;
+  final DBHandler dbHandler;
 
   protected AbstractManager(DBHandler dbHandler) {
     this.dbHandler = dbHandler;
@@ -139,21 +154,74 @@ public abstract class AbstractManager {
   }
 
   /**
-   * Get Audit logs
+   * Get Entities
    */
-  public void getApplications(@NotNull RoutingContext context, String collectionName, Integer pageNumber, Integer pageLimit,
-    String sortBy, String sortOrder, JsonObject queryOptions) {
+  public void getEntities(
+    @NotNull RoutingContext context,
+    String collectionName,
+    Integer pageNumber,
+    Integer pageLimit,
+    String sortBy,
+    String sortOrder,
+    JsonObject queryOptions
+  ) {
+    getEntities(
+      context,
+      collectionName,
+      pageNumber,
+      pageLimit,
+      sortBy,
+      sortOrder,
+      queryOptions,
+      null
+    );
+  }
 
+  /**
+   * Get Entities with projection
+   */
+  public void getEntities(
+    @NotNull RoutingContext context,
+    String collectionName,
+    Integer pageNumber,
+    Integer pageLimit,
+    String sortBy,
+    String sortOrder,
+    JsonObject queryOptions,
+    JsonObject projection
+  ) {
     Integer effectiveLimit =
       (pageLimit != null) ? Math.min(pageLimit, Constants.PAGINATION_LIMIT) : null;
 
-    dbHandler.findApplications(collectionName, pageNumber, effectiveLimit, sortBy, sortOrder,
-      queryOptions).onSuccess(list -> {
-      buildResponseWithPagination(context, collectionName, pageNumber, sortBy, sortOrder, queryOptions,
-        list, effectiveLimit);
-    }).onFailure(
-      cause -> setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
-        cause.getMessage()));
+    dbHandler
+      .findEntities(
+        collectionName,
+        pageNumber,
+        effectiveLimit,
+        sortBy,
+        sortOrder,
+        queryOptions,
+        projection
+      )
+      .onSuccess(list ->
+        buildResponseWithPagination(
+          context,
+          collectionName,
+          pageNumber,
+          sortBy,
+          sortOrder,
+          queryOptions,
+          list,
+          effectiveLimit
+        )
+      )
+      .onFailure(cause ->
+        setUpMessageContextResponse(
+          context,
+          HttpResponseStatus.INTERNAL_SERVER_ERROR,
+          cause.getMessage()
+        )
+      );
   }
 
   /**
@@ -172,6 +240,179 @@ public abstract class AbstractManager {
     }).onFailure(
       cause -> setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
         cause.getMessage()));
+  }
+
+  /**
+   * Get Datasets with HubStore file enrichment.
+   * For every decision's {@code translatedFields}, fields whose name contains "file" are resolved
+   * from HubStore (the stored value is a file ID) and replaced with the base64-encoded content
+   * returned by {@code getFileAsBase64}.
+   */
+  public void getDatasets(@NotNull RoutingContext context, String collectionName, Integer pageNumber, Integer pageLimit,
+    String sortBy, String sortOrder, JsonObject queryOptions, HubStoreClient hubStoreClient) {
+
+    Integer effectiveLimit =
+      (pageLimit != null) ? Math.min(pageLimit, Constants.PAGINATION_LIMIT) : null;
+
+    dbHandler.findDatasetsPerApplication(collectionName, pageNumber, effectiveLimit, sortBy, sortOrder, queryOptions)
+      .compose(list ->
+        enrichTranslatedFileFields(list, hubStoreClient)
+          .recover(err -> {
+            // Enrichment errors must never block the response — degrade gracefully
+            log.error("File enrichment failed for collection {}, returning unenriched data: {}",
+              collectionName, err.getMessage() != null ? err.getMessage() : err.getClass().getSimpleName());
+            return Future.succeededFuture();
+          })
+          .map(v -> list))
+      .onSuccess(list ->
+        buildResponseWithPaginationPerDataset(context, collectionName, pageNumber, sortBy, sortOrder, queryOptions,
+          list, effectiveLimit))
+      .onFailure(cause -> {
+        String msg = cause.getMessage() != null ? cause.getMessage() : cause.getClass().getSimpleName();
+        log.error("Failed to retrieve datasets for collection {}: {}", collectionName, cause);
+        setUpMessageContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR, msg);
+      });
+  }
+
+  /**
+   * For each item in the list, finds {@code translatedFields} inside every decision,
+   * and for every field whose name contains "file" replaces the stored HubStore file ID with the
+   * base64-encoded file content fetched from HubStore.
+   * Failures on individual files are logged and silently skipped so the response is never blocked.
+   */
+  private Future<Void> enrichTranslatedFileFields(List<JsonObject> items, HubStoreClient hubStoreClient) {
+    if (hubStoreClient == null || items == null || items.isEmpty()) {
+      return Future.succeededFuture();
+    }
+    try {
+      List<Future<Void>> futures = new ArrayList<>();
+
+      for (JsonObject item : items) {
+        String applicationId = item.getString("applicationId");
+        log.info("Enriching translated file fields for {}", applicationId);
+        if (StringUtils.isBlank(applicationId)) {
+          continue;
+        }
+
+        JsonObject dataset = item.getJsonObject("dataset");
+        if (dataset == null) {
+          continue;
+        }
+
+        JsonArray decisions = dataset.getJsonArray("decisions");
+        if (decisions != null && !decisions.isEmpty()) {
+          enrichFileFieldsInItems(decisions, applicationId, futures, hubStoreClient);
+        }
+
+        JsonArray permits = dataset.getJsonArray("permits");
+        if (permits != null && !permits.isEmpty()) {
+          enrichFileFieldsInItems(permits, applicationId, futures, hubStoreClient);
+        }
+      }
+
+      return futures.isEmpty() ? Future.succeededFuture() : Future.all(futures).mapEmpty();
+
+    } catch (Exception e) {
+      // Convert any synchronous exception (e.g. ClassCastException from malformed DB data)
+      // into a failed Future so the .recover() in the caller can handle it gracefully.
+      log.warn("Unexpected exception during file enrichment (will return unenriched data): {}",
+        e.getMessage() != null ? e.getMessage() : e.getClass().getName(), e);
+      return Future.failedFuture(e);
+    }
+  }
+
+  /**
+   * Iterates over a JSON array of items (decisions or permits), and for every field whose name
+   * contains "file" — both at the top level of each item AND inside {@code translatedFields} —
+   * replaces the stored HubStore file ID with the base64-encoded content fetched from HubStore.
+   * Populates {@code futures} in-place.
+   */
+  private void enrichFileFieldsInItems(JsonArray items, String applicationId,
+    List<Future<Void>> futures, HubStoreClient hubStoreClient) {
+
+    for (int i = 0; i < items.size(); i++) {
+      JsonObject item;
+      try {
+        item = items.getJsonObject(i);  // throws ClassCastException if element is a raw String
+      } catch (ClassCastException e) {
+        log.warn("decisions/permits[{}] is not a JsonObject — skipping ({})", i, e.getMessage());
+        continue;
+      }
+      if (item == null) {
+        continue;
+      }
+
+      // ── 1. Top-level file fields (e.g. permit_file, decision_file, support_file) ──
+      for (String fieldName : new ArrayList<>(item.fieldNames())) {
+        if (!fieldName.contains("file")) {
+          continue;
+        }
+        Object value = item.getValue(fieldName);
+        if (!(value instanceof String fileId) || !isHubStoreFileId(fileId)) {
+          continue;
+        }
+        futures.add(fetchAndReplaceFileField(item, fieldName, fileId, applicationId, hubStoreClient));
+      }
+
+      // ── 2. translatedFields: { lang -> { fieldName -> fileId } } ──
+      JsonObject translatedFields;
+      try {
+        translatedFields = item.getJsonObject("translatedFields");
+      } catch (ClassCastException e) {
+        log.warn("translatedFields is not a JsonObject in item — skipping ({})", e.getMessage());
+        continue;
+      }
+      if (translatedFields == null || translatedFields.isEmpty()) {
+        continue;
+      }
+
+      for (String lang : translatedFields.fieldNames()) {
+        JsonObject langFields;
+        try {
+          langFields = translatedFields.getJsonObject(lang);
+        } catch (ClassCastException e) {
+          log.warn("translatedFields['{}'] is not a JsonObject — skipping ({})", lang, e.getMessage());
+          continue;
+        }
+        if (langFields == null) {
+          continue;
+        }
+
+        for (String fieldName : new ArrayList<>(langFields.fieldNames())) {
+          if (!fieldName.contains("file")) {
+            continue;
+          }
+          String fileId = langFields.getString(fieldName);
+          if (!isHubStoreFileId(fileId)) {
+            continue;
+          }
+          futures.add(fetchAndReplaceFileField(langFields, fieldName, fileId, applicationId, hubStoreClient));
+        }
+      }
+    }
+  }
+
+  /**
+   * Fetches a file from HubStore by ID and replaces the value in {@code target} in-place.
+   * On failure the original value is kept and a warning is logged.
+   */
+  private Future<Void> fetchAndReplaceFileField(JsonObject target, String fieldName,
+    String fileId, String applicationId, HubStoreClient hubStoreClient) {
+
+    return hubStoreClient
+      .getFileAsBase64(fileId, APPLICATIONID, applicationId)
+      .map(response -> {
+        String base64Content = response.getString("base64Content");
+        if (StringUtils.isNotBlank(base64Content)) {
+          target.put(fieldName, base64Content);
+        }
+        return (Void) null;
+      })
+      .recover(err -> {
+        log.warn("Failed to retrieve file {} for field {} (app {}): {}",
+          fileId, fieldName, applicationId, err.getMessage());
+        return Future.succeededFuture();
+      });
   }
 
   public void getDecisionIssuedDatasets(@NotNull RoutingContext context, String collectionName, Integer pageNumber, Integer pageLimit,
@@ -289,9 +530,13 @@ public abstract class AbstractManager {
         )
         .onSuccess(response ->
           setUpContextResponse(context, HttpResponseStatus.OK, response.encode()))
-        .onFailure(err ->
+        .onFailure(err -> {
           setUpContextResponse(context, HttpResponseStatus.INTERNAL_SERVER_ERROR,
-            new JsonObject().put("error", err.getMessage()).encode()));
+            new JsonObject().put("error", err.getMessage()).encode());
+          log.error("Failed to build response with pagination for collection {}: {}",
+            collectionName,
+            err.getMessage());
+          });
     } else {
       JsonObject response = prepareGetEntityResponse(list, sortBy, sortOrder, null);
       setUpContextResponse(context, HttpResponseStatus.OK, response.encode());
@@ -671,4 +916,18 @@ public abstract class AbstractManager {
     });
     return promise.future();
   }
+
+  /**
+   * Retrieve a document from a collection by providing the path parameter variable
+   *
+   * @param fieldName The fieldName of the object
+   * @param value The value of the field of the object
+   * @param collectionName The collection name to retrieve the object from
+   */
+  public Future<List<JsonObject>> findByField(String fieldName, String value,
+    String collectionName) {
+    JsonObject object = new JsonObject().put(fieldName, value);
+    return dbHandler.findAllByField(collectionName, object, true);
+  }
+
 }

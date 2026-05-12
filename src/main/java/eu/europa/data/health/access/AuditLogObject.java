@@ -19,6 +19,8 @@ public enum AuditLogObject {
   DATASET_RECORD("Dataset Record"),
   DATA_ACCESS_APPLICATION("Data Access Application"),
   DATA_REQUEST_APPLICATION("Data Request Application"),
+  /** Generic application object used for collaboration audit log entries. */
+  APPLICATION("Application"),
   USER_ACCOUNT("User Account"),
   CATALOGUE("Catalogue Management"),
   USER_ROLE_MANAGEMENT("User Role Management");

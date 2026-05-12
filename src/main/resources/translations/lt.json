@@ -42,7 +42,7 @@
         },
         "projectLeader": {
             "label": "Projekto vadovo vardas ir pavardė (organizacija, institucija, privačiojo sektoriaus subjektas arba fizinis asmuo)",
-            "tooltip": "Tai asmuo, atsakingas už duomenų naudojimą."
+            "tooltip": "Tai yra už duomenų naudojimą atsakingas subjektas."
         },
         "countryOfProjectLeader": {
             "label": "Už projektą atsakingo subjekto oficiali buveinė (šalis)"
@@ -122,6 +122,7 @@
             ],
             "info": "(Jei pasirinkote šį variantą, patvirtinate, kad teikiate prašymą dėl duomenų kaip privatus asmuo, neturintis jokių ryšių.)"
         },
+        "participatingEntitiesInstruction": "Jei teikiate paraišką konsorciumo vardu, čia nurodykite visus dalyvaujančius subjektus.",
         "legalPerson": "Juridinis asmuo",
         "naturalPerson": "Fizinis asmuo",
         "legalPersonName": {
@@ -186,6 +187,10 @@
         },
         "naturalPersonAffiliation": {
             "label": "Priklausymas"
+        },
+        "otherContactPerson": {
+            "label": "Kiti kontaktiniai asmenys",
+            "tooltip": "Jei jūsų projekte yra keli kontaktiniai asmenys, nurodykite juos čia ir pateikite informaciją apie jų ryšius."
         }
     },
     "section4": {
@@ -423,7 +428,7 @@
                 },
                 {
                     "key": "d",
-                    "value": "Kohortą sudaro visi šalies (-ių), nurodytos (-ų) šios formos pradžioje, gyventojai."
+                    "value": "Kohorta – visi šalies (-ių) gyventojai arba šios formos pradžioje nurodytas duomenų šaltinis."
                 }
             ]
         },
@@ -466,17 +471,6 @@
         },
         "howTheStudyCohortWasObtained": {
             "label": "Aprašykite, kaip buvo gauta kohorta ir kodėl nebuvo duomenų leidimo ir (arba) sutikimo."
-        },
-        "providedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Ar pateikėte informaciją apie duomenų naudojimą atitinkamiems subjektams? Pvz., bendra informacija apie duomenų naudojimą projekto interneto svetainėje.",
-            "tooltip": "Daugiau informacijos pateikiama Bendrojo duomenų apsaugos reglamento 13 ir 14 straipsniuose: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679",
-            "tooltipForm": "Daugiau informacijos pateikiama <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679\" class=\"ecl-link ecl-link--standalone\" target=\"_blank\"> Bendrojo duomenų apsaugos reglamento 13 ir 14 straipsniuose </a>."
-        },
-        "howProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Kaip?"
-        },
-        "whyNotProvidedInformationOfTheDataUseToCorrespondingSubjects": {
-            "label": "Kodėl?"
         },
         "whoWillDeliverTheInformationOnTheStudy": {
             "label": "Kas pateiks informaciją apie kohortą prieigos prie sveikatos duomenų įstaigai? Šis asmuo gaus nurodymus, kaip pateikti duomenis per bendrą ESDE portalą."
@@ -612,7 +606,7 @@
             "label": "Pagrįskite šią išimtį."
         },
         "needForDataExtractionEvery": {
-            "label": "Duomenis reikia gauti kiekvieną kartą",
+            "label": "Duomenys turi būti išgauti",
             "tooltip": "Jei norite, kad duomenys būtų gaunami kelis kartus per tam tikrą laikotarpį, atkreipkite dėmesį, kad kai kuriais atvejais apibrėžtys ir duomenų rinkimo metodas peržiūros laikotarpiu gali keistis. Atkreipkite dėmesį į tai, kad didžiausias duomenų išgavimo dažnumas yra kas ketvirtį"
         },
         "needForDataExtractionEveryOther": {
@@ -729,7 +723,7 @@
             "label": "Jei duomenys pakartotinai išgaunami, pavedimo instrukcijose atskirai pateikti informaciją apie kiekvieną duomenų išgavimo procesą."
         },
         "dataNeedsToBeExtractedEvery": {
-            "label": "Duomenis reikia gauti kiekvieną kartą",
+            "label": "Duomenys turi būti išgauti",
             "tooltip": "Jei norite, kad duomenys būtų gaunami kelis kartus per tam tikrą laikotarpį, atkreipkite dėmesį, kad kai kuriais atvejais apibrėžtys ir duomenų rinkimo metodas peržiūros laikotarpiu gali keistis. Atkreipkite dėmesį į tai, kad didžiausias duomenų išgavimo dažnumas yra kas ketvirtį"
         },
         "specifyOther": {
@@ -783,14 +777,14 @@
             "label": "Kaip dažnai reikia gauti duomenis?"
         },
         "dataNeedsToBeExtractedEveryRelatives": {
-            "label": "Duomenis reikia gauti kiekvieną kartą",
+            "label": "Duomenys turi būti išgauti",
             "tooltip": "Jei norite, kad duomenys būtų gaunami kelis kartus per tam tikrą laikotarpį, atkreipkite dėmesį, kad kai kuriais atvejais apibrėžtys ir duomenų rinkimo metodas peržiūros laikotarpiu gali keistis. Atkreipkite dėmesį į tai, kad didžiausias duomenų išgavimo dažnumas yra kas ketvirtį"
         },
         "dataExtractionFrequencyMultipleTimesInformationRelatives": {
             "label": "Jei duomenys pakartotinai išgaunami, pavedimo instrukcijose atskirai pateikti informaciją apie kiekvieną duomenų išgavimo procesą."
         },
         "needForDataExtractionEveryOptions": {
-            "label": "Duomenis reikia gauti kiekvieną kartą",
+            "label": "Duomenys turi būti išgauti",
             "tooltip": "Jei norite, kad duomenys būtų gaunami kelis kartus per tam tikrą laikotarpį, atkreipkite dėmesį, kad kai kuriais atvejais apibrėžtys ir duomenų rinkimo metodas peržiūros laikotarpiu gali keistis. Atkreipkite dėmesį į tai, kad didžiausias duomenų išgavimo dažnumas yra kas ketvirtį"
         },
         "specifyOtherRelatives": {
@@ -805,7 +799,7 @@
     },
     "section7": {
         "section7h5": "Kiti duomenys, kuriuos reikia sujungti",
-        "section7Description": "Kitus asmens duomenis, pavyzdžiui, jau turimus duomenis arba iš kitur gautus duomenis, galima sujungti su kitu leidimu su duomenimis, kuriuos prašoma pateikti kartu su šiuo prašymu. Išvardykite informaciją apie visus papildomus duomenis, kurie bus derinami su prieigos prie sveikatos duomenų įstaigos patvirtintais duomenimis. Jei vėliau norite kitus asmens duomenis susieti su prieigos prie sveikatos duomenų įstaigos patvirtintais duomenimis, turite pateikti pakeitimo paraišką tai pačiai prieigos prie sveikatos duomenų įstaigai. Jei turite kokią nors kitą grupę, kurią norėtumėte derinti su duomenimis, dėl kurių teikiate paraišką, prieigos prie sveikatos duomenų įstaiga, gausite nurodymus, kaip saugiai pateikti duomenis po to, kai bus išduotas leidimas.",
+        "section7Description": "Kitus asmens lygmens duomenis, pavyzdžiui, jau turimus duomenis arba iš kitų šaltinių gautus duomenis, galima derinti su duomenimis, kuriuos prašoma pateikti kartu su šiuo prašymu. Išvardykite informaciją apie visus papildomus duomenis, kurie bus derinami su prieigos prie sveikatos duomenų įstaigos patvirtintais duomenimis. Jei vėliau norėsite derinti kitus asmens lygmens duomenis su prieigos prie sveikatos duomenų įstaigos patvirtintais duomenimis, turėsite pateikti pakeitimo paraišką tai pačiai prieigos prie sveikatos duomenų įstaigai. Jei turite kitą kohortą, kurią norėtumėte, kad prieigos prie sveikatos duomenų įstaiga susietų su duomenimis, dėl kurių teikiate prašymą, gavę leidimą gausite nurodymus, kaip saugiai pateikti duomenis.",
         "addDataPermit": "Pridėti duomenų leidimą",
         "addInfo": "Pridėti informaciją",
         "removeDataPermit": "Pašalinti duomenų leidimą",
@@ -913,7 +907,7 @@
         },
         "estimatedStartAndEnd": {
             "label": "Kokios numatomos laikotarpio, per kurį elektroniniai sveikatos duomenys reikalingi tvarkymui, pradžios ir pabaigos datos?",
-            "tooltip": "Šis laikotarpis gali būti penkeri metai. Gavus papildomą leidimą, pradinis leidimas gali būti pratęstas dar penkeriems metams."
+            "tooltip": "Šis laikotarpis gali būti 10 metų. Gavus papildomą leidimą, pradinio leidimo galiojimas gali būti pratęstas dar 10 metų."
         },
         "estimatedStartDatesForDataProcessing": {
             "label": "Nuo"
@@ -1168,13 +1162,13 @@
             "tooltip": "Išimties iš 1 dalyje numatytos teisės atsisakyti tvarka valstybė narė savo nacionalinėje teisėje gali nustatyti mechanizmą, pagal kurį suteikiama galimybė duomenis, kurių atžvilgiu buvo pasinaudota teise neleisti tvarkyti duomenis, padaryti prieinamus, jei tenkinamos visos šios sąlygos: (dėl visų sąlygų žr. straipsnį)“"
         },
         "providedJustificationException": {
-            "label": "Pagrįskite šią išimtį."
+            "label": "Pagrįskite šią išimtį ir pagrįskite, kaip tenkinamos 71(4)(a-c) straipsnio sąlygos."
         },
         "protectionAndSecurityStatements": {
             "label": "Kad galėtumėte toliau nagrinėti šią paraišką, turite patvirtinti šiuos teiginius (su duomenų apsauga ir saugumu susijusius pareiškimus):"
         },
         "protectionAndSecurityStatementsA": {
-            "label": "1. Patvirtinu, kad jei prieigos prie sveikatos duomenų įstaiga man suteiks mano prašomus duomenis, juos naudosiu tik šioje paraiškos formoje nurodytu (-ais) tikslu (-ais)."
+            "label": "1. Patvirtinu, kad jei prieigos prie sveikatos duomenų įstaiga man suteiks duomenis, dėl kurių teikiu prašymą, juos naudosiu tik šioje prašymo formoje nurodytu (-ais) tikslu (-ais) ir nenaudosiu jų jokiais draudžiamais tikslais."
         },
         "protectionAndSecurityStatementsB": {
             "label": "2. Suprantu, kad draudžiama nukopijuoti duomenis iš saugios duomenų tvarkymo aplinkos."
@@ -1286,14 +1280,18 @@
         },
         "attachResearchPermitIfRequired": {
             "label": "Jei jūsų moksliniams tyrimams atlikti reikalingas jūsų organizacijos, kuriai priklausote, mokslinių tyrimų leidimas, pridėkite leidimą atlikti tyrimą."
+        },
+        "hdabToRetain": {
+            "label": "Ar norite, kad HDAB išsaugotų formulę, naudojamą prašomam duomenų rinkiniui sukurti? ",
+            "tooltip": "ESDE 68 straipsnio 12 dalis: (--) Sveikatos duomenų naudotojo prašymu prieigos prie sveikatos duomenų įstaiga gali saugoti prašomo duomenų rinkinio kūrimo formulę."
         }
     },
     "section9": {
         "section9h5": "Papildoma informacija",
-        "section9Description": "Čia galite pateikti daugiau informacijos apie bet kurį savo paraiškos skirsnį. Nurodykite skirsnio numerį ir klausimą, su kuriuo susijusi jūsų pastaba.",
+        "section9Description": "Here you can provide further information on any of the sections in your application. Indicate the number of section and the question to which your comment refers.",
         "additionalInformation": {
             "label": "Papildoma informacija arba papildomos pastabos",
-            "tooltip": "Čia galite pateikti daugiau informacijos apie bet kurį savo paraiškos skirsnį. Nurodykite skirsnio numerį ir klausimą, su kuriuo susijusi jūsų pastaba. Techninio įgyvendinimo pasiūlymas: Arba, siekiant palengvinti HDAB darbą, galėtų būti būdas prašytojui susieti informaciją su konkrečiomis formos dalimis."
+            "tooltip": "Čia galite pateikti daugiau informacijos apie bet kurį savo paraiškos skirsnį. Nurodykite skirsnio numerį ir klausimą, su kuriuo susijusi jūsų pastaba. Savo paraiškoje nurodykite bet kokią konfidencialią informaciją ir trumpai pagrįskite konfidencialumą, nurodydami atitinkamo skirsnio numerį ir klausimą."
         },
         "additionalAttachment": {
             "label": "Papildomas priedas. Prie šio prašymo nepridėkite sveikatos ar asmens duomenų.",
@@ -1351,11 +1349,11 @@
                 },
                 {
                     "key": "b",
-                    "value": "Per pusmetį"
+                    "value": "Kas pusmetį"
                 },
                 {
                     "key": "c",
-                    "value": "Ketvirčio"
+                    "value": "Kas ketvirtį"
                 },
                 {
                     "key": "d",

@@ -15,8 +15,13 @@
  */
 package eu.europa.data.health.access.services;
 
+import static eu.europa.data.health.access.Constants.APPLICATION_COLLABORATOR_COLLECTION;
+import static eu.europa.data.health.access.Constants.APPLICATION_ID;
+import static eu.europa.data.health.access.Constants.COLLABORATOR_USER_ID;
 import static eu.europa.data.health.access.Constants.DATA_ACCESS_APPLICATION_COLLECTION;
 import static eu.europa.data.health.access.Constants.DATA_REQUEST_APPLICATION_COLLECTION;
+import static eu.europa.data.health.access.Constants.INVITATION_ACCEPTED;
+import static eu.europa.data.health.access.Constants.INVITATION_STATUS;
 import static eu.europa.data.health.access.Constants.JSON;
 import static eu.europa.data.health.access.Constants.JSON_FILE_FOR;
 import static eu.europa.data.health.access.Constants.NOT_FOUND;
@@ -29,6 +34,7 @@ import eu.europa.data.health.access.Translations;
 import eu.europa.data.health.access.handlers.DBHandler;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.serviceproxy.ServiceException;
 import jakarta.validation.constraints.NotNull;
@@ -45,13 +51,34 @@ public class TranslationManager {
 
   private final DBHandler dbHandler;
 
+  /**
+   * Optional MongoClient used to verify collaborator access in
+   * {@link #getApplicationTranslation(RoutingContext)}.
+   * May be {@code null} when constructed without it (e.g. in validation helpers).
+   */
+  private final MongoClient mongoClient;
+
   private final Logger log = LoggerFactory.getLogger(getClass());
 
+  /**
+   * Full constructor — preferred in production.
+   * Enables the collaborator-aware translation lookup.
+   */
+  public TranslationManager(DBHandler dbHandler, MongoClient mongoClient) {
+    this.dbHandler = dbHandler;
+    this.mongoClient = mongoClient;
+  }
+
+  /** Legacy constructor kept for backward compatibility (no collaborator check). */
   public TranslationManager(DBHandler dbHandler) {
     this.dbHandler = dbHandler;
+    this.mongoClient = null;
   }
+
+  /** No-arg constructor used by validation helpers that only need static translation files. */
   public TranslationManager() {
     this.dbHandler = null;
+    this.mongoClient = null;
   }
 
   /**
@@ -168,23 +195,84 @@ public class TranslationManager {
     }
   }
 
+  /**
+   * Returns the {@code translation} sub-document of an application identified by
+   * {@code applicationId}.
+   *
+   * <p><strong>Collaborator fix:</strong> the original implementation queried by
+   * {@code {_id, userId}}, which always produced a 404 for collaborators because the
+   * stored {@code userId} is the <em>owner's</em> ID.  The corrected flow is:
+   * <ol>
+   *   <li>If a {@link MongoClient} is available, look up the caller in
+   *       {@code APPLICATION_COLLABORATOR_COLLECTION} to check whether they hold an
+   *       ACCEPTED invitation for this application.</li>
+   *   <li>If they are a collaborator the query is issued by {@code _id} only (no
+   *       {@code userId} filter).</li>
+   *   <li>If they are not a collaborator (i.e. they must be the owner) the original
+   *       {@code {_id, userId}} query is used so that unauthorised callers still
+   *       receive 404.</li>
+   *   <li>When no {@link MongoClient} is available (legacy constructor) the method
+   *       falls back to the owner-only query.</li>
+   * </ol>
+   */
   public void getApplicationTranslation(RoutingContext context) {
+    String applicationId = context.pathParam("applicationId");
+    String ecasId        = Context.getEcasId(context);
 
-    JsonObject query = new JsonObject().put("_id", context.pathParam("applicationId"));
-    query.put(USER_ID_PARAM, Context.getEcasId(context));
+    if (mongoClient == null) {
+      // No MongoClient injected — fall back to owner-only lookup (legacy behaviour).
+      doTranslationLookup(applicationId, ecasId, true, context);
+      return;
+    }
+
+    // Check whether the caller is an accepted collaborator for this specific application.
+    JsonObject collabFilter = new JsonObject()
+        .put(APPLICATION_ID,       applicationId)
+        .put(COLLABORATOR_USER_ID, ecasId)
+        .put(INVITATION_STATUS,    INVITATION_ACCEPTED);
+
+    mongoClient.findOne(APPLICATION_COLLABORATOR_COLLECTION, collabFilter, null)
+        .onSuccess(collabDoc -> {
+          // collabDoc != null  → accepted collaborator  → skip userId filter
+          // collabDoc == null  → not a collaborator      → apply userId filter (owner check)
+          boolean requireOwner = (collabDoc == null);
+          doTranslationLookup(applicationId, ecasId, requireOwner, context);
+        })
+        .onFailure(err -> {
+          log.error("Failed to check collaborator status for translation lookup "
+              + "(applicationId='{}', ecasId='{}'): {}", applicationId, ecasId, err.getMessage(), err);
+          // On unexpected DB error fall back to the safe owner-only path.
+          doTranslationLookup(applicationId, ecasId, true, context);
+        });
+  }
+
+  /**
+   * Performs the actual application lookup and returns the translation sub-document.
+   *
+   * @param applicationId the application to look up
+   * @param ecasId        the caller's ECAS ID
+   * @param requireOwner  when {@code true} adds {@code userId = ecasId} to the query so
+   *                      only the owner can read the document; when {@code false} the
+   *                      query uses only {@code _id} (collaborators are already validated
+   *                      by the caller).
+   * @param context       the Vert.x routing context used to write the HTTP response
+   */
+  private void doTranslationLookup(String applicationId, String ecasId,
+      boolean requireOwner, RoutingContext context) {
+
+    JsonObject query = new JsonObject().put("_id", applicationId);
+    if (requireOwner) {
+      query.put(USER_ID_PARAM, ecasId);
+    }
 
     assert dbHandler != null;
     dbHandler.findByField(DATA_ACCESS_APPLICATION_COLLECTION, query)
-      .onSuccess(accessJsonObject -> {
-        returnTranslation(accessJsonObject, context);
-      })
+      .onSuccess(accessJsonObject -> returnTranslation(accessJsonObject, context))
       .onFailure(errorAccess -> {
         int accessErrorCode = ((ServiceException) errorAccess).failureCode();
         if (404 == accessErrorCode) {
           dbHandler.findByField(DATA_REQUEST_APPLICATION_COLLECTION, query)
-            .onSuccess(requestJsonObject -> {
-              returnTranslation(requestJsonObject, context);
-            })
+            .onSuccess(requestJsonObject -> returnTranslation(requestJsonObject, context))
             .onFailure(errorRequest -> {
               int requestErrorCode = ((ServiceException) errorRequest).failureCode();
               if (404 == requestErrorCode) {

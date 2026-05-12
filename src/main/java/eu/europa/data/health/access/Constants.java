@@ -15,7 +15,9 @@
  */
 package eu.europa.data.health.access;
 
+import java.util.Locale;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Constants {
 
@@ -43,23 +45,55 @@ public class Constants {
   public static final String DATA_ACCESS_DISPATCHER_FOR_SENT_APPLICATIONS_INTERVAL = "DATA_ACCESS_DISPATCHER_FOR_SENT_APPLICATIONS_INTERVAL";
   public static final String DATA_REQUEST_DISPATCHER_FOR_SENT_APPLICATIONS_INTERVAL = "DATA_REQUEST_DISPATCHER_FOR_SENT_APPLICATIONS_INTERVAL";
   public static final String WITHDRAW_DISPATCHER_INTERVAL = "WITHDRAW_DISPATCHER_INTERVAL";
+  public static final String WITHDRAW_RUN_TIME = "WITHDRAW_RUN_TIME";
+  public static final String WITHDRAW_THRESHOLD_DAYS = "WITHDRAW_THRESHOLD_DAYS";
+  public static final String ADDITIONAL_INFO_WITHDRAW_THRESHOLD_DAYS = "ADDITIONAL_INFO_WITHDRAW_THRESHOLD_DAYS";
+
+  public static final String EXPIRATION_DAYS = "EXPIRATION_DAYS";
 
   public static final String OUTGOING_APPLICATION_ACTIVITIES_INTERVAL = "OUTGOING_APPLICATION_ACTIVITIES_INTERVAL";
   public static final String OUTGOING_APPLICATION_ACTIVITIES_ENABLE = "OUTGOING_APPLICATION_ACTIVITIES_ENABLE";
   public static final String SCHEDULER_ENABLED = "1";
-
+  public static final String COLLECTION_SCHEDULERS_STATUS = "SCHEDULERS_STATUS";
+  public static final String FIELD_SCHEDULER_NAME = "scheduler_name";
+  public static final String WITHDRAW_ACCESS_SCHEDULER = "WITHDRAW_ACCESS_SCHEDULER";
+  public static final String WITHDRAW_REQUEST_SCHEDULER = "WITHDRAW_REQUEST_SCHEDULER";
+  public static final String WITHDRAW_SYNCHRONIZATION = "WITHDRAW_SYNCHRONIZATION-";
+  public static final String ADDITIONAL_INFORMATION_ACCESS_SCHEDULER = "ADDITIONAL_INFORMATION_ACCESS_SCHEDULER";
+  public static final String ADDITIONAL_INFORMATION_REQUEST_SCHEDULER = "ADDITIONAL_INFORMATION_REQUEST_SCHEDULER";
+  public static final String ADDITIONAL_INFORMATION_SYNCHRONIZATION = "ADDITIONAL_INFORMATION_SYNCHRONIZATION-";
 
   public static final int DATA_ACCESS_DISPATCHER_DEFAULT_MAX_RETRIES = 5;
   public static final int DATA_REQUEST_DISPATCHER_DEFAULT_MAX_RETRIES = 5;
   public static final int DATA_ACCESS_DISPATCHER_FOR_SENT_APPLICATIONS_DEFAULT_MAX_RETRIES = 10;
   public static final int DATA_REQUEST_DISPATCHER_FOR_SENT_APPLICATIONS_DEFAULT_MAX_RETRIES = 10;
-  public static final int WITHDRAW_DISPATCHER_DEFAULT_MAX_RETRIES = 5;
   public static final int DATA_ACCESS_DISPATCHER_DEFAULT_INTERVAL = 300000;
+  public static final long DATA_ACCESS_PERMIT_DEFAULT_INTERVAL = 24 * 60 * 60 * 1000L;
+  public static final String DATA_ACCESS_PERMIT_INTERVAL = "DATA_ACCESS_PERMIT_INTERVAL";
+  public static final String WITHDRAW_RUN_TIME_DEFAULT = "06:00";
+  public static final int EXPIRATION_DAYS_DEFAULT = 90;
+  public static final String PERMIT_STATUSES_THAT_EXPIRE = "GRANTED,RENEWED,RENEWAL_REJECTED,AMENDED,AMENDMENT_REJECTED";
+  public static final String DATASET_STATUSES_THAT_WITHDRAW = "POSITIVE_DECISION_ISSUED,NEGATIVE_DECISION_ISSUED";
+  public static final String CATALOG_STATUSES_THAT_WITHDRAW = "ADDITIONAL_INFORMATION";
+  public static final String PERMIT_STATUSES_THAT_EXPIRE_LABEL = "PERMIT_STATUSES_THAT_EXPIRE";
+  public static final String DATASET_STATUSES_THAT_WITHDRAW_LABEL = "DATASET_STATUSES_THAT_WITHDRAW";
+  public static final String CATALOG_STATUSES_THAT_WITHDRAW_LABEL = "CATALOG_STATUSES_THAT_WITHDRAW";
+  public static final String PERMIT_NOTIFICATION_TYPE = "PERMIT";
+  public static final String DATASET_NOTIFICATION_TYPE = "DATASET";
+  public static final String CATALOG_NOTIFICATION_TYPE = "CATALOG";
   public static final int DATA_REQUEST_DISPATCHER_DEFAULT_INTERVAL = 300000;
   public static final int DATA_ACCESS_DISPATCHER_FOR_SENT_APPLICATIONS_DEFAULT_INTERVAL = 120000;
   public static final int DATA_REQUEST_DISPATCHER_FOR_SENT_APPLICATIONS_DEFAULT_INTERVAL = 120000;
-  public static final int WITHDRAW_DEFAULT_INTERVAL = 300000;
 
+
+  public static final String FIELD_TRANSLATIONS = "translations";
+  public static final String TRANSLATION_STATUS = "translationStatus";
+  public static final String FILE_RETRIES = "fileRetries";
+  public static final String TEXT_RETRIES = "textRetries";
+  public static final int MAX_RETRIES = 5;
+  public static final String SYNC_PENDING = "syncPending";
+
+  public static final String ENABLE_TRANSLATION = "ENABLE_TRANSLATION";
   public static final String TRANSLATION_RETRY_INTERVAL = "TRANSLATION_RETRY_INTERVAL";
   public static final String TRANSLATION_RETRY_MAX_ATTEMPTS = "TRANSLATION_RETRY_MAX_ATTEMPTS";
   public static final int TRANSLATION_RETRY_DEFAULT_INTERVAL = 18_000_000; // 5 hours
@@ -75,7 +109,12 @@ public class Constants {
   public static final String ENV_TRANSLATION_SERVICE_FILE_URL = "TRANSLATION_SERVICE_FILE_URL";
   public static final String ENV_TRANSLATION_SERVICE_CALLBACK_URL = "TRANSLATION_SERVICE_CALLBACK_URL";
   public static final String ENV_TRANSLATION_SERVICE_X_API_KEY = "TRANSLATION_SERVICE_X_API_KEY";
-  public static final String  ENV_KEYCLOAK_INTROSPECT_PATH = "KEYCLOAK_INTROSPECT_PATH";
+  public static final String ENV_DECISION_TRANSLATION_INTERVAL = "DECISION_TRANSLATION_INTERVAL";
+  public static final String ENV_DECISION_SYNC_INTERVAL = "DECISION_SYNC_INTERVAL";
+  public static final String ENV_MAIL_SERVICE_X_API_KEY = "MAIL_SERVICE_X_API_KEY";
+  public static final String ENV_MAIL_SERVICE_BASE_URL = "MAIL_SERVICE_BASE_URL";
+  public static final String MAIL_APPLICATIONS_BASE_URL = "MAIL_APPLICATIONS_BASE_URL";
+  public static final String ENV_KEYCLOAK_INTROSPECT_PATH = "KEYCLOAK_INTROSPECT_PATH";
   public static final String ENV_PIVEAU_ACCESS_AUTH_CONFIG = "PIVEAU_ACCESS_AUTH_CONFIG";
   public static final String ENV_HEALTH_DATA_ACCESS_API_KEY = "HEALTH_DATA_ACCESS_API_KEY";
   public static final String ENV_ITB_VALIDATOR_ENDPOINT = "ITB_VALIDATOR_ENDPOINT";
@@ -88,14 +127,132 @@ public class Constants {
   public static final String DATA_REQUEST_APPLICATION_COLLECTION = "DATA_REQUEST_APPLICATION";
   public static final String DATA_ACCESS_APPLICATION_COLLECTION = "DATA_ACCESS_APPLICATION";
   public static final String AUDIT_LOG_COLLECTION = "APPLICATION_AUDIT_LOG";
+  public static final String NOTIFICATION_COLLECTION = "NOTIFICATION";
+  public static final String NOTIFICATION_HISTORY_COLLECTION = "NOTIFICATION_HISTORY";
+
+  // -------------------------------------------------------------------------
+  // Collaboration feature collections (Phase 2)
+  // -------------------------------------------------------------------------
+
+  /**
+   * MongoDB collection that stores collaborator relationships between users and applications.
+   * Documents represent either a confirmed collaboration or a pending email invite.
+   * Unique compound index: (applicationType, applicationId, collaboratorUserId) when userId present,
+   * and (applicationType, applicationId, invitedEmail) where userId is null (pending email invites).
+   */
+  public static final String APPLICATION_COLLABORATOR_COLLECTION = "APPLICATION_COLLABORATOR";
+
+  // -------------------------------------------------------------------------
+  // Section-level edit locking collections (Phase 3)
+  // -------------------------------------------------------------------------
+
+  /**
+   * MongoDB collection that stores per-section edit locks.
+   * Each document represents a lease held by a specific user/session on a particular section.
+   * TTL index on {@code expiresAt} allows MongoDB to auto-clean stale locks.
+   * Unique compound index: (applicationType, applicationId, sectionId).
+   */
+  public static final String APPLICATION_SECTION_LOCK_COLLECTION = "APPLICATION_SECTION_LOCK";
+
+  // -------------------------------------------------------------------------
+  // Collaboration field names
+  // -------------------------------------------------------------------------
+
+  /** Field holding the application type value in collaboration/lock documents. */
+  public static final String APPLICATION_TYPE_FIELD = "applicationType";
+
+  /** Field holding the invited collaborator's email address (used for pending invites). */
+  public static final String INVITED_EMAIL = "invitedEmail";
+
+  /** Field holding the collaborator's userId (= preferred_username = ECAS ID). */
+  public static final String COLLABORATOR_USER_ID = "collaboratorUserId";
+
+  /** Field holding the collaborator's persisted display/user name for search and sorting. */
+  public static final String COLLABORATOR_USER_NAME = "collaboratorUserName";
+
+  /** Field holding the ecasId of the user who sent the invitation. */
+  public static final String INVITED_BY = "invitedBy";
+
+  /** Collaboration role: application owner. */
+  public static final String ROLE_OWNER = "OWNER";
+
+  /** Collaboration role: editor (collaborator). */
+  public static final String ROLE_EDITOR = "EDITOR";
+
+  /** Invitation status: invite sent but not yet actioned. */
+  public static final String INVITATION_PENDING = "PENDING";
+
+  /** Invitation status: collaborator accepted the invitation. */
+  public static final String INVITATION_ACCEPTED = "ACCEPTED";
+
+  /** Invitation status: collaborator rejected the invitation. */
+  public static final String INVITATION_REJECTED = "REJECTED";
+
+  /**
+   * Error message returned when trying to invite an already existing collaborator.
+   * This exact string is a business requirement — do not change.
+   */
+  public static final String ALREADY_COLLABORATOR_MESSAGE =
+      "The selected user is already a collaborator of this application.";
+
+  /** Field name for the collaboration role. */
+  public static final String ROLE = "role";
+
+  /** Field name for the invitation status. */
+  public static final String INVITATION_STATUS = "invitationStatus";
+
+  // -------------------------------------------------------------------------
+  // Section lock field names
+  // -------------------------------------------------------------------------
+
+  /** Section identifier within an application (e.g. "section1" … "section10"). */
+  public static final String SECTION_ID = "sectionId";
+
+  /** UserId (ecasId) of the user currently holding the section lock. */
+  public static final String LOCK_OWNER_USER_ID = "lockOwnerUserId";
+
+  /** Browser-tab unique session ID provided by the frontend (UUID per tab). */
+  public static final String LOCK_OWNER_SESSION_ID = "lockOwnerSessionId";
+
+  /** Timestamp when the lock was first acquired. */
+  public static final String ACQUIRED_AT = "acquiredAt";
+
+  /** Timestamp of the most recent heartbeat that extended the lock. */
+  public static final String LAST_HEARTBEAT_AT = "lastHeartbeatAt";
+
+  /** Timestamp after which this lock must be treated as expired. */
+  public static final String EXPIRES_AT = "expiresAt";
+
+  /**
+   * Lock lease duration in seconds: 3 minutes (180 s).
+   *
+   * <p>The frontend sends a heartbeat every 60 s (HEARTBEAT_INTERVAL_MS). With a 180 s lease:
+   * <ul>
+   *   <li>Heartbeats fire at t+60, t+120, t+180, … — 1/3 of the lease period.</li>
+   *   <li>A <strong>single missed heartbeat</strong> still leaves ~60 s before expiry,
+   *       giving the next heartbeat time to arrive and extend the lock.</li>
+   * </ul>
+   *
+   * <p>Previously 120 s with a 30 s heartbeat (1/4 ratio). The ratio is now 1/3, which
+   * provides the same 60 s recovery margin while halving the heartbeat frequency.
+   *
+   * <p>The longer lease slightly increases the time a zombie lock persists if the
+   * WS-disconnect release also fails (max 180 s vs 120 s), which is acceptable.
+   */
+  public static final long LOCK_LEASE_DURATION_SECONDS = 180L;
+
+  /**
+   * Each heartbeat resets the expiry to: now + LOCK_HEARTBEAT_EXTENSION_SECONDS (180 s).
+   */
+  public static final long LOCK_HEARTBEAT_EXTENSION_SECONDS = 180L;
   public static final String FILE_UPLOAD_VALID_TYPES = ".*\\.(pdf|doc|docx|xls|xlsx|odt)$";
   public static final String APPLICATION = "application";
   public static final String STATUS = "status";
-  public static final String STATUSES = "statuses";
   public static final String ERROR = "error";
   public static final String CONTENT_TYPE = "Content-Type";
   public static final String CONTENT_DISPOSITION = "Content-Disposition";
   public static final String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
+  public static final String APPLICATION_JSON = "application/json";
   public static final String CLIENT_ID = "client_id";
   public static final String CLIENT_SECRET = "client_secret";
   public static final String DATA_USER = "data-user";
@@ -114,6 +271,14 @@ public class Constants {
   public static final String DATE_CREATED = "date_created";
   public static final String DATE_MODIFIED = "date_modified";
   public static final String DATE_DISPATCHED = "date_dispatched";
+  public static final String DATE_DEADLINE = "date_deadline";
+  public static final String DATE_EXTENSION_DEADLINE = "date_extension_deadline";
+
+  public static final String RENEW_AMEND_FILE = "renew_amend_file";
+  public static final String REJECTION_REASON = "rejection_reason";
+  public static final String REJECTION_FILE = "rejection_file";
+  public static final String REVOCATION_FILE = "revocation_file";
+
   public static final String VERSION = "version";
   public static final String DATASETS = "datasets";
   public static final String DATE_ADDED = "date_added";
@@ -169,6 +334,9 @@ public class Constants {
   public static final String SPECIFY_OTHER = "specifyOther";
   public static final String LEGAL_BASIS_FOR_TRANSFERRING_THE_DATA_OUTSIDE_EU = "legalBasisForTransferringTheDataOutsideEU";
   public static final String TITLE = "title";
+
+  /** Field name used to store the application title inside an APPLICATION_COLLABORATOR document. */
+  public static final String APPLICATION_TITLE = "applicationTitle";
   public static final String INPUT_LANGUAGE = "inputLanguage";
   public static final String SECTION_1 = "section1";
   public static final String SECTION_2 = "section2";
@@ -204,7 +372,6 @@ public class Constants {
   public static final String THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY = "theNatureOfTheProjectDoesNotLetYouProvideASummary";
   public static final String THE_NATURE_OF_THE_PROJECT_DOES_NOT_LET_YOU_PROVIDE_A_SUMMARY_REASON = "theNatureOfTheProjectDoesNotLetYouProvideASummaryReason";
   public static final String APPLYING_FOR_DATA_FOR_CARRYING_OUT_TASKS = "applyingForDataForCarryingOutTasks";
-  public static final String PROVIDED_INFORMATION_OF_THE_DATA_USE_TO_CORRESPONDING_SUBJECTS = "providedInformationOfTheDataUseToCorrespondingSubjects";
   public static final String NEED_FOR_DATA_EXTRACTION_EVERY = "needForDataExtractionEvery";
   public static final String WILL_CONTROLS_BE_EXTRACTED = "willControlsBeExtracted";
   public static final String WILL_SAME_DATA_BE_EXTRACTED_FOR_CONTROLS = "willSameDataBeExtractedForControls";
@@ -218,6 +385,7 @@ public class Constants {
   public static final String WHY_WILL_DATA_BE_TRANSFERRED_OUTSIDE_EU_ARTICLE_48_B_OPT = "whyWillDataBeTransferredOutsideEUArticle48bOptions";
   public static final String DISPATCHER_COLLECTION = "DISPATCHER";
   public static final String OUTGOING_APPLICATION_ACTIVITIES_COLLECTION = "OUTGOING_APPLICATION_ACTIVITIES";
+  public static final String TRANSLATIONS_STATE_COLLECTION = "TRANSLATIONS_STATE";
   public static final String DATA_PERMIT_ID = "data_permit_id";
   public static final String CATALOG_IDS = "catalog_ids";
   public static final String LABEL = "label";
@@ -336,6 +504,8 @@ public class Constants {
   public static final int MAX_ALLOWED_CHARS_36 = 36;
   public static final String OBJECT = "object";
   public static final String OBJECT_ID = "objectId";
+  public static final String PARENT_ID = "parentId";
+  public static final String CONTENT = "content";
   public static final String FORM_TRANSLATIONS = "form_translations";
   public static final String ACTION_DESCRIPTION = "actionDescription";
   public static final String ECAS_ID = "ecasId";
@@ -347,17 +517,21 @@ public class Constants {
   public static final String FILE_NAME = "fileName";
   public static final String NOTATION = "notation";
   public static final String TRANSLATION = "translation";
+  public static final String PENDING_FILE_TRANSLATIONS = "pendingFileTranslations";
   public static final String COUNTRY = "country";
   public static final String TARGET_LANGUAGES = "targetLanguages";
   public static final String SOURCE_LANGUAGE = "sourceLanguage";
   public static final String CONFIGURATION_COLLECTION = "CONFIGURATION";
   public static final String CONTROLLED_VOCABULARY_COLLECTION = "CONTROLLED_VOCABULARY";
   public static final String DATASET_ASSISTANT_COLLECTION = "DDA_DATASET";
+  public static final String FAVOURITES_COLLECTION = "FAVOURITES";
+  public static final String TYPE = "type";
+  public static final String CREATED_AT = "createdAt";
+  public static final String UPDATED_AT = "updatedAt";
   public static final String LEGAL_BASIS = "legalBasis";
   public static final String NEED_FOR_DATA_EXTRACTION_EVERY_DESCRIPTION = "needForDataExtractionEveryDescription";
   public static final String PAYLOAD = "payload";
   public static final String USER_NAME = "userName";
-  public static final String DISPATCHER_RESPONSE_STATUS = "dispatcher_response_status";
   public static final String HOW_IS_THE_STUDY_COHORT_FORMED = "howIsTheStudyCohortFormed";
   public static final String HOW_OFTEN_DOES_THE_DATA_NEED_TO_BE_EXTRACTED = "howOftenDoesTheDataNeedToBeExtracted";
   public static final String PROVIDE_INFORMATION_LIST = "provideInformationList";
@@ -366,6 +540,7 @@ public class Constants {
   public static final String IS_THE_PROJECT_FINANCIALLY_COVERED = "isTheProjectFinanciallyCovered";
   public static final String INVOICE_TYPE = "invoiceType";
   public static final String X_API_KEY = "X-API-Key";
+  public static final String UNAUTHORIZED = "Unauthorized";
   public static final String OPERATION = "operation";
   public static final String UNKNOWN_APPLICATION_TYPE = "Unknown application type";
   public static final String PREVIOUSLY_ISSUED_PERMIT_DATE_2 = "previouslyIssuedPermitDate2";
@@ -382,6 +557,24 @@ public class Constants {
     "bg", "cs", "da", "de", "el", "en", "es", "et", "fi", "fr", "ga", "hr", "hu", "is", "it", "lt",
     "lv", "mt", "nb", "nl", "nn", "pl", "pt", "ro", "sk", "sl", "sv"
   );
+  public static final Set<String> SUPPORTED_LANGUAGES_UPPER = SUPPORTED_LANGUAGES.stream()
+    .map(str -> str.toUpperCase(Locale.ENGLISH))
+    .collect(Collectors.toUnmodifiableSet());
+  public static final Set<Integer> DEFAULT_DAYS_TO_DISPLAY_PERMIT_NOTIFICATIONS = Set.of(1, 10);
+  public static final Set<Integer> DEFAULT_DAYS_TO_DISPLAY_DATASET_NOTIFICATIONS = Set.of(1, 10);
+  public static final Set<Integer> DEFAULT_DAYS_TO_DISPLAY_CATALOG_NOTIFICATIONS = Set.of(1, 10);
+  public static final String DAYS_TO_DISPLAY_PERMIT_NOTIFICATIONS_LABEL = "DAYS_TO_DISPLAY_PERMIT_NOTIFICATIONS";
+  public static final String DAYS_TO_DISPLAY_DATASET_NOTIFICATIONS_LABEL = "DAYS_TO_DISPLAY_DATASET_NOTIFICATIONS";
+  public static final String DAYS_TO_DISPLAY_CATALOG_NOTIFICATIONS_LABEL = "DAYS_TO_DISPLAY_CATALOG_NOTIFICATIONS";
+  public static final long PERMIT_NOTIFICATIONS_DEFAULT_INTERVAL = 24 * 60 * 60 * 1000L;
+  public static final long DATASET_NOTIFICATIONS_DEFAULT_INTERVAL = 24 * 60 * 60 * 1000L;
+  public static final long CATALOG_NOTIFICATIONS_DEFAULT_INTERVAL = 24 * 60 * 60 * 1000L;
+  public static final String WITHDRAWN_TIME_PERIOD = "WITHDRAWN_TIME_PERIOD";
+  public static final Integer WITHDRAWN_TIME_DEFAULT_PERIOD = 28;
+  //public static final long ONE_MINUTE_INTERVAL = 60 * 1000L;
+  public static final String PERMIT_NOTIFICATIONS_INTERVAL = "PERMIT_NOTIFICATIONS_INTERVAL";
+  public static final String DATASET_NOTIFICATIONS_INTERVAL = "DATASET_NOTIFICATIONS_INTERVAL";
+  public static final String CATALOG_NOTIFICATIONS_INTERVAL = "CATALOG_NOTIFICATIONS_INTERVAL";
   public static final String LANGUAGE_SCHEME = "http://publications.europa.eu/resource/authority/language";
   public static final Set<String> SUPPORTED_LANGUAGE_CONCEPTS = Set.of(
     LANGUAGE_SCHEME + "/BUL", // Bulgarian
@@ -443,6 +636,12 @@ public class Constants {
     COUNTRY_SCHEME + "/SWE"  // Sweden
   );
 
-  public static final String PUBLISHER_TYPE_SCHEME = "http://13.81.34.152:1101/resource/authority/publisher-type";
+  /** MongoDB collection that stores pending ownership transfer requests from editors. */
+  public static final String OWNERSHIP_REQUEST_COLLECTION = "OWNERSHIP_REQUESTS";
 
+  /** Field holding the ownership transfer request justification. */
+  public static final String JUSTIFICATION = "justification";
+
+  /** Field holding the primary section that triggered a dependent lock group. */
+  public static final String PRIMARY_SECTION_ID = "primarySectionId";
 }
