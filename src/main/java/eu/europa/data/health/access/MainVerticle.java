@@ -251,7 +251,13 @@ public class MainVerticle extends AbstractVerticle {
     // Prevents unbounded growth while keeping memory usage negligible.
     vertx.setPeriodic(300_000L, timerId -> flushExpiredIntrospectionCacheEntries());
 
-    PiveauAuth.create(vertx, new PiveauAuthConfig(authConfig)).compose(piveauAuth -> {
+    PiveauAuth.create(vertx, new PiveauAuthConfig(authConfig))
+    .onFailure(thrown -> {
+      //this is not recoverable, clean shutdown for descriptive signaling of problem
+      log.error("Error in Keycloak JWKS fetching or processing: "+thrown+"\n\n ==Shutting down service==");
+      vertx.close();
+    })
+    .compose(piveauAuth -> {
       client = createWebClient();
 
       mailClient = new MailClient(
